@@ -7,30 +7,37 @@ sources:
         tags:
             - latest
             - 1.0.0
+    mollie-OAS:
+        sourceNamespace: mollie-oas
+        sourceRevisionDigest: sha256:de71874c51c5608f5622d45d7553b0b8ae34b61ca597dba9a15c4a5a812ddb2c
+        sourceBlobDigest: sha256:091795ef4bf4cb8a700bd1b9bb66c0e49383306bedb6d233d05d1044ab6b22bc
+        tags:
+            - latest
+            - 1.0.0
 targets:
     mollie:
-        source: Mollie API
-        sourceNamespace: mollie-api
-        sourceRevisionDigest: sha256:a65c362c2eec3b848adfdafc88fe90f7055c3c3fe0fba0dcfd0fc741792aae28
+        source: mollie-OAS
+        sourceNamespace: mollie-oas
+        sourceRevisionDigest: sha256:de71874c51c5608f5622d45d7553b0b8ae34b61ca597dba9a15c4a5a812ddb2c
         sourceBlobDigest: sha256:091795ef4bf4cb8a700bd1b9bb66c0e49383306bedb6d233d05d1044ab6b22bc
-        codeSamplesNamespace: mollie-api-python-code-samples
-        codeSamplesRevisionDigest: sha256:3a36ed8fba94bed623ca1b8d7bc33e4e0e17e99d4e575f863e4668442813ff20
+        codeSamplesNamespace: mollie-oas-python-code-samples
+        codeSamplesRevisionDigest: sha256:9cbe2b8a3c6260fa9aca465132dfe225f921694cc766800df8f3a3d65412fc8c
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
     sources:
-        Mollie API:
+        mollie-OAS:
             inputs:
-                - location: ../../openapi-specs/mol-public-api/v2/routes-bundled.yaml
+                - location: https://raw.githubusercontent.com/mollie/openapi-specs/main/routes-bundled.yaml
             registry:
-                location: registry.speakeasyapi.dev/mollie-oom/mollie/mollie-api
+                location: registry.speakeasyapi.dev/mollie-oom/mollie/mollie-oas
     targets:
         mollie:
             target: python
-            source: Mollie API
+            source: mollie-OAS
             codeSamples:
                 registry:
-                    location: registry.speakeasyapi.dev/mollie-oom/mollie/mollie-api-python-code-samples
+                    location: registry.speakeasyapi.dev/mollie-oom/mollie/mollie-oas-python-code-samples
                 labelOverride:
                     fixedValue: Python (SDK)
                 blocking: false

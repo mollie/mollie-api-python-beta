@@ -2,7 +2,7 @@ configVersion: 2.0.0
 generation:
   devContainers:
     enabled: true
-    schemaPath: mol-public-api/v2/routes-bundled.yaml
+    schemaPath: https://raw.githubusercontent.com/mollie/openapi-specs/main/routes-bundled.yaml
   sdkClassName: Mollie
   maintainOpenAPIOrder: true
   usageSnippets:
@@ -16,7 +16,7 @@ generation:
     oAuth2ClientCredentialsEnabled: true
     oAuth2PasswordEnabled: true
 python:
-  version: 0.0.1
+  version: 0.0.2
   additionalDependencies:
     dev: {}
     main: {}
