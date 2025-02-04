@@ -1,0 +1,9 @@
+# UpdatePaymentRequest
+
+
+## Fields
+
+| Field                                                                              | Type                                                                               | Required                                                                           | Description                                                                        | Example                                                                            |
+| ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `id`                                                                               | *str*                                                                              | :heavy_check_mark:                                                                 | Provide the ID of the item you want to perform this operation on.                  | tr_5B8cwPMGnU6qLbRvo7qEZo                                                          |
+| `request_body`                                                                     | [Optional[models.UpdatePaymentRequestBody]](../models/updatepaymentrequestbody.md) | :heavy_minus_sign:                                                                 | N/A                                                                                |                                                                                    |

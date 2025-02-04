@@ -1,0 +1,13 @@
+# GetClientAddress
+
+The address of the organization.
+
+
+## Fields
+
+| Field                                                                                            | Type                                                                                             | Required                                                                                         | Description                                                                                      |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `street_and_number`                                                                              | *Optional[str]*                                                                                  | :heavy_minus_sign:                                                                               | A street and street number.                                                                      |
+| `postal_code`                                                                                    | *Optional[str]*                                                                                  | :heavy_minus_sign:                                                                               | A postal code. This field may be required if the provided country has a postal code system.      |
+| `city`                                                                                           | *Optional[str]*                                                                                  | :heavy_minus_sign:                                                                               | N/A                                                                                              |
+| `country`                                                                                        | *Optional[str]*                                                                                  | :heavy_minus_sign:                                                                               | A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format. |

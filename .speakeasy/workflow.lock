@@ -1,0 +1,36 @@
+speakeasyVersion: 1.484.0
+sources:
+    Mollie API:
+        sourceNamespace: mollie-api
+        sourceRevisionDigest: sha256:a65c362c2eec3b848adfdafc88fe90f7055c3c3fe0fba0dcfd0fc741792aae28
+        sourceBlobDigest: sha256:091795ef4bf4cb8a700bd1b9bb66c0e49383306bedb6d233d05d1044ab6b22bc
+        tags:
+            - latest
+            - 1.0.0
+targets:
+    mollie:
+        source: Mollie API
+        sourceNamespace: mollie-api
+        sourceRevisionDigest: sha256:a65c362c2eec3b848adfdafc88fe90f7055c3c3fe0fba0dcfd0fc741792aae28
+        sourceBlobDigest: sha256:091795ef4bf4cb8a700bd1b9bb66c0e49383306bedb6d233d05d1044ab6b22bc
+        codeSamplesNamespace: mollie-api-python-code-samples
+        codeSamplesRevisionDigest: sha256:3a36ed8fba94bed623ca1b8d7bc33e4e0e17e99d4e575f863e4668442813ff20
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        Mollie API:
+            inputs:
+                - location: ../../openapi-specs/mol-public-api/v2/routes-bundled.yaml
+            registry:
+                location: registry.speakeasyapi.dev/mollie-oom/mollie/mollie-api
+    targets:
+        mollie:
+            target: python
+            source: Mollie API
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/mollie-oom/mollie/mollie-api-python-code-samples
+                labelOverride:
+                    fixedValue: Python (SDK)
+                blocking: false
