@@ -24,13 +24,13 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -82,13 +82,13 @@ With instant payment methods like iDEAL, payments are moved to the available bal
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -132,13 +132,13 @@ This endpoint is a convenient alias of the [Get balance](get-balance) endpoint. 
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -181,13 +181,13 @@ The alias `primary` can be used instead of the balance ID to refer to the organi
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -238,13 +238,13 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:

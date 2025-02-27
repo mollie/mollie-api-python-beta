@@ -1,13 +1,13 @@
 <!-- Start SDK Example Usage [usage] -->
 ```python
 # Synchronous Example
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -24,14 +24,14 @@ The same SDK client can also be used to make asychronous requests by importing a
 ```python
 # Asynchronous Example
 import asyncio
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 async def main():
 
     async with Client(
-        security=mollie_api_python_alpha.Security(
+        security=mollie.Security(
             api_key=os.getenv("CLIENT_API_KEY", ""),
         ),
     ) as client:

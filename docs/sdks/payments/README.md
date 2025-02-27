@@ -31,13 +31,13 @@ If you specify the `method` parameter when creating a payment, optional addition
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -240,13 +240,13 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -292,13 +292,13 @@ Retrieve a single payment object by its payment ID.
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -346,13 +346,13 @@ Updating the payment details will not result in a webhook call.
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -409,13 +409,13 @@ The `isCancelable` property on the [Payment object](get-payment) will indicate i
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -464,13 +464,13 @@ If the request does succeed, the payment status will change to `canceled` for pa
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:

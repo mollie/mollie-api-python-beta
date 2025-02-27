@@ -19,13 +19,13 @@ Create a route for a specific payment. The routed amount is credited to the acco
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -74,13 +74,13 @@ Retrieve a list of all routes created for a specific payment.
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:

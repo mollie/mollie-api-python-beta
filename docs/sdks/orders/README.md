@@ -32,13 +32,13 @@ Unlike the Payments API, if a payment fails, expires, or is canceled, you can cr
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -122,13 +122,13 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -177,13 +177,13 @@ Retrieve a single order object by its ID.
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -232,13 +232,13 @@ For an in-depth explanation of each parameter, see [Create order](create-order).
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -295,13 +295,13 @@ For an order with status `shipping`, only the order lines that were still pendin
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -367,13 +367,13 @@ The updated order totals €85.00.
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -432,13 +432,13 @@ If the order line is `paid` or already `completed`, you can create a refund usin
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -507,13 +507,13 @@ For an in-depth explanation of each parameter, refer to the `lines` parameter of
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -590,13 +590,13 @@ The payment inherits certain properties, such as the `amount` and `webhookUrl`, 
 ### Example Usage
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:

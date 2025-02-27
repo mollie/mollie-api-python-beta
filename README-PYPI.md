@@ -56,7 +56,7 @@ The SDK can be installed with either *pip* or *poetry* package managers.
 *PIP* is the default package installer for Python, enabling easy installation and management of packages from PyPI via the command line.
 
 ```bash
-pip install mollie-api-python-alpha
+pip install mollie
 ```
 
 ### Poetry
@@ -64,7 +64,7 @@ pip install mollie-api-python-alpha
 *Poetry* is a modern tool that simplifies dependency management and package publishing by using a single `pyproject.toml` file to handle project metadata and dependencies.
 
 ```bash
-poetry add mollie-api-python-alpha
+poetry add mollie
 ```
 
 ### Shell and script usage with `uv`
@@ -72,7 +72,7 @@ poetry add mollie-api-python-alpha
 You can use this SDK in a Python shell with [uv](https://docs.astral.sh/uv/) and the `uvx` command that comes with it like so:
 
 ```shell
-uvx --from mollie-api-python-alpha python
+uvx --from mollie python
 ```
 
 It's also possible to write a standalone Python script without needing to set up a whole project like so:
@@ -82,11 +82,11 @@ It's also possible to write a standalone Python script without needing to set up
 # /// script
 # requires-python = ">=3.9"
 # dependencies = [
-#     "mollie-api-python-alpha",
+#     "mollie",
 # ]
 # ///
 
-from mollie_api_python_alpha import Client
+from mollie import Client
 
 sdk = Client(
   # SDK arguments
@@ -116,13 +116,13 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 
 ```python
 # Synchronous Example
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -139,14 +139,14 @@ The same SDK client can also be used to make asychronous requests by importing a
 ```python
 # Asynchronous Example
 import asyncio
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 async def main():
 
     async with Client(
-        security=mollie_api_python_alpha.Security(
+        security=mollie.Security(
             api_key=os.getenv("CLIENT_API_KEY", ""),
         ),
     ) as client:
@@ -174,13 +174,13 @@ This SDK supports the following security schemes globally:
 
 You can set the security parameters through the `security` optional parameter when initializing the SDK client instance. The selected scheme will be used by default to authenticate with the API for all operations that support it. For example:
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -382,14 +382,14 @@ Some of the endpoints in this SDK support retries. If you use the SDK without an
 
 To change the default retry strategy for a single API call, simply provide a `RetryConfig` object to the call:
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
-from mollie_api_python_alpha.utils import BackoffStrategy, RetryConfig
+import mollie
+from mollie import Client
+from mollie.utils import BackoffStrategy, RetryConfig
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -404,15 +404,15 @@ with Client(
 
 If you'd like to override the default retry strategy for all operations that support retries, you can use the `retry_config` optional parameter when initializing the SDK:
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
-from mollie_api_python_alpha.utils import BackoffStrategy, RetryConfig
+import mollie
+from mollie import Client
+from mollie.utils import BackoffStrategy, RetryConfig
 import os
 
 
 with Client(
     retry_config=RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False),
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -450,13 +450,13 @@ When custom error responses are specified for an operation, the SDK may also rai
 ### Example
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client, models
+import mollie
+from mollie import Client, models
 import os
 
 
 with Client(
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -487,14 +487,14 @@ with Client(
 
 The default server can be overridden globally by passing a URL to the `server_url: str` optional parameter when initializing the SDK client instance. For example:
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 
 
 with Client(
     server_url="https://api.mollie.com/v2",
-    security=mollie_api_python_alpha.Security(
+    security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
 ) as client:
@@ -516,7 +516,7 @@ This allows you to wrap the client with your own custom logic, such as adding cu
 
 For example, you could specify a header for every request that this sdk makes as follows:
 ```python
-from mollie_api_python_alpha import Client
+from mollie import Client
 import httpx
 
 http_client = httpx.Client(headers={"x-custom-header": "someValue"})
@@ -525,8 +525,8 @@ s = Client(client=http_client)
 
 or you could wrap the client with your own custom logic:
 ```python
-from mollie_api_python_alpha import Client
-from mollie_api_python_alpha.httpclient import AsyncHttpClient
+from mollie import Client
+from mollie.httpclient import AsyncHttpClient
 import httpx
 
 class CustomClient(AsyncHttpClient):
@@ -596,13 +596,13 @@ The `Client` class implements the context manager protocol and registers a final
 [context-manager]: https://docs.python.org/3/reference/datamodel.html#context-managers
 
 ```python
-import mollie_api_python_alpha
-from mollie_api_python_alpha import Client
+import mollie
+from mollie import Client
 import os
 def main():
 
     with Client(
-        security=mollie_api_python_alpha.Security(
+        security=mollie.Security(
             api_key=os.getenv("CLIENT_API_KEY", ""),
         ),
     ) as client:
@@ -613,7 +613,7 @@ def main():
 async def amain():
 
     async with Client(
-        security=mollie_api_python_alpha.Security(
+        security=mollie.Security(
             api_key=os.getenv("CLIENT_API_KEY", ""),
         ),
     ) as client:
@@ -628,11 +628,11 @@ You can setup your SDK to emit debug logs for SDK requests and responses.
 
 You can pass your own logger class directly into your SDK.
 ```python
-from mollie_api_python_alpha import Client
+from mollie import Client
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
-s = Client(debug_logger=logging.getLogger("mollie_api_python_alpha"))
+s = Client(debug_logger=logging.getLogger("mollie"))
 ```
 
 You can also enable a default debug logger by setting an environment variable `CLIENT_DEBUG` to true.
