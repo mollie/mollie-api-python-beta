@@ -24,17 +24,18 @@ If you have a *partner account*', you can retrieve organization details of conne
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.organizations.get(id="org_12345678")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.organizations.get(id="org_12345678")
 
     # Handle response
     print(res)
@@ -73,17 +74,18 @@ For a complete reference of the organization object, refer to the [Get organizat
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.organizations.get_current()
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.organizations.get_current()
 
     # Handle response
     print(res)
@@ -117,17 +119,18 @@ Retrieve partnership details about the currently authenticated organization. Onl
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.organizations.get_partner_status()
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.organizations.get_partner_status()
 
     # Handle response
     print(res)

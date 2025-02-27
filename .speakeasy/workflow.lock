@@ -1,43 +1,36 @@
-speakeasyVersion: 1.484.0
+speakeasyVersion: 1.505.1
 sources:
     Mollie API:
         sourceNamespace: mollie-api
-        sourceRevisionDigest: sha256:a65c362c2eec3b848adfdafc88fe90f7055c3c3fe0fba0dcfd0fc741792aae28
-        sourceBlobDigest: sha256:091795ef4bf4cb8a700bd1b9bb66c0e49383306bedb6d233d05d1044ab6b22bc
-        tags:
-            - latest
-            - 1.0.0
-    mollie-OAS:
-        sourceNamespace: mollie-oas
-        sourceRevisionDigest: sha256:de71874c51c5608f5622d45d7553b0b8ae34b61ca597dba9a15c4a5a812ddb2c
-        sourceBlobDigest: sha256:091795ef4bf4cb8a700bd1b9bb66c0e49383306bedb6d233d05d1044ab6b22bc
+        sourceRevisionDigest: sha256:09f2d7b7b89cb59fcb75acda456eb761bb33ab5618f2d0d8eba542e5c829f399
+        sourceBlobDigest: sha256:8e81064e139b4dae5cb23f781f8adfa18096ffb2ce1eff7e9e2cf4fe8b00d83c
         tags:
             - latest
             - 1.0.0
 targets:
-    mollie:
-        source: mollie-OAS
-        sourceNamespace: mollie-oas
-        sourceRevisionDigest: sha256:de71874c51c5608f5622d45d7553b0b8ae34b61ca597dba9a15c4a5a812ddb2c
-        sourceBlobDigest: sha256:091795ef4bf4cb8a700bd1b9bb66c0e49383306bedb6d233d05d1044ab6b22bc
-        codeSamplesNamespace: mollie-oas-python-code-samples
-        codeSamplesRevisionDigest: sha256:9cbe2b8a3c6260fa9aca465132dfe225f921694cc766800df8f3a3d65412fc8c
+    client:
+        source: Mollie API
+        sourceNamespace: mollie-api
+        sourceRevisionDigest: sha256:09f2d7b7b89cb59fcb75acda456eb761bb33ab5618f2d0d8eba542e5c829f399
+        sourceBlobDigest: sha256:8e81064e139b4dae5cb23f781f8adfa18096ffb2ce1eff7e9e2cf4fe8b00d83c
+        codeSamplesNamespace: mollie-api-python-code-samples
+        codeSamplesRevisionDigest: sha256:709f3056906ab05cb8a7f64690f71115c3768c5a163b1ec2b0148823e61ad47d
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
     sources:
-        mollie-OAS:
+        Mollie API:
             inputs:
-                - location: https://raw.githubusercontent.com/mollie/openapi-specs/main/routes-bundled.yaml
+                - location: ../../openapi-specs/mol-public-api/v2/specs.yaml
             registry:
-                location: registry.speakeasyapi.dev/mollie-oom/mollie/mollie-oas
+                location: registry.speakeasyapi.dev/mollie-oom/mollie/mollie-api
     targets:
-        mollie:
+        client:
             target: python
-            source: mollie-OAS
+            source: Mollie API
             codeSamples:
                 registry:
-                    location: registry.speakeasyapi.dev/mollie-oom/mollie/mollie-oas-python-code-samples
+                    location: registry.speakeasyapi.dev/mollie-oom/mollie/mollie-api-python-code-samples
                 labelOverride:
                     fixedValue: Python (SDK)
                 blocking: false

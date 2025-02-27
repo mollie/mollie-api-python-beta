@@ -24,17 +24,18 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH")
 
     # Handle response
     print(res)
@@ -81,17 +82,18 @@ With instant payment methods like iDEAL, payments are moved to the available bal
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.balances.get(id="bal_gVMhHKqSSRYJyPsuoPNFH")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.balances.get(id="bal_gVMhHKqSSRYJyPsuoPNFH")
 
     # Handle response
     print(res)
@@ -130,17 +132,18 @@ This endpoint is a convenient alias of the [Get balance](get-balance) endpoint. 
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.balances.get_primary()
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.balances.get_primary()
 
     # Handle response
     print(res)
@@ -178,17 +181,18 @@ The alias `primary` can be used instead of the balance ID to refer to the organi
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.balances.get_report(balance_id="bal_gVMhHKqSSRYJyPsuoPNFH", from_="2024-01-01", until="2024-02-01", grouping="status-balances")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.balances.get_report(balance_id="bal_gVMhHKqSSRYJyPsuoPNFH", from_="2024-01-01", until="2024-02-01", grouping="status-balances")
 
     # Handle response
     print(res)
@@ -234,17 +238,18 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.balances.list_transactions(balance_id="bal_gVMhHKqSSRYJyPsuoPNFH", from_="baltr_QM24QwzUWR4ev4Xfgyt29A")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.balances.list_transactions(balance_id="bal_gVMhHKqSSRYJyPsuoPNFH", from_="baltr_QM24QwzUWR4ev4Xfgyt29A")
 
     # Handle response
     print(res)

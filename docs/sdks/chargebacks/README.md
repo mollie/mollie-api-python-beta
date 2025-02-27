@@ -24,17 +24,18 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.chargebacks.list(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", from_="chb_n9z0tp", include="payment")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.chargebacks.list(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", from_="chb_n9z0tp", include="payment")
 
     # Handle response
     print(res)
@@ -77,17 +78,18 @@ Retrieve a single payment chargeback by its ID and the ID of its parent payment.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.chargebacks.get(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", id="chb_n9z0tp", include="payment")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.chargebacks.get(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", id="chb_n9z0tp", include="payment")
 
     # Handle response
     print(res)
@@ -130,17 +132,18 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.chargebacks.list_all(from_="chb_n9z0tp", include="payment", profile_id="pfl_QkEhN94Ba")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.chargebacks.list_all(from_="chb_n9z0tp", include="payment", profile_id="pfl_QkEhN94Ba")
 
     # Handle response
     print(res)

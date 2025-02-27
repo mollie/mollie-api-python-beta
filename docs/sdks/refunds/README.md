@@ -26,17 +26,18 @@ Creates a refund for a specific payment. The refunded amount is credited to your
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.refunds.create(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", amount={
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.refunds.create(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", amount={
         "currency": "EUR",
         "value": "10.00",
     }, routing_reversals=[
@@ -106,17 +107,18 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.refunds.list(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", from_="re_4qqhO89gsT", include="payment")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.refunds.list(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", from_="re_4qqhO89gsT", include="payment")
 
     # Handle response
     print(res)
@@ -159,17 +161,18 @@ Retrieve a single payment refund by its ID and the ID of its parent payment.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.refunds.get(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", id="re_4qqhO89gsT", include="payment")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.refunds.get(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", id="re_4qqhO89gsT", include="payment")
 
     # Handle response
     print(res)
@@ -212,17 +215,18 @@ A refund can only be canceled while its `status` field is either `queued` or `pe
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.refunds.cancel(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", id="re_4qqhO89gsT")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.refunds.cancel(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", id="re_4qqhO89gsT")
 
     # Handle response
     print(res)
@@ -266,17 +270,18 @@ If an order line is still in the `authorized` state, it cannot be refunded. You 
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.refunds.create_order(order_id="ord_pbjz8x", lines=[
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.refunds.create_order(order_id="ord_pbjz8x", lines=[
         {
             "amount": {
                 "currency": "EUR",
@@ -340,17 +345,18 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.refunds.list_order(order_id="ord_pbjz8x", from_="re_4qqhO89gsT", include="payment")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.refunds.list_order(order_id="ord_pbjz8x", from_="re_4qqhO89gsT", include="payment")
 
     # Handle response
     print(res)
@@ -394,17 +400,18 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.refunds.list_all(from_="re_4qqhO89gsT", embed="payment", profile_id="pfl_QkEhN94Ba")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.refunds.list_all(from_="re_4qqhO89gsT", embed="payment", profile_id="pfl_QkEhN94Ba")
 
     # Handle response
     print(res)

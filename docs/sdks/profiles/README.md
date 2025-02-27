@@ -25,17 +25,18 @@ Profiles are required for payment processing. Normally they are created via the 
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.profiles.create(name="My website name", website="https://example.com", email="test@mollie.com", phone="+31208202070", description="My website description", countries_of_activity=[
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.profiles.create(name="My website name", website="https://example.com", email="test@mollie.com", phone="+31208202070", description="My website description", countries_of_activity=[
         "NL",
         "GB",
     ], business_category="OTHER_MERCHANDISE")
@@ -47,16 +48,16 @@ with Mollie(
 
 ### Parameters
 
-| Parameter                                                                                                                                                 | Type                                                                                                                                                      | Required                                                                                                                                                  | Description                                                                                                                                               | Example                                                                                                                                                   |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`                                                                                                                                                    | *str*                                                                                                                                                     | :heavy_check_mark:                                                                                                                                        | The profile's name, this will usually reflect the trade name or brand name of the profile's website or application.                                       | My website name                                                                                                                                           |
-| `website`                                                                                                                                                 | *str*                                                                                                                                                     | :heavy_check_mark:                                                                                                                                        | The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are allowed.                                       | https://example.com                                                                                                                                       |
-| `email`                                                                                                                                                   | *str*                                                                                                                                                     | :heavy_check_mark:                                                                                                                                        | The email address associated with the profile's trade name or brand.                                                                                      | test@mollie.com                                                                                                                                           |
-| `phone`                                                                                                                                                   | *str*                                                                                                                                                     | :heavy_check_mark:                                                                                                                                        | The phone number associated with the profile's trade name or brand.                                                                                       | +31208202070                                                                                                                                              |
-| `description`                                                                                                                                             | *OptionalNullable[str]*                                                                                                                                   | :heavy_minus_sign:                                                                                                                                        | The products or services offered by the profile's website or application.                                                                                 | My website description                                                                                                                                    |
-| `countries_of_activity`                                                                                                                                   | List[*Any*]                                                                                                                                               | :heavy_minus_sign:                                                                                                                                        | A list of countries where you expect that the majority of the profile's customers reside, in ISO 3166-1 alpha-2 format.                                   | [<br/>"NL",<br/>"GB"<br/>]                                                                                                                                |
-| `business_category`                                                                                                                                       | *Optional[str]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                        | The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types) for all possible options. | OTHER_MERCHANDISE                                                                                                                                         |
-| `retries`                                                                                                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                          | :heavy_minus_sign:                                                                                                                                        | Configuration to override the default retry behavior of the client.                                                                                       |                                                                                                                                                           |
+| Parameter                                                                                                                                                                   | Type                                                                                                                                                                        | Required                                                                                                                                                                    | Description                                                                                                                                                                 | Example                                                                                                                                                                     |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`                                                                                                                                                                      | *str*                                                                                                                                                                       | :heavy_check_mark:                                                                                                                                                          | The profile's name, this will usually reflect the trade name or brand name of the profile's website or application.                                                         | My website name                                                                                                                                                             |
+| `website`                                                                                                                                                                   | *str*                                                                                                                                                                       | :heavy_check_mark:                                                                                                                                                          | The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are allowed.                                                         | https://example.com                                                                                                                                                         |
+| `email`                                                                                                                                                                     | *str*                                                                                                                                                                       | :heavy_check_mark:                                                                                                                                                          | The email address associated with the profile's trade name or brand.                                                                                                        | test@mollie.com                                                                                                                                                             |
+| `phone`                                                                                                                                                                     | *str*                                                                                                                                                                       | :heavy_check_mark:                                                                                                                                                          | The phone number associated with the profile's trade name or brand.                                                                                                         | +31208202070                                                                                                                                                                |
+| `description`                                                                                                                                                               | *OptionalNullable[str]*                                                                                                                                                     | :heavy_minus_sign:                                                                                                                                                          | The products or services offered by the profile's website or application.                                                                                                   | My website description                                                                                                                                                      |
+| `countries_of_activity`                                                                                                                                                     | List[*Any*]                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                          | A list of countries where you expect that the majority of the profile's customers reside, in ISO 3166-1 alpha-2 format.                                                     | [<br/>"NL",<br/>"GB"<br/>]                                                                                                                                                  |
+| `business_category`                                                                                                                                                         | *Optional[str]*                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                          | The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types#business-category) for all possible options. | OTHER_MERCHANDISE                                                                                                                                                           |
+| `retries`                                                                                                                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                            | :heavy_minus_sign:                                                                                                                                                          | Configuration to override the default retry behavior of the client.                                                                                                         |                                                                                                                                                                             |
 
 ### Response
 
@@ -82,17 +83,18 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.profiles.list(from_="pfl_QkEhN94Ba")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.profiles.list(from_="pfl_QkEhN94Ba")
 
     # Handle response
     print(res)
@@ -129,17 +131,18 @@ Retrieve a single profile by its ID.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.profiles.get(id="pfl_QkEhN94Ba")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.profiles.get(id="pfl_QkEhN94Ba")
 
     # Handle response
     print(res)
@@ -179,17 +182,18 @@ Profiles are required for payment processing. Normally they are created and upda
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.profiles.update(id="pfl_QkEhN94Ba", name="My new website name", website="https://example.com", email="test@mollie.com", phone="+31208202071", description="My website description", countries_of_activity=[
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.profiles.update(id="pfl_QkEhN94Ba", name="My new website name", website="https://example.com", email="test@mollie.com", phone="+31208202071", description="My website description", countries_of_activity=[
         "NL",
         "GB",
     ], business_category="OTHER_MERCHANDISE", mode="live")
@@ -238,17 +242,18 @@ Delete a profile. A deleted profile and its related credentials can no longer be
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.profiles.delete(id="pfl_QkEhN94Ba")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.profiles.delete(id="pfl_QkEhN94Ba")
 
     # Handle response
     print(res)
@@ -287,17 +292,18 @@ For a complete reference of the profile object, refer to the [Get profile](get-p
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.profiles.get_current()
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.profiles.get_current()
 
     # Handle response
     print(res)

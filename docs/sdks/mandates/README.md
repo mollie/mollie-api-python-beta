@@ -25,17 +25,18 @@ It is only possible to create mandates for IBANs and PayPal billing agreements w
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.mandates.create(customer_id="cst_8wmqcHMN4U", method="<value>", consumer_name="<value>")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.mandates.create(customer_id="cst_8wmqcHMN4U", method="<value>", consumer_name="<value>")
 
     # Handle response
     print(res)
@@ -85,17 +86,18 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.mandates.list(customer_id="cst_8wmqcHMN4U", from_="mdt_h3gAaD5zP")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.mandates.list(customer_id="cst_8wmqcHMN4U", from_="mdt_h3gAaD5zP")
 
     # Handle response
     print(res)
@@ -137,17 +139,18 @@ Retrieve a single mandate by its ID. Depending on the type of mandate, the objec
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.mandates.get(customer_id="cst_8wmqcHMN4U", id="mdt_pWUnw6pkBN")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.mandates.get(customer_id="cst_8wmqcHMN4U", id="mdt_pWUnw6pkBN")
 
     # Handle response
     print(res)
@@ -187,17 +190,18 @@ Revoke a customer's mandate. You will no longer be able to charge the customer's
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.mandates.revoke(customer_id="cst_8wmqcHMN4U", id="mdt_pWUnw6pkBN")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.mandates.revoke(customer_id="cst_8wmqcHMN4U", id="mdt_pWUnw6pkBN")
 
     # Handle response
     print(res)

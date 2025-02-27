@@ -29,17 +29,18 @@ The word 'shipment' is used in the figurative sense here. It can also mean that 
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.shipments.create(order_id="ord_pbjz8x", lines=[
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.shipments.create(order_id="ord_pbjz8x", lines=[
         {
             "amount": {
                 "currency": "EUR",
@@ -97,17 +98,18 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.shipments.list(order_id="ord_pbjz8x", from_="shp_3wmsgCJN4U")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.shipments.list(order_id="ord_pbjz8x", from_="shp_3wmsgCJN4U")
 
     # Handle response
     print(res)
@@ -151,17 +153,18 @@ Retrieve a single shipment by its ID and the ID of its parent order.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.shipments.get(order_id="ord_pbjz8x", id="shp_3wmsgCJN4U")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.shipments.get(order_id="ord_pbjz8x", id="shp_3wmsgCJN4U")
 
     # Handle response
     print(res)
@@ -205,17 +208,18 @@ For an in-depth explanation of each parameter, refer to the [Create shipment](cr
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.shipments.update(order_id="ord_pbjz8x", id="shp_3wmsgCJN4U")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.shipments.update(order_id="ord_pbjz8x", id="shp_3wmsgCJN4U")
 
     # Handle response
     print(res)

@@ -1,18 +1,18 @@
 workflowVersion: 1.0.0
 speakeasyVersion: latest
 sources:
-    mollie-OAS:
+    Mollie API:
         inputs:
-            - location: https://raw.githubusercontent.com/mollie/openapi-specs/main/routes-bundled.yaml
+            - location: ../../openapi-specs/mol-public-api/v2/specs.yaml
         registry:
-            location: registry.speakeasyapi.dev/mollie-oom/mollie/mollie-oas
+            location: registry.speakeasyapi.dev/mollie-oom/mollie/mollie-api
 targets:
-    mollie:
+    client:
         target: python
-        source: mollie-OAS
+        source: Mollie API
         codeSamples:
             registry:
-                location: registry.speakeasyapi.dev/mollie-oom/mollie/mollie-oas-python-code-samples
+                location: registry.speakeasyapi.dev/mollie-oom/mollie/mollie-api-python-code-samples
             labelOverride:
                 fixedValue: Python (SDK)
             blocking: false

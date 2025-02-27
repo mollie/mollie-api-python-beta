@@ -10,6 +10,7 @@
 * [get](#get) - Get payment
 * [update](#update) - Update payment
 * [cancel](#cancel) - Cancel payment
+* [release_authorization](#release_authorization) - Release payment authorization
 
 ## create
 
@@ -30,27 +31,30 @@ If you specify the `method` parameter when creating a payment, optional addition
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.payments.create(include="details.qrCode", request_body={
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.payments.create(include="details.qrCode", request_body={
         "description": "yuck vice between gee ugh ha",
         "amount": {
             "currency": "EUR",
             "value": "10.00",
         },
-        "redirect_url": "https://sparse-rim.biz",
+        "redirect_url": "https://example.org/redirect",
+        "cancel_url": "https://example.org/cancel",
+        "webhook_url": "https://example.org/webhooks",
         "lines": [
             {
-                "description": "attend alongside aw blend ha ew",
-                "quantity": 497070,
+                "description": "junior modulo tackle unabashedly mentor early miserly stealthily without",
+                "quantity": 979186,
                 "unit_price": {
                     "currency": "EUR",
                     "value": "10.00",
@@ -80,8 +84,39 @@ with Mollie(
                 ],
             },
             {
-                "description": "embalm simple ouch when pfft ah vainly",
-                "quantity": 154150,
+                "description": "warmhearted entomb gah aha what",
+                "quantity": 842284,
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "interval": "<value>",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                },
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "categories": [
+                    "meal",
+                    "eco",
+                ],
+            },
+            {
+                "description": "when warming when determined ouch scarcely",
+                "quantity": 324689,
                 "unit_price": {
                     "currency": "EUR",
                     "value": "10.00",
@@ -111,6 +146,37 @@ with Mollie(
                 ],
             },
         ],
+        "billing_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "shipping_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "locale": "nl_NL",
+        "method": "ideal",
+        "issuer": "ideal_INGBNL2A",
+        "capture_mode": "manual",
+        "capture_delay": "8 hours",
         "application_fee": {
             "amount": {
                 "currency": "EUR",
@@ -127,25 +193,8 @@ with Mollie(
                     "organization_id": "org_12345678",
                 },
             },
-            {
-                "amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "destination": {
-                    "organization_id": "org_12345678",
-                },
-            },
-            {
-                "amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "destination": {
-                    "organization_id": "org_12345678",
-                },
-            },
         ],
+        "sequence_type": "oneoff",
         "mandate_id": "mdt_pWUnw6pkBN",
         "customer_id": "cst_8wmqcHMN4U",
         "profile_id": "pfl_QkEhN94Ba",
@@ -191,17 +240,18 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.payments.list(from_="tr_5B8cwPMGnU6qLbRvo7qEZo", sort="desc")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.payments.list(from_="tr_5B8cwPMGnU6qLbRvo7qEZo", sort="desc")
 
     # Handle response
     print(res)
@@ -242,17 +292,18 @@ Retrieve a single payment object by its payment ID.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.payments.get(id="tr_5B8cwPMGnU6qLbRvo7qEZo", include="details.qrCode", embed="captures")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.payments.get(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", include="details.qrCode", embed="captures")
 
     # Handle response
     print(res)
@@ -263,7 +314,7 @@ with Mollie(
 
 | Parameter                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Required                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Example                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                                                                                                                                                                                                                                                                                                                                                                                                                                                            | *str*                                                                                                                                                                                                                                                                                                                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                                                                                                                                                                                                                                                              | Provide the ID of the item you want to perform this operation on.                                                                                                                                                                                                                                                                                                                                                                                               | tr_5B8cwPMGnU6qLbRvo7qEZo                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `payment_id`                                                                                                                                                                                                                                                                                                                                                                                                                                                    | *str*                                                                                                                                                                                                                                                                                                                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                                                                                                                                                                                                                                                              | Provide the ID of the related payment.                                                                                                                                                                                                                                                                                                                                                                                                                          | tr_5B8cwPMGnU6qLbRvo7qEZo                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | `include`                                                                                                                                                                                                                                                                                                                                                                                                                                                       | *OptionalNullable[str]*                                                                                                                                                                                                                                                                                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                                                                                              | This endpoint allows you to include additional information via the `include` query string parameter.<br/><br/>* `details.qrCode`: Include a QR code object. Only available for iDEAL, Bancontact and bank transfer payments.<br/>* `details.remainderDetails`: For payments where gift cards or vouchers were applied and the remaining amount was paid with another payment method, this include will add another `details` object specifically for the remainder payment. | details.qrCode                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | `embed`                                                                                                                                                                                                                                                                                                                                                                                                                                                         | *OptionalNullable[str]*                                                                                                                                                                                                                                                                                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                                                                                              | This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.<br/><br/>* `captures`: Embed all captures created for this payment.<br/>* `refunds`: Embed all refunds created for this payment.<br/>* `chargebacks`: Embed all chargebacks created for this payment.                                                                                                                                | captures                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | `testmode`                                                                                                                                                                                                                                                                                                                                                                                                                                                      | *OptionalNullable[bool]*                                                                                                                                                                                                                                                                                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                                                                                              | Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.<br/><br/>Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.                                                                  | false                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
@@ -295,17 +346,18 @@ Updating the payment details will not result in a webhook call.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.payments.update(id="tr_5B8cwPMGnU6qLbRvo7qEZo")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.payments.update(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo")
 
     # Handle response
     print(res)
@@ -316,7 +368,7 @@ with Mollie(
 
 | Parameter                                                                                                                                                                                                                                                                                            | Type                                                                                                                                                                                                                                                                                                 | Required                                                                                                                                                                                                                                                                                             | Description                                                                                                                                                                                                                                                                                          | Example                                                                                                                                                                                                                                                                                              |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                                                                                                                                                                                                                                                                                                 | *str*                                                                                                                                                                                                                                                                                                | :heavy_check_mark:                                                                                                                                                                                                                                                                                   | Provide the ID of the item you want to perform this operation on.                                                                                                                                                                                                                                    | tr_5B8cwPMGnU6qLbRvo7qEZo                                                                                                                                                                                                                                                                            |
+| `payment_id`                                                                                                                                                                                                                                                                                         | *str*                                                                                                                                                                                                                                                                                                | :heavy_check_mark:                                                                                                                                                                                                                                                                                   | Provide the ID of the related payment.                                                                                                                                                                                                                                                               | tr_5B8cwPMGnU6qLbRvo7qEZo                                                                                                                                                                                                                                                                            |
 | `description`                                                                                                                                                                                                                                                                                        | *OptionalNullable[str]*                                                                                                                                                                                                                                                                              | :heavy_minus_sign:                                                                                                                                                                                                                                                                                   | N/A                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                                                                      |
 | `redirect_url`                                                                                                                                                                                                                                                                                       | *OptionalNullable[str]*                                                                                                                                                                                                                                                                              | :heavy_minus_sign:                                                                                                                                                                                                                                                                                   | Can be updated while the payment is in an `open` state.                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                                                                      |
 | `cancel_url`                                                                                                                                                                                                                                                                                         | *OptionalNullable[str]*                                                                                                                                                                                                                                                                              | :heavy_minus_sign:                                                                                                                                                                                                                                                                                   | Can be updated while the payment is in an `open` state.                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                                                                      |
@@ -357,17 +409,18 @@ The `isCancelable` property on the [Payment object](get-payment) will indicate i
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.payments.cancel(id="tr_5B8cwPMGnU6qLbRvo7qEZo")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.payments.cancel(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo")
 
     # Handle response
     print(res)
@@ -378,13 +431,13 @@ with Mollie(
 
 | Parameter                                                                                                                                                                                                                                                                                                                                                                              | Type                                                                                                                                                                                                                                                                                                                                                                                   | Required                                                                                                                                                                                                                                                                                                                                                                               | Description                                                                                                                                                                                                                                                                                                                                                                            | Example                                                                                                                                                                                                                                                                                                                                                                                |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                                                                                                                                                                                                                                                                                                                                                                                   | *str*                                                                                                                                                                                                                                                                                                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                                                                                                                                                                                     | Provide the ID of the item you want to perform this operation on.                                                                                                                                                                                                                                                                                                                      | tr_5B8cwPMGnU6qLbRvo7qEZo                                                                                                                                                                                                                                                                                                                                                              |
+| `payment_id`                                                                                                                                                                                                                                                                                                                                                                           | *str*                                                                                                                                                                                                                                                                                                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                                                                                                                                                                                     | Provide the ID of the related payment.                                                                                                                                                                                                                                                                                                                                                 | tr_5B8cwPMGnU6qLbRvo7qEZo                                                                                                                                                                                                                                                                                                                                                              |
 | `testmode`                                                                                                                                                                                                                                                                                                                                                                             | *OptionalNullable[bool]*                                                                                                                                                                                                                                                                                                                                                               | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.<br/><br/>Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa. | false                                                                                                                                                                                                                                                                                                                                                                                  |
 | `retries`                                                                                                                                                                                                                                                                                                                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                                                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Configuration to override the default retry behavior of the client.                                                                                                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                                                                                                                                                                        |
 
 ### Response
 
-**[models.CancelPaymentResponse](../../models/cancelpaymentresponse.md)**
+**[Any](../../models/.md)**
 
 ### Errors
 
@@ -393,3 +446,58 @@ with Mollie(
 | models.CancelPaymentResponseBody         | 404                                      | application/hal+json                     |
 | models.CancelPaymentPaymentsResponseBody | 422                                      | application/hal+json                     |
 | models.APIError                          | 4XX, 5XX                                 | \*/\*                                    |
+
+## release_authorization
+
+Releases the full remaining authorized amount. Call this endpoint when you will not be making any additional captures. Payment authorizations may also be released manually from the Mollie Dashboard.
+
+Mollie will do its best to process release requests, but it is not guaranteed that it will succeed. It is up to the issuing bank if and when the hold will be released.
+
+If the request does succeed, the payment status will change to `canceled` for payments without captures. If there is a successful capture, the payment will transition to `paid`.
+
+> 🔑 Access with
+>
+> [API key](/reference/authentication)
+>
+> [Access token with **payments.write**](/reference/authentication)
+
+### Example Usage
+
+```python
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
+import os
+
+
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.payments.release_authorization(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo")
+
+    # Handle response
+    print(res)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                                                                                                                                                                              | Type                                                                                                                                                                                                                                                                                                                                                                                   | Required                                                                                                                                                                                                                                                                                                                                                                               | Description                                                                                                                                                                                                                                                                                                                                                                            | Example                                                                                                                                                                                                                                                                                                                                                                                |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `payment_id`                                                                                                                                                                                                                                                                                                                                                                           | *str*                                                                                                                                                                                                                                                                                                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                                                                                                                                                                                     | Provide the ID of the related payment.                                                                                                                                                                                                                                                                                                                                                 | tr_5B8cwPMGnU6qLbRvo7qEZo                                                                                                                                                                                                                                                                                                                                                              |
+| `testmode`                                                                                                                                                                                                                                                                                                                                                                             | *OptionalNullable[bool]*                                                                                                                                                                                                                                                                                                                                                               | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.<br/><br/>Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa. | false                                                                                                                                                                                                                                                                                                                                                                                  |
+| `retries`                                                                                                                                                                                                                                                                                                                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                                                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Configuration to override the default retry behavior of the client.                                                                                                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                                                                                                                                                                        |
+
+### Response
+
+**[Any](../../models/.md)**
+
+### Errors
+
+| Error Type                                      | Status Code                                     | Content Type                                    |
+| ----------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
+| models.ReleaseAuthorizationResponseBody         | 404                                             | application/hal+json                            |
+| models.ReleaseAuthorizationPaymentsResponseBody | 422                                             | application/hal+json                            |
+| models.APIError                                 | 4XX, 5XX                                        | \*/\*                                           |

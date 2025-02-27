@@ -32,17 +32,18 @@ Unlike the Payments API, if a payment fails, expires, or is canceled, you can cr
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.orders.create(embed="payments", request_body={
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.orders.create(embed="payments", request_body={
         "order_number": "<value>",
         "lines": [
             {
@@ -121,17 +122,18 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.orders.list(from_="ord_pbjz8x", sort="desc", profile_id="pfl_QkEhN94Ba")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.orders.list(from_="ord_pbjz8x", sort="desc", profile_id="pfl_QkEhN94Ba")
 
     # Handle response
     print(res)
@@ -175,17 +177,18 @@ Retrieve a single order object by its ID.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.orders.get(id="ord_vsKJpSsabw", embed="payments")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.orders.get(id="ord_vsKJpSsabw", embed="payments")
 
     # Handle response
     print(res)
@@ -229,17 +232,18 @@ For an in-depth explanation of each parameter, see [Create order](create-order).
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.orders.update(id="ord_vsKJpSsabw")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.orders.update(id="ord_vsKJpSsabw")
 
     # Handle response
     print(res)
@@ -291,17 +295,18 @@ For an order with status `shipping`, only the order lines that were still pendin
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.orders.cancel(id="ord_vsKJpSsabw")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.orders.cancel(id="ord_vsKJpSsabw")
 
     # Handle response
     print(res)
@@ -362,17 +367,18 @@ The updated order totals €85.00.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.orders.manage_lines(order_id="ord_pbjz8x", operations=[
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.orders.manage_lines(order_id="ord_pbjz8x", operations=[
 
     ])
 
@@ -426,17 +432,18 @@ If the order line is `paid` or already `completed`, you can create a refund usin
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.orders.cancel_lines(order_id="ord_pbjz8x", lines=[
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.orders.cancel_lines(order_id="ord_pbjz8x", lines=[
         {
             "id": "<id>",
             "amount": {
@@ -500,17 +507,18 @@ For an in-depth explanation of each parameter, refer to the `lines` parameter of
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.orders.update_line(order_id="ord_pbjz8x", id="odl_dgtxyl", unit_price={
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.orders.update_line(order_id="ord_pbjz8x", id="odl_dgtxyl", unit_price={
         "currency": "EUR",
         "value": "10.00",
     }, discount_amount={
@@ -582,17 +590,18 @@ The payment inherits certain properties, such as the `amount` and `webhookUrl`, 
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.orders.create_payment(order_id="ord_pbjz8x")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.orders.create_payment(order_id="ord_pbjz8x")
 
     # Handle response
     print(res)

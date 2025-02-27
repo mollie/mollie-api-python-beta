@@ -28,17 +28,18 @@ Payment sessions cannot be requested directly from the browser. The request must
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.wallets.request_apple_pay_payment_session(request={
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.wallets.request_apple_pay_payment_session(request={
         "validation_url": "https://dark-suv.org",
         "domain": "cheap-contractor.info",
         "profile_id": "pfl_QkEhN94Ba",

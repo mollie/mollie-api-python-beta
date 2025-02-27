@@ -38,17 +38,18 @@ A few example usages:
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.subscriptions.create(customer_id="cst_8wmqcHMN4U", amount={
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.subscriptions.create(customer_id="cst_8wmqcHMN4U", amount={
         "currency": "EUR",
         "value": "10.00",
     }, interval="<value>", description="yuck vice between gee ugh ha", application_fee={
@@ -109,17 +110,18 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.subscriptions.list(customer_id="cst_8wmqcHMN4U", from_="sub_rVKGtNd6s3")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.subscriptions.list(customer_id="cst_8wmqcHMN4U", from_="sub_rVKGtNd6s3")
 
     # Handle response
     print(res)
@@ -161,17 +163,18 @@ Retrieve a single subscription by its ID and the ID of its parent customer.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.subscriptions.get(customer_id="cst_8wmqcHMN4U", id="sub_rVKGtNd6s3")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.subscriptions.get(customer_id="cst_8wmqcHMN4U", id="sub_rVKGtNd6s3")
 
     # Handle response
     print(res)
@@ -215,17 +218,18 @@ For an in-depth explanation of each parameter, refer to the [Create subscription
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.subscriptions.update(customer_id="cst_8wmqcHMN4U", id="sub_rVKGtNd6s3", amount={
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.subscriptions.update(customer_id="cst_8wmqcHMN4U", id="sub_rVKGtNd6s3", amount={
         "currency": "EUR",
         "value": "10.00",
     })
@@ -276,17 +280,18 @@ Cancel an existing subscription. Canceling a subscription has no effect on the m
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.subscriptions.cancel(customer_id="cst_8wmqcHMN4U", id="sub_rVKGtNd6s3")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.subscriptions.cancel(customer_id="cst_8wmqcHMN4U", id="sub_rVKGtNd6s3")
 
     # Handle response
     print(res)
@@ -328,17 +333,18 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.subscriptions.list_all(from_="sub_rVKGtNd6s3", profile_id="pfl_QkEhN94Ba")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.subscriptions.list_all(from_="sub_rVKGtNd6s3", profile_id="pfl_QkEhN94Ba")
 
     # Handle response
     print(res)
@@ -382,17 +388,18 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.subscriptions.list_payments(customer_id="cst_8wmqcHMN4U", subscription_id="sub_rVKGtNd6s3", from_="tr_5B8cwPMGnU6qLbRvo7qEZo")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.subscriptions.list_payments(customer_id="cst_8wmqcHMN4U", subscription_id="sub_rVKGtNd6s3", from_="tr_5B8cwPMGnU6qLbRvo7qEZo")
 
     # Handle response
     print(res)

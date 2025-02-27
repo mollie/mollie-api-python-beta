@@ -34,17 +34,18 @@ By default, only payment methods for the Euro currency are returned. If you wish
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.methods.list(sequence_type="oneoff", locale="en_US", amount={
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.methods.list(sequence_type="oneoff", locale="en_US", amount={
         "currency": "EUR",
         "value": "10.00",
     }, resource="payments", billing_country="DE", include_wallets="applepay", order_line_categories="eco", profile_id="pfl_QkEhN94Ba", include="issuers")
@@ -96,17 +97,18 @@ The list can optionally be filtered using a number of parameters described below
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.methods.list_all(locale="en_US", amount={
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.methods.list_all(locale="en_US", amount={
         "currency": "EUR",
         "value": "10.00",
     }, include="issuers")
@@ -155,17 +157,18 @@ Additionally, it is possible to check if wallet methods such as Apple Pay are en
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.methods.get(id="ideal", locale="en_US", currency="EUR", profile_id="pfl_QkEhN94Ba", include="issuers")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.methods.get(id="ideal", locale="en_US", currency="EUR", profile_id="pfl_QkEhN94Ba", include="issuers")
 
     # Handle response
     print(res)
@@ -215,17 +218,18 @@ To enable voucher or gift card issuers, refer to the [Enable payment method issu
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.methods.enable_method(profile_id="pfl_QkEhN94Ba", id="ideal")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.methods.enable_method(profile_id="pfl_QkEhN94Ba", id="ideal")
 
     # Handle response
     print(res)
@@ -266,17 +270,18 @@ When using a profile-specific API credential, the alias `me` can be used instead
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.methods.disable_method(profile_id="pfl_QkEhN94Ba", id="ideal")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.methods.disable_method(profile_id="pfl_QkEhN94Ba", id="ideal")
 
     # Handle response
     print(res)
@@ -319,17 +324,18 @@ When using a profile-specific API credential, the alias `me` can be used instead
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.methods.enable_method_issuer(profile_id="pfl_QkEhN94Ba", method_id="voucher", id="edenred-france-sports")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.methods.enable_method_issuer(profile_id="pfl_QkEhN94Ba", method_id="voucher", id="edenred-france-sports")
 
     # Handle response
     print(res)
@@ -374,17 +380,18 @@ When using a profile-specific API credential, the alias `me` can be used instead
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.methods.disable_method_issuer(profile_id="pfl_QkEhN94Ba", method_id="voucher", id="edenred-france-sports")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.methods.disable_method_issuer(profile_id="pfl_QkEhN94Ba", method_id="voucher", id="edenred-france-sports")
 
     # Handle response
     print(res)

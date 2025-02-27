@@ -28,17 +28,18 @@ By default, Mollie captures payments automatically. If however you configured yo
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.captures.create(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", amount={
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.captures.create(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", amount={
         "currency": "EUR",
         "value": "10.00",
     })
@@ -85,17 +86,18 @@ The results are paginated.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.captures.list(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", from_="cpt_mNepDkEtco6ah3QNPUGYH", include="payment")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.captures.list(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", from_="cpt_mNepDkEtco6ah3QNPUGYH", include="payment")
 
     # Handle response
     print(res)
@@ -138,17 +140,18 @@ Retrieve a single payment capture by its ID and the ID of its parent payment.
 ### Example Usage
 
 ```python
-import mollie_api_python_beta
-from mollie_api_python_beta import Mollie
+import mollie_api_python_alpha
+from mollie_api_python_alpha import Client
 import os
 
-with Mollie(
-    security=mollie_api_python_beta.Security(
-        api_key=os.getenv("MOLLIE_API_KEY", ""),
-    ),
-) as mollie:
 
-    res = mollie.captures.get(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", id="cpt_mNepDkEtco6ah3QNPUGYH", include="payment")
+with Client(
+    security=mollie_api_python_alpha.Security(
+        api_key=os.getenv("CLIENT_API_KEY", ""),
+    ),
+) as client:
+
+    res = client.captures.get(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", id="cpt_mNepDkEtco6ah3QNPUGYH", include="payment")
 
     # Handle response
     print(res)
