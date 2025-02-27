@@ -5,8 +5,8 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.505.2
   generationVersion: 2.531.3
-  releaseVersion: 0.1.2
-  configChecksum: cda5b25682382f97c558a655abb081fa
+  releaseVersion: 0.1.4
+  configChecksum: c85cde1e217e551302e6180f4fe5aa71
   published: true
 features:
   python:
@@ -1200,6 +1200,7 @@ generatedFiles:
   - poetry.toml
   - py.typed
   - pylintrc
+  - pyproject.toml
   - scripts/prepare-readme.py
   - scripts/publish.sh
   - src/mollie_api_python_alpha/__init__.py
