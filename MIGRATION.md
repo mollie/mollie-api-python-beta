@@ -11,7 +11,7 @@ The new version of Python SDK introduces a number of changes that might affect t
 
 This guide takes you through all the changes specific to Python SDK to help you upgrade your integration.
 
-You can still use the legacy version of this SDK along with the new version but we advise to upgrade as soon as possible to ensure continuous compatibility.
+*You can still use the legacy version of this SDK along with the new version but we advise to upgrade as soon as possible to ensure continuous compatibility.*
 
 ## Major Changes
 Here are some things you need to know about the new Python SDK to ensure a consistent integration:
