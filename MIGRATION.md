@@ -119,10 +119,10 @@ To see code examples for each method refer to the [README](./README.md).
       Endpoint
     </td>
     <td>
-      Python Method Name
+      Old Method
     </td>
     <td>
-      New SDK Method Name
+      New Method
     </td>
   </tr>
   <tr>
