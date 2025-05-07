@@ -64,7 +64,7 @@ class ListBalanceTransactionsRequest(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -83,6 +83,70 @@ class ListBalanceTransactionsRequest(BaseModel):
                 m[k] = val
 
         return m
+
+
+class ListBalanceTransactionsBalancesResponse429DocumentationTypedDict(TypedDict):
+    r"""The URL to the generic Mollie API error handling guide."""
+
+    href: NotRequired[str]
+    type: NotRequired[str]
+
+
+class ListBalanceTransactionsBalancesResponse429Documentation(BaseModel):
+    r"""The URL to the generic Mollie API error handling guide."""
+
+    href: Optional[str] = "https://docs.mollie.com/errors"
+
+    type: Optional[str] = "text/html"
+
+
+class ListBalanceTransactionsBalancesResponse429LinksTypedDict(TypedDict):
+    documentation: NotRequired[
+        ListBalanceTransactionsBalancesResponse429DocumentationTypedDict
+    ]
+    r"""The URL to the generic Mollie API error handling guide."""
+
+
+class ListBalanceTransactionsBalancesResponse429Links(BaseModel):
+    documentation: Optional[ListBalanceTransactionsBalancesResponse429Documentation] = (
+        None
+    )
+    r"""The URL to the generic Mollie API error handling guide."""
+
+
+class ListBalanceTransactionsBalancesResponse429ResponseBodyData(BaseModel):
+    status: Optional[int] = None
+    r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
+
+    title: Optional[str] = None
+    r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
+
+    detail: Optional[str] = None
+    r"""A detailed human-readable description of the error that occurred."""
+
+    field: OptionalNullable[str] = UNSET
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+
+    links: Annotated[
+        Optional[ListBalanceTransactionsBalancesResponse429Links],
+        pydantic.Field(alias="_links"),
+    ] = None
+
+
+class ListBalanceTransactionsBalancesResponse429ResponseBody(Exception):
+    r"""An error response object."""
+
+    data: ListBalanceTransactionsBalancesResponse429ResponseBodyData
+
+    def __init__(
+        self, data: ListBalanceTransactionsBalancesResponse429ResponseBodyData
+    ):
+        self.data = data
+
+    def __str__(self) -> str:
+        return utils.marshal_json(
+            self.data, ListBalanceTransactionsBalancesResponse429ResponseBodyData
+        )
 
 
 class ListBalanceTransactionsBalancesResponseDocumentationTypedDict(TypedDict):
@@ -265,6 +329,94 @@ class Deductions(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
+class CaptureTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    capture_id: NotRequired[str]
+
+
+class Capture(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    capture_id: Annotated[Optional[str], pydantic.Field(alias="captureId")] = None
+
+
+class ReturnedRefundTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    refund_id: NotRequired[str]
+
+
+class ReturnedRefund(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    refund_id: Annotated[Optional[str], pydantic.Field(alias="refundId")] = None
+
+
+class ChargebackTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    chargeback_id: NotRequired[str]
+
+
+class Chargeback(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    chargeback_id: Annotated[Optional[str], pydantic.Field(alias="chargebackId")] = None
+
+
+class OutgoingTransferTypedDict(TypedDict):
+    transfer_id: NotRequired[str]
+    settlement_id: NotRequired[str]
+
+
+class OutgoingTransfer(BaseModel):
+    transfer_id: Annotated[Optional[str], pydantic.Field(alias="transferId")] = None
+
+    settlement_id: Annotated[Optional[str], pydantic.Field(alias="settlementId")] = None
+
+
+class CanceledOutgoingTransferTypedDict(TypedDict):
+    transfer_id: NotRequired[str]
+    settlement_id: NotRequired[str]
+
+
+class CanceledOutgoingTransfer(BaseModel):
+    transfer_id: Annotated[Optional[str], pydantic.Field(alias="transferId")] = None
+
+    settlement_id: Annotated[Optional[str], pydantic.Field(alias="settlementId")] = None
+
+
+class ReturnedTransferTypedDict(TypedDict):
+    transfer_id: NotRequired[str]
+    settlement_id: NotRequired[str]
+
+
+class ReturnedTransfer(BaseModel):
+    transfer_id: Annotated[Optional[str], pydantic.Field(alias="transferId")] = None
+
+    settlement_id: Annotated[Optional[str], pydantic.Field(alias="settlementId")] = None
+
+
+class PlatformPaymentRefundTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    refund_id: NotRequired[str]
+
+
+class PlatformPaymentRefund(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    refund_id: Annotated[Optional[str], pydantic.Field(alias="refundId")] = None
+
+
+class PlatformPaymentChargebackTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    chargeback_id: NotRequired[str]
+
+
+class PlatformPaymentChargeback(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    chargeback_id: Annotated[Optional[str], pydantic.Field(alias="chargebackId")] = None
+
+
 class ContextTypedDict(TypedDict):
     r"""Depending on the type of the balance transaction, we will try to give more context about the specific event that triggered it. For example, the context object for a payment transaction will look like `{\"paymentId\": \"tr_5B8cwPMGnU6qLbRvo7qEZo\"}`.
 
@@ -288,6 +440,25 @@ class ContextTypedDict(TypedDict):
     * Type `platform-payment-refund`: `paymentId` `refundId`
     * Type `platform-payment-chargeback`: `paymentId` `chargebackId`
     """
+
+    payment: NotRequired[Nullable[str]]
+    capture: NotRequired[Nullable[CaptureTypedDict]]
+    unauthorized_direct_debit: NotRequired[Nullable[str]]
+    failed_payment: NotRequired[Nullable[str]]
+    refund: NotRequired[Nullable[str]]
+    returned_refund: NotRequired[Nullable[ReturnedRefundTypedDict]]
+    chargeback: NotRequired[Nullable[ChargebackTypedDict]]
+    chargeback_reversal: NotRequired[Nullable[str]]
+    outgoing_transfer: NotRequired[Nullable[OutgoingTransferTypedDict]]
+    canceled_outgoing_transfer: NotRequired[Nullable[CanceledOutgoingTransferTypedDict]]
+    returned_transfer: NotRequired[Nullable[ReturnedTransferTypedDict]]
+    invoice_compensation: NotRequired[Nullable[str]]
+    application_fee: NotRequired[Nullable[str]]
+    split_payment: NotRequired[Nullable[str]]
+    platform_payment_refund: NotRequired[Nullable[PlatformPaymentRefundTypedDict]]
+    platform_payment_chargeback: NotRequired[
+        Nullable[PlatformPaymentChargebackTypedDict]
+    ]
 
 
 class Context(BaseModel):
@@ -314,12 +485,135 @@ class Context(BaseModel):
     * Type `platform-payment-chargeback`: `paymentId` `chargebackId`
     """
 
+    payment: OptionalNullable[str] = UNSET
+
+    capture: OptionalNullable[Capture] = UNSET
+
+    unauthorized_direct_debit: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="unauthorized-direct-debit")
+    ] = UNSET
+
+    failed_payment: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="failed-payment")
+    ] = UNSET
+
+    refund: OptionalNullable[str] = UNSET
+
+    returned_refund: Annotated[
+        OptionalNullable[ReturnedRefund], pydantic.Field(alias="returned-refund")
+    ] = UNSET
+
+    chargeback: OptionalNullable[Chargeback] = UNSET
+
+    chargeback_reversal: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="chargeback-reversal")
+    ] = UNSET
+
+    outgoing_transfer: Annotated[
+        OptionalNullable[OutgoingTransfer], pydantic.Field(alias="outgoing-transfer")
+    ] = UNSET
+
+    canceled_outgoing_transfer: Annotated[
+        OptionalNullable[CanceledOutgoingTransfer],
+        pydantic.Field(alias="canceled-outgoing-transfer"),
+    ] = UNSET
+
+    returned_transfer: Annotated[
+        OptionalNullable[ReturnedTransfer], pydantic.Field(alias="returned-transfer")
+    ] = UNSET
+
+    invoice_compensation: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="invoice-compensation")
+    ] = UNSET
+
+    application_fee: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="application-fee")
+    ] = UNSET
+
+    split_payment: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="split-payment")
+    ] = UNSET
+
+    platform_payment_refund: Annotated[
+        OptionalNullable[PlatformPaymentRefund],
+        pydantic.Field(alias="platform-payment-refund"),
+    ] = UNSET
+
+    platform_payment_chargeback: Annotated[
+        OptionalNullable[PlatformPaymentChargeback],
+        pydantic.Field(alias="platform-payment-chargeback"),
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "payment",
+            "capture",
+            "unauthorized-direct-debit",
+            "failed-payment",
+            "refund",
+            "returned-refund",
+            "chargeback",
+            "chargeback-reversal",
+            "outgoing-transfer",
+            "canceled-outgoing-transfer",
+            "returned-transfer",
+            "invoice-compensation",
+            "application-fee",
+            "split-payment",
+            "platform-payment-refund",
+            "platform-payment-chargeback",
+        ]
+        nullable_fields = [
+            "payment",
+            "capture",
+            "unauthorized-direct-debit",
+            "failed-payment",
+            "refund",
+            "returned-refund",
+            "chargeback",
+            "chargeback-reversal",
+            "outgoing-transfer",
+            "canceled-outgoing-transfer",
+            "returned-transfer",
+            "invoice-compensation",
+            "application-fee",
+            "split-payment",
+            "platform-payment-refund",
+            "platform-payment-chargeback",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
 
 class BalanceTransactionsTypedDict(TypedDict):
     resource: NotRequired[str]
     r"""Indicates the response contains a balance transaction object. Will always contain the string `balance_transaction` for this endpoint."""
     id: NotRequired[str]
-    r"""The identifier uniquely referring to this balance transaction. Example: `baltr_QM24QwzUWR4ev4Xfgyt29d`."""
+    r"""The identifier uniquely referring to this balance transaction."""
     type: NotRequired[str]
     r"""The type of transaction, for example `payment` or `refund`. Values include the below examples, although this list is not definitive.
 
@@ -328,6 +622,8 @@ class BalanceTransactionsTypedDict(TypedDict):
     * Settlements: `outgoing-transfer` `canceled-outgoing-transfer` `returned-transfer`
     * Invoicing: `invoice-compensation` `balance-correction`
     * Mollie Connect: `application-fee` `split-payment` `platform-payment-refund` `platform-payment-chargeback`
+
+    Possible values: `application-fee` `capture` `chargeback` `chargeback-reversal` `failed-payment-fee` `failed-payment` `invoice-compensation` `payment` `payment-fee` `payment-commission` `refund` `returned-refund` `returned-transfer` `split-payment` `outgoing-transfer` `capture-commission` `canceled-outgoing-transfer` `incoming-transfer` `api-payment-rolling-reserve-release` `capture-rolling-reserve-release` `reimbursement-fee` `balance-correction` `unauthorized-direct-debit` `bank-charged-failure-fee` `platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-platform-payment-refund` `platform-payment-chargeback` `chargeback-compensation` `reversed-platform-payment-chargeback` `reversed-chargeback-compensation` `failed-split-payment-platform` `failed-split-payment-compensation` `cash-advance-repayment` `cash-advance-loan` `platform-connected-organizations-fee` `split-transaction` `managed-fee` `returned-managed-fee` `topup` `balance-reserve` `balance-reserve-return` `movement` `post-payment-split-payment` `cash-collateral-issuance` `cash-collateral-release`
     """
     result_amount: NotRequired[ResultAmountTypedDict]
     r"""The final amount that was moved to or from the balance. If the transaction moves funds away from the balance, for example when it concerns a refund, the amount will be negative."""
@@ -370,7 +666,7 @@ class BalanceTransactions(BaseModel):
     r"""Indicates the response contains a balance transaction object. Will always contain the string `balance_transaction` for this endpoint."""
 
     id: Optional[str] = None
-    r"""The identifier uniquely referring to this balance transaction. Example: `baltr_QM24QwzUWR4ev4Xfgyt29d`."""
+    r"""The identifier uniquely referring to this balance transaction."""
 
     type: Optional[str] = None
     r"""The type of transaction, for example `payment` or `refund`. Values include the below examples, although this list is not definitive.
@@ -380,6 +676,8 @@ class BalanceTransactions(BaseModel):
     * Settlements: `outgoing-transfer` `canceled-outgoing-transfer` `returned-transfer`
     * Invoicing: `invoice-compensation` `balance-correction`
     * Mollie Connect: `application-fee` `split-payment` `platform-payment-refund` `platform-payment-chargeback`
+
+    Possible values: `application-fee` `capture` `chargeback` `chargeback-reversal` `failed-payment-fee` `failed-payment` `invoice-compensation` `payment` `payment-fee` `payment-commission` `refund` `returned-refund` `returned-transfer` `split-payment` `outgoing-transfer` `capture-commission` `canceled-outgoing-transfer` `incoming-transfer` `api-payment-rolling-reserve-release` `capture-rolling-reserve-release` `reimbursement-fee` `balance-correction` `unauthorized-direct-debit` `bank-charged-failure-fee` `platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-platform-payment-refund` `platform-payment-chargeback` `chargeback-compensation` `reversed-platform-payment-chargeback` `reversed-chargeback-compensation` `failed-split-payment-platform` `failed-split-payment-compensation` `cash-advance-repayment` `cash-advance-loan` `platform-connected-organizations-fee` `split-transaction` `managed-fee` `returned-managed-fee` `topup` `balance-reserve` `balance-reserve-return` `movement` `post-payment-split-payment` `cash-collateral-issuance` `cash-collateral-release`
     """
 
     result_amount: Annotated[
@@ -444,7 +742,7 @@ class BalanceTransactions(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -591,7 +889,7 @@ class ListBalanceTransactionsLinks(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

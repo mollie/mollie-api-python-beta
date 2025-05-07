@@ -11,8 +11,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class DeletePaymentLinkRequestTypedDict(TypedDict):
-    id: str
-    r"""Provide the ID of the item you want to perform this operation on."""
+    payment_link_id: str
+    r"""Provide the ID of the related payment link."""
     testmode: NotRequired[Nullable[bool]]
     r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
 
@@ -21,10 +21,12 @@ class DeletePaymentLinkRequestTypedDict(TypedDict):
 
 
 class DeletePaymentLinkRequest(BaseModel):
-    id: Annotated[
-        str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
+    payment_link_id: Annotated[
+        str,
+        pydantic.Field(alias="paymentLinkId"),
+        FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Provide the ID of the item you want to perform this operation on."""
+    r"""Provide the ID of the related payment link."""
 
     testmode: Annotated[
         OptionalNullable[bool],
@@ -45,7 +47,7 @@ class DeletePaymentLinkRequest(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

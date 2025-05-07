@@ -45,7 +45,7 @@ class GetOrganizationRequest(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -171,7 +171,7 @@ class GetOrganizationSelf(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class DashboardTypedDict(TypedDict):
+class GetOrganizationDashboardTypedDict(TypedDict):
     r"""Direct link to the organization's Mollie dashboard."""
 
     href: NotRequired[str]
@@ -180,7 +180,7 @@ class DashboardTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class Dashboard(BaseModel):
+class GetOrganizationDashboard(BaseModel):
     r"""Direct link to the organization's Mollie dashboard."""
 
     href: Optional[str] = None
@@ -214,7 +214,7 @@ class GetOrganizationLinksTypedDict(TypedDict):
 
     self_: NotRequired[GetOrganizationSelfTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    dashboard: NotRequired[DashboardTypedDict]
+    dashboard: NotRequired[GetOrganizationDashboardTypedDict]
     r"""Direct link to the organization's Mollie dashboard."""
     documentation: NotRequired[GetOrganizationDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
@@ -226,7 +226,7 @@ class GetOrganizationLinks(BaseModel):
     self_: Annotated[Optional[GetOrganizationSelf], pydantic.Field(alias="self")] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    dashboard: Optional[Dashboard] = None
+    dashboard: Optional[GetOrganizationDashboard] = None
     r"""Direct link to the organization's Mollie dashboard."""
 
     documentation: Optional[GetOrganizationDocumentation] = None
@@ -336,7 +336,7 @@ class GetOrganizationResponseBody(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

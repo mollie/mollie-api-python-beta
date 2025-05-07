@@ -11,8 +11,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GetTerminalRequestTypedDict(TypedDict):
-    id: str
-    r"""Provide the ID of the item you want to perform this operation on."""
+    terminal_id: str
+    r"""Provide the ID of the related terminal."""
     testmode: NotRequired[Nullable[bool]]
     r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
 
@@ -21,10 +21,12 @@ class GetTerminalRequestTypedDict(TypedDict):
 
 
 class GetTerminalRequest(BaseModel):
-    id: Annotated[
-        str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
+    terminal_id: Annotated[
+        str,
+        pydantic.Field(alias="terminalId"),
+        FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Provide the ID of the item you want to perform this operation on."""
+    r"""Provide the ID of the related terminal."""
 
     testmode: Annotated[
         OptionalNullable[bool],
@@ -45,7 +47,7 @@ class GetTerminalRequest(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -193,26 +195,32 @@ class GetTerminalResponseBodyTypedDict(TypedDict):
     description: NotRequired[str]
     r"""A short description of the terminal. The description can be used as an identifier for the terminal. Currently, the description is set when the terminal is initially configured. It will be visible in the Mollie Dashboard, and it may be visible on the device itself depending on the device."""
     status: NotRequired[str]
-    r"""The status of the terminal:
+    r"""The status of the terminal.
 
-    * `pending`: The device has been linked to your account, but has not yet been activated. If you ordered a terminal from us, it may already become visible in your account with this status.
-    * `active`: The terminal is fully configured and ready to accept payments.
-    * `inactive`: The terminal has been deactivated. Deactivation happens for example if you returned the device to Mollie, or if you requested to move it to another profile or organization.
+    Possible values: `pending` `active` `inactive`
     """
     brand: NotRequired[Nullable[str]]
-    r"""The brand of the terminal. For example, `PAX`."""
+    r"""The brand of the terminal.
+
+    Possible values: `PAX`
+    """
     model: NotRequired[Nullable[str]]
-    r"""The model of the terminal. For example for a PAX A920, this field's value will be `A920`."""
+    r"""The model of the terminal. For example for a PAX A920, this field's value will be `A920`.
+
+    Possible values: `A35` `A77` `A920` `A920 Pro` `IM30`
+    """
     serial_number: NotRequired[Nullable[str]]
     r"""The serial number of the terminal. The serial number is provided at terminal creation time."""
-    currency: NotRequired[Nullable[str]]
+    currency: NotRequired[str]
     r"""The currency configured on the terminal, in ISO 4217 format. Currently most of our terminals are bound to a specific currency, chosen during setup."""
-    profile_id: NotRequired[Nullable[str]]
+    profile_id: NotRequired[str]
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
     Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
     """
     created_at: NotRequired[str]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    updated_at: NotRequired[str]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: NotRequired[GetTerminalLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
@@ -237,36 +245,41 @@ class GetTerminalResponseBody(BaseModel):
     r"""A short description of the terminal. The description can be used as an identifier for the terminal. Currently, the description is set when the terminal is initially configured. It will be visible in the Mollie Dashboard, and it may be visible on the device itself depending on the device."""
 
     status: Optional[str] = None
-    r"""The status of the terminal:
+    r"""The status of the terminal.
 
-    * `pending`: The device has been linked to your account, but has not yet been activated. If you ordered a terminal from us, it may already become visible in your account with this status.
-    * `active`: The terminal is fully configured and ready to accept payments.
-    * `inactive`: The terminal has been deactivated. Deactivation happens for example if you returned the device to Mollie, or if you requested to move it to another profile or organization.
+    Possible values: `pending` `active` `inactive`
     """
 
     brand: OptionalNullable[str] = UNSET
-    r"""The brand of the terminal. For example, `PAX`."""
+    r"""The brand of the terminal.
+
+    Possible values: `PAX`
+    """
 
     model: OptionalNullable[str] = UNSET
-    r"""The model of the terminal. For example for a PAX A920, this field's value will be `A920`."""
+    r"""The model of the terminal. For example for a PAX A920, this field's value will be `A920`.
+
+    Possible values: `A35` `A77` `A920` `A920 Pro` `IM30`
+    """
 
     serial_number: Annotated[
         OptionalNullable[str], pydantic.Field(alias="serialNumber")
     ] = UNSET
     r"""The serial number of the terminal. The serial number is provided at terminal creation time."""
 
-    currency: OptionalNullable[str] = UNSET
+    currency: Optional[str] = None
     r"""The currency configured on the terminal, in ISO 4217 format. Currently most of our terminals are bound to a specific currency, chosen during setup."""
 
-    profile_id: Annotated[OptionalNullable[str], pydantic.Field(alias="profileId")] = (
-        UNSET
-    )
+    profile_id: Annotated[Optional[str], pydantic.Field(alias="profileId")] = None
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
     Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
     """
 
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
+    updated_at: Annotated[Optional[str], pydantic.Field(alias="updatedAt")] = None
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
     links: Annotated[Optional[GetTerminalLinks], pydantic.Field(alias="_links")] = None
@@ -286,16 +299,17 @@ class GetTerminalResponseBody(BaseModel):
             "currency",
             "profileId",
             "createdAt",
+            "updatedAt",
             "_links",
         ]
-        nullable_fields = ["brand", "model", "serialNumber", "currency", "profileId"]
+        nullable_fields = ["brand", "model", "serialNumber"]
         null_default_fields = []
 
         serialized = handler(self)
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

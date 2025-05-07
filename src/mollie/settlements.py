@@ -15,6 +15,9 @@ class Settlements(BaseSDK):
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
         balance_id: OptionalNullable[str] = UNSET,
+        year: OptionalNullable[str] = UNSET,
+        month: OptionalNullable[str] = UNSET,
+        currencies: OptionalNullable[str] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -33,6 +36,9 @@ class Settlements(BaseSDK):
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param balance_id: Provide the token of the balance to filter the settlements by. This is the balance token that the settlement was settled to.
+        :param year: Provide the year to query the settlements. Must be used combined with `month` parameter
+        :param month: Provide the month to query the settlements. Must be used combined with `year` parameter
+        :param currencies: Provides the currencies to retrieve the settlements. It accepts multiple currencies in a comma-separated format.  Possible values: `EUR` `GBP` `CHF` `DKK` `NOK` `PLN` `SEK` `USD` `CZK` `HUF` `AUD` `CAD`
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -52,6 +58,9 @@ class Settlements(BaseSDK):
             from_=from_,
             limit=limit,
             balance_id=balance_id,
+            year=year,
+            month=month,
+            currencies=currencies,
         )
 
         req = self._build_request(
@@ -139,6 +148,9 @@ class Settlements(BaseSDK):
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
         balance_id: OptionalNullable[str] = UNSET,
+        year: OptionalNullable[str] = UNSET,
+        month: OptionalNullable[str] = UNSET,
+        currencies: OptionalNullable[str] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -157,6 +169,9 @@ class Settlements(BaseSDK):
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param balance_id: Provide the token of the balance to filter the settlements by. This is the balance token that the settlement was settled to.
+        :param year: Provide the year to query the settlements. Must be used combined with `month` parameter
+        :param month: Provide the month to query the settlements. Must be used combined with `year` parameter
+        :param currencies: Provides the currencies to retrieve the settlements. It accepts multiple currencies in a comma-separated format.  Possible values: `EUR` `GBP` `CHF` `DKK` `NOK` `PLN` `SEK` `USD` `CZK` `HUF` `AUD` `CAD`
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -176,6 +191,9 @@ class Settlements(BaseSDK):
             from_=from_,
             limit=limit,
             balance_id=balance_id,
+            year=year,
+            month=month,
+            currencies=currencies,
         )
 
         req = self._build_request_async(
@@ -879,20 +897,24 @@ class Settlements(BaseSDK):
             http_res,
         )
 
-    def get_payments(
+    def list_payments(
         self,
         *,
         settlement_id: str,
+        from_: Optional[str] = None,
+        limit: OptionalNullable[int] = 50,
+        sort: OptionalNullable[str] = UNSET,
+        testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.GetSettlementPaymentsResponseBody:
         r"""Get settlement payments
 
         Retrieve all payments included in the given settlement.
 
-        The response is in the same format as the response of the [List payments endpoint](list-payments). Refer to that endpoint's documentation for more details.
+        The response is in the same format as the response of the [List payments endpoint](list-payments).
 
         For capture-based payment methods such as Klarna, the payments are not listed here. Refer to the [List captures endpoint](list-captures) endpoint instead.
 
@@ -901,6 +923,10 @@ class Settlements(BaseSDK):
         > [Access token with **settlements.read** **payments.read**](/reference/authentication)
 
         :param settlement_id: Provide the ID of the related settlement.
+        :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
+        :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -918,6 +944,10 @@ class Settlements(BaseSDK):
 
         request = models.GetSettlementPaymentsRequest(
             settlement_id=settlement_id,
+            from_=from_,
+            limit=limit,
+            sort=sort,
+            testmode=testmode,
         )
 
         req = self._build_request(
@@ -958,18 +988,22 @@ class Settlements(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["404", "4XX", "5XX"],
+            error_status_codes=["400", "4XX", "5XX"],
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetSettlementPaymentsResponseBodyData
+            return utils.unmarshal_json(
+                http_res.text, models.GetSettlementPaymentsResponseBody
             )
-            raise models.GetSettlementPaymentsResponseBody(data=response_data)
+        if utils.match_response(http_res, "400", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.GetSettlementPaymentsSettlementsResponseBodyData
+            )
+            raise models.GetSettlementPaymentsSettlementsResponseBody(
+                data=response_data
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -990,20 +1024,24 @@ class Settlements(BaseSDK):
             http_res,
         )
 
-    async def get_payments_async(
+    async def list_payments_async(
         self,
         *,
         settlement_id: str,
+        from_: Optional[str] = None,
+        limit: OptionalNullable[int] = 50,
+        sort: OptionalNullable[str] = UNSET,
+        testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.GetSettlementPaymentsResponseBody:
         r"""Get settlement payments
 
         Retrieve all payments included in the given settlement.
 
-        The response is in the same format as the response of the [List payments endpoint](list-payments). Refer to that endpoint's documentation for more details.
+        The response is in the same format as the response of the [List payments endpoint](list-payments).
 
         For capture-based payment methods such as Klarna, the payments are not listed here. Refer to the [List captures endpoint](list-captures) endpoint instead.
 
@@ -1012,6 +1050,10 @@ class Settlements(BaseSDK):
         > [Access token with **settlements.read** **payments.read**](/reference/authentication)
 
         :param settlement_id: Provide the ID of the related settlement.
+        :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
+        :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1029,6 +1071,10 @@ class Settlements(BaseSDK):
 
         request = models.GetSettlementPaymentsRequest(
             settlement_id=settlement_id,
+            from_=from_,
+            limit=limit,
+            sort=sort,
+            testmode=testmode,
         )
 
         req = self._build_request_async(
@@ -1069,18 +1115,22 @@ class Settlements(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["404", "4XX", "5XX"],
+            error_status_codes=["400", "4XX", "5XX"],
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetSettlementPaymentsResponseBodyData
+            return utils.unmarshal_json(
+                http_res.text, models.GetSettlementPaymentsResponseBody
             )
-            raise models.GetSettlementPaymentsResponseBody(data=response_data)
+        if utils.match_response(http_res, "400", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.GetSettlementPaymentsSettlementsResponseBodyData
+            )
+            raise models.GetSettlementPaymentsSettlementsResponseBody(
+                data=response_data
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(
@@ -1101,26 +1151,34 @@ class Settlements(BaseSDK):
             http_res,
         )
 
-    def get_captures(
+    def list_captures(
         self,
         *,
         settlement_id: str,
+        from_: Optional[str] = None,
+        limit: OptionalNullable[int] = 50,
+        include: Optional[models.GetSettlementCapturesQueryParamInclude] = None,
+        testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.GetSettlementCapturesResponseBody:
         r"""Get settlement captures
 
         Retrieve all captures included in the given settlement.
 
-        The response is in the same format as the response of the [List captures endpoint](list-captures). Refer to that endpoint's documentation for more details.
+        The response is in the same format as the response of the [List captures endpoint](list-captures).
 
         > 🔑 Access with
         >
         > [Access token with **settlements.read** **payments.read**](/reference/authentication)
 
         :param settlement_id: Provide the ID of the related settlement.
+        :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
+        :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1138,6 +1196,10 @@ class Settlements(BaseSDK):
 
         request = models.GetSettlementCapturesRequest(
             settlement_id=settlement_id,
+            from_=from_,
+            limit=limit,
+            include=include,
+            testmode=testmode,
         )
 
         req = self._build_request(
@@ -1178,18 +1240,30 @@ class Settlements(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["404", "4XX", "5XX"],
+            error_status_codes=["400", "404", "4XX", "5XX"],
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(
+                http_res.text, models.GetSettlementCapturesResponseBody
+            )
+        if utils.match_response(http_res, "400", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.GetSettlementCapturesSettlementsResponseBodyData
+            )
+            raise models.GetSettlementCapturesSettlementsResponseBody(
+                data=response_data
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = utils.unmarshal_json(
-                http_res.text, models.GetSettlementCapturesResponseBodyData
+                http_res.text,
+                models.GetSettlementCapturesSettlementsResponseResponseBodyData,
             )
-            raise models.GetSettlementCapturesResponseBody(data=response_data)
+            raise models.GetSettlementCapturesSettlementsResponseResponseBody(
+                data=response_data
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -1210,26 +1284,34 @@ class Settlements(BaseSDK):
             http_res,
         )
 
-    async def get_captures_async(
+    async def list_captures_async(
         self,
         *,
         settlement_id: str,
+        from_: Optional[str] = None,
+        limit: OptionalNullable[int] = 50,
+        include: Optional[models.GetSettlementCapturesQueryParamInclude] = None,
+        testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.GetSettlementCapturesResponseBody:
         r"""Get settlement captures
 
         Retrieve all captures included in the given settlement.
 
-        The response is in the same format as the response of the [List captures endpoint](list-captures). Refer to that endpoint's documentation for more details.
+        The response is in the same format as the response of the [List captures endpoint](list-captures).
 
         > 🔑 Access with
         >
         > [Access token with **settlements.read** **payments.read**](/reference/authentication)
 
         :param settlement_id: Provide the ID of the related settlement.
+        :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
+        :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1247,6 +1329,10 @@ class Settlements(BaseSDK):
 
         request = models.GetSettlementCapturesRequest(
             settlement_id=settlement_id,
+            from_=from_,
+            limit=limit,
+            include=include,
+            testmode=testmode,
         )
 
         req = self._build_request_async(
@@ -1287,18 +1373,30 @@ class Settlements(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["404", "4XX", "5XX"],
+            error_status_codes=["400", "404", "4XX", "5XX"],
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(
+                http_res.text, models.GetSettlementCapturesResponseBody
+            )
+        if utils.match_response(http_res, "400", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.GetSettlementCapturesSettlementsResponseBodyData
+            )
+            raise models.GetSettlementCapturesSettlementsResponseBody(
+                data=response_data
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = utils.unmarshal_json(
-                http_res.text, models.GetSettlementCapturesResponseBodyData
+                http_res.text,
+                models.GetSettlementCapturesSettlementsResponseResponseBodyData,
             )
-            raise models.GetSettlementCapturesResponseBody(data=response_data)
+            raise models.GetSettlementCapturesSettlementsResponseResponseBody(
+                data=response_data
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(
@@ -1319,26 +1417,34 @@ class Settlements(BaseSDK):
             http_res,
         )
 
-    def get_refunds(
+    def list_refunds(
         self,
         *,
         settlement_id: str,
+        from_: Optional[str] = None,
+        limit: OptionalNullable[int] = 50,
+        include: OptionalNullable[models.GetSettlementRefundsQueryParamInclude] = UNSET,
+        testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.GetSettlementRefundsResponseBody:
         r"""Get settlement refunds
 
         Retrieve all refunds 'deducted' from the given settlement.
 
-        The response is in the same format as the response of the [List refunds endpoint](list-refunds). Refer to that endpoint's documentation for more details.
+        The response is in the same format as the response of the [List refunds endpoint](list-refunds).
 
         > 🔑 Access with
         >
         > [Access token with **settlements.read** **refunds.read**](/reference/authentication)
 
         :param settlement_id: Provide the ID of the related settlement.
+        :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
+        :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1356,6 +1462,10 @@ class Settlements(BaseSDK):
 
         request = models.GetSettlementRefundsRequest(
             settlement_id=settlement_id,
+            from_=from_,
+            limit=limit,
+            include=include,
+            testmode=testmode,
         )
 
         req = self._build_request(
@@ -1396,18 +1506,28 @@ class Settlements(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["404", "4XX", "5XX"],
+            error_status_codes=["400", "404", "4XX", "5XX"],
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(
+                http_res.text, models.GetSettlementRefundsResponseBody
+            )
+        if utils.match_response(http_res, "400", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.GetSettlementRefundsSettlementsResponseBodyData
+            )
+            raise models.GetSettlementRefundsSettlementsResponseBody(data=response_data)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = utils.unmarshal_json(
-                http_res.text, models.GetSettlementRefundsResponseBodyData
+                http_res.text,
+                models.GetSettlementRefundsSettlementsResponseResponseBodyData,
             )
-            raise models.GetSettlementRefundsResponseBody(data=response_data)
+            raise models.GetSettlementRefundsSettlementsResponseResponseBody(
+                data=response_data
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -1428,26 +1548,34 @@ class Settlements(BaseSDK):
             http_res,
         )
 
-    async def get_refunds_async(
+    async def list_refunds_async(
         self,
         *,
         settlement_id: str,
+        from_: Optional[str] = None,
+        limit: OptionalNullable[int] = 50,
+        include: OptionalNullable[models.GetSettlementRefundsQueryParamInclude] = UNSET,
+        testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.GetSettlementRefundsResponseBody:
         r"""Get settlement refunds
 
         Retrieve all refunds 'deducted' from the given settlement.
 
-        The response is in the same format as the response of the [List refunds endpoint](list-refunds). Refer to that endpoint's documentation for more details.
+        The response is in the same format as the response of the [List refunds endpoint](list-refunds).
 
         > 🔑 Access with
         >
         > [Access token with **settlements.read** **refunds.read**](/reference/authentication)
 
         :param settlement_id: Provide the ID of the related settlement.
+        :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
+        :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1465,6 +1593,10 @@ class Settlements(BaseSDK):
 
         request = models.GetSettlementRefundsRequest(
             settlement_id=settlement_id,
+            from_=from_,
+            limit=limit,
+            include=include,
+            testmode=testmode,
         )
 
         req = self._build_request_async(
@@ -1505,18 +1637,28 @@ class Settlements(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["404", "4XX", "5XX"],
+            error_status_codes=["400", "404", "4XX", "5XX"],
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(
+                http_res.text, models.GetSettlementRefundsResponseBody
+            )
+        if utils.match_response(http_res, "400", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.GetSettlementRefundsSettlementsResponseBodyData
+            )
+            raise models.GetSettlementRefundsSettlementsResponseBody(data=response_data)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = utils.unmarshal_json(
-                http_res.text, models.GetSettlementRefundsResponseBodyData
+                http_res.text,
+                models.GetSettlementRefundsSettlementsResponseResponseBodyData,
             )
-            raise models.GetSettlementRefundsResponseBody(data=response_data)
+            raise models.GetSettlementRefundsSettlementsResponseResponseBody(
+                data=response_data
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(
@@ -1537,26 +1679,34 @@ class Settlements(BaseSDK):
             http_res,
         )
 
-    def get_chargebacks(
+    def list_chargebacks(
         self,
         *,
         settlement_id: str,
+        from_: Optional[str] = None,
+        limit: OptionalNullable[int] = 50,
+        embed: Optional[models.GetSettlementChargebacksQueryParamEmbed] = None,
+        testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.GetSettlementChargebacksResponseBody:
         r"""Get settlement chargebacks
 
         Retrieve all chargebacks 'deducted' from the given settlement.
 
-        The response is in the same format as the response of the [List chargebacks endpoint](list-chargebacks). Refer to that endpoint's documentation for more details.
+        The response is in the same format as the response of the [List chargebacks endpoint](list-chargebacks).
 
         > 🔑 Access with
         >
         > [Access token with **settlements.read** **payments.read**](/reference/authentication)
 
         :param settlement_id: Provide the ID of the related settlement.
+        :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
+        :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param embed: This endpoint allows you to embed additional information via the `embed` query string parameter.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1574,6 +1724,10 @@ class Settlements(BaseSDK):
 
         request = models.GetSettlementChargebacksRequest(
             settlement_id=settlement_id,
+            from_=from_,
+            limit=limit,
+            embed=embed,
+            testmode=testmode,
         )
 
         req = self._build_request(
@@ -1614,18 +1768,31 @@ class Settlements(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["404", "4XX", "5XX"],
+            error_status_codes=["400", "404", "4XX", "5XX"],
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(
+                http_res.text, models.GetSettlementChargebacksResponseBody
+            )
+        if utils.match_response(http_res, "400", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text,
+                models.GetSettlementChargebacksSettlementsResponseBodyData,
+            )
+            raise models.GetSettlementChargebacksSettlementsResponseBody(
+                data=response_data
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = utils.unmarshal_json(
-                http_res.text, models.GetSettlementChargebacksResponseBodyData
+                http_res.text,
+                models.GetSettlementChargebacksSettlementsResponseResponseBodyData,
             )
-            raise models.GetSettlementChargebacksResponseBody(data=response_data)
+            raise models.GetSettlementChargebacksSettlementsResponseResponseBody(
+                data=response_data
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -1646,26 +1813,34 @@ class Settlements(BaseSDK):
             http_res,
         )
 
-    async def get_chargebacks_async(
+    async def list_chargebacks_async(
         self,
         *,
         settlement_id: str,
+        from_: Optional[str] = None,
+        limit: OptionalNullable[int] = 50,
+        embed: Optional[models.GetSettlementChargebacksQueryParamEmbed] = None,
+        testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.GetSettlementChargebacksResponseBody:
         r"""Get settlement chargebacks
 
         Retrieve all chargebacks 'deducted' from the given settlement.
 
-        The response is in the same format as the response of the [List chargebacks endpoint](list-chargebacks). Refer to that endpoint's documentation for more details.
+        The response is in the same format as the response of the [List chargebacks endpoint](list-chargebacks).
 
         > 🔑 Access with
         >
         > [Access token with **settlements.read** **payments.read**](/reference/authentication)
 
         :param settlement_id: Provide the ID of the related settlement.
+        :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
+        :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param embed: This endpoint allows you to embed additional information via the `embed` query string parameter.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1683,6 +1858,10 @@ class Settlements(BaseSDK):
 
         request = models.GetSettlementChargebacksRequest(
             settlement_id=settlement_id,
+            from_=from_,
+            limit=limit,
+            embed=embed,
+            testmode=testmode,
         )
 
         req = self._build_request_async(
@@ -1723,18 +1902,31 @@ class Settlements(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["404", "4XX", "5XX"],
+            error_status_codes=["400", "404", "4XX", "5XX"],
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(
+                http_res.text, models.GetSettlementChargebacksResponseBody
+            )
+        if utils.match_response(http_res, "400", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text,
+                models.GetSettlementChargebacksSettlementsResponseBodyData,
+            )
+            raise models.GetSettlementChargebacksSettlementsResponseBody(
+                data=response_data
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = utils.unmarshal_json(
-                http_res.text, models.GetSettlementChargebacksResponseBodyData
+                http_res.text,
+                models.GetSettlementChargebacksSettlementsResponseResponseBodyData,
             )
-            raise models.GetSettlementChargebacksResponseBody(data=response_data)
+            raise models.GetSettlementChargebacksSettlementsResponseResponseBody(
+                data=response_data
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(

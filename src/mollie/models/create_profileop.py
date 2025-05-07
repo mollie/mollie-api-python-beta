@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 from mollie import utils
-from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.types import BaseModel, OptionalNullable, UNSET
 import pydantic
-from pydantic import model_serializer
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -18,10 +17,10 @@ class CreateProfileRequestBodyTypedDict(TypedDict):
     r"""The email address associated with the profile's trade name or brand."""
     phone: str
     r"""The phone number associated with the profile's trade name or brand."""
-    description: NotRequired[Nullable[str]]
+    description: NotRequired[str]
     r"""The products or services offered by the profile's website or application."""
-    countries_of_activity: NotRequired[List[Any]]
-    r"""A list of countries where you expect that the majority of the profile's customers reside, in ISO 3166-1 alpha-2 format."""
+    countries_of_activity: NotRequired[List[str]]
+    r"""A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""
     business_category: NotRequired[str]
     r"""The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types#business-category) for all possible options."""
 
@@ -39,48 +38,18 @@ class CreateProfileRequestBody(BaseModel):
     phone: str
     r"""The phone number associated with the profile's trade name or brand."""
 
-    description: OptionalNullable[str] = UNSET
+    description: Optional[str] = None
     r"""The products or services offered by the profile's website or application."""
 
     countries_of_activity: Annotated[
-        Optional[List[Any]], pydantic.Field(alias="countriesOfActivity")
+        Optional[List[str]], pydantic.Field(alias="countriesOfActivity")
     ] = None
-    r"""A list of countries where you expect that the majority of the profile's customers reside, in ISO 3166-1 alpha-2 format."""
+    r"""A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""
 
     business_category: Annotated[
         Optional[str], pydantic.Field(alias="businessCategory")
     ] = None
     r"""The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types#business-category) for all possible options."""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = ["description", "countriesOfActivity", "businessCategory"]
-        nullable_fields = ["description"]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in self.model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
 
 
 class CreateProfileDocumentationTypedDict(TypedDict):

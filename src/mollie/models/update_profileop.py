@@ -22,7 +22,7 @@ class UpdateProfileRequestBodyTypedDict(TypedDict):
     description: NotRequired[Nullable[str]]
     r"""The products or services offered by the profile's website or application."""
     countries_of_activity: NotRequired[Nullable[List[str]]]
-    r"""A list of countries where you expect that the majority of the profile's customers reside, in ISO 3166-1 alpha-2 format."""
+    r"""A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""
     business_category: NotRequired[Nullable[str]]
     r"""The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types) for all possible options."""
     mode: NotRequired[Nullable[str]]
@@ -51,7 +51,7 @@ class UpdateProfileRequestBody(BaseModel):
     countries_of_activity: Annotated[
         OptionalNullable[List[str]], pydantic.Field(alias="countriesOfActivity")
     ] = UNSET
-    r"""A list of countries where you expect that the majority of the profile's customers reside, in ISO 3166-1 alpha-2 format."""
+    r"""A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""
 
     business_category: Annotated[
         OptionalNullable[str], pydantic.Field(alias="businessCategory")
@@ -92,7 +92,7 @@ class UpdateProfileRequestBody(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

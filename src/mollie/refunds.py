@@ -18,6 +18,9 @@ class Refunds(BaseSDK):
         metadata: OptionalNullable[
             Union[models.CreateRefundMetadata, models.CreateRefundMetadataTypedDict]
         ] = UNSET,
+        external_reference: Optional[
+            Union[models.ExternalReference, models.ExternalReferenceTypedDict]
+        ] = None,
         reverse_routing: OptionalNullable[bool] = UNSET,
         routing_reversals: OptionalNullable[
             Union[List[models.RoutingReversals], List[models.RoutingReversalsTypedDict]]
@@ -27,7 +30,7 @@ class Refunds(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CreateRefundResponseBody:
         r"""Create payment refund
 
         Creates a refund for a specific payment. The refunded amount is credited to your customer usually either via a bank transfer or by refunding the amount to your customer's credit card.
@@ -42,8 +45,9 @@ class Refunds(BaseSDK):
         :param amount: The amount refunded to your customer with this refund. The amount is allowed to be lower than the original payment amount.
         :param description: The description of the refund that may be shown to your customer, depending on the payment method used.
         :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
-        :param reverse_routing: *This functionality is not enabled by default. Reach out to our partner management team if you wish to use it.*  With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants, by providing the `routing` object during [payment creation](create-payment).  When creating refunds for these *routed* payments, by default the full amount is deducted from your balance.  If you want to pull back the funds that were routed to the connected merchant(s), you can set this parameter to `true` when issuing a full refund.  For more fine-grained control and for partial refunds, use the `routingReversals` parameter instead.
-        :param routing_reversals: *This functionality is not enabled by default. Reach out to our partner management team if you wish to use it.*  When creating refunds for *routed* payments, by default the full amount is deducted from your balance.  If you want to pull back funds from the connected merchant(s), you can use this parameter to specify what amount needs to be reversed from which merchant(s).  If you simply want to fully reverse the routed funds, you can also use the `reverseRouting` parameter instead.
+        :param external_reference:
+        :param reverse_routing: *This feature is only available to marketplace operators.*  With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants, by providing the `routing` object during [payment creation](create-payment).  When creating refunds for these *routed* payments, by default the full amount is deducted from your balance.  If you want to pull back the funds that were routed to the connected merchant(s), you can set this parameter to `true` when issuing a full refund.  For more fine-grained control and for partial refunds, use the `routingReversals` parameter instead.
+        :param routing_reversals: *This feature is only available to marketplace operators.*  When creating refunds for *routed* payments, by default the full amount is deducted from your balance.  If you want to pull back funds from the connected merchant(s), you can use this parameter to specify what amount needs to be reversed from which merchant(s).  If you simply want to fully reverse the routed funds, you can also use the `reverseRouting` parameter instead.
         :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -67,6 +71,9 @@ class Refunds(BaseSDK):
                 amount=utils.get_pydantic_model(amount, models.CreateRefundAmount),
                 metadata=utils.get_pydantic_model(
                     metadata, OptionalNullable[models.CreateRefundMetadata]
+                ),
+                external_reference=utils.get_pydantic_model(
+                    external_reference, Optional[models.ExternalReference]
                 ),
                 reverse_routing=reverse_routing,
                 routing_reversals=utils.get_pydantic_model(
@@ -127,22 +134,22 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, models.CreateRefundResponseBody)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateRefundResponseBodyData
-            )
-            raise models.CreateRefundResponseBody(data=response_data)
-        if utils.match_response(http_res, "409", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.CreateRefundRefundsResponseBodyData
             )
             raise models.CreateRefundRefundsResponseBody(data=response_data)
-        if utils.match_response(http_res, "422", "application/hal+json"):
+        if utils.match_response(http_res, "409", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.CreateRefundRefundsResponseResponseBodyData
             )
             raise models.CreateRefundRefundsResponseResponseBody(data=response_data)
+        if utils.match_response(http_res, "422", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.CreateRefundRefundsResponse422ResponseBodyData
+            )
+            raise models.CreateRefundRefundsResponse422ResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -172,6 +179,9 @@ class Refunds(BaseSDK):
         metadata: OptionalNullable[
             Union[models.CreateRefundMetadata, models.CreateRefundMetadataTypedDict]
         ] = UNSET,
+        external_reference: Optional[
+            Union[models.ExternalReference, models.ExternalReferenceTypedDict]
+        ] = None,
         reverse_routing: OptionalNullable[bool] = UNSET,
         routing_reversals: OptionalNullable[
             Union[List[models.RoutingReversals], List[models.RoutingReversalsTypedDict]]
@@ -181,7 +191,7 @@ class Refunds(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CreateRefundResponseBody:
         r"""Create payment refund
 
         Creates a refund for a specific payment. The refunded amount is credited to your customer usually either via a bank transfer or by refunding the amount to your customer's credit card.
@@ -196,8 +206,9 @@ class Refunds(BaseSDK):
         :param amount: The amount refunded to your customer with this refund. The amount is allowed to be lower than the original payment amount.
         :param description: The description of the refund that may be shown to your customer, depending on the payment method used.
         :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
-        :param reverse_routing: *This functionality is not enabled by default. Reach out to our partner management team if you wish to use it.*  With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants, by providing the `routing` object during [payment creation](create-payment).  When creating refunds for these *routed* payments, by default the full amount is deducted from your balance.  If you want to pull back the funds that were routed to the connected merchant(s), you can set this parameter to `true` when issuing a full refund.  For more fine-grained control and for partial refunds, use the `routingReversals` parameter instead.
-        :param routing_reversals: *This functionality is not enabled by default. Reach out to our partner management team if you wish to use it.*  When creating refunds for *routed* payments, by default the full amount is deducted from your balance.  If you want to pull back funds from the connected merchant(s), you can use this parameter to specify what amount needs to be reversed from which merchant(s).  If you simply want to fully reverse the routed funds, you can also use the `reverseRouting` parameter instead.
+        :param external_reference:
+        :param reverse_routing: *This feature is only available to marketplace operators.*  With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants, by providing the `routing` object during [payment creation](create-payment).  When creating refunds for these *routed* payments, by default the full amount is deducted from your balance.  If you want to pull back the funds that were routed to the connected merchant(s), you can set this parameter to `true` when issuing a full refund.  For more fine-grained control and for partial refunds, use the `routingReversals` parameter instead.
+        :param routing_reversals: *This feature is only available to marketplace operators.*  When creating refunds for *routed* payments, by default the full amount is deducted from your balance.  If you want to pull back funds from the connected merchant(s), you can use this parameter to specify what amount needs to be reversed from which merchant(s).  If you simply want to fully reverse the routed funds, you can also use the `reverseRouting` parameter instead.
         :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -221,6 +232,9 @@ class Refunds(BaseSDK):
                 amount=utils.get_pydantic_model(amount, models.CreateRefundAmount),
                 metadata=utils.get_pydantic_model(
                     metadata, OptionalNullable[models.CreateRefundMetadata]
+                ),
+                external_reference=utils.get_pydantic_model(
+                    external_reference, Optional[models.ExternalReference]
                 ),
                 reverse_routing=reverse_routing,
                 routing_reversals=utils.get_pydantic_model(
@@ -281,22 +295,22 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, models.CreateRefundResponseBody)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateRefundResponseBodyData
-            )
-            raise models.CreateRefundResponseBody(data=response_data)
-        if utils.match_response(http_res, "409", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.CreateRefundRefundsResponseBodyData
             )
             raise models.CreateRefundRefundsResponseBody(data=response_data)
-        if utils.match_response(http_res, "422", "application/hal+json"):
+        if utils.match_response(http_res, "409", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.CreateRefundRefundsResponseResponseBodyData
             )
             raise models.CreateRefundRefundsResponseResponseBody(data=response_data)
+        if utils.match_response(http_res, "422", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.CreateRefundRefundsResponse422ResponseBodyData
+            )
+            raise models.CreateRefundRefundsResponse422ResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(
@@ -323,7 +337,7 @@ class Refunds(BaseSDK):
         payment_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        include: OptionalNullable[str] = UNSET,
+        include: OptionalNullable[models.ListRefundsQueryParamInclude] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -345,7 +359,7 @@ class Refunds(BaseSDK):
         :param payment_id: Provide the ID of the related payment.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `payment`: Include the payments that the refunds were created for.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -451,7 +465,7 @@ class Refunds(BaseSDK):
         payment_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        include: OptionalNullable[str] = UNSET,
+        include: OptionalNullable[models.ListRefundsQueryParamInclude] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -473,7 +487,7 @@ class Refunds(BaseSDK):
         :param payment_id: Provide the ID of the related payment.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `payment`: Include the payments that the refunds were created for.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -577,8 +591,8 @@ class Refunds(BaseSDK):
         self,
         *,
         payment_id: str,
-        id: str,
-        include: OptionalNullable[str] = UNSET,
+        refund_id: str,
+        include: OptionalNullable[models.GetRefundQueryParamInclude] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -596,8 +610,8 @@ class Refunds(BaseSDK):
         > [Access token with **refunds.read**](/reference/authentication)
 
         :param payment_id: Provide the ID of the related payment.
-        :param id: Provide the ID of the item you want to perform this operation on.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `payment`: Include the payment this refund was created for.
+        :param refund_id: Provide the ID of the related refund.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -616,14 +630,14 @@ class Refunds(BaseSDK):
 
         request = models.GetRefundRequest(
             payment_id=payment_id,
-            id=id,
+            refund_id=refund_id,
             include=include,
             testmode=testmode,
         )
 
         req = self._build_request(
             method="GET",
-            path="/payments/{paymentId}/refunds/{id}",
+            path="/payments/{paymentId}/refunds/{refundId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -695,8 +709,8 @@ class Refunds(BaseSDK):
         self,
         *,
         payment_id: str,
-        id: str,
-        include: OptionalNullable[str] = UNSET,
+        refund_id: str,
+        include: OptionalNullable[models.GetRefundQueryParamInclude] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -714,8 +728,8 @@ class Refunds(BaseSDK):
         > [Access token with **refunds.read**](/reference/authentication)
 
         :param payment_id: Provide the ID of the related payment.
-        :param id: Provide the ID of the item you want to perform this operation on.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `payment`: Include the payment this refund was created for.
+        :param refund_id: Provide the ID of the related refund.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -734,14 +748,14 @@ class Refunds(BaseSDK):
 
         request = models.GetRefundRequest(
             payment_id=payment_id,
-            id=id,
+            refund_id=refund_id,
             include=include,
             testmode=testmode,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/payments/{paymentId}/refunds/{id}",
+            path="/payments/{paymentId}/refunds/{refundId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -813,7 +827,7 @@ class Refunds(BaseSDK):
         self,
         *,
         payment_id: str,
-        id: str,
+        refund_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -833,7 +847,7 @@ class Refunds(BaseSDK):
         > [Access token with **refunds.write**](/reference/authentication)
 
         :param payment_id: Provide the ID of the related payment.
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param refund_id: Provide the ID of the related refund.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -852,13 +866,13 @@ class Refunds(BaseSDK):
 
         request = models.CancelRefundRequest(
             payment_id=payment_id,
-            id=id,
+            refund_id=refund_id,
             testmode=testmode,
         )
 
         req = self._build_request(
             method="DELETE",
-            path="/payments/{paymentId}/refunds/{id}",
+            path="/payments/{paymentId}/refunds/{refundId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -930,7 +944,7 @@ class Refunds(BaseSDK):
         self,
         *,
         payment_id: str,
-        id: str,
+        refund_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -950,7 +964,7 @@ class Refunds(BaseSDK):
         > [Access token with **refunds.write**](/reference/authentication)
 
         :param payment_id: Provide the ID of the related payment.
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param refund_id: Provide the ID of the related refund.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -969,13 +983,13 @@ class Refunds(BaseSDK):
 
         request = models.CancelRefundRequest(
             payment_id=payment_id,
-            id=id,
+            refund_id=refund_id,
             testmode=testmode,
         )
 
         req = self._build_request_async(
             method="DELETE",
-            path="/payments/{paymentId}/refunds/{id}",
+            path="/payments/{paymentId}/refunds/{refundId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -1052,12 +1066,23 @@ class Refunds(BaseSDK):
             List[models.CreateOrderRefundLinesTypedDict],
         ],
         description: Optional[str] = None,
+        amount: Optional[
+            Union[
+                models.CreateOrderRefundAmount, models.CreateOrderRefundAmountTypedDict
+            ]
+        ] = None,
         metadata: OptionalNullable[
             Union[
                 models.CreateOrderRefundMetadata,
                 models.CreateOrderRefundMetadataTypedDict,
             ]
         ] = UNSET,
+        external_reference: Optional[
+            Union[
+                models.CreateOrderRefundExternalReference,
+                models.CreateOrderRefundExternalReferenceTypedDict,
+            ]
+        ] = None,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1081,7 +1106,9 @@ class Refunds(BaseSDK):
         :param order_id: Provide the ID of the related order.
         :param lines: A refund can optionally be linked to specific order lines.  The lines will show the `quantity`, `discountAmount`, `vatAmount`, and `totalAmount` refunded. If the line was partially refunded, these values will be different from the values in response from the [Get payment](get-payment) endpoint.
         :param description: The description of the refund that may be shown to your customer, depending on the payment method used.
+        :param amount: The amount refunded to your customer with this refund. The amount is allowed to be lower than the original payment amount.
         :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+        :param external_reference:
         :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1102,13 +1129,20 @@ class Refunds(BaseSDK):
             order_id=order_id,
             request_body=models.CreateOrderRefundRequestBody(
                 description=description,
-                lines=utils.get_pydantic_model(
-                    lines, List[models.CreateOrderRefundLines]
+                amount=utils.get_pydantic_model(
+                    amount, Optional[models.CreateOrderRefundAmount]
                 ),
                 metadata=utils.get_pydantic_model(
                     metadata, OptionalNullable[models.CreateOrderRefundMetadata]
                 ),
+                external_reference=utils.get_pydantic_model(
+                    external_reference,
+                    Optional[models.CreateOrderRefundExternalReference],
+                ),
                 testmode=testmode,
+                lines=utils.get_pydantic_model(
+                    lines, List[models.CreateOrderRefundLines]
+                ),
             ),
         )
 
@@ -1207,12 +1241,23 @@ class Refunds(BaseSDK):
             List[models.CreateOrderRefundLinesTypedDict],
         ],
         description: Optional[str] = None,
+        amount: Optional[
+            Union[
+                models.CreateOrderRefundAmount, models.CreateOrderRefundAmountTypedDict
+            ]
+        ] = None,
         metadata: OptionalNullable[
             Union[
                 models.CreateOrderRefundMetadata,
                 models.CreateOrderRefundMetadataTypedDict,
             ]
         ] = UNSET,
+        external_reference: Optional[
+            Union[
+                models.CreateOrderRefundExternalReference,
+                models.CreateOrderRefundExternalReferenceTypedDict,
+            ]
+        ] = None,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1236,7 +1281,9 @@ class Refunds(BaseSDK):
         :param order_id: Provide the ID of the related order.
         :param lines: A refund can optionally be linked to specific order lines.  The lines will show the `quantity`, `discountAmount`, `vatAmount`, and `totalAmount` refunded. If the line was partially refunded, these values will be different from the values in response from the [Get payment](get-payment) endpoint.
         :param description: The description of the refund that may be shown to your customer, depending on the payment method used.
+        :param amount: The amount refunded to your customer with this refund. The amount is allowed to be lower than the original payment amount.
         :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+        :param external_reference:
         :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1257,13 +1304,20 @@ class Refunds(BaseSDK):
             order_id=order_id,
             request_body=models.CreateOrderRefundRequestBody(
                 description=description,
-                lines=utils.get_pydantic_model(
-                    lines, List[models.CreateOrderRefundLines]
+                amount=utils.get_pydantic_model(
+                    amount, Optional[models.CreateOrderRefundAmount]
                 ),
                 metadata=utils.get_pydantic_model(
                     metadata, OptionalNullable[models.CreateOrderRefundMetadata]
                 ),
+                external_reference=utils.get_pydantic_model(
+                    external_reference,
+                    Optional[models.CreateOrderRefundExternalReference],
+                ),
                 testmode=testmode,
+                lines=utils.get_pydantic_model(
+                    lines, List[models.CreateOrderRefundLines]
+                ),
             ),
         )
 
@@ -1353,7 +1407,7 @@ class Refunds(BaseSDK):
             http_res,
         )
 
-    def list_order(
+    def list_for_order(
         self,
         *,
         order_id: str,
@@ -1478,7 +1532,7 @@ class Refunds(BaseSDK):
             http_res,
         )
 
-    async def list_order_async(
+    async def list_for_order_async(
         self,
         *,
         order_id: str,
@@ -1603,12 +1657,13 @@ class Refunds(BaseSDK):
             http_res,
         )
 
-    def list_all(
+    def all(
         self,
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        embed: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[str] = UNSET,
+        embed: Optional[models.QueryParamEmbed] = None,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1630,8 +1685,9 @@ class Refunds(BaseSDK):
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.  * `payment`: Embed the payment related to this refund.
-        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve refunds for.  Most API credentials are linked to a single profile. In these cases the `profileId` is already implied.  To retrieve all refunds across the organization, use an organization-level API credential and omit the `profileId` parameter.
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve refunds for. Most API credentials are linked to a single profile. In these cases the `profileId` is already implied. To retrieve all refunds across the organization, use an organization-level API credential and omit the `profileId` parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1651,6 +1707,7 @@ class Refunds(BaseSDK):
         request = models.ListAllRefundsRequest(
             from_=from_,
             limit=limit,
+            sort=sort,
             embed=embed,
             profile_id=profile_id,
             testmode=testmode,
@@ -1728,12 +1785,13 @@ class Refunds(BaseSDK):
             http_res,
         )
 
-    async def list_all_async(
+    async def all_async(
         self,
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        embed: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[str] = UNSET,
+        embed: Optional[models.QueryParamEmbed] = None,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1755,8 +1813,9 @@ class Refunds(BaseSDK):
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.  * `payment`: Embed the payment related to this refund.
-        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve refunds for.  Most API credentials are linked to a single profile. In these cases the `profileId` is already implied.  To retrieve all refunds across the organization, use an organization-level API credential and omit the `profileId` parameter.
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve refunds for. Most API credentials are linked to a single profile. In these cases the `profileId` is already implied. To retrieve all refunds across the organization, use an organization-level API credential and omit the `profileId` parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1776,6 +1835,7 @@ class Refunds(BaseSDK):
         request = models.ListAllRefundsRequest(
             from_=from_,
             limit=limit,
+            sort=sort,
             embed=embed,
             profile_id=profile_id,
             testmode=testmode,

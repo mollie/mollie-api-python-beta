@@ -195,6 +195,8 @@ class RoutesTypedDict(TypedDict):
     r"""The identifier uniquely referring to this route. Mollie assigns this identifier at route creation time. Mollie will always refer to the route by this ID. Example: `crt_dyARQ3JzCgtPDhU2Pbq3J`."""
     payment_id: NotRequired[str]
     r"""The unique identifier of the payment. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
+    created_at: NotRequired[str]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     amount: NotRequired[PaymentListRoutesAmountTypedDict]
     r"""The amount of the route. That amount that will be routed to the specified destination."""
     description: NotRequired[str]
@@ -214,6 +216,9 @@ class Routes(BaseModel):
 
     payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
     r"""The unique identifier of the payment. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
+
+    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
     amount: Optional[PaymentListRoutesAmount] = None
     r"""The amount of the route. That amount that will be routed to the specified destination."""
@@ -357,7 +362,7 @@ class PaymentListRoutesLinks(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

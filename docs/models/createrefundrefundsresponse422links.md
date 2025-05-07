@@ -1,0 +1,8 @@
+# CreateRefundRefundsResponse422Links
+
+
+## Fields
+
+| Field                                                                                                                    | Type                                                                                                                     | Required                                                                                                                 | Description                                                                                                              |
+| ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| `documentation`                                                                                                          | [Optional[models.CreateRefundRefundsResponse422Documentation]](../models/createrefundrefundsresponse422documentation.md) | :heavy_minus_sign:                                                                                                       | The URL to the generic Mollie API error handling guide.                                                                  |

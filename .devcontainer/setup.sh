@@ -11,4 +11,4 @@ python -m pip install --upgrade pip
 pip install -e .
 
 # Generate starter usage sample with speakeasy
-speakeasy generate usage -s ../../openapi-specs/mol-public-api/v2/specs.yaml -l python -o samples/root.py
+speakeasy generate usage -s https://raw.githubusercontent.com/mollie/openapi-specs/main/specs.yaml -l python -o samples/root.py

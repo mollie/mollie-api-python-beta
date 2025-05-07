@@ -22,7 +22,7 @@ class PaymentLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CreatePaymentLinkResponseBody:
         r"""Create payment link
 
         With the Payment links API you can generate payment links that by default, unlike regular payments, do not expire. The payment link can be shared with your customers and will redirect them to them the payment page where they can complete the payment. A [payment](get-payment) will only be created once the customer initiates the payment.
@@ -106,17 +106,22 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreatePaymentLinkResponseBodyData
+            return utils.unmarshal_json(
+                http_res.text, models.CreatePaymentLinkResponseBody
             )
-            raise models.CreatePaymentLinkResponseBody(data=response_data)
-        if utils.match_response(http_res, "422", "application/hal+json"):
+        if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.CreatePaymentLinkPaymentLinksResponseBodyData
             )
             raise models.CreatePaymentLinkPaymentLinksResponseBody(data=response_data)
+        if utils.match_response(http_res, "422", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text,
+                models.CreatePaymentLinkPaymentLinksResponseResponseBodyData,
+            )
+            raise models.CreatePaymentLinkPaymentLinksResponseResponseBody(
+                data=response_data
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -150,7 +155,7 @@ class PaymentLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CreatePaymentLinkResponseBody:
         r"""Create payment link
 
         With the Payment links API you can generate payment links that by default, unlike regular payments, do not expire. The payment link can be shared with your customers and will redirect them to them the payment page where they can complete the payment. A [payment](get-payment) will only be created once the customer initiates the payment.
@@ -234,17 +239,22 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreatePaymentLinkResponseBodyData
+            return utils.unmarshal_json(
+                http_res.text, models.CreatePaymentLinkResponseBody
             )
-            raise models.CreatePaymentLinkResponseBody(data=response_data)
-        if utils.match_response(http_res, "422", "application/hal+json"):
+        if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.CreatePaymentLinkPaymentLinksResponseBodyData
             )
             raise models.CreatePaymentLinkPaymentLinksResponseBody(data=response_data)
+        if utils.match_response(http_res, "422", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text,
+                models.CreatePaymentLinkPaymentLinksResponseResponseBodyData,
+            )
+            raise models.CreatePaymentLinkPaymentLinksResponseResponseBody(
+                data=response_data
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(
@@ -506,7 +516,7 @@ class PaymentLinks(BaseSDK):
     def get(
         self,
         *,
-        id: str,
+        payment_link_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -523,7 +533,7 @@ class PaymentLinks(BaseSDK):
         >
         > [Access token with **payment-links.read**](/reference/authentication)
 
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param payment_link_id: Provide the ID of the related payment link.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -541,13 +551,13 @@ class PaymentLinks(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetPaymentLinkRequest(
-            id=id,
+            payment_link_id=payment_link_id,
             testmode=testmode,
         )
 
         req = self._build_request(
             method="GET",
-            path="/payment-links/{id}",
+            path="/payment-links/{paymentLinkId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -620,7 +630,7 @@ class PaymentLinks(BaseSDK):
     async def get_async(
         self,
         *,
-        id: str,
+        payment_link_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -637,7 +647,7 @@ class PaymentLinks(BaseSDK):
         >
         > [Access token with **payment-links.read**](/reference/authentication)
 
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param payment_link_id: Provide the ID of the related payment link.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -655,13 +665,13 @@ class PaymentLinks(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetPaymentLinkRequest(
-            id=id,
+            payment_link_id=payment_link_id,
             testmode=testmode,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/payment-links/{id}",
+            path="/payment-links/{paymentLinkId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -734,11 +744,19 @@ class PaymentLinks(BaseSDK):
     def update(
         self,
         *,
-        id: str,
+        payment_link_id: str,
         testmode: OptionalNullable[bool] = False,
         description: Optional[str] = None,
+        minimum_amount: Optional[
+            Union[
+                models.UpdatePaymentLinkMinimumAmount,
+                models.UpdatePaymentLinkMinimumAmountTypedDict,
+            ]
+        ] = None,
         archived: Optional[bool] = None,
-        allowed_methods: OptionalNullable[List[Any]] = UNSET,
+        allowed_methods: OptionalNullable[
+            List[models.UpdatePaymentLinkAllowedMethods]
+        ] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -754,11 +772,12 @@ class PaymentLinks(BaseSDK):
         >
         > [Access token with **payment-links.write**](/reference/authentication)
 
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param payment_link_id: Provide the ID of the related payment link.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param description: A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible.  Updating the description does not affect any previously existing payments created for this payment link.
+        :param minimum_amount: The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount.
         :param archived: Whether the payment link is archived. Customers will not be able to complete payments on archived payment links.
-        :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.  Possible values: `applepay` `bancomatpay` `bancontact` `banktransfer` `belfius` `blik` `creditcard` `eps` `giftcard` `ideal` `kbc` `mybank` `paybybank` `paypal` `paysafecard` `pointofsale` `przelewy24` `satispay` `trustly` `twint`
+        :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -775,10 +794,13 @@ class PaymentLinks(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.UpdatePaymentLinkRequest(
-            id=id,
+            payment_link_id=payment_link_id,
             testmode=testmode,
             request_body=models.UpdatePaymentLinkRequestBody(
                 description=description,
+                minimum_amount=utils.get_pydantic_model(
+                    minimum_amount, Optional[models.UpdatePaymentLinkMinimumAmount]
+                ),
                 archived=archived,
                 allowed_methods=allowed_methods,
             ),
@@ -786,7 +808,7 @@ class PaymentLinks(BaseSDK):
 
         req = self._build_request(
             method="PATCH",
-            path="/payment-links/{id}",
+            path="/payment-links/{paymentLinkId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -874,11 +896,19 @@ class PaymentLinks(BaseSDK):
     async def update_async(
         self,
         *,
-        id: str,
+        payment_link_id: str,
         testmode: OptionalNullable[bool] = False,
         description: Optional[str] = None,
+        minimum_amount: Optional[
+            Union[
+                models.UpdatePaymentLinkMinimumAmount,
+                models.UpdatePaymentLinkMinimumAmountTypedDict,
+            ]
+        ] = None,
         archived: Optional[bool] = None,
-        allowed_methods: OptionalNullable[List[Any]] = UNSET,
+        allowed_methods: OptionalNullable[
+            List[models.UpdatePaymentLinkAllowedMethods]
+        ] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -894,11 +924,12 @@ class PaymentLinks(BaseSDK):
         >
         > [Access token with **payment-links.write**](/reference/authentication)
 
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param payment_link_id: Provide the ID of the related payment link.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param description: A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible.  Updating the description does not affect any previously existing payments created for this payment link.
+        :param minimum_amount: The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount.
         :param archived: Whether the payment link is archived. Customers will not be able to complete payments on archived payment links.
-        :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.  Possible values: `applepay` `bancomatpay` `bancontact` `banktransfer` `belfius` `blik` `creditcard` `eps` `giftcard` `ideal` `kbc` `mybank` `paybybank` `paypal` `paysafecard` `pointofsale` `przelewy24` `satispay` `trustly` `twint`
+        :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -915,10 +946,13 @@ class PaymentLinks(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.UpdatePaymentLinkRequest(
-            id=id,
+            payment_link_id=payment_link_id,
             testmode=testmode,
             request_body=models.UpdatePaymentLinkRequestBody(
                 description=description,
+                minimum_amount=utils.get_pydantic_model(
+                    minimum_amount, Optional[models.UpdatePaymentLinkMinimumAmount]
+                ),
                 archived=archived,
                 allowed_methods=allowed_methods,
             ),
@@ -926,7 +960,7 @@ class PaymentLinks(BaseSDK):
 
         req = self._build_request_async(
             method="PATCH",
-            path="/payment-links/{id}",
+            path="/payment-links/{paymentLinkId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -1014,7 +1048,7 @@ class PaymentLinks(BaseSDK):
     def delete(
         self,
         *,
-        id: str,
+        payment_link_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1035,7 +1069,7 @@ class PaymentLinks(BaseSDK):
         >
         > [Access token with **payment-links.write**](/reference/authentication)
 
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param payment_link_id: Provide the ID of the related payment link.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1053,13 +1087,13 @@ class PaymentLinks(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.DeletePaymentLinkRequest(
-            id=id,
+            payment_link_id=payment_link_id,
             testmode=testmode,
         )
 
         req = self._build_request(
             method="DELETE",
-            path="/payment-links/{id}",
+            path="/payment-links/{paymentLinkId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -1135,7 +1169,7 @@ class PaymentLinks(BaseSDK):
     async def delete_async(
         self,
         *,
-        id: str,
+        payment_link_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1156,7 +1190,7 @@ class PaymentLinks(BaseSDK):
         >
         > [Access token with **payment-links.write**](/reference/authentication)
 
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param payment_link_id: Provide the ID of the related payment link.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1174,13 +1208,13 @@ class PaymentLinks(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.DeletePaymentLinkRequest(
-            id=id,
+            payment_link_id=payment_link_id,
             testmode=testmode,
         )
 
         req = self._build_request_async(
             method="DELETE",
-            path="/payment-links/{id}",
+            path="/payment-links/{paymentLinkId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -1253,10 +1287,10 @@ class PaymentLinks(BaseSDK):
             http_res,
         )
 
-    def get_payments(
+    def list_payments(
         self,
         *,
-        id: str,
+        payment_link_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
         sort: OptionalNullable[str] = UNSET,
@@ -1278,7 +1312,7 @@ class PaymentLinks(BaseSDK):
         >
         > [Access token with **payment-links.read**](/reference/authentication)
 
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param payment_link_id: Provide the ID of the related payment link.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
@@ -1299,7 +1333,7 @@ class PaymentLinks(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetPaymentLinkPaymentsRequest(
-            id=id,
+            payment_link_id=payment_link_id,
             from_=from_,
             limit=limit,
             sort=sort,
@@ -1308,7 +1342,7 @@ class PaymentLinks(BaseSDK):
 
         req = self._build_request(
             method="GET",
-            path="/payment-links/{id}/payments",
+            path="/payment-links/{paymentLinkId}/payments",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -1380,10 +1414,10 @@ class PaymentLinks(BaseSDK):
             http_res,
         )
 
-    async def get_payments_async(
+    async def list_payments_async(
         self,
         *,
-        id: str,
+        payment_link_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
         sort: OptionalNullable[str] = UNSET,
@@ -1405,7 +1439,7 @@ class PaymentLinks(BaseSDK):
         >
         > [Access token with **payment-links.read**](/reference/authentication)
 
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param payment_link_id: Provide the ID of the related payment link.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
@@ -1426,7 +1460,7 @@ class PaymentLinks(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetPaymentLinkPaymentsRequest(
-            id=id,
+            payment_link_id=payment_link_id,
             from_=from_,
             limit=limit,
             sort=sort,
@@ -1435,7 +1469,7 @@ class PaymentLinks(BaseSDK):
 
         req = self._build_request_async(
             method="GET",
-            path="/payment-links/{id}/payments",
+            path="/payment-links/{paymentLinkId}/payments",
             base_url=base_url,
             url_variables=url_variables,
             request=request,

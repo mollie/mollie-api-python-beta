@@ -122,7 +122,186 @@ with Client(
     ),
 ) as client:
 
-    res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH")
+    res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+        "description": "Chess Board",
+        "amount": {
+            "currency": "EUR",
+            "value": "10.00",
+        },
+        "redirect_url": "https://example.org/redirect",
+        "cancel_url": "https://example.org/cancel",
+        "webhook_url": "https://example.org/webhooks",
+        "lines": [
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+        ],
+        "billing_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "shipping_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "locale": "en_US",
+        "method": "ideal",
+        "issuer": "ideal_INGBNL2A",
+        "restrict_payment_methods_to_country": "NL",
+        "capture_mode": "manual",
+        "capture_delay": "8 hours",
+        "application_fee": {
+            "amount": {
+                "currency": "EUR",
+                "value": "10.00",
+            },
+            "description": "10",
+        },
+        "routing": [
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+        ],
+        "sequence_type": "oneoff",
+        "mandate_id": "mdt_5B8cwPMGnU",
+        "customer_id": "cst_5B8cwPMGnU",
+        "profile_id": "pfl_5B8cwPMGnU",
+        "due_date": "2025-01-01",
+    })
 
     # Handle response
     print(res)
@@ -146,7 +325,186 @@ async def main():
         ),
     ) as client:
 
-        res = await client.balances.list_async(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH")
+        res = await client.payments.create_async(include=mollie.Include.DETAILS_QR_CODE, request_body={
+            "description": "Chess Board",
+            "amount": {
+                "currency": "EUR",
+                "value": "10.00",
+            },
+            "redirect_url": "https://example.org/redirect",
+            "cancel_url": "https://example.org/cancel",
+            "webhook_url": "https://example.org/webhooks",
+            "lines": [
+                {
+                    "description": "LEGO 4440 Forest Police Station",
+                    "quantity": 1,
+                    "quantity_unit": "pcs",
+                    "unit_price": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "discount_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "recurring": {
+                        "description": "Gym subscription",
+                        "interval": "12 months",
+                        "amount": {
+                            "currency": "EUR",
+                            "value": "10.00",
+                        },
+                        "times": 1,
+                        "start_date": "2024-12-12",
+                    },
+                    "total_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "vat_rate": "21.00",
+                    "vat_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "sku": "9780241661628",
+                    "categories": [
+                        mollie.Categories.MEAL,
+                        mollie.Categories.ECO,
+                    ],
+                    "image_url": "https://...",
+                    "product_url": "https://...",
+                },
+                {
+                    "description": "LEGO 4440 Forest Police Station",
+                    "quantity": 1,
+                    "quantity_unit": "pcs",
+                    "unit_price": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "discount_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "recurring": {
+                        "description": "Gym subscription",
+                        "interval": "12 months",
+                        "amount": {
+                            "currency": "EUR",
+                            "value": "10.00",
+                        },
+                        "times": 1,
+                        "start_date": "2024-12-12",
+                    },
+                    "total_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "vat_rate": "21.00",
+                    "vat_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "sku": "9780241661628",
+                    "categories": [
+                        mollie.Categories.MEAL,
+                        mollie.Categories.ECO,
+                    ],
+                    "image_url": "https://...",
+                    "product_url": "https://...",
+                },
+            ],
+            "billing_address": {
+                "title": "Mr.",
+                "given_name": "Piet",
+                "family_name": "Mondriaan",
+                "organization_name": "Mollie B.V.",
+                "street_and_number": "Keizersgracht 126",
+                "street_additional": "Apt. 1",
+                "postal_code": "1234AB",
+                "email": "piet@example.org",
+                "phone": "31208202070",
+                "city": "Amsterdam",
+                "region": "Noord-Holland",
+                "country": "NL",
+            },
+            "shipping_address": {
+                "title": "Mr.",
+                "given_name": "Piet",
+                "family_name": "Mondriaan",
+                "organization_name": "Mollie B.V.",
+                "street_and_number": "Keizersgracht 126",
+                "street_additional": "Apt. 1",
+                "postal_code": "1234AB",
+                "email": "piet@example.org",
+                "phone": "31208202070",
+                "city": "Amsterdam",
+                "region": "Noord-Holland",
+                "country": "NL",
+            },
+            "locale": "en_US",
+            "method": "ideal",
+            "issuer": "ideal_INGBNL2A",
+            "restrict_payment_methods_to_country": "NL",
+            "capture_mode": "manual",
+            "capture_delay": "8 hours",
+            "application_fee": {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "description": "10",
+            },
+            "routing": [
+                {
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "destination": {
+                        "type": "organization",
+                        "organization_id": "org_1234567",
+                    },
+                    "release_date": "2024-12-12",
+                    "links": {
+                        "self_": {
+                            "href": "https://...",
+                            "type": "application/hal+json",
+                        },
+                        "payment": {
+                            "href": "https://...",
+                            "type": "application/hal+json",
+                        },
+                    },
+                },
+                {
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "destination": {
+                        "type": "organization",
+                        "organization_id": "org_1234567",
+                    },
+                    "release_date": "2024-12-12",
+                    "links": {
+                        "self_": {
+                            "href": "https://...",
+                            "type": "application/hal+json",
+                        },
+                        "payment": {
+                            "href": "https://...",
+                            "type": "application/hal+json",
+                        },
+                    },
+                },
+            ],
+            "sequence_type": "oneoff",
+            "mandate_id": "mdt_5B8cwPMGnU",
+            "customer_id": "cst_5B8cwPMGnU",
+            "profile_id": "pfl_5B8cwPMGnU",
+            "due_date": "2025-01-01",
+        })
 
         # Handle response
         print(res)
@@ -180,7 +538,186 @@ with Client(
     ),
 ) as client:
 
-    res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH")
+    res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+        "description": "Chess Board",
+        "amount": {
+            "currency": "EUR",
+            "value": "10.00",
+        },
+        "redirect_url": "https://example.org/redirect",
+        "cancel_url": "https://example.org/cancel",
+        "webhook_url": "https://example.org/webhooks",
+        "lines": [
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+        ],
+        "billing_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "shipping_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "locale": "en_US",
+        "method": "ideal",
+        "issuer": "ideal_INGBNL2A",
+        "restrict_payment_methods_to_country": "NL",
+        "capture_mode": "manual",
+        "capture_delay": "8 hours",
+        "application_fee": {
+            "amount": {
+                "currency": "EUR",
+                "value": "10.00",
+            },
+            "description": "10",
+        },
+        "routing": [
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+        ],
+        "sequence_type": "oneoff",
+        "mandate_id": "mdt_5B8cwPMGnU",
+        "customer_id": "cst_5B8cwPMGnU",
+        "profile_id": "pfl_5B8cwPMGnU",
+        "due_date": "2025-01-01",
+    })
 
     # Handle response
     print(res)
@@ -216,7 +753,7 @@ with Client(
 
 * [list](docs/sdks/chargebacks/README.md#list) - List payment chargebacks
 * [get](docs/sdks/chargebacks/README.md#get) - Get payment chargeback
-* [list_all](docs/sdks/chargebacks/README.md#list_all) - List all chargebacks
+* [all](docs/sdks/chargebacks/README.md#all) - List all chargebacks
 
 
 ### [client_links](docs/sdks/clientlinks/README.md)
@@ -258,35 +795,19 @@ with Client(
 ### [methods](docs/sdks/methods/README.md)
 
 * [list](docs/sdks/methods/README.md#list) - List payment methods
-* [list_all](docs/sdks/methods/README.md#list_all) - List all payment methods
+* [all](docs/sdks/methods/README.md#all) - List all payment methods
 * [get](docs/sdks/methods/README.md#get) - Get payment method
-* [enable_method](docs/sdks/methods/README.md#enable_method) - Enable payment method
-* [disable_method](docs/sdks/methods/README.md#disable_method) - Disable payment method
-* [enable_method_issuer](docs/sdks/methods/README.md#enable_method_issuer) - Enable payment method issuer
-* [disable_method_issuer](docs/sdks/methods/README.md#disable_method_issuer) - Disable payment method issuer
 
 ### [onboarding](docs/sdks/onboarding/README.md)
 
 * [get](docs/sdks/onboarding/README.md#get) - Get onboarding status
-* [create](docs/sdks/onboarding/README.md#create) - Submit onboarding data
-
-### [orders](docs/sdks/orders/README.md)
-
-* [create](docs/sdks/orders/README.md#create) - Create order
-* [list](docs/sdks/orders/README.md#list) - List orders
-* [get](docs/sdks/orders/README.md#get) - Get order
-* [update](docs/sdks/orders/README.md#update) - Update order
-* [cancel](docs/sdks/orders/README.md#cancel) - Cancel order
-* [manage_lines](docs/sdks/orders/README.md#manage_lines) - Manage order lines
-* [cancel_lines](docs/sdks/orders/README.md#cancel_lines) - Cancel order lines
-* [update_line](docs/sdks/orders/README.md#update_line) - Update order line
-* [create_payment](docs/sdks/orders/README.md#create_payment) - Create order payment
+* [submit](docs/sdks/onboarding/README.md#submit) - Submit onboarding data
 
 ### [organizations](docs/sdks/organizations/README.md)
 
 * [get](docs/sdks/organizations/README.md#get) - Get organization
 * [get_current](docs/sdks/organizations/README.md#get_current) - Get current organization
-* [get_partner_status](docs/sdks/organizations/README.md#get_partner_status) - Get partner status
+* [get_partner](docs/sdks/organizations/README.md#get_partner) - Get partner status
 
 ### [payment_links](docs/sdks/paymentlinks/README.md)
 
@@ -295,7 +816,7 @@ with Client(
 * [get](docs/sdks/paymentlinks/README.md#get) - Get payment link
 * [update](docs/sdks/paymentlinks/README.md#update) - Update payment link
 * [delete](docs/sdks/paymentlinks/README.md#delete) - Delete payment link
-* [get_payments](docs/sdks/paymentlinks/README.md#get_payments) - Get payment link payments
+* [list_payments](docs/sdks/paymentlinks/README.md#list_payments) - Get payment link payments
 
 ### [payments](docs/sdks/payments/README.md)
 
@@ -327,8 +848,8 @@ with Client(
 * [get](docs/sdks/refunds/README.md#get) - Get payment refund
 * [cancel](docs/sdks/refunds/README.md#cancel) - Cancel payment refund
 * [create_order](docs/sdks/refunds/README.md#create_order) - Create order refund
-* [list_order](docs/sdks/refunds/README.md#list_order) - List order refunds
-* [list_all](docs/sdks/refunds/README.md#list_all) - List all refunds
+* [list_for_order](docs/sdks/refunds/README.md#list_for_order) - List order refunds
+* [all](docs/sdks/refunds/README.md#all) - List all refunds
 
 ### [settlements](docs/sdks/settlements/README.md)
 
@@ -336,17 +857,10 @@ with Client(
 * [get](docs/sdks/settlements/README.md#get) - Get settlement
 * [get_open](docs/sdks/settlements/README.md#get_open) - Get open settlement
 * [get_next](docs/sdks/settlements/README.md#get_next) - Get next settlement
-* [get_payments](docs/sdks/settlements/README.md#get_payments) - Get settlement payments
-* [get_captures](docs/sdks/settlements/README.md#get_captures) - Get settlement captures
-* [get_refunds](docs/sdks/settlements/README.md#get_refunds) - Get settlement refunds
-* [get_chargebacks](docs/sdks/settlements/README.md#get_chargebacks) - Get settlement chargebacks
-
-### [shipments](docs/sdks/shipments/README.md)
-
-* [create](docs/sdks/shipments/README.md#create) - Create shipment
-* [list](docs/sdks/shipments/README.md#list) - List shipments
-* [get](docs/sdks/shipments/README.md#get) - Get shipment
-* [update](docs/sdks/shipments/README.md#update) - Update shipment
+* [list_payments](docs/sdks/settlements/README.md#list_payments) - Get settlement payments
+* [list_captures](docs/sdks/settlements/README.md#list_captures) - Get settlement captures
+* [list_refunds](docs/sdks/settlements/README.md#list_refunds) - Get settlement refunds
+* [list_chargebacks](docs/sdks/settlements/README.md#list_chargebacks) - Get settlement chargebacks
 
 ### [subscriptions](docs/sdks/subscriptions/README.md)
 
@@ -355,7 +869,7 @@ with Client(
 * [get](docs/sdks/subscriptions/README.md#get) - Get subscription
 * [update](docs/sdks/subscriptions/README.md#update) - Update subscription
 * [cancel](docs/sdks/subscriptions/README.md#cancel) - Cancel subscription
-* [list_all](docs/sdks/subscriptions/README.md#list_all) - List all subscriptions
+* [all](docs/sdks/subscriptions/README.md#all) - List all subscriptions
 * [list_payments](docs/sdks/subscriptions/README.md#list_payments) - List subscription payments
 
 ### [terminals](docs/sdks/terminals/README.md)
@@ -365,7 +879,7 @@ with Client(
 
 ### [wallets](docs/sdks/wallets/README.md)
 
-* [request_apple_pay_payment_session](docs/sdks/wallets/README.md#request_apple_pay_payment_session) - Request Apple Pay payment session
+* [request_apple_pay_session](docs/sdks/wallets/README.md#request_apple_pay_session) - Request Apple Pay payment session
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
@@ -389,7 +903,186 @@ with Client(
     ),
 ) as client:
 
-    res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH",
+    res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+        "description": "Chess Board",
+        "amount": {
+            "currency": "EUR",
+            "value": "10.00",
+        },
+        "redirect_url": "https://example.org/redirect",
+        "cancel_url": "https://example.org/cancel",
+        "webhook_url": "https://example.org/webhooks",
+        "lines": [
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+        ],
+        "billing_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "shipping_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "locale": "en_US",
+        "method": "ideal",
+        "issuer": "ideal_INGBNL2A",
+        "restrict_payment_methods_to_country": "NL",
+        "capture_mode": "manual",
+        "capture_delay": "8 hours",
+        "application_fee": {
+            "amount": {
+                "currency": "EUR",
+                "value": "10.00",
+            },
+            "description": "10",
+        },
+        "routing": [
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+        ],
+        "sequence_type": "oneoff",
+        "mandate_id": "mdt_5B8cwPMGnU",
+        "customer_id": "cst_5B8cwPMGnU",
+        "profile_id": "pfl_5B8cwPMGnU",
+        "due_date": "2025-01-01",
+    },
         RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
 
     # Handle response
@@ -412,7 +1105,186 @@ with Client(
     ),
 ) as client:
 
-    res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH")
+    res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+        "description": "Chess Board",
+        "amount": {
+            "currency": "EUR",
+            "value": "10.00",
+        },
+        "redirect_url": "https://example.org/redirect",
+        "cancel_url": "https://example.org/cancel",
+        "webhook_url": "https://example.org/webhooks",
+        "lines": [
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+        ],
+        "billing_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "shipping_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "locale": "en_US",
+        "method": "ideal",
+        "issuer": "ideal_INGBNL2A",
+        "restrict_payment_methods_to_country": "NL",
+        "capture_mode": "manual",
+        "capture_delay": "8 hours",
+        "application_fee": {
+            "amount": {
+                "currency": "EUR",
+                "value": "10.00",
+            },
+            "description": "10",
+        },
+        "routing": [
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+        ],
+        "sequence_type": "oneoff",
+        "mandate_id": "mdt_5B8cwPMGnU",
+        "customer_id": "cst_5B8cwPMGnU",
+        "profile_id": "pfl_5B8cwPMGnU",
+        "due_date": "2025-01-01",
+    })
 
     # Handle response
     print(res)
@@ -434,13 +1306,13 @@ By default, an API error will raise a models.APIError exception, which has the f
 | `.raw_response` | *httpx.Response* | The raw HTTP response |
 | `.body`         | *str*            | The response content  |
 
-When custom error responses are specified for an operation, the SDK may also raise their associated exceptions. You can refer to respective *Errors* tables in SDK docs for more details on possible exception types for each operation. For example, the `list_async` method may raise the following exceptions:
+When custom error responses are specified for an operation, the SDK may also raise their associated exceptions. You can refer to respective *Errors* tables in SDK docs for more details on possible exception types for each operation. For example, the `create_async` method may raise the following exceptions:
 
-| Error Type                                      | Status Code | Content Type         |
-| ----------------------------------------------- | ----------- | -------------------- |
-| models.ListBalancesBalancesResponseBody         | 400         | application/hal+json |
-| models.ListBalancesBalancesResponseResponseBody | 404         | application/hal+json |
-| models.APIError                                 | 4XX, 5XX    | \*/\*                |
+| Error Type                                       | Status Code | Content Type         |
+| ------------------------------------------------ | ----------- | -------------------- |
+| models.CreatePaymentPaymentsResponseBody         | 422         | application/hal+json |
+| models.CreatePaymentPaymentsResponseResponseBody | 503         | application/hal+json |
+| models.APIError                                  | 4XX, 5XX    | \*/\*                |
 
 ### Example
 
@@ -458,16 +1330,195 @@ with Client(
     res = None
     try:
 
-        res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH")
+        res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+            "description": "Chess Board",
+            "amount": {
+                "currency": "EUR",
+                "value": "10.00",
+            },
+            "redirect_url": "https://example.org/redirect",
+            "cancel_url": "https://example.org/cancel",
+            "webhook_url": "https://example.org/webhooks",
+            "lines": [
+                {
+                    "description": "LEGO 4440 Forest Police Station",
+                    "quantity": 1,
+                    "quantity_unit": "pcs",
+                    "unit_price": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "discount_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "recurring": {
+                        "description": "Gym subscription",
+                        "interval": "12 months",
+                        "amount": {
+                            "currency": "EUR",
+                            "value": "10.00",
+                        },
+                        "times": 1,
+                        "start_date": "2024-12-12",
+                    },
+                    "total_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "vat_rate": "21.00",
+                    "vat_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "sku": "9780241661628",
+                    "categories": [
+                        mollie.Categories.MEAL,
+                        mollie.Categories.ECO,
+                    ],
+                    "image_url": "https://...",
+                    "product_url": "https://...",
+                },
+                {
+                    "description": "LEGO 4440 Forest Police Station",
+                    "quantity": 1,
+                    "quantity_unit": "pcs",
+                    "unit_price": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "discount_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "recurring": {
+                        "description": "Gym subscription",
+                        "interval": "12 months",
+                        "amount": {
+                            "currency": "EUR",
+                            "value": "10.00",
+                        },
+                        "times": 1,
+                        "start_date": "2024-12-12",
+                    },
+                    "total_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "vat_rate": "21.00",
+                    "vat_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "sku": "9780241661628",
+                    "categories": [
+                        mollie.Categories.MEAL,
+                        mollie.Categories.ECO,
+                    ],
+                    "image_url": "https://...",
+                    "product_url": "https://...",
+                },
+            ],
+            "billing_address": {
+                "title": "Mr.",
+                "given_name": "Piet",
+                "family_name": "Mondriaan",
+                "organization_name": "Mollie B.V.",
+                "street_and_number": "Keizersgracht 126",
+                "street_additional": "Apt. 1",
+                "postal_code": "1234AB",
+                "email": "piet@example.org",
+                "phone": "31208202070",
+                "city": "Amsterdam",
+                "region": "Noord-Holland",
+                "country": "NL",
+            },
+            "shipping_address": {
+                "title": "Mr.",
+                "given_name": "Piet",
+                "family_name": "Mondriaan",
+                "organization_name": "Mollie B.V.",
+                "street_and_number": "Keizersgracht 126",
+                "street_additional": "Apt. 1",
+                "postal_code": "1234AB",
+                "email": "piet@example.org",
+                "phone": "31208202070",
+                "city": "Amsterdam",
+                "region": "Noord-Holland",
+                "country": "NL",
+            },
+            "locale": "en_US",
+            "method": "ideal",
+            "issuer": "ideal_INGBNL2A",
+            "restrict_payment_methods_to_country": "NL",
+            "capture_mode": "manual",
+            "capture_delay": "8 hours",
+            "application_fee": {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "description": "10",
+            },
+            "routing": [
+                {
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "destination": {
+                        "type": "organization",
+                        "organization_id": "org_1234567",
+                    },
+                    "release_date": "2024-12-12",
+                    "links": {
+                        "self_": {
+                            "href": "https://...",
+                            "type": "application/hal+json",
+                        },
+                        "payment": {
+                            "href": "https://...",
+                            "type": "application/hal+json",
+                        },
+                    },
+                },
+                {
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "destination": {
+                        "type": "organization",
+                        "organization_id": "org_1234567",
+                    },
+                    "release_date": "2024-12-12",
+                    "links": {
+                        "self_": {
+                            "href": "https://...",
+                            "type": "application/hal+json",
+                        },
+                        "payment": {
+                            "href": "https://...",
+                            "type": "application/hal+json",
+                        },
+                    },
+                },
+            ],
+            "sequence_type": "oneoff",
+            "mandate_id": "mdt_5B8cwPMGnU",
+            "customer_id": "cst_5B8cwPMGnU",
+            "profile_id": "pfl_5B8cwPMGnU",
+            "due_date": "2025-01-01",
+        })
 
         # Handle response
         print(res)
 
-    except models.ListBalancesBalancesResponseBody as e:
-        # handle e.data: models.ListBalancesBalancesResponseBodyData
+    except models.CreatePaymentPaymentsResponseBody as e:
+        # handle e.data: models.CreatePaymentPaymentsResponseBodyData
         raise(e)
-    except models.ListBalancesBalancesResponseResponseBody as e:
-        # handle e.data: models.ListBalancesBalancesResponseResponseBodyData
+    except models.CreatePaymentPaymentsResponseResponseBody as e:
+        # handle e.data: models.CreatePaymentPaymentsResponseResponseBodyData
         raise(e)
     except models.APIError as e:
         # handle exception
@@ -494,7 +1545,186 @@ with Client(
     ),
 ) as client:
 
-    res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH")
+    res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+        "description": "Chess Board",
+        "amount": {
+            "currency": "EUR",
+            "value": "10.00",
+        },
+        "redirect_url": "https://example.org/redirect",
+        "cancel_url": "https://example.org/cancel",
+        "webhook_url": "https://example.org/webhooks",
+        "lines": [
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+        ],
+        "billing_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "shipping_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "locale": "en_US",
+        "method": "ideal",
+        "issuer": "ideal_INGBNL2A",
+        "restrict_payment_methods_to_country": "NL",
+        "capture_mode": "manual",
+        "capture_delay": "8 hours",
+        "application_fee": {
+            "amount": {
+                "currency": "EUR",
+                "value": "10.00",
+            },
+            "description": "10",
+        },
+        "routing": [
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+        ],
+        "sequence_type": "oneoff",
+        "mandate_id": "mdt_5B8cwPMGnU",
+        "customer_id": "cst_5B8cwPMGnU",
+        "profile_id": "pfl_5B8cwPMGnU",
+        "due_date": "2025-01-01",
+    })
 
     # Handle response
     print(res)

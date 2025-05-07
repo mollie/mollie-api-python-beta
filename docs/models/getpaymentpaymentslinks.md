@@ -1,8 +1,11 @@
 # GetPaymentPaymentsLinks
 
+An object with several relevant URLs. Every URL object will contain an `href` and a `type` field.
+
 
 ## Fields
 
-| Field                                                                                            | Type                                                                                             | Required                                                                                         | Description                                                                                      |
-| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-| `documentation`                                                                                  | [Optional[models.GetPaymentPaymentsDocumentation]](../models/getpaymentpaymentsdocumentation.md) | :heavy_minus_sign:                                                                               | The URL to the generic Mollie API error handling guide.                                          |
+| Field                                                                                      | Type                                                                                       | Required                                                                                   | Description                                                                                |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| `self_`                                                                                    | [Optional[models.GetPaymentPaymentsSelf]](../models/getpaymentpaymentsself.md)             | :heavy_minus_sign:                                                                         | In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field. |
+| `payment`                                                                                  | [Optional[models.GetPaymentPayment]](../models/getpaymentpayment.md)                       | :heavy_minus_sign:                                                                         | The API resource URL of the [payment](get-payment) that belong to this route.              |

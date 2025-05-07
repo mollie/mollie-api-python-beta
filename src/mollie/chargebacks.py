@@ -15,7 +15,7 @@ class Chargebacks(BaseSDK):
         payment_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        include: OptionalNullable[str] = UNSET,
+        embed: Optional[models.ListChargebacksQueryParamEmbed] = None,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -37,7 +37,7 @@ class Chargebacks(BaseSDK):
         :param payment_id: Provide the ID of the related payment.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `payment`: Include the payment these chargebacks were issued for.
+        :param embed: This endpoint allows you to embed additional information via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -58,7 +58,7 @@ class Chargebacks(BaseSDK):
             payment_id=payment_id,
             from_=from_,
             limit=limit,
-            include=include,
+            embed=embed,
             testmode=testmode,
         )
 
@@ -147,7 +147,7 @@ class Chargebacks(BaseSDK):
         payment_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        include: OptionalNullable[str] = UNSET,
+        embed: Optional[models.ListChargebacksQueryParamEmbed] = None,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -169,7 +169,7 @@ class Chargebacks(BaseSDK):
         :param payment_id: Provide the ID of the related payment.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `payment`: Include the payment these chargebacks were issued for.
+        :param embed: This endpoint allows you to embed additional information via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -190,7 +190,7 @@ class Chargebacks(BaseSDK):
             payment_id=payment_id,
             from_=from_,
             limit=limit,
-            include=include,
+            embed=embed,
             testmode=testmode,
         )
 
@@ -277,8 +277,8 @@ class Chargebacks(BaseSDK):
         self,
         *,
         payment_id: str,
-        id: str,
-        include: OptionalNullable[str] = UNSET,
+        chargeback_id: str,
+        embed: OptionalNullable[models.GetChargebackQueryParamEmbed] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -296,8 +296,8 @@ class Chargebacks(BaseSDK):
         > [Access token with **payments.read**](/reference/authentication)
 
         :param payment_id: Provide the ID of the related payment.
-        :param id: Provide the ID of the item you want to perform this operation on.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `payment`: Include the payment this chargeback was issued for.
+        :param chargeback_id: Provide the ID of the related chargeback.
+        :param embed: This endpoint allows you to embed additional information via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -316,14 +316,14 @@ class Chargebacks(BaseSDK):
 
         request = models.GetChargebackRequest(
             payment_id=payment_id,
-            id=id,
-            include=include,
+            chargeback_id=chargeback_id,
+            embed=embed,
             testmode=testmode,
         )
 
         req = self._build_request(
             method="GET",
-            path="/payments/{paymentId}/chargebacks/{id}",
+            path="/payments/{paymentId}/chargebacks/{chargebackId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -395,8 +395,8 @@ class Chargebacks(BaseSDK):
         self,
         *,
         payment_id: str,
-        id: str,
-        include: OptionalNullable[str] = UNSET,
+        chargeback_id: str,
+        embed: OptionalNullable[models.GetChargebackQueryParamEmbed] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -414,8 +414,8 @@ class Chargebacks(BaseSDK):
         > [Access token with **payments.read**](/reference/authentication)
 
         :param payment_id: Provide the ID of the related payment.
-        :param id: Provide the ID of the item you want to perform this operation on.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `payment`: Include the payment this chargeback was issued for.
+        :param chargeback_id: Provide the ID of the related chargeback.
+        :param embed: This endpoint allows you to embed additional information via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -434,14 +434,14 @@ class Chargebacks(BaseSDK):
 
         request = models.GetChargebackRequest(
             payment_id=payment_id,
-            id=id,
-            include=include,
+            chargeback_id=chargeback_id,
+            embed=embed,
             testmode=testmode,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/payments/{paymentId}/chargebacks/{id}",
+            path="/payments/{paymentId}/chargebacks/{chargebackId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -509,12 +509,13 @@ class Chargebacks(BaseSDK):
             http_res,
         )
 
-    def list_all(
+    def all(
         self,
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        include: OptionalNullable[str] = UNSET,
+        embed: Optional[models.ListAllChargebacksQueryParamEmbed] = None,
+        sort: OptionalNullable[str] = UNSET,
         profile_id: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -536,7 +537,8 @@ class Chargebacks(BaseSDK):
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `payment`: Include the payment these chargebacks were issued for.
+        :param embed: This endpoint allows you to embed additional information via the `embed` query string parameter.
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve chargebacks for.  Most API credentials are linked to a single profile. In these cases the `profileId` is already implied.  To retrieve all chargebacks across the organization, use an organization-level API credential and omit the `profileId` parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
@@ -557,7 +559,8 @@ class Chargebacks(BaseSDK):
         request = models.ListAllChargebacksRequest(
             from_=from_,
             limit=limit,
-            include=include,
+            embed=embed,
+            sort=sort,
             profile_id=profile_id,
             testmode=testmode,
         )
@@ -642,12 +645,13 @@ class Chargebacks(BaseSDK):
             http_res,
         )
 
-    async def list_all_async(
+    async def all_async(
         self,
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        include: OptionalNullable[str] = UNSET,
+        embed: Optional[models.ListAllChargebacksQueryParamEmbed] = None,
+        sort: OptionalNullable[str] = UNSET,
         profile_id: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -669,7 +673,8 @@ class Chargebacks(BaseSDK):
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `payment`: Include the payment these chargebacks were issued for.
+        :param embed: This endpoint allows you to embed additional information via the `embed` query string parameter.
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve chargebacks for.  Most API credentials are linked to a single profile. In these cases the `profileId` is already implied.  To retrieve all chargebacks across the organization, use an organization-level API credential and omit the `profileId` parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
@@ -690,7 +695,8 @@ class Chargebacks(BaseSDK):
         request = models.ListAllChargebacksRequest(
             from_=from_,
             limit=limit,
-            include=include,
+            embed=embed,
+            sort=sort,
             profile_id=profile_id,
             testmode=testmode,
         )

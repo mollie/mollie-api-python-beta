@@ -1,9 +1,0 @@
-# CancelOrderLinesRequest
-
-
-## Fields
-
-| Field                                                                                    | Type                                                                                     | Required                                                                                 | Description                                                                              | Example                                                                                  |
-| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `order_id`                                                                               | *str*                                                                                    | :heavy_check_mark:                                                                       | Provide the ID of the related order.                                                     | ord_pbjz8x                                                                               |
-| `request_body`                                                                           | [Optional[models.CancelOrderLinesRequestBody]](../models/cancelorderlinesrequestbody.md) | :heavy_minus_sign:                                                                       | N/A                                                                                      |                                                                                          |

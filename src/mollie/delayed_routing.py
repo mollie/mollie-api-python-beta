@@ -40,9 +40,9 @@ class DelayedRouting(BaseSDK):
         > [API key](/reference/authentication)
 
         :param payment_id: Provide the ID of the related payment.
-        :param amount: The portion of the total payment amount being routed. Currently only `EUR` payments can be routed.
+        :param amount: The amount of the route. That amount that will be routed to the specified destination.
         :param description: The description of the route. This description is shown in the reports.
-        :param destination: The destination of this portion of the payment.
+        :param destination: The destination of the route.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -183,9 +183,9 @@ class DelayedRouting(BaseSDK):
         > [API key](/reference/authentication)
 
         :param payment_id: Provide the ID of the related payment.
-        :param amount: The portion of the total payment amount being routed. Currently only `EUR` payments can be routed.
+        :param amount: The amount of the route. That amount that will be routed to the specified destination.
         :param description: The description of the route. This description is shown in the reports.
-        :param destination: The destination of this portion of the payment.
+        :param destination: The destination of the route.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

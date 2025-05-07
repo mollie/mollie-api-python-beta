@@ -13,8 +13,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class GetMandateRequestTypedDict(TypedDict):
     customer_id: str
     r"""Provide the ID of the related customer."""
-    id: str
-    r"""Provide the ID of the item you want to perform this operation on."""
+    mandate_id: str
+    r"""Provide the ID of the related mandate."""
     testmode: NotRequired[Nullable[bool]]
     r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
 
@@ -30,10 +30,12 @@ class GetMandateRequest(BaseModel):
     ]
     r"""Provide the ID of the related customer."""
 
-    id: Annotated[
-        str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
+    mandate_id: Annotated[
+        str,
+        pydantic.Field(alias="mandateId"),
+        FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Provide the ID of the item you want to perform this operation on."""
+    r"""Provide the ID of the related mandate."""
 
     testmode: Annotated[
         OptionalNullable[bool],
@@ -54,7 +56,7 @@ class GetMandateRequest(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -224,7 +226,7 @@ class GetMandateDetails(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -264,7 +266,7 @@ class GetMandateSelf(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class CustomerTypedDict(TypedDict):
+class GetMandateCustomerTypedDict(TypedDict):
     r"""The API resource URL of the [customer](get-customer) that this mandate belongs to."""
 
     href: NotRequired[str]
@@ -273,7 +275,7 @@ class CustomerTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class Customer(BaseModel):
+class GetMandateCustomer(BaseModel):
     r"""The API resource URL of the [customer](get-customer) that this mandate belongs to."""
 
     href: Optional[str] = None
@@ -307,7 +309,7 @@ class GetMandateLinksTypedDict(TypedDict):
 
     self_: NotRequired[GetMandateSelfTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    customer: NotRequired[CustomerTypedDict]
+    customer: NotRequired[GetMandateCustomerTypedDict]
     r"""The API resource URL of the [customer](get-customer) that this mandate belongs to."""
     documentation: NotRequired[GetMandateDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
@@ -319,7 +321,7 @@ class GetMandateLinks(BaseModel):
     self_: Annotated[Optional[GetMandateSelf], pydantic.Field(alias="self")] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    customer: Optional[Customer] = None
+    customer: Optional[GetMandateCustomer] = None
     r"""The API resource URL of the [customer](get-customer) that this mandate belongs to."""
 
     documentation: Optional[GetMandateDocumentation] = None
@@ -355,7 +357,7 @@ class GetMandateResponseBodyTypedDict(TypedDict):
 
     Possible values: `valid` `pending` `invalid`
     """
-    customer_id: NotRequired[Nullable[str]]
+    customer_id: NotRequired[str]
     r"""The identifier referring to the [customer](get-customer) this mandate was linked to."""
     created_at: NotRequired[str]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
@@ -404,9 +406,7 @@ class GetMandateResponseBody(BaseModel):
     Possible values: `valid` `pending` `invalid`
     """
 
-    customer_id: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="customerId")
-    ] = UNSET
+    customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
     r"""The identifier referring to the [customer](get-customer) this mandate was linked to."""
 
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
@@ -430,14 +430,14 @@ class GetMandateResponseBody(BaseModel):
             "createdAt",
             "_links",
         ]
-        nullable_fields = ["signatureDate", "mandateReference", "customerId"]
+        nullable_fields = ["signatureDate", "mandateReference"]
         null_default_fields = []
 
         serialized = handler(self)
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

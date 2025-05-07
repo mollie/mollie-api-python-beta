@@ -9,11 +9,6 @@ Developer-friendly & type-safe Python SDK specifically catered to leverage *moll
     </a>
 </div>
 
-
-<br /><br />
-> [!IMPORTANT]
-> This SDK is not yet ready for production use. To complete setup please follow the steps outlined in your [workspace](https://app.speakeasy.com/org/mollie-oom/mollie). Delete this section before > publishing to a package manager.
-
 <!-- Start Summary [summary] -->
 ## Summary
 
@@ -23,21 +18,21 @@ Developer-friendly & type-safe Python SDK specifically catered to leverage *moll
 <!-- Start Table of Contents [toc] -->
 ## Table of Contents
 <!-- $toc-max-depth=2 -->
-* [mollie-api-python-alpha](#mollie-api-python-alpha)
-  * [SDK Installation](#sdk-installation)
-  * [IDE Support](#ide-support)
-  * [SDK Example Usage](#sdk-example-usage)
-  * [Authentication](#authentication)
-  * [Available Resources and Operations](#available-resources-and-operations)
-  * [Retries](#retries)
-  * [Error Handling](#error-handling)
-  * [Server Selection](#server-selection)
-  * [Custom HTTP Client](#custom-http-client)
-  * [Resource Management](#resource-management)
-  * [Debugging](#debugging)
-* [Development](#development)
-  * [Maturity](#maturity)
-  * [Contributions](#contributions)
+* [mollie-api-python-alpha](https://github.com/mollie/mollie-api-python-alpha/blob/master/#mollie-api-python-alpha)
+  * [SDK Installation](https://github.com/mollie/mollie-api-python-alpha/blob/master/#sdk-installation)
+  * [IDE Support](https://github.com/mollie/mollie-api-python-alpha/blob/master/#ide-support)
+  * [SDK Example Usage](https://github.com/mollie/mollie-api-python-alpha/blob/master/#sdk-example-usage)
+  * [Authentication](https://github.com/mollie/mollie-api-python-alpha/blob/master/#authentication)
+  * [Available Resources and Operations](https://github.com/mollie/mollie-api-python-alpha/blob/master/#available-resources-and-operations)
+  * [Retries](https://github.com/mollie/mollie-api-python-alpha/blob/master/#retries)
+  * [Error Handling](https://github.com/mollie/mollie-api-python-alpha/blob/master/#error-handling)
+  * [Server Selection](https://github.com/mollie/mollie-api-python-alpha/blob/master/#server-selection)
+  * [Custom HTTP Client](https://github.com/mollie/mollie-api-python-alpha/blob/master/#custom-http-client)
+  * [Resource Management](https://github.com/mollie/mollie-api-python-alpha/blob/master/#resource-management)
+  * [Debugging](https://github.com/mollie/mollie-api-python-alpha/blob/master/#debugging)
+* [Development](https://github.com/mollie/mollie-api-python-alpha/blob/master/#development)
+  * [Maturity](https://github.com/mollie/mollie-api-python-alpha/blob/master/#maturity)
+  * [Contributions](https://github.com/mollie/mollie-api-python-alpha/blob/master/#contributions)
 
 <!-- End Table of Contents [toc] -->
 
@@ -127,7 +122,186 @@ with Client(
     ),
 ) as client:
 
-    res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH")
+    res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+        "description": "Chess Board",
+        "amount": {
+            "currency": "EUR",
+            "value": "10.00",
+        },
+        "redirect_url": "https://example.org/redirect",
+        "cancel_url": "https://example.org/cancel",
+        "webhook_url": "https://example.org/webhooks",
+        "lines": [
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+        ],
+        "billing_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "shipping_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "locale": "en_US",
+        "method": "ideal",
+        "issuer": "ideal_INGBNL2A",
+        "restrict_payment_methods_to_country": "NL",
+        "capture_mode": "manual",
+        "capture_delay": "8 hours",
+        "application_fee": {
+            "amount": {
+                "currency": "EUR",
+                "value": "10.00",
+            },
+            "description": "10",
+        },
+        "routing": [
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+        ],
+        "sequence_type": "oneoff",
+        "mandate_id": "mdt_5B8cwPMGnU",
+        "customer_id": "cst_5B8cwPMGnU",
+        "profile_id": "pfl_5B8cwPMGnU",
+        "due_date": "2025-01-01",
+    })
 
     # Handle response
     print(res)
@@ -151,7 +325,186 @@ async def main():
         ),
     ) as client:
 
-        res = await client.balances.list_async(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH")
+        res = await client.payments.create_async(include=mollie.Include.DETAILS_QR_CODE, request_body={
+            "description": "Chess Board",
+            "amount": {
+                "currency": "EUR",
+                "value": "10.00",
+            },
+            "redirect_url": "https://example.org/redirect",
+            "cancel_url": "https://example.org/cancel",
+            "webhook_url": "https://example.org/webhooks",
+            "lines": [
+                {
+                    "description": "LEGO 4440 Forest Police Station",
+                    "quantity": 1,
+                    "quantity_unit": "pcs",
+                    "unit_price": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "discount_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "recurring": {
+                        "description": "Gym subscription",
+                        "interval": "12 months",
+                        "amount": {
+                            "currency": "EUR",
+                            "value": "10.00",
+                        },
+                        "times": 1,
+                        "start_date": "2024-12-12",
+                    },
+                    "total_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "vat_rate": "21.00",
+                    "vat_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "sku": "9780241661628",
+                    "categories": [
+                        mollie.Categories.MEAL,
+                        mollie.Categories.ECO,
+                    ],
+                    "image_url": "https://...",
+                    "product_url": "https://...",
+                },
+                {
+                    "description": "LEGO 4440 Forest Police Station",
+                    "quantity": 1,
+                    "quantity_unit": "pcs",
+                    "unit_price": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "discount_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "recurring": {
+                        "description": "Gym subscription",
+                        "interval": "12 months",
+                        "amount": {
+                            "currency": "EUR",
+                            "value": "10.00",
+                        },
+                        "times": 1,
+                        "start_date": "2024-12-12",
+                    },
+                    "total_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "vat_rate": "21.00",
+                    "vat_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "sku": "9780241661628",
+                    "categories": [
+                        mollie.Categories.MEAL,
+                        mollie.Categories.ECO,
+                    ],
+                    "image_url": "https://...",
+                    "product_url": "https://...",
+                },
+            ],
+            "billing_address": {
+                "title": "Mr.",
+                "given_name": "Piet",
+                "family_name": "Mondriaan",
+                "organization_name": "Mollie B.V.",
+                "street_and_number": "Keizersgracht 126",
+                "street_additional": "Apt. 1",
+                "postal_code": "1234AB",
+                "email": "piet@example.org",
+                "phone": "31208202070",
+                "city": "Amsterdam",
+                "region": "Noord-Holland",
+                "country": "NL",
+            },
+            "shipping_address": {
+                "title": "Mr.",
+                "given_name": "Piet",
+                "family_name": "Mondriaan",
+                "organization_name": "Mollie B.V.",
+                "street_and_number": "Keizersgracht 126",
+                "street_additional": "Apt. 1",
+                "postal_code": "1234AB",
+                "email": "piet@example.org",
+                "phone": "31208202070",
+                "city": "Amsterdam",
+                "region": "Noord-Holland",
+                "country": "NL",
+            },
+            "locale": "en_US",
+            "method": "ideal",
+            "issuer": "ideal_INGBNL2A",
+            "restrict_payment_methods_to_country": "NL",
+            "capture_mode": "manual",
+            "capture_delay": "8 hours",
+            "application_fee": {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "description": "10",
+            },
+            "routing": [
+                {
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "destination": {
+                        "type": "organization",
+                        "organization_id": "org_1234567",
+                    },
+                    "release_date": "2024-12-12",
+                    "links": {
+                        "self_": {
+                            "href": "https://...",
+                            "type": "application/hal+json",
+                        },
+                        "payment": {
+                            "href": "https://...",
+                            "type": "application/hal+json",
+                        },
+                    },
+                },
+                {
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "destination": {
+                        "type": "organization",
+                        "organization_id": "org_1234567",
+                    },
+                    "release_date": "2024-12-12",
+                    "links": {
+                        "self_": {
+                            "href": "https://...",
+                            "type": "application/hal+json",
+                        },
+                        "payment": {
+                            "href": "https://...",
+                            "type": "application/hal+json",
+                        },
+                    },
+                },
+            ],
+            "sequence_type": "oneoff",
+            "mandate_id": "mdt_5B8cwPMGnU",
+            "customer_id": "cst_5B8cwPMGnU",
+            "profile_id": "pfl_5B8cwPMGnU",
+            "due_date": "2025-01-01",
+        })
 
         # Handle response
         print(res)
@@ -185,7 +538,186 @@ with Client(
     ),
 ) as client:
 
-    res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH")
+    res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+        "description": "Chess Board",
+        "amount": {
+            "currency": "EUR",
+            "value": "10.00",
+        },
+        "redirect_url": "https://example.org/redirect",
+        "cancel_url": "https://example.org/cancel",
+        "webhook_url": "https://example.org/webhooks",
+        "lines": [
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+        ],
+        "billing_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "shipping_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "locale": "en_US",
+        "method": "ideal",
+        "issuer": "ideal_INGBNL2A",
+        "restrict_payment_methods_to_country": "NL",
+        "capture_mode": "manual",
+        "capture_delay": "8 hours",
+        "application_fee": {
+            "amount": {
+                "currency": "EUR",
+                "value": "10.00",
+            },
+            "description": "10",
+        },
+        "routing": [
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+        ],
+        "sequence_type": "oneoff",
+        "mandate_id": "mdt_5B8cwPMGnU",
+        "customer_id": "cst_5B8cwPMGnU",
+        "profile_id": "pfl_5B8cwPMGnU",
+        "due_date": "2025-01-01",
+    })
 
     # Handle response
     print(res)
@@ -199,178 +731,155 @@ with Client(
 <details open>
 <summary>Available methods</summary>
 
-### [balances](docs/sdks/balances/README.md)
+### [balances](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/balances/README.md)
 
-* [list](docs/sdks/balances/README.md#list) - List balances
-* [get](docs/sdks/balances/README.md#get) - Get balance
-* [get_primary](docs/sdks/balances/README.md#get_primary) - Get primary balance
-* [get_report](docs/sdks/balances/README.md#get_report) - Get balance report
-* [list_transactions](docs/sdks/balances/README.md#list_transactions) - List balance transactions
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/balances/README.md#list) - List balances
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/balances/README.md#get) - Get balance
+* [get_primary](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/balances/README.md#get_primary) - Get primary balance
+* [get_report](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/balances/README.md#get_report) - Get balance report
+* [list_transactions](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/balances/README.md#list_transactions) - List balance transactions
 
-### [capabilities](docs/sdks/capabilities/README.md)
+### [capabilities](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/capabilities/README.md)
 
-* [list](docs/sdks/capabilities/README.md#list) - List capabilities
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/capabilities/README.md#list) - List capabilities
 
-### [captures](docs/sdks/captures/README.md)
+### [captures](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/captures/README.md)
 
-* [create](docs/sdks/captures/README.md#create) - Create capture
-* [list](docs/sdks/captures/README.md#list) - List captures
-* [get](docs/sdks/captures/README.md#get) - Get capture
+* [create](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/captures/README.md#create) - Create capture
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/captures/README.md#list) - List captures
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/captures/README.md#get) - Get capture
 
-### [chargebacks](docs/sdks/chargebacks/README.md)
+### [chargebacks](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/chargebacks/README.md)
 
-* [list](docs/sdks/chargebacks/README.md#list) - List payment chargebacks
-* [get](docs/sdks/chargebacks/README.md#get) - Get payment chargeback
-* [list_all](docs/sdks/chargebacks/README.md#list_all) - List all chargebacks
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/chargebacks/README.md#list) - List payment chargebacks
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/chargebacks/README.md#get) - Get payment chargeback
+* [all](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/chargebacks/README.md#all) - List all chargebacks
 
 
-### [client_links](docs/sdks/clientlinks/README.md)
+### [client_links](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/clientlinks/README.md)
 
-* [create](docs/sdks/clientlinks/README.md#create) - Create client link
+* [create](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/clientlinks/README.md#create) - Create client link
 
-### [clients](docs/sdks/clients/README.md)
+### [clients](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/clients/README.md)
 
-* [list](docs/sdks/clients/README.md#list) - List clients
-* [get](docs/sdks/clients/README.md#get) - Get client
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/clients/README.md#list) - List clients
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/clients/README.md#get) - Get client
 
-### [customers](docs/sdks/customers/README.md)
+### [customers](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/customers/README.md)
 
-* [create](docs/sdks/customers/README.md#create) - Create customer
-* [list](docs/sdks/customers/README.md#list) - List customers
-* [get](docs/sdks/customers/README.md#get) - Get customer
-* [update](docs/sdks/customers/README.md#update) - Update customer
-* [delete](docs/sdks/customers/README.md#delete) - Delete customer
-* [create_payment](docs/sdks/customers/README.md#create_payment) - Create customer payment
-* [list_payments](docs/sdks/customers/README.md#list_payments) - List customer payments
+* [create](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/customers/README.md#create) - Create customer
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/customers/README.md#list) - List customers
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/customers/README.md#get) - Get customer
+* [update](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/customers/README.md#update) - Update customer
+* [delete](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/customers/README.md#delete) - Delete customer
+* [create_payment](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/customers/README.md#create_payment) - Create customer payment
+* [list_payments](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/customers/README.md#list_payments) - List customer payments
 
-### [delayed_routing](docs/sdks/delayedrouting/README.md)
+### [delayed_routing](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/delayedrouting/README.md)
 
-* [create](docs/sdks/delayedrouting/README.md#create) - Create a delayed route
-* [list](docs/sdks/delayedrouting/README.md#list) - List payment routes
+* [create](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/delayedrouting/README.md#create) - Create a delayed route
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/delayedrouting/README.md#list) - List payment routes
 
-### [invoices](docs/sdks/invoices/README.md)
+### [invoices](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/invoices/README.md)
 
-* [list](docs/sdks/invoices/README.md#list) - List invoices
-* [get](docs/sdks/invoices/README.md#get) - Get invoice
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/invoices/README.md#list) - List invoices
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/invoices/README.md#get) - Get invoice
 
-### [mandates](docs/sdks/mandates/README.md)
+### [mandates](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/mandates/README.md)
 
-* [create](docs/sdks/mandates/README.md#create) - Create mandate
-* [list](docs/sdks/mandates/README.md#list) - List mandates
-* [get](docs/sdks/mandates/README.md#get) - Get mandate
-* [revoke](docs/sdks/mandates/README.md#revoke) - Revoke mandate
+* [create](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/mandates/README.md#create) - Create mandate
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/mandates/README.md#list) - List mandates
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/mandates/README.md#get) - Get mandate
+* [revoke](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/mandates/README.md#revoke) - Revoke mandate
 
-### [methods](docs/sdks/methods/README.md)
+### [methods](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/methods/README.md)
 
-* [list](docs/sdks/methods/README.md#list) - List payment methods
-* [list_all](docs/sdks/methods/README.md#list_all) - List all payment methods
-* [get](docs/sdks/methods/README.md#get) - Get payment method
-* [enable_method](docs/sdks/methods/README.md#enable_method) - Enable payment method
-* [disable_method](docs/sdks/methods/README.md#disable_method) - Disable payment method
-* [enable_method_issuer](docs/sdks/methods/README.md#enable_method_issuer) - Enable payment method issuer
-* [disable_method_issuer](docs/sdks/methods/README.md#disable_method_issuer) - Disable payment method issuer
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/methods/README.md#list) - List payment methods
+* [all](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/methods/README.md#all) - List all payment methods
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/methods/README.md#get) - Get payment method
 
-### [onboarding](docs/sdks/onboarding/README.md)
+### [onboarding](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/onboarding/README.md)
 
-* [get](docs/sdks/onboarding/README.md#get) - Get onboarding status
-* [create](docs/sdks/onboarding/README.md#create) - Submit onboarding data
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/onboarding/README.md#get) - Get onboarding status
+* [submit](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/onboarding/README.md#submit) - Submit onboarding data
 
-### [orders](docs/sdks/orders/README.md)
+### [organizations](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/organizations/README.md)
 
-* [create](docs/sdks/orders/README.md#create) - Create order
-* [list](docs/sdks/orders/README.md#list) - List orders
-* [get](docs/sdks/orders/README.md#get) - Get order
-* [update](docs/sdks/orders/README.md#update) - Update order
-* [cancel](docs/sdks/orders/README.md#cancel) - Cancel order
-* [manage_lines](docs/sdks/orders/README.md#manage_lines) - Manage order lines
-* [cancel_lines](docs/sdks/orders/README.md#cancel_lines) - Cancel order lines
-* [update_line](docs/sdks/orders/README.md#update_line) - Update order line
-* [create_payment](docs/sdks/orders/README.md#create_payment) - Create order payment
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/organizations/README.md#get) - Get organization
+* [get_current](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/organizations/README.md#get_current) - Get current organization
+* [get_partner](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/organizations/README.md#get_partner) - Get partner status
 
-### [organizations](docs/sdks/organizations/README.md)
+### [payment_links](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/paymentlinks/README.md)
 
-* [get](docs/sdks/organizations/README.md#get) - Get organization
-* [get_current](docs/sdks/organizations/README.md#get_current) - Get current organization
-* [get_partner_status](docs/sdks/organizations/README.md#get_partner_status) - Get partner status
+* [create](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/paymentlinks/README.md#create) - Create payment link
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/paymentlinks/README.md#list) - List payment links
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/paymentlinks/README.md#get) - Get payment link
+* [update](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/paymentlinks/README.md#update) - Update payment link
+* [delete](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/paymentlinks/README.md#delete) - Delete payment link
+* [list_payments](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/paymentlinks/README.md#list_payments) - Get payment link payments
 
-### [payment_links](docs/sdks/paymentlinks/README.md)
+### [payments](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/payments/README.md)
 
-* [create](docs/sdks/paymentlinks/README.md#create) - Create payment link
-* [list](docs/sdks/paymentlinks/README.md#list) - List payment links
-* [get](docs/sdks/paymentlinks/README.md#get) - Get payment link
-* [update](docs/sdks/paymentlinks/README.md#update) - Update payment link
-* [delete](docs/sdks/paymentlinks/README.md#delete) - Delete payment link
-* [get_payments](docs/sdks/paymentlinks/README.md#get_payments) - Get payment link payments
+* [create](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/payments/README.md#create) - Create payment
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/payments/README.md#list) - List payments
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/payments/README.md#get) - Get payment
+* [update](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/payments/README.md#update) - Update payment
+* [cancel](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/payments/README.md#cancel) - Cancel payment
+* [release_authorization](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/payments/README.md#release_authorization) - Release payment authorization
 
-### [payments](docs/sdks/payments/README.md)
+### [permissions](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/permissions/README.md)
 
-* [create](docs/sdks/payments/README.md#create) - Create payment
-* [list](docs/sdks/payments/README.md#list) - List payments
-* [get](docs/sdks/payments/README.md#get) - Get payment
-* [update](docs/sdks/payments/README.md#update) - Update payment
-* [cancel](docs/sdks/payments/README.md#cancel) - Cancel payment
-* [release_authorization](docs/sdks/payments/README.md#release_authorization) - Release payment authorization
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/permissions/README.md#list) - List permissions
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/permissions/README.md#get) - Get permission
 
-### [permissions](docs/sdks/permissions/README.md)
+### [profiles](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/profiles/README.md)
 
-* [list](docs/sdks/permissions/README.md#list) - List permissions
-* [get](docs/sdks/permissions/README.md#get) - Get permission
+* [create](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/profiles/README.md#create) - Create profile
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/profiles/README.md#list) - List profiles
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/profiles/README.md#get) - Get profile
+* [update](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/profiles/README.md#update) - Update profile
+* [delete](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/profiles/README.md#delete) - Delete profile
+* [get_current](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/profiles/README.md#get_current) - Get current profile
 
-### [profiles](docs/sdks/profiles/README.md)
+### [refunds](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/refunds/README.md)
 
-* [create](docs/sdks/profiles/README.md#create) - Create profile
-* [list](docs/sdks/profiles/README.md#list) - List profiles
-* [get](docs/sdks/profiles/README.md#get) - Get profile
-* [update](docs/sdks/profiles/README.md#update) - Update profile
-* [delete](docs/sdks/profiles/README.md#delete) - Delete profile
-* [get_current](docs/sdks/profiles/README.md#get_current) - Get current profile
+* [create](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/refunds/README.md#create) - Create payment refund
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/refunds/README.md#list) - List payment refunds
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/refunds/README.md#get) - Get payment refund
+* [cancel](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/refunds/README.md#cancel) - Cancel payment refund
+* [create_order](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/refunds/README.md#create_order) - Create order refund
+* [list_for_order](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/refunds/README.md#list_for_order) - List order refunds
+* [all](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/refunds/README.md#all) - List all refunds
 
-### [refunds](docs/sdks/refunds/README.md)
+### [settlements](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/settlements/README.md)
 
-* [create](docs/sdks/refunds/README.md#create) - Create payment refund
-* [list](docs/sdks/refunds/README.md#list) - List payment refunds
-* [get](docs/sdks/refunds/README.md#get) - Get payment refund
-* [cancel](docs/sdks/refunds/README.md#cancel) - Cancel payment refund
-* [create_order](docs/sdks/refunds/README.md#create_order) - Create order refund
-* [list_order](docs/sdks/refunds/README.md#list_order) - List order refunds
-* [list_all](docs/sdks/refunds/README.md#list_all) - List all refunds
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/settlements/README.md#list) - List settlements
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/settlements/README.md#get) - Get settlement
+* [get_open](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/settlements/README.md#get_open) - Get open settlement
+* [get_next](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/settlements/README.md#get_next) - Get next settlement
+* [list_payments](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/settlements/README.md#list_payments) - Get settlement payments
+* [list_captures](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/settlements/README.md#list_captures) - Get settlement captures
+* [list_refunds](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/settlements/README.md#list_refunds) - Get settlement refunds
+* [list_chargebacks](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/settlements/README.md#list_chargebacks) - Get settlement chargebacks
 
-### [settlements](docs/sdks/settlements/README.md)
+### [subscriptions](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/subscriptions/README.md)
 
-* [list](docs/sdks/settlements/README.md#list) - List settlements
-* [get](docs/sdks/settlements/README.md#get) - Get settlement
-* [get_open](docs/sdks/settlements/README.md#get_open) - Get open settlement
-* [get_next](docs/sdks/settlements/README.md#get_next) - Get next settlement
-* [get_payments](docs/sdks/settlements/README.md#get_payments) - Get settlement payments
-* [get_captures](docs/sdks/settlements/README.md#get_captures) - Get settlement captures
-* [get_refunds](docs/sdks/settlements/README.md#get_refunds) - Get settlement refunds
-* [get_chargebacks](docs/sdks/settlements/README.md#get_chargebacks) - Get settlement chargebacks
+* [create](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/subscriptions/README.md#create) - Create subscription
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/subscriptions/README.md#list) - List customer subscriptions
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/subscriptions/README.md#get) - Get subscription
+* [update](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/subscriptions/README.md#update) - Update subscription
+* [cancel](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/subscriptions/README.md#cancel) - Cancel subscription
+* [all](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/subscriptions/README.md#all) - List all subscriptions
+* [list_payments](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/subscriptions/README.md#list_payments) - List subscription payments
 
-### [shipments](docs/sdks/shipments/README.md)
+### [terminals](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/terminals/README.md)
 
-* [create](docs/sdks/shipments/README.md#create) - Create shipment
-* [list](docs/sdks/shipments/README.md#list) - List shipments
-* [get](docs/sdks/shipments/README.md#get) - Get shipment
-* [update](docs/sdks/shipments/README.md#update) - Update shipment
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/terminals/README.md#list) - List terminals
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/terminals/README.md#get) - Get terminal
 
-### [subscriptions](docs/sdks/subscriptions/README.md)
+### [wallets](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/wallets/README.md)
 
-* [create](docs/sdks/subscriptions/README.md#create) - Create subscription
-* [list](docs/sdks/subscriptions/README.md#list) - List customer subscriptions
-* [get](docs/sdks/subscriptions/README.md#get) - Get subscription
-* [update](docs/sdks/subscriptions/README.md#update) - Update subscription
-* [cancel](docs/sdks/subscriptions/README.md#cancel) - Cancel subscription
-* [list_all](docs/sdks/subscriptions/README.md#list_all) - List all subscriptions
-* [list_payments](docs/sdks/subscriptions/README.md#list_payments) - List subscription payments
-
-### [terminals](docs/sdks/terminals/README.md)
-
-* [list](docs/sdks/terminals/README.md#list) - List terminals
-* [get](docs/sdks/terminals/README.md#get) - Get terminal
-
-### [wallets](docs/sdks/wallets/README.md)
-
-* [request_apple_pay_payment_session](docs/sdks/wallets/README.md#request_apple_pay_payment_session) - Request Apple Pay payment session
+* [request_apple_pay_session](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/wallets/README.md#request_apple_pay_session) - Request Apple Pay payment session
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
@@ -394,7 +903,186 @@ with Client(
     ),
 ) as client:
 
-    res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH",
+    res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+        "description": "Chess Board",
+        "amount": {
+            "currency": "EUR",
+            "value": "10.00",
+        },
+        "redirect_url": "https://example.org/redirect",
+        "cancel_url": "https://example.org/cancel",
+        "webhook_url": "https://example.org/webhooks",
+        "lines": [
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+        ],
+        "billing_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "shipping_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "locale": "en_US",
+        "method": "ideal",
+        "issuer": "ideal_INGBNL2A",
+        "restrict_payment_methods_to_country": "NL",
+        "capture_mode": "manual",
+        "capture_delay": "8 hours",
+        "application_fee": {
+            "amount": {
+                "currency": "EUR",
+                "value": "10.00",
+            },
+            "description": "10",
+        },
+        "routing": [
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+        ],
+        "sequence_type": "oneoff",
+        "mandate_id": "mdt_5B8cwPMGnU",
+        "customer_id": "cst_5B8cwPMGnU",
+        "profile_id": "pfl_5B8cwPMGnU",
+        "due_date": "2025-01-01",
+    },
         RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
 
     # Handle response
@@ -417,7 +1105,186 @@ with Client(
     ),
 ) as client:
 
-    res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH")
+    res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+        "description": "Chess Board",
+        "amount": {
+            "currency": "EUR",
+            "value": "10.00",
+        },
+        "redirect_url": "https://example.org/redirect",
+        "cancel_url": "https://example.org/cancel",
+        "webhook_url": "https://example.org/webhooks",
+        "lines": [
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+        ],
+        "billing_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "shipping_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "locale": "en_US",
+        "method": "ideal",
+        "issuer": "ideal_INGBNL2A",
+        "restrict_payment_methods_to_country": "NL",
+        "capture_mode": "manual",
+        "capture_delay": "8 hours",
+        "application_fee": {
+            "amount": {
+                "currency": "EUR",
+                "value": "10.00",
+            },
+            "description": "10",
+        },
+        "routing": [
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+        ],
+        "sequence_type": "oneoff",
+        "mandate_id": "mdt_5B8cwPMGnU",
+        "customer_id": "cst_5B8cwPMGnU",
+        "profile_id": "pfl_5B8cwPMGnU",
+        "due_date": "2025-01-01",
+    })
 
     # Handle response
     print(res)
@@ -439,13 +1306,13 @@ By default, an API error will raise a models.APIError exception, which has the f
 | `.raw_response` | *httpx.Response* | The raw HTTP response |
 | `.body`         | *str*            | The response content  |
 
-When custom error responses are specified for an operation, the SDK may also raise their associated exceptions. You can refer to respective *Errors* tables in SDK docs for more details on possible exception types for each operation. For example, the `list_async` method may raise the following exceptions:
+When custom error responses are specified for an operation, the SDK may also raise their associated exceptions. You can refer to respective *Errors* tables in SDK docs for more details on possible exception types for each operation. For example, the `create_async` method may raise the following exceptions:
 
-| Error Type                                      | Status Code | Content Type         |
-| ----------------------------------------------- | ----------- | -------------------- |
-| models.ListBalancesBalancesResponseBody         | 400         | application/hal+json |
-| models.ListBalancesBalancesResponseResponseBody | 404         | application/hal+json |
-| models.APIError                                 | 4XX, 5XX    | \*/\*                |
+| Error Type                                       | Status Code | Content Type         |
+| ------------------------------------------------ | ----------- | -------------------- |
+| models.CreatePaymentPaymentsResponseBody         | 422         | application/hal+json |
+| models.CreatePaymentPaymentsResponseResponseBody | 503         | application/hal+json |
+| models.APIError                                  | 4XX, 5XX    | \*/\*                |
 
 ### Example
 
@@ -463,16 +1330,195 @@ with Client(
     res = None
     try:
 
-        res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH")
+        res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+            "description": "Chess Board",
+            "amount": {
+                "currency": "EUR",
+                "value": "10.00",
+            },
+            "redirect_url": "https://example.org/redirect",
+            "cancel_url": "https://example.org/cancel",
+            "webhook_url": "https://example.org/webhooks",
+            "lines": [
+                {
+                    "description": "LEGO 4440 Forest Police Station",
+                    "quantity": 1,
+                    "quantity_unit": "pcs",
+                    "unit_price": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "discount_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "recurring": {
+                        "description": "Gym subscription",
+                        "interval": "12 months",
+                        "amount": {
+                            "currency": "EUR",
+                            "value": "10.00",
+                        },
+                        "times": 1,
+                        "start_date": "2024-12-12",
+                    },
+                    "total_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "vat_rate": "21.00",
+                    "vat_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "sku": "9780241661628",
+                    "categories": [
+                        mollie.Categories.MEAL,
+                        mollie.Categories.ECO,
+                    ],
+                    "image_url": "https://...",
+                    "product_url": "https://...",
+                },
+                {
+                    "description": "LEGO 4440 Forest Police Station",
+                    "quantity": 1,
+                    "quantity_unit": "pcs",
+                    "unit_price": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "discount_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "recurring": {
+                        "description": "Gym subscription",
+                        "interval": "12 months",
+                        "amount": {
+                            "currency": "EUR",
+                            "value": "10.00",
+                        },
+                        "times": 1,
+                        "start_date": "2024-12-12",
+                    },
+                    "total_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "vat_rate": "21.00",
+                    "vat_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "sku": "9780241661628",
+                    "categories": [
+                        mollie.Categories.MEAL,
+                        mollie.Categories.ECO,
+                    ],
+                    "image_url": "https://...",
+                    "product_url": "https://...",
+                },
+            ],
+            "billing_address": {
+                "title": "Mr.",
+                "given_name": "Piet",
+                "family_name": "Mondriaan",
+                "organization_name": "Mollie B.V.",
+                "street_and_number": "Keizersgracht 126",
+                "street_additional": "Apt. 1",
+                "postal_code": "1234AB",
+                "email": "piet@example.org",
+                "phone": "31208202070",
+                "city": "Amsterdam",
+                "region": "Noord-Holland",
+                "country": "NL",
+            },
+            "shipping_address": {
+                "title": "Mr.",
+                "given_name": "Piet",
+                "family_name": "Mondriaan",
+                "organization_name": "Mollie B.V.",
+                "street_and_number": "Keizersgracht 126",
+                "street_additional": "Apt. 1",
+                "postal_code": "1234AB",
+                "email": "piet@example.org",
+                "phone": "31208202070",
+                "city": "Amsterdam",
+                "region": "Noord-Holland",
+                "country": "NL",
+            },
+            "locale": "en_US",
+            "method": "ideal",
+            "issuer": "ideal_INGBNL2A",
+            "restrict_payment_methods_to_country": "NL",
+            "capture_mode": "manual",
+            "capture_delay": "8 hours",
+            "application_fee": {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "description": "10",
+            },
+            "routing": [
+                {
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "destination": {
+                        "type": "organization",
+                        "organization_id": "org_1234567",
+                    },
+                    "release_date": "2024-12-12",
+                    "links": {
+                        "self_": {
+                            "href": "https://...",
+                            "type": "application/hal+json",
+                        },
+                        "payment": {
+                            "href": "https://...",
+                            "type": "application/hal+json",
+                        },
+                    },
+                },
+                {
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "destination": {
+                        "type": "organization",
+                        "organization_id": "org_1234567",
+                    },
+                    "release_date": "2024-12-12",
+                    "links": {
+                        "self_": {
+                            "href": "https://...",
+                            "type": "application/hal+json",
+                        },
+                        "payment": {
+                            "href": "https://...",
+                            "type": "application/hal+json",
+                        },
+                    },
+                },
+            ],
+            "sequence_type": "oneoff",
+            "mandate_id": "mdt_5B8cwPMGnU",
+            "customer_id": "cst_5B8cwPMGnU",
+            "profile_id": "pfl_5B8cwPMGnU",
+            "due_date": "2025-01-01",
+        })
 
         # Handle response
         print(res)
 
-    except models.ListBalancesBalancesResponseBody as e:
-        # handle e.data: models.ListBalancesBalancesResponseBodyData
+    except models.CreatePaymentPaymentsResponseBody as e:
+        # handle e.data: models.CreatePaymentPaymentsResponseBodyData
         raise(e)
-    except models.ListBalancesBalancesResponseResponseBody as e:
-        # handle e.data: models.ListBalancesBalancesResponseResponseBodyData
+    except models.CreatePaymentPaymentsResponseResponseBody as e:
+        # handle e.data: models.CreatePaymentPaymentsResponseResponseBodyData
         raise(e)
     except models.APIError as e:
         # handle exception
@@ -499,7 +1545,186 @@ with Client(
     ),
 ) as client:
 
-    res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH")
+    res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+        "description": "Chess Board",
+        "amount": {
+            "currency": "EUR",
+            "value": "10.00",
+        },
+        "redirect_url": "https://example.org/redirect",
+        "cancel_url": "https://example.org/cancel",
+        "webhook_url": "https://example.org/webhooks",
+        "lines": [
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+        ],
+        "billing_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "shipping_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "locale": "en_US",
+        "method": "ideal",
+        "issuer": "ideal_INGBNL2A",
+        "restrict_payment_methods_to_country": "NL",
+        "capture_mode": "manual",
+        "capture_delay": "8 hours",
+        "application_fee": {
+            "amount": {
+                "currency": "EUR",
+                "value": "10.00",
+            },
+            "description": "10",
+        },
+        "routing": [
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+            {
+                "amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "destination": {
+                    "type": "organization",
+                    "organization_id": "org_1234567",
+                },
+                "release_date": "2024-12-12",
+                "links": {
+                    "self_": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                    "payment": {
+                        "href": "https://...",
+                        "type": "application/hal+json",
+                    },
+                },
+            },
+        ],
+        "sequence_type": "oneoff",
+        "mandate_id": "mdt_5B8cwPMGnU",
+        "customer_id": "cst_5B8cwPMGnU",
+        "profile_id": "pfl_5B8cwPMGnU",
+        "due_date": "2025-01-01",
+    })
 
     # Handle response
     print(res)

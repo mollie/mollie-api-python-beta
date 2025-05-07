@@ -30,11 +30,12 @@ with Client(
     ),
 ) as client:
 
-    res = client.delayed_routing.create(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo", amount={
+    res = client.delayed_routing.create(payment_id="tr_5B8cwPMGnU", amount={
         "currency": "EUR",
         "value": "10.00",
     }, description="Payment for Order #12345", destination={
-        "organization_id": "org_123",
+        "type": "organization",
+        "organization_id": "org_1234567",
     })
 
     # Handle response
@@ -44,13 +45,13 @@ with Client(
 
 ### Parameters
 
-| Parameter                                                                                          | Type                                                                                               | Required                                                                                           | Description                                                                                        | Example                                                                                            |
-| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `payment_id`                                                                                       | *str*                                                                                              | :heavy_check_mark:                                                                                 | Provide the ID of the related payment.                                                             | tr_5B8cwPMGnU6qLbRvo7qEZo                                                                          |
-| `amount`                                                                                           | [Optional[models.PaymentCreateRouteAmount]](../../models/paymentcreaterouteamount.md)              | :heavy_minus_sign:                                                                                 | The portion of the total payment amount being routed. Currently only `EUR` payments can be routed. |                                                                                                    |
-| `description`                                                                                      | *Optional[str]*                                                                                    | :heavy_minus_sign:                                                                                 | The description of the route. This description is shown in the reports.                            | Payment for Order #12345                                                                           |
-| `destination`                                                                                      | [Optional[models.PaymentCreateRouteDestination]](../../models/paymentcreateroutedestination.md)    | :heavy_minus_sign:                                                                                 | The destination of this portion of the payment.                                                    |                                                                                                    |
-| `retries`                                                                                          | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                   | :heavy_minus_sign:                                                                                 | Configuration to override the default retry behavior of the client.                                |                                                                                                    |
+| Parameter                                                                                       | Type                                                                                            | Required                                                                                        | Description                                                                                     | Example                                                                                         |
+| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `payment_id`                                                                                    | *str*                                                                                           | :heavy_check_mark:                                                                              | Provide the ID of the related payment.                                                          | tr_5B8cwPMGnU                                                                                   |
+| `amount`                                                                                        | [Optional[models.PaymentCreateRouteAmount]](../../models/paymentcreaterouteamount.md)           | :heavy_minus_sign:                                                                              | The amount of the route. That amount that will be routed to the specified destination.          |                                                                                                 |
+| `description`                                                                                   | *Optional[str]*                                                                                 | :heavy_minus_sign:                                                                              | The description of the route. This description is shown in the reports.                         | Payment for Order #12345                                                                        |
+| `destination`                                                                                   | [Optional[models.PaymentCreateRouteDestination]](../../models/paymentcreateroutedestination.md) | :heavy_minus_sign:                                                                              | The destination of the route.                                                                   |                                                                                                 |
+| `retries`                                                                                       | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                | :heavy_minus_sign:                                                                              | Configuration to override the default retry behavior of the client.                             |                                                                                                 |
 
 ### Response
 
@@ -85,7 +86,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.delayed_routing.list(payment_id="tr_5B8cwPMGnU6qLbRvo7qEZo")
+    res = client.delayed_routing.list(payment_id="tr_5B8cwPMGnU")
 
     # Handle response
     print(res)
@@ -96,7 +97,7 @@ with Client(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         | Example                                                             |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `payment_id`                                                        | *str*                                                               | :heavy_check_mark:                                                  | Provide the ID of the related payment.                              | tr_5B8cwPMGnU6qLbRvo7qEZo                                           |
+| `payment_id`                                                        | *str*                                                               | :heavy_check_mark:                                                  | Provide the ID of the related payment.                              | tr_5B8cwPMGnU                                                       |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |                                                                     |
 
 ### Response

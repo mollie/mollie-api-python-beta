@@ -216,10 +216,11 @@ with Client(
 
 ### Errors
 
-| Error Type                                  | Status Code                                 | Content Type                                |
-| ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
-| models.GetBalanceReportBalancesResponseBody | 404                                         | application/hal+json                        |
-| models.APIError                             | 4XX, 5XX                                    | \*/\*                                       |
+| Error Type                                          | Status Code                                         | Content Type                                        |
+| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
+| models.GetBalanceReportBalancesResponseBody         | 404                                                 | application/hal+json                                |
+| models.GetBalanceReportBalancesResponseResponseBody | 422                                                 | application/hal+json                                |
+| models.APIError                                     | 4XX, 5XX                                            | \*/\*                                               |
 
 ## list_transactions
 
@@ -272,8 +273,9 @@ with Client(
 
 ### Errors
 
-| Error Type                                                 | Status Code                                                | Content Type                                               |
-| ---------------------------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------- |
-| models.ListBalanceTransactionsBalancesResponseBody         | 400                                                        | application/hal+json                                       |
-| models.ListBalanceTransactionsBalancesResponseResponseBody | 404                                                        | application/hal+json                                       |
-| models.APIError                                            | 4XX, 5XX                                                   | \*/\*                                                      |
+| Error Type                                                    | Status Code                                                   | Content Type                                                  |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| models.ListBalanceTransactionsBalancesResponseBody            | 400                                                           | application/hal+json                                          |
+| models.ListBalanceTransactionsBalancesResponseResponseBody    | 404                                                           | application/hal+json                                          |
+| models.ListBalanceTransactionsBalancesResponse429ResponseBody | 429                                                           | application/hal+json                                          |
+| models.APIError                                               | 4XX, 5XX                                                      | \*/\*                                                         |

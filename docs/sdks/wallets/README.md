@@ -5,9 +5,9 @@
 
 ### Available Operations
 
-* [request_apple_pay_payment_session](#request_apple_pay_payment_session) - Request Apple Pay payment session
+* [request_apple_pay_session](#request_apple_pay_session) - Request Apple Pay payment session
 
-## request_apple_pay_payment_session
+## request_apple_pay_session
 
 When integrating Apple Pay in your own checkout on the web, you need to [provide merchant validation](https://developer.apple.com/documentation/apple_pay_on_the_web/apple_pay_js_api/providing_merchant_validation). This is normally done using Apple's [Requesting an Apple Pay Session](https://developer.apple.com/documentation/apple_pay_on_the_web/apple_pay_js_api/requesting_an_apple_pay_payment_session). The merchant validation proves to Apple that a validated merchant is calling the Apple Pay Javascript APIs.
 
@@ -39,10 +39,10 @@ with Client(
     ),
 ) as client:
 
-    res = client.wallets.request_apple_pay_payment_session(request={
-        "validation_url": "https://dark-suv.org",
-        "domain": "cheap-contractor.info",
-        "profile_id": "pfl_QkEhN94Ba",
+    res = client.wallets.request_apple_pay_session(request={
+        "validation_url": "https://apple-pay-gateway-cert.apple.com/paymentservices/paymentSession",
+        "domain": "pay.myshop.com",
+        "profile_id": "pfl_5B8cwPMGnU",
     })
 
     # Handle response
@@ -59,7 +59,7 @@ with Client(
 
 ### Response
 
-**[Any](../../models/.md)**
+**[Dict[str, Any]](../../models/.md)**
 
 ### Errors
 

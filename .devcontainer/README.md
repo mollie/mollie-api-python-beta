@@ -1,4 +1,9 @@
 
+<div align="center">
+    <a href="https://codespaces.new/mollie/mollie-api-python-alpha.git/tree/main"><img src="https://github.com/codespaces/badge.svg" /></a>
+</div>
+<br>
+
 > **Remember to shutdown a GitHub Codespace when it is not in use!**
 
 # Dev Containers Quick Start
@@ -20,11 +25,11 @@ The speakeasy CLI allows you to generate more usage snippets. Here's how:
 - To generate a sample for a specific operation by providing an operation ID, use:
 
 ```
-speakeasy generate usage -s ../../openapi-specs/mol-public-api/v2/specs.yaml -l python -i {INPUT_OPERATION_ID} -o ./samples
+speakeasy generate usage -s https://raw.githubusercontent.com/mollie/openapi-specs/main/specs.yaml -l python -i {INPUT_OPERATION_ID} -o ./samples
 ```
 
 - To generate samples for an entire namespace (like a tag or group name), use:
 
 ```
-speakeasy generate usage -s ../../openapi-specs/mol-public-api/v2/specs.yaml -l python -n {INPUT_TAG_NAME} -o ./samples
+speakeasy generate usage -s https://raw.githubusercontent.com/mollie/openapi-specs/main/specs.yaml -l python -n {INPUT_TAG_NAME} -o ./samples
 ```

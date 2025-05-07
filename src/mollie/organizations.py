@@ -433,7 +433,7 @@ class Organizations(BaseSDK):
             http_res,
         )
 
-    def get_partner_status(
+    def get_partner(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -529,7 +529,7 @@ class Organizations(BaseSDK):
             http_res,
         )
 
-    async def get_partner_status_async(
+    async def get_partner_async(
         self,
         *,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,

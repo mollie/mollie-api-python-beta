@@ -22,7 +22,7 @@ class Methods(BaseSDK):
         include_wallets: Optional[str] = None,
         order_line_categories: Optional[str] = None,
         profile_id: Optional[str] = None,
-        include: OptionalNullable[str] = UNSET,
+        include: OptionalNullable[models.ListMethodsQueryParamInclude] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -48,14 +48,14 @@ class Methods(BaseSDK):
         > [Access token with **payments.read**](/reference/authentication)
 
         :param sequence_type: Set this parameter to `first` to only return the enabled methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return enabled methods that can be used for recurring payments or subscriptions.  Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
-        :param locale: Passing a locale will sort the payment methods in the preferred order for the country, and translate the payment method names in the corresponding language.  Possible values: `en_US` `en_GB` `nl_NL` `nl_BE` `de_DE` `de_AT` `de_CH` `fr_FR` `fr_BE` `es_ES` `ca_ES` `pt_PT` `it_IT` `nb_NO` `sv_SE` `fi_FI` `da_DK` `is_IS` `hu_HU` `pl_PL` `lv_LV` `lt_LT`
+        :param locale: Passing a locale will sort the payment methods in the preferred order for the country, and translate the payment method names in the corresponding language.
         :param amount: If supplied, only payment methods that support the amount and currency are returned.  Example: `/v2/methods?amount[value]=100.00&amount[currency]=USD`
-        :param resource: Indicate if you will use the result for the [Create order](create-order) or the [Create payment](create-payment) endpoint.  When passing the value `orders`, the result will include payment methods that are only available for payments created via the Orders API.  Possible values: `payments` `orders` (default: `payments`)
+        :param resource: **⚠️ We no longer recommend using the Orders API. Please refer to the [Payments API](payments-api) instead.**  Indicate if you will use the result for the [Create order](create-order) or the [Create payment](create-payment) endpoint.  When passing the value `orders`, the result will include payment methods that are only available for payments created via the Orders API.  Possible values: `payments` `orders` (default: `payments`)
         :param billing_country: The country taken from your customer's billing address in ISO 3166-1 alpha-2 format. This parameter can be used to check whether your customer is eligible for certain payment methods, for example for Klarna.  Example: `/v2/methods?resource=orders&billingCountry=DE`
         :param include_wallets: A comma-separated list of the wallets you support in your checkout. Wallets often require wallet specific code to check if they are available on the shoppers device, hence the need to indicate your support.  Possible values: `applepay`
-        :param order_line_categories: A comma-separated list of the order line categories you support in your checkout. The available categories can be found in the [Create order endpoint](create-order) documentation.  Example: `/v2/methods?resource=orders&orderLineCategories=eco,meal`
+        :param order_line_categories: A comma-separated list of the line categories you support in your checkout.  Example: `/v2/methods?orderLineCategories=eco,meal`  Possible values: `eco` `gift` `meal` `sport_culture` `additional` `consume`
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the payment methods for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `issuers`: Include issuer details such as which iDEAL or gift card issuers are available. * `pricing`: **⚠️ Deprecated: for up-to-date pricing data, use [List all methods](list-all-methods).⚠️** <br /> Include pricing information for each payment method, based on a snapshot of data last updated in November 2023.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -168,7 +168,7 @@ class Methods(BaseSDK):
         include_wallets: Optional[str] = None,
         order_line_categories: Optional[str] = None,
         profile_id: Optional[str] = None,
-        include: OptionalNullable[str] = UNSET,
+        include: OptionalNullable[models.ListMethodsQueryParamInclude] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -194,14 +194,14 @@ class Methods(BaseSDK):
         > [Access token with **payments.read**](/reference/authentication)
 
         :param sequence_type: Set this parameter to `first` to only return the enabled methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return enabled methods that can be used for recurring payments or subscriptions.  Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
-        :param locale: Passing a locale will sort the payment methods in the preferred order for the country, and translate the payment method names in the corresponding language.  Possible values: `en_US` `en_GB` `nl_NL` `nl_BE` `de_DE` `de_AT` `de_CH` `fr_FR` `fr_BE` `es_ES` `ca_ES` `pt_PT` `it_IT` `nb_NO` `sv_SE` `fi_FI` `da_DK` `is_IS` `hu_HU` `pl_PL` `lv_LV` `lt_LT`
+        :param locale: Passing a locale will sort the payment methods in the preferred order for the country, and translate the payment method names in the corresponding language.
         :param amount: If supplied, only payment methods that support the amount and currency are returned.  Example: `/v2/methods?amount[value]=100.00&amount[currency]=USD`
-        :param resource: Indicate if you will use the result for the [Create order](create-order) or the [Create payment](create-payment) endpoint.  When passing the value `orders`, the result will include payment methods that are only available for payments created via the Orders API.  Possible values: `payments` `orders` (default: `payments`)
+        :param resource: **⚠️ We no longer recommend using the Orders API. Please refer to the [Payments API](payments-api) instead.**  Indicate if you will use the result for the [Create order](create-order) or the [Create payment](create-payment) endpoint.  When passing the value `orders`, the result will include payment methods that are only available for payments created via the Orders API.  Possible values: `payments` `orders` (default: `payments`)
         :param billing_country: The country taken from your customer's billing address in ISO 3166-1 alpha-2 format. This parameter can be used to check whether your customer is eligible for certain payment methods, for example for Klarna.  Example: `/v2/methods?resource=orders&billingCountry=DE`
         :param include_wallets: A comma-separated list of the wallets you support in your checkout. Wallets often require wallet specific code to check if they are available on the shoppers device, hence the need to indicate your support.  Possible values: `applepay`
-        :param order_line_categories: A comma-separated list of the order line categories you support in your checkout. The available categories can be found in the [Create order endpoint](create-order) documentation.  Example: `/v2/methods?resource=orders&orderLineCategories=eco,meal`
+        :param order_line_categories: A comma-separated list of the line categories you support in your checkout.  Example: `/v2/methods?orderLineCategories=eco,meal`  Possible values: `eco` `gift` `meal` `sport_culture` `additional` `consume`
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the payment methods for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `issuers`: Include issuer details such as which iDEAL or gift card issuers are available. * `pricing`: **⚠️ Deprecated: for up-to-date pricing data, use [List all methods](list-all-methods).⚠️** <br /> Include pricing information for each payment method, based on a snapshot of data last updated in November 2023.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -301,7 +301,7 @@ class Methods(BaseSDK):
             http_res,
         )
 
-    def list_all(
+    def all(
         self,
         *,
         locale: Optional[str] = None,
@@ -311,7 +311,8 @@ class Methods(BaseSDK):
                 models.ListAllMethodsQueryParamAmountTypedDict,
             ]
         ] = None,
-        include: OptionalNullable[str] = UNSET,
+        include: OptionalNullable[models.ListAllMethodsQueryParamInclude] = UNSET,
+        sequence_type: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -329,9 +330,10 @@ class Methods(BaseSDK):
         >
         > [Access token with **payments.read**](/reference/authentication)
 
-        :param locale: Passing a locale will sort the payment methods in the preferred order for the country, and translate the payment method names in the corresponding language.  Possible values: `en_US` `en_GB` `nl_NL` `nl_BE` `de_DE` `de_AT` `de_CH` `fr_FR` `fr_BE` `es_ES` `ca_ES` `pt_PT` `it_IT` `nb_NO` `sv_SE` `fi_FI` `da_DK` `is_IS` `hu_HU` `pl_PL` `lv_LV` `lt_LT`
+        :param locale: Passing a locale will sort the payment methods in the preferred order for the country, and translate the payment method names in the corresponding language.
         :param amount: If supplied, only payment methods that support the amount and currency are returned.  Example: `/v2/methods/all?amount[value]=100.00&amount[currency]=USD`
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `issuers`: Include issuer details such as which iDEAL or gift card issuers are available. * `pricing`: Include pricing for each payment method.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param sequence_type: Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.  Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -353,6 +355,7 @@ class Methods(BaseSDK):
                 amount, Optional[models.ListAllMethodsQueryParamAmount]
             ),
             include=include,
+            sequence_type=sequence_type,
         )
 
         req = self._build_request(
@@ -427,7 +430,7 @@ class Methods(BaseSDK):
             http_res,
         )
 
-    async def list_all_async(
+    async def all_async(
         self,
         *,
         locale: Optional[str] = None,
@@ -437,7 +440,8 @@ class Methods(BaseSDK):
                 models.ListAllMethodsQueryParamAmountTypedDict,
             ]
         ] = None,
-        include: OptionalNullable[str] = UNSET,
+        include: OptionalNullable[models.ListAllMethodsQueryParamInclude] = UNSET,
+        sequence_type: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -455,9 +459,10 @@ class Methods(BaseSDK):
         >
         > [Access token with **payments.read**](/reference/authentication)
 
-        :param locale: Passing a locale will sort the payment methods in the preferred order for the country, and translate the payment method names in the corresponding language.  Possible values: `en_US` `en_GB` `nl_NL` `nl_BE` `de_DE` `de_AT` `de_CH` `fr_FR` `fr_BE` `es_ES` `ca_ES` `pt_PT` `it_IT` `nb_NO` `sv_SE` `fi_FI` `da_DK` `is_IS` `hu_HU` `pl_PL` `lv_LV` `lt_LT`
+        :param locale: Passing a locale will sort the payment methods in the preferred order for the country, and translate the payment method names in the corresponding language.
         :param amount: If supplied, only payment methods that support the amount and currency are returned.  Example: `/v2/methods/all?amount[value]=100.00&amount[currency]=USD`
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `issuers`: Include issuer details such as which iDEAL or gift card issuers are available. * `pricing`: Include pricing for each payment method.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param sequence_type: Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.  Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -479,6 +484,7 @@ class Methods(BaseSDK):
                 amount, Optional[models.ListAllMethodsQueryParamAmount]
             ),
             include=include,
+            sequence_type=sequence_type,
         )
 
         req = self._build_request_async(
@@ -560,7 +566,8 @@ class Methods(BaseSDK):
         locale: Optional[str] = None,
         currency: Optional[str] = None,
         profile_id: Optional[str] = None,
-        include: OptionalNullable[str] = UNSET,
+        include: OptionalNullable[models.GetMethodQueryParamInclude] = UNSET,
+        sequence_type: Optional[str] = None,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -584,10 +591,11 @@ class Methods(BaseSDK):
         > [Access token with **payments.read**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param locale: Passing a locale will translate the payment method name in the corresponding language.  Possible values: `en_US` `en_GB` `nl_NL` `nl_BE` `de_DE` `de_AT` `de_CH` `fr_FR` `fr_BE` `es_ES` `ca_ES` `pt_PT` `it_IT` `nb_NO` `sv_SE` `fi_FI` `da_DK` `is_IS` `hu_HU` `pl_PL` `lv_LV` `lt_LT`
+        :param locale: Passing a locale will sort the payment methods in the preferred order for the country, and translate the payment method names in the corresponding language.
         :param currency: If provided, the `minimumAmount` and `maximumAmount` will be converted to the given currency. An error is returned if the currency is not supported by the payment method.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the payment method for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `issuers`: Include issuer details such as which iDEAL or gift card issuers are available. * `pricing`: Include pricing for the payment method.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param sequence_type: Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.  Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -610,6 +618,7 @@ class Methods(BaseSDK):
             currency=currency,
             profile_id=profile_id,
             include=include,
+            sequence_type=sequence_type,
             testmode=testmode,
         )
 
@@ -695,7 +704,8 @@ class Methods(BaseSDK):
         locale: Optional[str] = None,
         currency: Optional[str] = None,
         profile_id: Optional[str] = None,
-        include: OptionalNullable[str] = UNSET,
+        include: OptionalNullable[models.GetMethodQueryParamInclude] = UNSET,
+        sequence_type: Optional[str] = None,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -719,10 +729,11 @@ class Methods(BaseSDK):
         > [Access token with **payments.read**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param locale: Passing a locale will translate the payment method name in the corresponding language.  Possible values: `en_US` `en_GB` `nl_NL` `nl_BE` `de_DE` `de_AT` `de_CH` `fr_FR` `fr_BE` `es_ES` `ca_ES` `pt_PT` `it_IT` `nb_NO` `sv_SE` `fi_FI` `da_DK` `is_IS` `hu_HU` `pl_PL` `lv_LV` `lt_LT`
+        :param locale: Passing a locale will sort the payment methods in the preferred order for the country, and translate the payment method names in the corresponding language.
         :param currency: If provided, the `minimumAmount` and `maximumAmount` will be converted to the given currency. An error is returned if the currency is not supported by the payment method.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the payment method for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `issuers`: Include issuer details such as which iDEAL or gift card issuers are available. * `pricing`: Include pricing for the payment method.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param sequence_type: Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.  Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -745,6 +756,7 @@ class Methods(BaseSDK):
             currency=currency,
             profile_id=profile_id,
             include=include,
+            sequence_type=sequence_type,
             testmode=testmode,
         )
 
@@ -803,974 +815,6 @@ class Methods(BaseSDK):
                 http_res.text, models.GetMethodMethodsResponseResponseBodyData
             )
             raise models.GetMethodMethodsResponseResponseBody(data=response_data)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
-
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
-
-    def enable_method(
-        self,
-        *,
-        profile_id: str,
-        id: str,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.EnableMethodResponseBody:
-        r"""Enable payment method
-
-        Enable a payment method on a specific profile.
-
-        When using a profile-specific API credential, the alias `me` can be used instead of the profile ID to refer to the current profile.
-
-        Some payment methods require extra steps in order to be activated. In cases where a step at the payment method provider needs to be completed first, the status will be set to `pending-external` and the response will contain a link to complete the activation at the provider.
-
-        To enable voucher or gift card issuers, refer to the [Enable payment method issuer](enable-method-issuer) endpoint.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **profiles.write**](/reference/authentication)
-
-        :param profile_id: Provide the ID of the related profile.
-        :param id: Provide the ID of the item you want to perform this operation on.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.EnableMethodRequest(
-            profile_id=profile_id,
-            id=id,
-        )
-
-        req = self._build_request(
-            method="POST",
-            path="/profiles/{profileId}/methods/{id}",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=True,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/hal+json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["5xx"])
-
-        http_res = self.do_request(
-            hook_ctx=HookContext(
-                base_url=base_url or "",
-                operation_id="enable-method",
-                oauth2_scopes=[],
-                security_source=get_security_from_env(
-                    self.sdk_configuration.security, models.Security
-                ),
-            ),
-            request=req,
-            error_status_codes=["404", "4XX", "5XX"],
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.EnableMethodResponseBody)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.EnableMethodMethodsResponseBodyData
-            )
-            raise models.EnableMethodMethodsResponseBody(data=response_data)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
-
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
-
-    async def enable_method_async(
-        self,
-        *,
-        profile_id: str,
-        id: str,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.EnableMethodResponseBody:
-        r"""Enable payment method
-
-        Enable a payment method on a specific profile.
-
-        When using a profile-specific API credential, the alias `me` can be used instead of the profile ID to refer to the current profile.
-
-        Some payment methods require extra steps in order to be activated. In cases where a step at the payment method provider needs to be completed first, the status will be set to `pending-external` and the response will contain a link to complete the activation at the provider.
-
-        To enable voucher or gift card issuers, refer to the [Enable payment method issuer](enable-method-issuer) endpoint.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **profiles.write**](/reference/authentication)
-
-        :param profile_id: Provide the ID of the related profile.
-        :param id: Provide the ID of the item you want to perform this operation on.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.EnableMethodRequest(
-            profile_id=profile_id,
-            id=id,
-        )
-
-        req = self._build_request_async(
-            method="POST",
-            path="/profiles/{profileId}/methods/{id}",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=True,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/hal+json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["5xx"])
-
-        http_res = await self.do_request_async(
-            hook_ctx=HookContext(
-                base_url=base_url or "",
-                operation_id="enable-method",
-                oauth2_scopes=[],
-                security_source=get_security_from_env(
-                    self.sdk_configuration.security, models.Security
-                ),
-            ),
-            request=req,
-            error_status_codes=["404", "4XX", "5XX"],
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.EnableMethodResponseBody)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.EnableMethodMethodsResponseBodyData
-            )
-            raise models.EnableMethodMethodsResponseBody(data=response_data)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
-
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
-
-    def disable_method(
-        self,
-        *,
-        profile_id: str,
-        id: str,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
-        r"""Disable payment method
-
-        Disable a payment method on a specific profile.
-
-        When using a profile-specific API credential, the alias `me` can be used instead of the profile ID to refer to the current profile.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **profiles.write**](/reference/authentication)
-
-        :param profile_id: Provide the ID of the related profile.
-        :param id: Provide the ID of the item you want to perform this operation on.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.DisableMethodRequest(
-            profile_id=profile_id,
-            id=id,
-        )
-
-        req = self._build_request(
-            method="DELETE",
-            path="/profiles/{profileId}/methods/{id}",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=True,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/hal+json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["5xx"])
-
-        http_res = self.do_request(
-            hook_ctx=HookContext(
-                base_url=base_url or "",
-                operation_id="disable-method",
-                oauth2_scopes=[],
-                security_source=get_security_from_env(
-                    self.sdk_configuration.security, models.Security
-                ),
-            ),
-            request=req,
-            error_status_codes=["404", "4XX", "5XX"],
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.DisableMethodResponseBodyData
-            )
-            raise models.DisableMethodResponseBody(data=response_data)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
-
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
-
-    async def disable_method_async(
-        self,
-        *,
-        profile_id: str,
-        id: str,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
-        r"""Disable payment method
-
-        Disable a payment method on a specific profile.
-
-        When using a profile-specific API credential, the alias `me` can be used instead of the profile ID to refer to the current profile.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **profiles.write**](/reference/authentication)
-
-        :param profile_id: Provide the ID of the related profile.
-        :param id: Provide the ID of the item you want to perform this operation on.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.DisableMethodRequest(
-            profile_id=profile_id,
-            id=id,
-        )
-
-        req = self._build_request_async(
-            method="DELETE",
-            path="/profiles/{profileId}/methods/{id}",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=True,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/hal+json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["5xx"])
-
-        http_res = await self.do_request_async(
-            hook_ctx=HookContext(
-                base_url=base_url or "",
-                operation_id="disable-method",
-                oauth2_scopes=[],
-                security_source=get_security_from_env(
-                    self.sdk_configuration.security, models.Security
-                ),
-            ),
-            request=req,
-            error_status_codes=["404", "4XX", "5XX"],
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.DisableMethodResponseBodyData
-            )
-            raise models.DisableMethodResponseBody(data=response_data)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
-
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
-
-    def enable_method_issuer(
-        self,
-        *,
-        profile_id: str,
-        method_id: str,
-        id: str,
-        contract_id: OptionalNullable[str] = UNSET,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.EnableMethodIssuerResponseBody:
-        r"""Enable payment method issuer
-
-        Enable an issuer for a payment method on a specific profile.
-
-        Currently only the payment methods `voucher` and `giftcard` are supported.
-
-        When using a profile-specific API credential, the alias `me` can be used instead of the profile ID to refer to the current profile.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **profiles.write**](/reference/authentication)
-
-        :param profile_id: Provide the ID of the related profile.
-        :param method_id: Provide the ID of the related payment method.
-        :param id: Provide the ID of the item you want to perform this operation on.
-        :param contract_id: When enabling a voucher issuer, an inbetween party may be involved which you have a contract with. Provide the contract ID for the first time you enable an issuer via this contractor.  You can update the contract ID as long as it is not approved yet, by repeating the API call with a different contract ID.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.EnableMethodIssuerRequest(
-            profile_id=profile_id,
-            method_id=method_id,
-            id=id,
-            request_body=models.EnableMethodIssuerRequestBody(
-                contract_id=contract_id,
-            ),
-        )
-
-        req = self._build_request(
-            method="POST",
-            path="/profiles/{profileId}/methods/{methodId}/issuers/{id}",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=True,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/hal+json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body,
-                False,
-                True,
-                "json",
-                Optional[models.EnableMethodIssuerRequestBody],
-            ),
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["5xx"])
-
-        http_res = self.do_request(
-            hook_ctx=HookContext(
-                base_url=base_url or "",
-                operation_id="enable-method-issuer",
-                oauth2_scopes=[],
-                security_source=get_security_from_env(
-                    self.sdk_configuration.security, models.Security
-                ),
-            ),
-            request=req,
-            error_status_codes=["404", "4XX", "5XX"],
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.EnableMethodIssuerResponseBody
-            )
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.EnableMethodIssuerMethodsResponseBodyData
-            )
-            raise models.EnableMethodIssuerMethodsResponseBody(data=response_data)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
-
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
-
-    async def enable_method_issuer_async(
-        self,
-        *,
-        profile_id: str,
-        method_id: str,
-        id: str,
-        contract_id: OptionalNullable[str] = UNSET,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.EnableMethodIssuerResponseBody:
-        r"""Enable payment method issuer
-
-        Enable an issuer for a payment method on a specific profile.
-
-        Currently only the payment methods `voucher` and `giftcard` are supported.
-
-        When using a profile-specific API credential, the alias `me` can be used instead of the profile ID to refer to the current profile.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **profiles.write**](/reference/authentication)
-
-        :param profile_id: Provide the ID of the related profile.
-        :param method_id: Provide the ID of the related payment method.
-        :param id: Provide the ID of the item you want to perform this operation on.
-        :param contract_id: When enabling a voucher issuer, an inbetween party may be involved which you have a contract with. Provide the contract ID for the first time you enable an issuer via this contractor.  You can update the contract ID as long as it is not approved yet, by repeating the API call with a different contract ID.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.EnableMethodIssuerRequest(
-            profile_id=profile_id,
-            method_id=method_id,
-            id=id,
-            request_body=models.EnableMethodIssuerRequestBody(
-                contract_id=contract_id,
-            ),
-        )
-
-        req = self._build_request_async(
-            method="POST",
-            path="/profiles/{profileId}/methods/{methodId}/issuers/{id}",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=True,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/hal+json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body,
-                False,
-                True,
-                "json",
-                Optional[models.EnableMethodIssuerRequestBody],
-            ),
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["5xx"])
-
-        http_res = await self.do_request_async(
-            hook_ctx=HookContext(
-                base_url=base_url or "",
-                operation_id="enable-method-issuer",
-                oauth2_scopes=[],
-                security_source=get_security_from_env(
-                    self.sdk_configuration.security, models.Security
-                ),
-            ),
-            request=req,
-            error_status_codes=["404", "4XX", "5XX"],
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.EnableMethodIssuerResponseBody
-            )
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.EnableMethodIssuerMethodsResponseBodyData
-            )
-            raise models.EnableMethodIssuerMethodsResponseBody(data=response_data)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
-
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
-
-    def disable_method_issuer(
-        self,
-        *,
-        profile_id: str,
-        method_id: str,
-        id: str,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
-        r"""Disable payment method issuer
-
-        Disable an issuer for a payment method on a specific profile.
-
-        Currently only the payment methods `voucher` and `giftcard` are supported.
-
-        When using a profile-specific API credential, the alias `me` can be used instead of the profile ID to refer to the current profile.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **profiles.write**](/reference/authentication)
-
-        :param profile_id: Provide the ID of the related profile.
-        :param method_id: Provide the ID of the related payment method.
-        :param id: Provide the ID of the item you want to perform this operation on.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.DisableMethodIssuerRequest(
-            profile_id=profile_id,
-            method_id=method_id,
-            id=id,
-        )
-
-        req = self._build_request(
-            method="DELETE",
-            path="/profiles/{profileId}/methods/{methodId}/issuers/{id}",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=True,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/hal+json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["5xx"])
-
-        http_res = self.do_request(
-            hook_ctx=HookContext(
-                base_url=base_url or "",
-                operation_id="disable-method-issuer",
-                oauth2_scopes=[],
-                security_source=get_security_from_env(
-                    self.sdk_configuration.security, models.Security
-                ),
-            ),
-            request=req,
-            error_status_codes=["404", "4XX", "5XX"],
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.DisableMethodIssuerResponseBodyData
-            )
-            raise models.DisableMethodIssuerResponseBody(data=response_data)
-        if utils.match_response(http_res, "4XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
-
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
-
-    async def disable_method_issuer_async(
-        self,
-        *,
-        profile_id: str,
-        method_id: str,
-        id: str,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
-        r"""Disable payment method issuer
-
-        Disable an issuer for a payment method on a specific profile.
-
-        Currently only the payment methods `voucher` and `giftcard` are supported.
-
-        When using a profile-specific API credential, the alias `me` can be used instead of the profile ID to refer to the current profile.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **profiles.write**](/reference/authentication)
-
-        :param profile_id: Provide the ID of the related profile.
-        :param method_id: Provide the ID of the related payment method.
-        :param id: Provide the ID of the item you want to perform this operation on.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.DisableMethodIssuerRequest(
-            profile_id=profile_id,
-            method_id=method_id,
-            id=id,
-        )
-
-        req = self._build_request_async(
-            method="DELETE",
-            path="/profiles/{profileId}/methods/{methodId}/issuers/{id}",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=True,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/hal+json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["5xx"])
-
-        http_res = await self.do_request_async(
-            hook_ctx=HookContext(
-                base_url=base_url or "",
-                operation_id="disable-method-issuer",
-                oauth2_scopes=[],
-                security_source=get_security_from_env(
-                    self.sdk_configuration.security, models.Security
-                ),
-            ),
-            request=req,
-            error_status_codes=["404", "4XX", "5XX"],
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.DisableMethodIssuerResponseBodyData
-            )
-            raise models.DisableMethodIssuerResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(

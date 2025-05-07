@@ -6,7 +6,7 @@
 ### Available Operations
 
 * [get](#get) - Get onboarding status
-* [create](#create) - Submit onboarding data
+* [submit](#submit) - Submit onboarding data
 
 ## get
 
@@ -53,7 +53,7 @@ with Client(
 | --------------- | --------------- | --------------- |
 | models.APIError | 4XX, 5XX        | \*/\*           |
 
-## create
+## submit
 
 **⚠️ We no longer recommend implementing this endpoint. Please refer to the Client Links API instead to kick off the onboarding process for your merchants.**
 
@@ -79,7 +79,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.onboarding.create()
+    res = client.onboarding.submit()
 
     # Handle response
     print(res)

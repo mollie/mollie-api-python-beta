@@ -15,6 +15,7 @@ class Mandates(BaseSDK):
         customer_id: str,
         method: str,
         consumer_name: str,
+        id: Optional[str] = None,
         consumer_account: OptionalNullable[str] = UNSET,
         consumer_bic: OptionalNullable[str] = UNSET,
         consumer_email: OptionalNullable[str] = UNSET,
@@ -27,7 +28,7 @@ class Mandates(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CreateMandateResponseBody:
         r"""Create mandate
 
         Create a mandate for a specific customer. Mandates allow you to charge a customer's card, PayPal account or bank account recurrently.
@@ -43,6 +44,7 @@ class Mandates(BaseSDK):
         :param customer_id: Provide the ID of the related customer.
         :param method: Payment method of the mandate.  SEPA Direct Debit and PayPal mandates can be created directly.  Possible values: `creditcard` `directdebit` `paypal`
         :param consumer_name: The customer's name.
+        :param id: The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`.
         :param consumer_account: The customer's IBAN. Required for SEPA Direct Debit mandates.
         :param consumer_bic: The BIC of the customer's bank.
         :param consumer_email: The customer's email address. Required for PayPal mandates.
@@ -69,6 +71,7 @@ class Mandates(BaseSDK):
         request = models.CreateMandateRequest(
             customer_id=customer_id,
             request_body=models.CreateMandateRequestBody(
+                id=id,
                 method=method,
                 consumer_name=consumer_name,
                 consumer_account=consumer_account,
@@ -133,12 +136,12 @@ class Mandates(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, models.CreateMandateResponseBody)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = utils.unmarshal_json(
-                http_res.text, models.CreateMandateResponseBodyData
+                http_res.text, models.CreateMandateMandatesResponseBodyData
             )
-            raise models.CreateMandateResponseBody(data=response_data)
+            raise models.CreateMandateMandatesResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -165,6 +168,7 @@ class Mandates(BaseSDK):
         customer_id: str,
         method: str,
         consumer_name: str,
+        id: Optional[str] = None,
         consumer_account: OptionalNullable[str] = UNSET,
         consumer_bic: OptionalNullable[str] = UNSET,
         consumer_email: OptionalNullable[str] = UNSET,
@@ -177,7 +181,7 @@ class Mandates(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CreateMandateResponseBody:
         r"""Create mandate
 
         Create a mandate for a specific customer. Mandates allow you to charge a customer's card, PayPal account or bank account recurrently.
@@ -193,6 +197,7 @@ class Mandates(BaseSDK):
         :param customer_id: Provide the ID of the related customer.
         :param method: Payment method of the mandate.  SEPA Direct Debit and PayPal mandates can be created directly.  Possible values: `creditcard` `directdebit` `paypal`
         :param consumer_name: The customer's name.
+        :param id: The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`.
         :param consumer_account: The customer's IBAN. Required for SEPA Direct Debit mandates.
         :param consumer_bic: The BIC of the customer's bank.
         :param consumer_email: The customer's email address. Required for PayPal mandates.
@@ -219,6 +224,7 @@ class Mandates(BaseSDK):
         request = models.CreateMandateRequest(
             customer_id=customer_id,
             request_body=models.CreateMandateRequestBody(
+                id=id,
                 method=method,
                 consumer_name=consumer_name,
                 consumer_account=consumer_account,
@@ -283,12 +289,12 @@ class Mandates(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, models.CreateMandateResponseBody)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = utils.unmarshal_json(
-                http_res.text, models.CreateMandateResponseBodyData
+                http_res.text, models.CreateMandateMandatesResponseBodyData
             )
-            raise models.CreateMandateResponseBody(data=response_data)
+            raise models.CreateMandateMandatesResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(
@@ -315,6 +321,7 @@ class Mandates(BaseSDK):
         customer_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
+        sort: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -336,6 +343,7 @@ class Mandates(BaseSDK):
         :param customer_id: Provide the ID of the related customer.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -356,6 +364,7 @@ class Mandates(BaseSDK):
             customer_id=customer_id,
             from_=from_,
             limit=limit,
+            sort=sort,
             testmode=testmode,
         )
 
@@ -440,6 +449,7 @@ class Mandates(BaseSDK):
         customer_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
+        sort: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -461,6 +471,7 @@ class Mandates(BaseSDK):
         :param customer_id: Provide the ID of the related customer.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -481,6 +492,7 @@ class Mandates(BaseSDK):
             customer_id=customer_id,
             from_=from_,
             limit=limit,
+            sort=sort,
             testmode=testmode,
         )
 
@@ -563,7 +575,7 @@ class Mandates(BaseSDK):
         self,
         *,
         customer_id: str,
-        id: str,
+        mandate_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -581,7 +593,7 @@ class Mandates(BaseSDK):
         > [Access token with **mandates.read**](/reference/authentication)
 
         :param customer_id: Provide the ID of the related customer.
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param mandate_id: Provide the ID of the related mandate.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -600,13 +612,13 @@ class Mandates(BaseSDK):
 
         request = models.GetMandateRequest(
             customer_id=customer_id,
-            id=id,
+            mandate_id=mandate_id,
             testmode=testmode,
         )
 
         req = self._build_request(
             method="GET",
-            path="/customers/{customerId}/mandates/{id}",
+            path="/customers/{customerId}/mandates/{mandateId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -678,7 +690,7 @@ class Mandates(BaseSDK):
         self,
         *,
         customer_id: str,
-        id: str,
+        mandate_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -696,7 +708,7 @@ class Mandates(BaseSDK):
         > [Access token with **mandates.read**](/reference/authentication)
 
         :param customer_id: Provide the ID of the related customer.
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param mandate_id: Provide the ID of the related mandate.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -715,13 +727,13 @@ class Mandates(BaseSDK):
 
         request = models.GetMandateRequest(
             customer_id=customer_id,
-            id=id,
+            mandate_id=mandate_id,
             testmode=testmode,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/customers/{customerId}/mandates/{id}",
+            path="/customers/{customerId}/mandates/{mandateId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -793,7 +805,7 @@ class Mandates(BaseSDK):
         self,
         *,
         customer_id: str,
-        id: str,
+        mandate_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -811,7 +823,7 @@ class Mandates(BaseSDK):
         > [Access token with **mandates.write**](/reference/authentication)
 
         :param customer_id: Provide the ID of the related customer.
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param mandate_id: Provide the ID of the related mandate.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -830,13 +842,13 @@ class Mandates(BaseSDK):
 
         request = models.RevokeMandateRequest(
             customer_id=customer_id,
-            id=id,
+            mandate_id=mandate_id,
             testmode=testmode,
         )
 
         req = self._build_request(
             method="DELETE",
-            path="/customers/{customerId}/mandates/{id}",
+            path="/customers/{customerId}/mandates/{mandateId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -908,7 +920,7 @@ class Mandates(BaseSDK):
         self,
         *,
         customer_id: str,
-        id: str,
+        mandate_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -926,7 +938,7 @@ class Mandates(BaseSDK):
         > [Access token with **mandates.write**](/reference/authentication)
 
         :param customer_id: Provide the ID of the related customer.
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param mandate_id: Provide the ID of the related mandate.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -945,13 +957,13 @@ class Mandates(BaseSDK):
 
         request = models.RevokeMandateRequest(
             customer_id=customer_id,
-            id=id,
+            mandate_id=mandate_id,
             testmode=testmode,
         )
 
         req = self._build_request_async(
             method="DELETE",
-            path="/customers/{customerId}/mandates/{id}",
+            path="/customers/{customerId}/mandates/{mandateId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,

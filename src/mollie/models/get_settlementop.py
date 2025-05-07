@@ -6,7 +6,7 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, PathParamMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -96,37 +96,427 @@ class GetSettlementAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
+class GetSettlementFixedTypedDict(TypedDict):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetSettlementFixed(BaseModel):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class PercentageTypedDict(TypedDict):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class Percentage(BaseModel):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class RateTypedDict(TypedDict):
+    r"""The service rates, further divided into `fixed` and `percentage` costs."""
+
+    fixed: NotRequired[GetSettlementFixedTypedDict]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    percentage: NotRequired[PercentageTypedDict]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+
+class Rate(BaseModel):
+    r"""The service rates, further divided into `fixed` and `percentage` costs."""
+
+    fixed: Optional[GetSettlementFixed] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    percentage: Optional[Percentage] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+
+class AmountNetTypedDict(TypedDict):
+    r"""The net total cost, i.e. excluding VAT"""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class AmountNet(BaseModel):
+    r"""The net total cost, i.e. excluding VAT"""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class AmountVatTypedDict(TypedDict):
+    r"""The applicable VAT"""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class AmountVat(BaseModel):
+    r"""The applicable VAT"""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class AmountGrossTypedDict(TypedDict):
+    r"""The gross total cost, i.e. including VAT"""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class AmountGross(BaseModel):
+    r"""The gross total cost, i.e. including VAT"""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class CostsTypedDict(TypedDict):
+    description: NotRequired[str]
+    r"""A description of the cost subtotal"""
+    method: NotRequired[Nullable[str]]
+    r"""The payment method, if applicable
+
+    Possible values: `alma` `bacs` `applepay` `bancomatpay` `bancontact` `banktransfer` `belfius` `billie` `bizum` `bitcoin` `blik` `creditcard` `directdebit` `eps` `giftcard` `giropay` `googlepay` `ideal` `in3` `inghomepay` `kbc` `klarnapaylater` `klarnapaynow` `klarnasliceit` `klarna` `mbway` `multibanco` `mybank` `paybybank` `payconiq` `paypal` `paysafecard` `przelewy24` `riverty` `satispay` `podiumcadeaukaart` `pointofsale` `sofort` `swish` `trustly` `twint` `voucher`
+    """
+    count: NotRequired[int]
+    r"""The number of fees"""
+    rate: NotRequired[RateTypedDict]
+    r"""The service rates, further divided into `fixed` and `percentage` costs."""
+    amount_net: NotRequired[AmountNetTypedDict]
+    r"""The net total cost, i.e. excluding VAT"""
+    amount_vat: NotRequired[AmountVatTypedDict]
+    r"""The applicable VAT"""
+    amount_gross: NotRequired[AmountGrossTypedDict]
+    r"""The gross total cost, i.e. including VAT"""
+
+
+class Costs(BaseModel):
+    description: Optional[str] = None
+    r"""A description of the cost subtotal"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""The payment method, if applicable
+
+    Possible values: `alma` `bacs` `applepay` `bancomatpay` `bancontact` `banktransfer` `belfius` `billie` `bizum` `bitcoin` `blik` `creditcard` `directdebit` `eps` `giftcard` `giropay` `googlepay` `ideal` `in3` `inghomepay` `kbc` `klarnapaylater` `klarnapaynow` `klarnasliceit` `klarna` `mbway` `multibanco` `mybank` `paybybank` `payconiq` `paypal` `paysafecard` `przelewy24` `riverty` `satispay` `podiumcadeaukaart` `pointofsale` `sofort` `swish` `trustly` `twint` `voucher`
+    """
+
+    count: Optional[int] = None
+    r"""The number of fees"""
+
+    rate: Optional[Rate] = None
+    r"""The service rates, further divided into `fixed` and `percentage` costs."""
+
+    amount_net: Annotated[Optional[AmountNet], pydantic.Field(alias="amountNet")] = None
+    r"""The net total cost, i.e. excluding VAT"""
+
+    amount_vat: Annotated[Optional[AmountVat], pydantic.Field(alias="amountVat")] = None
+    r"""The applicable VAT"""
+
+    amount_gross: Annotated[
+        Optional[AmountGross], pydantic.Field(alias="amountGross")
+    ] = None
+    r"""The gross total cost, i.e. including VAT"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "description",
+            "method",
+            "count",
+            "rate",
+            "amountNet",
+            "amountVat",
+            "amountGross",
+        ]
+        nullable_fields = ["method"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetSettlementAmountNetTypedDict(TypedDict):
+    r"""The net total of received funds, i.e. excluding VAT"""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetSettlementAmountNet(BaseModel):
+    r"""The net total of received funds, i.e. excluding VAT"""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetSettlementAmountVatTypedDict(TypedDict):
+    r"""The applicable VAT"""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetSettlementAmountVat(BaseModel):
+    r"""The applicable VAT"""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetSettlementAmountGrossTypedDict(TypedDict):
+    r"""The gross total of received funds, i.e. including VAT"""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetSettlementAmountGross(BaseModel):
+    r"""The gross total of received funds, i.e. including VAT"""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class RevenueTypedDict(TypedDict):
+    description: NotRequired[str]
+    r"""A description of the revenue subtotal"""
+    method: NotRequired[Nullable[str]]
+    r"""The payment method, if applicable
+
+    Possible values: `alma` `bacs` `applepay` `bancomatpay` `bancontact` `banktransfer` `belfius` `billie` `bizum` `bitcoin` `blik` `creditcard` `directdebit` `eps` `giftcard` `giropay` `googlepay` `ideal` `in3` `inghomepay` `kbc` `klarnapaylater` `klarnapaynow` `klarnasliceit` `klarna` `mbway` `multibanco` `mybank` `paybybank` `payconiq` `paypal` `paysafecard` `przelewy24` `riverty` `satispay` `podiumcadeaukaart` `pointofsale` `sofort` `swish` `trustly` `twint` `voucher`
+    """
+    count: NotRequired[int]
+    r"""The number of payments"""
+    amount_net: NotRequired[GetSettlementAmountNetTypedDict]
+    r"""The net total of received funds, i.e. excluding VAT"""
+    amount_vat: NotRequired[GetSettlementAmountVatTypedDict]
+    r"""The applicable VAT"""
+    amount_gross: NotRequired[GetSettlementAmountGrossTypedDict]
+    r"""The gross total of received funds, i.e. including VAT"""
+
+
+class Revenue(BaseModel):
+    description: Optional[str] = None
+    r"""A description of the revenue subtotal"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""The payment method, if applicable
+
+    Possible values: `alma` `bacs` `applepay` `bancomatpay` `bancontact` `banktransfer` `belfius` `billie` `bizum` `bitcoin` `blik` `creditcard` `directdebit` `eps` `giftcard` `giropay` `googlepay` `ideal` `in3` `inghomepay` `kbc` `klarnapaylater` `klarnapaynow` `klarnasliceit` `klarna` `mbway` `multibanco` `mybank` `paybybank` `payconiq` `paypal` `paysafecard` `przelewy24` `riverty` `satispay` `podiumcadeaukaart` `pointofsale` `sofort` `swish` `trustly` `twint` `voucher`
+    """
+
+    count: Optional[int] = None
+    r"""The number of payments"""
+
+    amount_net: Annotated[
+        Optional[GetSettlementAmountNet], pydantic.Field(alias="amountNet")
+    ] = None
+    r"""The net total of received funds, i.e. excluding VAT"""
+
+    amount_vat: Annotated[
+        Optional[GetSettlementAmountVat], pydantic.Field(alias="amountVat")
+    ] = None
+    r"""The applicable VAT"""
+
+    amount_gross: Annotated[
+        Optional[GetSettlementAmountGross], pydantic.Field(alias="amountGross")
+    ] = None
+    r"""The gross total of received funds, i.e. including VAT"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "description",
+            "method",
+            "count",
+            "amountNet",
+            "amountVat",
+            "amountGross",
+        ]
+        nullable_fields = ["method"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class LessThanMonthGreaterThanTypedDict(TypedDict):
+    costs: NotRequired[List[CostsTypedDict]]
+    r"""An array of cost objects, describing the fees withheld for each payment method during this period."""
+    revenue: NotRequired[List[RevenueTypedDict]]
+    r"""An array of revenue objects containing the total revenue for each payment method during this period."""
+    invoice_id: NotRequired[Nullable[str]]
+    r"""The ID of the invoice created for this period, if the invoice has been created already."""
+    invoice_reference: NotRequired[Nullable[str]]
+    r"""The invoice reference, if the invoice has been created already."""
+
+
+class LessThanMonthGreaterThan(BaseModel):
+    costs: Optional[List[Costs]] = None
+    r"""An array of cost objects, describing the fees withheld for each payment method during this period."""
+
+    revenue: Optional[List[Revenue]] = None
+    r"""An array of revenue objects containing the total revenue for each payment method during this period."""
+
+    invoice_id: Annotated[OptionalNullable[str], pydantic.Field(alias="invoiceId")] = (
+        UNSET
+    )
+    r"""The ID of the invoice created for this period, if the invoice has been created already."""
+
+    invoice_reference: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="invoiceReference")
+    ] = UNSET
+    r"""The invoice reference, if the invoice has been created already."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["costs", "revenue", "invoiceId", "invoiceReference"]
+        nullable_fields = ["invoiceId", "invoiceReference"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class LessThanYearGreaterThanTypedDict(TypedDict):
+    less_than_month_greater_than: NotRequired[LessThanMonthGreaterThanTypedDict]
+
+
+class LessThanYearGreaterThan(BaseModel):
+    less_than_month_greater_than: Annotated[
+        Optional[LessThanMonthGreaterThan], pydantic.Field(alias="<month>")
+    ] = None
+
+
 class PeriodsTypedDict(TypedDict):
     r"""For bookkeeping purposes, the settlement includes an overview of transactions included in the settlement. These transactions are grouped into 'period' objects — one for each calendar month.
 
     For example, if a settlement includes funds from 15 April until 4 May, it will include two period objects. One for all transactions processed between 15 April and 30 April, and one for all transactions between 1 May and 4 May.
 
-    Period objects are grouped by year, and then by month. So in the above example, the full `periods` collection will look as follows: `{\"2024\": {\"04\": {...}, \"05\": {...}}}`.
-
-    Each period object will contain the following fields:
-    * `revenue` — An array of revenue objects containing the total revenue for each payment method during this period
-    * `costs` — An array of cost objects, describing the fees withheld for each payment method during this period
-    * `invoiceId` — The ID of the invoice created for this period, if the invoice has been created yet
-
-    Each `revenue` object has the following fields:
-    * `description` — A description of the revenue subtotal
-    * `method` — The payment method, if applicable
-    * `count` — The number of payments
-    * `amountNet` — The net total of received funds, i.e. excluding VAT
-    * `amountVat` — The applicable VAT
-    * `amountGross` — The gross total of received funds, i.e. including VAT
-
-    Each `cost` object has the following fields:
-    * `description` — A description of the cost subtotal
-    * `method` — The payment method, if applicable
-    * `count` — The number of fees
-    * `rate` — The service rates, further divided into `fixed` and `percentage` costs
-    * `amountNet` — The net total cost, i.e. excluding VAT
-    * `amountVat` — The applicable VAT
-    * `amountGross` — The gross total cost, i.e. including VAT
+    Period objects are grouped by year, and then by month. So in the above example, the full `periods` collection will look as follows: `{\"2024\": {\"04\": {...}, \"05\": {...}}}`. The year and month in this documentation are referred as `<year>` and `<month>`.
 
     The example response should give a good idea of what this looks like in practise.
     """
+
+    less_than_year_greater_than: NotRequired[LessThanYearGreaterThanTypedDict]
 
 
 class Periods(BaseModel):
@@ -134,32 +524,14 @@ class Periods(BaseModel):
 
     For example, if a settlement includes funds from 15 April until 4 May, it will include two period objects. One for all transactions processed between 15 April and 30 April, and one for all transactions between 1 May and 4 May.
 
-    Period objects are grouped by year, and then by month. So in the above example, the full `periods` collection will look as follows: `{\"2024\": {\"04\": {...}, \"05\": {...}}}`.
-
-    Each period object will contain the following fields:
-    * `revenue` — An array of revenue objects containing the total revenue for each payment method during this period
-    * `costs` — An array of cost objects, describing the fees withheld for each payment method during this period
-    * `invoiceId` — The ID of the invoice created for this period, if the invoice has been created yet
-
-    Each `revenue` object has the following fields:
-    * `description` — A description of the revenue subtotal
-    * `method` — The payment method, if applicable
-    * `count` — The number of payments
-    * `amountNet` — The net total of received funds, i.e. excluding VAT
-    * `amountVat` — The applicable VAT
-    * `amountGross` — The gross total of received funds, i.e. including VAT
-
-    Each `cost` object has the following fields:
-    * `description` — A description of the cost subtotal
-    * `method` — The payment method, if applicable
-    * `count` — The number of fees
-    * `rate` — The service rates, further divided into `fixed` and `percentage` costs
-    * `amountNet` — The net total cost, i.e. excluding VAT
-    * `amountVat` — The applicable VAT
-    * `amountGross` — The gross total cost, i.e. including VAT
+    Period objects are grouped by year, and then by month. So in the above example, the full `periods` collection will look as follows: `{\"2024\": {\"04\": {...}, \"05\": {...}}}`. The year and month in this documentation are referred as `<year>` and `<month>`.
 
     The example response should give a good idea of what this looks like in practise.
     """
+
+    less_than_year_greater_than: Annotated[
+        Optional[LessThanYearGreaterThan], pydantic.Field(alias="<year>")
+    ] = None
 
 
 class GetSettlementSelfTypedDict(TypedDict):
@@ -257,6 +629,25 @@ class GetSettlementChargebacks(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
+class InvoiceTypedDict(TypedDict):
+    r"""The API resource URL of the [invoice](list-invoices)."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class Invoice(BaseModel):
+    r"""The API resource URL of the [invoice](list-invoices)."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
 class GetSettlementDocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
@@ -289,6 +680,8 @@ class GetSettlementLinksTypedDict(TypedDict):
     r"""The API resource URL of the [refunds](list-refunds) deducted from this settlement."""
     chargebacks: NotRequired[GetSettlementChargebacksTypedDict]
     r"""The API resource URL of the [chargebacks](list-chargebacks) deducted from this settlement."""
+    invoice: NotRequired[Nullable[InvoiceTypedDict]]
+    r"""The API resource URL of the [invoice](list-invoices)."""
     documentation: NotRequired[GetSettlementDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
@@ -311,8 +704,49 @@ class GetSettlementLinks(BaseModel):
     chargebacks: Optional[GetSettlementChargebacks] = None
     r"""The API resource URL of the [chargebacks](list-chargebacks) deducted from this settlement."""
 
+    invoice: OptionalNullable[Invoice] = UNSET
+    r"""The API resource URL of the [invoice](list-invoices)."""
+
     documentation: Optional[GetSettlementDocumentation] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "self",
+            "payments",
+            "captures",
+            "refunds",
+            "chargebacks",
+            "invoice",
+            "documentation",
+        ]
+        nullable_fields = ["invoice"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class GetSettlementResponseBodyTypedDict(TypedDict):
@@ -321,8 +755,10 @@ class GetSettlementResponseBodyTypedDict(TypedDict):
     resource: NotRequired[str]
     r"""Indicates the response contains a settlement object. Will always contain the string `settlement` for this endpoint."""
     id: NotRequired[str]
-    r"""The identifier uniquely referring to this settlement. Example: `stl_jDk30akdN`."""
-    reference: NotRequired[str]
+    r"""The identifier uniquely referring to this settlement."""
+    created_at: NotRequired[str]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    reference: NotRequired[Nullable[str]]
     r"""The settlement's bank reference, as found in your Mollie account and on your bank statement."""
     settled_at: NotRequired[Nullable[str]]
     r"""The date on which the settlement was settled, in ISO 8601 format.
@@ -332,45 +768,20 @@ class GetSettlementResponseBodyTypedDict(TypedDict):
     status: NotRequired[str]
     r"""The status of the settlement.
 
-    * `open` — The settlement has not been closed yet
-    * `pending` — The settlement has been closed and is being processed
-    * `paidout` — The settlement has been paid out
-    * `failed` — The settlement could not be paid out
-
     Possible values: `open` `pending` `paidout` `failed`
     """
     amount: NotRequired[GetSettlementAmountTypedDict]
     r"""The total amount of the settlement."""
     balance_id: NotRequired[str]
     r"""The balance token that the settlement was settled to."""
+    invoice_id: NotRequired[Nullable[str]]
+    r"""The ID of the oldest invoice created for all the periods, if the invoice has been created yet."""
     periods: NotRequired[PeriodsTypedDict]
     r"""For bookkeeping purposes, the settlement includes an overview of transactions included in the settlement. These transactions are grouped into 'period' objects — one for each calendar month.
 
     For example, if a settlement includes funds from 15 April until 4 May, it will include two period objects. One for all transactions processed between 15 April and 30 April, and one for all transactions between 1 May and 4 May.
 
-    Period objects are grouped by year, and then by month. So in the above example, the full `periods` collection will look as follows: `{\"2024\": {\"04\": {...}, \"05\": {...}}}`.
-
-    Each period object will contain the following fields:
-    * `revenue` — An array of revenue objects containing the total revenue for each payment method during this period
-    * `costs` — An array of cost objects, describing the fees withheld for each payment method during this period
-    * `invoiceId` — The ID of the invoice created for this period, if the invoice has been created yet
-
-    Each `revenue` object has the following fields:
-    * `description` — A description of the revenue subtotal
-    * `method` — The payment method, if applicable
-    * `count` — The number of payments
-    * `amountNet` — The net total of received funds, i.e. excluding VAT
-    * `amountVat` — The applicable VAT
-    * `amountGross` — The gross total of received funds, i.e. including VAT
-
-    Each `cost` object has the following fields:
-    * `description` — A description of the cost subtotal
-    * `method` — The payment method, if applicable
-    * `count` — The number of fees
-    * `rate` — The service rates, further divided into `fixed` and `percentage` costs
-    * `amountNet` — The net total cost, i.e. excluding VAT
-    * `amountVat` — The applicable VAT
-    * `amountGross` — The gross total cost, i.e. including VAT
+    Period objects are grouped by year, and then by month. So in the above example, the full `periods` collection will look as follows: `{\"2024\": {\"04\": {...}, \"05\": {...}}}`. The year and month in this documentation are referred as `<year>` and `<month>`.
 
     The example response should give a good idea of what this looks like in practise.
     """
@@ -385,9 +796,12 @@ class GetSettlementResponseBody(BaseModel):
     r"""Indicates the response contains a settlement object. Will always contain the string `settlement` for this endpoint."""
 
     id: Optional[str] = None
-    r"""The identifier uniquely referring to this settlement. Example: `stl_jDk30akdN`."""
+    r"""The identifier uniquely referring to this settlement."""
 
-    reference: Optional[str] = None
+    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
+    reference: OptionalNullable[str] = UNSET
     r"""The settlement's bank reference, as found in your Mollie account and on your bank statement."""
 
     settled_at: Annotated[OptionalNullable[str], pydantic.Field(alias="settledAt")] = (
@@ -401,11 +815,6 @@ class GetSettlementResponseBody(BaseModel):
     status: Optional[str] = None
     r"""The status of the settlement.
 
-    * `open` — The settlement has not been closed yet
-    * `pending` — The settlement has been closed and is being processed
-    * `paidout` — The settlement has been paid out
-    * `failed` — The settlement could not be paid out
-
     Possible values: `open` `pending` `paidout` `failed`
     """
 
@@ -415,34 +824,17 @@ class GetSettlementResponseBody(BaseModel):
     balance_id: Annotated[Optional[str], pydantic.Field(alias="balanceId")] = None
     r"""The balance token that the settlement was settled to."""
 
+    invoice_id: Annotated[OptionalNullable[str], pydantic.Field(alias="invoiceId")] = (
+        UNSET
+    )
+    r"""The ID of the oldest invoice created for all the periods, if the invoice has been created yet."""
+
     periods: Optional[Periods] = None
     r"""For bookkeeping purposes, the settlement includes an overview of transactions included in the settlement. These transactions are grouped into 'period' objects — one for each calendar month.
 
     For example, if a settlement includes funds from 15 April until 4 May, it will include two period objects. One for all transactions processed between 15 April and 30 April, and one for all transactions between 1 May and 4 May.
 
-    Period objects are grouped by year, and then by month. So in the above example, the full `periods` collection will look as follows: `{\"2024\": {\"04\": {...}, \"05\": {...}}}`.
-
-    Each period object will contain the following fields:
-    * `revenue` — An array of revenue objects containing the total revenue for each payment method during this period
-    * `costs` — An array of cost objects, describing the fees withheld for each payment method during this period
-    * `invoiceId` — The ID of the invoice created for this period, if the invoice has been created yet
-
-    Each `revenue` object has the following fields:
-    * `description` — A description of the revenue subtotal
-    * `method` — The payment method, if applicable
-    * `count` — The number of payments
-    * `amountNet` — The net total of received funds, i.e. excluding VAT
-    * `amountVat` — The applicable VAT
-    * `amountGross` — The gross total of received funds, i.e. including VAT
-
-    Each `cost` object has the following fields:
-    * `description` — A description of the cost subtotal
-    * `method` — The payment method, if applicable
-    * `count` — The number of fees
-    * `rate` — The service rates, further divided into `fixed` and `percentage` costs
-    * `amountNet` — The net total cost, i.e. excluding VAT
-    * `amountVat` — The applicable VAT
-    * `amountGross` — The gross total cost, i.e. including VAT
+    Period objects are grouped by year, and then by month. So in the above example, the full `periods` collection will look as follows: `{\"2024\": {\"04\": {...}, \"05\": {...}}}`. The year and month in this documentation are referred as `<year>` and `<month>`.
 
     The example response should give a good idea of what this looks like in practise.
     """
@@ -457,22 +849,24 @@ class GetSettlementResponseBody(BaseModel):
         optional_fields = [
             "resource",
             "id",
+            "createdAt",
             "reference",
             "settledAt",
             "status",
             "amount",
             "balanceId",
+            "invoiceId",
             "periods",
             "_links",
         ]
-        nullable_fields = ["settledAt"]
+        nullable_fields = ["reference", "settledAt", "invoiceId"]
         null_default_fields = []
 
         serialized = handler(self)
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

@@ -11,8 +11,8 @@ from mollie.utils import (
 )
 import pydantic
 from pydantic import model_serializer
-from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class UpdateSubscriptionAmountTypedDict(TypedDict):
@@ -34,41 +34,110 @@ class UpdateSubscriptionAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
+class UpdateSubscriptionMetadata2TypedDict(TypedDict):
+    pass
+
+
+class UpdateSubscriptionMetadata2(BaseModel):
+    pass
+
+
+UpdateSubscriptionMetadataTypedDict = TypeAliasType(
+    "UpdateSubscriptionMetadataTypedDict",
+    Union[UpdateSubscriptionMetadata2TypedDict, str, List[str]],
+)
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+
+Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
+"""
+
+
+UpdateSubscriptionMetadata = TypeAliasType(
+    "UpdateSubscriptionMetadata", Union[UpdateSubscriptionMetadata2, str, List[str]]
+)
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+
+Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
+"""
+
+
 class UpdateSubscriptionRequestBodyTypedDict(TypedDict):
-    amount: NotRequired[Nullable[UpdateSubscriptionAmountTypedDict]]
+    amount: NotRequired[UpdateSubscriptionAmountTypedDict]
     r"""Update the amount for future payments of this subscription."""
-    description: NotRequired[Nullable[str]]
-    interval: NotRequired[Nullable[str]]
-    start_date: NotRequired[Nullable[str]]
-    times: NotRequired[Nullable[int]]
-    metadata: NotRequired[Nullable[str]]
-    webhook_url: NotRequired[Nullable[str]]
-    mandate_id: NotRequired[Nullable[str]]
+    description: NotRequired[str]
+    r"""The subscription's description will be used as the description of the resulting individual payments and so showing up on the bank statement of the consumer.
+
+    **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
+    """
+    interval: NotRequired[str]
+    r"""Interval to wait between payments, for example `1 month` or `14 days`.
+
+    The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
+
+    Possible values: `... days` `... weeks` `... months`
+    """
+    start_date: NotRequired[str]
+    r"""The start date of the subscription in `YYYY-MM-DD` format."""
+    times: NotRequired[int]
+    r"""Total number of payments for the subscription. Once this number of payments is reached, the subscription is considered completed.
+
+    Test mode subscriptions will get canceled automatically after 10 payments.
+    """
+    metadata: NotRequired[Nullable[UpdateSubscriptionMetadataTypedDict]]
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+
+    Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
+    """
+    webhook_url: NotRequired[str]
+    r"""We will call this URL for any payment status changes of payments resulting from this subscription.
+
+    This webhook will receive **all** events for the subscription's payments. This may include payment failures as well. Be sure to verify the payment's subscription ID and its status.
+    """
+    mandate_id: NotRequired[str]
+    r"""The mandate used for this subscription, if any."""
 
 
 class UpdateSubscriptionRequestBody(BaseModel):
-    amount: OptionalNullable[UpdateSubscriptionAmount] = UNSET
+    amount: Optional[UpdateSubscriptionAmount] = None
     r"""Update the amount for future payments of this subscription."""
 
-    description: OptionalNullable[str] = UNSET
+    description: Optional[str] = None
+    r"""The subscription's description will be used as the description of the resulting individual payments and so showing up on the bank statement of the consumer.
 
-    interval: OptionalNullable[str] = UNSET
+    **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
+    """
 
-    start_date: Annotated[OptionalNullable[str], pydantic.Field(alias="startDate")] = (
-        UNSET
-    )
+    interval: Optional[str] = None
+    r"""Interval to wait between payments, for example `1 month` or `14 days`.
 
-    times: OptionalNullable[int] = UNSET
+    The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
 
-    metadata: OptionalNullable[str] = UNSET
+    Possible values: `... days` `... weeks` `... months`
+    """
 
-    webhook_url: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="webhookUrl")
-    ] = UNSET
+    start_date: Annotated[Optional[str], pydantic.Field(alias="startDate")] = None
+    r"""The start date of the subscription in `YYYY-MM-DD` format."""
 
-    mandate_id: Annotated[OptionalNullable[str], pydantic.Field(alias="mandateId")] = (
-        UNSET
-    )
+    times: Optional[int] = None
+    r"""Total number of payments for the subscription. Once this number of payments is reached, the subscription is considered completed.
+
+    Test mode subscriptions will get canceled automatically after 10 payments.
+    """
+
+    metadata: OptionalNullable[UpdateSubscriptionMetadata] = UNSET
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+
+    Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
+    """
+
+    webhook_url: Annotated[Optional[str], pydantic.Field(alias="webhookUrl")] = None
+    r"""We will call this URL for any payment status changes of payments resulting from this subscription.
+
+    This webhook will receive **all** events for the subscription's payments. This may include payment failures as well. Be sure to verify the payment's subscription ID and its status.
+    """
+
+    mandate_id: Annotated[Optional[str], pydantic.Field(alias="mandateId")] = None
+    r"""The mandate used for this subscription, if any."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -82,23 +151,14 @@ class UpdateSubscriptionRequestBody(BaseModel):
             "webhookUrl",
             "mandateId",
         ]
-        nullable_fields = [
-            "amount",
-            "description",
-            "interval",
-            "startDate",
-            "times",
-            "metadata",
-            "webhookUrl",
-            "mandateId",
-        ]
+        nullable_fields = ["metadata"]
         null_default_fields = []
 
         serialized = handler(self)
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -122,8 +182,8 @@ class UpdateSubscriptionRequestBody(BaseModel):
 class UpdateSubscriptionRequestTypedDict(TypedDict):
     customer_id: str
     r"""Provide the ID of the related customer."""
-    id: str
-    r"""Provide the ID of the item you want to perform this operation on."""
+    subscription_id: str
+    r"""Provide the ID of the related subscription."""
     testmode: NotRequired[Nullable[bool]]
     r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
 
@@ -140,10 +200,12 @@ class UpdateSubscriptionRequest(BaseModel):
     ]
     r"""Provide the ID of the related customer."""
 
-    id: Annotated[
-        str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
+    subscription_id: Annotated[
+        str,
+        pydantic.Field(alias="subscriptionId"),
+        FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Provide the ID of the item you want to perform this operation on."""
+    r"""Provide the ID of the related subscription."""
 
     testmode: Annotated[
         OptionalNullable[bool],
@@ -169,7 +231,7 @@ class UpdateSubscriptionRequest(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -190,14 +252,14 @@ class UpdateSubscriptionRequest(BaseModel):
         return m
 
 
-class UpdateSubscriptionDocumentationTypedDict(TypedDict):
+class UpdateSubscriptionSubscriptionsDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: NotRequired[str]
     type: NotRequired[str]
 
 
-class UpdateSubscriptionDocumentation(BaseModel):
+class UpdateSubscriptionSubscriptionsDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: Optional[str] = "https://docs.mollie.com/errors"
@@ -205,17 +267,17 @@ class UpdateSubscriptionDocumentation(BaseModel):
     type: Optional[str] = "text/html"
 
 
-class UpdateSubscriptionLinksTypedDict(TypedDict):
-    documentation: NotRequired[UpdateSubscriptionDocumentationTypedDict]
+class UpdateSubscriptionSubscriptionsLinksTypedDict(TypedDict):
+    documentation: NotRequired[UpdateSubscriptionSubscriptionsDocumentationTypedDict]
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class UpdateSubscriptionLinks(BaseModel):
-    documentation: Optional[UpdateSubscriptionDocumentation] = None
+class UpdateSubscriptionSubscriptionsLinks(BaseModel):
+    documentation: Optional[UpdateSubscriptionSubscriptionsDocumentation] = None
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class UpdateSubscriptionResponseBodyData(BaseModel):
+class UpdateSubscriptionSubscriptionsResponseBodyData(BaseModel):
     status: Optional[int] = None
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -229,17 +291,546 @@ class UpdateSubscriptionResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
     links: Annotated[
-        Optional[UpdateSubscriptionLinks], pydantic.Field(alias="_links")
+        Optional[UpdateSubscriptionSubscriptionsLinks], pydantic.Field(alias="_links")
     ] = None
 
 
-class UpdateSubscriptionResponseBody(Exception):
+class UpdateSubscriptionSubscriptionsResponseBody(Exception):
     r"""An error response object."""
 
-    data: UpdateSubscriptionResponseBodyData
+    data: UpdateSubscriptionSubscriptionsResponseBodyData
 
-    def __init__(self, data: UpdateSubscriptionResponseBodyData):
+    def __init__(self, data: UpdateSubscriptionSubscriptionsResponseBodyData):
         self.data = data
 
     def __str__(self) -> str:
-        return utils.marshal_json(self.data, UpdateSubscriptionResponseBodyData)
+        return utils.marshal_json(
+            self.data, UpdateSubscriptionSubscriptionsResponseBodyData
+        )
+
+
+class UpdateSubscriptionSubscriptionsAmountTypedDict(TypedDict):
+    r"""The amount for each individual payment that is charged with this subscription. For example, for a monthly subscription of €10, the subscription amount should be set to €10."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class UpdateSubscriptionSubscriptionsAmount(BaseModel):
+    r"""The amount for each individual payment that is charged with this subscription. For example, for a monthly subscription of €10, the subscription amount should be set to €10."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class UpdateSubscriptionSubscriptionsResponseAmountTypedDict(TypedDict):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class UpdateSubscriptionSubscriptionsResponseAmount(BaseModel):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class UpdateSubscriptionApplicationFeeTypedDict(TypedDict):
+    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.
+
+    Setting an application fee on the subscription will ensure this fee is charged on each individual payment.
+
+    Refer to the `applicationFee` parameter on the [Get payment endpoint](get-payment) documentation for more information.
+    """
+
+    amount: NotRequired[UpdateSubscriptionSubscriptionsResponseAmountTypedDict]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    description: NotRequired[str]
+
+
+class UpdateSubscriptionApplicationFee(BaseModel):
+    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.
+
+    Setting an application fee on the subscription will ensure this fee is charged on each individual payment.
+
+    Refer to the `applicationFee` parameter on the [Get payment endpoint](get-payment) documentation for more information.
+    """
+
+    amount: Optional[UpdateSubscriptionSubscriptionsResponseAmount] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    description: Optional[str] = None
+
+
+class UpdateSubscriptionMetadataSubscriptions2TypedDict(TypedDict):
+    pass
+
+
+class UpdateSubscriptionMetadataSubscriptions2(BaseModel):
+    pass
+
+
+UpdateSubscriptionSubscriptionsMetadataTypedDict = TypeAliasType(
+    "UpdateSubscriptionSubscriptionsMetadataTypedDict",
+    Union[UpdateSubscriptionMetadataSubscriptions2TypedDict, str, List[str]],
+)
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+
+Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
+"""
+
+
+UpdateSubscriptionSubscriptionsMetadata = TypeAliasType(
+    "UpdateSubscriptionSubscriptionsMetadata",
+    Union[UpdateSubscriptionMetadataSubscriptions2, str, List[str]],
+)
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+
+Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
+"""
+
+
+class UpdateSubscriptionSelfTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateSubscriptionSelf(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateSubscriptionCustomerTypedDict(TypedDict):
+    r"""The API resource URL of the [customer](get-customer) this subscription was created for."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateSubscriptionCustomer(BaseModel):
+    r"""The API resource URL of the [customer](get-customer) this subscription was created for."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateSubscriptionMandateTypedDict(TypedDict):
+    r"""The API resource URL of the [mandate](get-mandate) this subscription was created for."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateSubscriptionMandate(BaseModel):
+    r"""The API resource URL of the [mandate](get-mandate) this subscription was created for."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateSubscriptionProfileTypedDict(TypedDict):
+    r"""The API resource URL of the [profile](get-profile) this subscription was created for."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateSubscriptionProfile(BaseModel):
+    r"""The API resource URL of the [profile](get-profile) this subscription was created for."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateSubscriptionPaymentsTypedDict(TypedDict):
+    r"""The API resource URL of the [payments](list-payments) created for this subscription. Omitted if no such payments exist (yet)."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateSubscriptionPayments(BaseModel):
+    r"""The API resource URL of the [payments](list-payments) created for this subscription. Omitted if no such payments exist (yet)."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateSubscriptionDocumentationTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateSubscriptionDocumentation(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateSubscriptionLinksTypedDict(TypedDict):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: NotRequired[UpdateSubscriptionSelfTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+    customer: NotRequired[Nullable[UpdateSubscriptionCustomerTypedDict]]
+    r"""The API resource URL of the [customer](get-customer) this subscription was created for."""
+    mandate: NotRequired[Nullable[UpdateSubscriptionMandateTypedDict]]
+    r"""The API resource URL of the [mandate](get-mandate) this subscription was created for."""
+    profile: NotRequired[Nullable[UpdateSubscriptionProfileTypedDict]]
+    r"""The API resource URL of the [profile](get-profile) this subscription was created for."""
+    payments: NotRequired[Nullable[UpdateSubscriptionPaymentsTypedDict]]
+    r"""The API resource URL of the [payments](list-payments) created for this subscription. Omitted if no such payments exist (yet)."""
+    documentation: NotRequired[UpdateSubscriptionDocumentationTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
+class UpdateSubscriptionLinks(BaseModel):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: Annotated[Optional[UpdateSubscriptionSelf], pydantic.Field(alias="self")] = (
+        None
+    )
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    customer: OptionalNullable[UpdateSubscriptionCustomer] = UNSET
+    r"""The API resource URL of the [customer](get-customer) this subscription was created for."""
+
+    mandate: OptionalNullable[UpdateSubscriptionMandate] = UNSET
+    r"""The API resource URL of the [mandate](get-mandate) this subscription was created for."""
+
+    profile: OptionalNullable[UpdateSubscriptionProfile] = UNSET
+    r"""The API resource URL of the [profile](get-profile) this subscription was created for."""
+
+    payments: OptionalNullable[UpdateSubscriptionPayments] = UNSET
+    r"""The API resource URL of the [payments](list-payments) created for this subscription. Omitted if no such payments exist (yet)."""
+
+    documentation: Optional[UpdateSubscriptionDocumentation] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "self",
+            "customer",
+            "mandate",
+            "profile",
+            "payments",
+            "documentation",
+        ]
+        nullable_fields = ["customer", "mandate", "profile", "payments"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class UpdateSubscriptionResponseBodyTypedDict(TypedDict):
+    r"""The updated subscription object."""
+
+    resource: NotRequired[str]
+    r"""Indicates the response contains a subscription object. Will always contain the string `subscription` for this endpoint."""
+    id: NotRequired[str]
+    r"""The identifier uniquely referring to this subscription. Example: `sub_rVKGtNd6s3`."""
+    mode: NotRequired[str]
+    r"""Whether this entity was created in live mode or in test mode.
+
+    Possible values: `live` `test`
+    """
+    status: NotRequired[str]
+    r"""The subscription's current status is directly related to the status of the underlying customer or mandate that is enabling the subscription.
+
+    Possible values: `pending` `active` `canceled` `suspended` `completed`
+    """
+    amount: NotRequired[UpdateSubscriptionSubscriptionsAmountTypedDict]
+    r"""The amount for each individual payment that is charged with this subscription. For example, for a monthly subscription of €10, the subscription amount should be set to €10."""
+    times: NotRequired[Nullable[int]]
+    r"""Total number of payments for the subscription. Once this number of payments is reached, the subscription is considered completed.
+
+    Test mode subscriptions will get canceled automatically after 10 payments.
+    """
+    times_remaining: NotRequired[int]
+    r"""Number of payments left for the subscription."""
+    interval: NotRequired[str]
+    r"""Interval to wait between payments, for example `1 month` or `14 days`.
+
+    The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
+
+    Possible values: `... days` `... weeks` `... months`
+    """
+    start_date: NotRequired[str]
+    r"""The start date of the subscription in `YYYY-MM-DD` format."""
+    next_payment_date: NotRequired[Nullable[str]]
+    r"""The date of the next scheduled payment in `YYYY-MM-DD` format. If the subscription has been completed or canceled, this parameter will not be returned."""
+    description: NotRequired[str]
+    r"""The subscription's description will be used as the description of the resulting individual payments and so showing up on the bank statement of the consumer.
+
+    **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
+    """
+    method: NotRequired[Nullable[str]]
+    r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used.
+
+    Possible values: `creditcard` `directdebit` `paypal`
+    """
+    application_fee: NotRequired[UpdateSubscriptionApplicationFeeTypedDict]
+    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.
+
+    Setting an application fee on the subscription will ensure this fee is charged on each individual payment.
+
+    Refer to the `applicationFee` parameter on the [Get payment endpoint](get-payment) documentation for more information.
+    """
+    metadata: NotRequired[Nullable[UpdateSubscriptionSubscriptionsMetadataTypedDict]]
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+
+    Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
+    """
+    webhook_url: NotRequired[str]
+    r"""We will call this URL for any payment status changes of payments resulting from this subscription.
+
+    This webhook will receive **all** events for the subscription's payments. This may include payment failures as well. Be sure to verify the payment's subscription ID and its status.
+    """
+    customer_id: NotRequired[str]
+    r"""The customer this subscription belongs to."""
+    mandate_id: NotRequired[Nullable[str]]
+    r"""The mandate used for this subscription, if any."""
+    created_at: NotRequired[str]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    canceled_at: NotRequired[Nullable[str]]
+    r"""The subscription's date and time of cancellation, in ISO 8601 format. This parameter is omitted if the subscription is not canceled (yet)."""
+    links: NotRequired[UpdateSubscriptionLinksTypedDict]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+
+class UpdateSubscriptionResponseBody(BaseModel):
+    r"""The updated subscription object."""
+
+    resource: Optional[str] = "subscription"
+    r"""Indicates the response contains a subscription object. Will always contain the string `subscription` for this endpoint."""
+
+    id: Optional[str] = None
+    r"""The identifier uniquely referring to this subscription. Example: `sub_rVKGtNd6s3`."""
+
+    mode: Optional[str] = None
+    r"""Whether this entity was created in live mode or in test mode.
+
+    Possible values: `live` `test`
+    """
+
+    status: Optional[str] = None
+    r"""The subscription's current status is directly related to the status of the underlying customer or mandate that is enabling the subscription.
+
+    Possible values: `pending` `active` `canceled` `suspended` `completed`
+    """
+
+    amount: Optional[UpdateSubscriptionSubscriptionsAmount] = None
+    r"""The amount for each individual payment that is charged with this subscription. For example, for a monthly subscription of €10, the subscription amount should be set to €10."""
+
+    times: OptionalNullable[int] = UNSET
+    r"""Total number of payments for the subscription. Once this number of payments is reached, the subscription is considered completed.
+
+    Test mode subscriptions will get canceled automatically after 10 payments.
+    """
+
+    times_remaining: Annotated[
+        Optional[int], pydantic.Field(alias="timesRemaining")
+    ] = None
+    r"""Number of payments left for the subscription."""
+
+    interval: Optional[str] = None
+    r"""Interval to wait between payments, for example `1 month` or `14 days`.
+
+    The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
+
+    Possible values: `... days` `... weeks` `... months`
+    """
+
+    start_date: Annotated[Optional[str], pydantic.Field(alias="startDate")] = None
+    r"""The start date of the subscription in `YYYY-MM-DD` format."""
+
+    next_payment_date: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="nextPaymentDate")
+    ] = UNSET
+    r"""The date of the next scheduled payment in `YYYY-MM-DD` format. If the subscription has been completed or canceled, this parameter will not be returned."""
+
+    description: Optional[str] = None
+    r"""The subscription's description will be used as the description of the resulting individual payments and so showing up on the bank statement of the consumer.
+
+    **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
+    """
+
+    method: OptionalNullable[str] = UNSET
+    r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used.
+
+    Possible values: `creditcard` `directdebit` `paypal`
+    """
+
+    application_fee: Annotated[
+        Optional[UpdateSubscriptionApplicationFee],
+        pydantic.Field(alias="applicationFee"),
+    ] = None
+    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.
+
+    Setting an application fee on the subscription will ensure this fee is charged on each individual payment.
+
+    Refer to the `applicationFee` parameter on the [Get payment endpoint](get-payment) documentation for more information.
+    """
+
+    metadata: OptionalNullable[UpdateSubscriptionSubscriptionsMetadata] = UNSET
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+
+    Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
+    """
+
+    webhook_url: Annotated[Optional[str], pydantic.Field(alias="webhookUrl")] = None
+    r"""We will call this URL for any payment status changes of payments resulting from this subscription.
+
+    This webhook will receive **all** events for the subscription's payments. This may include payment failures as well. Be sure to verify the payment's subscription ID and its status.
+    """
+
+    customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
+    r"""The customer this subscription belongs to."""
+
+    mandate_id: Annotated[OptionalNullable[str], pydantic.Field(alias="mandateId")] = (
+        UNSET
+    )
+    r"""The mandate used for this subscription, if any."""
+
+    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
+    canceled_at: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="canceledAt")
+    ] = UNSET
+    r"""The subscription's date and time of cancellation, in ISO 8601 format. This parameter is omitted if the subscription is not canceled (yet)."""
+
+    links: Annotated[
+        Optional[UpdateSubscriptionLinks], pydantic.Field(alias="_links")
+    ] = None
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "resource",
+            "id",
+            "mode",
+            "status",
+            "amount",
+            "times",
+            "timesRemaining",
+            "interval",
+            "startDate",
+            "nextPaymentDate",
+            "description",
+            "method",
+            "applicationFee",
+            "metadata",
+            "webhookUrl",
+            "customerId",
+            "mandateId",
+            "createdAt",
+            "canceledAt",
+            "_links",
+        ]
+        nullable_fields = [
+            "times",
+            "nextPaymentDate",
+            "method",
+            "metadata",
+            "mandateId",
+            "canceledAt",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m

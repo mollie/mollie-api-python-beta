@@ -9,7 +9,7 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class Status(str, Enum):
+class ListCapabilitiesStatus(str, Enum):
     UNREQUESTED = "unrequested"
     ENABLED = "enabled"
     DISABLED = "disabled"
@@ -90,7 +90,7 @@ class Requirements(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -116,7 +116,7 @@ class ListCapabilitiesCapabilitiesTypedDict(TypedDict):
     r"""Always the word `capability` for this resource type."""
     name: NotRequired[str]
     r"""A unique name for this capability like `payments` / `settlements`."""
-    status: NotRequired[Status]
+    status: NotRequired[ListCapabilitiesStatus]
     status_reason: NotRequired[Nullable[ListCapabilitiesStatusReason]]
     requirements: NotRequired[List[RequirementsTypedDict]]
 
@@ -128,7 +128,7 @@ class ListCapabilitiesCapabilities(BaseModel):
     name: Optional[str] = None
     r"""A unique name for this capability like `payments` / `settlements`."""
 
-    status: Optional[Status] = None
+    status: Optional[ListCapabilitiesStatus] = None
 
     status_reason: Annotated[
         OptionalNullable[ListCapabilitiesStatusReason],
@@ -147,7 +147,7 @@ class ListCapabilitiesCapabilities(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
