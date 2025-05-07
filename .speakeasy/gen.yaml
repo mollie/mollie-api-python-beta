@@ -2,7 +2,7 @@ configVersion: 2.0.0
 generation:
   devContainers:
     enabled: true
-    schemaPath: https://github.com/mollie/openapi-specs/blob/main/specs.yaml
+    schemaPath: https://raw.githubusercontent.com/mollie/openapi-specs/refs/heads/main/specs.yaml
   sdkClassName: Client
   maintainOpenAPIOrder: true
   usageSnippets:
