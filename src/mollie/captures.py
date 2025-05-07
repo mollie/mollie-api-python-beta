@@ -24,7 +24,7 @@ class Captures(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CreateCaptureResponseBody:
         r"""Create capture
 
         **This feature is currently in open beta. The final specification may still change.**
@@ -124,17 +124,17 @@ class Captures(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, models.CreateCaptureResponseBody)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateCaptureResponseBodyData
-            )
-            raise models.CreateCaptureResponseBody(data=response_data)
-        if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.CreateCaptureCapturesResponseBodyData
             )
             raise models.CreateCaptureCapturesResponseBody(data=response_data)
+        if utils.match_response(http_res, "422", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.CreateCaptureCapturesResponseResponseBodyData
+            )
+            raise models.CreateCaptureCapturesResponseResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -170,7 +170,7 @@ class Captures(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CreateCaptureResponseBody:
         r"""Create capture
 
         **This feature is currently in open beta. The final specification may still change.**
@@ -270,17 +270,17 @@ class Captures(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, models.CreateCaptureResponseBody)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateCaptureResponseBodyData
-            )
-            raise models.CreateCaptureResponseBody(data=response_data)
-        if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.CreateCaptureCapturesResponseBodyData
             )
             raise models.CreateCaptureCapturesResponseBody(data=response_data)
+        if utils.match_response(http_res, "422", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.CreateCaptureCapturesResponseResponseBodyData
+            )
+            raise models.CreateCaptureCapturesResponseResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(
@@ -307,7 +307,7 @@ class Captures(BaseSDK):
         payment_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        include: OptionalNullable[str] = UNSET,
+        include: Optional[models.ListCapturesQueryParamInclude] = None,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -329,7 +329,7 @@ class Captures(BaseSDK):
         :param payment_id: Provide the ID of the related payment.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `payment`: Include the payments that the captures were created for.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -435,7 +435,7 @@ class Captures(BaseSDK):
         payment_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        include: OptionalNullable[str] = UNSET,
+        include: Optional[models.ListCapturesQueryParamInclude] = None,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -457,7 +457,7 @@ class Captures(BaseSDK):
         :param payment_id: Provide the ID of the related payment.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `payment`: Include the payments that the captures were created for.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -561,8 +561,8 @@ class Captures(BaseSDK):
         self,
         *,
         payment_id: str,
-        id: str,
-        include: OptionalNullable[str] = UNSET,
+        capture_id: str,
+        include: Optional[models.GetCaptureQueryParamInclude] = None,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -580,8 +580,8 @@ class Captures(BaseSDK):
         > [Access token with **payments.read**](/reference/authentication)
 
         :param payment_id: Provide the ID of the related payment.
-        :param id: Provide the ID of the item you want to perform this operation on.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `payment`: Include the payment this capture was created for.
+        :param capture_id: Provide the ID of the related capture.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -600,14 +600,14 @@ class Captures(BaseSDK):
 
         request = models.GetCaptureRequest(
             payment_id=payment_id,
-            id=id,
+            capture_id=capture_id,
             include=include,
             testmode=testmode,
         )
 
         req = self._build_request(
             method="GET",
-            path="/payments/{paymentId}/captures/{id}",
+            path="/payments/{paymentId}/captures/{captureId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -679,8 +679,8 @@ class Captures(BaseSDK):
         self,
         *,
         payment_id: str,
-        id: str,
-        include: OptionalNullable[str] = UNSET,
+        capture_id: str,
+        include: Optional[models.GetCaptureQueryParamInclude] = None,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -698,8 +698,8 @@ class Captures(BaseSDK):
         > [Access token with **payments.read**](/reference/authentication)
 
         :param payment_id: Provide the ID of the related payment.
-        :param id: Provide the ID of the item you want to perform this operation on.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `payment`: Include the payment this capture was created for.
+        :param capture_id: Provide the ID of the related capture.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -718,14 +718,14 @@ class Captures(BaseSDK):
 
         request = models.GetCaptureRequest(
             payment_id=payment_id,
-            id=id,
+            capture_id=capture_id,
             include=include,
             testmode=testmode,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/payments/{paymentId}/captures/{id}",
+            path="/payments/{paymentId}/captures/{captureId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,

@@ -5,11 +5,11 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import BaseModel, OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
-from typing import Any, Mapping, Optional, Union, cast
+from typing import Any, Dict, Mapping, Optional, Union, cast
 
 
 class Wallets(BaseSDK):
-    def request_apple_pay_payment_session(
+    def request_apple_pay_session(
         self,
         *,
         request: Optional[
@@ -22,7 +22,7 @@ class Wallets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> Dict[str, Any]:
         r"""Request Apple Pay payment session
 
         When integrating Apple Pay in your own checkout on the web, you need to [provide merchant validation](https://developer.apple.com/documentation/apple_pay_on_the_web/apple_pay_js_api/providing_merchant_validation). This is normally done using Apple's [Requesting an Apple Pay Session](https://developer.apple.com/documentation/apple_pay_on_the_web/apple_pay_js_api/requesting_an_apple_pay_payment_session). The merchant validation proves to Apple that a validated merchant is calling the Apple Pay Javascript APIs.
@@ -116,7 +116,7 @@ class Wallets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, Dict[str, Any])
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.RequestApplePayPaymentSessionResponseBodyData
@@ -142,7 +142,7 @@ class Wallets(BaseSDK):
             http_res,
         )
 
-    async def request_apple_pay_payment_session_async(
+    async def request_apple_pay_session_async(
         self,
         *,
         request: Optional[
@@ -155,7 +155,7 @@ class Wallets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> Dict[str, Any]:
         r"""Request Apple Pay payment session
 
         When integrating Apple Pay in your own checkout on the web, you need to [provide merchant validation](https://developer.apple.com/documentation/apple_pay_on_the_web/apple_pay_js_api/providing_merchant_validation). This is normally done using Apple's [Requesting an Apple Pay Session](https://developer.apple.com/documentation/apple_pay_on_the_web/apple_pay_js_api/requesting_an_apple_pay_payment_session). The merchant validation proves to Apple that a validated merchant is calling the Apple Pay Javascript APIs.
@@ -249,7 +249,7 @@ class Wallets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, Dict[str, Any])
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.RequestApplePayPaymentSessionResponseBodyData

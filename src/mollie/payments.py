@@ -12,7 +12,7 @@ class Payments(BaseSDK):
     def create(
         self,
         *,
-        include: OptionalNullable[str] = UNSET,
+        include: OptionalNullable[models.Include] = UNSET,
         request_body: Optional[
             Union[
                 models.CreatePaymentRequestBody,
@@ -23,7 +23,7 @@ class Payments(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CreatePaymentResponseBody:
         r"""Create payment
 
         Payment creation is elemental to the Mollie API: this is where most payment implementations start off.
@@ -40,7 +40,7 @@ class Payments(BaseSDK):
         >
         > [Access token with **payments.write**](/reference/authentication)
 
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `details.qrCode`: Include a QR code object. Only available for iDEAL, Bancontact and bank transfer payments.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -115,17 +115,17 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, models.CreatePaymentResponseBody)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreatePaymentResponseBodyData
-            )
-            raise models.CreatePaymentResponseBody(data=response_data)
-        if utils.match_response(http_res, "503", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.CreatePaymentPaymentsResponseBodyData
             )
             raise models.CreatePaymentPaymentsResponseBody(data=response_data)
+        if utils.match_response(http_res, "503", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.CreatePaymentPaymentsResponseResponseBodyData
+            )
+            raise models.CreatePaymentPaymentsResponseResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -149,7 +149,7 @@ class Payments(BaseSDK):
     async def create_async(
         self,
         *,
-        include: OptionalNullable[str] = UNSET,
+        include: OptionalNullable[models.Include] = UNSET,
         request_body: Optional[
             Union[
                 models.CreatePaymentRequestBody,
@@ -160,7 +160,7 @@ class Payments(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CreatePaymentResponseBody:
         r"""Create payment
 
         Payment creation is elemental to the Mollie API: this is where most payment implementations start off.
@@ -177,7 +177,7 @@ class Payments(BaseSDK):
         >
         > [Access token with **payments.write**](/reference/authentication)
 
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `details.qrCode`: Include a QR code object. Only available for iDEAL, Bancontact and bank transfer payments.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -252,17 +252,17 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, models.CreatePaymentResponseBody)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreatePaymentResponseBodyData
-            )
-            raise models.CreatePaymentResponseBody(data=response_data)
-        if utils.match_response(http_res, "503", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.CreatePaymentPaymentsResponseBodyData
             )
             raise models.CreatePaymentPaymentsResponseBody(data=response_data)
+        if utils.match_response(http_res, "503", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.CreatePaymentPaymentsResponseResponseBodyData
+            )
+            raise models.CreatePaymentPaymentsResponseResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(
@@ -527,8 +527,8 @@ class Payments(BaseSDK):
         self,
         *,
         payment_id: str,
-        include: OptionalNullable[str] = UNSET,
-        embed: OptionalNullable[str] = UNSET,
+        include: OptionalNullable[models.QueryParamInclude] = UNSET,
+        embed: OptionalNullable[models.Embed] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -546,8 +546,8 @@ class Payments(BaseSDK):
         > [Access token with **payments.read**](/reference/authentication)
 
         :param payment_id: Provide the ID of the related payment.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `details.qrCode`: Include a QR code object. Only available for iDEAL, Bancontact and bank transfer payments. * `details.remainderDetails`: For payments where gift cards or vouchers were applied and the remaining amount was paid with another payment method, this include will add another `details` object specifically for the remainder payment.
-        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.  * `captures`: Embed all captures created for this payment. * `refunds`: Embed all refunds created for this payment. * `chargebacks`: Embed all chargebacks created for this payment.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -645,8 +645,8 @@ class Payments(BaseSDK):
         self,
         *,
         payment_id: str,
-        include: OptionalNullable[str] = UNSET,
-        embed: OptionalNullable[str] = UNSET,
+        include: OptionalNullable[models.QueryParamInclude] = UNSET,
+        embed: OptionalNullable[models.Embed] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -664,8 +664,8 @@ class Payments(BaseSDK):
         > [Access token with **payments.read**](/reference/authentication)
 
         :param payment_id: Provide the ID of the related payment.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.  * `details.qrCode`: Include a QR code object. Only available for iDEAL, Bancontact and bank transfer payments. * `details.remainderDetails`: For payments where gift cards or vouchers were applied and the remaining amount was paid with another payment method, this include will add another `details` object specifically for the remainder payment.
-        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.  * `captures`: Embed all captures created for this payment. * `refunds`: Embed all refunds created for this payment. * `chargebacks`: Embed all chargebacks created for this payment.
+        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -767,16 +767,19 @@ class Payments(BaseSDK):
         redirect_url: OptionalNullable[str] = UNSET,
         cancel_url: OptionalNullable[str] = UNSET,
         webhook_url: OptionalNullable[str] = UNSET,
-        metadata: OptionalNullable[str] = UNSET,
-        method: OptionalNullable[str] = UNSET,
+        metadata: OptionalNullable[
+            Union[models.UpdatePaymentMetadata, models.UpdatePaymentMetadataTypedDict]
+        ] = UNSET,
+        method: OptionalNullable[models.Method] = UNSET,
         locale: OptionalNullable[str] = UNSET,
+        due_date: Optional[str] = None,
         restrict_payment_methods_to_country: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.UpdatePaymentResponseBody:
         r"""Update payment
 
         Certain details of an existing payment can be updated. For an in-depth explanation of each parameter, see [Create payment](create-payment).
@@ -790,13 +793,14 @@ class Payments(BaseSDK):
         > [Access token with **payments.write**](/reference/authentication)
 
         :param payment_id: Provide the ID of the related payment.
-        :param description:
+        :param description: The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.  We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.  The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
         :param redirect_url: Can be updated while the payment is in an `open` state.
         :param cancel_url: Can be updated while the payment is in an `open` state.
-        :param webhook_url:
-        :param metadata:
+        :param webhook_url: Can be updated while the payment is in an `open` state.
+        :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
         :param method: Can be updated while no payment method has been chosen yet.
-        :param locale:
+        :param locale: Allows you to preset the language to be used.  Possible values: `en_US` `en_GB` `nl_NL` `nl_BE` `de_DE` `de_AT` `de_CH` `fr_FR` `fr_BE` `es_ES` `ca_ES` `pt_PT` `it_IT` `nb_NO` `sv_SE` `fi_FI` `da_DK` `is_IS` `hu_HU` `pl_PL` `lv_LV` `lt_LT`
+        :param due_date: The date by which the payment should be completed in `YYYY-MM-DD` format
         :param restrict_payment_methods_to_country:
         :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
@@ -821,9 +825,12 @@ class Payments(BaseSDK):
                 redirect_url=redirect_url,
                 cancel_url=cancel_url,
                 webhook_url=webhook_url,
-                metadata=metadata,
+                metadata=utils.get_pydantic_model(
+                    metadata, OptionalNullable[models.UpdatePaymentMetadata]
+                ),
                 method=method,
                 locale=locale,
+                due_date=due_date,
                 restrict_payment_methods_to_country=restrict_payment_methods_to_country,
                 testmode=testmode,
             ),
@@ -880,17 +887,17 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, models.UpdatePaymentResponseBody)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdatePaymentResponseBodyData
-            )
-            raise models.UpdatePaymentResponseBody(data=response_data)
-        if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.UpdatePaymentPaymentsResponseBodyData
             )
             raise models.UpdatePaymentPaymentsResponseBody(data=response_data)
+        if utils.match_response(http_res, "422", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.UpdatePaymentPaymentsResponseResponseBodyData
+            )
+            raise models.UpdatePaymentPaymentsResponseResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -919,16 +926,19 @@ class Payments(BaseSDK):
         redirect_url: OptionalNullable[str] = UNSET,
         cancel_url: OptionalNullable[str] = UNSET,
         webhook_url: OptionalNullable[str] = UNSET,
-        metadata: OptionalNullable[str] = UNSET,
-        method: OptionalNullable[str] = UNSET,
+        metadata: OptionalNullable[
+            Union[models.UpdatePaymentMetadata, models.UpdatePaymentMetadataTypedDict]
+        ] = UNSET,
+        method: OptionalNullable[models.Method] = UNSET,
         locale: OptionalNullable[str] = UNSET,
+        due_date: Optional[str] = None,
         restrict_payment_methods_to_country: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.UpdatePaymentResponseBody:
         r"""Update payment
 
         Certain details of an existing payment can be updated. For an in-depth explanation of each parameter, see [Create payment](create-payment).
@@ -942,13 +952,14 @@ class Payments(BaseSDK):
         > [Access token with **payments.write**](/reference/authentication)
 
         :param payment_id: Provide the ID of the related payment.
-        :param description:
+        :param description: The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.  We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.  The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
         :param redirect_url: Can be updated while the payment is in an `open` state.
         :param cancel_url: Can be updated while the payment is in an `open` state.
-        :param webhook_url:
-        :param metadata:
+        :param webhook_url: Can be updated while the payment is in an `open` state.
+        :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
         :param method: Can be updated while no payment method has been chosen yet.
-        :param locale:
+        :param locale: Allows you to preset the language to be used.  Possible values: `en_US` `en_GB` `nl_NL` `nl_BE` `de_DE` `de_AT` `de_CH` `fr_FR` `fr_BE` `es_ES` `ca_ES` `pt_PT` `it_IT` `nb_NO` `sv_SE` `fi_FI` `da_DK` `is_IS` `hu_HU` `pl_PL` `lv_LV` `lt_LT`
+        :param due_date: The date by which the payment should be completed in `YYYY-MM-DD` format
         :param restrict_payment_methods_to_country:
         :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
@@ -973,9 +984,12 @@ class Payments(BaseSDK):
                 redirect_url=redirect_url,
                 cancel_url=cancel_url,
                 webhook_url=webhook_url,
-                metadata=metadata,
+                metadata=utils.get_pydantic_model(
+                    metadata, OptionalNullable[models.UpdatePaymentMetadata]
+                ),
                 method=method,
                 locale=locale,
+                due_date=due_date,
                 restrict_payment_methods_to_country=restrict_payment_methods_to_country,
                 testmode=testmode,
             ),
@@ -1032,17 +1046,17 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, models.UpdatePaymentResponseBody)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdatePaymentResponseBodyData
-            )
-            raise models.UpdatePaymentResponseBody(data=response_data)
-        if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.UpdatePaymentPaymentsResponseBodyData
             )
             raise models.UpdatePaymentPaymentsResponseBody(data=response_data)
+        if utils.match_response(http_res, "422", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.UpdatePaymentPaymentsResponseResponseBodyData
+            )
+            raise models.UpdatePaymentPaymentsResponseResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(
@@ -1072,7 +1086,7 @@ class Payments(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CancelPaymentResponseBody:
         r"""Cancel payment
 
         Depending on the payment method, you may be able to cancel a payment for a certain amount of time — usually until the next business day or as long as the payment status is open.
@@ -1153,17 +1167,17 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, models.CancelPaymentResponseBody)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CancelPaymentResponseBodyData
-            )
-            raise models.CancelPaymentResponseBody(data=response_data)
-        if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.CancelPaymentPaymentsResponseBodyData
             )
             raise models.CancelPaymentPaymentsResponseBody(data=response_data)
+        if utils.match_response(http_res, "422", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.CancelPaymentPaymentsResponseResponseBodyData
+            )
+            raise models.CancelPaymentPaymentsResponseResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -1193,7 +1207,7 @@ class Payments(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CancelPaymentResponseBody:
         r"""Cancel payment
 
         Depending on the payment method, you may be able to cancel a payment for a certain amount of time — usually until the next business day or as long as the payment status is open.
@@ -1274,17 +1288,17 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, models.CancelPaymentResponseBody)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CancelPaymentResponseBodyData
-            )
-            raise models.CancelPaymentResponseBody(data=response_data)
-        if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.CancelPaymentPaymentsResponseBodyData
             )
             raise models.CancelPaymentPaymentsResponseBody(data=response_data)
+        if utils.match_response(http_res, "422", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.CancelPaymentPaymentsResponseResponseBodyData
+            )
+            raise models.CancelPaymentPaymentsResponseResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(

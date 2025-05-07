@@ -15,6 +15,11 @@ class ListTerminalsRequestTypedDict(TypedDict):
     r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set."""
     limit: NotRequired[Nullable[int]]
     r"""The maximum number of items to return. Defaults to 50 items."""
+    sort: NotRequired[Nullable[str]]
+    r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
+
+    Possible values: `asc` `desc` (default: `desc`)
+    """
     testmode: NotRequired[Nullable[bool]]
     r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
 
@@ -36,6 +41,15 @@ class ListTerminalsRequest(BaseModel):
     ] = 50
     r"""The maximum number of items to return. Defaults to 50 items."""
 
+    sort: Annotated[
+        OptionalNullable[str],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = UNSET
+    r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
+
+    Possible values: `asc` `desc` (default: `desc`)
+    """
+
     testmode: Annotated[
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
@@ -47,15 +61,15 @@ class ListTerminalsRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["from", "limit", "testmode"]
-        nullable_fields = ["limit", "testmode"]
+        optional_fields = ["from", "limit", "sort", "testmode"]
+        nullable_fields = ["limit", "sort", "testmode"]
         null_default_fields = []
 
         serialized = handler(self)
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -131,22 +145,221 @@ class ListTerminalsTerminalsResponseBody(Exception):
         return utils.marshal_json(self.data, ListTerminalsTerminalsResponseBodyData)
 
 
+class ListTerminalsTerminalsSelfTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ListTerminalsTerminalsSelf(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ListTerminalsTerminalsResponseDocumentationTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ListTerminalsTerminalsResponseDocumentation(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ListTerminalsTerminalsResponseLinksTypedDict(TypedDict):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: NotRequired[ListTerminalsTerminalsSelfTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+    documentation: NotRequired[ListTerminalsTerminalsResponseDocumentationTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
+class ListTerminalsTerminalsResponseLinks(BaseModel):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: Annotated[
+        Optional[ListTerminalsTerminalsSelf], pydantic.Field(alias="self")
+    ] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    documentation: Optional[ListTerminalsTerminalsResponseDocumentation] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
 class ListTerminalsTerminalsTypedDict(TypedDict):
-    pass
+    resource: NotRequired[str]
+    r"""Indicates the response contains a terminal object. Will always contain the string `terminal` for this endpoint."""
+    id: NotRequired[str]
+    r"""The identifier uniquely referring to this terminal. Example: `term_7MgL4wea46qkRcoTZjWEH`."""
+    mode: NotRequired[str]
+    r"""Whether this entity was created in live mode or in test mode.
+
+    Possible values: `live` `test`
+    """
+    description: NotRequired[str]
+    r"""A short description of the terminal. The description can be used as an identifier for the terminal. Currently, the description is set when the terminal is initially configured. It will be visible in the Mollie Dashboard, and it may be visible on the device itself depending on the device."""
+    status: NotRequired[str]
+    r"""The status of the terminal.
+
+    Possible values: `pending` `active` `inactive`
+    """
+    brand: NotRequired[Nullable[str]]
+    r"""The brand of the terminal.
+
+    Possible values: `PAX`
+    """
+    model: NotRequired[Nullable[str]]
+    r"""The model of the terminal. For example for a PAX A920, this field's value will be `A920`.
+
+    Possible values: `A35` `A77` `A920` `A920 Pro` `IM30`
+    """
+    serial_number: NotRequired[Nullable[str]]
+    r"""The serial number of the terminal. The serial number is provided at terminal creation time."""
+    currency: NotRequired[str]
+    r"""The currency configured on the terminal, in ISO 4217 format. Currently most of our terminals are bound to a specific currency, chosen during setup."""
+    profile_id: NotRequired[str]
+    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
+
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    """
+    created_at: NotRequired[str]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    updated_at: NotRequired[str]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    links: NotRequired[ListTerminalsTerminalsResponseLinksTypedDict]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class ListTerminalsTerminals(BaseModel):
-    pass
+    resource: Optional[str] = "terminal"
+    r"""Indicates the response contains a terminal object. Will always contain the string `terminal` for this endpoint."""
+
+    id: Optional[str] = None
+    r"""The identifier uniquely referring to this terminal. Example: `term_7MgL4wea46qkRcoTZjWEH`."""
+
+    mode: Optional[str] = None
+    r"""Whether this entity was created in live mode or in test mode.
+
+    Possible values: `live` `test`
+    """
+
+    description: Optional[str] = None
+    r"""A short description of the terminal. The description can be used as an identifier for the terminal. Currently, the description is set when the terminal is initially configured. It will be visible in the Mollie Dashboard, and it may be visible on the device itself depending on the device."""
+
+    status: Optional[str] = None
+    r"""The status of the terminal.
+
+    Possible values: `pending` `active` `inactive`
+    """
+
+    brand: OptionalNullable[str] = UNSET
+    r"""The brand of the terminal.
+
+    Possible values: `PAX`
+    """
+
+    model: OptionalNullable[str] = UNSET
+    r"""The model of the terminal. For example for a PAX A920, this field's value will be `A920`.
+
+    Possible values: `A35` `A77` `A920` `A920 Pro` `IM30`
+    """
+
+    serial_number: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="serialNumber")
+    ] = UNSET
+    r"""The serial number of the terminal. The serial number is provided at terminal creation time."""
+
+    currency: Optional[str] = None
+    r"""The currency configured on the terminal, in ISO 4217 format. Currently most of our terminals are bound to a specific currency, chosen during setup."""
+
+    profile_id: Annotated[Optional[str], pydantic.Field(alias="profileId")] = None
+    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
+
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    """
+
+    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
+    updated_at: Annotated[Optional[str], pydantic.Field(alias="updatedAt")] = None
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
+    links: Annotated[
+        Optional[ListTerminalsTerminalsResponseLinks], pydantic.Field(alias="_links")
+    ] = None
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "resource",
+            "id",
+            "mode",
+            "description",
+            "status",
+            "brand",
+            "model",
+            "serialNumber",
+            "currency",
+            "profileId",
+            "createdAt",
+            "updatedAt",
+            "_links",
+        ]
+        nullable_fields = ["brand", "model", "serialNumber"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class ListTerminalsEmbeddedTypedDict(TypedDict):
     terminals: NotRequired[List[ListTerminalsTerminalsTypedDict]]
-    r"""An array of terminal objects. For a complete reference of the terminal object, refer to the [Get terminal endpoint](get-terminal) documentation."""
+    r"""An array of terminal objects."""
 
 
 class ListTerminalsEmbedded(BaseModel):
     terminals: Optional[List[ListTerminalsTerminals]] = None
-    r"""An array of terminal objects. For a complete reference of the terminal object, refer to the [Get terminal endpoint](get-terminal) documentation."""
+    r"""An array of terminal objects."""
 
 
 class ListTerminalsSelfTypedDict(TypedDict):
@@ -263,7 +476,7 @@ class ListTerminalsLinks(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -285,7 +498,7 @@ class ListTerminalsLinks(BaseModel):
 
 
 class ListTerminalsResponseBodyTypedDict(TypedDict):
-    r"""A list of terminal objects. For a complete reference of the terminal object, refer to the [Get terminal endpoint](get-terminal) documentation."""
+    r"""A list of terminal objects."""
 
     count: NotRequired[int]
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.
@@ -298,7 +511,7 @@ class ListTerminalsResponseBodyTypedDict(TypedDict):
 
 
 class ListTerminalsResponseBody(BaseModel):
-    r"""A list of terminal objects. For a complete reference of the terminal object, refer to the [Get terminal endpoint](get-terminal) documentation."""
+    r"""A list of terminal objects."""
 
     count: Optional[int] = None
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.

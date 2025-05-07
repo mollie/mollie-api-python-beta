@@ -22,8 +22,6 @@ class OwnerTypedDict(TypedDict):
     r"""Preset the language to be used for the login screen, if applicable. For the consent screen, the preferred language of the logged in merchant will be used and this parameter is ignored.
 
     When this parameter is omitted, the browser language will be used instead.
-
-    Possible values: `en_US` `nl_NL` `nl_BE` `fr_FR` `fr_BE` `de_DE` `es_ES` `it_IT`
     """
 
 
@@ -43,8 +41,6 @@ class Owner(BaseModel):
     r"""Preset the language to be used for the login screen, if applicable. For the consent screen, the preferred language of the logged in merchant will be used and this parameter is ignored.
 
     When this parameter is omitted, the browser language will be used instead.
-
-    Possible values: `en_US` `nl_NL` `nl_BE` `fr_FR` `fr_BE` `de_DE` `es_ES` `it_IT`
     """
 
     @model_serializer(mode="wrap")
@@ -57,7 +53,7 @@ class Owner(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -120,7 +116,7 @@ class CreateClientLinkAddress(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -184,7 +180,7 @@ class CreateClientLinkRequestBody(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

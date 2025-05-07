@@ -20,7 +20,6 @@ from mollie.invoices import Invoices
 from mollie.mandates import Mandates
 from mollie.methods import Methods
 from mollie.onboarding import Onboarding
-from mollie.orders import Orders
 from mollie.organizations import Organizations
 from mollie.payment_links import PaymentLinks
 from mollie.payments import Payments
@@ -28,7 +27,6 @@ from mollie.permissions import Permissions
 from mollie.profiles import Profiles
 from mollie.refunds import Refunds
 from mollie.settlements import Settlements
-from mollie.shipments import Shipments
 from mollie.subscriptions import Subscriptions
 from mollie.terminals import Terminals
 from mollie.types import OptionalNullable, UNSET
@@ -38,18 +36,6 @@ import weakref
 
 
 class Client(BaseSDK):
-    balances: Balances
-    settlements: Settlements
-    invoices: Invoices
-    permissions: Permissions
-    organizations: Organizations
-    profiles: Profiles
-    onboarding: Onboarding
-    capabilities: Capabilities
-    clients: Clients
-    client_links: ClientLinks
-    orders: Orders
-    shipments: Shipments
     payments: Payments
     methods: Methods
     refunds: Refunds
@@ -62,6 +48,16 @@ class Client(BaseSDK):
     customers: Customers
     mandates: Mandates
     subscriptions: Subscriptions
+    permissions: Permissions
+    organizations: Organizations
+    profiles: Profiles
+    onboarding: Onboarding
+    capabilities: Capabilities
+    clients: Clients
+    client_links: ClientLinks
+    balances: Balances
+    settlements: Settlements
+    invoices: Invoices
 
     def __init__(
         self,
@@ -154,18 +150,6 @@ class Client(BaseSDK):
         self._init_sdks()
 
     def _init_sdks(self):
-        self.balances = Balances(self.sdk_configuration)
-        self.settlements = Settlements(self.sdk_configuration)
-        self.invoices = Invoices(self.sdk_configuration)
-        self.permissions = Permissions(self.sdk_configuration)
-        self.organizations = Organizations(self.sdk_configuration)
-        self.profiles = Profiles(self.sdk_configuration)
-        self.onboarding = Onboarding(self.sdk_configuration)
-        self.capabilities = Capabilities(self.sdk_configuration)
-        self.clients = Clients(self.sdk_configuration)
-        self.client_links = ClientLinks(self.sdk_configuration)
-        self.orders = Orders(self.sdk_configuration)
-        self.shipments = Shipments(self.sdk_configuration)
         self.payments = Payments(self.sdk_configuration)
         self.methods = Methods(self.sdk_configuration)
         self.refunds = Refunds(self.sdk_configuration)
@@ -178,6 +162,16 @@ class Client(BaseSDK):
         self.customers = Customers(self.sdk_configuration)
         self.mandates = Mandates(self.sdk_configuration)
         self.subscriptions = Subscriptions(self.sdk_configuration)
+        self.permissions = Permissions(self.sdk_configuration)
+        self.organizations = Organizations(self.sdk_configuration)
+        self.profiles = Profiles(self.sdk_configuration)
+        self.onboarding = Onboarding(self.sdk_configuration)
+        self.capabilities = Capabilities(self.sdk_configuration)
+        self.clients = Clients(self.sdk_configuration)
+        self.client_links = ClientLinks(self.sdk_configuration)
+        self.balances = Balances(self.sdk_configuration)
+        self.settlements = Settlements(self.sdk_configuration)
+        self.invoices = Invoices(self.sdk_configuration)
 
     def __enter__(self):
         return self

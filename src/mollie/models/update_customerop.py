@@ -6,37 +6,77 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class UpdateCustomerMetadata2TypedDict(TypedDict):
+    pass
+
+
+class UpdateCustomerMetadata2(BaseModel):
+    pass
+
+
+UpdateCustomerMetadataTypedDict = TypeAliasType(
+    "UpdateCustomerMetadataTypedDict",
+    Union[UpdateCustomerMetadata2TypedDict, str, List[str]],
+)
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+
+
+UpdateCustomerMetadata = TypeAliasType(
+    "UpdateCustomerMetadata", Union[UpdateCustomerMetadata2, str, List[str]]
+)
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
 
 
 class UpdateCustomerRequestBodyTypedDict(TypedDict):
     name: NotRequired[Nullable[str]]
+    r"""The full name of the customer."""
     email: NotRequired[Nullable[str]]
+    r"""The email address of the customer."""
     locale: NotRequired[Nullable[str]]
-    metadata: NotRequired[Nullable[str]]
+    r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if absolutely necessary. If not provided, the browser language will be used which is typically highly accurate."""
+    metadata: NotRequired[Nullable[UpdateCustomerMetadataTypedDict]]
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+    testmode: NotRequired[Nullable[bool]]
+    r"""Whether to create the entity in test mode or live mode.
+
+    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    """
 
 
 class UpdateCustomerRequestBody(BaseModel):
     name: OptionalNullable[str] = UNSET
+    r"""The full name of the customer."""
 
     email: OptionalNullable[str] = UNSET
+    r"""The email address of the customer."""
 
     locale: OptionalNullable[str] = UNSET
+    r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if absolutely necessary. If not provided, the browser language will be used which is typically highly accurate."""
 
-    metadata: OptionalNullable[str] = UNSET
+    metadata: OptionalNullable[UpdateCustomerMetadata] = UNSET
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+
+    testmode: OptionalNullable[bool] = False
+    r"""Whether to create the entity in test mode or live mode.
+
+    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    """
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["name", "email", "locale", "metadata"]
-        nullable_fields = ["name", "email", "locale", "metadata"]
+        optional_fields = ["name", "email", "locale", "metadata", "testmode"]
+        nullable_fields = ["name", "email", "locale", "metadata", "testmode"]
         null_default_fields = []
 
         serialized = handler(self)
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -58,16 +98,18 @@ class UpdateCustomerRequestBody(BaseModel):
 
 
 class UpdateCustomerRequestTypedDict(TypedDict):
-    id: str
-    r"""Provide the ID of the item you want to perform this operation on."""
+    customer_id: str
+    r"""Provide the ID of the related customer."""
     request_body: NotRequired[UpdateCustomerRequestBodyTypedDict]
 
 
 class UpdateCustomerRequest(BaseModel):
-    id: Annotated[
-        str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
+    customer_id: Annotated[
+        str,
+        pydantic.Field(alias="customerId"),
+        FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Provide the ID of the item you want to perform this operation on."""
+    r"""Provide the ID of the related customer."""
 
     request_body: Annotated[
         Optional[UpdateCustomerRequestBody],
@@ -75,14 +117,14 @@ class UpdateCustomerRequest(BaseModel):
     ] = None
 
 
-class UpdateCustomerDocumentationTypedDict(TypedDict):
+class UpdateCustomerCustomersDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: NotRequired[str]
     type: NotRequired[str]
 
 
-class UpdateCustomerDocumentation(BaseModel):
+class UpdateCustomerCustomersDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: Optional[str] = "https://docs.mollie.com/errors"
@@ -90,17 +132,17 @@ class UpdateCustomerDocumentation(BaseModel):
     type: Optional[str] = "text/html"
 
 
-class UpdateCustomerLinksTypedDict(TypedDict):
-    documentation: NotRequired[UpdateCustomerDocumentationTypedDict]
+class UpdateCustomerCustomersLinksTypedDict(TypedDict):
+    documentation: NotRequired[UpdateCustomerCustomersDocumentationTypedDict]
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class UpdateCustomerLinks(BaseModel):
-    documentation: Optional[UpdateCustomerDocumentation] = None
+class UpdateCustomerCustomersLinks(BaseModel):
+    documentation: Optional[UpdateCustomerCustomersDocumentation] = None
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class UpdateCustomerResponseBodyData(BaseModel):
+class UpdateCustomerCustomersResponseBodyData(BaseModel):
     status: Optional[int] = None
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -113,18 +155,332 @@ class UpdateCustomerResponseBodyData(BaseModel):
     field: OptionalNullable[str] = UNSET
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
-    links: Annotated[Optional[UpdateCustomerLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
+    links: Annotated[
+        Optional[UpdateCustomerCustomersLinks], pydantic.Field(alias="_links")
+    ] = None
 
 
-class UpdateCustomerResponseBody(Exception):
+class UpdateCustomerCustomersResponseBody(Exception):
     r"""An error response object."""
 
-    data: UpdateCustomerResponseBodyData
+    data: UpdateCustomerCustomersResponseBodyData
 
-    def __init__(self, data: UpdateCustomerResponseBodyData):
+    def __init__(self, data: UpdateCustomerCustomersResponseBodyData):
         self.data = data
 
     def __str__(self) -> str:
-        return utils.marshal_json(self.data, UpdateCustomerResponseBodyData)
+        return utils.marshal_json(self.data, UpdateCustomerCustomersResponseBodyData)
+
+
+class UpdateCustomerMetadataCustomers2TypedDict(TypedDict):
+    pass
+
+
+class UpdateCustomerMetadataCustomers2(BaseModel):
+    pass
+
+
+UpdateCustomerCustomersMetadataTypedDict = TypeAliasType(
+    "UpdateCustomerCustomersMetadataTypedDict",
+    Union[UpdateCustomerMetadataCustomers2TypedDict, str, List[str]],
+)
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+
+
+UpdateCustomerCustomersMetadata = TypeAliasType(
+    "UpdateCustomerCustomersMetadata",
+    Union[UpdateCustomerMetadataCustomers2, str, List[str]],
+)
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+
+
+class UpdateCustomerSelfTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateCustomerSelf(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateCustomerDashboardTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateCustomerDashboard(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateCustomerPaymentsTypedDict(TypedDict):
+    r"""The API resource URL of the [payments](list-payments) linked to this customer. Omitted if no such payments exist (yet)."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateCustomerPayments(BaseModel):
+    r"""The API resource URL of the [payments](list-payments) linked to this customer. Omitted if no such payments exist (yet)."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateCustomerMandatesTypedDict(TypedDict):
+    r"""The API resource URL of the [mandates](list-mandates) linked to this customer. Omitted if no such mandates exist (yet)."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateCustomerMandates(BaseModel):
+    r"""The API resource URL of the [mandates](list-mandates) linked to this customer. Omitted if no such mandates exist (yet)."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateCustomerSubscriptionsTypedDict(TypedDict):
+    r"""The API resource URL of the [subscriptions](list-subscriptions) linked to this customer. Omitted if no such subscriptions exist (yet)."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateCustomerSubscriptions(BaseModel):
+    r"""The API resource URL of the [subscriptions](list-subscriptions) linked to this customer. Omitted if no such subscriptions exist (yet)."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateCustomerDocumentationTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateCustomerDocumentation(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateCustomerLinksTypedDict(TypedDict):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: NotRequired[UpdateCustomerSelfTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+    dashboard: NotRequired[UpdateCustomerDashboardTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+    payments: NotRequired[Nullable[UpdateCustomerPaymentsTypedDict]]
+    r"""The API resource URL of the [payments](list-payments) linked to this customer. Omitted if no such payments exist (yet)."""
+    mandates: NotRequired[Nullable[UpdateCustomerMandatesTypedDict]]
+    r"""The API resource URL of the [mandates](list-mandates) linked to this customer. Omitted if no such mandates exist (yet)."""
+    subscriptions: NotRequired[Nullable[UpdateCustomerSubscriptionsTypedDict]]
+    r"""The API resource URL of the [subscriptions](list-subscriptions) linked to this customer. Omitted if no such subscriptions exist (yet)."""
+    documentation: NotRequired[UpdateCustomerDocumentationTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
+class UpdateCustomerLinks(BaseModel):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: Annotated[Optional[UpdateCustomerSelf], pydantic.Field(alias="self")] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    dashboard: Optional[UpdateCustomerDashboard] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    payments: OptionalNullable[UpdateCustomerPayments] = UNSET
+    r"""The API resource URL of the [payments](list-payments) linked to this customer. Omitted if no such payments exist (yet)."""
+
+    mandates: OptionalNullable[UpdateCustomerMandates] = UNSET
+    r"""The API resource URL of the [mandates](list-mandates) linked to this customer. Omitted if no such mandates exist (yet)."""
+
+    subscriptions: OptionalNullable[UpdateCustomerSubscriptions] = UNSET
+    r"""The API resource URL of the [subscriptions](list-subscriptions) linked to this customer. Omitted if no such subscriptions exist (yet)."""
+
+    documentation: Optional[UpdateCustomerDocumentation] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "self",
+            "dashboard",
+            "payments",
+            "mandates",
+            "subscriptions",
+            "documentation",
+        ]
+        nullable_fields = ["payments", "mandates", "subscriptions"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class UpdateCustomerResponseBodyTypedDict(TypedDict):
+    r"""The updated customer object."""
+
+    resource: NotRequired[str]
+    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
+    id: NotRequired[str]
+    r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
+    mode: NotRequired[str]
+    r"""Whether this entity was created in live mode or in test mode.
+
+    Possible values: `live` `test`
+    """
+    name: NotRequired[Nullable[str]]
+    r"""The full name of the customer."""
+    email: NotRequired[Nullable[str]]
+    r"""The email address of the customer."""
+    locale: NotRequired[Nullable[str]]
+    r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if absolutely necessary. If not provided, the browser language will be used which is typically highly accurate."""
+    metadata: NotRequired[Nullable[UpdateCustomerCustomersMetadataTypedDict]]
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+    created_at: NotRequired[str]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    links: NotRequired[UpdateCustomerLinksTypedDict]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+
+class UpdateCustomerResponseBody(BaseModel):
+    r"""The updated customer object."""
+
+    resource: Optional[str] = "customer"
+    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
+
+    id: Optional[str] = None
+    r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
+
+    mode: Optional[str] = None
+    r"""Whether this entity was created in live mode or in test mode.
+
+    Possible values: `live` `test`
+    """
+
+    name: OptionalNullable[str] = UNSET
+    r"""The full name of the customer."""
+
+    email: OptionalNullable[str] = UNSET
+    r"""The email address of the customer."""
+
+    locale: OptionalNullable[str] = UNSET
+    r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if absolutely necessary. If not provided, the browser language will be used which is typically highly accurate."""
+
+    metadata: OptionalNullable[UpdateCustomerCustomersMetadata] = UNSET
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+
+    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
+    links: Annotated[Optional[UpdateCustomerLinks], pydantic.Field(alias="_links")] = (
+        None
+    )
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "resource",
+            "id",
+            "mode",
+            "name",
+            "email",
+            "locale",
+            "metadata",
+            "createdAt",
+            "_links",
+        ]
+        nullable_fields = ["name", "email", "locale", "metadata"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m

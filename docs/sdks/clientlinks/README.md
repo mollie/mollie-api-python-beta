@@ -44,7 +44,18 @@ with Client(
     ),
 ) as client:
 
-    res = client.client_links.create()
+    res = client.client_links.create(request={
+        "owner": {
+            "email": "Loyal79@yahoo.com",
+            "given_name": "<value>",
+            "family_name": "<value>",
+            "locale": "en_US",
+        },
+        "name": "<value>",
+        "address": {
+            "country": "Afghanistan",
+        },
+    })
 
     # Handle response
     print(res)

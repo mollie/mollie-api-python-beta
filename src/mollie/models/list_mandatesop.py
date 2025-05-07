@@ -17,6 +17,11 @@ class ListMandatesRequestTypedDict(TypedDict):
     r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set."""
     limit: NotRequired[Nullable[int]]
     r"""The maximum number of items to return. Defaults to 50 items."""
+    sort: NotRequired[Nullable[str]]
+    r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
+
+    Possible values: `asc` `desc` (default: `desc`)
+    """
     testmode: NotRequired[Nullable[bool]]
     r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
 
@@ -45,6 +50,15 @@ class ListMandatesRequest(BaseModel):
     ] = 50
     r"""The maximum number of items to return. Defaults to 50 items."""
 
+    sort: Annotated[
+        OptionalNullable[str],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = UNSET
+    r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
+
+    Possible values: `asc` `desc` (default: `desc`)
+    """
+
     testmode: Annotated[
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
@@ -56,15 +70,15 @@ class ListMandatesRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["from", "limit", "testmode"]
-        nullable_fields = ["limit", "testmode"]
+        optional_fields = ["from", "limit", "sort", "testmode"]
+        nullable_fields = ["limit", "sort", "testmode"]
         null_default_fields = []
 
         serialized = handler(self)
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -197,22 +211,340 @@ class ListMandatesMandatesResponseBody(Exception):
         return utils.marshal_json(self.data, ListMandatesMandatesResponseBodyData)
 
 
+class ListMandatesDetailsTypedDict(TypedDict):
+    consumer_name: NotRequired[Nullable[str]]
+    r"""The customer's name. Available for SEPA Direct Debit and PayPal mandates."""
+    consumer_account: NotRequired[Nullable[str]]
+    r"""The customer's IBAN or email address. Available for SEPA Direct Debit and PayPal mandates."""
+    consumer_bic: NotRequired[Nullable[str]]
+    r"""The BIC of the customer's bank. Available for SEPA Direct Debit mandates."""
+    card_holder: NotRequired[Nullable[str]]
+    r"""The card holder's name. Available for card mandates."""
+    card_number: NotRequired[Nullable[str]]
+    r"""The last four digits of the card number. Available for card mandates."""
+    card_expiry_date: NotRequired[Nullable[str]]
+    r"""The card's expiry date in `YYYY-MM-DD` format. Available for card mandates."""
+    card_label: NotRequired[Nullable[str]]
+    r"""The card's label. Available for card mandates, if the card label could be detected.
+
+    Possible values: `American Express` `Carta Si` `Carte Bleue` `Dankort` `Diners Club` `Discover` `JCB` `Laser` `Maestro` `Mastercard` `Unionpay` `Visa`
+    """
+    card_fingerprint: NotRequired[Nullable[str]]
+    r"""Unique alphanumeric representation of this specific card. Available for card mandates. Can be used to identify returning customers."""
+
+
+class ListMandatesDetails(BaseModel):
+    consumer_name: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="consumerName")
+    ] = UNSET
+    r"""The customer's name. Available for SEPA Direct Debit and PayPal mandates."""
+
+    consumer_account: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="consumerAccount")
+    ] = UNSET
+    r"""The customer's IBAN or email address. Available for SEPA Direct Debit and PayPal mandates."""
+
+    consumer_bic: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="consumerBic")
+    ] = UNSET
+    r"""The BIC of the customer's bank. Available for SEPA Direct Debit mandates."""
+
+    card_holder: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardHolder")
+    ] = UNSET
+    r"""The card holder's name. Available for card mandates."""
+
+    card_number: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardNumber")
+    ] = UNSET
+    r"""The last four digits of the card number. Available for card mandates."""
+
+    card_expiry_date: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardExpiryDate")
+    ] = UNSET
+    r"""The card's expiry date in `YYYY-MM-DD` format. Available for card mandates."""
+
+    card_label: Annotated[OptionalNullable[str], pydantic.Field(alias="cardLabel")] = (
+        UNSET
+    )
+    r"""The card's label. Available for card mandates, if the card label could be detected.
+
+    Possible values: `American Express` `Carta Si` `Carte Bleue` `Dankort` `Diners Club` `Discover` `JCB` `Laser` `Maestro` `Mastercard` `Unionpay` `Visa`
+    """
+
+    card_fingerprint: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardFingerprint")
+    ] = UNSET
+    r"""Unique alphanumeric representation of this specific card. Available for card mandates. Can be used to identify returning customers."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "consumerName",
+            "consumerAccount",
+            "consumerBic",
+            "cardHolder",
+            "cardNumber",
+            "cardExpiryDate",
+            "cardLabel",
+            "cardFingerprint",
+        ]
+        nullable_fields = [
+            "consumerName",
+            "consumerAccount",
+            "consumerBic",
+            "cardHolder",
+            "cardNumber",
+            "cardExpiryDate",
+            "cardLabel",
+            "cardFingerprint",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class ListMandatesMandatesSelfTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ListMandatesMandatesSelf(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ListMandatesCustomerTypedDict(TypedDict):
+    r"""The API resource URL of the [customer](get-customer) that this mandate belongs to."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ListMandatesCustomer(BaseModel):
+    r"""The API resource URL of the [customer](get-customer) that this mandate belongs to."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ListMandatesMandatesResponse200DocumentationTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ListMandatesMandatesResponse200Documentation(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ListMandatesMandatesResponse200LinksTypedDict(TypedDict):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: NotRequired[ListMandatesMandatesSelfTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+    customer: NotRequired[ListMandatesCustomerTypedDict]
+    r"""The API resource URL of the [customer](get-customer) that this mandate belongs to."""
+    documentation: NotRequired[ListMandatesMandatesResponse200DocumentationTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
+class ListMandatesMandatesResponse200Links(BaseModel):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: Annotated[
+        Optional[ListMandatesMandatesSelf], pydantic.Field(alias="self")
+    ] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    customer: Optional[ListMandatesCustomer] = None
+    r"""The API resource URL of the [customer](get-customer) that this mandate belongs to."""
+
+    documentation: Optional[ListMandatesMandatesResponse200Documentation] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
 class ListMandatesMandatesTypedDict(TypedDict):
-    pass
+    resource: NotRequired[str]
+    r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
+    id: NotRequired[str]
+    r"""The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`."""
+    mode: NotRequired[str]
+    r"""Whether this entity was created in live mode or in test mode.
+
+    Possible values: `live` `test`
+    """
+    method: NotRequired[str]
+    r"""Payment method of the mandate.
+
+    SEPA Direct Debit and PayPal mandates can be created directly.
+
+    Possible values: `creditcard` `directdebit` `paypal`
+    """
+    details: NotRequired[ListMandatesDetailsTypedDict]
+    signature_date: NotRequired[Nullable[str]]
+    r"""The date when the mandate was signed in `YYYY-MM-DD` format."""
+    mandate_reference: NotRequired[Nullable[str]]
+    r"""A custom mandate reference. For SEPA Direct Debit, it is vital to provide a unique reference. Some banks will decline Direct Debit payments if the mandate reference is not unique."""
+    status: NotRequired[str]
+    r"""The status of the mandate. A status can be `pending` for mandates when the first payment is not yet finalized, or when we did not received the IBAN yet from the first payment.
+
+    Possible values: `valid` `pending` `invalid`
+    """
+    customer_id: NotRequired[str]
+    r"""The identifier referring to the [customer](get-customer) this mandate was linked to."""
+    created_at: NotRequired[str]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    links: NotRequired[ListMandatesMandatesResponse200LinksTypedDict]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class ListMandatesMandates(BaseModel):
-    pass
+    resource: Optional[str] = "mandate"
+    r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
+
+    id: Optional[str] = None
+    r"""The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`."""
+
+    mode: Optional[str] = None
+    r"""Whether this entity was created in live mode or in test mode.
+
+    Possible values: `live` `test`
+    """
+
+    method: Optional[str] = None
+    r"""Payment method of the mandate.
+
+    SEPA Direct Debit and PayPal mandates can be created directly.
+
+    Possible values: `creditcard` `directdebit` `paypal`
+    """
+
+    details: Optional[ListMandatesDetails] = None
+
+    signature_date: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="signatureDate")
+    ] = UNSET
+    r"""The date when the mandate was signed in `YYYY-MM-DD` format."""
+
+    mandate_reference: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="mandateReference")
+    ] = UNSET
+    r"""A custom mandate reference. For SEPA Direct Debit, it is vital to provide a unique reference. Some banks will decline Direct Debit payments if the mandate reference is not unique."""
+
+    status: Optional[str] = None
+    r"""The status of the mandate. A status can be `pending` for mandates when the first payment is not yet finalized, or when we did not received the IBAN yet from the first payment.
+
+    Possible values: `valid` `pending` `invalid`
+    """
+
+    customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
+    r"""The identifier referring to the [customer](get-customer) this mandate was linked to."""
+
+    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
+    links: Annotated[
+        Optional[ListMandatesMandatesResponse200Links], pydantic.Field(alias="_links")
+    ] = None
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "resource",
+            "id",
+            "mode",
+            "method",
+            "details",
+            "signatureDate",
+            "mandateReference",
+            "status",
+            "customerId",
+            "createdAt",
+            "_links",
+        ]
+        nullable_fields = ["signatureDate", "mandateReference"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class ListMandatesEmbeddedTypedDict(TypedDict):
     mandates: NotRequired[List[ListMandatesMandatesTypedDict]]
-    r"""An array of mandate objects. For a complete reference of the mandate object, refer to the [Get mandate endpoint](get-mandate) documentation."""
+    r"""An array of mandate objects."""
 
 
 class ListMandatesEmbedded(BaseModel):
     mandates: Optional[List[ListMandatesMandates]] = None
-    r"""An array of mandate objects. For a complete reference of the mandate object, refer to the [Get mandate endpoint](get-mandate) documentation."""
+    r"""An array of mandate objects."""
 
 
 class ListMandatesSelfTypedDict(TypedDict):
@@ -329,7 +661,7 @@ class ListMandatesLinks(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -351,7 +683,7 @@ class ListMandatesLinks(BaseModel):
 
 
 class ListMandatesResponseBodyTypedDict(TypedDict):
-    r"""A list of mandate objects. For a complete reference of the mandate object, refer to the [Get mandate endpoint](get-mandate) documentation."""
+    r"""A list of mandate objects."""
 
     count: NotRequired[int]
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.
@@ -364,7 +696,7 @@ class ListMandatesResponseBodyTypedDict(TypedDict):
 
 
 class ListMandatesResponseBody(BaseModel):
-    r"""A list of mandate objects. For a complete reference of the mandate object, refer to the [Get mandate endpoint](get-mandate) documentation."""
+    r"""A list of mandate objects."""
 
     count: Optional[int] = None
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.

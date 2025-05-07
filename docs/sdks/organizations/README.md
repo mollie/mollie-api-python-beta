@@ -7,7 +7,7 @@
 
 * [get](#get) - Get organization
 * [get_current](#get_current) - Get current organization
-* [get_partner_status](#get_partner_status) - Get partner status
+* [get_partner](#get_partner) - Get partner status
 
 ## get
 
@@ -108,7 +108,7 @@ with Client(
 | --------------- | --------------- | --------------- |
 | models.APIError | 4XX, 5XX        | \*/\*           |
 
-## get_partner_status
+## get_partner
 
 Retrieve partnership details about the currently authenticated organization. Only relevant for so-called *partner accounts*.
 
@@ -130,7 +130,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.organizations.get_partner_status()
+    res = client.organizations.get_partner()
 
     # Handle response
     print(res)

@@ -6,15 +6,15 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import Any, List, Optional, Union
+from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class GetSubscriptionRequestTypedDict(TypedDict):
     customer_id: str
     r"""Provide the ID of the related customer."""
-    id: str
-    r"""Provide the ID of the item you want to perform this operation on."""
+    subscription_id: str
+    r"""Provide the ID of the related subscription."""
     testmode: NotRequired[Nullable[bool]]
     r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
 
@@ -30,10 +30,12 @@ class GetSubscriptionRequest(BaseModel):
     ]
     r"""Provide the ID of the related customer."""
 
-    id: Annotated[
-        str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
+    subscription_id: Annotated[
+        str,
+        pydantic.Field(alias="subscriptionId"),
+        FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Provide the ID of the item you want to perform this operation on."""
+    r"""Provide the ID of the related subscription."""
 
     testmode: Annotated[
         OptionalNullable[bool],
@@ -54,7 +56,7 @@ class GetSubscriptionRequest(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -207,13 +209,21 @@ class GetSubscriptionMetadata2(BaseModel):
 
 GetSubscriptionMetadataTypedDict = TypeAliasType(
     "GetSubscriptionMetadataTypedDict",
-    Union[GetSubscriptionMetadata2TypedDict, str, List[Any]],
+    Union[GetSubscriptionMetadata2TypedDict, str, List[str]],
 )
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+
+Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
+"""
 
 
 GetSubscriptionMetadata = TypeAliasType(
-    "GetSubscriptionMetadata", Union[GetSubscriptionMetadata2, str, List[Any]]
+    "GetSubscriptionMetadata", Union[GetSubscriptionMetadata2, str, List[str]]
 )
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+
+Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
+"""
 
 
 class GetSubscriptionSelfTypedDict(TypedDict):
@@ -246,6 +256,44 @@ class GetSubscriptionCustomerTypedDict(TypedDict):
 
 class GetSubscriptionCustomer(BaseModel):
     r"""The API resource URL of the [customer](get-customer) this subscription was created for."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class GetSubscriptionMandateTypedDict(TypedDict):
+    r"""The API resource URL of the [mandate](get-mandate) this subscription was created for."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class GetSubscriptionMandate(BaseModel):
+    r"""The API resource URL of the [mandate](get-mandate) this subscription was created for."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class GetSubscriptionProfileTypedDict(TypedDict):
+    r"""The API resource URL of the [profile](get-profile) this subscription was created for."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class GetSubscriptionProfile(BaseModel):
+    r"""The API resource URL of the [profile](get-profile) this subscription was created for."""
 
     href: Optional[str] = None
     r"""The actual URL string."""
@@ -299,6 +347,10 @@ class GetSubscriptionLinksTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     customer: NotRequired[Nullable[GetSubscriptionCustomerTypedDict]]
     r"""The API resource URL of the [customer](get-customer) this subscription was created for."""
+    mandate: NotRequired[Nullable[GetSubscriptionMandateTypedDict]]
+    r"""The API resource URL of the [mandate](get-mandate) this subscription was created for."""
+    profile: NotRequired[Nullable[GetSubscriptionProfileTypedDict]]
+    r"""The API resource URL of the [profile](get-profile) this subscription was created for."""
     payments: NotRequired[Nullable[GetSubscriptionPaymentsTypedDict]]
     r"""The API resource URL of the [payments](list-payments) created for this subscription. Omitted if no such payments exist (yet)."""
     documentation: NotRequired[GetSubscriptionDocumentationTypedDict]
@@ -314,6 +366,12 @@ class GetSubscriptionLinks(BaseModel):
     customer: OptionalNullable[GetSubscriptionCustomer] = UNSET
     r"""The API resource URL of the [customer](get-customer) this subscription was created for."""
 
+    mandate: OptionalNullable[GetSubscriptionMandate] = UNSET
+    r"""The API resource URL of the [mandate](get-mandate) this subscription was created for."""
+
+    profile: OptionalNullable[GetSubscriptionProfile] = UNSET
+    r"""The API resource URL of the [profile](get-profile) this subscription was created for."""
+
     payments: OptionalNullable[GetSubscriptionPayments] = UNSET
     r"""The API resource URL of the [payments](list-payments) created for this subscription. Omitted if no such payments exist (yet)."""
 
@@ -322,15 +380,22 @@ class GetSubscriptionLinks(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "customer", "payments", "documentation"]
-        nullable_fields = ["customer", "payments"]
+        optional_fields = [
+            "self",
+            "customer",
+            "mandate",
+            "profile",
+            "payments",
+            "documentation",
+        ]
+        nullable_fields = ["customer", "mandate", "profile", "payments"]
         null_default_fields = []
 
         serialized = handler(self)
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -370,7 +435,7 @@ class GetSubscriptionResponseBodyTypedDict(TypedDict):
     """
     amount: NotRequired[GetSubscriptionAmountTypedDict]
     r"""The amount for each individual payment that is charged with this subscription. For example, for a monthly subscription of €10, the subscription amount should be set to €10."""
-    times: NotRequired[int]
+    times: NotRequired[Nullable[int]]
     r"""Total number of payments for the subscription. Once this number of payments is reached, the subscription is considered completed.
 
     Test mode subscriptions will get canceled automatically after 10 payments.
@@ -419,11 +484,6 @@ class GetSubscriptionResponseBodyTypedDict(TypedDict):
     r"""The customer this subscription belongs to."""
     mandate_id: NotRequired[Nullable[str]]
     r"""The mandate used for this subscription, if any."""
-    profile_id: NotRequired[Nullable[str]]
-    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
-
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
-    """
     created_at: NotRequired[str]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     canceled_at: NotRequired[Nullable[str]]
@@ -456,7 +516,7 @@ class GetSubscriptionResponseBody(BaseModel):
     amount: Optional[GetSubscriptionAmount] = None
     r"""The amount for each individual payment that is charged with this subscription. For example, for a monthly subscription of €10, the subscription amount should be set to €10."""
 
-    times: Optional[int] = None
+    times: OptionalNullable[int] = UNSET
     r"""Total number of payments for the subscription. Once this number of payments is reached, the subscription is considered completed.
 
     Test mode subscriptions will get canceled automatically after 10 payments.
@@ -525,14 +585,6 @@ class GetSubscriptionResponseBody(BaseModel):
     )
     r"""The mandate used for this subscription, if any."""
 
-    profile_id: Annotated[OptionalNullable[str], pydantic.Field(alias="profileId")] = (
-        UNSET
-    )
-    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
-
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
-    """
-
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
@@ -566,17 +618,16 @@ class GetSubscriptionResponseBody(BaseModel):
             "webhookUrl",
             "customerId",
             "mandateId",
-            "profileId",
             "createdAt",
             "canceledAt",
             "_links",
         ]
         nullable_fields = [
+            "times",
             "nextPaymentDate",
             "method",
             "metadata",
             "mandateId",
-            "profileId",
             "canceledAt",
         ]
         null_default_fields = []
@@ -585,7 +636,7 @@ class GetSubscriptionResponseBody(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)

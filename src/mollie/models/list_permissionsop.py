@@ -63,22 +63,106 @@ class ListPermissionsPermissionsResponseBody(Exception):
         return utils.marshal_json(self.data, ListPermissionsPermissionsResponseBodyData)
 
 
+class ListPermissionsPermissionsSelfTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ListPermissionsPermissionsSelf(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ListPermissionsPermissionsResponseDocumentationTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ListPermissionsPermissionsResponseDocumentation(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ListPermissionsPermissionsResponseLinksTypedDict(TypedDict):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: NotRequired[ListPermissionsPermissionsSelfTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+    documentation: NotRequired[ListPermissionsPermissionsResponseDocumentationTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
+class ListPermissionsPermissionsResponseLinks(BaseModel):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: Annotated[
+        Optional[ListPermissionsPermissionsSelf], pydantic.Field(alias="self")
+    ] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    documentation: Optional[ListPermissionsPermissionsResponseDocumentation] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
 class ListPermissionsPermissionsTypedDict(TypedDict):
-    pass
+    resource: NotRequired[str]
+    r"""Indicates the response contains a permission object. Will always contain the string `permission` for this endpoint."""
+    id: NotRequired[str]
+    r"""The identifier uniquely referring to this permission. Example: `payments.read`."""
+    description: NotRequired[str]
+    r"""A short description of what kind of access the permission enables."""
+    granted: NotRequired[bool]
+    r"""Whether this permission is granted to the app by the organization."""
+    links: NotRequired[ListPermissionsPermissionsResponseLinksTypedDict]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class ListPermissionsPermissions(BaseModel):
-    pass
+    resource: Optional[str] = "permission"
+    r"""Indicates the response contains a permission object. Will always contain the string `permission` for this endpoint."""
+
+    id: Optional[str] = None
+    r"""The identifier uniquely referring to this permission. Example: `payments.read`."""
+
+    description: Optional[str] = None
+    r"""A short description of what kind of access the permission enables."""
+
+    granted: Optional[bool] = None
+    r"""Whether this permission is granted to the app by the organization."""
+
+    links: Annotated[
+        Optional[ListPermissionsPermissionsResponseLinks],
+        pydantic.Field(alias="_links"),
+    ] = None
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class ListPermissionsEmbeddedTypedDict(TypedDict):
     permissions: NotRequired[List[ListPermissionsPermissionsTypedDict]]
-    r"""An array of permission objects. For a complete reference of the permission object, refer to the [Get permission endpoint](get-permission) documentation."""
+    r"""An array of permission objects."""
 
 
 class ListPermissionsEmbedded(BaseModel):
     permissions: Optional[List[ListPermissionsPermissions]] = None
-    r"""An array of permission objects. For a complete reference of the permission object, refer to the [Get permission endpoint](get-permission) documentation."""
+    r"""An array of permission objects."""
 
 
 class ListPermissionsSelfTypedDict(TypedDict):
@@ -139,7 +223,7 @@ class ListPermissionsLinks(BaseModel):
 
 
 class ListPermissionsResponseBodyTypedDict(TypedDict):
-    r"""A list of permission objects. For a complete reference of the permission object, refer to the [Get permission endpoint](get-permission) documentation."""
+    r"""A list of permission objects."""
 
     count: NotRequired[int]
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.
@@ -152,7 +236,7 @@ class ListPermissionsResponseBodyTypedDict(TypedDict):
 
 
 class ListPermissionsResponseBody(BaseModel):
-    r"""A list of permission objects. For a complete reference of the permission object, refer to the [Get permission endpoint](get-permission) documentation."""
+    r"""A list of permission objects."""
 
     count: Optional[int] = None
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.

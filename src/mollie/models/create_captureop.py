@@ -6,7 +6,7 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import Any, List, Optional, Union
+from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -39,13 +39,15 @@ class CreateCaptureMetadata2(BaseModel):
 
 CreateCaptureMetadataTypedDict = TypeAliasType(
     "CreateCaptureMetadataTypedDict",
-    Union[CreateCaptureMetadata2TypedDict, str, List[Any]],
+    Union[CreateCaptureMetadata2TypedDict, str, List[str]],
 )
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
 
 
 CreateCaptureMetadata = TypeAliasType(
-    "CreateCaptureMetadata", Union[CreateCaptureMetadata2, str, List[Any]]
+    "CreateCaptureMetadata", Union[CreateCaptureMetadata2, str, List[str]]
 )
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
 
 
 class CreateCaptureRequestBodyTypedDict(TypedDict):
@@ -77,7 +79,7 @@ class CreateCaptureRequestBody(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -116,6 +118,63 @@ class CreateCaptureRequest(BaseModel):
         Optional[CreateCaptureRequestBody],
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ] = None
+
+
+class CreateCaptureCapturesResponseDocumentationTypedDict(TypedDict):
+    r"""The URL to the generic Mollie API error handling guide."""
+
+    href: NotRequired[str]
+    type: NotRequired[str]
+
+
+class CreateCaptureCapturesResponseDocumentation(BaseModel):
+    r"""The URL to the generic Mollie API error handling guide."""
+
+    href: Optional[str] = "https://docs.mollie.com/errors"
+
+    type: Optional[str] = "text/html"
+
+
+class CreateCaptureCapturesResponseLinksTypedDict(TypedDict):
+    documentation: NotRequired[CreateCaptureCapturesResponseDocumentationTypedDict]
+    r"""The URL to the generic Mollie API error handling guide."""
+
+
+class CreateCaptureCapturesResponseLinks(BaseModel):
+    documentation: Optional[CreateCaptureCapturesResponseDocumentation] = None
+    r"""The URL to the generic Mollie API error handling guide."""
+
+
+class CreateCaptureCapturesResponseResponseBodyData(BaseModel):
+    status: Optional[int] = None
+    r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
+
+    title: Optional[str] = None
+    r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
+
+    detail: Optional[str] = None
+    r"""A detailed human-readable description of the error that occurred."""
+
+    field: OptionalNullable[str] = UNSET
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+
+    links: Annotated[
+        Optional[CreateCaptureCapturesResponseLinks], pydantic.Field(alias="_links")
+    ] = None
+
+
+class CreateCaptureCapturesResponseResponseBody(Exception):
+    r"""An error response object."""
+
+    data: CreateCaptureCapturesResponseResponseBodyData
+
+    def __init__(self, data: CreateCaptureCapturesResponseResponseBodyData):
+        self.data = data
+
+    def __str__(self) -> str:
+        return utils.marshal_json(
+            self.data, CreateCaptureCapturesResponseResponseBodyData
+        )
 
 
 class CreateCaptureCapturesDocumentationTypedDict(TypedDict):
@@ -173,56 +232,377 @@ class CreateCaptureCapturesResponseBody(Exception):
         return utils.marshal_json(self.data, CreateCaptureCapturesResponseBodyData)
 
 
-class CreateCaptureDocumentationTypedDict(TypedDict):
-    r"""The URL to the generic Mollie API error handling guide."""
+class CreateCaptureCapturesAmountTypedDict(TypedDict):
+    r"""The amount captured. If no amount is provided, the full authorized amount is captured."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class CreateCaptureCapturesAmount(BaseModel):
+    r"""The amount captured. If no amount is provided, the full authorized amount is captured."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class CreateCaptureSettlementAmountTypedDict(TypedDict):
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
+
+    Since the field contains an estimated amount during capture processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class CreateCaptureSettlementAmount(BaseModel):
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
+
+    Since the field contains an estimated amount during capture processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class CreateCaptureMetadataCaptures2TypedDict(TypedDict):
+    pass
+
+
+class CreateCaptureMetadataCaptures2(BaseModel):
+    pass
+
+
+CreateCaptureCapturesMetadataTypedDict = TypeAliasType(
+    "CreateCaptureCapturesMetadataTypedDict",
+    Union[CreateCaptureMetadataCaptures2TypedDict, str, List[str]],
+)
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+
+
+CreateCaptureCapturesMetadata = TypeAliasType(
+    "CreateCaptureCapturesMetadata",
+    Union[CreateCaptureMetadataCaptures2, str, List[str]],
+)
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+
+
+class CreateCaptureSelfTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: NotRequired[str]
+    r"""The actual URL string."""
     type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateCaptureSelf(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateCapturePaymentTypedDict(TypedDict):
+    r"""The API resource URL of the [payment](get-payment) that this capture belongs to."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateCapturePayment(BaseModel):
+    r"""The API resource URL of the [payment](get-payment) that this capture belongs to."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateCaptureSettlementTypedDict(TypedDict):
+    r"""The API resource URL of the [settlement](get-settlement) this capture has been settled with. Not present if not yet settled."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateCaptureSettlement(BaseModel):
+    r"""The API resource URL of the [settlement](get-settlement) this capture has been settled with. Not present if not yet settled."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ShipmentTypedDict(TypedDict):
+    r"""The API resource URL of the [shipment](get-shipment) this capture is associated with. Not present if it isn't associated with a shipment."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class Shipment(BaseModel):
+    r"""The API resource URL of the [shipment](get-shipment) this capture is associated with. Not present if it isn't associated with a shipment."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateCaptureDocumentationTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
 
 
 class CreateCaptureDocumentation(BaseModel):
-    r"""The URL to the generic Mollie API error handling guide."""
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: Optional[str] = None
+    r"""The actual URL string."""
 
-    type: Optional[str] = "text/html"
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
 
 
 class CreateCaptureLinksTypedDict(TypedDict):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: NotRequired[CreateCaptureSelfTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+    payment: NotRequired[CreateCapturePaymentTypedDict]
+    r"""The API resource URL of the [payment](get-payment) that this capture belongs to."""
+    settlement: NotRequired[Nullable[CreateCaptureSettlementTypedDict]]
+    r"""The API resource URL of the [settlement](get-settlement) this capture has been settled with. Not present if not yet settled."""
+    shipment: NotRequired[Nullable[ShipmentTypedDict]]
+    r"""The API resource URL of the [shipment](get-shipment) this capture is associated with. Not present if it isn't associated with a shipment."""
     documentation: NotRequired[CreateCaptureDocumentationTypedDict]
-    r"""The URL to the generic Mollie API error handling guide."""
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class CreateCaptureLinks(BaseModel):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: Annotated[Optional[CreateCaptureSelf], pydantic.Field(alias="self")] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    payment: Optional[CreateCapturePayment] = None
+    r"""The API resource URL of the [payment](get-payment) that this capture belongs to."""
+
+    settlement: OptionalNullable[CreateCaptureSettlement] = UNSET
+    r"""The API resource URL of the [settlement](get-settlement) this capture has been settled with. Not present if not yet settled."""
+
+    shipment: OptionalNullable[Shipment] = UNSET
+    r"""The API resource URL of the [shipment](get-shipment) this capture is associated with. Not present if it isn't associated with a shipment."""
+
     documentation: Optional[CreateCaptureDocumentation] = None
-    r"""The URL to the generic Mollie API error handling guide."""
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["self", "payment", "settlement", "shipment", "documentation"]
+        nullable_fields = ["settlement", "shipment"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
-class CreateCaptureResponseBodyData(BaseModel):
-    status: Optional[int] = None
-    r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
+class CreateCaptureResponseBodyTypedDict(TypedDict):
+    r"""The newly created capture object. For a complete reference of the capture object, refer to the [Get capture endpoint](get-capture) documentation."""
 
-    title: Optional[str] = None
-    r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
+    resource: NotRequired[str]
+    r"""Indicates the response contains a capture object. Will always contain the string `capture` for this endpoint."""
+    id: NotRequired[str]
+    r"""The identifier uniquely referring to this capture. Example: `cpt_mNepDkEtco6ah3QNPUGYH`."""
+    mode: NotRequired[str]
+    r"""Whether this entity was created in live mode or in test mode.
 
-    detail: Optional[str] = None
-    r"""A detailed human-readable description of the error that occurred."""
+    Possible values: `live` `test`
+    """
+    description: NotRequired[str]
+    r"""The description of the capture."""
+    amount: NotRequired[Nullable[CreateCaptureCapturesAmountTypedDict]]
+    r"""The amount captured. If no amount is provided, the full authorized amount is captured."""
+    settlement_amount: NotRequired[Nullable[CreateCaptureSettlementAmountTypedDict]]
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    Since the field contains an estimated amount during capture processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    """
+    status: NotRequired[str]
+    r"""The capture's status.
+
+    Possible values: `pending` `succeeded` `failed`
+    """
+    metadata: NotRequired[Nullable[CreateCaptureCapturesMetadataTypedDict]]
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+    payment_id: NotRequired[str]
+    r"""The unique identifier of the payment this capture was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
+    shipment_id: NotRequired[Nullable[str]]
+    r"""The unique identifier of the shipment that triggered the creation of this capture, if applicable. For example: `shp_gNapNy9qQTUFZYnCrCF7J`."""
+    settlement_id: NotRequired[Nullable[str]]
+    r"""The identifier referring to the settlement this capture was settled with. For example, `stl_BkEjN2eBb`. This field is omitted if the capture is not settled (yet)."""
+    created_at: NotRequired[str]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    links: NotRequired[CreateCaptureLinksTypedDict]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+
+class CreateCaptureResponseBody(BaseModel):
+    r"""The newly created capture object. For a complete reference of the capture object, refer to the [Get capture endpoint](get-capture) documentation."""
+
+    resource: Optional[str] = "capture"
+    r"""Indicates the response contains a capture object. Will always contain the string `capture` for this endpoint."""
+
+    id: Optional[str] = None
+    r"""The identifier uniquely referring to this capture. Example: `cpt_mNepDkEtco6ah3QNPUGYH`."""
+
+    mode: Optional[str] = None
+    r"""Whether this entity was created in live mode or in test mode.
+
+    Possible values: `live` `test`
+    """
+
+    description: Optional[str] = None
+    r"""The description of the capture."""
+
+    amount: OptionalNullable[CreateCaptureCapturesAmount] = UNSET
+    r"""The amount captured. If no amount is provided, the full authorized amount is captured."""
+
+    settlement_amount: Annotated[
+        OptionalNullable[CreateCaptureSettlementAmount],
+        pydantic.Field(alias="settlementAmount"),
+    ] = UNSET
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
+
+    Since the field contains an estimated amount during capture processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    """
+
+    status: Optional[str] = None
+    r"""The capture's status.
+
+    Possible values: `pending` `succeeded` `failed`
+    """
+
+    metadata: OptionalNullable[CreateCaptureCapturesMetadata] = UNSET
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+    r"""The unique identifier of the payment this capture was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
+
+    shipment_id: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="shipmentId")
+    ] = UNSET
+    r"""The unique identifier of the shipment that triggered the creation of this capture, if applicable. For example: `shp_gNapNy9qQTUFZYnCrCF7J`."""
+
+    settlement_id: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="settlementId")
+    ] = UNSET
+    r"""The identifier referring to the settlement this capture was settled with. For example, `stl_BkEjN2eBb`. This field is omitted if the capture is not settled (yet)."""
+
+    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
     links: Annotated[Optional[CreateCaptureLinks], pydantic.Field(alias="_links")] = (
         None
     )
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "resource",
+            "id",
+            "mode",
+            "description",
+            "amount",
+            "settlementAmount",
+            "status",
+            "metadata",
+            "paymentId",
+            "shipmentId",
+            "settlementId",
+            "createdAt",
+            "_links",
+        ]
+        nullable_fields = [
+            "amount",
+            "settlementAmount",
+            "metadata",
+            "shipmentId",
+            "settlementId",
+        ]
+        null_default_fields = []
 
-class CreateCaptureResponseBody(Exception):
-    r"""An error response object."""
+        serialized = handler(self)
 
-    data: CreateCaptureResponseBodyData
+        m = {}
 
-    def __init__(self, data: CreateCaptureResponseBodyData):
-        self.data = data
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
 
-    def __str__(self) -> str:
-        return utils.marshal_json(self.data, CreateCaptureResponseBodyData)
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m

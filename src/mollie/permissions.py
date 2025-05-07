@@ -220,7 +220,7 @@ class Permissions(BaseSDK):
     def get(
         self,
         *,
-        id: str,
+        permission_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -235,7 +235,7 @@ class Permissions(BaseSDK):
         >
         > [Access token](/reference/authentication)
 
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param permission_id: Provide the ID of the related permission.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -253,13 +253,13 @@ class Permissions(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetPermissionRequest(
-            id=id,
+            permission_id=permission_id,
             testmode=testmode,
         )
 
         req = self._build_request(
             method="GET",
-            path="/permissions/{id}",
+            path="/permissions/{permissionId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -330,7 +330,7 @@ class Permissions(BaseSDK):
     async def get_async(
         self,
         *,
-        id: str,
+        permission_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -345,7 +345,7 @@ class Permissions(BaseSDK):
         >
         > [Access token](/reference/authentication)
 
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param permission_id: Provide the ID of the related permission.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -363,13 +363,13 @@ class Permissions(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetPermissionRequest(
-            id=id,
+            permission_id=permission_id,
             testmode=testmode,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/permissions/{id}",
+            path="/permissions/{permissionId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,

@@ -14,6 +14,7 @@ class Terminals(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
+        sort: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -34,6 +35,7 @@ class Terminals(BaseSDK):
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -53,6 +55,7 @@ class Terminals(BaseSDK):
         request = models.ListTerminalsRequest(
             from_=from_,
             limit=limit,
+            sort=sort,
             testmode=testmode,
         )
 
@@ -131,6 +134,7 @@ class Terminals(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
+        sort: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -151,6 +155,7 @@ class Terminals(BaseSDK):
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -170,6 +175,7 @@ class Terminals(BaseSDK):
         request = models.ListTerminalsRequest(
             from_=from_,
             limit=limit,
+            sort=sort,
             testmode=testmode,
         )
 
@@ -246,7 +252,7 @@ class Terminals(BaseSDK):
     def get(
         self,
         *,
-        id: str,
+        terminal_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -263,7 +269,7 @@ class Terminals(BaseSDK):
         >
         > [Access token with **terminals.read**](/reference/authentication)
 
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param terminal_id: Provide the ID of the related terminal.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -281,13 +287,13 @@ class Terminals(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetTerminalRequest(
-            id=id,
+            terminal_id=terminal_id,
             testmode=testmode,
         )
 
         req = self._build_request(
             method="GET",
-            path="/terminals/{id}",
+            path="/terminals/{terminalId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -358,7 +364,7 @@ class Terminals(BaseSDK):
     async def get_async(
         self,
         *,
-        id: str,
+        terminal_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -375,7 +381,7 @@ class Terminals(BaseSDK):
         >
         > [Access token with **terminals.read**](/reference/authentication)
 
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param terminal_id: Provide the ID of the related terminal.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -393,13 +399,13 @@ class Terminals(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetTerminalRequest(
-            id=id,
+            terminal_id=terminal_id,
             testmode=testmode,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/terminals/{id}",
+            path="/terminals/{terminalId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,

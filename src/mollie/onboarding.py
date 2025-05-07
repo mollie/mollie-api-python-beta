@@ -201,7 +201,7 @@ class Onboarding(BaseSDK):
             http_res,
         )
 
-    def create(
+    def submit(
         self,
         *,
         request: Optional[
@@ -320,7 +320,7 @@ class Onboarding(BaseSDK):
             http_res,
         )
 
-    async def create_async(
+    async def submit_async(
         self,
         *,
         request: Optional[

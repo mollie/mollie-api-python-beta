@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PaymentCreateRouteAmountTypedDict(TypedDict):
-    r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
+    r"""The amount of the route. That amount that will be routed to the specified destination."""
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -19,7 +19,7 @@ class PaymentCreateRouteAmountTypedDict(TypedDict):
 
 
 class PaymentCreateRouteAmount(BaseModel):
-    r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
+    r"""The amount of the route. That amount that will be routed to the specified destination."""
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -29,7 +29,7 @@ class PaymentCreateRouteAmount(BaseModel):
 
 
 class PaymentCreateRouteDestinationTypedDict(TypedDict):
-    r"""The destination of this portion of the payment."""
+    r"""The destination of the route."""
 
     type: NotRequired[str]
     r"""The type of destination. Currently only the destination type `organization` is supported.
@@ -41,7 +41,7 @@ class PaymentCreateRouteDestinationTypedDict(TypedDict):
 
 
 class PaymentCreateRouteDestination(BaseModel):
-    r"""The destination of this portion of the payment."""
+    r"""The destination of the route."""
 
     type: Optional[str] = None
     r"""The type of destination. Currently only the destination type `organization` is supported.
@@ -57,22 +57,22 @@ class PaymentCreateRouteDestination(BaseModel):
 
 class PaymentCreateRouteRequestBodyTypedDict(TypedDict):
     amount: NotRequired[PaymentCreateRouteAmountTypedDict]
-    r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
+    r"""The amount of the route. That amount that will be routed to the specified destination."""
     description: NotRequired[str]
     r"""The description of the route. This description is shown in the reports."""
     destination: NotRequired[PaymentCreateRouteDestinationTypedDict]
-    r"""The destination of this portion of the payment."""
+    r"""The destination of the route."""
 
 
 class PaymentCreateRouteRequestBody(BaseModel):
     amount: Optional[PaymentCreateRouteAmount] = None
-    r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
+    r"""The amount of the route. That amount that will be routed to the specified destination."""
 
     description: Optional[str] = None
     r"""The description of the route. This description is shown in the reports."""
 
     destination: Optional[PaymentCreateRouteDestination] = None
-    r"""The destination of this portion of the payment."""
+    r"""The destination of the route."""
 
 
 class PaymentCreateRouteRequestTypedDict(TypedDict):

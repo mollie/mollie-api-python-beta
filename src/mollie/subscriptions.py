@@ -18,8 +18,7 @@ class Subscriptions(BaseSDK):
         ],
         interval: str,
         description: str,
-        status: Optional[str] = None,
-        times: Optional[int] = None,
+        times: OptionalNullable[int] = UNSET,
         start_date: Optional[str] = None,
         method: OptionalNullable[str] = UNSET,
         application_fee: Optional[
@@ -36,13 +35,12 @@ class Subscriptions(BaseSDK):
         ] = UNSET,
         webhook_url: Optional[str] = None,
         mandate_id: OptionalNullable[str] = UNSET,
-        profile_id: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CreateSubscriptionResponseBody:
         r"""Create subscription
 
         With subscriptions, you can schedule recurring payments to take place at regular intervals.
@@ -69,7 +67,6 @@ class Subscriptions(BaseSDK):
         :param amount: The amount for each individual payment that is charged with this subscription. For example, for a monthly subscription of €10, the subscription amount should be set to €10.
         :param interval: Interval to wait between payments, for example `1 month` or `14 days`.  The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).  Possible values: `... days` `... weeks` `... months`
         :param description: The subscription's description will be used as the description of the resulting individual payments and so showing up on the bank statement of the consumer.  **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
-        :param status: The subscription's current status is directly related to the status of the underlying customer or mandate that is enabling the subscription.  Possible values: `pending` `active` `canceled` `suspended` `completed`
         :param times: Total number of payments for the subscription. Once this number of payments is reached, the subscription is considered completed.  Test mode subscriptions will get canceled automatically after 10 payments.
         :param start_date: The start date of the subscription in `YYYY-MM-DD` format.
         :param method: The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used.  Possible values: `creditcard` `directdebit` `paypal`
@@ -77,7 +74,6 @@ class Subscriptions(BaseSDK):
         :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.  Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
         :param webhook_url: We will call this URL for any payment status changes of payments resulting from this subscription.  This webhook will receive **all** events for the subscription's payments. This may include payment failures as well. Be sure to verify the payment's subscription ID and its status.
         :param mandate_id: The mandate used for this subscription, if any.
-        :param profile_id: The identifier referring to the [profile](get-profile) this entity belongs to.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -97,7 +93,6 @@ class Subscriptions(BaseSDK):
         request = models.CreateSubscriptionRequest(
             customer_id=customer_id,
             request_body=models.CreateSubscriptionRequestBody(
-                status=status,
                 amount=utils.get_pydantic_model(
                     amount, models.CreateSubscriptionAmount
                 ),
@@ -114,7 +109,6 @@ class Subscriptions(BaseSDK):
                 ),
                 webhook_url=webhook_url,
                 mandate_id=mandate_id,
-                profile_id=profile_id,
                 testmode=testmode,
             ),
         )
@@ -170,12 +164,14 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(
+                http_res.text, models.CreateSubscriptionResponseBody
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = utils.unmarshal_json(
-                http_res.text, models.CreateSubscriptionResponseBodyData
+                http_res.text, models.CreateSubscriptionSubscriptionsResponseBodyData
             )
-            raise models.CreateSubscriptionResponseBody(data=response_data)
+            raise models.CreateSubscriptionSubscriptionsResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -205,8 +201,7 @@ class Subscriptions(BaseSDK):
         ],
         interval: str,
         description: str,
-        status: Optional[str] = None,
-        times: Optional[int] = None,
+        times: OptionalNullable[int] = UNSET,
         start_date: Optional[str] = None,
         method: OptionalNullable[str] = UNSET,
         application_fee: Optional[
@@ -223,13 +218,12 @@ class Subscriptions(BaseSDK):
         ] = UNSET,
         webhook_url: Optional[str] = None,
         mandate_id: OptionalNullable[str] = UNSET,
-        profile_id: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CreateSubscriptionResponseBody:
         r"""Create subscription
 
         With subscriptions, you can schedule recurring payments to take place at regular intervals.
@@ -256,7 +250,6 @@ class Subscriptions(BaseSDK):
         :param amount: The amount for each individual payment that is charged with this subscription. For example, for a monthly subscription of €10, the subscription amount should be set to €10.
         :param interval: Interval to wait between payments, for example `1 month` or `14 days`.  The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).  Possible values: `... days` `... weeks` `... months`
         :param description: The subscription's description will be used as the description of the resulting individual payments and so showing up on the bank statement of the consumer.  **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
-        :param status: The subscription's current status is directly related to the status of the underlying customer or mandate that is enabling the subscription.  Possible values: `pending` `active` `canceled` `suspended` `completed`
         :param times: Total number of payments for the subscription. Once this number of payments is reached, the subscription is considered completed.  Test mode subscriptions will get canceled automatically after 10 payments.
         :param start_date: The start date of the subscription in `YYYY-MM-DD` format.
         :param method: The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used.  Possible values: `creditcard` `directdebit` `paypal`
@@ -264,7 +257,6 @@ class Subscriptions(BaseSDK):
         :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.  Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
         :param webhook_url: We will call this URL for any payment status changes of payments resulting from this subscription.  This webhook will receive **all** events for the subscription's payments. This may include payment failures as well. Be sure to verify the payment's subscription ID and its status.
         :param mandate_id: The mandate used for this subscription, if any.
-        :param profile_id: The identifier referring to the [profile](get-profile) this entity belongs to.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -284,7 +276,6 @@ class Subscriptions(BaseSDK):
         request = models.CreateSubscriptionRequest(
             customer_id=customer_id,
             request_body=models.CreateSubscriptionRequestBody(
-                status=status,
                 amount=utils.get_pydantic_model(
                     amount, models.CreateSubscriptionAmount
                 ),
@@ -301,7 +292,6 @@ class Subscriptions(BaseSDK):
                 ),
                 webhook_url=webhook_url,
                 mandate_id=mandate_id,
-                profile_id=profile_id,
                 testmode=testmode,
             ),
         )
@@ -357,12 +347,14 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(
+                http_res.text, models.CreateSubscriptionResponseBody
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = utils.unmarshal_json(
-                http_res.text, models.CreateSubscriptionResponseBodyData
+                http_res.text, models.CreateSubscriptionSubscriptionsResponseBodyData
             )
-            raise models.CreateSubscriptionResponseBody(data=response_data)
+            raise models.CreateSubscriptionSubscriptionsResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(
@@ -389,6 +381,7 @@ class Subscriptions(BaseSDK):
         customer_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
+        sort: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -410,6 +403,7 @@ class Subscriptions(BaseSDK):
         :param customer_id: Provide the ID of the related customer.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -430,6 +424,7 @@ class Subscriptions(BaseSDK):
             customer_id=customer_id,
             from_=from_,
             limit=limit,
+            sort=sort,
             testmode=testmode,
         )
 
@@ -519,6 +514,7 @@ class Subscriptions(BaseSDK):
         customer_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
+        sort: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -540,6 +536,7 @@ class Subscriptions(BaseSDK):
         :param customer_id: Provide the ID of the related customer.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -560,6 +557,7 @@ class Subscriptions(BaseSDK):
             customer_id=customer_id,
             from_=from_,
             limit=limit,
+            sort=sort,
             testmode=testmode,
         )
 
@@ -647,7 +645,7 @@ class Subscriptions(BaseSDK):
         self,
         *,
         customer_id: str,
-        id: str,
+        subscription_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -665,7 +663,7 @@ class Subscriptions(BaseSDK):
         > [Access token with **subscriptions.read**](/reference/authentication)
 
         :param customer_id: Provide the ID of the related customer.
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param subscription_id: Provide the ID of the related subscription.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -684,13 +682,13 @@ class Subscriptions(BaseSDK):
 
         request = models.GetSubscriptionRequest(
             customer_id=customer_id,
-            id=id,
+            subscription_id=subscription_id,
             testmode=testmode,
         )
 
         req = self._build_request(
             method="GET",
-            path="/customers/{customerId}/subscriptions/{id}",
+            path="/customers/{customerId}/subscriptions/{subscriptionId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -764,7 +762,7 @@ class Subscriptions(BaseSDK):
         self,
         *,
         customer_id: str,
-        id: str,
+        subscription_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -782,7 +780,7 @@ class Subscriptions(BaseSDK):
         > [Access token with **subscriptions.read**](/reference/authentication)
 
         :param customer_id: Provide the ID of the related customer.
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param subscription_id: Provide the ID of the related subscription.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -801,13 +799,13 @@ class Subscriptions(BaseSDK):
 
         request = models.GetSubscriptionRequest(
             customer_id=customer_id,
-            id=id,
+            subscription_id=subscription_id,
             testmode=testmode,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/customers/{customerId}/subscriptions/{id}",
+            path="/customers/{customerId}/subscriptions/{subscriptionId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -881,26 +879,31 @@ class Subscriptions(BaseSDK):
         self,
         *,
         customer_id: str,
-        id: str,
+        subscription_id: str,
         testmode: OptionalNullable[bool] = False,
-        amount: OptionalNullable[
+        amount: Optional[
             Union[
                 models.UpdateSubscriptionAmount,
                 models.UpdateSubscriptionAmountTypedDict,
             ]
+        ] = None,
+        description: Optional[str] = None,
+        interval: Optional[str] = None,
+        start_date: Optional[str] = None,
+        times: Optional[int] = None,
+        metadata: OptionalNullable[
+            Union[
+                models.UpdateSubscriptionMetadata,
+                models.UpdateSubscriptionMetadataTypedDict,
+            ]
         ] = UNSET,
-        description: OptionalNullable[str] = UNSET,
-        interval: OptionalNullable[str] = UNSET,
-        start_date: OptionalNullable[str] = UNSET,
-        times: OptionalNullable[int] = UNSET,
-        metadata: OptionalNullable[str] = UNSET,
-        webhook_url: OptionalNullable[str] = UNSET,
-        mandate_id: OptionalNullable[str] = UNSET,
+        webhook_url: Optional[str] = None,
+        mandate_id: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.UpdateSubscriptionResponseBody:
         r"""Update subscription
 
         Update an existing subscription.
@@ -916,16 +919,16 @@ class Subscriptions(BaseSDK):
         > [Access token with **subscriptions.write**](/reference/authentication)
 
         :param customer_id: Provide the ID of the related customer.
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param subscription_id: Provide the ID of the related subscription.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param amount: Update the amount for future payments of this subscription.
-        :param description:
-        :param interval:
-        :param start_date:
-        :param times:
-        :param metadata:
-        :param webhook_url:
-        :param mandate_id:
+        :param description: The subscription's description will be used as the description of the resulting individual payments and so showing up on the bank statement of the consumer.  **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
+        :param interval: Interval to wait between payments, for example `1 month` or `14 days`.  The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).  Possible values: `... days` `... weeks` `... months`
+        :param start_date: The start date of the subscription in `YYYY-MM-DD` format.
+        :param times: Total number of payments for the subscription. Once this number of payments is reached, the subscription is considered completed.  Test mode subscriptions will get canceled automatically after 10 payments.
+        :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.  Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
+        :param webhook_url: We will call this URL for any payment status changes of payments resulting from this subscription.  This webhook will receive **all** events for the subscription's payments. This may include payment failures as well. Be sure to verify the payment's subscription ID and its status.
+        :param mandate_id: The mandate used for this subscription, if any.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -943,17 +946,19 @@ class Subscriptions(BaseSDK):
 
         request = models.UpdateSubscriptionRequest(
             customer_id=customer_id,
-            id=id,
+            subscription_id=subscription_id,
             testmode=testmode,
             request_body=models.UpdateSubscriptionRequestBody(
                 amount=utils.get_pydantic_model(
-                    amount, OptionalNullable[models.UpdateSubscriptionAmount]
+                    amount, Optional[models.UpdateSubscriptionAmount]
                 ),
                 description=description,
                 interval=interval,
                 start_date=start_date,
                 times=times,
-                metadata=metadata,
+                metadata=utils.get_pydantic_model(
+                    metadata, OptionalNullable[models.UpdateSubscriptionMetadata]
+                ),
                 webhook_url=webhook_url,
                 mandate_id=mandate_id,
             ),
@@ -961,7 +966,7 @@ class Subscriptions(BaseSDK):
 
         req = self._build_request(
             method="PATCH",
-            path="/customers/{customerId}/subscriptions/{id}",
+            path="/customers/{customerId}/subscriptions/{subscriptionId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -1010,12 +1015,14 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(
+                http_res.text, models.UpdateSubscriptionResponseBody
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = utils.unmarshal_json(
-                http_res.text, models.UpdateSubscriptionResponseBodyData
+                http_res.text, models.UpdateSubscriptionSubscriptionsResponseBodyData
             )
-            raise models.UpdateSubscriptionResponseBody(data=response_data)
+            raise models.UpdateSubscriptionSubscriptionsResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -1040,26 +1047,31 @@ class Subscriptions(BaseSDK):
         self,
         *,
         customer_id: str,
-        id: str,
+        subscription_id: str,
         testmode: OptionalNullable[bool] = False,
-        amount: OptionalNullable[
+        amount: Optional[
             Union[
                 models.UpdateSubscriptionAmount,
                 models.UpdateSubscriptionAmountTypedDict,
             ]
+        ] = None,
+        description: Optional[str] = None,
+        interval: Optional[str] = None,
+        start_date: Optional[str] = None,
+        times: Optional[int] = None,
+        metadata: OptionalNullable[
+            Union[
+                models.UpdateSubscriptionMetadata,
+                models.UpdateSubscriptionMetadataTypedDict,
+            ]
         ] = UNSET,
-        description: OptionalNullable[str] = UNSET,
-        interval: OptionalNullable[str] = UNSET,
-        start_date: OptionalNullable[str] = UNSET,
-        times: OptionalNullable[int] = UNSET,
-        metadata: OptionalNullable[str] = UNSET,
-        webhook_url: OptionalNullable[str] = UNSET,
-        mandate_id: OptionalNullable[str] = UNSET,
+        webhook_url: Optional[str] = None,
+        mandate_id: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.UpdateSubscriptionResponseBody:
         r"""Update subscription
 
         Update an existing subscription.
@@ -1075,16 +1087,16 @@ class Subscriptions(BaseSDK):
         > [Access token with **subscriptions.write**](/reference/authentication)
 
         :param customer_id: Provide the ID of the related customer.
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param subscription_id: Provide the ID of the related subscription.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param amount: Update the amount for future payments of this subscription.
-        :param description:
-        :param interval:
-        :param start_date:
-        :param times:
-        :param metadata:
-        :param webhook_url:
-        :param mandate_id:
+        :param description: The subscription's description will be used as the description of the resulting individual payments and so showing up on the bank statement of the consumer.  **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
+        :param interval: Interval to wait between payments, for example `1 month` or `14 days`.  The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).  Possible values: `... days` `... weeks` `... months`
+        :param start_date: The start date of the subscription in `YYYY-MM-DD` format.
+        :param times: Total number of payments for the subscription. Once this number of payments is reached, the subscription is considered completed.  Test mode subscriptions will get canceled automatically after 10 payments.
+        :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.  Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
+        :param webhook_url: We will call this URL for any payment status changes of payments resulting from this subscription.  This webhook will receive **all** events for the subscription's payments. This may include payment failures as well. Be sure to verify the payment's subscription ID and its status.
+        :param mandate_id: The mandate used for this subscription, if any.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1102,17 +1114,19 @@ class Subscriptions(BaseSDK):
 
         request = models.UpdateSubscriptionRequest(
             customer_id=customer_id,
-            id=id,
+            subscription_id=subscription_id,
             testmode=testmode,
             request_body=models.UpdateSubscriptionRequestBody(
                 amount=utils.get_pydantic_model(
-                    amount, OptionalNullable[models.UpdateSubscriptionAmount]
+                    amount, Optional[models.UpdateSubscriptionAmount]
                 ),
                 description=description,
                 interval=interval,
                 start_date=start_date,
                 times=times,
-                metadata=metadata,
+                metadata=utils.get_pydantic_model(
+                    metadata, OptionalNullable[models.UpdateSubscriptionMetadata]
+                ),
                 webhook_url=webhook_url,
                 mandate_id=mandate_id,
             ),
@@ -1120,7 +1134,7 @@ class Subscriptions(BaseSDK):
 
         req = self._build_request_async(
             method="PATCH",
-            path="/customers/{customerId}/subscriptions/{id}",
+            path="/customers/{customerId}/subscriptions/{subscriptionId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -1169,12 +1183,14 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(
+                http_res.text, models.UpdateSubscriptionResponseBody
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = utils.unmarshal_json(
-                http_res.text, models.UpdateSubscriptionResponseBodyData
+                http_res.text, models.UpdateSubscriptionSubscriptionsResponseBodyData
             )
-            raise models.UpdateSubscriptionResponseBody(data=response_data)
+            raise models.UpdateSubscriptionSubscriptionsResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(
@@ -1199,13 +1215,13 @@ class Subscriptions(BaseSDK):
         self,
         *,
         customer_id: str,
-        id: str,
+        subscription_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CancelSubscriptionResponseBody:
         r"""Cancel subscription
 
         Cancel an existing subscription. Canceling a subscription has no effect on the mandates of the customer.
@@ -1217,7 +1233,7 @@ class Subscriptions(BaseSDK):
         > [Access token with **subscriptions.write**](/reference/authentication)
 
         :param customer_id: Provide the ID of the related customer.
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param subscription_id: Provide the ID of the related subscription.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1236,13 +1252,13 @@ class Subscriptions(BaseSDK):
 
         request = models.CancelSubscriptionRequest(
             customer_id=customer_id,
-            id=id,
+            subscription_id=subscription_id,
             testmode=testmode,
         )
 
         req = self._build_request(
             method="DELETE",
-            path="/customers/{customerId}/subscriptions/{id}",
+            path="/customers/{customerId}/subscriptions/{subscriptionId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -1284,12 +1300,14 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(
+                http_res.text, models.CancelSubscriptionResponseBody
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = utils.unmarshal_json(
-                http_res.text, models.CancelSubscriptionResponseBodyData
+                http_res.text, models.CancelSubscriptionSubscriptionsResponseBodyData
             )
-            raise models.CancelSubscriptionResponseBody(data=response_data)
+            raise models.CancelSubscriptionSubscriptionsResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -1314,13 +1332,13 @@ class Subscriptions(BaseSDK):
         self,
         *,
         customer_id: str,
-        id: str,
+        subscription_id: str,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CancelSubscriptionResponseBody:
         r"""Cancel subscription
 
         Cancel an existing subscription. Canceling a subscription has no effect on the mandates of the customer.
@@ -1332,7 +1350,7 @@ class Subscriptions(BaseSDK):
         > [Access token with **subscriptions.write**](/reference/authentication)
 
         :param customer_id: Provide the ID of the related customer.
-        :param id: Provide the ID of the item you want to perform this operation on.
+        :param subscription_id: Provide the ID of the related subscription.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1351,13 +1369,13 @@ class Subscriptions(BaseSDK):
 
         request = models.CancelSubscriptionRequest(
             customer_id=customer_id,
-            id=id,
+            subscription_id=subscription_id,
             testmode=testmode,
         )
 
         req = self._build_request_async(
             method="DELETE",
-            path="/customers/{customerId}/subscriptions/{id}",
+            path="/customers/{customerId}/subscriptions/{subscriptionId}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -1399,12 +1417,14 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(
+                http_res.text, models.CancelSubscriptionResponseBody
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = utils.unmarshal_json(
-                http_res.text, models.CancelSubscriptionResponseBodyData
+                http_res.text, models.CancelSubscriptionSubscriptionsResponseBodyData
             )
-            raise models.CancelSubscriptionResponseBody(data=response_data)
+            raise models.CancelSubscriptionSubscriptionsResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(
@@ -1425,12 +1445,12 @@ class Subscriptions(BaseSDK):
             http_res,
         )
 
-    def list_all(
+    def all(
         self,
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        profile_id: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1451,7 +1471,7 @@ class Subscriptions(BaseSDK):
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve subscriptions for.  Most API credentials are linked to a single profile. In these cases the `profileId` is already implied.  To retrieve all subscriptions across the organization, use an organization-level API credential and omit the `profileId` parameter.
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1471,7 +1491,7 @@ class Subscriptions(BaseSDK):
         request = models.ListAllSubscriptionsRequest(
             from_=from_,
             limit=limit,
-            profile_id=profile_id,
+            sort=sort,
             testmode=testmode,
         )
 
@@ -1513,7 +1533,7 @@ class Subscriptions(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["400", "404", "4XX", "5XX"],
+            error_status_codes=["400", "4XX", "5XX"],
             retry_config=retry_config,
         )
 
@@ -1527,14 +1547,6 @@ class Subscriptions(BaseSDK):
                 http_res.text, models.ListAllSubscriptionsSubscriptionsResponseBodyData
             )
             raise models.ListAllSubscriptionsSubscriptionsResponseBody(
-                data=response_data
-            )
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
-                models.ListAllSubscriptionsSubscriptionsResponseResponseBodyData,
-            )
-            raise models.ListAllSubscriptionsSubscriptionsResponseResponseBody(
                 data=response_data
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1557,12 +1569,12 @@ class Subscriptions(BaseSDK):
             http_res,
         )
 
-    async def list_all_async(
+    async def all_async(
         self,
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        profile_id: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1583,7 +1595,7 @@ class Subscriptions(BaseSDK):
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve subscriptions for.  Most API credentials are linked to a single profile. In these cases the `profileId` is already implied.  To retrieve all subscriptions across the organization, use an organization-level API credential and omit the `profileId` parameter.
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1603,7 +1615,7 @@ class Subscriptions(BaseSDK):
         request = models.ListAllSubscriptionsRequest(
             from_=from_,
             limit=limit,
-            profile_id=profile_id,
+            sort=sort,
             testmode=testmode,
         )
 
@@ -1645,7 +1657,7 @@ class Subscriptions(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["400", "404", "4XX", "5XX"],
+            error_status_codes=["400", "4XX", "5XX"],
             retry_config=retry_config,
         )
 
@@ -1659,14 +1671,6 @@ class Subscriptions(BaseSDK):
                 http_res.text, models.ListAllSubscriptionsSubscriptionsResponseBodyData
             )
             raise models.ListAllSubscriptionsSubscriptionsResponseBody(
-                data=response_data
-            )
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
-                models.ListAllSubscriptionsSubscriptionsResponseResponseBodyData,
-            )
-            raise models.ListAllSubscriptionsSubscriptionsResponseResponseBody(
                 data=response_data
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1696,6 +1700,7 @@ class Subscriptions(BaseSDK):
         subscription_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
+        sort: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1718,6 +1723,7 @@ class Subscriptions(BaseSDK):
         :param subscription_id: Provide the ID of the related subscription.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1739,6 +1745,7 @@ class Subscriptions(BaseSDK):
             subscription_id=subscription_id,
             from_=from_,
             limit=limit,
+            sort=sort,
             testmode=testmode,
         )
 
@@ -1824,6 +1831,7 @@ class Subscriptions(BaseSDK):
         subscription_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
+        sort: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = False,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1846,6 +1854,7 @@ class Subscriptions(BaseSDK):
         :param subscription_id: Provide the ID of the related subscription.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1867,6 +1876,7 @@ class Subscriptions(BaseSDK):
             subscription_id=subscription_id,
             from_=from_,
             limit=limit,
+            sort=sort,
             testmode=testmode,
         )
 

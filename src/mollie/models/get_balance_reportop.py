@@ -6,7 +6,7 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -81,7 +81,7 @@ class GetBalanceReportRequest(BaseModel):
 
         m = {}
 
-        for n, f in self.model_fields.items():
+        for n, f in type(self).model_fields.items():
             k = f.alias or n
             val = serialized.get(k)
             serialized.pop(k, None)
@@ -100,6 +100,63 @@ class GetBalanceReportRequest(BaseModel):
                 m[k] = val
 
         return m
+
+
+class GetBalanceReportBalancesResponseDocumentationTypedDict(TypedDict):
+    r"""The URL to the generic Mollie API error handling guide."""
+
+    href: NotRequired[str]
+    type: NotRequired[str]
+
+
+class GetBalanceReportBalancesResponseDocumentation(BaseModel):
+    r"""The URL to the generic Mollie API error handling guide."""
+
+    href: Optional[str] = "https://docs.mollie.com/errors"
+
+    type: Optional[str] = "text/html"
+
+
+class GetBalanceReportBalancesResponseLinksTypedDict(TypedDict):
+    documentation: NotRequired[GetBalanceReportBalancesResponseDocumentationTypedDict]
+    r"""The URL to the generic Mollie API error handling guide."""
+
+
+class GetBalanceReportBalancesResponseLinks(BaseModel):
+    documentation: Optional[GetBalanceReportBalancesResponseDocumentation] = None
+    r"""The URL to the generic Mollie API error handling guide."""
+
+
+class GetBalanceReportBalancesResponseResponseBodyData(BaseModel):
+    status: Optional[int] = None
+    r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
+
+    title: Optional[str] = None
+    r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
+
+    detail: Optional[str] = None
+    r"""A detailed human-readable description of the error that occurred."""
+
+    field: OptionalNullable[str] = UNSET
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+
+    links: Annotated[
+        Optional[GetBalanceReportBalancesResponseLinks], pydantic.Field(alias="_links")
+    ] = None
+
+
+class GetBalanceReportBalancesResponseResponseBody(Exception):
+    r"""An error response object."""
+
+    data: GetBalanceReportBalancesResponseResponseBodyData
+
+    def __init__(self, data: GetBalanceReportBalancesResponseResponseBodyData):
+        self.data = data
+
+    def __str__(self) -> str:
+        return utils.marshal_json(
+            self.data, GetBalanceReportBalancesResponseResponseBodyData
+        )
 
 
 class GetBalanceReportBalancesDocumentationTypedDict(TypedDict):
@@ -157,6 +214,14046 @@ class GetBalanceReportBalancesResponseBody(Exception):
         return utils.marshal_json(self.data, GetBalanceReportBalancesResponseBodyData)
 
 
+class GetBalanceReportAmountTypedDict(TypedDict):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportAmount(BaseModel):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingBalanceOpenSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingBalanceOpenSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class SubtotalsTypedDict(TypedDict):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingBalanceOpenSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class Subtotals(BaseModel):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingBalanceOpenSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesOpenTypedDict(TypedDict):
+    amount: NotRequired[GetBalanceReportAmountTypedDict]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[Nullable[List[SubtotalsTypedDict]]]
+
+
+class GetBalanceReportBalancesOpen(BaseModel):
+    amount: Optional[GetBalanceReportAmount] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[List[Subtotals]] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesAmountTypedDict(TypedDict):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesAmount(BaseModel):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingBalanceCloseSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingBalanceCloseSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportSubtotalsTypedDict(TypedDict):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingBalanceCloseSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportSubtotals(BaseModel):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingBalanceCloseSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesCloseTypedDict(TypedDict):
+    amount: NotRequired[GetBalanceReportBalancesAmountTypedDict]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[Nullable[List[GetBalanceReportSubtotalsTypedDict]]]
+
+
+class GetBalanceReportBalancesClose(BaseModel):
+    amount: Optional[GetBalanceReportBalancesAmount] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[List[GetBalanceReportSubtotals]] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponseAmountTypedDict(TypedDict):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponseAmount(BaseModel):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingBalanceSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingBalanceSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesSubtotalsTypedDict(TypedDict):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingBalanceSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesSubtotals(BaseModel):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingBalanceSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class PendingTypedDict(TypedDict):
+    amount: NotRequired[GetBalanceReportBalancesResponseAmountTypedDict]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[Nullable[List[GetBalanceReportBalancesSubtotalsTypedDict]]]
+
+
+class Pending(BaseModel):
+    amount: Optional[GetBalanceReportBalancesResponseAmount] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[List[GetBalanceReportBalancesSubtotals]] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200AmountTypedDict(TypedDict):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200Amount(BaseModel):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingBalanceMovedToAvailableSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingBalanceMovedToAvailableSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponseSubtotalsTypedDict(TypedDict):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingBalanceMovedToAvailableSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponseSubtotals(BaseModel):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingBalanceMovedToAvailableSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class MovedToAvailableTypedDict(TypedDict):
+    amount: NotRequired[GetBalanceReportBalancesResponse200AmountTypedDict]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[List[GetBalanceReportBalancesResponseSubtotalsTypedDict]]
+    ]
+
+
+class MovedToAvailable(BaseModel):
+    amount: Optional[GetBalanceReportBalancesResponse200Amount] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[List[GetBalanceReportBalancesResponseSubtotals]] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class PendingBalanceTypedDict(TypedDict):
+    r"""The pending balance. Only available if grouping is `status-balances`."""
+
+    open: NotRequired[GetBalanceReportBalancesOpenTypedDict]
+    close: NotRequired[GetBalanceReportBalancesCloseTypedDict]
+    pending: NotRequired[PendingTypedDict]
+    moved_to_available: NotRequired[MovedToAvailableTypedDict]
+
+
+class PendingBalance(BaseModel):
+    r"""The pending balance. Only available if grouping is `status-balances`."""
+
+    open: Optional[GetBalanceReportBalancesOpen] = None
+
+    close: Optional[GetBalanceReportBalancesClose] = None
+
+    pending: Optional[Pending] = None
+
+    moved_to_available: Annotated[
+        Optional[MovedToAvailable], pydantic.Field(alias="movedToAvailable")
+    ] = None
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONAmount(BaseModel):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200SubtotalsTypedDict(TypedDict):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200Subtotals(BaseModel):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportOpenTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[List[GetBalanceReportBalancesResponse200SubtotalsTypedDict]]
+    ]
+
+
+class GetBalanceReportOpen(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[List[GetBalanceReportBalancesResponse200Subtotals]] = (
+        UNSET
+    )
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceMovedFromPendingSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceMovedFromPendingSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceMovedFromPendingSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONSubtotals(BaseModel):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceMovedFromPendingSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class MovedFromPendingTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class MovedFromPending(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[GetBalanceReportBalancesResponse200ApplicationHalPlusJSONSubtotals]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceImmediatelyAvailableSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceImmediatelyAvailableSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodySubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceImmediatelyAvailableSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodySubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceImmediatelyAvailableSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class ImmediatelyAvailableTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodySubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class ImmediatelyAvailable(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodySubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceCloseSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceCloseSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceCloseSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceCloseSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportCloseTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportClose(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsAvailableBalanceAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class AvailableBalanceTypedDict(TypedDict):
+    r"""The available balance. Only available if grouping is `status-balances`."""
+
+    open: NotRequired[GetBalanceReportOpenTypedDict]
+    moved_from_pending: NotRequired[MovedFromPendingTypedDict]
+    immediately_available: NotRequired[ImmediatelyAvailableTypedDict]
+    close: NotRequired[GetBalanceReportCloseTypedDict]
+
+
+class AvailableBalance(BaseModel):
+    r"""The available balance. Only available if grouping is `status-balances`."""
+
+    open: Optional[GetBalanceReportOpen] = None
+
+    moved_from_pending: Annotated[
+        Optional[MovedFromPending], pydantic.Field(alias="movedFromPending")
+    ] = None
+
+    immediately_available: Annotated[
+        Optional[ImmediatelyAvailable], pydantic.Field(alias="immediatelyAvailable")
+    ] = None
+
+    close: Optional[GetBalanceReportClose] = None
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenPendingSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenPendingSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenPendingSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenPendingSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportPendingTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportPending(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class AvailableTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class Available(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsOpenAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class OpenTypedDict(TypedDict):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: NotRequired[GetBalanceReportPendingTypedDict]
+    available: NotRequired[AvailableTypedDict]
+
+
+class Open(BaseModel):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: Optional[GetBalanceReportPending] = None
+
+    available: Optional[Available] = None
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsClosePendingSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsClosePendingSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsClosePendingSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsClosePendingSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesPendingTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesPending(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportAvailableTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportAvailable(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCloseAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class CloseTypedDict(TypedDict):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: NotRequired[GetBalanceReportBalancesPendingTypedDict]
+    available: NotRequired[GetBalanceReportAvailableTypedDict]
+
+
+class Close(BaseModel):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: Optional[GetBalanceReportBalancesPending] = None
+
+    available: Optional[GetBalanceReportAvailable] = None
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsPendingSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsPendingSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsPendingSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsPendingSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponsePendingTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponsePending(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsMovedToAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsMovedToAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsMovedToAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsMovedToAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsMovedToAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsMovedToAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsMovedToAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsMovedToAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportMovedToAvailableTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsMovedToAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsMovedToAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportMovedToAvailable(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsMovedToAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsMovedToAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsImmediatelyAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsImmediatelyAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsImmediatelyAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsImmediatelyAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsImmediatelyAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsImmediatelyAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsImmediatelyAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsImmediatelyAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportImmediatelyAvailableTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsImmediatelyAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsImmediatelyAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportImmediatelyAvailable(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsImmediatelyAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPaymentsImmediatelyAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportPaymentsTypedDict(TypedDict):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: NotRequired[GetBalanceReportBalancesResponsePendingTypedDict]
+    moved_to_available: NotRequired[GetBalanceReportMovedToAvailableTypedDict]
+    immediately_available: NotRequired[GetBalanceReportImmediatelyAvailableTypedDict]
+
+
+class GetBalanceReportPayments(BaseModel):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: Optional[GetBalanceReportBalancesResponsePending] = None
+
+    moved_to_available: Annotated[
+        Optional[GetBalanceReportMovedToAvailable],
+        pydantic.Field(alias="movedToAvailable"),
+    ] = None
+
+    immediately_available: Annotated[
+        Optional[GetBalanceReportImmediatelyAvailable],
+        pydantic.Field(alias="immediatelyAvailable"),
+    ] = None
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsPendingSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsPendingSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsPendingSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsPendingSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200PendingTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200Pending(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsMovedToAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsMovedToAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsMovedToAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsMovedToAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsMovedToAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsMovedToAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsMovedToAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsMovedToAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesMovedToAvailableTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsMovedToAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsMovedToAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesMovedToAvailable(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsMovedToAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsMovedToAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsImmediatelyAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsImmediatelyAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsImmediatelyAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsImmediatelyAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsImmediatelyAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsImmediatelyAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsImmediatelyAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsImmediatelyAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesImmediatelyAvailableTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsImmediatelyAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsImmediatelyAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesImmediatelyAvailable(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsImmediatelyAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsRefundsImmediatelyAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportRefundsTypedDict(TypedDict):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: NotRequired[GetBalanceReportBalancesResponse200PendingTypedDict]
+    moved_to_available: NotRequired[GetBalanceReportBalancesMovedToAvailableTypedDict]
+    immediately_available: NotRequired[
+        GetBalanceReportBalancesImmediatelyAvailableTypedDict
+    ]
+
+
+class GetBalanceReportRefunds(BaseModel):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: Optional[GetBalanceReportBalancesResponse200Pending] = None
+
+    moved_to_available: Annotated[
+        Optional[GetBalanceReportBalancesMovedToAvailable],
+        pydantic.Field(alias="movedToAvailable"),
+    ] = None
+
+    immediately_available: Annotated[
+        Optional[GetBalanceReportBalancesImmediatelyAvailable],
+        pydantic.Field(alias="immediatelyAvailable"),
+    ] = None
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksPendingSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksPendingSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksPendingSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksPendingSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONPendingTypedDict(
+    TypedDict
+):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONPending(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksMovedToAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksMovedToAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksMovedToAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksMovedToAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksMovedToAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksMovedToAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksMovedToAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksMovedToAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponseMovedToAvailableTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksMovedToAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksMovedToAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponseMovedToAvailable(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksMovedToAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksMovedToAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksImmediatelyAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksImmediatelyAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksImmediatelyAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksImmediatelyAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksImmediatelyAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksImmediatelyAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksImmediatelyAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksImmediatelyAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponseImmediatelyAvailableTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksImmediatelyAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksImmediatelyAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponseImmediatelyAvailable(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksImmediatelyAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsChargebacksImmediatelyAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportChargebacksTypedDict(TypedDict):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONPendingTypedDict
+    ]
+    moved_to_available: NotRequired[
+        GetBalanceReportBalancesResponseMovedToAvailableTypedDict
+    ]
+    immediately_available: NotRequired[
+        GetBalanceReportBalancesResponseImmediatelyAvailableTypedDict
+    ]
+
+
+class GetBalanceReportChargebacks(BaseModel):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONPending
+    ] = None
+
+    moved_to_available: Annotated[
+        Optional[GetBalanceReportBalancesResponseMovedToAvailable],
+        pydantic.Field(alias="movedToAvailable"),
+    ] = None
+
+    immediately_available: Annotated[
+        Optional[GetBalanceReportBalancesResponseImmediatelyAvailable],
+        pydantic.Field(alias="immediatelyAvailable"),
+    ] = None
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalPendingSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalPendingSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalPendingSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalPendingSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyPendingTypedDict(
+    TypedDict
+):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyPending(
+    BaseModel
+):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalMovedToAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalMovedToAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalMovedToAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalMovedToAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalMovedToAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalMovedToAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalMovedToAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalMovedToAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200MovedToAvailableTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalMovedToAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalMovedToAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200MovedToAvailable(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalMovedToAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalMovedToAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalImmediatelyAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalImmediatelyAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalImmediatelyAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalImmediatelyAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalImmediatelyAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalImmediatelyAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalImmediatelyAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalImmediatelyAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ImmediatelyAvailableTypedDict(TypedDict):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalImmediatelyAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalImmediatelyAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200ImmediatelyAvailable(BaseModel):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalImmediatelyAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCapitalImmediatelyAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class CapitalTypedDict(TypedDict):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyPendingTypedDict
+    ]
+    moved_to_available: NotRequired[
+        GetBalanceReportBalancesResponse200MovedToAvailableTypedDict
+    ]
+    immediately_available: NotRequired[
+        GetBalanceReportBalancesResponse200ImmediatelyAvailableTypedDict
+    ]
+
+
+class Capital(BaseModel):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyPending
+    ] = None
+
+    moved_to_available: Annotated[
+        Optional[GetBalanceReportBalancesResponse200MovedToAvailable],
+        pydantic.Field(alias="movedToAvailable"),
+    ] = None
+
+    immediately_available: Annotated[
+        Optional[GetBalanceReportBalancesResponse200ImmediatelyAvailable],
+        pydantic.Field(alias="immediatelyAvailable"),
+    ] = None
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersPendingSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersPendingSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersPendingSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersPendingSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingTypedDict(
+    TypedDict
+):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPending(
+    BaseModel
+):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersMovedToAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersMovedToAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersMovedToAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersMovedToAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersMovedToAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersMovedToAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersMovedToAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersMovedToAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONMovedToAvailableTypedDict(
+    TypedDict
+):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersMovedToAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersMovedToAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONMovedToAvailable(
+    BaseModel
+):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersMovedToAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersMovedToAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersImmediatelyAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersImmediatelyAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersImmediatelyAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersImmediatelyAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersImmediatelyAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersImmediatelyAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersImmediatelyAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersImmediatelyAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONImmediatelyAvailableTypedDict(
+    TypedDict
+):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersImmediatelyAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersImmediatelyAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONImmediatelyAvailable(
+    BaseModel
+):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersImmediatelyAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTransfersImmediatelyAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class TransfersTypedDict(TypedDict):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPendingTypedDict
+    ]
+    moved_to_available: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONMovedToAvailableTypedDict
+    ]
+    immediately_available: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONImmediatelyAvailableTypedDict
+    ]
+
+
+class Transfers(BaseModel):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsPending
+    ] = None
+
+    moved_to_available: Annotated[
+        Optional[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONMovedToAvailable
+        ],
+        pydantic.Field(alias="movedToAvailable"),
+    ] = None
+
+    immediately_available: Annotated[
+        Optional[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONImmediatelyAvailable
+        ],
+        pydantic.Field(alias="immediatelyAvailable"),
+    ] = None
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsPendingSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsPendingSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsPendingSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsPendingSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsPendingTypedDict(
+    TypedDict
+):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsPending(
+    BaseModel
+):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsMovedToAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsMovedToAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsMovedToAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsMovedToAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsMovedToAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsMovedToAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsMovedToAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsMovedToAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyMovedToAvailableTypedDict(
+    TypedDict
+):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsMovedToAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsMovedToAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyMovedToAvailable(
+    BaseModel
+):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsMovedToAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsMovedToAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsImmediatelyAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsImmediatelyAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsImmediatelyAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsImmediatelyAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsImmediatelyAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsImmediatelyAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsImmediatelyAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsImmediatelyAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyImmediatelyAvailableTypedDict(
+    TypedDict
+):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsImmediatelyAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsImmediatelyAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyImmediatelyAvailable(
+    BaseModel
+):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsImmediatelyAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsImmediatelyAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class FeePrepaymentsTypedDict(TypedDict):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsPendingTypedDict
+    ]
+    moved_to_available: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyMovedToAvailableTypedDict
+    ]
+    immediately_available: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyImmediatelyAvailableTypedDict
+    ]
+
+
+class FeePrepayments(BaseModel):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsFeePrepaymentsPending
+    ] = None
+
+    moved_to_available: Annotated[
+        Optional[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyMovedToAvailable
+        ],
+        pydantic.Field(alias="movedToAvailable"),
+    ] = None
+
+    immediately_available: Annotated[
+        Optional[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyImmediatelyAvailable
+        ],
+        pydantic.Field(alias="immediatelyAvailable"),
+    ] = None
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsPendingSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsPendingSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsPendingSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsPendingSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsPendingTypedDict(
+    TypedDict
+):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsPending(
+    BaseModel
+):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsMovedToAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsMovedToAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsMovedToAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsMovedToAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsMovedToAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsMovedToAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsMovedToAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsMovedToAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsMovedToAvailableTypedDict(
+    TypedDict
+):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsMovedToAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsMovedToAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsMovedToAvailable(
+    BaseModel
+):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsMovedToAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsMovedToAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsImmediatelyAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsImmediatelyAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsImmediatelyAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsImmediatelyAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsImmediatelyAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsImmediatelyAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsImmediatelyAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsImmediatelyAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsImmediatelyAvailableTypedDict(
+    TypedDict
+):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsImmediatelyAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsImmediatelyAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsImmediatelyAvailable(
+    BaseModel
+):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsImmediatelyAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsImmediatelyAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class CorrectionsTypedDict(TypedDict):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsPendingTypedDict
+    ]
+    moved_to_available: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsMovedToAvailableTypedDict
+    ]
+    immediately_available: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsImmediatelyAvailableTypedDict
+    ]
+
+
+class Corrections(BaseModel):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsCorrectionsPending
+    ] = None
+
+    moved_to_available: Annotated[
+        Optional[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsMovedToAvailable
+        ],
+        pydantic.Field(alias="movedToAvailable"),
+    ] = None
+
+    immediately_available: Annotated[
+        Optional[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsImmediatelyAvailable
+        ],
+        pydantic.Field(alias="immediatelyAvailable"),
+    ] = None
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsPendingSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsPendingSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsPendingSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsPendingSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsPendingTypedDict(
+    TypedDict
+):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsPending(
+    BaseModel
+):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsMovedToAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsMovedToAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsMovedToAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsMovedToAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsMovedToAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsMovedToAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsMovedToAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsMovedToAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsMovedToAvailableTypedDict(
+    TypedDict
+):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsMovedToAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsMovedToAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsMovedToAvailable(
+    BaseModel
+):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsMovedToAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsMovedToAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsImmediatelyAvailableAmountTypedDict(
+    TypedDict
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsImmediatelyAvailableAmount(
+    BaseModel
+):
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsImmediatelyAvailableSubtotalsSubTotalsTypedDict(
+    TypedDict
+):
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsImmediatelyAvailableSubtotalsSubTotals(
+    BaseModel
+):
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsImmediatelyAvailableSubtotalsTypedDict(
+    TypedDict
+):
+    sub_totals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsImmediatelyAvailableSubtotalsSubTotalsTypedDict
+            ]
+        ]
+    ]
+    count: NotRequired[int]
+    r"""Number of transactions of this type"""
+    method: NotRequired[Nullable[str]]
+    r"""Payment type of the transactions"""
+    card_issuer: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+    card_audience: NotRequired[Nullable[str]]
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+    card_region: NotRequired[Nullable[str]]
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+    fee_type: NotRequired[Nullable[str]]
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+    prepayment_part_type: NotRequired[Nullable[str]]
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+    transaction_type: NotRequired[Nullable[str]]
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsImmediatelyAvailableSubtotals(
+    BaseModel
+):
+    sub_totals: Annotated[
+        OptionalNullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsImmediatelyAvailableSubtotalsSubTotals
+            ]
+        ],
+        pydantic.Field(alias="sub-totals"),
+    ] = UNSET
+
+    count: Optional[int] = None
+    r"""Number of transactions of this type"""
+
+    method: OptionalNullable[str] = UNSET
+    r"""Payment type of the transactions"""
+
+    card_issuer: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardIssuer")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card issuer will be available
+
+    Possible values: `amex` `maestro` `carte-bancaire` `other`
+    """
+
+    card_audience: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardAudience")
+    ] = UNSET
+    r"""In case of payments trnsactions with card, the card audience will be available.
+
+    Possible values: `corporate` `other`
+    """
+
+    card_region: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="cardRegion")
+    ] = UNSET
+    r"""In case of payments transactions with card, the card region will be available.
+
+    Possible values: `intra-eea` `intra-eu` `domestic` `other`
+    """
+
+    fee_type: Annotated[OptionalNullable[str], pydantic.Field(alias="feeType")] = UNSET
+    r"""Present when the transaction represents a fee.
+
+    Possible values: `payment-fee` `direct-debit-failure-fee` `unauthorized-direct-debit-fee` `bank-charged-direct-debit-failure-fee` `partner-commission` `application-fee` `capture-fee` `refund-fee` `chargeback-fee` `payment-notification-fee` `transfer-notification-fee` `payout-fee` `fee-discount` `fee-reimbursement` `platform-volume-fee` `platform-connected-organizations-fee` `balance-charge-fee` `3ds-authentication-attempt-fee` `terminal-monthly-fee` `acceptance-risk-fee` `top-up-fee` `payment-gateway-fee` `mastercard-specialty-merchant-program-processing-fee` `mastercard-specialty-merchant-program-registration-fee` `visa-integrity-risk-program-processing-fee` `visa-integrity-risk-program-registration-fee` `minimum-invoice-amount-fee`
+    """
+
+    prepayment_part_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="prepaymentPartType")
+    ] = UNSET
+    r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation.
+
+    Possible values: `fee` `fee-reimbursement` `fee-discount` `fee-vat` `fee-rounding-compensation`
+    """
+
+    transaction_type: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="transactionType")
+    ] = UNSET
+    r"""Represents the transaction type
+
+    Possible values: `payment` `split-payment` `failed-payment` `failed-platform-split-payment` `failed-split-payment-compensation` `capture` `split-transaction` `refund` `platform-payment-refund` `returned-platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-refund` `chargeback` `chargeback-reversal` `chargeback-compensation` `reversed-chargeback-compensation` `platform-payment-chargeback` `reversed-platform-payment-chargeback` `fee-prepayment` `outgoing-transfer` `incoming-transfer` `canceled-transfer` `returned-transfer` `balance-reserve` `balance-reserve-return` `invoice-rounding-compensation` `rolling-reserve-hold` `rolling-reserve-release` `balance-correction` `repayment` `loan` `balance-topup` `cash-collateral-issuance';` `cash-collateral-release` `pending-rolling-reserve` `to-be-released-rolling-reserve` `held-rolling-reserve` `released-rolling-reserve`
+    """
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "sub-totals",
+            "count",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        nullable_fields = [
+            "sub-totals",
+            "method",
+            "cardIssuer",
+            "cardAudience",
+            "cardRegion",
+            "feeType",
+            "prepaymentPartType",
+            "transactionType",
+        ]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsImmediatelyAvailableTypedDict(
+    TypedDict
+):
+    amount: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsImmediatelyAvailableAmountTypedDict
+    ]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    subtotals: NotRequired[
+        Nullable[
+            List[
+                GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsImmediatelyAvailableSubtotalsTypedDict
+            ]
+        ]
+    ]
+
+
+class GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsImmediatelyAvailable(
+    BaseModel
+):
+    amount: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsImmediatelyAvailableAmount
+    ] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    subtotals: OptionalNullable[
+        List[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsImmediatelyAvailableSubtotals
+        ]
+    ] = UNSET
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["amount", "subtotals"]
+        nullable_fields = ["subtotals"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class TopupsTypedDict(TypedDict):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsPendingTypedDict
+    ]
+    moved_to_available: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsMovedToAvailableTypedDict
+    ]
+    immediately_available: NotRequired[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsImmediatelyAvailableTypedDict
+    ]
+
+
+class Topups(BaseModel):
+    r"""Only available on `transaction-categories` grouping."""
+
+    pending: Optional[
+        GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsPending
+    ] = None
+
+    moved_to_available: Annotated[
+        Optional[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsMovedToAvailable
+        ],
+        pydantic.Field(alias="movedToAvailable"),
+    ] = None
+
+    immediately_available: Annotated[
+        Optional[
+            GetBalanceReportBalancesResponse200ApplicationHalPlusJSONResponseBodyTotalsTopupsImmediatelyAvailable
+        ],
+        pydantic.Field(alias="immediatelyAvailable"),
+    ] = None
+
+
 class TotalsTypedDict(TypedDict):
     r"""Totals are grouped according to the chosen grouping rule. The example response should give a good idea of what a typical grouping looks like.
 
@@ -168,7 +14265,7 @@ class TotalsTypedDict(TypedDict):
     If grouping `transaction-categories` is chosen, the main grouping is as follows:
 
     * `open` and `close` groups, each containing a `pending` and `available` sub-group
-    * Transaction type groups such as `payments` or `refunds`, each containing a `pending`, `movedToAvailable`, and `immediatelyAvailable` sub-group
+    * Transaction type groups such as `payments`, `refunds`, `chargebacks`, `capital`, `transfers`, `fee-prepayments`, `corrections`, `topups` each containing a `pending`, `movedToAvailable`, and `immediatelyAvailable` sub-group
 
     Each sub-group typically has:
 
@@ -176,6 +14273,31 @@ class TotalsTypedDict(TypedDict):
     * A `count` integer if relevant (for example, counting the number of refunds)
     * A `subtotals` array containing more sub-group objects if applicable
     """
+
+    pending_balance: NotRequired[Nullable[PendingBalanceTypedDict]]
+    r"""The pending balance. Only available if grouping is `status-balances`."""
+    available_balance: NotRequired[Nullable[AvailableBalanceTypedDict]]
+    r"""The available balance. Only available if grouping is `status-balances`."""
+    open: NotRequired[OpenTypedDict]
+    r"""Only available on `transaction-categories` grouping."""
+    close: NotRequired[CloseTypedDict]
+    r"""Only available on `transaction-categories` grouping."""
+    payments: NotRequired[GetBalanceReportPaymentsTypedDict]
+    r"""Only available on `transaction-categories` grouping."""
+    refunds: NotRequired[GetBalanceReportRefundsTypedDict]
+    r"""Only available on `transaction-categories` grouping."""
+    chargebacks: NotRequired[GetBalanceReportChargebacksTypedDict]
+    r"""Only available on `transaction-categories` grouping."""
+    capital: NotRequired[CapitalTypedDict]
+    r"""Only available on `transaction-categories` grouping."""
+    transfers: NotRequired[TransfersTypedDict]
+    r"""Only available on `transaction-categories` grouping."""
+    fee_prepayments: NotRequired[FeePrepaymentsTypedDict]
+    r"""Only available on `transaction-categories` grouping."""
+    corrections: NotRequired[CorrectionsTypedDict]
+    r"""Only available on `transaction-categories` grouping."""
+    topups: NotRequired[TopupsTypedDict]
+    r"""Only available on `transaction-categories` grouping."""
 
 
 class Totals(BaseModel):
@@ -189,7 +14311,7 @@ class Totals(BaseModel):
     If grouping `transaction-categories` is chosen, the main grouping is as follows:
 
     * `open` and `close` groups, each containing a `pending` and `available` sub-group
-    * Transaction type groups such as `payments` or `refunds`, each containing a `pending`, `movedToAvailable`, and `immediatelyAvailable` sub-group
+    * Transaction type groups such as `payments`, `refunds`, `chargebacks`, `capital`, `transfers`, `fee-prepayments`, `corrections`, `topups` each containing a `pending`, `movedToAvailable`, and `immediatelyAvailable` sub-group
 
     Each sub-group typically has:
 
@@ -197,6 +14319,91 @@ class Totals(BaseModel):
     * A `count` integer if relevant (for example, counting the number of refunds)
     * A `subtotals` array containing more sub-group objects if applicable
     """
+
+    pending_balance: Annotated[
+        OptionalNullable[PendingBalance], pydantic.Field(alias="pendingBalance")
+    ] = UNSET
+    r"""The pending balance. Only available if grouping is `status-balances`."""
+
+    available_balance: Annotated[
+        OptionalNullable[AvailableBalance], pydantic.Field(alias="availableBalance")
+    ] = UNSET
+    r"""The available balance. Only available if grouping is `status-balances`."""
+
+    open: Optional[Open] = None
+    r"""Only available on `transaction-categories` grouping."""
+
+    close: Optional[Close] = None
+    r"""Only available on `transaction-categories` grouping."""
+
+    payments: Optional[GetBalanceReportPayments] = None
+    r"""Only available on `transaction-categories` grouping."""
+
+    refunds: Optional[GetBalanceReportRefunds] = None
+    r"""Only available on `transaction-categories` grouping."""
+
+    chargebacks: Optional[GetBalanceReportChargebacks] = None
+    r"""Only available on `transaction-categories` grouping."""
+
+    capital: Optional[Capital] = None
+    r"""Only available on `transaction-categories` grouping."""
+
+    transfers: Optional[Transfers] = None
+    r"""Only available on `transaction-categories` grouping."""
+
+    fee_prepayments: Annotated[
+        Optional[FeePrepayments], pydantic.Field(alias="fee-prepayments")
+    ] = None
+    r"""Only available on `transaction-categories` grouping."""
+
+    corrections: Optional[Corrections] = None
+    r"""Only available on `transaction-categories` grouping."""
+
+    topups: Optional[Topups] = None
+    r"""Only available on `transaction-categories` grouping."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "pendingBalance",
+            "availableBalance",
+            "open",
+            "close",
+            "payments",
+            "refunds",
+            "chargebacks",
+            "capital",
+            "transfers",
+            "fee-prepayments",
+            "corrections",
+            "topups",
+        ]
+        nullable_fields = ["pendingBalance", "availableBalance"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class GetBalanceReportSelfTypedDict(TypedDict):
@@ -268,7 +14475,7 @@ class GetBalanceReportResponseBodyTypedDict(TypedDict):
     time_zone: NotRequired[str]
     r"""The time zone used for the from and until parameters. Currently only time zone `Europe/Amsterdam` is supported."""
     from_: NotRequired[str]
-    r"""The start date of the report, in `YYYY-MM-DD` format. The from date is 'inclusive', and in Central European Time. This means a report with for example `from=2024-01-01` will include movements of 2024-01-01 0:00:00 CET and onwards."""
+    r"""The start date of the report, in `YYYY-MM-DD` format. The from date is 'inclusive', and in Central European Time. This means a report with for example `from=2024-01-01` will include movements of 2024-01-01 00:00:00 CET and onwards."""
     until: NotRequired[str]
     r"""The end date of the report, in `YYYY-MM-DD` format. The until date is 'exclusive', and in Central European Time. This means a report with for example `until=2024-02-01` will include movements up until 2024-01-31 23:59:59 CET."""
     grouping: NotRequired[str]
@@ -291,7 +14498,7 @@ class GetBalanceReportResponseBodyTypedDict(TypedDict):
     If grouping `transaction-categories` is chosen, the main grouping is as follows:
 
     * `open` and `close` groups, each containing a `pending` and `available` sub-group
-    * Transaction type groups such as `payments` or `refunds`, each containing a `pending`, `movedToAvailable`, and `immediatelyAvailable` sub-group
+    * Transaction type groups such as `payments`, `refunds`, `chargebacks`, `capital`, `transfers`, `fee-prepayments`, `corrections`, `topups` each containing a `pending`, `movedToAvailable`, and `immediatelyAvailable` sub-group
 
     Each sub-group typically has:
 
@@ -316,7 +14523,7 @@ class GetBalanceReportResponseBody(BaseModel):
     r"""The time zone used for the from and until parameters. Currently only time zone `Europe/Amsterdam` is supported."""
 
     from_: Annotated[Optional[str], pydantic.Field(alias="from")] = None
-    r"""The start date of the report, in `YYYY-MM-DD` format. The from date is 'inclusive', and in Central European Time. This means a report with for example `from=2024-01-01` will include movements of 2024-01-01 0:00:00 CET and onwards."""
+    r"""The start date of the report, in `YYYY-MM-DD` format. The from date is 'inclusive', and in Central European Time. This means a report with for example `from=2024-01-01` will include movements of 2024-01-01 00:00:00 CET and onwards."""
 
     until: Optional[str] = None
     r"""The end date of the report, in `YYYY-MM-DD` format. The until date is 'exclusive', and in Central European Time. This means a report with for example `until=2024-02-01` will include movements up until 2024-01-31 23:59:59 CET."""
@@ -342,7 +14549,7 @@ class GetBalanceReportResponseBody(BaseModel):
     If grouping `transaction-categories` is chosen, the main grouping is as follows:
 
     * `open` and `close` groups, each containing a `pending` and `available` sub-group
-    * Transaction type groups such as `payments` or `refunds`, each containing a `pending`, `movedToAvailable`, and `immediatelyAvailable` sub-group
+    * Transaction type groups such as `payments`, `refunds`, `chargebacks`, `capital`, `transfers`, `fee-prepayments`, `corrections`, `topups` each containing a `pending`, `movedToAvailable`, and `immediatelyAvailable` sub-group
 
     Each sub-group typically has:
 

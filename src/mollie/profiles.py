@@ -16,8 +16,8 @@ class Profiles(BaseSDK):
         website: str,
         email: str,
         phone: str,
-        description: OptionalNullable[str] = UNSET,
-        countries_of_activity: Optional[List[Any]] = None,
+        description: Optional[str] = None,
+        countries_of_activity: Optional[List[str]] = None,
         business_category: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -39,7 +39,7 @@ class Profiles(BaseSDK):
         :param email: The email address associated with the profile's trade name or brand.
         :param phone: The phone number associated with the profile's trade name or brand.
         :param description: The products or services offered by the profile's website or application.
-        :param countries_of_activity: A list of countries where you expect that the majority of the profile's customers reside, in ISO 3166-1 alpha-2 format.
+        :param countries_of_activity: A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
         :param business_category: The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types#business-category) for all possible options.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -146,8 +146,8 @@ class Profiles(BaseSDK):
         website: str,
         email: str,
         phone: str,
-        description: OptionalNullable[str] = UNSET,
-        countries_of_activity: Optional[List[Any]] = None,
+        description: Optional[str] = None,
+        countries_of_activity: Optional[List[str]] = None,
         business_category: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -169,7 +169,7 @@ class Profiles(BaseSDK):
         :param email: The email address associated with the profile's trade name or brand.
         :param phone: The phone number associated with the profile's trade name or brand.
         :param description: The products or services offered by the profile's website or application.
-        :param countries_of_activity: A list of countries where you expect that the majority of the profile's customers reside, in ISO 3166-1 alpha-2 format.
+        :param countries_of_activity: A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
         :param business_category: The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types#business-category) for all possible options.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -756,7 +756,7 @@ class Profiles(BaseSDK):
         :param email: The email address associated with the profile's trade name or brand.
         :param phone: The phone number associated with the profile's trade name or brand.
         :param description: The products or services offered by the profile's website or application.
-        :param countries_of_activity: A list of countries where you expect that the majority of the profile's customers reside, in ISO 3166-1 alpha-2 format.
+        :param countries_of_activity: A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
         :param business_category: The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types) for all possible options.
         :param mode: Updating a profile from `test` mode to `live` mode will trigger a verification process, where we review the profile before it can start accepting payments.  Possible values: `live` `test`
         :param retries: Override the default retry configuration for this method
@@ -908,7 +908,7 @@ class Profiles(BaseSDK):
         :param email: The email address associated with the profile's trade name or brand.
         :param phone: The phone number associated with the profile's trade name or brand.
         :param description: The products or services offered by the profile's website or application.
-        :param countries_of_activity: A list of countries where you expect that the majority of the profile's customers reside, in ISO 3166-1 alpha-2 format.
+        :param countries_of_activity: A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
         :param business_category: The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types) for all possible options.
         :param mode: Updating a profile from `test` mode to `live` mode will trigger a verification process, where we review the profile before it can start accepting payments.  Possible values: `live` `test`
         :param retries: Override the default retry configuration for this method
