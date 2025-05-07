@@ -9,11 +9,8 @@ Developer-friendly & type-safe Python SDK specifically catered to leverage *moll
     </a>
 </div>
 
-<!-- Start Summary [summary] -->
-## Summary
-
-
-<!-- End Summary [summary] -->
+## Migration
+This documentation is for the new Mollie's SDK. You can find more details on how to migrate from the old version to the new one [here](/MIGRATION.md)
 
 <!-- Start Table of Contents [toc] -->
 ## Table of Contents
