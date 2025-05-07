@@ -3,7 +3,9 @@ speakeasyVersion: latest
 sources:
     Mollie API:
         inputs:
-            - location: https://github.com/mollie/openapi-specs/blob/main/specs.yaml
+            - location: https://raw.githubusercontent.com/mollie/openapi-specs/main/specs.yaml
+              authHeader: x-auth-token
+              authSecret: $openapi_doc_auth_token
         registry:
             location: registry.speakeasyapi.dev/mollie-oom/mollie/mollie-api
 targets:
