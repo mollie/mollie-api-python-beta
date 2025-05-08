@@ -9,6 +9,9 @@ Developer-friendly & type-safe Python SDK specifically catered to leverage *moll
     </a>
 </div>
 
+## Migration
+This documentation is for the new Mollie's SDK. You can find more details on how to migrate from the old version to the new one [here](https://github.com/mollie/mollie-api-python-alpha/blob/master//MIGRATION.md).
+
 <!-- Start Summary [summary] -->
 ## Summary
 
@@ -19,6 +22,7 @@ Developer-friendly & type-safe Python SDK specifically catered to leverage *moll
 ## Table of Contents
 <!-- $toc-max-depth=2 -->
 * [mollie-api-python-alpha](https://github.com/mollie/mollie-api-python-alpha/blob/master/#mollie-api-python-alpha)
+  * [Migration](https://github.com/mollie/mollie-api-python-alpha/blob/master/#migration)
   * [SDK Installation](https://github.com/mollie/mollie-api-python-alpha/blob/master/#sdk-installation)
   * [IDE Support](https://github.com/mollie/mollie-api-python-alpha/blob/master/#ide-support)
   * [SDK Example Usage](https://github.com/mollie/mollie-api-python-alpha/blob/master/#sdk-example-usage)

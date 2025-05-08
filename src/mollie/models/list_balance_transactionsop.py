@@ -422,7 +422,7 @@ class ContextTypedDict(TypedDict):
 
     Below is a complete list of the context values that each type of transaction will have.
 
-    * Type `payment: `paymentId`
+    * Type `payment`: `paymentId`
     * Type `capture`: `paymentId` `captureId`
     * Type `unauthorized-direct-debit`: `paymentId`
     * Type `failed-payment`: `paymentId`
@@ -466,7 +466,7 @@ class Context(BaseModel):
 
     Below is a complete list of the context values that each type of transaction will have.
 
-    * Type `payment: `paymentId`
+    * Type `payment`: `paymentId`
     * Type `capture`: `paymentId` `captureId`
     * Type `unauthorized-direct-debit`: `paymentId`
     * Type `failed-payment`: `paymentId`
@@ -639,7 +639,7 @@ class BalanceTransactionsTypedDict(TypedDict):
 
     Below is a complete list of the context values that each type of transaction will have.
 
-    * Type `payment: `paymentId`
+    * Type `payment`: `paymentId`
     * Type `capture`: `paymentId` `captureId`
     * Type `unauthorized-direct-debit`: `paymentId`
     * Type `failed-payment`: `paymentId`
@@ -701,7 +701,7 @@ class BalanceTransactions(BaseModel):
 
     Below is a complete list of the context values that each type of transaction will have.
 
-    * Type `payment: `paymentId`
+    * Type `payment`: `paymentId`
     * Type `capture`: `paymentId` `captureId`
     * Type `unauthorized-direct-debit`: `paymentId`
     * Type `failed-payment`: `paymentId`
