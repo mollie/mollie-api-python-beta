@@ -128,7 +128,7 @@ class Organization(BaseModel):
 class ProfileTypedDict(TypedDict):
     name: NotRequired[str]
     r"""The profile's name, this will usually reflect the trade name or brand name of the profile's website or application."""
-    website: NotRequired[str]
+    url: NotRequired[str]
     r"""The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are allowed."""
     email: NotRequired[str]
     r"""The email address associated with the profile's trade name or brand."""
@@ -144,7 +144,7 @@ class Profile(BaseModel):
     name: Optional[str] = None
     r"""The profile's name, this will usually reflect the trade name or brand name of the profile's website or application."""
 
-    website: Optional[str] = None
+    url: Optional[str] = None
     r"""The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are allowed."""
 
     email: Optional[str] = None
@@ -165,7 +165,7 @@ class Profile(BaseModel):
     def serialize_model(self, handler):
         optional_fields = [
             "name",
-            "website",
+            "url",
             "email",
             "phone",
             "description",

@@ -57,9 +57,7 @@ with Client(
 
 **⚠️ We no longer recommend implementing this endpoint. Please refer to the Client Links API instead to kick off the onboarding process for your merchants.**
 
-Submit data that will be prefilled in the merchant's onboarding. The data you submit will only be processed when the onboarding status is `needs-data`. Information that the merchant has entered in their dashboard will not be
-
-overwritten.
+Submit data that will be prefilled in the merchant's onboarding. The data you submit will only be processed when the onboarding status is `needs-data`. Information that the merchant has entered in their dashboard will not be overwritten.
 
 > 🔑 Access with
 >
@@ -79,7 +77,22 @@ with Client(
     ),
 ) as client:
 
-    res = client.onboarding.submit()
+    res = client.onboarding.submit(request={
+        "organization": {
+            "name": "Mollie B.V.",
+            "registration_number": "30204462",
+            "vat_number": "NL815839091B01",
+            "vat_regulation": "dutch",
+        },
+        "profile": {
+            "name": "Mollie",
+            "url": "https://www.mollie.com",
+            "email": "info@mollie.com",
+            "phone": "+31208202070",
+            "description": "Payment service provider",
+            "business_category": "MONEY_SERVICES",
+        },
+    })
 
     # Handle response
     print(res)
