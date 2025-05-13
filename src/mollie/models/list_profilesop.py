@@ -446,12 +446,12 @@ class ListProfilesProfiles(BaseModel):
 
 class ListProfilesEmbeddedTypedDict(TypedDict):
     profiles: NotRequired[List[ListProfilesProfilesTypedDict]]
-    r"""An array of profile objects. For a complete reference of the profile object, refer to the [Get profile endpoint](get-profile) documentation."""
+    r"""An array of profile objects."""
 
 
 class ListProfilesEmbedded(BaseModel):
     profiles: Optional[List[ListProfilesProfiles]] = None
-    r"""An array of profile objects. For a complete reference of the profile object, refer to the [Get profile endpoint](get-profile) documentation."""
+    r"""An array of profile objects."""
 
 
 class ListProfilesSelfTypedDict(TypedDict):
@@ -590,7 +590,7 @@ class ListProfilesLinks(BaseModel):
 
 
 class ListProfilesResponseBodyTypedDict(TypedDict):
-    r"""A list of profile objects. For a complete reference of the profile object, refer to the [Get profile endpoint](get-profile) documentation."""
+    r"""A list of profile objects."""
 
     count: NotRequired[int]
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.
@@ -603,7 +603,7 @@ class ListProfilesResponseBodyTypedDict(TypedDict):
 
 
 class ListProfilesResponseBody(BaseModel):
-    r"""A list of profile objects. For a complete reference of the profile object, refer to the [Get profile endpoint](get-profile) documentation."""
+    r"""A list of profile objects."""
 
     count: Optional[int] = None
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.

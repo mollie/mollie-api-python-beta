@@ -61,14 +61,14 @@ with Client(
 
 ### Response
 
-**[Any](../../models/.md)**
+**[models.CreateProfileResponseBody](../../models/createprofileresponsebody.md)**
 
 ### Errors
 
-| Error Type                       | Status Code                      | Content Type                     |
-| -------------------------------- | -------------------------------- | -------------------------------- |
-| models.CreateProfileResponseBody | 422                              | application/hal+json             |
-| models.APIError                  | 4XX, 5XX                         | \*/\*                            |
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| models.CreateProfileProfilesResponseBody | 422                                      | application/hal+json                     |
+| models.APIError                          | 4XX, 5XX                                 | \*/\*                                    |
 
 ## list
 
@@ -220,16 +220,16 @@ with Client(
 
 ### Response
 
-**[Any](../../models/.md)**
+**[models.UpdateProfileResponseBody](../../models/updateprofileresponsebody.md)**
 
 ### Errors
 
-| Error Type                                       | Status Code                                      | Content Type                                     |
-| ------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------ |
-| models.UpdateProfileResponseBody                 | 404                                              | application/hal+json                             |
-| models.UpdateProfileProfilesResponseBody         | 410                                              | application/hal+json                             |
-| models.UpdateProfileProfilesResponseResponseBody | 422                                              | application/hal+json                             |
-| models.APIError                                  | 4XX, 5XX                                         | \*/\*                                            |
+| Error Type                                          | Status Code                                         | Content Type                                        |
+| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
+| models.UpdateProfileProfilesResponseBody            | 404                                                 | application/hal+json                                |
+| models.UpdateProfileProfilesResponseResponseBody    | 410                                                 | application/hal+json                                |
+| models.UpdateProfileProfilesResponse422ResponseBody | 422                                                 | application/hal+json                                |
+| models.APIError                                     | 4XX, 5XX                                            | \*/\*                                               |
 
 ## delete
 

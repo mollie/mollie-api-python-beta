@@ -1,0 +1,12 @@
+# GetCurrentOrganizationLinks
+
+An object with several relevant URLs. Every URL object will contain an `href` and a `type` field.
+
+
+## Fields
+
+| Field                                                                                                    | Type                                                                                                     | Required                                                                                                 | Description                                                                                              |
+| -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `self_`                                                                                                  | [Optional[models.GetCurrentOrganizationSelf]](../models/getcurrentorganizationself.md)                   | :heavy_minus_sign:                                                                                       | In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field.               |
+| `dashboard`                                                                                              | [Optional[models.GetCurrentOrganizationDashboard]](../models/getcurrentorganizationdashboard.md)         | :heavy_minus_sign:                                                                                       | Direct link to the organization's Mollie dashboard.                                                      |
+| `documentation`                                                                                          | [Optional[models.GetCurrentOrganizationDocumentation]](../models/getcurrentorganizationdocumentation.md) | :heavy_minus_sign:                                                                                       | In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field.               |

@@ -23,7 +23,7 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CreateProfileResponseBody:
         r"""Create profile
 
         Create a profile to process payments on.
@@ -113,12 +113,12 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, models.CreateProfileResponseBody)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = utils.unmarshal_json(
-                http_res.text, models.CreateProfileResponseBodyData
+                http_res.text, models.CreateProfileProfilesResponseBodyData
             )
-            raise models.CreateProfileResponseBody(data=response_data)
+            raise models.CreateProfileProfilesResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -153,7 +153,7 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.CreateProfileResponseBody:
         r"""Create profile
 
         Create a profile to process payments on.
@@ -243,12 +243,12 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, models.CreateProfileResponseBody)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = utils.unmarshal_json(
-                http_res.text, models.CreateProfileResponseBodyData
+                http_res.text, models.CreateProfileProfilesResponseBodyData
             )
-            raise models.CreateProfileResponseBody(data=response_data)
+            raise models.CreateProfileProfilesResponseBody(data=response_data)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(
@@ -739,7 +739,7 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.UpdateProfileResponseBody:
         r"""Update profile
 
         Update an existing profile.
@@ -839,22 +839,24 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, models.UpdateProfileResponseBody)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdateProfileResponseBodyData
-            )
-            raise models.UpdateProfileResponseBody(data=response_data)
-        if utils.match_response(http_res, "410", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.UpdateProfileProfilesResponseBodyData
             )
             raise models.UpdateProfileProfilesResponseBody(data=response_data)
-        if utils.match_response(http_res, "422", "application/hal+json"):
+        if utils.match_response(http_res, "410", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.UpdateProfileProfilesResponseResponseBodyData
             )
             raise models.UpdateProfileProfilesResponseResponseBody(data=response_data)
+        if utils.match_response(http_res, "422", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.UpdateProfileProfilesResponse422ResponseBodyData
+            )
+            raise models.UpdateProfileProfilesResponse422ResponseBody(
+                data=response_data
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -891,7 +893,7 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.UpdateProfileResponseBody:
         r"""Update profile
 
         Update an existing profile.
@@ -991,22 +993,24 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(http_res.text, models.UpdateProfileResponseBody)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdateProfileResponseBodyData
-            )
-            raise models.UpdateProfileResponseBody(data=response_data)
-        if utils.match_response(http_res, "410", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.UpdateProfileProfilesResponseBodyData
             )
             raise models.UpdateProfileProfilesResponseBody(data=response_data)
-        if utils.match_response(http_res, "422", "application/hal+json"):
+        if utils.match_response(http_res, "410", "application/hal+json"):
             response_data = utils.unmarshal_json(
                 http_res.text, models.UpdateProfileProfilesResponseResponseBodyData
             )
             raise models.UpdateProfileProfilesResponseResponseBody(data=response_data)
+        if utils.match_response(http_res, "422", "application/hal+json"):
+            response_data = utils.unmarshal_json(
+                http_res.text, models.UpdateProfileProfilesResponse422ResponseBodyData
+            )
+            raise models.UpdateProfileProfilesResponse422ResponseBody(
+                data=response_data
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(

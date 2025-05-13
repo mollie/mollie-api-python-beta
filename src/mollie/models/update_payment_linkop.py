@@ -366,12 +366,6 @@ class UpdatePaymentLinkPaymentLinksAllowedMethods(str, Enum):
     TWINT = "twint"
 
 
-class UpdatePaymentLinkSequenceType(str, Enum):
-    ONEOFF = "oneoff"
-    FIRST = "first"
-    RECURRING = "recurring"
-
-
 class UpdatePaymentLinkPaymentLinksAmountTypedDict(TypedDict):
     r"""The fee that you wish to charge.
 
@@ -564,8 +558,6 @@ class UpdatePaymentLinkResponseBodyTypedDict(TypedDict):
         Nullable[List[UpdatePaymentLinkPaymentLinksAllowedMethods]]
     ]
     r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available."""
-    sequence_type: NotRequired[UpdatePaymentLinkSequenceType]
-    customer_id: NotRequired[str]
     application_fee: NotRequired[UpdatePaymentLinkApplicationFeeTypedDict]
     r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
 
@@ -651,12 +643,6 @@ class UpdatePaymentLinkResponseBody(BaseModel):
     ] = UNSET
     r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available."""
 
-    sequence_type: Annotated[
-        Optional[UpdatePaymentLinkSequenceType], pydantic.Field(alias="sequenceType")
-    ] = UpdatePaymentLinkSequenceType.ONEOFF
-
-    customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
-
     application_fee: Annotated[
         Optional[UpdatePaymentLinkApplicationFee],
         pydantic.Field(alias="applicationFee"),
@@ -689,8 +675,6 @@ class UpdatePaymentLinkResponseBody(BaseModel):
             "paidAt",
             "expiresAt",
             "allowedMethods",
-            "sequenceType",
-            "customerId",
             "applicationFee",
             "_links",
         ]

@@ -248,7 +248,7 @@ class Organizations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.GetCurrentOrganizationResponseBody:
         r"""Get current organization
 
         Retrieve the currently authenticated organization. A convenient alias of the [Get organization](get-organization) endpoint.
@@ -316,7 +316,9 @@ class Organizations(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(
+                http_res.text, models.GetCurrentOrganizationResponseBody
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError(
@@ -344,7 +346,7 @@ class Organizations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ) -> models.GetCurrentOrganizationResponseBody:
         r"""Get current organization
 
         Retrieve the currently authenticated organization. A convenient alias of the [Get organization](get-organization) endpoint.
@@ -412,7 +414,9 @@ class Organizations(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json(
+                http_res.text, models.GetCurrentOrganizationResponseBody
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError(

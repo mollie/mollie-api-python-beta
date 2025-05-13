@@ -195,12 +195,6 @@ class ListPaymentLinksAllowedMethods(str, Enum):
     TWINT = "twint"
 
 
-class ListPaymentLinksSequenceType(str, Enum):
-    ONEOFF = "oneoff"
-    FIRST = "first"
-    RECURRING = "recurring"
-
-
 class ListPaymentLinksPaymentLinksAmountTypedDict(TypedDict):
     r"""The fee that you wish to charge.
 
@@ -389,8 +383,6 @@ class ListPaymentLinksPaymentLinksTypedDict(TypedDict):
     r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front, the payment link will not expire automatically."""
     allowed_methods: NotRequired[Nullable[List[ListPaymentLinksAllowedMethods]]]
     r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available."""
-    sequence_type: NotRequired[ListPaymentLinksSequenceType]
-    customer_id: NotRequired[str]
     application_fee: NotRequired[ListPaymentLinksApplicationFeeTypedDict]
     r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
 
@@ -474,12 +466,6 @@ class ListPaymentLinksPaymentLinks(BaseModel):
     ] = UNSET
     r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available."""
 
-    sequence_type: Annotated[
-        Optional[ListPaymentLinksSequenceType], pydantic.Field(alias="sequenceType")
-    ] = ListPaymentLinksSequenceType.ONEOFF
-
-    customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
-
     application_fee: Annotated[
         Optional[ListPaymentLinksApplicationFee], pydantic.Field(alias="applicationFee")
     ] = None
@@ -512,8 +498,6 @@ class ListPaymentLinksPaymentLinks(BaseModel):
             "paidAt",
             "expiresAt",
             "allowedMethods",
-            "sequenceType",
-            "customerId",
             "applicationFee",
             "_links",
         ]

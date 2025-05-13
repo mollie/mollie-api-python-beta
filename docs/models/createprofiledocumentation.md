@@ -1,11 +1,11 @@
 # CreateProfileDocumentation
 
-The URL to the generic Mollie API error handling guide.
+In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field.
 
 
 ## Fields
 
-| Field                          | Type                           | Required                       | Description                    | Example                        |
-| ------------------------------ | ------------------------------ | ------------------------------ | ------------------------------ | ------------------------------ |
-| `href`                         | *Optional[str]*                | :heavy_minus_sign:             | N/A                            | https://docs.mollie.com/errors |
-| `type`                         | *Optional[str]*                | :heavy_minus_sign:             | N/A                            | text/html                      |
+| Field                                                       | Type                                                        | Required                                                    | Description                                                 | Example                                                     |
+| ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- |
+| `href`                                                      | *Optional[str]*                                             | :heavy_minus_sign:                                          | The actual URL string.                                      | https://...                                                 |
+| `type`                                                      | *Optional[str]*                                             | :heavy_minus_sign:                                          | The content type of the page or endpoint the URL points to. | application/hal+json                                        |

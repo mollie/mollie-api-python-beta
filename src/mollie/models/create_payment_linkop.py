@@ -71,12 +71,6 @@ class AllowedMethods(str, Enum):
     TWINT = "twint"
 
 
-class SequenceType(str, Enum):
-    ONEOFF = "oneoff"
-    FIRST = "first"
-    RECURRING = "recurring"
-
-
 class CreatePaymentLinkPaymentLinksAmountTypedDict(TypedDict):
     r"""The fee that you wish to charge.
 
@@ -163,8 +157,6 @@ class CreatePaymentLinkRequestBodyTypedDict(TypedDict):
     r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front, the payment link will not expire automatically."""
     allowed_methods: NotRequired[Nullable[List[AllowedMethods]]]
     r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available."""
-    sequence_type: NotRequired[SequenceType]
-    customer_id: NotRequired[str]
     application_fee: NotRequired[CreatePaymentLinkApplicationFeeTypedDict]
     r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
 
@@ -223,12 +215,6 @@ class CreatePaymentLinkRequestBody(BaseModel):
     ] = UNSET
     r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available."""
 
-    sequence_type: Annotated[
-        Optional[SequenceType], pydantic.Field(alias="sequenceType")
-    ] = SequenceType.ONEOFF
-
-    customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
-
     application_fee: Annotated[
         Optional[CreatePaymentLinkApplicationFee],
         pydantic.Field(alias="applicationFee"),
@@ -249,8 +235,6 @@ class CreatePaymentLinkRequestBody(BaseModel):
             "reusable",
             "expiresAt",
             "allowedMethods",
-            "sequenceType",
-            "customerId",
             "applicationFee",
         ]
         nullable_fields = [
@@ -468,12 +452,6 @@ class CreatePaymentLinkAllowedMethods(str, Enum):
     TWINT = "twint"
 
 
-class CreatePaymentLinkSequenceType(str, Enum):
-    ONEOFF = "oneoff"
-    FIRST = "first"
-    RECURRING = "recurring"
-
-
 class CreatePaymentLinkPaymentLinksResponse201AmountTypedDict(TypedDict):
     r"""The fee that you wish to charge.
 
@@ -662,8 +640,6 @@ class CreatePaymentLinkResponseBodyTypedDict(TypedDict):
     r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front, the payment link will not expire automatically."""
     allowed_methods: NotRequired[Nullable[List[CreatePaymentLinkAllowedMethods]]]
     r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available."""
-    sequence_type: NotRequired[CreatePaymentLinkSequenceType]
-    customer_id: NotRequired[str]
     application_fee: NotRequired[CreatePaymentLinkPaymentLinksApplicationFeeTypedDict]
     r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
 
@@ -749,12 +725,6 @@ class CreatePaymentLinkResponseBody(BaseModel):
     ] = UNSET
     r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available."""
 
-    sequence_type: Annotated[
-        Optional[CreatePaymentLinkSequenceType], pydantic.Field(alias="sequenceType")
-    ] = CreatePaymentLinkSequenceType.ONEOFF
-
-    customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
-
     application_fee: Annotated[
         Optional[CreatePaymentLinkPaymentLinksApplicationFee],
         pydantic.Field(alias="applicationFee"),
@@ -787,8 +757,6 @@ class CreatePaymentLinkResponseBody(BaseModel):
             "paidAt",
             "expiresAt",
             "allowedMethods",
-            "sequenceType",
-            "customerId",
             "applicationFee",
             "_links",
         ]

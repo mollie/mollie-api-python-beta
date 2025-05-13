@@ -52,14 +52,14 @@ class CreateProfileRequestBody(BaseModel):
     r"""The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types#business-category) for all possible options."""
 
 
-class CreateProfileDocumentationTypedDict(TypedDict):
+class CreateProfileProfilesDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: NotRequired[str]
     type: NotRequired[str]
 
 
-class CreateProfileDocumentation(BaseModel):
+class CreateProfileProfilesDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: Optional[str] = "https://docs.mollie.com/errors"
@@ -67,17 +67,17 @@ class CreateProfileDocumentation(BaseModel):
     type: Optional[str] = "text/html"
 
 
-class CreateProfileLinksTypedDict(TypedDict):
-    documentation: NotRequired[CreateProfileDocumentationTypedDict]
+class CreateProfileProfilesLinksTypedDict(TypedDict):
+    documentation: NotRequired[CreateProfileProfilesDocumentationTypedDict]
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class CreateProfileLinks(BaseModel):
-    documentation: Optional[CreateProfileDocumentation] = None
+class CreateProfileProfilesLinks(BaseModel):
+    documentation: Optional[CreateProfileProfilesDocumentation] = None
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class CreateProfileResponseBodyData(BaseModel):
+class CreateProfileProfilesResponseBodyData(BaseModel):
     status: Optional[int] = None
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -90,18 +90,346 @@ class CreateProfileResponseBodyData(BaseModel):
     field: OptionalNullable[str] = UNSET
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
-    links: Annotated[Optional[CreateProfileLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
+    links: Annotated[
+        Optional[CreateProfileProfilesLinks], pydantic.Field(alias="_links")
+    ] = None
 
 
-class CreateProfileResponseBody(Exception):
+class CreateProfileProfilesResponseBody(Exception):
     r"""An error response object."""
 
-    data: CreateProfileResponseBodyData
+    data: CreateProfileProfilesResponseBodyData
 
-    def __init__(self, data: CreateProfileResponseBodyData):
+    def __init__(self, data: CreateProfileProfilesResponseBodyData):
         self.data = data
 
     def __str__(self) -> str:
-        return utils.marshal_json(self.data, CreateProfileResponseBodyData)
+        return utils.marshal_json(self.data, CreateProfileProfilesResponseBodyData)
+
+
+class ReviewTypedDict(TypedDict):
+    r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved automatically, unless a switch to a live profile has been requested. The review object will therefore usually be `null` in test mode."""
+
+    status: NotRequired[str]
+    r"""The status of the requested changes.
+
+    Possible values: `pending` `rejected`
+    """
+
+
+class Review(BaseModel):
+    r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved automatically, unless a switch to a live profile has been requested. The review object will therefore usually be `null` in test mode."""
+
+    status: Optional[str] = None
+    r"""The status of the requested changes.
+
+    Possible values: `pending` `rejected`
+    """
+
+
+class CreateProfileSelfTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateProfileSelf(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateProfileDashboardTypedDict(TypedDict):
+    r"""Link to the profile in the Mollie dashboard."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateProfileDashboard(BaseModel):
+    r"""Link to the profile in the Mollie dashboard."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateProfileChargebacksTypedDict(TypedDict):
+    r"""The API resource URL of the chargebacks that belong to this profile."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateProfileChargebacks(BaseModel):
+    r"""The API resource URL of the chargebacks that belong to this profile."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateProfileMethodsTypedDict(TypedDict):
+    r"""The API resource URL of the methods that are enabled for this profile."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateProfileMethods(BaseModel):
+    r"""The API resource URL of the methods that are enabled for this profile."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateProfilePaymentsTypedDict(TypedDict):
+    r"""The API resource URL of the payments that belong to this profile."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateProfilePayments(BaseModel):
+    r"""The API resource URL of the payments that belong to this profile."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateProfileRefundsTypedDict(TypedDict):
+    r"""The API resource URL of the refunds that belong to this profile."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateProfileRefunds(BaseModel):
+    r"""The API resource URL of the refunds that belong to this profile."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CheckoutPreviewURLTypedDict(TypedDict):
+    r"""The hosted checkout preview URL. You need to be logged in to access this page."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CheckoutPreviewURL(BaseModel):
+    r"""The hosted checkout preview URL. You need to be logged in to access this page."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateProfileDocumentationTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: NotRequired[str]
+    r"""The actual URL string."""
+    type: NotRequired[str]
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateProfileDocumentation(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: Optional[str] = None
+    r"""The actual URL string."""
+
+    type: Optional[str] = None
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class CreateProfileLinksTypedDict(TypedDict):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: NotRequired[CreateProfileSelfTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+    dashboard: NotRequired[CreateProfileDashboardTypedDict]
+    r"""Link to the profile in the Mollie dashboard."""
+    chargebacks: NotRequired[CreateProfileChargebacksTypedDict]
+    r"""The API resource URL of the chargebacks that belong to this profile."""
+    methods: NotRequired[CreateProfileMethodsTypedDict]
+    r"""The API resource URL of the methods that are enabled for this profile."""
+    payments: NotRequired[CreateProfilePaymentsTypedDict]
+    r"""The API resource URL of the payments that belong to this profile."""
+    refunds: NotRequired[CreateProfileRefundsTypedDict]
+    r"""The API resource URL of the refunds that belong to this profile."""
+    checkout_preview_url: NotRequired[CheckoutPreviewURLTypedDict]
+    r"""The hosted checkout preview URL. You need to be logged in to access this page."""
+    documentation: NotRequired[CreateProfileDocumentationTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
+class CreateProfileLinks(BaseModel):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: Annotated[Optional[CreateProfileSelf], pydantic.Field(alias="self")] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    dashboard: Optional[CreateProfileDashboard] = None
+    r"""Link to the profile in the Mollie dashboard."""
+
+    chargebacks: Optional[CreateProfileChargebacks] = None
+    r"""The API resource URL of the chargebacks that belong to this profile."""
+
+    methods: Optional[CreateProfileMethods] = None
+    r"""The API resource URL of the methods that are enabled for this profile."""
+
+    payments: Optional[CreateProfilePayments] = None
+    r"""The API resource URL of the payments that belong to this profile."""
+
+    refunds: Optional[CreateProfileRefunds] = None
+    r"""The API resource URL of the refunds that belong to this profile."""
+
+    checkout_preview_url: Annotated[
+        Optional[CheckoutPreviewURL], pydantic.Field(alias="checkoutPreviewUrl")
+    ] = None
+    r"""The hosted checkout preview URL. You need to be logged in to access this page."""
+
+    documentation: Optional[CreateProfileDocumentation] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
+class CreateProfileResponseBodyTypedDict(TypedDict):
+    r"""The newly created profile object."""
+
+    resource: NotRequired[str]
+    r"""Indicates the response contains a profile object. Will always contain the string `profile` for this endpoint."""
+    id: NotRequired[str]
+    r"""The identifier uniquely referring to this profile. Example: `pfl_v9hTwCvYqw`."""
+    mode: NotRequired[str]
+    r"""Whether this entity was created in live mode or in test mode.
+
+    Possible values: `live` `test`
+    """
+    name: NotRequired[str]
+    r"""The profile's name, this will usually reflect the trade name or brand name of the profile's website or application."""
+    website: NotRequired[str]
+    r"""The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are allowed."""
+    email: NotRequired[str]
+    r"""The email address associated with the profile's trade name or brand."""
+    phone: NotRequired[str]
+    r"""The phone number associated with the profile's trade name or brand."""
+    description: NotRequired[str]
+    r"""The products or services offered by the profile's website or application."""
+    countries_of_activity: NotRequired[List[str]]
+    r"""A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""
+    business_category: NotRequired[str]
+    r"""The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types#business-category) for all possible options."""
+    status: NotRequired[str]
+    r"""The profile status determines whether the profile is able to receive live payments.
+
+    * `unverified`: The profile has not been verified yet and can only be used to create test payments.
+    * `verified`: The profile has been verified and can be used to create live payments and test payments.
+    * `blocked`: The profile is blocked and can no longer be used or changed.
+
+    Possible values: `unverified` `verified` `blocked`
+    """
+    review: NotRequired[ReviewTypedDict]
+    r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved automatically, unless a switch to a live profile has been requested. The review object will therefore usually be `null` in test mode."""
+    created_at: NotRequired[str]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    links: NotRequired[CreateProfileLinksTypedDict]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+
+class CreateProfileResponseBody(BaseModel):
+    r"""The newly created profile object."""
+
+    resource: Optional[str] = "profile"
+    r"""Indicates the response contains a profile object. Will always contain the string `profile` for this endpoint."""
+
+    id: Optional[str] = None
+    r"""The identifier uniquely referring to this profile. Example: `pfl_v9hTwCvYqw`."""
+
+    mode: Optional[str] = None
+    r"""Whether this entity was created in live mode or in test mode.
+
+    Possible values: `live` `test`
+    """
+
+    name: Optional[str] = None
+    r"""The profile's name, this will usually reflect the trade name or brand name of the profile's website or application."""
+
+    website: Optional[str] = None
+    r"""The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are allowed."""
+
+    email: Optional[str] = None
+    r"""The email address associated with the profile's trade name or brand."""
+
+    phone: Optional[str] = None
+    r"""The phone number associated with the profile's trade name or brand."""
+
+    description: Optional[str] = None
+    r"""The products or services offered by the profile's website or application."""
+
+    countries_of_activity: Annotated[
+        Optional[List[str]], pydantic.Field(alias="countriesOfActivity")
+    ] = None
+    r"""A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""
+
+    business_category: Annotated[
+        Optional[str], pydantic.Field(alias="businessCategory")
+    ] = None
+    r"""The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types#business-category) for all possible options."""
+
+    status: Optional[str] = None
+    r"""The profile status determines whether the profile is able to receive live payments.
+
+    * `unverified`: The profile has not been verified yet and can only be used to create test payments.
+    * `verified`: The profile has been verified and can be used to create live payments and test payments.
+    * `blocked`: The profile is blocked and can no longer be used or changed.
+
+    Possible values: `unverified` `verified` `blocked`
+    """
+
+    review: Optional[Review] = None
+    r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved automatically, unless a switch to a live profile has been requested. The review object will therefore usually be `null` in test mode."""
+
+    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
+    links: Annotated[Optional[CreateProfileLinks], pydantic.Field(alias="_links")] = (
+        None
+    )
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""

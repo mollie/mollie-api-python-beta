@@ -176,7 +176,7 @@ class GetProfileProfilesResponseBody(Exception):
         return utils.marshal_json(self.data, GetProfileProfilesResponseBodyData)
 
 
-class ReviewTypedDict(TypedDict):
+class GetProfileReviewTypedDict(TypedDict):
     r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved automatically, unless a switch to a live profile has been requested. The review object will therefore usually be `null` in test mode."""
 
     status: NotRequired[str]
@@ -186,7 +186,7 @@ class ReviewTypedDict(TypedDict):
     """
 
 
-class Review(BaseModel):
+class GetProfileReview(BaseModel):
     r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved automatically, unless a switch to a live profile has been requested. The review object will therefore usually be `null` in test mode."""
 
     status: Optional[str] = None
@@ -310,7 +310,7 @@ class GetProfileRefunds(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class CheckoutPreviewURLTypedDict(TypedDict):
+class GetProfileCheckoutPreviewURLTypedDict(TypedDict):
     r"""The hosted checkout preview URL. You need to be logged in to access this page."""
 
     href: NotRequired[str]
@@ -319,7 +319,7 @@ class CheckoutPreviewURLTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class CheckoutPreviewURL(BaseModel):
+class GetProfileCheckoutPreviewURL(BaseModel):
     r"""The hosted checkout preview URL. You need to be logged in to access this page."""
 
     href: Optional[str] = None
@@ -363,7 +363,7 @@ class GetProfileLinksTypedDict(TypedDict):
     r"""The API resource URL of the payments that belong to this profile."""
     refunds: NotRequired[GetProfileRefundsTypedDict]
     r"""The API resource URL of the refunds that belong to this profile."""
-    checkout_preview_url: NotRequired[CheckoutPreviewURLTypedDict]
+    checkout_preview_url: NotRequired[GetProfileCheckoutPreviewURLTypedDict]
     r"""The hosted checkout preview URL. You need to be logged in to access this page."""
     documentation: NotRequired[GetProfileDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
@@ -391,7 +391,8 @@ class GetProfileLinks(BaseModel):
     r"""The API resource URL of the refunds that belong to this profile."""
 
     checkout_preview_url: Annotated[
-        Optional[CheckoutPreviewURL], pydantic.Field(alias="checkoutPreviewUrl")
+        Optional[GetProfileCheckoutPreviewURL],
+        pydantic.Field(alias="checkoutPreviewUrl"),
     ] = None
     r"""The hosted checkout preview URL. You need to be logged in to access this page."""
 
@@ -434,7 +435,7 @@ class GetProfileResponseBodyTypedDict(TypedDict):
 
     Possible values: `unverified` `verified` `blocked`
     """
-    review: NotRequired[ReviewTypedDict]
+    review: NotRequired[GetProfileReviewTypedDict]
     r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved automatically, unless a switch to a live profile has been requested. The review object will therefore usually be `null` in test mode."""
     created_at: NotRequired[str]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
@@ -492,7 +493,7 @@ class GetProfileResponseBody(BaseModel):
     Possible values: `unverified` `verified` `blocked`
     """
 
-    review: Optional[Review] = None
+    review: Optional[GetProfileReview] = None
     r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved automatically, unless a switch to a live profile has been requested. The review object will therefore usually be `null` in test mode."""
 
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None

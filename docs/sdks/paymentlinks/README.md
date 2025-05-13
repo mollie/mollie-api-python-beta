@@ -53,7 +53,6 @@ with Client(
         "allowed_methods": [
             mollie.AllowedMethods.IDEAL,
         ],
-        "customer_id": "cst_5B8cwPMGnU",
         "application_fee": {
             "amount": {
                 "currency": "EUR",

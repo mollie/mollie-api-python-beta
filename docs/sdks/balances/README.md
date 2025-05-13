@@ -123,7 +123,7 @@ with Client(
 
 Retrieve the primary balance. This is the balance of your account's primary currency, where all payments are settled to by default.
 
-This endpoint is a convenient alias of the [Get balance](get-balance) endpoint. For a complete reference of the balance object, refer to that endpoint's documentation.
+This endpoint is a convenient alias of the [Get balance](get-balance) endpoint.
 
 > 🔑 Access with
 >
@@ -158,7 +158,7 @@ with Client(
 
 ### Response
 
-**[Any](../../models/.md)**
+**[models.GetPrimaryBalanceResponseBody](../../models/getprimarybalanceresponsebody.md)**
 
 ### Errors
 

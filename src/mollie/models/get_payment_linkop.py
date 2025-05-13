@@ -185,12 +185,6 @@ class GetPaymentLinkAllowedMethods(str, Enum):
     TWINT = "twint"
 
 
-class GetPaymentLinkSequenceType(str, Enum):
-    ONEOFF = "oneoff"
-    FIRST = "first"
-    RECURRING = "recurring"
-
-
 class GetPaymentLinkPaymentLinksAmountTypedDict(TypedDict):
     r"""The fee that you wish to charge.
 
@@ -377,8 +371,6 @@ class GetPaymentLinkResponseBodyTypedDict(TypedDict):
     r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front, the payment link will not expire automatically."""
     allowed_methods: NotRequired[Nullable[List[GetPaymentLinkAllowedMethods]]]
     r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available."""
-    sequence_type: NotRequired[GetPaymentLinkSequenceType]
-    customer_id: NotRequired[str]
     application_fee: NotRequired[GetPaymentLinkApplicationFeeTypedDict]
     r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
 
@@ -464,12 +456,6 @@ class GetPaymentLinkResponseBody(BaseModel):
     ] = UNSET
     r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available."""
 
-    sequence_type: Annotated[
-        Optional[GetPaymentLinkSequenceType], pydantic.Field(alias="sequenceType")
-    ] = GetPaymentLinkSequenceType.ONEOFF
-
-    customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
-
     application_fee: Annotated[
         Optional[GetPaymentLinkApplicationFee], pydantic.Field(alias="applicationFee")
     ] = None
@@ -501,8 +487,6 @@ class GetPaymentLinkResponseBody(BaseModel):
             "paidAt",
             "expiresAt",
             "allowedMethods",
-            "sequenceType",
-            "customerId",
             "applicationFee",
             "_links",
         ]

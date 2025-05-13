@@ -100,7 +100,7 @@ with Client(
 
 ### Response
 
-**[Any](../../models/.md)**
+**[models.GetCurrentOrganizationResponseBody](../../models/getcurrentorganizationresponsebody.md)**
 
 ### Errors
 
