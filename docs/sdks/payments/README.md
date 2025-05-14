@@ -221,6 +221,7 @@ with Client(
         "customer_id": "cst_5B8cwPMGnU",
         "profile_id": "pfl_5B8cwPMGnU",
         "due_date": "2025-01-01",
+        "testmode": False,
     })
 
     # Handle response

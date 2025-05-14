@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: 0c61bc8a3bda4d123c20a5a86b1b1ed9
+  docChecksum: 4ecc6e9be19628616516be50257c3444
   docVersion: 1.0.0
-  speakeasyVersion: 1.543.8
-  generationVersion: 2.598.22
-  releaseVersion: 0.2.3
-  configChecksum: 09ccb061cf0663897bbcfc739283c013
+  speakeasyVersion: 1.544.0
+  generationVersion: 2.599.0
+  releaseVersion: 0.3.0
+  configChecksum: 2c36d96c44ffbf18e5db5270c71b970a
   repoURL: https://github.com/mollie/mollie-api-python-alpha.git
   installationURL: https://github.com/mollie/mollie-api-python-alpha.git
   published: true
@@ -14,7 +14,7 @@ features:
   python:
     additionalDependencies: 1.0.0
     constsAndDefaults: 1.0.5
-    core: 5.17.1
+    core: 5.18.0
     defaultEnabledRetries: 0.2.0
     deprecations: 3.0.2
     devContainers: 3.0.0

@@ -305,6 +305,7 @@ with Client(
         "customer_id": "cst_5B8cwPMGnU",
         "profile_id": "pfl_5B8cwPMGnU",
         "due_date": "2025-01-01",
+        "testmode": False,
     })
 
     # Handle response
@@ -508,6 +509,7 @@ async def main():
             "customer_id": "cst_5B8cwPMGnU",
             "profile_id": "pfl_5B8cwPMGnU",
             "due_date": "2025-01-01",
+            "testmode": False,
         })
 
         # Handle response
@@ -721,6 +723,7 @@ with Client(
         "customer_id": "cst_5B8cwPMGnU",
         "profile_id": "pfl_5B8cwPMGnU",
         "due_date": "2025-01-01",
+        "testmode": False,
     })
 
     # Handle response
@@ -1086,6 +1089,7 @@ with Client(
         "customer_id": "cst_5B8cwPMGnU",
         "profile_id": "pfl_5B8cwPMGnU",
         "due_date": "2025-01-01",
+        "testmode": False,
     },
         RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
 
@@ -1288,6 +1292,7 @@ with Client(
         "customer_id": "cst_5B8cwPMGnU",
         "profile_id": "pfl_5B8cwPMGnU",
         "due_date": "2025-01-01",
+        "testmode": False,
     })
 
     # Handle response
@@ -1513,6 +1518,7 @@ with Client(
             "customer_id": "cst_5B8cwPMGnU",
             "profile_id": "pfl_5B8cwPMGnU",
             "due_date": "2025-01-01",
+            "testmode": False,
         })
 
         # Handle response
@@ -1728,6 +1734,7 @@ with Client(
         "customer_id": "cst_5B8cwPMGnU",
         "profile_id": "pfl_5B8cwPMGnU",
         "due_date": "2025-01-01",
+        "testmode": False,
     })
 
     # Handle response

@@ -25,7 +25,7 @@ class Refunds(BaseSDK):
         routing_reversals: OptionalNullable[
             Union[List[models.RoutingReversals], List[models.RoutingReversalsTypedDict]]
         ] = UNSET,
-        testmode: OptionalNullable[bool] = False,
+        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -186,7 +186,7 @@ class Refunds(BaseSDK):
         routing_reversals: OptionalNullable[
             Union[List[models.RoutingReversals], List[models.RoutingReversalsTypedDict]]
         ] = UNSET,
-        testmode: OptionalNullable[bool] = False,
+        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1083,7 +1083,7 @@ class Refunds(BaseSDK):
                 models.CreateOrderRefundExternalReferenceTypedDict,
             ]
         ] = None,
-        testmode: OptionalNullable[bool] = False,
+        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1258,7 +1258,7 @@ class Refunds(BaseSDK):
                 models.CreateOrderRefundExternalReferenceTypedDict,
             ]
         ] = None,
-        testmode: OptionalNullable[bool] = False,
+        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,

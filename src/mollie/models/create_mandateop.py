@@ -93,7 +93,7 @@ class CreateMandateRequestBody(BaseModel):
     ] = UNSET
     r"""The Vault ID given by PayPal. For example: `8kk8451t`. Required for PayPal mandates. Must provide either this field or `paypalBillingAgreementId`, but not both."""
 
-    testmode: OptionalNullable[bool] = False
+    testmode: OptionalNullable[bool] = UNSET
     r"""Whether to create the entity in test mode or live mode.
 
     Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.

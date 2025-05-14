@@ -741,7 +741,7 @@ class Customers(BaseSDK):
         metadata: OptionalNullable[
             Union[models.UpdateCustomerMetadata, models.UpdateCustomerMetadataTypedDict]
         ] = UNSET,
-        testmode: OptionalNullable[bool] = False,
+        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -880,7 +880,7 @@ class Customers(BaseSDK):
         metadata: OptionalNullable[
             Union[models.UpdateCustomerMetadata, models.UpdateCustomerMetadataTypedDict]
         ] = UNSET,
-        testmode: OptionalNullable[bool] = False,
+        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1288,7 +1288,7 @@ class Customers(BaseSDK):
         customer_id: OptionalNullable[str] = UNSET,
         profile_id: Optional[str] = None,
         due_date: Optional[str] = None,
-        testmode: OptionalNullable[bool] = False,
+        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1544,7 +1544,7 @@ class Customers(BaseSDK):
         customer_id: OptionalNullable[str] = UNSET,
         profile_id: Optional[str] = None,
         due_date: Optional[str] = None,
-        testmode: OptionalNullable[bool] = False,
+        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,

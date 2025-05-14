@@ -60,7 +60,7 @@ class UpdateCustomerRequestBody(BaseModel):
     metadata: OptionalNullable[UpdateCustomerMetadata] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
 
-    testmode: OptionalNullable[bool] = False
+    testmode: OptionalNullable[bool] = UNSET
     r"""Whether to create the entity in test mode or live mode.
 
     Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
