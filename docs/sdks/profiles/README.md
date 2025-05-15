@@ -142,7 +142,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.profiles.get(id="pfl_QkEhN94Ba")
+    res = client.profiles.get(id="pfl_QkEhN94Ba", testmode=False)
 
     # Handle response
     print(res)

@@ -140,7 +140,7 @@ class UpdatePaymentRequestBody(BaseModel):
         OptionalNullable[str], pydantic.Field(alias="restrictPaymentMethodsToCountry")
     ] = UNSET
 
-    testmode: OptionalNullable[bool] = False
+    testmode: OptionalNullable[bool] = UNSET
     r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.

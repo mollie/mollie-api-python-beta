@@ -112,7 +112,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.payment_links.list(from_="pl_d9fQur83kFdhH8hIhaZfq")
+    res = client.payment_links.list(from_="pl_d9fQur83kFdhH8hIhaZfq", testmode=False)
 
     # Handle response
     print(res)
@@ -163,7 +163,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.payment_links.get(payment_link_id="pl_d9fQur83kFdhH8hIhaZfq")
+    res = client.payment_links.get(payment_link_id="pl_d9fQur83kFdhH8hIhaZfq", testmode=False)
 
     # Handle response
     print(res)
@@ -213,7 +213,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.payment_links.update(payment_link_id="pl_d9fQur83kFdhH8hIhaZfq", description="Chess Board", minimum_amount={
+    res = client.payment_links.update(payment_link_id="pl_d9fQur83kFdhH8hIhaZfq", testmode=False, description="Chess Board", minimum_amount={
         "currency": "EUR",
         "value": "10.00",
     }, archived=False, allowed_methods=[
@@ -277,7 +277,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.payment_links.delete(payment_link_id="pl_d9fQur83kFdhH8hIhaZfq")
+    res = client.payment_links.delete(payment_link_id="pl_d9fQur83kFdhH8hIhaZfq", testmode=False)
 
     # Handle response
     print(res)
@@ -330,7 +330,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.payment_links.list_payments(payment_link_id="pl_d9fQur83kFdhH8hIhaZfq", from_="tr_5B8cwPMGnU", sort="desc")
+    res = client.payment_links.list_payments(payment_link_id="pl_d9fQur83kFdhH8hIhaZfq", from_="tr_5B8cwPMGnU", sort="desc", testmode=False)
 
     # Handle response
     print(res)

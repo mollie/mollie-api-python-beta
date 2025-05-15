@@ -44,7 +44,7 @@ with Client(
     res = client.methods.list(locale="en_US", amount={
         "currency": "EUR",
         "value": "10.00",
-    }, billing_country="DE", include_wallets="applepay", order_line_categories="eco", profile_id="pfl_5B8cwPMGnU", include=mollie.ListMethodsQueryParamInclude.ISSUERS)
+    }, billing_country="DE", include_wallets="applepay", order_line_categories="eco", profile_id="pfl_5B8cwPMGnU", include=mollie.ListMethodsQueryParamInclude.ISSUERS, testmode=False)
 
     # Handle response
     print(res)
@@ -165,7 +165,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.methods.get(id="ideal", locale="en_US", currency="EUR", profile_id="pfl_5B8cwPMGnU", include=mollie.GetMethodQueryParamInclude.ISSUERS)
+    res = client.methods.get(id="ideal", locale="en_US", currency="EUR", profile_id="pfl_5B8cwPMGnU", include=mollie.GetMethodQueryParamInclude.ISSUERS, testmode=False)
 
     # Handle response
     print(res)

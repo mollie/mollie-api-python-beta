@@ -98,7 +98,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.mandates.list(customer_id="cst_5B8cwPMGnU", from_="mdt_5B8cwPMGnU", sort="desc")
+    res = client.mandates.list(customer_id="cst_5B8cwPMGnU", from_="mdt_5B8cwPMGnU", sort="desc", testmode=False)
 
     # Handle response
     print(res)
@@ -152,7 +152,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.mandates.get(customer_id="cst_5B8cwPMGnU", mandate_id="mdt_5B8cwPMGnU")
+    res = client.mandates.get(customer_id="cst_5B8cwPMGnU", mandate_id="mdt_5B8cwPMGnU", testmode=False)
 
     # Handle response
     print(res)
@@ -203,7 +203,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.mandates.revoke(customer_id="cst_5B8cwPMGnU", mandate_id="mdt_5B8cwPMGnU")
+    res = client.mandates.revoke(customer_id="cst_5B8cwPMGnU", mandate_id="mdt_5B8cwPMGnU", testmode=False)
 
     # Handle response
     print(res)

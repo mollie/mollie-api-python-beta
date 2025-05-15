@@ -35,7 +35,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH")
+    res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH", testmode=False)
 
     # Handle response
     print(res)
@@ -93,7 +93,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.balances.get(id="bal_gVMhHKqSSRYJyPsuoPNFH")
+    res = client.balances.get(id="bal_gVMhHKqSSRYJyPsuoPNFH", testmode=False)
 
     # Handle response
     print(res)
@@ -192,7 +192,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.balances.get_report(balance_id="bal_gVMhHKqSSRYJyPsuoPNFH", from_="2024-01-01", until="2024-02-01", grouping="status-balances")
+    res = client.balances.get_report(balance_id="bal_gVMhHKqSSRYJyPsuoPNFH", from_="2024-01-01", until="2024-02-01", grouping="status-balances", testmode=False)
 
     # Handle response
     print(res)
@@ -250,7 +250,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.balances.list_transactions(balance_id="bal_gVMhHKqSSRYJyPsuoPNFH", from_="baltr_QM24QwzUWR4ev4Xfgyt29A")
+    res = client.balances.list_transactions(balance_id="bal_gVMhHKqSSRYJyPsuoPNFH", from_="baltr_QM24QwzUWR4ev4Xfgyt29A", testmode=False)
 
     # Handle response
     print(res)

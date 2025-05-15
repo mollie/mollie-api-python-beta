@@ -97,7 +97,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.captures.list(payment_id="tr_5B8cwPMGnU", from_="cpt_vytxeTZskVKR7C7WgdSP3d", include=mollie.ListCapturesQueryParamInclude.PAYMENT)
+    res = client.captures.list(payment_id="tr_5B8cwPMGnU", from_="cpt_vytxeTZskVKR7C7WgdSP3d", include=mollie.ListCapturesQueryParamInclude.PAYMENT, testmode=False)
 
     # Handle response
     print(res)
@@ -151,7 +151,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.captures.get(payment_id="tr_5B8cwPMGnU", capture_id="cpt_gVMhHKqSSRYJyPsuoPNFH", include=mollie.GetCaptureQueryParamInclude.PAYMENT)
+    res = client.captures.get(payment_id="tr_5B8cwPMGnU", capture_id="cpt_gVMhHKqSSRYJyPsuoPNFH", include=mollie.GetCaptureQueryParamInclude.PAYMENT, testmode=False)
 
     # Handle response
     print(res)

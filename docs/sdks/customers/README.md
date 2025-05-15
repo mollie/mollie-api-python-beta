@@ -95,7 +95,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.customers.list(from_="cst_5B8cwPMGnU", sort="desc")
+    res = client.customers.list(from_="cst_5B8cwPMGnU", sort="desc", testmode=False)
 
     # Handle response
     print(res)
@@ -146,7 +146,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.customers.get(customer_id="cst_5B8cwPMGnU", include=mollie.GetCustomerQueryParamInclude.EVENTS)
+    res = client.customers.get(customer_id="cst_5B8cwPMGnU", include=mollie.GetCustomerQueryParamInclude.EVENTS, testmode=False)
 
     # Handle response
     print(res)
@@ -249,7 +249,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.customers.delete(customer_id="cst_5B8cwPMGnU")
+    res = client.customers.delete(customer_id="cst_5B8cwPMGnU", testmode=False)
 
     # Handle response
     print(res)
@@ -577,7 +577,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.customers.list_payments(customer_id="cst_5B8cwPMGnU", from_="tr_5B8cwPMGnU", sort="desc")
+    res = client.customers.list_payments(customer_id="cst_5B8cwPMGnU", from_="tr_5B8cwPMGnU", sort="desc", testmode=False)
 
     # Handle response
     print(res)

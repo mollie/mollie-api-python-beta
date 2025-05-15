@@ -35,7 +35,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.organizations.get(id="org_12345678")
+    res = client.organizations.get(id="org_12345678", testmode=False)
 
     # Handle response
     print(res)

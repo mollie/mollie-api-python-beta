@@ -78,7 +78,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.permissions.get(permission_id="payments.read")
+    res = client.permissions.get(permission_id="payments.read", testmode=False)
 
     # Handle response
     print(res)

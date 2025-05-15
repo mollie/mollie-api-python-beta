@@ -35,7 +35,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.chargebacks.list(payment_id="tr_5B8cwPMGnU", from_="chb_xFzwUN4ci8HAmSGUACS4J", embed=mollie.ListChargebacksQueryParamEmbed.PAYMENT)
+    res = client.chargebacks.list(payment_id="tr_5B8cwPMGnU", from_="chb_xFzwUN4ci8HAmSGUACS4J", embed=mollie.ListChargebacksQueryParamEmbed.PAYMENT, testmode=False)
 
     # Handle response
     print(res)
@@ -89,7 +89,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.chargebacks.get(payment_id="tr_5B8cwPMGnU", chargeback_id="chb_xFzwUN4ci8HAmSGUACS4J", embed=mollie.GetChargebackQueryParamEmbed.PAYMENT)
+    res = client.chargebacks.get(payment_id="tr_5B8cwPMGnU", chargeback_id="chb_xFzwUN4ci8HAmSGUACS4J", embed=mollie.GetChargebackQueryParamEmbed.PAYMENT, testmode=False)
 
     # Handle response
     print(res)
@@ -143,7 +143,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.chargebacks.all(from_="chb_xFzwUN4ci8HAmSGUACS4J", embed=mollie.ListAllChargebacksQueryParamEmbed.PAYMENT, sort="desc", profile_id="pfl_5B8cwPMGnU")
+    res = client.chargebacks.all(from_="chb_xFzwUN4ci8HAmSGUACS4J", embed=mollie.ListAllChargebacksQueryParamEmbed.PAYMENT, sort="desc", profile_id="pfl_5B8cwPMGnU", testmode=False)
 
     # Handle response
     print(res)

@@ -120,7 +120,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.subscriptions.list(customer_id="cst_5B8cwPMGnU", from_="sub_5B8cwPMGnU", sort="desc")
+    res = client.subscriptions.list(customer_id="cst_5B8cwPMGnU", from_="sub_5B8cwPMGnU", sort="desc", testmode=False)
 
     # Handle response
     print(res)
@@ -174,7 +174,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.subscriptions.get(customer_id="cst_5B8cwPMGnU", subscription_id="sub_5B8cwPMGnU")
+    res = client.subscriptions.get(customer_id="cst_5B8cwPMGnU", subscription_id="sub_5B8cwPMGnU", testmode=False)
 
     # Handle response
     print(res)
@@ -229,7 +229,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.subscriptions.update(customer_id="cst_5B8cwPMGnU", subscription_id="sub_5B8cwPMGnU", amount={
+    res = client.subscriptions.update(customer_id="cst_5B8cwPMGnU", subscription_id="sub_5B8cwPMGnU", testmode=False, amount={
         "currency": "EUR",
         "value": "10.00",
     }, description="Subscription of streaming channel", interval="1 month", start_date="2025-01-01", times=6, webhook_url="https://example.com/webhook", mandate_id="mdt_5B8cwPMGnU")
@@ -291,7 +291,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.subscriptions.cancel(customer_id="cst_5B8cwPMGnU", subscription_id="sub_5B8cwPMGnU")
+    res = client.subscriptions.cancel(customer_id="cst_5B8cwPMGnU", subscription_id="sub_5B8cwPMGnU", testmode=False)
 
     # Handle response
     print(res)
@@ -344,7 +344,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.subscriptions.all(from_="tr_5B8cwPMGnU", sort="desc")
+    res = client.subscriptions.all(from_="tr_5B8cwPMGnU", sort="desc", testmode=False)
 
     # Handle response
     print(res)
@@ -398,7 +398,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.subscriptions.list_payments(customer_id="cst_5B8cwPMGnU", subscription_id="sub_5B8cwPMGnU", from_="tr_5B8cwPMGnU", sort="desc")
+    res = client.subscriptions.list_payments(customer_id="cst_5B8cwPMGnU", subscription_id="sub_5B8cwPMGnU", from_="tr_5B8cwPMGnU", sort="desc", testmode=False)
 
     # Handle response
     print(res)
