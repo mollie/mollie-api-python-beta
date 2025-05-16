@@ -204,47 +204,44 @@ class CreateClientLinkRequestBody(BaseModel):
 class CreateClientLinkClientLinksResponseDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class CreateClientLinkClientLinksResponseDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class CreateClientLinkClientLinksResponseLinksTypedDict(TypedDict):
-    documentation: NotRequired[
-        CreateClientLinkClientLinksResponseDocumentationTypedDict
-    ]
+    documentation: CreateClientLinkClientLinksResponseDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class CreateClientLinkClientLinksResponseLinks(BaseModel):
-    documentation: Optional[CreateClientLinkClientLinksResponseDocumentation] = None
+    documentation: CreateClientLinkClientLinksResponseDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class CreateClientLinkClientLinksResponseResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
     links: Annotated[
-        Optional[CreateClientLinkClientLinksResponseLinks],
-        pydantic.Field(alias="_links"),
-    ] = None
+        CreateClientLinkClientLinksResponseLinks, pydantic.Field(alias="_links")
+    ]
 
 
 class CreateClientLinkClientLinksResponseResponseBody(Exception):
@@ -264,44 +261,39 @@ class CreateClientLinkClientLinksResponseResponseBody(Exception):
 class CreateClientLinkClientLinksDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class CreateClientLinkClientLinksDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class CreateClientLinkClientLinksLinksTypedDict(TypedDict):
-    documentation: NotRequired[CreateClientLinkClientLinksDocumentationTypedDict]
+    documentation: CreateClientLinkClientLinksDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class CreateClientLinkClientLinksLinks(BaseModel):
-    documentation: Optional[CreateClientLinkClientLinksDocumentation] = None
+    documentation: CreateClientLinkClientLinksDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class CreateClientLinkClientLinksResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[
-        Optional[CreateClientLinkClientLinksLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[CreateClientLinkClientLinksLinks, pydantic.Field(alias="_links")]
 
 
 class CreateClientLinkClientLinksResponseBody(Exception):

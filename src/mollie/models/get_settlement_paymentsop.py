@@ -103,44 +103,44 @@ class GetSettlementPaymentsRequest(BaseModel):
 class GetSettlementPaymentsSettlementsDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class GetSettlementPaymentsSettlementsDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class GetSettlementPaymentsSettlementsLinksTypedDict(TypedDict):
-    documentation: NotRequired[GetSettlementPaymentsSettlementsDocumentationTypedDict]
+    documentation: GetSettlementPaymentsSettlementsDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetSettlementPaymentsSettlementsLinks(BaseModel):
-    documentation: Optional[GetSettlementPaymentsSettlementsDocumentation] = None
+    documentation: GetSettlementPaymentsSettlementsDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetSettlementPaymentsSettlementsResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
     links: Annotated[
-        Optional[GetSettlementPaymentsSettlementsLinks], pydantic.Field(alias="_links")
-    ] = None
+        GetSettlementPaymentsSettlementsLinks, pydantic.Field(alias="_links")
+    ]
 
 
 class GetSettlementPaymentsSettlementsResponseBody(Exception):

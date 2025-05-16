@@ -141,44 +141,39 @@ class GetMethodRequest(BaseModel):
 class GetMethodMethodsResponseDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class GetMethodMethodsResponseDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class GetMethodMethodsResponseLinksTypedDict(TypedDict):
-    documentation: NotRequired[GetMethodMethodsResponseDocumentationTypedDict]
+    documentation: GetMethodMethodsResponseDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetMethodMethodsResponseLinks(BaseModel):
-    documentation: Optional[GetMethodMethodsResponseDocumentation] = None
+    documentation: GetMethodMethodsResponseDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetMethodMethodsResponseResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[
-        Optional[GetMethodMethodsResponseLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[GetMethodMethodsResponseLinks, pydantic.Field(alias="_links")]
 
 
 class GetMethodMethodsResponseResponseBody(Exception):
@@ -196,44 +191,42 @@ class GetMethodMethodsResponseResponseBody(Exception):
 class GetMethodMethodsDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class GetMethodMethodsDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class GetMethodMethodsLinksTypedDict(TypedDict):
-    documentation: NotRequired[GetMethodMethodsDocumentationTypedDict]
+    documentation: GetMethodMethodsDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetMethodMethodsLinks(BaseModel):
-    documentation: Optional[GetMethodMethodsDocumentation] = None
+    documentation: GetMethodMethodsDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetMethodMethodsResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
-    links: Annotated[
-        Optional[GetMethodMethodsLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[GetMethodMethodsLinks, pydantic.Field(alias="_links")]
 
 
 class GetMethodMethodsResponseBody(Exception):

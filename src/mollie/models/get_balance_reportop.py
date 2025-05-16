@@ -105,44 +105,44 @@ class GetBalanceReportRequest(BaseModel):
 class GetBalanceReportBalancesResponseDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class GetBalanceReportBalancesResponseDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class GetBalanceReportBalancesResponseLinksTypedDict(TypedDict):
-    documentation: NotRequired[GetBalanceReportBalancesResponseDocumentationTypedDict]
+    documentation: GetBalanceReportBalancesResponseDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetBalanceReportBalancesResponseLinks(BaseModel):
-    documentation: Optional[GetBalanceReportBalancesResponseDocumentation] = None
+    documentation: GetBalanceReportBalancesResponseDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetBalanceReportBalancesResponseResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
     links: Annotated[
-        Optional[GetBalanceReportBalancesResponseLinks], pydantic.Field(alias="_links")
-    ] = None
+        GetBalanceReportBalancesResponseLinks, pydantic.Field(alias="_links")
+    ]
 
 
 class GetBalanceReportBalancesResponseResponseBody(Exception):
@@ -162,44 +162,39 @@ class GetBalanceReportBalancesResponseResponseBody(Exception):
 class GetBalanceReportBalancesDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class GetBalanceReportBalancesDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class GetBalanceReportBalancesLinksTypedDict(TypedDict):
-    documentation: NotRequired[GetBalanceReportBalancesDocumentationTypedDict]
+    documentation: GetBalanceReportBalancesDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetBalanceReportBalancesLinks(BaseModel):
-    documentation: Optional[GetBalanceReportBalancesDocumentation] = None
+    documentation: GetBalanceReportBalancesDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetBalanceReportBalancesResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[
-        Optional[GetBalanceReportBalancesLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[GetBalanceReportBalancesLinks, pydantic.Field(alias="_links")]
 
 
 class GetBalanceReportBalancesResponseBody(Exception):

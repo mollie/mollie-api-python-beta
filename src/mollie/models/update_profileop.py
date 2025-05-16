@@ -134,44 +134,44 @@ class UpdateProfileRequest(BaseModel):
 class UpdateProfileProfilesResponse422DocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class UpdateProfileProfilesResponse422Documentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class UpdateProfileProfilesResponse422LinksTypedDict(TypedDict):
-    documentation: NotRequired[UpdateProfileProfilesResponse422DocumentationTypedDict]
+    documentation: UpdateProfileProfilesResponse422DocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class UpdateProfileProfilesResponse422Links(BaseModel):
-    documentation: Optional[UpdateProfileProfilesResponse422Documentation] = None
+    documentation: UpdateProfileProfilesResponse422Documentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class UpdateProfileProfilesResponse422ResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
     links: Annotated[
-        Optional[UpdateProfileProfilesResponse422Links], pydantic.Field(alias="_links")
-    ] = None
+        UpdateProfileProfilesResponse422Links, pydantic.Field(alias="_links")
+    ]
 
 
 class UpdateProfileProfilesResponse422ResponseBody(Exception):
@@ -191,44 +191,39 @@ class UpdateProfileProfilesResponse422ResponseBody(Exception):
 class UpdateProfileProfilesResponseDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class UpdateProfileProfilesResponseDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class UpdateProfileProfilesResponseLinksTypedDict(TypedDict):
-    documentation: NotRequired[UpdateProfileProfilesResponseDocumentationTypedDict]
+    documentation: UpdateProfileProfilesResponseDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class UpdateProfileProfilesResponseLinks(BaseModel):
-    documentation: Optional[UpdateProfileProfilesResponseDocumentation] = None
+    documentation: UpdateProfileProfilesResponseDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class UpdateProfileProfilesResponseResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[
-        Optional[UpdateProfileProfilesResponseLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[UpdateProfileProfilesResponseLinks, pydantic.Field(alias="_links")]
 
 
 class UpdateProfileProfilesResponseResponseBody(Exception):
@@ -248,44 +243,39 @@ class UpdateProfileProfilesResponseResponseBody(Exception):
 class UpdateProfileProfilesDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class UpdateProfileProfilesDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class UpdateProfileProfilesLinksTypedDict(TypedDict):
-    documentation: NotRequired[UpdateProfileProfilesDocumentationTypedDict]
+    documentation: UpdateProfileProfilesDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class UpdateProfileProfilesLinks(BaseModel):
-    documentation: Optional[UpdateProfileProfilesDocumentation] = None
+    documentation: UpdateProfileProfilesDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class UpdateProfileProfilesResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[
-        Optional[UpdateProfileProfilesLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[UpdateProfileProfilesLinks, pydantic.Field(alias="_links")]
 
 
 class UpdateProfileProfilesResponseBody(Exception):

@@ -103,44 +103,39 @@ class ListInvoicesRequest(BaseModel):
 class ListInvoicesInvoicesResponseDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class ListInvoicesInvoicesResponseDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class ListInvoicesInvoicesResponseLinksTypedDict(TypedDict):
-    documentation: NotRequired[ListInvoicesInvoicesResponseDocumentationTypedDict]
+    documentation: ListInvoicesInvoicesResponseDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListInvoicesInvoicesResponseLinks(BaseModel):
-    documentation: Optional[ListInvoicesInvoicesResponseDocumentation] = None
+    documentation: ListInvoicesInvoicesResponseDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListInvoicesInvoicesResponseResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[
-        Optional[ListInvoicesInvoicesResponseLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[ListInvoicesInvoicesResponseLinks, pydantic.Field(alias="_links")]
 
 
 class ListInvoicesInvoicesResponseResponseBody(Exception):
@@ -160,44 +155,42 @@ class ListInvoicesInvoicesResponseResponseBody(Exception):
 class ListInvoicesInvoicesDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class ListInvoicesInvoicesDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class ListInvoicesInvoicesLinksTypedDict(TypedDict):
-    documentation: NotRequired[ListInvoicesInvoicesDocumentationTypedDict]
+    documentation: ListInvoicesInvoicesDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListInvoicesInvoicesLinks(BaseModel):
-    documentation: Optional[ListInvoicesInvoicesDocumentation] = None
+    documentation: ListInvoicesInvoicesDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListInvoicesInvoicesResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
-    links: Annotated[
-        Optional[ListInvoicesInvoicesLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[ListInvoicesInvoicesLinks, pydantic.Field(alias="_links")]
 
 
 class ListInvoicesInvoicesResponseBody(Exception):

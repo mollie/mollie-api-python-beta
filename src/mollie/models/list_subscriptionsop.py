@@ -102,47 +102,41 @@ class ListSubscriptionsRequest(BaseModel):
 class ListSubscriptionsSubscriptionsResponseDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class ListSubscriptionsSubscriptionsResponseDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class ListSubscriptionsSubscriptionsResponseLinksTypedDict(TypedDict):
-    documentation: NotRequired[
-        ListSubscriptionsSubscriptionsResponseDocumentationTypedDict
-    ]
+    documentation: ListSubscriptionsSubscriptionsResponseDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListSubscriptionsSubscriptionsResponseLinks(BaseModel):
-    documentation: Optional[ListSubscriptionsSubscriptionsResponseDocumentation] = None
+    documentation: ListSubscriptionsSubscriptionsResponseDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListSubscriptionsSubscriptionsResponseResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
     links: Annotated[
-        Optional[ListSubscriptionsSubscriptionsResponseLinks],
-        pydantic.Field(alias="_links"),
-    ] = None
+        ListSubscriptionsSubscriptionsResponseLinks, pydantic.Field(alias="_links")
+    ]
 
 
 class ListSubscriptionsSubscriptionsResponseResponseBody(Exception):
@@ -162,44 +156,44 @@ class ListSubscriptionsSubscriptionsResponseResponseBody(Exception):
 class ListSubscriptionsSubscriptionsDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class ListSubscriptionsSubscriptionsDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class ListSubscriptionsSubscriptionsLinksTypedDict(TypedDict):
-    documentation: NotRequired[ListSubscriptionsSubscriptionsDocumentationTypedDict]
+    documentation: ListSubscriptionsSubscriptionsDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListSubscriptionsSubscriptionsLinks(BaseModel):
-    documentation: Optional[ListSubscriptionsSubscriptionsDocumentation] = None
+    documentation: ListSubscriptionsSubscriptionsDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListSubscriptionsSubscriptionsResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
     links: Annotated[
-        Optional[ListSubscriptionsSubscriptionsLinks], pydantic.Field(alias="_links")
-    ] = None
+        ListSubscriptionsSubscriptionsLinks, pydantic.Field(alias="_links")
+    ]
 
 
 class ListSubscriptionsSubscriptionsResponseBody(Exception):

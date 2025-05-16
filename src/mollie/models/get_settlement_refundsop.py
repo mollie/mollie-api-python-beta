@@ -103,47 +103,41 @@ class GetSettlementRefundsRequest(BaseModel):
 class GetSettlementRefundsSettlementsResponseDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class GetSettlementRefundsSettlementsResponseDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class GetSettlementRefundsSettlementsResponseLinksTypedDict(TypedDict):
-    documentation: NotRequired[
-        GetSettlementRefundsSettlementsResponseDocumentationTypedDict
-    ]
+    documentation: GetSettlementRefundsSettlementsResponseDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetSettlementRefundsSettlementsResponseLinks(BaseModel):
-    documentation: Optional[GetSettlementRefundsSettlementsResponseDocumentation] = None
+    documentation: GetSettlementRefundsSettlementsResponseDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetSettlementRefundsSettlementsResponseResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
     links: Annotated[
-        Optional[GetSettlementRefundsSettlementsResponseLinks],
-        pydantic.Field(alias="_links"),
-    ] = None
+        GetSettlementRefundsSettlementsResponseLinks, pydantic.Field(alias="_links")
+    ]
 
 
 class GetSettlementRefundsSettlementsResponseResponseBody(Exception):
@@ -163,44 +157,44 @@ class GetSettlementRefundsSettlementsResponseResponseBody(Exception):
 class GetSettlementRefundsSettlementsDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class GetSettlementRefundsSettlementsDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class GetSettlementRefundsSettlementsLinksTypedDict(TypedDict):
-    documentation: NotRequired[GetSettlementRefundsSettlementsDocumentationTypedDict]
+    documentation: GetSettlementRefundsSettlementsDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetSettlementRefundsSettlementsLinks(BaseModel):
-    documentation: Optional[GetSettlementRefundsSettlementsDocumentation] = None
+    documentation: GetSettlementRefundsSettlementsDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetSettlementRefundsSettlementsResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
     links: Annotated[
-        Optional[GetSettlementRefundsSettlementsLinks], pydantic.Field(alias="_links")
-    ] = None
+        GetSettlementRefundsSettlementsLinks, pydantic.Field(alias="_links")
+    ]
 
 
 class GetSettlementRefundsSettlementsResponseBody(Exception):

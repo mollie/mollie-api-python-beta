@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: 923a6e9af8d2dd70c5c80725d11ecf1f
+  docChecksum: 7b06e483dd1072669ab19128ac3ce749
   docVersion: 1.0.0
   speakeasyVersion: 1.545.0
   generationVersion: 2.599.0
-  releaseVersion: 0.3.1
-  configChecksum: 5a0b0fe44e44c8d93533cac4ce7fe05a
+  releaseVersion: 0.3.2
+  configChecksum: 03b1533bd1345da7be8bc007014cd136
   repoURL: https://github.com/mollie/mollie-api-python-alpha.git
   installationURL: https://github.com/mollie/mollie-api-python-alpha.git
   published: true
@@ -641,7 +641,7 @@ generatedFiles:
   - docs/models/getcapturemetadata.md
   - docs/models/getcapturemetadata2.md
   - docs/models/getcapturepayment.md
-  - docs/models/getcapturequeryparaminclude.md
+  - docs/models/getcapturequeryparamembed.md
   - docs/models/getcapturerequest.md
   - docs/models/getcaptureresponsebody.md
   - docs/models/getcaptureself.md
@@ -964,7 +964,7 @@ generatedFiles:
   - docs/models/getsettlementcapturesnext.md
   - docs/models/getsettlementcapturespayment.md
   - docs/models/getsettlementcapturesprevious.md
-  - docs/models/getsettlementcapturesqueryparaminclude.md
+  - docs/models/getsettlementcapturesqueryparamembed.md
   - docs/models/getsettlementcapturesrequest.md
   - docs/models/getsettlementcapturesresponsebody.md
   - docs/models/getsettlementcapturesself.md
@@ -1328,7 +1328,7 @@ generatedFiles:
   - docs/models/listcapturesnext.md
   - docs/models/listcapturespayment.md
   - docs/models/listcapturesprevious.md
-  - docs/models/listcapturesqueryparaminclude.md
+  - docs/models/listcapturesqueryparamembed.md
   - docs/models/listcapturesrequest.md
   - docs/models/listcapturesresponsebody.md
   - docs/models/listcapturesself.md
@@ -2513,7 +2513,7 @@ examples:
         "404":
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "No entity exists with token '7UhSN1zuXS'", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
         "422":
-          application/hal+json: {"status": 422, "title": "Unprocessable Entity", "detail": "The payment cannot be cancelled", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+          application/hal+json: {"status": 422, "title": "Unprocessable Entity", "detail": "The payment cannot be cancelled", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
   release-authorization:
     "":
       parameters:
@@ -2527,7 +2527,7 @@ examples:
         "404":
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "No entity exists with token '7UhSN1zuXS'", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
         "422":
-          application/hal+json: {"status": 422, "title": "Unprocessable Entity", "detail": "Authorization cannot be released because the payment is not in the authorized\nstate.", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+          application/hal+json: {"status": 422, "title": "Unprocessable Entity", "detail": "Authorization cannot be released because the payment is not in the authorized\nstate.", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
   list-methods:
     list-methods-200-1:
       parameters:
@@ -3002,6 +3002,7 @@ examples:
           limit: 50
           include: "payment"
           testmode: false
+          embed: "payment"
       responses:
         "200":
           application/hal+json: {"count": 5, "_embedded": {"captures": [{"resource": "capture", "id": "cpt_vytxeTZskVKR7C7WgdSP3d", "mode": "live", "description": "Capture for cart #12345", "amount": {"currency": "EUR", "value": "35.95"}, "metadata": "{\"bookkeeping_id\":12345}", "paymentId": "tr_5B8cwPMGnU6qLbRvo7qEZo", "createdAt": "2023-08-02T09:29:56.0Z", "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "payment": {"href": "https://api.mollie.com/v2/payments/tr_5B8cwPMGnU6qLbRvo7qEZo", "type": "application/hal+json"}}}, {}, {}, {}, {}]}, "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "previous": null, "next": {"href": "https://api.mollie.com/v2/payments/tr_5B8cwPMGnU6qLbRvo7qEZo/captures?from=cpt_vytxeTZskVKR7C7WgdSP3d&limit=5", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "text/html"}}}
@@ -3014,6 +3015,7 @@ examples:
           limit: 50
           include: "payment"
           testmode: false
+          embed: "payment"
       responses:
         "200":
           application/hal+json: {"count": 1, "_embedded": {"captures": [{"resource": "capture", "id": "cpt_vytxeTZskVKR7C7WgdSP3d", "mode": "test", "amount": {"currency": "EUR", "value": "467.92"}, "settlementAmount": {"currency": "EUR", "value": "467.92"}, "paymentId": "tr_V9kqkGtyUH", "shipmentId": "shp_5x4xQJDWGNcY3tKGL7X5J", "createdAt": "2021-06-03T11:50:58+00:00", "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "payment": {"href": "https://api.mollie.com/v2/payments/tr_V9kqkGtyUH", "type": "application/hal+json"}, "shipment": {"href": "https://api.mollie.com/v2/orders/ord_uvpptr/shipments/shp_5x4xQJDWGNcY3tKGL7X5J", "type": "application/hal+json"}}}]}, "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "previous": null, "next": null, "documentation": {"href": "https://...", "type": "text/html"}}}
@@ -3026,6 +3028,7 @@ examples:
           limit: 50
           include: "payment"
           testmode: false
+          embed: "payment"
       responses:
         "400":
           application/hal+json: {"status": 400, "title": "Bad Request", "detail": "Invalid cursor value", "field": "from", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
@@ -3040,6 +3043,7 @@ examples:
         query:
           include: "payment"
           testmode: false
+          embed: "payment"
       responses:
         "200":
           application/hal+json: {"resource": "capture", "id": "cpt_vytxeTZskVKR7C7WgdSP3d", "mode": "live", "description": "Capture for cart #12345", "amount": {"currency": "EUR", "value": "35.95"}, "metadata": "{\"bookkeeping_id\":12345}", "paymentId": "tr_5B8cwPMGnU6qLbRvo7qEZo", "createdAt": "2023-08-02T09:29:56.0Z", "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "payment": {"href": "https://api.mollie.com/v2/payments/tr_5B8cwPMGnU6qLbRvo7qEZo", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "text/html"}}}
@@ -3051,6 +3055,7 @@ examples:
         query:
           include: "payment"
           testmode: false
+          embed: "payment"
       responses:
         "200":
           application/hal+json: {"resource": "capture", "id": "cpt_vytxeTZskVKR7C7WgdSP3d", "mode": "test", "amount": {"currency": "EUR", "value": "467.92"}, "settlementAmount": {"currency": "EUR", "value": "467.92"}, "paymentId": "tr_V9kqkGtyUH", "shipmentId": "shp_5x4xQJDWGNcY3tKGL7X5J", "createdAt": "2021-06-03T11:50:58+00:00", "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "payment": {"href": "https://api.mollie.com/v2/payments/tr_V9kqkGtyUH", "type": "application/hal+json"}, "shipment": {"href": "https://api.mollie.com/v2/orders/ord_uvpptr/shipments/shp_5x4xQJDWGNcY3tKGL7X5J", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "text/html"}}}
@@ -3062,6 +3067,7 @@ examples:
         query:
           include: "payment"
           testmode: false
+          embed: "payment"
       responses:
         "404":
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "No entity exists with token '7UhSN1zuXS'", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
@@ -3077,7 +3083,7 @@ examples:
         application/json: {"validationUrl": "https://apple-pay-gateway-cert.apple.com/paymentservices/paymentSession", "domain": "pay.myshop.com", "profileId": "pfl_5B8cwPMGnU"}
       responses:
         "422":
-          application/hal+json: {"status": 422, "title": "Unprocessable Entity", "detail": "Apple is not able to verify your domain", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+          application/hal+json: {"status": 422, "title": "Unprocessable Entity", "detail": "Apple is not able to verify your domain", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
   create-payment-link:
     create-payment-link-201-1:
       requestBody:
@@ -3182,7 +3188,7 @@ examples:
         "404":
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "No entity exists with token '7UhSN1zuXS'", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
         "422":
-          application/hal+json: {"status": 422, "title": "Unprocessable Entity", "detail": "At least one body parameter must be provided", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+          application/hal+json: {"status": 422, "title": "Unprocessable Entity", "detail": "At least one body parameter must be provided", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
   delete-payment-link:
     "":
       parameters:
@@ -3196,7 +3202,7 @@ examples:
         "404":
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "No entity exists with token '7UhSN1zuXS'", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
         "422":
-          application/hal+json: {"status": 422, "title": "Unprocessable Entity", "detail": "Payment link cannot be deleted.", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+          application/hal+json: {"status": 422, "title": "Unprocessable Entity", "detail": "Payment link cannot be deleted.", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
   get-payment-link-payments:
     get-payment-link-payments-200-1:
       parameters:
@@ -4038,7 +4044,7 @@ examples:
         "410":
           application/hal+json: {"status": 410, "title": "Gone", "detail": "Profile with token pfl_QkEhN94Ba has been deleted.", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
         "422":
-          application/hal+json: {"status": 422, "title": "Unprocessable Entity", "detail": "At least the 'name', 'website', 'email', 'phone', 'categoryCode', 'businessCategory', 'description', 'countriesOfActivity' or 'mode' field has to be provided", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+          application/hal+json: {"status": 422, "title": "Unprocessable Entity", "detail": "At least the 'name', 'website', 'email', 'phone', 'categoryCode', 'businessCategory', 'description', 'countriesOfActivity' or 'mode' field has to be provided", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
   delete-profile:
     "":
       parameters:
@@ -4431,6 +4437,7 @@ examples:
           limit: 50
           include: "payment"
           testmode: false
+          embed: "payment"
       responses:
         "200":
           application/hal+json: {"count": 5, "_embedded": {"captures": [{"resource": "capture", "id": "cpt_vytxeTZskVKR7C7WgdSP3d", "mode": "live", "description": "Capture for cart #12345", "amount": {"currency": "EUR", "value": "35.95"}, "metadata": "{\"bookkeeping_id\":12345}", "paymentId": "tr_5B8cwPMGnU6qLbRvo7qEZo", "createdAt": "2023-08-02T09:29:56.0Z", "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "payment": {"href": "https://api.mollie.com/v2/payments/tr_5B8cwPMGnU6qLbRvo7qEZo", "type": "application/hal+json"}}}, {}, {}, {}, {}]}, "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "previous": null, "next": {"href": "https://api.mollie.com/v2/payments/tr_5B8cwPMGnU6qLbRvo7qEZo/captures?from=cpt_vytxeTZskVKR7C7WgdSP3d&limit=5", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "text/html"}}}
@@ -4443,6 +4450,7 @@ examples:
           limit: 50
           include: "payment"
           testmode: false
+          embed: "payment"
       responses:
         "200":
           application/hal+json: {"count": 1, "_embedded": {"captures": [{"resource": "capture", "id": "cpt_vytxeTZskVKR7C7WgdSP3d", "mode": "test", "amount": {"currency": "EUR", "value": "467.92"}, "settlementAmount": {"currency": "EUR", "value": "467.92"}, "paymentId": "tr_V9kqkGtyUH", "shipmentId": "shp_5x4xQJDWGNcY3tKGL7X5J", "createdAt": "2021-06-03T11:50:58+00:00", "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "payment": {"href": "https://api.mollie.com/v2/payments/tr_V9kqkGtyUH", "type": "application/hal+json"}, "shipment": {"href": "https://api.mollie.com/v2/orders/ord_uvpptr/shipments/shp_5x4xQJDWGNcY3tKGL7X5J", "type": "application/hal+json"}}}]}, "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "previous": null, "next": null, "documentation": {"href": "https://...", "type": "text/html"}}}
@@ -4455,6 +4463,7 @@ examples:
           limit: 50
           include: "payment"
           testmode: false
+          embed: "payment"
       responses:
         "400":
           application/hal+json: {"status": 400, "title": "Bad Request", "detail": "Invalid cursor value", "field": "from", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}

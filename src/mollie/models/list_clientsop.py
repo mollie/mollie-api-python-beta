@@ -84,44 +84,39 @@ class ListClientsRequest(BaseModel):
 class ListClientsClientsResponseDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class ListClientsClientsResponseDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class ListClientsClientsResponseLinksTypedDict(TypedDict):
-    documentation: NotRequired[ListClientsClientsResponseDocumentationTypedDict]
+    documentation: ListClientsClientsResponseDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListClientsClientsResponseLinks(BaseModel):
-    documentation: Optional[ListClientsClientsResponseDocumentation] = None
+    documentation: ListClientsClientsResponseDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListClientsClientsResponseResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[
-        Optional[ListClientsClientsResponseLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[ListClientsClientsResponseLinks, pydantic.Field(alias="_links")]
 
 
 class ListClientsClientsResponseResponseBody(Exception):
@@ -139,44 +134,42 @@ class ListClientsClientsResponseResponseBody(Exception):
 class ListClientsClientsDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class ListClientsClientsDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class ListClientsClientsLinksTypedDict(TypedDict):
-    documentation: NotRequired[ListClientsClientsDocumentationTypedDict]
+    documentation: ListClientsClientsDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListClientsClientsLinks(BaseModel):
-    documentation: Optional[ListClientsClientsDocumentation] = None
+    documentation: ListClientsClientsDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListClientsClientsResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
-    links: Annotated[
-        Optional[ListClientsClientsLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[ListClientsClientsLinks, pydantic.Field(alias="_links")]
 
 
 class ListClientsClientsResponseBody(Exception):

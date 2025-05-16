@@ -307,7 +307,7 @@ class Captures(BaseSDK):
         payment_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        include: Optional[models.ListCapturesQueryParamInclude] = None,
+        embed: Optional[models.ListCapturesQueryParamEmbed] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -329,7 +329,7 @@ class Captures(BaseSDK):
         :param payment_id: Provide the ID of the related payment.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param embed: This endpoint allows you to embed additional resources via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -350,7 +350,7 @@ class Captures(BaseSDK):
             payment_id=payment_id,
             from_=from_,
             limit=limit,
-            include=include,
+            embed=embed,
             testmode=testmode,
         )
 
@@ -435,7 +435,7 @@ class Captures(BaseSDK):
         payment_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        include: Optional[models.ListCapturesQueryParamInclude] = None,
+        embed: Optional[models.ListCapturesQueryParamEmbed] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -457,7 +457,7 @@ class Captures(BaseSDK):
         :param payment_id: Provide the ID of the related payment.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param embed: This endpoint allows you to embed additional resources via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -478,7 +478,7 @@ class Captures(BaseSDK):
             payment_id=payment_id,
             from_=from_,
             limit=limit,
-            include=include,
+            embed=embed,
             testmode=testmode,
         )
 
@@ -562,7 +562,7 @@ class Captures(BaseSDK):
         *,
         payment_id: str,
         capture_id: str,
-        include: Optional[models.GetCaptureQueryParamInclude] = None,
+        embed: Optional[models.GetCaptureQueryParamEmbed] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -581,7 +581,7 @@ class Captures(BaseSDK):
 
         :param payment_id: Provide the ID of the related payment.
         :param capture_id: Provide the ID of the related capture.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param embed: This endpoint allows you to embed additional resources via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -601,7 +601,7 @@ class Captures(BaseSDK):
         request = models.GetCaptureRequest(
             payment_id=payment_id,
             capture_id=capture_id,
-            include=include,
+            embed=embed,
             testmode=testmode,
         )
 
@@ -680,7 +680,7 @@ class Captures(BaseSDK):
         *,
         payment_id: str,
         capture_id: str,
-        include: Optional[models.GetCaptureQueryParamInclude] = None,
+        embed: Optional[models.GetCaptureQueryParamEmbed] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -699,7 +699,7 @@ class Captures(BaseSDK):
 
         :param payment_id: Provide the ID of the related payment.
         :param capture_id: Provide the ID of the related capture.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param embed: This endpoint allows you to embed additional resources via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -719,7 +719,7 @@ class Captures(BaseSDK):
         request = models.GetCaptureRequest(
             payment_id=payment_id,
             capture_id=capture_id,
-            include=include,
+            embed=embed,
             testmode=testmode,
         )
 

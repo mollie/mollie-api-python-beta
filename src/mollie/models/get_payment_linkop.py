@@ -72,44 +72,39 @@ class GetPaymentLinkRequest(BaseModel):
 class GetPaymentLinkPaymentLinksDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class GetPaymentLinkPaymentLinksDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class GetPaymentLinkPaymentLinksLinksTypedDict(TypedDict):
-    documentation: NotRequired[GetPaymentLinkPaymentLinksDocumentationTypedDict]
+    documentation: GetPaymentLinkPaymentLinksDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetPaymentLinkPaymentLinksLinks(BaseModel):
-    documentation: Optional[GetPaymentLinkPaymentLinksDocumentation] = None
+    documentation: GetPaymentLinkPaymentLinksDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetPaymentLinkPaymentLinksResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[
-        Optional[GetPaymentLinkPaymentLinksLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[GetPaymentLinkPaymentLinksLinks, pydantic.Field(alias="_links")]
 
 
 class GetPaymentLinkPaymentLinksResponseBody(Exception):

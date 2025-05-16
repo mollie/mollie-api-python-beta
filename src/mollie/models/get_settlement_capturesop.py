@@ -11,8 +11,8 @@ from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class GetSettlementCapturesQueryParamInclude(str, Enum):
-    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
+class GetSettlementCapturesQueryParamEmbed(str, Enum):
+    r"""This endpoint allows you to embed additional resources via the `embed` query string parameter."""
 
     PAYMENT = "payment"
 
@@ -24,8 +24,8 @@ class GetSettlementCapturesRequestTypedDict(TypedDict):
     r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set."""
     limit: NotRequired[Nullable[int]]
     r"""The maximum number of items to return. Defaults to 50 items."""
-    include: NotRequired[GetSettlementCapturesQueryParamInclude]
-    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
+    embed: NotRequired[GetSettlementCapturesQueryParamEmbed]
+    r"""This endpoint allows you to embed additional resources via the `embed` query string parameter."""
     testmode: NotRequired[Nullable[bool]]
     r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
 
@@ -54,11 +54,11 @@ class GetSettlementCapturesRequest(BaseModel):
     ] = 50
     r"""The maximum number of items to return. Defaults to 50 items."""
 
-    include: Annotated[
-        Optional[GetSettlementCapturesQueryParamInclude],
+    embed: Annotated[
+        Optional[GetSettlementCapturesQueryParamEmbed],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
+    r"""This endpoint allows you to embed additional resources via the `embed` query string parameter."""
 
     testmode: Annotated[
         OptionalNullable[bool],
@@ -71,7 +71,7 @@ class GetSettlementCapturesRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["from", "limit", "include", "testmode"]
+        optional_fields = ["from", "limit", "embed", "testmode"]
         nullable_fields = ["limit", "testmode"]
         null_default_fields = []
 
@@ -103,49 +103,41 @@ class GetSettlementCapturesRequest(BaseModel):
 class GetSettlementCapturesSettlementsResponseDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class GetSettlementCapturesSettlementsResponseDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class GetSettlementCapturesSettlementsResponseLinksTypedDict(TypedDict):
-    documentation: NotRequired[
-        GetSettlementCapturesSettlementsResponseDocumentationTypedDict
-    ]
+    documentation: GetSettlementCapturesSettlementsResponseDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetSettlementCapturesSettlementsResponseLinks(BaseModel):
-    documentation: Optional[GetSettlementCapturesSettlementsResponseDocumentation] = (
-        None
-    )
+    documentation: GetSettlementCapturesSettlementsResponseDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetSettlementCapturesSettlementsResponseResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
     links: Annotated[
-        Optional[GetSettlementCapturesSettlementsResponseLinks],
-        pydantic.Field(alias="_links"),
-    ] = None
+        GetSettlementCapturesSettlementsResponseLinks, pydantic.Field(alias="_links")
+    ]
 
 
 class GetSettlementCapturesSettlementsResponseResponseBody(Exception):
@@ -165,44 +157,44 @@ class GetSettlementCapturesSettlementsResponseResponseBody(Exception):
 class GetSettlementCapturesSettlementsDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class GetSettlementCapturesSettlementsDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class GetSettlementCapturesSettlementsLinksTypedDict(TypedDict):
-    documentation: NotRequired[GetSettlementCapturesSettlementsDocumentationTypedDict]
+    documentation: GetSettlementCapturesSettlementsDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetSettlementCapturesSettlementsLinks(BaseModel):
-    documentation: Optional[GetSettlementCapturesSettlementsDocumentation] = None
+    documentation: GetSettlementCapturesSettlementsDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetSettlementCapturesSettlementsResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
     links: Annotated[
-        Optional[GetSettlementCapturesSettlementsLinks], pydantic.Field(alias="_links")
-    ] = None
+        GetSettlementCapturesSettlementsLinks, pydantic.Field(alias="_links")
+    ]
 
 
 class GetSettlementCapturesSettlementsResponseBody(Exception):

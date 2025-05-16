@@ -72,44 +72,44 @@ class CancelPaymentRequest(BaseModel):
 class CancelPaymentPaymentsResponseDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class CancelPaymentPaymentsResponseDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class CancelPaymentPaymentsResponse422LinksTypedDict(TypedDict):
-    documentation: NotRequired[CancelPaymentPaymentsResponseDocumentationTypedDict]
+    documentation: CancelPaymentPaymentsResponseDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class CancelPaymentPaymentsResponse422Links(BaseModel):
-    documentation: Optional[CancelPaymentPaymentsResponseDocumentation] = None
+    documentation: CancelPaymentPaymentsResponseDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class CancelPaymentPaymentsResponseResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
     links: Annotated[
-        Optional[CancelPaymentPaymentsResponse422Links], pydantic.Field(alias="_links")
-    ] = None
+        CancelPaymentPaymentsResponse422Links, pydantic.Field(alias="_links")
+    ]
 
 
 class CancelPaymentPaymentsResponseResponseBody(Exception):
@@ -129,44 +129,39 @@ class CancelPaymentPaymentsResponseResponseBody(Exception):
 class CancelPaymentPaymentsDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class CancelPaymentPaymentsDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class CancelPaymentPaymentsResponseLinksTypedDict(TypedDict):
-    documentation: NotRequired[CancelPaymentPaymentsDocumentationTypedDict]
+    documentation: CancelPaymentPaymentsDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class CancelPaymentPaymentsResponseLinks(BaseModel):
-    documentation: Optional[CancelPaymentPaymentsDocumentation] = None
+    documentation: CancelPaymentPaymentsDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class CancelPaymentPaymentsResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[
-        Optional[CancelPaymentPaymentsResponseLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[CancelPaymentPaymentsResponseLinks, pydantic.Field(alias="_links")]
 
 
 class CancelPaymentPaymentsResponseBody(Exception):

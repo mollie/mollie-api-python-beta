@@ -104,45 +104,41 @@ class ListSettlementsRequest(BaseModel):
 class ListSettlementsSettlementsResponseDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class ListSettlementsSettlementsResponseDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class ListSettlementsSettlementsResponseLinksTypedDict(TypedDict):
-    documentation: NotRequired[ListSettlementsSettlementsResponseDocumentationTypedDict]
+    documentation: ListSettlementsSettlementsResponseDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListSettlementsSettlementsResponseLinks(BaseModel):
-    documentation: Optional[ListSettlementsSettlementsResponseDocumentation] = None
+    documentation: ListSettlementsSettlementsResponseDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListSettlementsSettlementsResponseResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
     links: Annotated[
-        Optional[ListSettlementsSettlementsResponseLinks],
-        pydantic.Field(alias="_links"),
-    ] = None
+        ListSettlementsSettlementsResponseLinks, pydantic.Field(alias="_links")
+    ]
 
 
 class ListSettlementsSettlementsResponseResponseBody(Exception):
@@ -162,44 +158,42 @@ class ListSettlementsSettlementsResponseResponseBody(Exception):
 class ListSettlementsSettlementsDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class ListSettlementsSettlementsDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class ListSettlementsSettlementsLinksTypedDict(TypedDict):
-    documentation: NotRequired[ListSettlementsSettlementsDocumentationTypedDict]
+    documentation: ListSettlementsSettlementsDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListSettlementsSettlementsLinks(BaseModel):
-    documentation: Optional[ListSettlementsSettlementsDocumentation] = None
+    documentation: ListSettlementsSettlementsDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListSettlementsSettlementsResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
-    links: Annotated[
-        Optional[ListSettlementsSettlementsLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[ListSettlementsSettlementsLinks, pydantic.Field(alias="_links")]
 
 
 class ListSettlementsSettlementsResponseBody(Exception):

@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 from mollie import utils
-from mollie.types import BaseModel, OptionalNullable, UNSET
+from mollie.types import BaseModel
 from mollie.utils import FieldMetadata, PathParamMetadata
 import pydantic
-from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import Annotated, TypedDict
 
 
 class DeleteProfileRequestTypedDict(TypedDict):
@@ -24,44 +23,39 @@ class DeleteProfileRequest(BaseModel):
 class DeleteProfileProfilesDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class DeleteProfileProfilesDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class DeleteProfileProfilesLinksTypedDict(TypedDict):
-    documentation: NotRequired[DeleteProfileProfilesDocumentationTypedDict]
+    documentation: DeleteProfileProfilesDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class DeleteProfileProfilesLinks(BaseModel):
-    documentation: Optional[DeleteProfileProfilesDocumentation] = None
+    documentation: DeleteProfileProfilesDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class DeleteProfileProfilesResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[
-        Optional[DeleteProfileProfilesLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[DeleteProfileProfilesLinks, pydantic.Field(alias="_links")]
 
 
 class DeleteProfileProfilesResponseBody(Exception):
@@ -79,44 +73,39 @@ class DeleteProfileProfilesResponseBody(Exception):
 class DeleteProfileDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class DeleteProfileDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class DeleteProfileLinksTypedDict(TypedDict):
-    documentation: NotRequired[DeleteProfileDocumentationTypedDict]
+    documentation: DeleteProfileDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class DeleteProfileLinks(BaseModel):
-    documentation: Optional[DeleteProfileDocumentation] = None
+    documentation: DeleteProfileDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class DeleteProfileResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[Optional[DeleteProfileLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
+    links: Annotated[DeleteProfileLinks, pydantic.Field(alias="_links")]
 
 
 class DeleteProfileResponseBody(Exception):

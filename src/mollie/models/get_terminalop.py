@@ -71,44 +71,39 @@ class GetTerminalRequest(BaseModel):
 class GetTerminalTerminalsDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class GetTerminalTerminalsDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class GetTerminalTerminalsLinksTypedDict(TypedDict):
-    documentation: NotRequired[GetTerminalTerminalsDocumentationTypedDict]
+    documentation: GetTerminalTerminalsDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetTerminalTerminalsLinks(BaseModel):
-    documentation: Optional[GetTerminalTerminalsDocumentation] = None
+    documentation: GetTerminalTerminalsDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetTerminalTerminalsResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[
-        Optional[GetTerminalTerminalsLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[GetTerminalTerminalsLinks, pydantic.Field(alias="_links")]
 
 
 class GetTerminalTerminalsResponseBody(Exception):

@@ -127,47 +127,41 @@ class ListAllChargebacksRequest(BaseModel):
 class ListAllChargebacksChargebacksResponseDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class ListAllChargebacksChargebacksResponseDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class ListAllChargebacksChargebacksResponseLinksTypedDict(TypedDict):
-    documentation: NotRequired[
-        ListAllChargebacksChargebacksResponseDocumentationTypedDict
-    ]
+    documentation: ListAllChargebacksChargebacksResponseDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListAllChargebacksChargebacksResponseLinks(BaseModel):
-    documentation: Optional[ListAllChargebacksChargebacksResponseDocumentation] = None
+    documentation: ListAllChargebacksChargebacksResponseDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListAllChargebacksChargebacksResponseResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
     links: Annotated[
-        Optional[ListAllChargebacksChargebacksResponseLinks],
-        pydantic.Field(alias="_links"),
-    ] = None
+        ListAllChargebacksChargebacksResponseLinks, pydantic.Field(alias="_links")
+    ]
 
 
 class ListAllChargebacksChargebacksResponseResponseBody(Exception):
@@ -187,44 +181,42 @@ class ListAllChargebacksChargebacksResponseResponseBody(Exception):
 class ListAllChargebacksChargebacksDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class ListAllChargebacksChargebacksDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class ListAllChargebacksChargebacksLinksTypedDict(TypedDict):
-    documentation: NotRequired[ListAllChargebacksChargebacksDocumentationTypedDict]
+    documentation: ListAllChargebacksChargebacksDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListAllChargebacksChargebacksLinks(BaseModel):
-    documentation: Optional[ListAllChargebacksChargebacksDocumentation] = None
+    documentation: ListAllChargebacksChargebacksDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListAllChargebacksChargebacksResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
-    links: Annotated[
-        Optional[ListAllChargebacksChargebacksLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[ListAllChargebacksChargebacksLinks, pydantic.Field(alias="_links")]
 
 
 class ListAllChargebacksChargebacksResponseBody(Exception):

@@ -124,44 +124,42 @@ class ListAllMethodsRequest(BaseModel):
 class ListAllMethodsMethodsDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class ListAllMethodsMethodsDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class ListAllMethodsMethodsLinksTypedDict(TypedDict):
-    documentation: NotRequired[ListAllMethodsMethodsDocumentationTypedDict]
+    documentation: ListAllMethodsMethodsDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListAllMethodsMethodsLinks(BaseModel):
-    documentation: Optional[ListAllMethodsMethodsDocumentation] = None
+    documentation: ListAllMethodsMethodsDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ListAllMethodsMethodsResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
-    links: Annotated[
-        Optional[ListAllMethodsMethodsLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[ListAllMethodsMethodsLinks, pydantic.Field(alias="_links")]
 
 
 class ListAllMethodsMethodsResponseBody(Exception):

@@ -275,44 +275,44 @@ class CreateRefundRequest(BaseModel):
 class CreateRefundRefundsResponse422DocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class CreateRefundRefundsResponse422Documentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class CreateRefundRefundsResponse422LinksTypedDict(TypedDict):
-    documentation: NotRequired[CreateRefundRefundsResponse422DocumentationTypedDict]
+    documentation: CreateRefundRefundsResponse422DocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class CreateRefundRefundsResponse422Links(BaseModel):
-    documentation: Optional[CreateRefundRefundsResponse422Documentation] = None
+    documentation: CreateRefundRefundsResponse422Documentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class CreateRefundRefundsResponse422ResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
     links: Annotated[
-        Optional[CreateRefundRefundsResponse422Links], pydantic.Field(alias="_links")
-    ] = None
+        CreateRefundRefundsResponse422Links, pydantic.Field(alias="_links")
+    ]
 
 
 class CreateRefundRefundsResponse422ResponseBody(Exception):
@@ -332,44 +332,39 @@ class CreateRefundRefundsResponse422ResponseBody(Exception):
 class CreateRefundRefundsResponseDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class CreateRefundRefundsResponseDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class CreateRefundRefundsResponseLinksTypedDict(TypedDict):
-    documentation: NotRequired[CreateRefundRefundsResponseDocumentationTypedDict]
+    documentation: CreateRefundRefundsResponseDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class CreateRefundRefundsResponseLinks(BaseModel):
-    documentation: Optional[CreateRefundRefundsResponseDocumentation] = None
+    documentation: CreateRefundRefundsResponseDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class CreateRefundRefundsResponseResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[
-        Optional[CreateRefundRefundsResponseLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[CreateRefundRefundsResponseLinks, pydantic.Field(alias="_links")]
 
 
 class CreateRefundRefundsResponseResponseBody(Exception):
@@ -389,44 +384,39 @@ class CreateRefundRefundsResponseResponseBody(Exception):
 class CreateRefundRefundsDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class CreateRefundRefundsDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class CreateRefundRefundsLinksTypedDict(TypedDict):
-    documentation: NotRequired[CreateRefundRefundsDocumentationTypedDict]
+    documentation: CreateRefundRefundsDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class CreateRefundRefundsLinks(BaseModel):
-    documentation: Optional[CreateRefundRefundsDocumentation] = None
+    documentation: CreateRefundRefundsDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class CreateRefundRefundsResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[
-        Optional[CreateRefundRefundsLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[CreateRefundRefundsLinks, pydantic.Field(alias="_links")]
 
 
 class CreateRefundRefundsResponseBody(Exception):

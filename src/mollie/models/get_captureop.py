@@ -11,8 +11,8 @@ from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class GetCaptureQueryParamInclude(str, Enum):
-    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
+class GetCaptureQueryParamEmbed(str, Enum):
+    r"""This endpoint allows you to embed additional resources via the `embed` query string parameter."""
 
     PAYMENT = "payment"
 
@@ -22,8 +22,8 @@ class GetCaptureRequestTypedDict(TypedDict):
     r"""Provide the ID of the related payment."""
     capture_id: str
     r"""Provide the ID of the related capture."""
-    include: NotRequired[GetCaptureQueryParamInclude]
-    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
+    embed: NotRequired[GetCaptureQueryParamEmbed]
+    r"""This endpoint allows you to embed additional resources via the `embed` query string parameter."""
     testmode: NotRequired[Nullable[bool]]
     r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
 
@@ -46,11 +46,11 @@ class GetCaptureRequest(BaseModel):
     ]
     r"""Provide the ID of the related capture."""
 
-    include: Annotated[
-        Optional[GetCaptureQueryParamInclude],
+    embed: Annotated[
+        Optional[GetCaptureQueryParamEmbed],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
+    r"""This endpoint allows you to embed additional resources via the `embed` query string parameter."""
 
     testmode: Annotated[
         OptionalNullable[bool],
@@ -63,7 +63,7 @@ class GetCaptureRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["include", "testmode"]
+        optional_fields = ["embed", "testmode"]
         nullable_fields = ["testmode"]
         null_default_fields = []
 
@@ -95,44 +95,39 @@ class GetCaptureRequest(BaseModel):
 class GetCaptureCapturesDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class GetCaptureCapturesDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class GetCaptureCapturesLinksTypedDict(TypedDict):
-    documentation: NotRequired[GetCaptureCapturesDocumentationTypedDict]
+    documentation: GetCaptureCapturesDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetCaptureCapturesLinks(BaseModel):
-    documentation: Optional[GetCaptureCapturesDocumentation] = None
+    documentation: GetCaptureCapturesDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class GetCaptureCapturesResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[
-        Optional[GetCaptureCapturesLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[GetCaptureCapturesLinks, pydantic.Field(alias="_links")]
 
 
 class GetCaptureCapturesResponseBody(Exception):

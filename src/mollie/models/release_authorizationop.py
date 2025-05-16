@@ -6,7 +6,6 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -71,44 +70,42 @@ class ReleaseAuthorizationRequest(BaseModel):
 class ReleaseAuthorizationPaymentsDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class ReleaseAuthorizationPaymentsDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class ReleaseAuthorizationPaymentsLinksTypedDict(TypedDict):
-    documentation: NotRequired[ReleaseAuthorizationPaymentsDocumentationTypedDict]
+    documentation: ReleaseAuthorizationPaymentsDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ReleaseAuthorizationPaymentsLinks(BaseModel):
-    documentation: Optional[ReleaseAuthorizationPaymentsDocumentation] = None
+    documentation: ReleaseAuthorizationPaymentsDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ReleaseAuthorizationPaymentsResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
-    links: Annotated[
-        Optional[ReleaseAuthorizationPaymentsLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[ReleaseAuthorizationPaymentsLinks, pydantic.Field(alias="_links")]
 
 
 class ReleaseAuthorizationPaymentsResponseBody(Exception):
@@ -128,44 +125,39 @@ class ReleaseAuthorizationPaymentsResponseBody(Exception):
 class ReleaseAuthorizationDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class ReleaseAuthorizationDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class ReleaseAuthorizationLinksTypedDict(TypedDict):
-    documentation: NotRequired[ReleaseAuthorizationDocumentationTypedDict]
+    documentation: ReleaseAuthorizationDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ReleaseAuthorizationLinks(BaseModel):
-    documentation: Optional[ReleaseAuthorizationDocumentation] = None
+    documentation: ReleaseAuthorizationDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class ReleaseAuthorizationResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[
-        Optional[ReleaseAuthorizationLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[ReleaseAuthorizationLinks, pydantic.Field(alias="_links")]
 
 
 class ReleaseAuthorizationResponseBody(Exception):

@@ -191,47 +191,44 @@ class UpdatePaymentLinkRequest(BaseModel):
 class UpdatePaymentLinkPaymentLinksResponseDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class UpdatePaymentLinkPaymentLinksResponseDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class UpdatePaymentLinkPaymentLinksResponseLinksTypedDict(TypedDict):
-    documentation: NotRequired[
-        UpdatePaymentLinkPaymentLinksResponseDocumentationTypedDict
-    ]
+    documentation: UpdatePaymentLinkPaymentLinksResponseDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class UpdatePaymentLinkPaymentLinksResponseLinks(BaseModel):
-    documentation: Optional[UpdatePaymentLinkPaymentLinksResponseDocumentation] = None
+    documentation: UpdatePaymentLinkPaymentLinksResponseDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class UpdatePaymentLinkPaymentLinksResponseResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
+    field: str
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
     links: Annotated[
-        Optional[UpdatePaymentLinkPaymentLinksResponseLinks],
-        pydantic.Field(alias="_links"),
-    ] = None
+        UpdatePaymentLinkPaymentLinksResponseLinks, pydantic.Field(alias="_links")
+    ]
 
 
 class UpdatePaymentLinkPaymentLinksResponseResponseBody(Exception):
@@ -251,44 +248,39 @@ class UpdatePaymentLinkPaymentLinksResponseResponseBody(Exception):
 class UpdatePaymentLinkPaymentLinksDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: NotRequired[str]
-    type: NotRequired[str]
+    href: str
+    type: str
 
 
 class UpdatePaymentLinkPaymentLinksDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
-    href: Optional[str] = "https://docs.mollie.com/errors"
+    href: str
 
-    type: Optional[str] = "text/html"
+    type: str
 
 
 class UpdatePaymentLinkPaymentLinksLinksTypedDict(TypedDict):
-    documentation: NotRequired[UpdatePaymentLinkPaymentLinksDocumentationTypedDict]
+    documentation: UpdatePaymentLinkPaymentLinksDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class UpdatePaymentLinkPaymentLinksLinks(BaseModel):
-    documentation: Optional[UpdatePaymentLinkPaymentLinksDocumentation] = None
+    documentation: UpdatePaymentLinkPaymentLinksDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class UpdatePaymentLinkPaymentLinksResponseBodyData(BaseModel):
-    status: Optional[int] = None
+    status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
-    title: Optional[str] = None
+    title: str
     r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
 
-    detail: Optional[str] = None
+    detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: OptionalNullable[str] = UNSET
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
-    links: Annotated[
-        Optional[UpdatePaymentLinkPaymentLinksLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[UpdatePaymentLinkPaymentLinksLinks, pydantic.Field(alias="_links")]
 
 
 class UpdatePaymentLinkPaymentLinksResponseBody(Exception):
