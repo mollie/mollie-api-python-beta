@@ -6,6 +6,7 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
+from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -102,10 +103,10 @@ class DeletePaymentLinkPaymentLinksResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: str
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
     links: Annotated[DeletePaymentLinkPaymentLinksLinks, pydantic.Field(alias="_links")]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class DeletePaymentLinkPaymentLinksResponseBody(Exception):
@@ -158,6 +159,9 @@ class DeletePaymentLinkResponseBodyData(BaseModel):
     r"""A detailed human-readable description of the error that occurred."""
 
     links: Annotated[DeletePaymentLinkLinks, pydantic.Field(alias="_links")]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class DeletePaymentLinkResponseBody(Exception):

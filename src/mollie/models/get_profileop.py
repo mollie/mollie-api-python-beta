@@ -103,6 +103,9 @@ class GetProfileProfilesResponseResponseBodyData(BaseModel):
 
     links: Annotated[GetProfileProfilesResponseLinks, pydantic.Field(alias="_links")]
 
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+
 
 class GetProfileProfilesResponseResponseBody(Exception):
     r"""An error response object."""
@@ -152,6 +155,9 @@ class GetProfileProfilesResponseBodyData(BaseModel):
     r"""A detailed human-readable description of the error that occurred."""
 
     links: Annotated[GetProfileProfilesLinks, pydantic.Field(alias="_links")]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class GetProfileProfilesResponseBody(Exception):

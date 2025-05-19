@@ -5,6 +5,7 @@ from mollie import utils
 from mollie.types import BaseModel
 from mollie.utils import FieldMetadata, PathParamMetadata
 import pydantic
+from typing import Optional
 from typing_extensions import Annotated, TypedDict
 
 
@@ -57,6 +58,9 @@ class DeleteProfileProfilesResponseBodyData(BaseModel):
 
     links: Annotated[DeleteProfileProfilesLinks, pydantic.Field(alias="_links")]
 
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+
 
 class DeleteProfileProfilesResponseBody(Exception):
     r"""An error response object."""
@@ -106,6 +110,9 @@ class DeleteProfileResponseBodyData(BaseModel):
     r"""A detailed human-readable description of the error that occurred."""
 
     links: Annotated[DeleteProfileLinks, pydantic.Field(alias="_links")]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class DeleteProfileResponseBody(Exception):

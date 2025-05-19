@@ -206,6 +206,9 @@ class CreateMandateMandatesResponseBodyData(BaseModel):
 
     links: Annotated[CreateMandateMandatesLinks, pydantic.Field(alias="_links")]
 
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+
 
 class CreateMandateMandatesResponseBody(Exception):
     r"""An error response object."""

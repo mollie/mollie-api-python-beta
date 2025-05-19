@@ -155,10 +155,10 @@ class CreateCaptureCapturesResponseResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: str
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
     links: Annotated[CreateCaptureCapturesResponseLinks, pydantic.Field(alias="_links")]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class CreateCaptureCapturesResponseResponseBody(Exception):
@@ -211,6 +211,9 @@ class CreateCaptureCapturesResponseBodyData(BaseModel):
     r"""A detailed human-readable description of the error that occurred."""
 
     links: Annotated[CreateCaptureCapturesLinks, pydantic.Field(alias="_links")]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class CreateCaptureCapturesResponseBody(Exception):

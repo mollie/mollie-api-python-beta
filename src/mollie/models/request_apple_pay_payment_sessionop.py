@@ -5,6 +5,7 @@ from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
+from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -107,10 +108,10 @@ class RequestApplePayPaymentSessionResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: str
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
     links: Annotated[RequestApplePayPaymentSessionLinks, pydantic.Field(alias="_links")]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class RequestApplePayPaymentSessionResponseBody(Exception):

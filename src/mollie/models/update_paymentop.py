@@ -273,7 +273,7 @@ class UpdatePaymentRequestBodyTypedDict(TypedDict):
 
     The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
     """
-    redirect_url: NotRequired[str]
+    redirect_url: NotRequired[Nullable[str]]
     r"""The URL your customer will be redirected to after the payment process.
 
     It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
@@ -349,7 +349,9 @@ class UpdatePaymentRequestBody(BaseModel):
     The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
     """
 
-    redirect_url: Annotated[Optional[str], pydantic.Field(alias="redirectUrl")] = None
+    redirect_url: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="redirectUrl")
+    ] = UNSET
     r"""The URL your customer will be redirected to after the payment process.
 
     It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
@@ -456,6 +458,7 @@ class UpdatePaymentRequestBody(BaseModel):
             "billingEmail",
         ]
         nullable_fields = [
+            "redirectUrl",
             "cancelUrl",
             "webhookUrl",
             "metadata",
@@ -546,12 +549,12 @@ class UpdatePaymentPaymentsResponseResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: str
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
     links: Annotated[
         UpdatePaymentPaymentsResponse422Links, pydantic.Field(alias="_links")
     ]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class UpdatePaymentPaymentsResponseResponseBody(Exception):
@@ -604,6 +607,9 @@ class UpdatePaymentPaymentsResponseBodyData(BaseModel):
     r"""A detailed human-readable description of the error that occurred."""
 
     links: Annotated[UpdatePaymentPaymentsResponseLinks, pydantic.Field(alias="_links")]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class UpdatePaymentPaymentsResponseBody(Exception):
@@ -1526,6 +1532,8 @@ class UpdatePaymentPaymentsLinks(BaseModel):
 
 
 class UpdatePaymentRoutingTypedDict(TypedDict):
+    resource: str
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
     id: str
     r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID. Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`."""
     mode: str
@@ -1539,18 +1547,19 @@ class UpdatePaymentRoutingTypedDict(TypedDict):
     r"""The destination of this portion of the payment."""
     created_at: str
     r"""The date and time when the route was created. The date is given in ISO 8601 format."""
-    resource: NotRequired[str]
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
+    links: UpdatePaymentPaymentsLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     release_date: NotRequired[Nullable[str]]
     r"""Optionally, schedule this portion of the payment to be transferred to its destination on a later date. The date must be given in `YYYY-MM-DD` format.
 
     If no date is given, the funds become available to the connected merchant as soon as the payment succeeds.
     """
-    links: NotRequired[UpdatePaymentPaymentsLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class UpdatePaymentRouting(BaseModel):
+    resource: str
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
+
     id: str
     r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID. Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`."""
 
@@ -1569,8 +1578,8 @@ class UpdatePaymentRouting(BaseModel):
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The date and time when the route was created. The date is given in ISO 8601 format."""
 
-    resource: Optional[str] = "route"
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
+    links: Annotated[UpdatePaymentPaymentsLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     release_date: Annotated[
         OptionalNullable[str], pydantic.Field(alias="releaseDate")
@@ -1580,14 +1589,9 @@ class UpdatePaymentRouting(BaseModel):
     If no date is given, the funds become available to the connected merchant as soon as the payment succeeds.
     """
 
-    links: Annotated[
-        Optional[UpdatePaymentPaymentsLinks], pydantic.Field(alias="_links")
-    ] = None
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["resource", "releaseDate", "_links"]
+        optional_fields = ["releaseDate"]
         nullable_fields = ["releaseDate"]
         null_default_fields = []
 
@@ -1943,8 +1947,6 @@ class UpdatePaymentLinksTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     dashboard: UpdatePaymentDashboardTypedDict
     r"""Direct link to the payment in the Mollie Dashboard."""
-    documentation: UpdatePaymentDocumentationTypedDict
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     checkout: NotRequired[UpdatePaymentCheckoutTypedDict]
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
     mobile_app_checkout: NotRequired[UpdatePaymentMobileAppCheckoutTypedDict]
@@ -1974,6 +1976,8 @@ class UpdatePaymentLinksTypedDict(TypedDict):
     r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
     terminal: NotRequired[UpdatePaymentTerminalTypedDict]
     r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
+    documentation: NotRequired[UpdatePaymentDocumentationTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class UpdatePaymentLinks(BaseModel):
@@ -1984,9 +1988,6 @@ class UpdatePaymentLinks(BaseModel):
 
     dashboard: UpdatePaymentDashboard
     r"""Direct link to the payment in the Mollie Dashboard."""
-
-    documentation: UpdatePaymentDocumentation
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     checkout: Optional[UpdatePaymentCheckout] = None
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
@@ -2034,6 +2035,9 @@ class UpdatePaymentLinks(BaseModel):
 
     terminal: Optional[UpdatePaymentTerminal] = None
     r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
+
+    documentation: Optional[UpdatePaymentDocumentation] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class UpdatePaymentResponseBodyTypedDict(TypedDict):
@@ -2108,7 +2112,7 @@ class UpdatePaymentResponseBodyTypedDict(TypedDict):
 
     Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
-    redirect_url: NotRequired[str]
+    redirect_url: NotRequired[Nullable[str]]
     r"""The URL your customer will be redirected to after the payment process.
 
     It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
@@ -2351,7 +2355,9 @@ class UpdatePaymentResponseBody(BaseModel):
     Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
 
-    redirect_url: Annotated[Optional[str], pydantic.Field(alias="redirectUrl")] = None
+    redirect_url: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="redirectUrl")
+    ] = UNSET
     r"""The URL your customer will be redirected to after the payment process.
 
     It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
@@ -2609,6 +2615,7 @@ class UpdatePaymentResponseBody(BaseModel):
             "failedAt",
         ]
         nullable_fields = [
+            "redirectUrl",
             "cancelUrl",
             "webhookUrl",
             "lines",

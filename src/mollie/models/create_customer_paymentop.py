@@ -822,13 +822,13 @@ class CreateCustomerPaymentRoutingTypedDict(TypedDict):
     r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
     destination: CreateCustomerPaymentDestinationTypedDict
     r"""The destination of this portion of the payment."""
+    links: CreateCustomerPaymentLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     release_date: NotRequired[Nullable[str]]
     r"""Optionally, schedule this portion of the payment to be transferred to its destination on a later date. The date must be given in `YYYY-MM-DD` format.
 
     If no date is given, the funds become available to the connected merchant as soon as the payment succeeds.
     """
-    links: NotRequired[CreateCustomerPaymentLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class CreateCustomerPaymentRouting(BaseModel):
@@ -838,6 +838,9 @@ class CreateCustomerPaymentRouting(BaseModel):
     destination: CreateCustomerPaymentDestination
     r"""The destination of this portion of the payment."""
 
+    links: Annotated[CreateCustomerPaymentLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
     release_date: Annotated[
         OptionalNullable[str], pydantic.Field(alias="releaseDate")
     ] = UNSET
@@ -846,14 +849,9 @@ class CreateCustomerPaymentRouting(BaseModel):
     If no date is given, the funds become available to the connected merchant as soon as the payment succeeds.
     """
 
-    links: Annotated[
-        Optional[CreateCustomerPaymentLinks], pydantic.Field(alias="_links")
-    ] = None
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["releaseDate", "_links"]
+        optional_fields = ["releaseDate"]
         nullable_fields = ["releaseDate"]
         null_default_fields = []
 
@@ -897,7 +895,7 @@ class CreateCustomerPaymentRequestBodyTypedDict(TypedDict):
 
     If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the tip amount.
     """
-    redirect_url: str
+    redirect_url: Nullable[str]
     r"""The URL your customer will be redirected to after the payment process.
 
     It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
@@ -1069,7 +1067,7 @@ class CreateCustomerPaymentRequestBody(BaseModel):
     If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the tip amount.
     """
 
-    redirect_url: Annotated[str, pydantic.Field(alias="redirectUrl")]
+    redirect_url: Annotated[Nullable[str], pydantic.Field(alias="redirectUrl")]
     r"""The URL your customer will be redirected to after the payment process.
 
     It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
@@ -1293,6 +1291,7 @@ class CreateCustomerPaymentRequestBody(BaseModel):
             "testmode",
         ]
         nullable_fields = [
+            "redirectUrl",
             "cancelUrl",
             "webhookUrl",
             "lines",
@@ -1396,6 +1395,9 @@ class CreateCustomerPaymentCustomersResponseResponseBodyData(BaseModel):
         CreateCustomerPaymentCustomersResponse503Links, pydantic.Field(alias="_links")
     ]
 
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+
 
 class CreateCustomerPaymentCustomersResponseResponseBody(Exception):
     r"""An error response object."""
@@ -1446,12 +1448,12 @@ class CreateCustomerPaymentCustomersResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: str
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
     links: Annotated[
         CreateCustomerPaymentCustomersResponse422Links, pydantic.Field(alias="_links")
     ]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class CreateCustomerPaymentCustomersResponseBody(Exception):
@@ -2393,6 +2395,8 @@ class CreateCustomerPaymentCustomersResponseLinks(BaseModel):
 
 
 class CreateCustomerPaymentCustomersRoutingTypedDict(TypedDict):
+    resource: str
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
     id: str
     r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID. Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`."""
     mode: str
@@ -2408,18 +2412,19 @@ class CreateCustomerPaymentCustomersRoutingTypedDict(TypedDict):
     r"""The destination of this portion of the payment."""
     created_at: str
     r"""The date and time when the route was created. The date is given in ISO 8601 format."""
-    resource: NotRequired[str]
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
+    links: CreateCustomerPaymentCustomersResponseLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     release_date: NotRequired[Nullable[str]]
     r"""Optionally, schedule this portion of the payment to be transferred to its destination on a later date. The date must be given in `YYYY-MM-DD` format.
 
     If no date is given, the funds become available to the connected merchant as soon as the payment succeeds.
     """
-    links: NotRequired[CreateCustomerPaymentCustomersResponseLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class CreateCustomerPaymentCustomersRouting(BaseModel):
+    resource: str
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
+
     id: str
     r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID. Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`."""
 
@@ -2438,8 +2443,10 @@ class CreateCustomerPaymentCustomersRouting(BaseModel):
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The date and time when the route was created. The date is given in ISO 8601 format."""
 
-    resource: Optional[str] = "route"
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
+    links: Annotated[
+        CreateCustomerPaymentCustomersResponseLinks, pydantic.Field(alias="_links")
+    ]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     release_date: Annotated[
         OptionalNullable[str], pydantic.Field(alias="releaseDate")
@@ -2449,15 +2456,9 @@ class CreateCustomerPaymentCustomersRouting(BaseModel):
     If no date is given, the funds become available to the connected merchant as soon as the payment succeeds.
     """
 
-    links: Annotated[
-        Optional[CreateCustomerPaymentCustomersResponseLinks],
-        pydantic.Field(alias="_links"),
-    ] = None
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["resource", "releaseDate", "_links"]
+        optional_fields = ["releaseDate"]
         nullable_fields = ["releaseDate"]
         null_default_fields = []
 
@@ -2813,8 +2814,6 @@ class CreateCustomerPaymentCustomersLinksTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     dashboard: CreateCustomerPaymentDashboardTypedDict
     r"""Direct link to the payment in the Mollie Dashboard."""
-    documentation: CreateCustomerPaymentDocumentationTypedDict
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     checkout: NotRequired[CreateCustomerPaymentCheckoutTypedDict]
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
     mobile_app_checkout: NotRequired[CreateCustomerPaymentMobileAppCheckoutTypedDict]
@@ -2844,6 +2843,8 @@ class CreateCustomerPaymentCustomersLinksTypedDict(TypedDict):
     r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
     terminal: NotRequired[CreateCustomerPaymentTerminalTypedDict]
     r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
+    documentation: NotRequired[CreateCustomerPaymentDocumentationTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class CreateCustomerPaymentCustomersLinks(BaseModel):
@@ -2854,9 +2855,6 @@ class CreateCustomerPaymentCustomersLinks(BaseModel):
 
     dashboard: CreateCustomerPaymentDashboard
     r"""Direct link to the payment in the Mollie Dashboard."""
-
-    documentation: CreateCustomerPaymentDocumentation
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     checkout: Optional[CreateCustomerPaymentCheckout] = None
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
@@ -2904,6 +2902,9 @@ class CreateCustomerPaymentCustomersLinks(BaseModel):
 
     terminal: Optional[CreateCustomerPaymentTerminal] = None
     r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
+
+    documentation: Optional[CreateCustomerPaymentDocumentation] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class CreateCustomerPaymentResponseBodyTypedDict(TypedDict):
@@ -2978,7 +2979,7 @@ class CreateCustomerPaymentResponseBodyTypedDict(TypedDict):
 
     Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
-    redirect_url: NotRequired[str]
+    redirect_url: NotRequired[Nullable[str]]
     r"""The URL your customer will be redirected to after the payment process.
 
     It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
@@ -3230,7 +3231,9 @@ class CreateCustomerPaymentResponseBody(BaseModel):
     Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
 
-    redirect_url: Annotated[Optional[str], pydantic.Field(alias="redirectUrl")] = None
+    redirect_url: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="redirectUrl")
+    ] = UNSET
     r"""The URL your customer will be redirected to after the payment process.
 
     It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
@@ -3488,6 +3491,7 @@ class CreateCustomerPaymentResponseBody(BaseModel):
             "failedAt",
         ]
         nullable_fields = [
+            "redirectUrl",
             "cancelUrl",
             "webhookUrl",
             "lines",

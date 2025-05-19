@@ -122,6 +122,9 @@ class ListBalancesBalancesResponseResponseBodyData(BaseModel):
 
     links: Annotated[ListBalancesBalancesResponseLinks, pydantic.Field(alias="_links")]
 
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+
 
 class ListBalancesBalancesResponseResponseBody(Exception):
     r"""An error response object."""
@@ -172,10 +175,10 @@ class ListBalancesBalancesResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: str
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
     links: Annotated[ListBalancesBalancesLinks, pydantic.Field(alias="_links")]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class ListBalancesBalancesResponseBody(Exception):

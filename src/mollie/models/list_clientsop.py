@@ -118,6 +118,9 @@ class ListClientsClientsResponseResponseBodyData(BaseModel):
 
     links: Annotated[ListClientsClientsResponseLinks, pydantic.Field(alias="_links")]
 
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+
 
 class ListClientsClientsResponseResponseBody(Exception):
     r"""An error response object."""
@@ -166,10 +169,10 @@ class ListClientsClientsResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: str
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
     links: Annotated[ListClientsClientsLinks, pydantic.Field(alias="_links")]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class ListClientsClientsResponseBody(Exception):

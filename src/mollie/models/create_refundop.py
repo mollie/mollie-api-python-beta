@@ -307,12 +307,12 @@ class CreateRefundRefundsResponse422ResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: str
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
     links: Annotated[
         CreateRefundRefundsResponse422Links, pydantic.Field(alias="_links")
     ]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class CreateRefundRefundsResponse422ResponseBody(Exception):
@@ -366,6 +366,9 @@ class CreateRefundRefundsResponseResponseBodyData(BaseModel):
 
     links: Annotated[CreateRefundRefundsResponseLinks, pydantic.Field(alias="_links")]
 
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+
 
 class CreateRefundRefundsResponseResponseBody(Exception):
     r"""An error response object."""
@@ -417,6 +420,9 @@ class CreateRefundRefundsResponseBodyData(BaseModel):
     r"""A detailed human-readable description of the error that occurred."""
 
     links: Annotated[CreateRefundRefundsLinks, pydantic.Field(alias="_links")]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class CreateRefundRefundsResponseBody(Exception):

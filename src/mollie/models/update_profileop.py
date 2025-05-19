@@ -166,12 +166,12 @@ class UpdateProfileProfilesResponse422ResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: str
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
     links: Annotated[
         UpdateProfileProfilesResponse422Links, pydantic.Field(alias="_links")
     ]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class UpdateProfileProfilesResponse422ResponseBody(Exception):
@@ -225,6 +225,9 @@ class UpdateProfileProfilesResponseResponseBodyData(BaseModel):
 
     links: Annotated[UpdateProfileProfilesResponseLinks, pydantic.Field(alias="_links")]
 
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+
 
 class UpdateProfileProfilesResponseResponseBody(Exception):
     r"""An error response object."""
@@ -276,6 +279,9 @@ class UpdateProfileProfilesResponseBodyData(BaseModel):
     r"""A detailed human-readable description of the error that occurred."""
 
     links: Annotated[UpdateProfileProfilesLinks, pydantic.Field(alias="_links")]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class UpdateProfileProfilesResponseBody(Exception):

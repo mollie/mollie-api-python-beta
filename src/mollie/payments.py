@@ -764,7 +764,7 @@ class Payments(BaseSDK):
         *,
         payment_id: str,
         description: Optional[str] = None,
-        redirect_url: Optional[str] = None,
+        redirect_url: OptionalNullable[str] = UNSET,
         cancel_url: OptionalNullable[str] = UNSET,
         webhook_url: OptionalNullable[str] = UNSET,
         metadata: OptionalNullable[
@@ -949,7 +949,7 @@ class Payments(BaseSDK):
         *,
         payment_id: str,
         description: Optional[str] = None,
-        redirect_url: Optional[str] = None,
+        redirect_url: OptionalNullable[str] = UNSET,
         cancel_url: OptionalNullable[str] = UNSET,
         webhook_url: OptionalNullable[str] = UNSET,
         metadata: OptionalNullable[

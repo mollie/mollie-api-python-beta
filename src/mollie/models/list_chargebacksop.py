@@ -139,6 +139,9 @@ class ListChargebacksChargebacksResponseResponseBodyData(BaseModel):
         ListChargebacksChargebacksResponseLinks, pydantic.Field(alias="_links")
     ]
 
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+
 
 class ListChargebacksChargebacksResponseResponseBody(Exception):
     r"""An error response object."""
@@ -189,10 +192,10 @@ class ListChargebacksChargebacksResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    field: str
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
-
     links: Annotated[ListChargebacksChargebacksLinks, pydantic.Field(alias="_links")]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
 class ListChargebacksChargebacksResponseBody(Exception):

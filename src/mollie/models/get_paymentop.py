@@ -137,6 +137,9 @@ class GetPaymentPaymentsResponseBodyData(BaseModel):
 
     links: Annotated[GetPaymentPaymentsResponseLinks, pydantic.Field(alias="_links")]
 
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+
 
 class GetPaymentPaymentsResponseBody(Exception):
     r"""An error response object."""
@@ -1055,6 +1058,8 @@ class GetPaymentPaymentsLinks(BaseModel):
 
 
 class GetPaymentRoutingTypedDict(TypedDict):
+    resource: str
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
     id: str
     r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID. Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`."""
     mode: str
@@ -1068,18 +1073,19 @@ class GetPaymentRoutingTypedDict(TypedDict):
     r"""The destination of this portion of the payment."""
     created_at: str
     r"""The date and time when the route was created. The date is given in ISO 8601 format."""
-    resource: NotRequired[str]
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
+    links: GetPaymentPaymentsLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     release_date: NotRequired[Nullable[str]]
     r"""Optionally, schedule this portion of the payment to be transferred to its destination on a later date. The date must be given in `YYYY-MM-DD` format.
 
     If no date is given, the funds become available to the connected merchant as soon as the payment succeeds.
     """
-    links: NotRequired[GetPaymentPaymentsLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class GetPaymentRouting(BaseModel):
+    resource: str
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
+
     id: str
     r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID. Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`."""
 
@@ -1098,8 +1104,8 @@ class GetPaymentRouting(BaseModel):
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The date and time when the route was created. The date is given in ISO 8601 format."""
 
-    resource: Optional[str] = "route"
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
+    links: Annotated[GetPaymentPaymentsLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     release_date: Annotated[
         OptionalNullable[str], pydantic.Field(alias="releaseDate")
@@ -1109,14 +1115,9 @@ class GetPaymentRouting(BaseModel):
     If no date is given, the funds become available to the connected merchant as soon as the payment succeeds.
     """
 
-    links: Annotated[
-        Optional[GetPaymentPaymentsLinks], pydantic.Field(alias="_links")
-    ] = None
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["resource", "releaseDate", "_links"]
+        optional_fields = ["releaseDate"]
         nullable_fields = ["releaseDate"]
         null_default_fields = []
 
@@ -1472,8 +1473,6 @@ class GetPaymentLinksTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     dashboard: GetPaymentDashboardTypedDict
     r"""Direct link to the payment in the Mollie Dashboard."""
-    documentation: GetPaymentDocumentationTypedDict
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     checkout: NotRequired[GetPaymentCheckoutTypedDict]
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
     mobile_app_checkout: NotRequired[GetPaymentMobileAppCheckoutTypedDict]
@@ -1503,6 +1502,8 @@ class GetPaymentLinksTypedDict(TypedDict):
     r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
     terminal: NotRequired[GetPaymentTerminalTypedDict]
     r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
+    documentation: NotRequired[GetPaymentDocumentationTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class GetPaymentLinks(BaseModel):
@@ -1513,9 +1514,6 @@ class GetPaymentLinks(BaseModel):
 
     dashboard: GetPaymentDashboard
     r"""Direct link to the payment in the Mollie Dashboard."""
-
-    documentation: GetPaymentDocumentation
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     checkout: Optional[GetPaymentCheckout] = None
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
@@ -1562,6 +1560,9 @@ class GetPaymentLinks(BaseModel):
 
     terminal: Optional[GetPaymentTerminal] = None
     r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
+
+    documentation: Optional[GetPaymentDocumentation] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class GetPaymentResponseBodyTypedDict(TypedDict):
@@ -1636,7 +1637,7 @@ class GetPaymentResponseBodyTypedDict(TypedDict):
 
     Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
-    redirect_url: NotRequired[str]
+    redirect_url: NotRequired[Nullable[str]]
     r"""The URL your customer will be redirected to after the payment process.
 
     It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
@@ -1877,7 +1878,9 @@ class GetPaymentResponseBody(BaseModel):
     Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
 
-    redirect_url: Annotated[Optional[str], pydantic.Field(alias="redirectUrl")] = None
+    redirect_url: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="redirectUrl")
+    ] = UNSET
     r"""The URL your customer will be redirected to after the payment process.
 
     It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
@@ -2132,6 +2135,7 @@ class GetPaymentResponseBody(BaseModel):
             "failedAt",
         ]
         nullable_fields = [
+            "redirectUrl",
             "cancelUrl",
             "webhookUrl",
             "lines",

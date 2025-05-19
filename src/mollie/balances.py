@@ -1039,7 +1039,7 @@ class Balances(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["400", "404", "429", "4XX", "5XX"],
+            error_status_codes=["400", "404", "4XX", "5XX"],
             retry_config=retry_config,
         )
 
@@ -1059,14 +1059,6 @@ class Balances(BaseSDK):
                 models.ListBalanceTransactionsBalancesResponseResponseBodyData,
             )
             raise models.ListBalanceTransactionsBalancesResponseResponseBody(
-                data=response_data
-            )
-        if utils.match_response(http_res, "429", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
-                models.ListBalanceTransactionsBalancesResponse429ResponseBodyData,
-            )
-            raise models.ListBalanceTransactionsBalancesResponse429ResponseBody(
                 data=response_data
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1179,7 +1171,7 @@ class Balances(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["400", "404", "429", "4XX", "5XX"],
+            error_status_codes=["400", "404", "4XX", "5XX"],
             retry_config=retry_config,
         )
 
@@ -1199,14 +1191,6 @@ class Balances(BaseSDK):
                 models.ListBalanceTransactionsBalancesResponseResponseBodyData,
             )
             raise models.ListBalanceTransactionsBalancesResponseResponseBody(
-                data=response_data
-            )
-        if utils.match_response(http_res, "429", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
-                models.ListBalanceTransactionsBalancesResponse429ResponseBodyData,
-            )
-            raise models.ListBalanceTransactionsBalancesResponse429ResponseBody(
                 data=response_data
             )
         if utils.match_response(http_res, "4XX", "*"):
