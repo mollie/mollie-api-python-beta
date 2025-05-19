@@ -362,38 +362,38 @@ class GetSettlementRefundsRoutingReversals(BaseModel):
 class GetSettlementRefundsSettlementsSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class GetSettlementRefundsSettlementsSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class GetSettlementRefundsPaymentTypedDict(TypedDict):
     r"""The API resource URL of the [payment](get-payment) that this refund belongs to."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class GetSettlementRefundsPayment(BaseModel):
     r"""The API resource URL of the [payment](get-payment) that this refund belongs to."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
@@ -419,19 +419,19 @@ class GetSettlementRefundsSettlement(BaseModel):
 class GetSettlementRefundsSettlementsResponse200DocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class GetSettlementRefundsSettlementsResponse200Documentation(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
@@ -698,19 +698,19 @@ class GetSettlementRefundsEmbedded(BaseModel):
 class GetSettlementRefundsSelfTypedDict(TypedDict):
     r"""The URL to the current set of items."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class GetSettlementRefundsSelf(BaseModel):
     r"""The URL to the current set of items."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
@@ -755,19 +755,19 @@ class GetSettlementRefundsNext(BaseModel):
 class GetSettlementRefundsDocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class GetSettlementRefundsDocumentation(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 

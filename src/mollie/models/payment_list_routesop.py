@@ -127,38 +127,38 @@ class PaymentListRoutesDestination(BaseModel):
 class PaymentListRoutesDelayedRoutingSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class PaymentListRoutesDelayedRoutingSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class PaymentListRoutesDelayedRoutingResponseDocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class PaymentListRoutesDelayedRoutingResponseDocumentation(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
@@ -246,19 +246,19 @@ class PaymentListRoutesEmbedded(BaseModel):
 class PaymentListRoutesSelfTypedDict(TypedDict):
     r"""The URL to the current set of items."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class PaymentListRoutesSelf(BaseModel):
     r"""The URL to the current set of items."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
@@ -303,19 +303,19 @@ class PaymentListRoutesNext(BaseModel):
 class PaymentListRoutesDocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class PaymentListRoutesDocumentation(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 

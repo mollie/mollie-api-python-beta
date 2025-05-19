@@ -3,42 +3,42 @@
 from __future__ import annotations
 from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
+from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
+from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class ReleaseAuthorizationRequestTypedDict(TypedDict):
-    payment_id: str
-    r"""Provide the ID of the related payment."""
-    testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+class ReleaseAuthorizationRequestBodyTypedDict(TypedDict):
+    profile_id: NotRequired[str]
+    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
-    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    """
+    testmode: NotRequired[Nullable[bool]]
+    r"""Whether to create the entity in test mode or live mode.
+
+    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
     """
 
 
-class ReleaseAuthorizationRequest(BaseModel):
-    payment_id: Annotated[
-        str,
-        pydantic.Field(alias="paymentId"),
-        FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
-    ]
-    r"""Provide the ID of the related payment."""
+class ReleaseAuthorizationRequestBody(BaseModel):
+    profile_id: Annotated[Optional[str], pydantic.Field(alias="profileId")] = None
+    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
-    testmode: Annotated[
-        OptionalNullable[bool],
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    """
 
-    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    testmode: OptionalNullable[bool] = UNSET
+    r"""Whether to create the entity in test mode or live mode.
+
+    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
     """
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["testmode"]
+        optional_fields = ["profileId", "testmode"]
         nullable_fields = ["testmode"]
         null_default_fields = []
 
@@ -65,6 +65,26 @@ class ReleaseAuthorizationRequest(BaseModel):
                 m[k] = val
 
         return m
+
+
+class ReleaseAuthorizationRequestTypedDict(TypedDict):
+    payment_id: str
+    r"""Provide the ID of the related payment."""
+    request_body: NotRequired[ReleaseAuthorizationRequestBodyTypedDict]
+
+
+class ReleaseAuthorizationRequest(BaseModel):
+    payment_id: Annotated[
+        str,
+        pydantic.Field(alias="paymentId"),
+        FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
+    ]
+    r"""Provide the ID of the related payment."""
+
+    request_body: Annotated[
+        Optional[ReleaseAuthorizationRequestBody],
+        FieldMetadata(request=RequestMetadata(media_type="application/json")),
+    ] = None
 
 
 class ReleaseAuthorizationPaymentsDocumentationTypedDict(TypedDict):

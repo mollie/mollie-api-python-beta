@@ -402,19 +402,19 @@ Any metadata added to the subscription will be automatically forwarded to the pa
 class UpdateSubscriptionSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateSubscriptionSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
@@ -497,19 +497,19 @@ class UpdateSubscriptionPayments(BaseModel):
 class UpdateSubscriptionDocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateSubscriptionDocumentation(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 

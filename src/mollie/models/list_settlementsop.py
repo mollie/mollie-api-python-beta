@@ -678,95 +678,95 @@ class ListSettlementsPeriods(BaseModel):
 class ListSettlementsSettlementsSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListSettlementsSettlementsSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListSettlementsPaymentsTypedDict(TypedDict):
     r"""The API resource URL of the [payments](list-payments) included in this settlement."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListSettlementsPayments(BaseModel):
     r"""The API resource URL of the [payments](list-payments) included in this settlement."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListSettlementsCapturesTypedDict(TypedDict):
     r"""The API resource URL of the [captures](list-captures) included in this settlement."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListSettlementsCaptures(BaseModel):
     r"""The API resource URL of the [captures](list-captures) included in this settlement."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListSettlementsRefundsTypedDict(TypedDict):
     r"""The API resource URL of the [refunds](list-refunds) deducted from this settlement."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListSettlementsRefunds(BaseModel):
     r"""The API resource URL of the [refunds](list-refunds) deducted from this settlement."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListSettlementsChargebacksTypedDict(TypedDict):
     r"""The API resource URL of the [chargebacks](list-chargebacks) deducted from this settlement."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListSettlementsChargebacks(BaseModel):
     r"""The API resource URL of the [chargebacks](list-chargebacks) deducted from this settlement."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
@@ -792,19 +792,19 @@ class ListSettlementsInvoice(BaseModel):
 class ListSettlementsSettlementsResponse200DocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListSettlementsSettlementsResponse200Documentation(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
@@ -1042,19 +1042,19 @@ class ListSettlementsEmbedded(BaseModel):
 class ListSettlementsSelfTypedDict(TypedDict):
     r"""The URL to the current set of items."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListSettlementsSelf(BaseModel):
     r"""The URL to the current set of items."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
@@ -1099,19 +1099,19 @@ class ListSettlementsNext(BaseModel):
 class ListSettlementsDocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListSettlementsDocumentation(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 

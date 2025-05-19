@@ -54,16 +54,6 @@ with Client(
                 "organization_id": "org_1234567",
             },
         },
-        {
-            "amount": {
-                "currency": "EUR",
-                "value": "10.00",
-            },
-            "source": {
-                "type": "organization",
-                "organization_id": "org_1234567",
-            },
-        },
     ], testmode=False)
 
     # Handle response
@@ -288,39 +278,6 @@ with Client(
 ) as client:
 
     res = client.refunds.create_order(order_id="ord_5B8cwPMGnU", lines=[
-        {
-            "id": "odl_5B8cwPMGnU",
-            "name": "Chess Board",
-            "sku": "5702016116977",
-            "type": mollie.Type.PHYSICAL,
-            "status": mollie.Status.CREATED,
-            "is_cancelable": False,
-            "quantity": 1,
-            "quantity_shipped": 0,
-            "amount_shipped": {
-                "currency": "EUR",
-                "value": "10.00",
-            },
-            "quantity_refunded": 0,
-            "amount_refunded": {
-                "currency": "EUR",
-                "value": "10.00",
-            },
-            "quantity_canceled": 0,
-            "amount_canceled": {
-                "currency": "EUR",
-                "value": "10.00",
-            },
-            "amount": {
-                "currency": "EUR",
-                "value": "10.00",
-            },
-            "shippable_quantity": 0,
-            "refundable_quantity": 0,
-            "cancelable_quantity": 0,
-            "vat_rate": "21.00",
-            "created_at": "2025-03-28T16:42:12+00:00",
-        },
         {
             "id": "odl_5B8cwPMGnU",
             "name": "Chess Board",

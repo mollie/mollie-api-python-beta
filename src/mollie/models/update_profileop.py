@@ -313,152 +313,152 @@ class UpdateProfileReview(BaseModel):
 class UpdateProfileSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateProfileSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateProfileDashboardTypedDict(TypedDict):
     r"""Link to the profile in the Mollie dashboard."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateProfileDashboard(BaseModel):
     r"""Link to the profile in the Mollie dashboard."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateProfileChargebacksTypedDict(TypedDict):
     r"""The API resource URL of the chargebacks that belong to this profile."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateProfileChargebacks(BaseModel):
     r"""The API resource URL of the chargebacks that belong to this profile."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateProfileMethodsTypedDict(TypedDict):
     r"""The API resource URL of the methods that are enabled for this profile."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateProfileMethods(BaseModel):
     r"""The API resource URL of the methods that are enabled for this profile."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateProfilePaymentsTypedDict(TypedDict):
     r"""The API resource URL of the payments that belong to this profile."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateProfilePayments(BaseModel):
     r"""The API resource URL of the payments that belong to this profile."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateProfileRefundsTypedDict(TypedDict):
     r"""The API resource URL of the refunds that belong to this profile."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateProfileRefunds(BaseModel):
     r"""The API resource URL of the refunds that belong to this profile."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateProfileCheckoutPreviewURLTypedDict(TypedDict):
     r"""The hosted checkout preview URL. You need to be logged in to access this page."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateProfileCheckoutPreviewURL(BaseModel):
     r"""The hosted checkout preview URL. You need to be logged in to access this page."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateProfileDocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdateProfileDocumentation(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 

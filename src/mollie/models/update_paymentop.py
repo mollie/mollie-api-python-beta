@@ -31,58 +31,277 @@ UpdatePaymentMetadata = TypeAliasType(
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
 
 
-class Method(str, Enum):
-    r"""Can be updated while no payment method has been chosen yet."""
+class UpdatePaymentBillingAddressTypedDict(TypedDict):
+    title: NotRequired[str]
+    r"""The title of the person, for example *Mr.* or *Mrs.*."""
+    given_name: NotRequired[str]
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
 
-    ALMA = "alma"
-    APPLEPAY = "applepay"
-    BACS = "bacs"
-    BANCOMATPAY = "bancomatpay"
-    BANCONTACT = "bancontact"
-    BANKTRANSFER = "banktransfer"
-    BELFIUS = "belfius"
-    BLIK = "blik"
-    CREDITCARD = "creditcard"
-    DIRECTDEBIT = "directdebit"
-    EPS = "eps"
-    GIFTCARD = "giftcard"
-    IDEAL = "ideal"
-    IN3 = "in3"
-    KBC = "kbc"
-    MBWAY = "mbway"
-    MULTIBANCO = "multibanco"
-    MYBANK = "mybank"
-    PAYCONIQ = "payconiq"
-    PAYPAL = "paypal"
-    PAYSAFECARD = "paysafecard"
-    POINTOFSALE = "pointofsale"
-    PRZELEWY24 = "przelewy24"
-    SATISPAY = "satispay"
-    SWISH = "swish"
-    TRUSTLY = "trustly"
-    TWINT = "twint"
-    VOUCHER = "voucher"
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    family_name: NotRequired[str]
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    organization_name: NotRequired[str]
+    r"""The name of the organization, in case the addressee is an organization."""
+    street_and_number: NotRequired[str]
+    r"""A street and street number.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    street_additional: NotRequired[str]
+    r"""Any additional addressing details, for example an apartment number."""
+    postal_code: NotRequired[str]
+    r"""A postal code. This field may be required if the provided country has a postal code system.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    email: NotRequired[str]
+    r"""A valid e-mail address.
+
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    phone: NotRequired[str]
+    r"""If provided, it must be in the [E.164](https://en.wikipedia.org/wiki/E.164) format. For example: +31208202070."""
+    city: NotRequired[str]
+    r"""A city name.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    region: NotRequired[str]
+    r"""The top-level administrative subdivision of the country. For example: Noord-Holland."""
+    country: NotRequired[str]
+    r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+
+class UpdatePaymentBillingAddress(BaseModel):
+    title: Optional[str] = None
+    r"""The title of the person, for example *Mr.* or *Mrs.*."""
+
+    given_name: Annotated[Optional[str], pydantic.Field(alias="givenName")] = None
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    family_name: Annotated[Optional[str], pydantic.Field(alias="familyName")] = None
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    organization_name: Annotated[
+        Optional[str], pydantic.Field(alias="organizationName")
+    ] = None
+    r"""The name of the organization, in case the addressee is an organization."""
+
+    street_and_number: Annotated[
+        Optional[str], pydantic.Field(alias="streetAndNumber")
+    ] = None
+    r"""A street and street number.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    street_additional: Annotated[
+        Optional[str], pydantic.Field(alias="streetAdditional")
+    ] = None
+    r"""Any additional addressing details, for example an apartment number."""
+
+    postal_code: Annotated[Optional[str], pydantic.Field(alias="postalCode")] = None
+    r"""A postal code. This field may be required if the provided country has a postal code system.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    email: Optional[str] = None
+    r"""A valid e-mail address.
+
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    phone: Optional[str] = None
+    r"""If provided, it must be in the [E.164](https://en.wikipedia.org/wiki/E.164) format. For example: +31208202070."""
+
+    city: Optional[str] = None
+    r"""A city name.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    region: Optional[str] = None
+    r"""The top-level administrative subdivision of the country. For example: Noord-Holland."""
+
+    country: Optional[str] = None
+    r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+
+class UpdatePaymentShippingAddressTypedDict(TypedDict):
+    title: NotRequired[str]
+    r"""The title of the person, for example *Mr.* or *Mrs.*."""
+    given_name: NotRequired[str]
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    family_name: NotRequired[str]
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    organization_name: NotRequired[str]
+    r"""The name of the organization, in case the addressee is an organization."""
+    street_and_number: NotRequired[str]
+    r"""A street and street number.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    street_additional: NotRequired[str]
+    r"""Any additional addressing details, for example an apartment number."""
+    postal_code: NotRequired[str]
+    r"""A postal code. This field may be required if the provided country has a postal code system.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    email: NotRequired[str]
+    r"""A valid e-mail address.
+
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    phone: NotRequired[str]
+    r"""If provided, it must be in the [E.164](https://en.wikipedia.org/wiki/E.164) format. For example: +31208202070."""
+    city: NotRequired[str]
+    r"""A city name.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    region: NotRequired[str]
+    r"""The top-level administrative subdivision of the country. For example: Noord-Holland."""
+    country: NotRequired[str]
+    r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+
+class UpdatePaymentShippingAddress(BaseModel):
+    title: Optional[str] = None
+    r"""The title of the person, for example *Mr.* or *Mrs.*."""
+
+    given_name: Annotated[Optional[str], pydantic.Field(alias="givenName")] = None
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    family_name: Annotated[Optional[str], pydantic.Field(alias="familyName")] = None
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    organization_name: Annotated[
+        Optional[str], pydantic.Field(alias="organizationName")
+    ] = None
+    r"""The name of the organization, in case the addressee is an organization."""
+
+    street_and_number: Annotated[
+        Optional[str], pydantic.Field(alias="streetAndNumber")
+    ] = None
+    r"""A street and street number.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    street_additional: Annotated[
+        Optional[str], pydantic.Field(alias="streetAdditional")
+    ] = None
+    r"""Any additional addressing details, for example an apartment number."""
+
+    postal_code: Annotated[Optional[str], pydantic.Field(alias="postalCode")] = None
+    r"""A postal code. This field may be required if the provided country has a postal code system.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    email: Optional[str] = None
+    r"""A valid e-mail address.
+
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    phone: Optional[str] = None
+    r"""If provided, it must be in the [E.164](https://en.wikipedia.org/wiki/E.164) format. For example: +31208202070."""
+
+    city: Optional[str] = None
+    r"""A city name.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    region: Optional[str] = None
+    r"""The top-level administrative subdivision of the country. For example: Noord-Holland."""
+
+    country: Optional[str] = None
+    r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
 
 
 class UpdatePaymentRequestBodyTypedDict(TypedDict):
-    description: NotRequired[Nullable[str]]
+    description: NotRequired[str]
     r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.
 
     We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.
 
     The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
     """
-    redirect_url: NotRequired[Nullable[str]]
-    r"""Can be updated while the payment is in an `open` state."""
+    redirect_url: NotRequired[str]
+    r"""The URL your customer will be redirected to after the payment process.
+
+    It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
+
+    The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for Apple Pay payments with an `applePayPaymentToken`.
+    """
     cancel_url: NotRequired[Nullable[str]]
-    r"""Can be updated while the payment is in an `open` state."""
+    r"""The URL your customer will be redirected to when the customer explicitly cancels the payment. If this URL is not provided, the customer will be redirected to the `redirectUrl` instead — see above.
+
+    Mollie will always give you status updates via webhooks, including for the canceled status. This parameter is therefore entirely optional, but can be useful when implementing a dedicated customer-facing flow to handle payment cancellations.
+    """
     webhook_url: NotRequired[Nullable[str]]
-    r"""Can be updated while the payment is in an `open` state."""
+    r"""The webhook URL where we will send payment status updates to.
+
+    The webhookUrl is optional, but without a webhook you will miss out on important status changes to your payment.
+
+    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
+    """
     metadata: NotRequired[Nullable[UpdatePaymentMetadataTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
-    method: NotRequired[Nullable[Method]]
-    r"""Can be updated while no payment method has been chosen yet."""
-    locale: NotRequired[Nullable[str]]
+    method: NotRequired[Nullable[str]]
+    r"""Normally, a payment method screen is shown. However, when using this parameter, you can choose a specific payment method and your customer will skip the selection screen and is sent directly to the chosen payment method. The parameter enables you to fully integrate the payment method selection into your website.
+
+    You can also specify the methods in an array. By doing so we will still show the payment method selection screen but will only show the methods specified in the array. For example, you can use this functionality to only show payment methods from a specific country to your customer `['bancontact', 'belfius']`.
+
+    Possible values: `alma` `applepay` `bacs` `bancomatpay` `bancontact` `banktransfer` `belfius` `billie` `blik` `creditcard` `directdebit` `eps` `giftcard` `ideal` `in3` `kbc` `klarna` `mbway` `multibanco` `mybank` `payconiq` `paypal` `paysafecard` `pointofsale` `przelewy24` `riverty` `satispay` `swish` `trustly` `twint` `voucher`
+    """
+    locale: NotRequired[str]
     r"""Allows you to preset the language to be used.
 
     Possible values: `en_US` `en_GB` `nl_NL` `nl_BE` `de_DE` `de_AT` `de_CH` `fr_FR` `fr_BE` `es_ES` `ca_ES` `pt_PT` `it_IT` `nb_NO` `sv_SE` `fi_FI` `da_DK` `is_IS` `hu_HU` `pl_PL` `lv_LV` `lt_LT`
@@ -90,15 +309,39 @@ class UpdatePaymentRequestBodyTypedDict(TypedDict):
     due_date: NotRequired[str]
     r"""The date by which the payment should be completed in `YYYY-MM-DD` format"""
     restrict_payment_methods_to_country: NotRequired[Nullable[str]]
-    testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    r"""For digital goods in most jurisdictions, you must apply the VAT rate from your customer's country. Choose the VAT rates you have used for the order to ensure your customer's country matches the VAT country.
 
-    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    Use this parameter to restrict the payment methods available to your customer to those from a single country.
+
+    If available, the credit card method will still be offered, but only cards from the allowed country are accepted.
+
+    The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
+    testmode: NotRequired[Nullable[bool]]
+    r"""Whether to create the entity in test mode or live mode.
+
+    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    """
+    issuer: NotRequired[Nullable[str]]
+    r"""**Only relevant for iDEAL, KBC/CBC, gift card, and voucher payments.**
+
+    **⚠️ With the introduction of iDEAL 2 in 2025, this field will be ignored for iDEAL payments. For more information on the migration, refer to our [help center](https://help.mollie.com/hc/articles/19100313768338-iDEAL-2-0).**
+
+    Some payment methods are a network of connected banks or card issuers. In these cases, after selecting the payment method, the customer may still need to select the appropriate issuer before the payment can proceed.
+
+    We provide hosted issuer selection screens, but these screens can be skipped by providing the `issuer` via the API up front.
+
+    The full list of issuers for a specific method can be retrieved via the Methods API by using the optional `issuers` include.
+
+    A valid issuer for iDEAL is for example `ideal_INGBNL2A` (for ING Bank).
+    """
+    billing_address: NotRequired[UpdatePaymentBillingAddressTypedDict]
+    shipping_address: NotRequired[UpdatePaymentShippingAddressTypedDict]
+    billing_email: NotRequired[str]
 
 
 class UpdatePaymentRequestBody(BaseModel):
-    description: OptionalNullable[str] = UNSET
+    description: Optional[str] = None
     r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.
 
     We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.
@@ -106,28 +349,44 @@ class UpdatePaymentRequestBody(BaseModel):
     The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
     """
 
-    redirect_url: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="redirectUrl")
-    ] = UNSET
-    r"""Can be updated while the payment is in an `open` state."""
+    redirect_url: Annotated[Optional[str], pydantic.Field(alias="redirectUrl")] = None
+    r"""The URL your customer will be redirected to after the payment process.
+
+    It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
+
+    The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for Apple Pay payments with an `applePayPaymentToken`.
+    """
 
     cancel_url: Annotated[OptionalNullable[str], pydantic.Field(alias="cancelUrl")] = (
         UNSET
     )
-    r"""Can be updated while the payment is in an `open` state."""
+    r"""The URL your customer will be redirected to when the customer explicitly cancels the payment. If this URL is not provided, the customer will be redirected to the `redirectUrl` instead — see above.
+
+    Mollie will always give you status updates via webhooks, including for the canceled status. This parameter is therefore entirely optional, but can be useful when implementing a dedicated customer-facing flow to handle payment cancellations.
+    """
 
     webhook_url: Annotated[
         OptionalNullable[str], pydantic.Field(alias="webhookUrl")
     ] = UNSET
-    r"""Can be updated while the payment is in an `open` state."""
+    r"""The webhook URL where we will send payment status updates to.
+
+    The webhookUrl is optional, but without a webhook you will miss out on important status changes to your payment.
+
+    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
+    """
 
     metadata: OptionalNullable[UpdatePaymentMetadata] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
 
-    method: OptionalNullable[Method] = UNSET
-    r"""Can be updated while no payment method has been chosen yet."""
+    method: OptionalNullable[str] = UNSET
+    r"""Normally, a payment method screen is shown. However, when using this parameter, you can choose a specific payment method and your customer will skip the selection screen and is sent directly to the chosen payment method. The parameter enables you to fully integrate the payment method selection into your website.
 
-    locale: OptionalNullable[str] = UNSET
+    You can also specify the methods in an array. By doing so we will still show the payment method selection screen but will only show the methods specified in the array. For example, you can use this functionality to only show payment methods from a specific country to your customer `['bancontact', 'belfius']`.
+
+    Possible values: `alma` `applepay` `bacs` `bancomatpay` `bancontact` `banktransfer` `belfius` `billie` `blik` `creditcard` `directdebit` `eps` `giftcard` `ideal` `in3` `kbc` `klarna` `mbway` `multibanco` `mybank` `payconiq` `paypal` `paysafecard` `pointofsale` `przelewy24` `riverty` `satispay` `swish` `trustly` `twint` `voucher`
+    """
+
+    locale: Optional[str] = None
     r"""Allows you to preset the language to be used.
 
     Possible values: `en_US` `en_GB` `nl_NL` `nl_BE` `de_DE` `de_AT` `de_CH` `fr_FR` `fr_BE` `es_ES` `ca_ES` `pt_PT` `it_IT` `nb_NO` `sv_SE` `fi_FI` `da_DK` `is_IS` `hu_HU` `pl_PL` `lv_LV` `lt_LT`
@@ -139,12 +398,44 @@ class UpdatePaymentRequestBody(BaseModel):
     restrict_payment_methods_to_country: Annotated[
         OptionalNullable[str], pydantic.Field(alias="restrictPaymentMethodsToCountry")
     ] = UNSET
+    r"""For digital goods in most jurisdictions, you must apply the VAT rate from your customer's country. Choose the VAT rates you have used for the order to ensure your customer's country matches the VAT country.
+
+    Use this parameter to restrict the payment methods available to your customer to those from a single country.
+
+    If available, the credit card method will still be offered, but only cards from the allowed country are accepted.
+
+    The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
+    """
 
     testmode: OptionalNullable[bool] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    r"""Whether to create the entity in test mode or live mode.
 
-    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
     """
+
+    issuer: OptionalNullable[str] = UNSET
+    r"""**Only relevant for iDEAL, KBC/CBC, gift card, and voucher payments.**
+
+    **⚠️ With the introduction of iDEAL 2 in 2025, this field will be ignored for iDEAL payments. For more information on the migration, refer to our [help center](https://help.mollie.com/hc/articles/19100313768338-iDEAL-2-0).**
+
+    Some payment methods are a network of connected banks or card issuers. In these cases, after selecting the payment method, the customer may still need to select the appropriate issuer before the payment can proceed.
+
+    We provide hosted issuer selection screens, but these screens can be skipped by providing the `issuer` via the API up front.
+
+    The full list of issuers for a specific method can be retrieved via the Methods API by using the optional `issuers` include.
+
+    A valid issuer for iDEAL is for example `ideal_INGBNL2A` (for ING Bank).
+    """
+
+    billing_address: Annotated[
+        Optional[UpdatePaymentBillingAddress], pydantic.Field(alias="billingAddress")
+    ] = None
+
+    shipping_address: Annotated[
+        Optional[UpdatePaymentShippingAddress], pydantic.Field(alias="shippingAddress")
+    ] = None
+
+    billing_email: Annotated[Optional[str], pydantic.Field(alias="billingEmail")] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -159,17 +450,19 @@ class UpdatePaymentRequestBody(BaseModel):
             "dueDate",
             "restrictPaymentMethodsToCountry",
             "testmode",
+            "issuer",
+            "billingAddress",
+            "shippingAddress",
+            "billingEmail",
         ]
         nullable_fields = [
-            "description",
-            "redirectUrl",
             "cancelUrl",
             "webhookUrl",
             "metadata",
             "method",
-            "locale",
             "restrictPaymentMethodsToCountry",
             "testmode",
+            "issuer",
         ]
         null_default_fields = []
 
@@ -792,7 +1085,7 @@ class UpdatePaymentLines(BaseModel):
     r"""A link pointing to the product page in your web shop of the product sold."""
 
 
-class UpdatePaymentBillingAddressTypedDict(TypedDict):
+class UpdatePaymentPaymentsBillingAddressTypedDict(TypedDict):
     r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
 
     Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
@@ -849,7 +1142,7 @@ class UpdatePaymentBillingAddressTypedDict(TypedDict):
     """
 
 
-class UpdatePaymentBillingAddress(BaseModel):
+class UpdatePaymentPaymentsBillingAddress(BaseModel):
     r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
 
     Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
@@ -923,7 +1216,7 @@ class UpdatePaymentBillingAddress(BaseModel):
     """
 
 
-class UpdatePaymentShippingAddressTypedDict(TypedDict):
+class UpdatePaymentPaymentsShippingAddressTypedDict(TypedDict):
     r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
 
     Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
@@ -978,7 +1271,7 @@ class UpdatePaymentShippingAddressTypedDict(TypedDict):
     """
 
 
-class UpdatePaymentShippingAddress(BaseModel):
+class UpdatePaymentPaymentsShippingAddress(BaseModel):
     r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
 
     Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
@@ -1153,130 +1446,131 @@ class UpdatePaymentPaymentsResponseAmount(BaseModel):
 class UpdatePaymentDestinationTypedDict(TypedDict):
     r"""The destination of this portion of the payment."""
 
-    type: NotRequired[str]
+    type: str
     r"""The type of destination. Currently only the destination type `organization` is supported.
 
     Possible values: `organization`
     """
-    organization_id: NotRequired[str]
+    organization_id: str
     r"""Required for destination type `organization`. The ID of the connected organization the funds should be routed to."""
 
 
 class UpdatePaymentDestination(BaseModel):
     r"""The destination of this portion of the payment."""
 
-    type: Optional[str] = None
+    type: str
     r"""The type of destination. Currently only the destination type `organization` is supported.
 
     Possible values: `organization`
     """
 
-    organization_id: Annotated[
-        Optional[str], pydantic.Field(alias="organizationId")
-    ] = None
+    organization_id: Annotated[str, pydantic.Field(alias="organizationId")]
     r"""Required for destination type `organization`. The ID of the connected organization the funds should be routed to."""
 
 
 class UpdatePaymentPaymentsSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentPaymentsSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentPaymentTypedDict(TypedDict):
     r"""The API resource URL of the [payment](get-payment) that belong to this route."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentPayment(BaseModel):
     r"""The API resource URL of the [payment](get-payment) that belong to this route."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentPaymentsLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[UpdatePaymentPaymentsSelfTypedDict]
+    self_: UpdatePaymentPaymentsSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    payment: NotRequired[UpdatePaymentPaymentTypedDict]
+    payment: UpdatePaymentPaymentTypedDict
     r"""The API resource URL of the [payment](get-payment) that belong to this route."""
 
 
 class UpdatePaymentPaymentsLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[
-        Optional[UpdatePaymentPaymentsSelf], pydantic.Field(alias="self")
-    ] = None
+    self_: Annotated[UpdatePaymentPaymentsSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    payment: Optional[UpdatePaymentPayment] = None
+    payment: UpdatePaymentPayment
     r"""The API resource URL of the [payment](get-payment) that belong to this route."""
 
 
 class UpdatePaymentRoutingTypedDict(TypedDict):
-    resource: NotRequired[str]
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID. Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`."""
-    mode: NotRequired[str]
+    mode: str
     r"""Whether this entity was created in live mode or in test mode.
 
     Possible values: `live` `test`
     """
-    amount: NotRequired[UpdatePaymentPaymentsResponseAmountTypedDict]
+    amount: UpdatePaymentPaymentsResponseAmountTypedDict
     r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
-    destination: NotRequired[UpdatePaymentDestinationTypedDict]
+    destination: UpdatePaymentDestinationTypedDict
     r"""The destination of this portion of the payment."""
+    created_at: str
+    r"""The date and time when the route was created. The date is given in ISO 8601 format."""
+    resource: NotRequired[str]
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
     release_date: NotRequired[Nullable[str]]
     r"""Optionally, schedule this portion of the payment to be transferred to its destination on a later date. The date must be given in `YYYY-MM-DD` format.
 
     If no date is given, the funds become available to the connected merchant as soon as the payment succeeds.
     """
-    links: NotRequired[Nullable[UpdatePaymentPaymentsLinksTypedDict]]
+    links: NotRequired[UpdatePaymentPaymentsLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class UpdatePaymentRouting(BaseModel):
-    resource: Optional[str] = "route"
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
-
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID. Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`."""
 
-    mode: Optional[str] = None
+    mode: str
     r"""Whether this entity was created in live mode or in test mode.
 
     Possible values: `live` `test`
     """
 
-    amount: Optional[UpdatePaymentPaymentsResponseAmount] = None
+    amount: UpdatePaymentPaymentsResponseAmount
     r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
 
-    destination: Optional[UpdatePaymentDestination] = None
+    destination: UpdatePaymentDestination
     r"""The destination of this portion of the payment."""
+
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
+    r"""The date and time when the route was created. The date is given in ISO 8601 format."""
+
+    resource: Optional[str] = "route"
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
 
     release_date: Annotated[
         OptionalNullable[str], pydantic.Field(alias="releaseDate")
@@ -1287,22 +1581,14 @@ class UpdatePaymentRouting(BaseModel):
     """
 
     links: Annotated[
-        OptionalNullable[UpdatePaymentPaymentsLinks], pydantic.Field(alias="_links")
-    ] = UNSET
+        Optional[UpdatePaymentPaymentsLinks], pydantic.Field(alias="_links")
+    ] = None
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "resource",
-            "id",
-            "mode",
-            "amount",
-            "destination",
-            "releaseDate",
-            "_links",
-        ]
-        nullable_fields = ["releaseDate", "_links"]
+        optional_fields = ["resource", "releaseDate", "_links"]
+        nullable_fields = ["releaseDate"]
         null_default_fields = []
 
         serialized = handler(self)
@@ -1358,57 +1644,57 @@ class UpdatePaymentStatusReason(BaseModel):
 class UpdatePaymentSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentCheckoutTypedDict(TypedDict):
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentCheckout(BaseModel):
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentMobileAppCheckoutTypedDict(TypedDict):
     r"""The deeplink URL to the app of the payment method. Currently only available for `bancontact`."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentMobileAppCheckout(BaseModel):
     r"""The deeplink URL to the app of the payment method. Currently only available for `bancontact`."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
@@ -1420,9 +1706,9 @@ class UpdatePaymentChangePaymentStateTypedDict(TypedDict):
     Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or chargeback for the test payment.
     """
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
@@ -1434,283 +1720,287 @@ class UpdatePaymentChangePaymentState(BaseModel):
     Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or chargeback for the test payment.
     """
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentDashboardTypedDict(TypedDict):
     r"""Direct link to the payment in the Mollie Dashboard."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentDashboard(BaseModel):
     r"""Direct link to the payment in the Mollie Dashboard."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentRefundsTypedDict(TypedDict):
     r"""The API resource URL of the [refunds](list-payment-refunds) that belong to this payment."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentRefunds(BaseModel):
     r"""The API resource URL of the [refunds](list-payment-refunds) that belong to this payment."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentChargebacksTypedDict(TypedDict):
     r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this payment."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentChargebacks(BaseModel):
     r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this payment."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentCapturesTypedDict(TypedDict):
     r"""The API resource URL of the [captures](list-payment-captures) that belong to this payment."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentCaptures(BaseModel):
     r"""The API resource URL of the [captures](list-payment-captures) that belong to this payment."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentSettlementTypedDict(TypedDict):
     r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with. Not present if not yet settled."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentSettlement(BaseModel):
     r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with. Not present if not yet settled."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentCustomerTypedDict(TypedDict):
     r"""The API resource URL of the [customer](get-customer)."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentCustomer(BaseModel):
     r"""The API resource URL of the [customer](get-customer)."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentMandateTypedDict(TypedDict):
     r"""The API resource URL of the [mandate](get-mandate)."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentMandate(BaseModel):
     r"""The API resource URL of the [mandate](get-mandate)."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentSubscriptionTypedDict(TypedDict):
     r"""The API resource URL of the [subscription](get-subscription)."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentSubscription(BaseModel):
     r"""The API resource URL of the [subscription](get-subscription)."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentOrderTypedDict(TypedDict):
     r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentOrder(BaseModel):
     r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentTerminalTypedDict(TypedDict):
     r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentTerminal(BaseModel):
     r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentDocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentDocumentation(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class UpdatePaymentLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[UpdatePaymentSelfTypedDict]
+    self_: UpdatePaymentSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    checkout: NotRequired[Nullable[UpdatePaymentCheckoutTypedDict]]
+    dashboard: UpdatePaymentDashboardTypedDict
+    r"""Direct link to the payment in the Mollie Dashboard."""
+    documentation: UpdatePaymentDocumentationTypedDict
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+    checkout: NotRequired[UpdatePaymentCheckoutTypedDict]
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
-    mobile_app_checkout: NotRequired[Nullable[UpdatePaymentMobileAppCheckoutTypedDict]]
+    mobile_app_checkout: NotRequired[UpdatePaymentMobileAppCheckoutTypedDict]
     r"""The deeplink URL to the app of the payment method. Currently only available for `bancontact`."""
-    change_payment_state: NotRequired[
-        Nullable[UpdatePaymentChangePaymentStateTypedDict]
-    ]
+    change_payment_state: NotRequired[UpdatePaymentChangePaymentStateTypedDict]
     r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different payment states.
 
     Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these payments are executed without any user interaction.
 
     Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or chargeback for the test payment.
     """
-    dashboard: NotRequired[UpdatePaymentDashboardTypedDict]
-    r"""Direct link to the payment in the Mollie Dashboard."""
-    refunds: NotRequired[Nullable[UpdatePaymentRefundsTypedDict]]
+    refunds: NotRequired[UpdatePaymentRefundsTypedDict]
     r"""The API resource URL of the [refunds](list-payment-refunds) that belong to this payment."""
     chargebacks: NotRequired[UpdatePaymentChargebacksTypedDict]
     r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this payment."""
     captures: NotRequired[UpdatePaymentCapturesTypedDict]
     r"""The API resource URL of the [captures](list-payment-captures) that belong to this payment."""
-    settlement: NotRequired[Nullable[UpdatePaymentSettlementTypedDict]]
+    settlement: NotRequired[UpdatePaymentSettlementTypedDict]
     r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with. Not present if not yet settled."""
-    customer: NotRequired[Nullable[UpdatePaymentCustomerTypedDict]]
+    customer: NotRequired[UpdatePaymentCustomerTypedDict]
     r"""The API resource URL of the [customer](get-customer)."""
-    mandate: NotRequired[Nullable[UpdatePaymentMandateTypedDict]]
+    mandate: NotRequired[UpdatePaymentMandateTypedDict]
     r"""The API resource URL of the [mandate](get-mandate)."""
-    subscription: NotRequired[Nullable[UpdatePaymentSubscriptionTypedDict]]
+    subscription: NotRequired[UpdatePaymentSubscriptionTypedDict]
     r"""The API resource URL of the [subscription](get-subscription)."""
-    order: NotRequired[Nullable[UpdatePaymentOrderTypedDict]]
+    order: NotRequired[UpdatePaymentOrderTypedDict]
     r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
-    terminal: NotRequired[Nullable[UpdatePaymentTerminalTypedDict]]
+    terminal: NotRequired[UpdatePaymentTerminalTypedDict]
     r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
-    documentation: NotRequired[UpdatePaymentDocumentationTypedDict]
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class UpdatePaymentLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[UpdatePaymentSelf], pydantic.Field(alias="self")] = None
+    self_: Annotated[UpdatePaymentSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    checkout: OptionalNullable[UpdatePaymentCheckout] = UNSET
+    dashboard: UpdatePaymentDashboard
+    r"""Direct link to the payment in the Mollie Dashboard."""
+
+    documentation: UpdatePaymentDocumentation
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    checkout: Optional[UpdatePaymentCheckout] = None
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
 
     mobile_app_checkout: Annotated[
-        OptionalNullable[UpdatePaymentMobileAppCheckout],
+        Optional[UpdatePaymentMobileAppCheckout],
         pydantic.Field(alias="mobileAppCheckout"),
-    ] = UNSET
+    ] = None
     r"""The deeplink URL to the app of the payment method. Currently only available for `bancontact`."""
 
     change_payment_state: Annotated[
-        OptionalNullable[UpdatePaymentChangePaymentState],
+        Optional[UpdatePaymentChangePaymentState],
         pydantic.Field(alias="changePaymentState"),
-    ] = UNSET
+    ] = None
     r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different payment states.
 
     Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these payments are executed without any user interaction.
@@ -1718,10 +2008,7 @@ class UpdatePaymentLinks(BaseModel):
     Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or chargeback for the test payment.
     """
 
-    dashboard: Optional[UpdatePaymentDashboard] = None
-    r"""Direct link to the payment in the Mollie Dashboard."""
-
-    refunds: OptionalNullable[UpdatePaymentRefunds] = UNSET
+    refunds: Optional[UpdatePaymentRefunds] = None
     r"""The API resource URL of the [refunds](list-payment-refunds) that belong to this payment."""
 
     chargebacks: Optional[UpdatePaymentChargebacks] = None
@@ -1730,127 +2017,98 @@ class UpdatePaymentLinks(BaseModel):
     captures: Optional[UpdatePaymentCaptures] = None
     r"""The API resource URL of the [captures](list-payment-captures) that belong to this payment."""
 
-    settlement: OptionalNullable[UpdatePaymentSettlement] = UNSET
+    settlement: Optional[UpdatePaymentSettlement] = None
     r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with. Not present if not yet settled."""
 
-    customer: OptionalNullable[UpdatePaymentCustomer] = UNSET
+    customer: Optional[UpdatePaymentCustomer] = None
     r"""The API resource URL of the [customer](get-customer)."""
 
-    mandate: OptionalNullable[UpdatePaymentMandate] = UNSET
+    mandate: Optional[UpdatePaymentMandate] = None
     r"""The API resource URL of the [mandate](get-mandate)."""
 
-    subscription: OptionalNullable[UpdatePaymentSubscription] = UNSET
+    subscription: Optional[UpdatePaymentSubscription] = None
     r"""The API resource URL of the [subscription](get-subscription)."""
 
-    order: OptionalNullable[UpdatePaymentOrder] = UNSET
+    order: Optional[UpdatePaymentOrder] = None
     r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
 
-    terminal: OptionalNullable[UpdatePaymentTerminal] = UNSET
+    terminal: Optional[UpdatePaymentTerminal] = None
     r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
-
-    documentation: Optional[UpdatePaymentDocumentation] = None
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = [
-            "self",
-            "checkout",
-            "mobileAppCheckout",
-            "changePaymentState",
-            "dashboard",
-            "refunds",
-            "chargebacks",
-            "captures",
-            "settlement",
-            "customer",
-            "mandate",
-            "subscription",
-            "order",
-            "terminal",
-            "documentation",
-        ]
-        nullable_fields = [
-            "checkout",
-            "mobileAppCheckout",
-            "changePaymentState",
-            "refunds",
-            "settlement",
-            "customer",
-            "mandate",
-            "subscription",
-            "order",
-            "terminal",
-        ]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
 
 
 class UpdatePaymentResponseBodyTypedDict(TypedDict):
     r"""The updated payment object."""
 
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a payment object. Will always contain the string `payment` for this endpoint."""
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this payment. Mollie assigns this identifier at payment creation time. Mollie will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`."""
-    mode: NotRequired[str]
+    mode: str
     r"""Whether this entity was created in live mode or in test mode.
 
     Possible values: `live` `test`
     """
-    description: NotRequired[Nullable[str]]
+    description: str
     r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.
 
     We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.
 
     The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
     """
-    amount: NotRequired[UpdatePaymentAmountTypedDict]
+    amount: UpdatePaymentAmountTypedDict
     r"""The amount that you want to charge, e.g. `{currency:\"EUR\", value:\"1000.00\"}` if you would want to charge €1000.00.
 
     You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be retrieved using the Get method endpoint.
 
     If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the tip amount.
     """
-    amount_refunded: NotRequired[Nullable[UpdatePaymentAmountRefundedTypedDict]]
+    sequence_type: Nullable[str]
+    r"""**Only relevant for recurring payments.**
+
+    Indicate which part of a recurring sequence this payment is for.
+
+    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place on their account in the future.
+
+    If set to `recurring`, the customer's card is charged automatically.
+
+    Defaults to `oneoff`, which is a regular non-recurring payment.
+
+    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account are set up correctly for recurring payments.
+
+    Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
+    """
+    profile_id: str
+    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
+
+    When using an API Key, the `profileId` can be omitted since it is linked to the key. However, for OAuth and Organization tokens, the `profileId` is required.
+
+    For more information, see [Authentication](authentication).
+    """
+    status: str
+    r"""The payment's status. Refer to the [documentation regarding statuses](status-change) for more info about which statuses occur at what point.
+
+    Possible values: `open` `pending` `authorized` `paid` `canceled` `expired` `failed`
+    """
+    created_at: str
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    links: UpdatePaymentLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+    amount_refunded: NotRequired[UpdatePaymentAmountRefundedTypedDict]
     r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the costs for a return shipment to the customer."""
-    amount_remaining: NotRequired[Nullable[UpdatePaymentAmountRemainingTypedDict]]
+    amount_remaining: NotRequired[UpdatePaymentAmountRemainingTypedDict]
     r"""The remaining amount that can be refunded. Only available when refunds are available for this payment."""
-    amount_captured: NotRequired[Nullable[UpdatePaymentAmountCapturedTypedDict]]
+    amount_captured: NotRequired[UpdatePaymentAmountCapturedTypedDict]
     r"""The total amount that is already captured for this payment. Only available when this payment supports captures."""
-    amount_charged_back: NotRequired[Nullable[UpdatePaymentAmountChargedBackTypedDict]]
+    amount_charged_back: NotRequired[UpdatePaymentAmountChargedBackTypedDict]
     r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not zero."""
-    settlement_amount: NotRequired[Nullable[UpdatePaymentSettlementAmountTypedDict]]
+    settlement_amount: NotRequired[UpdatePaymentSettlementAmountTypedDict]
     r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
 
     Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is settled by Mollie the `settlementAmount` is omitted from the response.
 
     Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
-    redirect_url: NotRequired[Nullable[str]]
+    redirect_url: NotRequired[str]
     r"""The URL your customer will be redirected to after the payment process.
 
     It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
@@ -1876,14 +2134,14 @@ class UpdatePaymentResponseBodyTypedDict(TypedDict):
 
     Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
     """
-    billing_address: NotRequired[UpdatePaymentBillingAddressTypedDict]
+    billing_address: NotRequired[UpdatePaymentPaymentsBillingAddressTypedDict]
     r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
 
     Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
-    shipping_address: NotRequired[UpdatePaymentShippingAddressTypedDict]
+    shipping_address: NotRequired[UpdatePaymentPaymentsShippingAddressTypedDict]
     r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
 
     Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
@@ -1955,7 +2213,77 @@ class UpdatePaymentResponseBodyTypedDict(TypedDict):
 
     If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee` parameter.
     """
-    sequence_type: NotRequired[Nullable[str]]
+    subscription_id: NotRequired[Nullable[str]]
+    r"""If the payment was automatically created via a subscription, the ID of the [subscription](get-subscription) will be added to the response."""
+    mandate_id: NotRequired[Nullable[str]]
+    r"""**Only relevant for recurring payments.**
+
+    When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of the customer's accounts should be credited.
+    """
+    customer_id: NotRequired[Nullable[str]]
+    r"""The ID of the [customer](get-customer) the payment is being created for. This is used primarily for recurring payments, but can also be used on regular payments to enable single-click payments.
+
+    If `sequenceType` is set to `recurring`, this field is required.
+    """
+    settlement_id: NotRequired[Nullable[str]]
+    r"""The identifier referring to the [settlement](get-settlement) this payment was settled with."""
+    order_id: NotRequired[Nullable[str]]
+    r"""If the payment was created for an [order](get-order), the ID of that order will be part of the response."""
+    status_reason: NotRequired[Nullable[UpdatePaymentStatusReasonTypedDict]]
+    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale payments.
+
+    You can find more information about the possible values of this object on [this page](status-reasons).**
+    """
+    is_cancelable: NotRequired[Nullable[bool]]
+    r"""Whether the payment can be canceled. This parameter is omitted if the payment reaches a final state."""
+    details: NotRequired[Nullable[Dict[str, Any]]]
+    r"""An object containing payment details collected during the payment process. For example, details may include the customer's card or bank details and a payment reference. For the full list of details, please refer to the [method-specific parameters](extra-payment-parameters) guide."""
+    authorized_at: NotRequired[Nullable[str]]
+    r"""The date and time the payment became authorized, in ISO 8601 format. This parameter is omitted if the payment is not authorized (yet)."""
+    paid_at: NotRequired[Nullable[str]]
+    r"""The date and time the payment became paid, in ISO 8601 format. This parameter is omitted if the payment is not completed (yet)."""
+    canceled_at: NotRequired[Nullable[str]]
+    r"""The date and time the payment was canceled, in ISO 8601 format. This parameter is omitted if the payment is not canceled (yet)."""
+    expires_at: NotRequired[Nullable[str]]
+    r"""The date and time the payment will expire, in ISO 8601 format. This parameter is omitted if the payment can no longer expire."""
+    expired_at: NotRequired[Nullable[str]]
+    r"""The date and time the payment was expired, in ISO 8601 format. This parameter is omitted if the payment did not expire (yet)."""
+    failed_at: NotRequired[Nullable[str]]
+    r"""The date and time the payment failed, in ISO 8601 format. This parameter is omitted if the payment did not fail (yet)."""
+
+
+class UpdatePaymentResponseBody(BaseModel):
+    r"""The updated payment object."""
+
+    resource: str
+    r"""Indicates the response contains a payment object. Will always contain the string `payment` for this endpoint."""
+
+    id: str
+    r"""The identifier uniquely referring to this payment. Mollie assigns this identifier at payment creation time. Mollie will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`."""
+
+    mode: str
+    r"""Whether this entity was created in live mode or in test mode.
+
+    Possible values: `live` `test`
+    """
+
+    description: str
+    r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.
+
+    We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.
+
+    The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
+    """
+
+    amount: UpdatePaymentAmount
+    r"""The amount that you want to charge, e.g. `{currency:\"EUR\", value:\"1000.00\"}` if you would want to charge €1000.00.
+
+    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be retrieved using the Get method endpoint.
+
+    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the tip amount.
+    """
+
+    sequence_type: Annotated[Nullable[str], pydantic.Field(alias="sequenceType")]
     r"""**Only relevant for recurring payments.**
 
     Indicate which part of a recurring sequence this payment is for.
@@ -1970,120 +2298,52 @@ class UpdatePaymentResponseBodyTypedDict(TypedDict):
 
     Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
     """
-    subscription_id: NotRequired[Nullable[str]]
-    r"""If the payment was automatically created via a subscription, the ID of the [subscription](get-subscription) will be added to the response."""
-    mandate_id: NotRequired[Nullable[str]]
-    r"""**Only relevant for recurring payments.**
 
-    When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of the customer's accounts should be credited.
-    """
-    customer_id: NotRequired[Nullable[str]]
-    r"""The ID of the [customer](get-customer) the payment is being created for. This is used primarily for recurring payments, but can also be used on regular payments to enable single-click payments.
-
-    If `sequenceType` is set to `recurring`, this field is required.
-    """
-    profile_id: NotRequired[str]
+    profile_id: Annotated[str, pydantic.Field(alias="profileId")]
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
     When using an API Key, the `profileId` can be omitted since it is linked to the key. However, for OAuth and Organization tokens, the `profileId` is required.
 
     For more information, see [Authentication](authentication).
     """
-    settlement_id: NotRequired[Nullable[str]]
-    r"""The identifier referring to the [settlement](get-settlement) this payment was settled with."""
-    order_id: NotRequired[Nullable[str]]
-    r"""If the payment was created for an [order](get-order), the ID of that order will be part of the response."""
-    status: NotRequired[str]
+
+    status: str
     r"""The payment's status. Refer to the [documentation regarding statuses](status-change) for more info about which statuses occur at what point.
 
     Possible values: `open` `pending` `authorized` `paid` `canceled` `expired` `failed`
     """
-    status_reason: NotRequired[Nullable[UpdatePaymentStatusReasonTypedDict]]
-    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale payments.
 
-    You can find more information about the possible values of this object on [this page](status-reasons).**
-    """
-    is_cancelable: NotRequired[Nullable[bool]]
-    r"""Whether the payment can be canceled. This parameter is omitted if the payment reaches a final state."""
-    details: NotRequired[Nullable[Dict[str, Any]]]
-    r"""An object containing payment details collected during the payment process. For example, details may include the customer's card or bank details and a payment reference. For the full list of details, please refer to the [method-specific parameters](extra-payment-parameters) guide."""
-    created_at: NotRequired[str]
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    authorized_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment became authorized, in ISO 8601 format. This parameter is omitted if the payment is not authorized (yet)."""
-    paid_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment became paid, in ISO 8601 format. This parameter is omitted if the payment is not completed (yet)."""
-    canceled_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment was canceled, in ISO 8601 format. This parameter is omitted if the payment is not canceled (yet)."""
-    expires_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment will expire, in ISO 8601 format. This parameter is omitted if the payment can no longer expire."""
-    expired_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment was expired, in ISO 8601 format. This parameter is omitted if the payment did not expire (yet)."""
-    failed_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment failed, in ISO 8601 format. This parameter is omitted if the payment did not fail (yet)."""
-    links: NotRequired[UpdatePaymentLinksTypedDict]
+
+    links: Annotated[UpdatePaymentLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-
-class UpdatePaymentResponseBody(BaseModel):
-    r"""The updated payment object."""
-
-    resource: Optional[str] = "payment"
-    r"""Indicates the response contains a payment object. Will always contain the string `payment` for this endpoint."""
-
-    id: Optional[str] = None
-    r"""The identifier uniquely referring to this payment. Mollie assigns this identifier at payment creation time. Mollie will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`."""
-
-    mode: Optional[str] = None
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
-    """
-
-    description: OptionalNullable[str] = UNSET
-    r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.
-
-    We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.
-
-    The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
-    """
-
-    amount: Optional[UpdatePaymentAmount] = None
-    r"""The amount that you want to charge, e.g. `{currency:\"EUR\", value:\"1000.00\"}` if you would want to charge €1000.00.
-
-    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be retrieved using the Get method endpoint.
-
-    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the tip amount.
-    """
-
     amount_refunded: Annotated[
-        OptionalNullable[UpdatePaymentAmountRefunded],
-        pydantic.Field(alias="amountRefunded"),
-    ] = UNSET
+        Optional[UpdatePaymentAmountRefunded], pydantic.Field(alias="amountRefunded")
+    ] = None
     r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the costs for a return shipment to the customer."""
 
     amount_remaining: Annotated[
-        OptionalNullable[UpdatePaymentAmountRemaining],
-        pydantic.Field(alias="amountRemaining"),
-    ] = UNSET
+        Optional[UpdatePaymentAmountRemaining], pydantic.Field(alias="amountRemaining")
+    ] = None
     r"""The remaining amount that can be refunded. Only available when refunds are available for this payment."""
 
     amount_captured: Annotated[
-        OptionalNullable[UpdatePaymentAmountCaptured],
-        pydantic.Field(alias="amountCaptured"),
-    ] = UNSET
+        Optional[UpdatePaymentAmountCaptured], pydantic.Field(alias="amountCaptured")
+    ] = None
     r"""The total amount that is already captured for this payment. Only available when this payment supports captures."""
 
     amount_charged_back: Annotated[
-        OptionalNullable[UpdatePaymentAmountChargedBack],
+        Optional[UpdatePaymentAmountChargedBack],
         pydantic.Field(alias="amountChargedBack"),
-    ] = UNSET
+    ] = None
     r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not zero."""
 
     settlement_amount: Annotated[
-        OptionalNullable[UpdatePaymentSettlementAmount],
+        Optional[UpdatePaymentSettlementAmount],
         pydantic.Field(alias="settlementAmount"),
-    ] = UNSET
+    ] = None
     r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
 
     Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is settled by Mollie the `settlementAmount` is omitted from the response.
@@ -2091,9 +2351,7 @@ class UpdatePaymentResponseBody(BaseModel):
     Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
 
-    redirect_url: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="redirectUrl")
-    ] = UNSET
+    redirect_url: Annotated[Optional[str], pydantic.Field(alias="redirectUrl")] = None
     r"""The URL your customer will be redirected to after the payment process.
 
     It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
@@ -2128,7 +2386,8 @@ class UpdatePaymentResponseBody(BaseModel):
     """
 
     billing_address: Annotated[
-        Optional[UpdatePaymentBillingAddress], pydantic.Field(alias="billingAddress")
+        Optional[UpdatePaymentPaymentsBillingAddress],
+        pydantic.Field(alias="billingAddress"),
     ] = None
     r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
 
@@ -2138,7 +2397,8 @@ class UpdatePaymentResponseBody(BaseModel):
     """
 
     shipping_address: Annotated[
-        Optional[UpdatePaymentShippingAddress], pydantic.Field(alias="shippingAddress")
+        Optional[UpdatePaymentPaymentsShippingAddress],
+        pydantic.Field(alias="shippingAddress"),
     ] = None
     r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
 
@@ -2235,24 +2495,6 @@ class UpdatePaymentResponseBody(BaseModel):
     If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee` parameter.
     """
 
-    sequence_type: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="sequenceType")
-    ] = UNSET
-    r"""**Only relevant for recurring payments.**
-
-    Indicate which part of a recurring sequence this payment is for.
-
-    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place on their account in the future.
-
-    If set to `recurring`, the customer's card is charged automatically.
-
-    Defaults to `oneoff`, which is a regular non-recurring payment.
-
-    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account are set up correctly for recurring payments.
-
-    Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
-    """
-
     subscription_id: Annotated[
         OptionalNullable[str], pydantic.Field(alias="subscriptionId")
     ] = UNSET
@@ -2274,14 +2516,6 @@ class UpdatePaymentResponseBody(BaseModel):
     If `sequenceType` is set to `recurring`, this field is required.
     """
 
-    profile_id: Annotated[Optional[str], pydantic.Field(alias="profileId")] = None
-    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
-
-    When using an API Key, the `profileId` can be omitted since it is linked to the key. However, for OAuth and Organization tokens, the `profileId` is required.
-
-    For more information, see [Authentication](authentication).
-    """
-
     settlement_id: Annotated[
         OptionalNullable[str], pydantic.Field(alias="settlementId")
     ] = UNSET
@@ -2289,12 +2523,6 @@ class UpdatePaymentResponseBody(BaseModel):
 
     order_id: Annotated[OptionalNullable[str], pydantic.Field(alias="orderId")] = UNSET
     r"""If the payment was created for an [order](get-order), the ID of that order will be part of the response."""
-
-    status: Optional[str] = None
-    r"""The payment's status. Refer to the [documentation regarding statuses](status-change) for more info about which statuses occur at what point.
-
-    Possible values: `open` `pending` `authorized` `paid` `canceled` `expired` `failed`
-    """
 
     status_reason: Annotated[
         OptionalNullable[UpdatePaymentStatusReason],
@@ -2312,9 +2540,6 @@ class UpdatePaymentResponseBody(BaseModel):
 
     details: OptionalNullable[Dict[str, Any]] = UNSET
     r"""An object containing payment details collected during the payment process. For example, details may include the customer's card or bank details and a payment reference. For the full list of details, please refer to the [method-specific parameters](extra-payment-parameters) guide."""
-
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
     authorized_at: Annotated[
         OptionalNullable[str], pydantic.Field(alias="authorizedAt")
@@ -2344,19 +2569,9 @@ class UpdatePaymentResponseBody(BaseModel):
     )
     r"""The date and time the payment failed, in ISO 8601 format. This parameter is omitted if the payment did not fail (yet)."""
 
-    links: Annotated[Optional[UpdatePaymentLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "resource",
-            "id",
-            "mode",
-            "description",
-            "amount",
             "amountRefunded",
             "amountRemaining",
             "amountCaptured",
@@ -2378,34 +2593,22 @@ class UpdatePaymentResponseBody(BaseModel):
             "captureBefore",
             "applicationFee",
             "routing",
-            "sequenceType",
             "subscriptionId",
             "mandateId",
             "customerId",
-            "profileId",
             "settlementId",
             "orderId",
-            "status",
             "statusReason",
             "isCancelable",
             "details",
-            "createdAt",
             "authorizedAt",
             "paidAt",
             "canceledAt",
             "expiresAt",
             "expiredAt",
             "failedAt",
-            "_links",
         ]
         nullable_fields = [
-            "description",
-            "amountRefunded",
-            "amountRemaining",
-            "amountCaptured",
-            "amountChargedBack",
-            "settlementAmount",
-            "redirectUrl",
             "cancelUrl",
             "webhookUrl",
             "lines",

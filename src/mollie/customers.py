@@ -3,7 +3,7 @@
 from .basesdk import BaseSDK
 from mollie import models, utils
 from mollie._hooks import HookContext
-from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET
+from mollie.types import BaseModel, OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
 from typing import Any, List, Mapping, Optional, Union, cast
 
@@ -1233,12 +1233,12 @@ class Customers(BaseSDK):
         self,
         *,
         customer_id_param: str,
-        description: Nullable[str],
+        description: str,
         amount: Union[
             models.CreateCustomerPaymentAmount,
             models.CreateCustomerPaymentAmountTypedDict,
         ],
-        redirect_url: Nullable[str],
+        redirect_url: str,
         cancel_url: OptionalNullable[str] = UNSET,
         webhook_url: OptionalNullable[str] = UNSET,
         lines: OptionalNullable[
@@ -1489,12 +1489,12 @@ class Customers(BaseSDK):
         self,
         *,
         customer_id_param: str,
-        description: Nullable[str],
+        description: str,
         amount: Union[
             models.CreateCustomerPaymentAmount,
             models.CreateCustomerPaymentAmountTypedDict,
         ],
-        redirect_url: Nullable[str],
+        redirect_url: str,
         cancel_url: OptionalNullable[str] = UNSET,
         webhook_url: OptionalNullable[str] = UNSET,
         lines: OptionalNullable[

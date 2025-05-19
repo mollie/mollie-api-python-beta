@@ -214,6 +214,45 @@ with Client(
                 "image_url": "https://...",
                 "product_url": "https://...",
             },
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
         ],
         "billing_address": {
             "title": "Mr.",
@@ -340,6 +379,45 @@ async def main():
             "cancel_url": "https://example.org/cancel",
             "webhook_url": "https://example.org/webhooks",
             "lines": [
+                {
+                    "description": "LEGO 4440 Forest Police Station",
+                    "quantity": 1,
+                    "quantity_unit": "pcs",
+                    "unit_price": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "discount_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "recurring": {
+                        "description": "Gym subscription",
+                        "interval": "12 months",
+                        "amount": {
+                            "currency": "EUR",
+                            "value": "10.00",
+                        },
+                        "times": 1,
+                        "start_date": "2024-12-12",
+                    },
+                    "total_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "vat_rate": "21.00",
+                    "vat_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "sku": "9780241661628",
+                    "categories": [
+                        mollie.Categories.MEAL,
+                        mollie.Categories.ECO,
+                    ],
+                    "image_url": "https://...",
+                    "product_url": "https://...",
+                },
                 {
                     "description": "LEGO 4440 Forest Police Station",
                     "quantity": 1,
@@ -554,6 +632,45 @@ with Client(
         "cancel_url": "https://example.org/cancel",
         "webhook_url": "https://example.org/webhooks",
         "lines": [
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
             {
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
@@ -998,6 +1115,45 @@ with Client(
                 "image_url": "https://...",
                 "product_url": "https://...",
             },
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
         ],
         "billing_address": {
             "title": "Mr.",
@@ -1123,6 +1279,45 @@ with Client(
         "cancel_url": "https://example.org/cancel",
         "webhook_url": "https://example.org/webhooks",
         "lines": [
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
             {
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
@@ -1427,6 +1622,45 @@ with Client(
                     "image_url": "https://...",
                     "product_url": "https://...",
                 },
+                {
+                    "description": "LEGO 4440 Forest Police Station",
+                    "quantity": 1,
+                    "quantity_unit": "pcs",
+                    "unit_price": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "discount_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "recurring": {
+                        "description": "Gym subscription",
+                        "interval": "12 months",
+                        "amount": {
+                            "currency": "EUR",
+                            "value": "10.00",
+                        },
+                        "times": 1,
+                        "start_date": "2024-12-12",
+                    },
+                    "total_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "vat_rate": "21.00",
+                    "vat_amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "sku": "9780241661628",
+                    "categories": [
+                        mollie.Categories.MEAL,
+                        mollie.Categories.ECO,
+                    ],
+                    "image_url": "https://...",
+                    "product_url": "https://...",
+                },
             ],
             "billing_address": {
                 "title": "Mr.",
@@ -1565,6 +1799,45 @@ with Client(
         "cancel_url": "https://example.org/cancel",
         "webhook_url": "https://example.org/webhooks",
         "lines": [
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.Categories.MEAL,
+                    mollie.Categories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
             {
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,

@@ -46,14 +46,14 @@ with Client(
 
     res = client.client_links.create(request={
         "owner": {
-            "email": "Loyal79@yahoo.com",
+            "email": "Hermina_Johnston15@hotmail.com",
             "given_name": "<value>",
             "family_name": "<value>",
             "locale": "en_US",
         },
         "name": "<value>",
         "address": {
-            "country": "Afghanistan",
+            "country": "Panama",
         },
     })
 

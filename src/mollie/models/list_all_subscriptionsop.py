@@ -979,74 +979,72 @@ class ListAllSubscriptionsSubscriptionsResponseAmount(BaseModel):
 class ListAllSubscriptionsDestinationTypedDict(TypedDict):
     r"""The destination of this portion of the payment."""
 
-    type: NotRequired[str]
+    type: str
     r"""The type of destination. Currently only the destination type `organization` is supported.
 
     Possible values: `organization`
     """
-    organization_id: NotRequired[str]
+    organization_id: str
     r"""Required for destination type `organization`. The ID of the connected organization the funds should be routed to."""
 
 
 class ListAllSubscriptionsDestination(BaseModel):
     r"""The destination of this portion of the payment."""
 
-    type: Optional[str] = None
+    type: str
     r"""The type of destination. Currently only the destination type `organization` is supported.
 
     Possible values: `organization`
     """
 
-    organization_id: Annotated[
-        Optional[str], pydantic.Field(alias="organizationId")
-    ] = None
+    organization_id: Annotated[str, pydantic.Field(alias="organizationId")]
     r"""Required for destination type `organization`. The ID of the connected organization the funds should be routed to."""
 
 
 class ListAllSubscriptionsSubscriptionsResponseSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsSubscriptionsResponseSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsPaymentTypedDict(TypedDict):
     r"""The API resource URL of the [payment](get-payment) that belong to this route."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsPayment(BaseModel):
     r"""The API resource URL of the [payment](get-payment) that belong to this route."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsSubscriptionsResponse200LinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListAllSubscriptionsSubscriptionsResponseSelfTypedDict]
+    self_: ListAllSubscriptionsSubscriptionsResponseSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    payment: NotRequired[ListAllSubscriptionsPaymentTypedDict]
+    payment: ListAllSubscriptionsPaymentTypedDict
     r"""The API resource URL of the [payment](get-payment) that belong to this route."""
 
 
@@ -1054,58 +1052,60 @@ class ListAllSubscriptionsSubscriptionsResponse200Links(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     self_: Annotated[
-        Optional[ListAllSubscriptionsSubscriptionsResponseSelf],
-        pydantic.Field(alias="self"),
-    ] = None
+        ListAllSubscriptionsSubscriptionsResponseSelf, pydantic.Field(alias="self")
+    ]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    payment: Optional[ListAllSubscriptionsPayment] = None
+    payment: ListAllSubscriptionsPayment
     r"""The API resource URL of the [payment](get-payment) that belong to this route."""
 
 
 class ListAllSubscriptionsRoutingTypedDict(TypedDict):
-    resource: NotRequired[str]
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID. Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`."""
-    mode: NotRequired[str]
+    mode: str
     r"""Whether this entity was created in live mode or in test mode.
 
     Possible values: `live` `test`
     """
-    amount: NotRequired[ListAllSubscriptionsSubscriptionsResponseAmountTypedDict]
+    amount: ListAllSubscriptionsSubscriptionsResponseAmountTypedDict
     r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
-    destination: NotRequired[ListAllSubscriptionsDestinationTypedDict]
+    destination: ListAllSubscriptionsDestinationTypedDict
     r"""The destination of this portion of the payment."""
+    created_at: str
+    r"""The date and time when the route was created. The date is given in ISO 8601 format."""
+    resource: NotRequired[str]
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
     release_date: NotRequired[Nullable[str]]
     r"""Optionally, schedule this portion of the payment to be transferred to its destination on a later date. The date must be given in `YYYY-MM-DD` format.
 
     If no date is given, the funds become available to the connected merchant as soon as the payment succeeds.
     """
-    links: NotRequired[
-        Nullable[ListAllSubscriptionsSubscriptionsResponse200LinksTypedDict]
-    ]
+    links: NotRequired[ListAllSubscriptionsSubscriptionsResponse200LinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class ListAllSubscriptionsRouting(BaseModel):
-    resource: Optional[str] = "route"
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
-
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID. Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`."""
 
-    mode: Optional[str] = None
+    mode: str
     r"""Whether this entity was created in live mode or in test mode.
 
     Possible values: `live` `test`
     """
 
-    amount: Optional[ListAllSubscriptionsSubscriptionsResponseAmount] = None
+    amount: ListAllSubscriptionsSubscriptionsResponseAmount
     r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
 
-    destination: Optional[ListAllSubscriptionsDestination] = None
+    destination: ListAllSubscriptionsDestination
     r"""The destination of this portion of the payment."""
+
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
+    r"""The date and time when the route was created. The date is given in ISO 8601 format."""
+
+    resource: Optional[str] = "route"
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
 
     release_date: Annotated[
         OptionalNullable[str], pydantic.Field(alias="releaseDate")
@@ -1116,23 +1116,15 @@ class ListAllSubscriptionsRouting(BaseModel):
     """
 
     links: Annotated[
-        OptionalNullable[ListAllSubscriptionsSubscriptionsResponse200Links],
+        Optional[ListAllSubscriptionsSubscriptionsResponse200Links],
         pydantic.Field(alias="_links"),
-    ] = UNSET
+    ] = None
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "resource",
-            "id",
-            "mode",
-            "amount",
-            "destination",
-            "releaseDate",
-            "_links",
-        ]
-        nullable_fields = ["releaseDate", "_links"]
+        optional_fields = ["resource", "releaseDate", "_links"]
+        nullable_fields = ["releaseDate"]
         null_default_fields = []
 
         serialized = handler(self)
@@ -1188,57 +1180,57 @@ class ListAllSubscriptionsStatusReason(BaseModel):
 class ListAllSubscriptionsSubscriptionsSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsSubscriptionsSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsCheckoutTypedDict(TypedDict):
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsCheckout(BaseModel):
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsMobileAppCheckoutTypedDict(TypedDict):
     r"""The deeplink URL to the app of the payment method. Currently only available for `bancontact`."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsMobileAppCheckout(BaseModel):
     r"""The deeplink URL to the app of the payment method. Currently only available for `bancontact`."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
@@ -1250,9 +1242,9 @@ class ListAllSubscriptionsChangePaymentStateTypedDict(TypedDict):
     Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or chargeback for the test payment.
     """
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
@@ -1264,289 +1256,289 @@ class ListAllSubscriptionsChangePaymentState(BaseModel):
     Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or chargeback for the test payment.
     """
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsDashboardTypedDict(TypedDict):
     r"""Direct link to the payment in the Mollie Dashboard."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsDashboard(BaseModel):
     r"""Direct link to the payment in the Mollie Dashboard."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsRefundsTypedDict(TypedDict):
     r"""The API resource URL of the [refunds](list-payment-refunds) that belong to this payment."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsRefunds(BaseModel):
     r"""The API resource URL of the [refunds](list-payment-refunds) that belong to this payment."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsChargebacksTypedDict(TypedDict):
     r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this payment."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsChargebacks(BaseModel):
     r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this payment."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsCapturesTypedDict(TypedDict):
     r"""The API resource URL of the [captures](list-payment-captures) that belong to this payment."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsCaptures(BaseModel):
     r"""The API resource URL of the [captures](list-payment-captures) that belong to this payment."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsSettlementTypedDict(TypedDict):
     r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with. Not present if not yet settled."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsSettlement(BaseModel):
     r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with. Not present if not yet settled."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsCustomerTypedDict(TypedDict):
     r"""The API resource URL of the [customer](get-customer)."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsCustomer(BaseModel):
     r"""The API resource URL of the [customer](get-customer)."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsMandateTypedDict(TypedDict):
     r"""The API resource URL of the [mandate](get-mandate)."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsMandate(BaseModel):
     r"""The API resource URL of the [mandate](get-mandate)."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsSubscriptionTypedDict(TypedDict):
     r"""The API resource URL of the [subscription](get-subscription)."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsSubscription(BaseModel):
     r"""The API resource URL of the [subscription](get-subscription)."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsOrderTypedDict(TypedDict):
     r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsOrder(BaseModel):
     r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsTerminalTypedDict(TypedDict):
     r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsTerminal(BaseModel):
     r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsSubscriptionsResponseDocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsSubscriptionsResponseDocumentation(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsSubscriptionsResponseLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListAllSubscriptionsSubscriptionsSelfTypedDict]
+    self_: ListAllSubscriptionsSubscriptionsSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    checkout: NotRequired[Nullable[ListAllSubscriptionsCheckoutTypedDict]]
+    dashboard: ListAllSubscriptionsDashboardTypedDict
+    r"""Direct link to the payment in the Mollie Dashboard."""
+    documentation: ListAllSubscriptionsSubscriptionsResponseDocumentationTypedDict
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+    checkout: NotRequired[ListAllSubscriptionsCheckoutTypedDict]
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
-    mobile_app_checkout: NotRequired[
-        Nullable[ListAllSubscriptionsMobileAppCheckoutTypedDict]
-    ]
+    mobile_app_checkout: NotRequired[ListAllSubscriptionsMobileAppCheckoutTypedDict]
     r"""The deeplink URL to the app of the payment method. Currently only available for `bancontact`."""
-    change_payment_state: NotRequired[
-        Nullable[ListAllSubscriptionsChangePaymentStateTypedDict]
-    ]
+    change_payment_state: NotRequired[ListAllSubscriptionsChangePaymentStateTypedDict]
     r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different payment states.
 
     Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these payments are executed without any user interaction.
 
     Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or chargeback for the test payment.
     """
-    dashboard: NotRequired[ListAllSubscriptionsDashboardTypedDict]
-    r"""Direct link to the payment in the Mollie Dashboard."""
-    refunds: NotRequired[Nullable[ListAllSubscriptionsRefundsTypedDict]]
+    refunds: NotRequired[ListAllSubscriptionsRefundsTypedDict]
     r"""The API resource URL of the [refunds](list-payment-refunds) that belong to this payment."""
     chargebacks: NotRequired[ListAllSubscriptionsChargebacksTypedDict]
     r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this payment."""
     captures: NotRequired[ListAllSubscriptionsCapturesTypedDict]
     r"""The API resource URL of the [captures](list-payment-captures) that belong to this payment."""
-    settlement: NotRequired[Nullable[ListAllSubscriptionsSettlementTypedDict]]
+    settlement: NotRequired[ListAllSubscriptionsSettlementTypedDict]
     r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with. Not present if not yet settled."""
-    customer: NotRequired[Nullable[ListAllSubscriptionsCustomerTypedDict]]
+    customer: NotRequired[ListAllSubscriptionsCustomerTypedDict]
     r"""The API resource URL of the [customer](get-customer)."""
-    mandate: NotRequired[Nullable[ListAllSubscriptionsMandateTypedDict]]
+    mandate: NotRequired[ListAllSubscriptionsMandateTypedDict]
     r"""The API resource URL of the [mandate](get-mandate)."""
-    subscription: NotRequired[Nullable[ListAllSubscriptionsSubscriptionTypedDict]]
+    subscription: NotRequired[ListAllSubscriptionsSubscriptionTypedDict]
     r"""The API resource URL of the [subscription](get-subscription)."""
-    order: NotRequired[Nullable[ListAllSubscriptionsOrderTypedDict]]
+    order: NotRequired[ListAllSubscriptionsOrderTypedDict]
     r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
-    terminal: NotRequired[Nullable[ListAllSubscriptionsTerminalTypedDict]]
+    terminal: NotRequired[ListAllSubscriptionsTerminalTypedDict]
     r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
-    documentation: NotRequired[
-        ListAllSubscriptionsSubscriptionsResponseDocumentationTypedDict
-    ]
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListAllSubscriptionsSubscriptionsResponseLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     self_: Annotated[
-        Optional[ListAllSubscriptionsSubscriptionsSelf], pydantic.Field(alias="self")
-    ] = None
+        ListAllSubscriptionsSubscriptionsSelf, pydantic.Field(alias="self")
+    ]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    checkout: OptionalNullable[ListAllSubscriptionsCheckout] = UNSET
+    dashboard: ListAllSubscriptionsDashboard
+    r"""Direct link to the payment in the Mollie Dashboard."""
+
+    documentation: ListAllSubscriptionsSubscriptionsResponseDocumentation
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    checkout: Optional[ListAllSubscriptionsCheckout] = None
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
 
     mobile_app_checkout: Annotated[
-        OptionalNullable[ListAllSubscriptionsMobileAppCheckout],
+        Optional[ListAllSubscriptionsMobileAppCheckout],
         pydantic.Field(alias="mobileAppCheckout"),
-    ] = UNSET
+    ] = None
     r"""The deeplink URL to the app of the payment method. Currently only available for `bancontact`."""
 
     change_payment_state: Annotated[
-        OptionalNullable[ListAllSubscriptionsChangePaymentState],
+        Optional[ListAllSubscriptionsChangePaymentState],
         pydantic.Field(alias="changePaymentState"),
-    ] = UNSET
+    ] = None
     r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different payment states.
 
     Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these payments are executed without any user interaction.
@@ -1554,10 +1546,7 @@ class ListAllSubscriptionsSubscriptionsResponseLinks(BaseModel):
     Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or chargeback for the test payment.
     """
 
-    dashboard: Optional[ListAllSubscriptionsDashboard] = None
-    r"""Direct link to the payment in the Mollie Dashboard."""
-
-    refunds: OptionalNullable[ListAllSubscriptionsRefunds] = UNSET
+    refunds: Optional[ListAllSubscriptionsRefunds] = None
     r"""The API resource URL of the [refunds](list-payment-refunds) that belong to this payment."""
 
     chargebacks: Optional[ListAllSubscriptionsChargebacks] = None
@@ -1566,133 +1555,96 @@ class ListAllSubscriptionsSubscriptionsResponseLinks(BaseModel):
     captures: Optional[ListAllSubscriptionsCaptures] = None
     r"""The API resource URL of the [captures](list-payment-captures) that belong to this payment."""
 
-    settlement: OptionalNullable[ListAllSubscriptionsSettlement] = UNSET
+    settlement: Optional[ListAllSubscriptionsSettlement] = None
     r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with. Not present if not yet settled."""
 
-    customer: OptionalNullable[ListAllSubscriptionsCustomer] = UNSET
+    customer: Optional[ListAllSubscriptionsCustomer] = None
     r"""The API resource URL of the [customer](get-customer)."""
 
-    mandate: OptionalNullable[ListAllSubscriptionsMandate] = UNSET
+    mandate: Optional[ListAllSubscriptionsMandate] = None
     r"""The API resource URL of the [mandate](get-mandate)."""
 
-    subscription: OptionalNullable[ListAllSubscriptionsSubscription] = UNSET
+    subscription: Optional[ListAllSubscriptionsSubscription] = None
     r"""The API resource URL of the [subscription](get-subscription)."""
 
-    order: OptionalNullable[ListAllSubscriptionsOrder] = UNSET
+    order: Optional[ListAllSubscriptionsOrder] = None
     r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
 
-    terminal: OptionalNullable[ListAllSubscriptionsTerminal] = UNSET
+    terminal: Optional[ListAllSubscriptionsTerminal] = None
     r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
-
-    documentation: Optional[ListAllSubscriptionsSubscriptionsResponseDocumentation] = (
-        None
-    )
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = [
-            "self",
-            "checkout",
-            "mobileAppCheckout",
-            "changePaymentState",
-            "dashboard",
-            "refunds",
-            "chargebacks",
-            "captures",
-            "settlement",
-            "customer",
-            "mandate",
-            "subscription",
-            "order",
-            "terminal",
-            "documentation",
-        ]
-        nullable_fields = [
-            "checkout",
-            "mobileAppCheckout",
-            "changePaymentState",
-            "refunds",
-            "settlement",
-            "customer",
-            "mandate",
-            "subscription",
-            "order",
-            "terminal",
-        ]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
 
 
 class ListAllSubscriptionsPaymentsTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a payment object. Will always contain the string `payment` for this endpoint."""
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this payment. Mollie assigns this identifier at payment creation time. Mollie will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`."""
-    mode: NotRequired[str]
+    mode: str
     r"""Whether this entity was created in live mode or in test mode.
 
     Possible values: `live` `test`
     """
-    description: NotRequired[Nullable[str]]
+    description: str
     r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.
 
     We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.
 
     The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
     """
-    amount: NotRequired[ListAllSubscriptionsAmountTypedDict]
+    amount: ListAllSubscriptionsAmountTypedDict
     r"""The amount that you want to charge, e.g. `{currency:\"EUR\", value:\"1000.00\"}` if you would want to charge €1000.00.
 
     You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be retrieved using the Get method endpoint.
 
     If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the tip amount.
     """
-    amount_refunded: NotRequired[Nullable[ListAllSubscriptionsAmountRefundedTypedDict]]
+    sequence_type: Nullable[str]
+    r"""**Only relevant for recurring payments.**
+
+    Indicate which part of a recurring sequence this payment is for.
+
+    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place on their account in the future.
+
+    If set to `recurring`, the customer's card is charged automatically.
+
+    Defaults to `oneoff`, which is a regular non-recurring payment.
+
+    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account are set up correctly for recurring payments.
+
+    Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
+    """
+    profile_id: str
+    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
+
+    When using an API Key, the `profileId` can be omitted since it is linked to the key. However, for OAuth and Organization tokens, the `profileId` is required.
+
+    For more information, see [Authentication](authentication).
+    """
+    status: str
+    r"""The payment's status. Refer to the [documentation regarding statuses](status-change) for more info about which statuses occur at what point.
+
+    Possible values: `open` `pending` `authorized` `paid` `canceled` `expired` `failed`
+    """
+    created_at: str
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    links: ListAllSubscriptionsSubscriptionsResponseLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+    amount_refunded: NotRequired[ListAllSubscriptionsAmountRefundedTypedDict]
     r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the costs for a return shipment to the customer."""
-    amount_remaining: NotRequired[
-        Nullable[ListAllSubscriptionsAmountRemainingTypedDict]
-    ]
+    amount_remaining: NotRequired[ListAllSubscriptionsAmountRemainingTypedDict]
     r"""The remaining amount that can be refunded. Only available when refunds are available for this payment."""
-    amount_captured: NotRequired[Nullable[ListAllSubscriptionsAmountCapturedTypedDict]]
+    amount_captured: NotRequired[ListAllSubscriptionsAmountCapturedTypedDict]
     r"""The total amount that is already captured for this payment. Only available when this payment supports captures."""
-    amount_charged_back: NotRequired[
-        Nullable[ListAllSubscriptionsAmountChargedBackTypedDict]
-    ]
+    amount_charged_back: NotRequired[ListAllSubscriptionsAmountChargedBackTypedDict]
     r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not zero."""
-    settlement_amount: NotRequired[
-        Nullable[ListAllSubscriptionsSettlementAmountTypedDict]
-    ]
+    settlement_amount: NotRequired[ListAllSubscriptionsSettlementAmountTypedDict]
     r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
 
     Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is settled by Mollie the `settlementAmount` is omitted from the response.
 
     Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
-    redirect_url: NotRequired[Nullable[str]]
+    redirect_url: NotRequired[str]
     r"""The URL your customer will be redirected to after the payment process.
 
     It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
@@ -1797,7 +1749,75 @@ class ListAllSubscriptionsPaymentsTypedDict(TypedDict):
 
     If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee` parameter.
     """
-    sequence_type: NotRequired[Nullable[str]]
+    subscription_id: NotRequired[Nullable[str]]
+    r"""If the payment was automatically created via a subscription, the ID of the [subscription](get-subscription) will be added to the response."""
+    mandate_id: NotRequired[Nullable[str]]
+    r"""**Only relevant for recurring payments.**
+
+    When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of the customer's accounts should be credited.
+    """
+    customer_id: NotRequired[Nullable[str]]
+    r"""The ID of the [customer](get-customer) the payment is being created for. This is used primarily for recurring payments, but can also be used on regular payments to enable single-click payments.
+
+    If `sequenceType` is set to `recurring`, this field is required.
+    """
+    settlement_id: NotRequired[Nullable[str]]
+    r"""The identifier referring to the [settlement](get-settlement) this payment was settled with."""
+    order_id: NotRequired[Nullable[str]]
+    r"""If the payment was created for an [order](get-order), the ID of that order will be part of the response."""
+    status_reason: NotRequired[Nullable[ListAllSubscriptionsStatusReasonTypedDict]]
+    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale payments.
+
+    You can find more information about the possible values of this object on [this page](status-reasons).**
+    """
+    is_cancelable: NotRequired[Nullable[bool]]
+    r"""Whether the payment can be canceled. This parameter is omitted if the payment reaches a final state."""
+    details: NotRequired[Nullable[Dict[str, Any]]]
+    r"""An object containing payment details collected during the payment process. For example, details may include the customer's card or bank details and a payment reference. For the full list of details, please refer to the [method-specific parameters](extra-payment-parameters) guide."""
+    authorized_at: NotRequired[Nullable[str]]
+    r"""The date and time the payment became authorized, in ISO 8601 format. This parameter is omitted if the payment is not authorized (yet)."""
+    paid_at: NotRequired[Nullable[str]]
+    r"""The date and time the payment became paid, in ISO 8601 format. This parameter is omitted if the payment is not completed (yet)."""
+    canceled_at: NotRequired[Nullable[str]]
+    r"""The date and time the payment was canceled, in ISO 8601 format. This parameter is omitted if the payment is not canceled (yet)."""
+    expires_at: NotRequired[Nullable[str]]
+    r"""The date and time the payment will expire, in ISO 8601 format. This parameter is omitted if the payment can no longer expire."""
+    expired_at: NotRequired[Nullable[str]]
+    r"""The date and time the payment was expired, in ISO 8601 format. This parameter is omitted if the payment did not expire (yet)."""
+    failed_at: NotRequired[Nullable[str]]
+    r"""The date and time the payment failed, in ISO 8601 format. This parameter is omitted if the payment did not fail (yet)."""
+
+
+class ListAllSubscriptionsPayments(BaseModel):
+    resource: str
+    r"""Indicates the response contains a payment object. Will always contain the string `payment` for this endpoint."""
+
+    id: str
+    r"""The identifier uniquely referring to this payment. Mollie assigns this identifier at payment creation time. Mollie will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`."""
+
+    mode: str
+    r"""Whether this entity was created in live mode or in test mode.
+
+    Possible values: `live` `test`
+    """
+
+    description: str
+    r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.
+
+    We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.
+
+    The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
+    """
+
+    amount: ListAllSubscriptionsAmount
+    r"""The amount that you want to charge, e.g. `{currency:\"EUR\", value:\"1000.00\"}` if you would want to charge €1000.00.
+
+    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be retrieved using the Get method endpoint.
+
+    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the tip amount.
+    """
+
+    sequence_type: Annotated[Nullable[str], pydantic.Field(alias="sequenceType")]
     r"""**Only relevant for recurring payments.**
 
     Indicate which part of a recurring sequence this payment is for.
@@ -1812,118 +1832,57 @@ class ListAllSubscriptionsPaymentsTypedDict(TypedDict):
 
     Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
     """
-    subscription_id: NotRequired[Nullable[str]]
-    r"""If the payment was automatically created via a subscription, the ID of the [subscription](get-subscription) will be added to the response."""
-    mandate_id: NotRequired[Nullable[str]]
-    r"""**Only relevant for recurring payments.**
 
-    When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of the customer's accounts should be credited.
-    """
-    customer_id: NotRequired[Nullable[str]]
-    r"""The ID of the [customer](get-customer) the payment is being created for. This is used primarily for recurring payments, but can also be used on regular payments to enable single-click payments.
-
-    If `sequenceType` is set to `recurring`, this field is required.
-    """
-    profile_id: NotRequired[str]
+    profile_id: Annotated[str, pydantic.Field(alias="profileId")]
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
     When using an API Key, the `profileId` can be omitted since it is linked to the key. However, for OAuth and Organization tokens, the `profileId` is required.
 
     For more information, see [Authentication](authentication).
     """
-    settlement_id: NotRequired[Nullable[str]]
-    r"""The identifier referring to the [settlement](get-settlement) this payment was settled with."""
-    order_id: NotRequired[Nullable[str]]
-    r"""If the payment was created for an [order](get-order), the ID of that order will be part of the response."""
-    status: NotRequired[str]
+
+    status: str
     r"""The payment's status. Refer to the [documentation regarding statuses](status-change) for more info about which statuses occur at what point.
 
     Possible values: `open` `pending` `authorized` `paid` `canceled` `expired` `failed`
     """
-    status_reason: NotRequired[Nullable[ListAllSubscriptionsStatusReasonTypedDict]]
-    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale payments.
 
-    You can find more information about the possible values of this object on [this page](status-reasons).**
-    """
-    is_cancelable: NotRequired[Nullable[bool]]
-    r"""Whether the payment can be canceled. This parameter is omitted if the payment reaches a final state."""
-    details: NotRequired[Nullable[Dict[str, Any]]]
-    r"""An object containing payment details collected during the payment process. For example, details may include the customer's card or bank details and a payment reference. For the full list of details, please refer to the [method-specific parameters](extra-payment-parameters) guide."""
-    created_at: NotRequired[str]
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    authorized_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment became authorized, in ISO 8601 format. This parameter is omitted if the payment is not authorized (yet)."""
-    paid_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment became paid, in ISO 8601 format. This parameter is omitted if the payment is not completed (yet)."""
-    canceled_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment was canceled, in ISO 8601 format. This parameter is omitted if the payment is not canceled (yet)."""
-    expires_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment will expire, in ISO 8601 format. This parameter is omitted if the payment can no longer expire."""
-    expired_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment was expired, in ISO 8601 format. This parameter is omitted if the payment did not expire (yet)."""
-    failed_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment failed, in ISO 8601 format. This parameter is omitted if the payment did not fail (yet)."""
-    links: NotRequired[ListAllSubscriptionsSubscriptionsResponseLinksTypedDict]
+
+    links: Annotated[
+        ListAllSubscriptionsSubscriptionsResponseLinks, pydantic.Field(alias="_links")
+    ]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-
-class ListAllSubscriptionsPayments(BaseModel):
-    resource: Optional[str] = "payment"
-    r"""Indicates the response contains a payment object. Will always contain the string `payment` for this endpoint."""
-
-    id: Optional[str] = None
-    r"""The identifier uniquely referring to this payment. Mollie assigns this identifier at payment creation time. Mollie will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`."""
-
-    mode: Optional[str] = None
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
-    """
-
-    description: OptionalNullable[str] = UNSET
-    r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.
-
-    We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.
-
-    The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
-    """
-
-    amount: Optional[ListAllSubscriptionsAmount] = None
-    r"""The amount that you want to charge, e.g. `{currency:\"EUR\", value:\"1000.00\"}` if you would want to charge €1000.00.
-
-    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be retrieved using the Get method endpoint.
-
-    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the tip amount.
-    """
-
     amount_refunded: Annotated[
-        OptionalNullable[ListAllSubscriptionsAmountRefunded],
+        Optional[ListAllSubscriptionsAmountRefunded],
         pydantic.Field(alias="amountRefunded"),
-    ] = UNSET
+    ] = None
     r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the costs for a return shipment to the customer."""
 
     amount_remaining: Annotated[
-        OptionalNullable[ListAllSubscriptionsAmountRemaining],
+        Optional[ListAllSubscriptionsAmountRemaining],
         pydantic.Field(alias="amountRemaining"),
-    ] = UNSET
+    ] = None
     r"""The remaining amount that can be refunded. Only available when refunds are available for this payment."""
 
     amount_captured: Annotated[
-        OptionalNullable[ListAllSubscriptionsAmountCaptured],
+        Optional[ListAllSubscriptionsAmountCaptured],
         pydantic.Field(alias="amountCaptured"),
-    ] = UNSET
+    ] = None
     r"""The total amount that is already captured for this payment. Only available when this payment supports captures."""
 
     amount_charged_back: Annotated[
-        OptionalNullable[ListAllSubscriptionsAmountChargedBack],
+        Optional[ListAllSubscriptionsAmountChargedBack],
         pydantic.Field(alias="amountChargedBack"),
-    ] = UNSET
+    ] = None
     r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not zero."""
 
     settlement_amount: Annotated[
-        OptionalNullable[ListAllSubscriptionsSettlementAmount],
+        Optional[ListAllSubscriptionsSettlementAmount],
         pydantic.Field(alias="settlementAmount"),
-    ] = UNSET
+    ] = None
     r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
 
     Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is settled by Mollie the `settlementAmount` is omitted from the response.
@@ -1931,9 +1890,7 @@ class ListAllSubscriptionsPayments(BaseModel):
     Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
 
-    redirect_url: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="redirectUrl")
-    ] = UNSET
+    redirect_url: Annotated[Optional[str], pydantic.Field(alias="redirectUrl")] = None
     r"""The URL your customer will be redirected to after the payment process.
 
     It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
@@ -2077,24 +2034,6 @@ class ListAllSubscriptionsPayments(BaseModel):
     If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee` parameter.
     """
 
-    sequence_type: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="sequenceType")
-    ] = UNSET
-    r"""**Only relevant for recurring payments.**
-
-    Indicate which part of a recurring sequence this payment is for.
-
-    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place on their account in the future.
-
-    If set to `recurring`, the customer's card is charged automatically.
-
-    Defaults to `oneoff`, which is a regular non-recurring payment.
-
-    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account are set up correctly for recurring payments.
-
-    Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
-    """
-
     subscription_id: Annotated[
         OptionalNullable[str], pydantic.Field(alias="subscriptionId")
     ] = UNSET
@@ -2116,14 +2055,6 @@ class ListAllSubscriptionsPayments(BaseModel):
     If `sequenceType` is set to `recurring`, this field is required.
     """
 
-    profile_id: Annotated[Optional[str], pydantic.Field(alias="profileId")] = None
-    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
-
-    When using an API Key, the `profileId` can be omitted since it is linked to the key. However, for OAuth and Organization tokens, the `profileId` is required.
-
-    For more information, see [Authentication](authentication).
-    """
-
     settlement_id: Annotated[
         OptionalNullable[str], pydantic.Field(alias="settlementId")
     ] = UNSET
@@ -2131,12 +2062,6 @@ class ListAllSubscriptionsPayments(BaseModel):
 
     order_id: Annotated[OptionalNullable[str], pydantic.Field(alias="orderId")] = UNSET
     r"""If the payment was created for an [order](get-order), the ID of that order will be part of the response."""
-
-    status: Optional[str] = None
-    r"""The payment's status. Refer to the [documentation regarding statuses](status-change) for more info about which statuses occur at what point.
-
-    Possible values: `open` `pending` `authorized` `paid` `canceled` `expired` `failed`
-    """
 
     status_reason: Annotated[
         OptionalNullable[ListAllSubscriptionsStatusReason],
@@ -2154,9 +2079,6 @@ class ListAllSubscriptionsPayments(BaseModel):
 
     details: OptionalNullable[Dict[str, Any]] = UNSET
     r"""An object containing payment details collected during the payment process. For example, details may include the customer's card or bank details and a payment reference. For the full list of details, please refer to the [method-specific parameters](extra-payment-parameters) guide."""
-
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
     authorized_at: Annotated[
         OptionalNullable[str], pydantic.Field(alias="authorizedAt")
@@ -2186,20 +2108,9 @@ class ListAllSubscriptionsPayments(BaseModel):
     )
     r"""The date and time the payment failed, in ISO 8601 format. This parameter is omitted if the payment did not fail (yet)."""
 
-    links: Annotated[
-        Optional[ListAllSubscriptionsSubscriptionsResponseLinks],
-        pydantic.Field(alias="_links"),
-    ] = None
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "resource",
-            "id",
-            "mode",
-            "description",
-            "amount",
             "amountRefunded",
             "amountRemaining",
             "amountCaptured",
@@ -2221,34 +2132,22 @@ class ListAllSubscriptionsPayments(BaseModel):
             "captureBefore",
             "applicationFee",
             "routing",
-            "sequenceType",
             "subscriptionId",
             "mandateId",
             "customerId",
-            "profileId",
             "settlementId",
             "orderId",
-            "status",
             "statusReason",
             "isCancelable",
             "details",
-            "createdAt",
             "authorizedAt",
             "paidAt",
             "canceledAt",
             "expiresAt",
             "expiredAt",
             "failedAt",
-            "_links",
         ]
         nullable_fields = [
-            "description",
-            "amountRefunded",
-            "amountRemaining",
-            "amountCaptured",
-            "amountChargedBack",
-            "settlementAmount",
-            "redirectUrl",
             "cancelUrl",
             "webhookUrl",
             "lines",
@@ -2318,19 +2217,19 @@ class ListAllSubscriptionsEmbedded(BaseModel):
 class ListAllSubscriptionsSelfTypedDict(TypedDict):
     r"""The URL to the current set of items."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsSelf(BaseModel):
     r"""The URL to the current set of items."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
@@ -2375,19 +2274,19 @@ class ListAllSubscriptionsNext(BaseModel):
 class ListAllSubscriptionsDocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class ListAllSubscriptionsDocumentation(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 

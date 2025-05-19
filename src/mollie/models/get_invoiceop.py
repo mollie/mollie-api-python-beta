@@ -183,57 +183,57 @@ class GetInvoiceLines(BaseModel):
 class GetInvoiceSelfTypedDict(TypedDict):
     r"""URL to the current invoice resource."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class GetInvoiceSelf(BaseModel):
     r"""URL to the current invoice resource."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class PdfTypedDict(TypedDict):
     r"""URL to a downloadable PDF of the invoice."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class Pdf(BaseModel):
     r"""URL to a downloadable PDF of the invoice."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class GetInvoiceDocumentationTypedDict(TypedDict):
     r"""URL to the API documentation."""
 
-    href: NotRequired[str]
+    href: str
     r"""The actual URL string."""
-    type: NotRequired[str]
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
 class GetInvoiceDocumentation(BaseModel):
     r"""URL to the API documentation."""
 
-    href: Optional[str] = None
+    href: str
     r"""The actual URL string."""
 
-    type: Optional[str] = None
+    type: str
     r"""The content type of the page or endpoint the URL points to."""
 
 
