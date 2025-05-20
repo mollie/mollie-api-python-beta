@@ -165,7 +165,7 @@ with Client(
 
 ### Response
 
-**[Any](../../models/.md)**
+**[models.GetOpenSettlementResponseBody](../../models/getopensettlementresponsebody.md)**
 
 ### Errors
 
@@ -214,7 +214,7 @@ with Client(
 
 ### Response
 
-**[Any](../../models/.md)**
+**[models.GetNextSettlementResponseBody](../../models/getnextsettlementresponsebody.md)**
 
 ### Errors
 

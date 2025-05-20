@@ -85,6 +85,65 @@ class ListBalanceTransactionsRequest(BaseModel):
         return m
 
 
+class ListBalanceTransactionsBalancesResponse429DocumentationTypedDict(TypedDict):
+    r"""The URL to the generic Mollie API error handling guide."""
+
+    href: str
+    type: str
+
+
+class ListBalanceTransactionsBalancesResponse429Documentation(BaseModel):
+    r"""The URL to the generic Mollie API error handling guide."""
+
+    href: str
+
+    type: str
+
+
+class ListBalanceTransactionsBalancesResponse429LinksTypedDict(TypedDict):
+    documentation: ListBalanceTransactionsBalancesResponse429DocumentationTypedDict
+    r"""The URL to the generic Mollie API error handling guide."""
+
+
+class ListBalanceTransactionsBalancesResponse429Links(BaseModel):
+    documentation: ListBalanceTransactionsBalancesResponse429Documentation
+    r"""The URL to the generic Mollie API error handling guide."""
+
+
+class ListBalanceTransactionsBalancesResponse429ResponseBodyData(BaseModel):
+    status: int
+    r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
+
+    title: str
+    r"""The HTTP reason phrase of the error. For example, for a `404` error, the `title` will be `Not Found`."""
+
+    detail: str
+    r"""A detailed human-readable description of the error that occurred."""
+
+    links: Annotated[
+        ListBalanceTransactionsBalancesResponse429Links, pydantic.Field(alias="_links")
+    ]
+
+    field: Optional[str] = None
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+
+
+class ListBalanceTransactionsBalancesResponse429ResponseBody(Exception):
+    r"""An error response object."""
+
+    data: ListBalanceTransactionsBalancesResponse429ResponseBodyData
+
+    def __init__(
+        self, data: ListBalanceTransactionsBalancesResponse429ResponseBodyData
+    ):
+        self.data = data
+
+    def __str__(self) -> str:
+        return utils.marshal_json(
+            self.data, ListBalanceTransactionsBalancesResponse429ResponseBodyData
+        )
+
+
 class ListBalanceTransactionsBalancesResponseDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
