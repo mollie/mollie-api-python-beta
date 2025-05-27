@@ -3,45 +3,24 @@
 from __future__ import annotations
 from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
+from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class CancelSubscriptionRequestTypedDict(TypedDict):
-    customer_id: str
-    r"""Provide the ID of the related customer."""
-    subscription_id: str
-    r"""Provide the ID of the related subscription."""
+class CancelSubscriptionRequestBodyTypedDict(TypedDict):
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
 
 
-class CancelSubscriptionRequest(BaseModel):
-    customer_id: Annotated[
-        str,
-        pydantic.Field(alias="customerId"),
-        FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
-    ]
-    r"""Provide the ID of the related customer."""
-
-    subscription_id: Annotated[
-        str,
-        pydantic.Field(alias="subscriptionId"),
-        FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
-    ]
-    r"""Provide the ID of the related subscription."""
-
-    testmode: Annotated[
-        OptionalNullable[bool],
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+class CancelSubscriptionRequestBody(BaseModel):
+    testmode: OptionalNullable[bool] = UNSET
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -75,6 +54,35 @@ class CancelSubscriptionRequest(BaseModel):
                 m[k] = val
 
         return m
+
+
+class CancelSubscriptionRequestTypedDict(TypedDict):
+    customer_id: str
+    r"""Provide the ID of the related customer."""
+    subscription_id: str
+    r"""Provide the ID of the related subscription."""
+    request_body: NotRequired[CancelSubscriptionRequestBodyTypedDict]
+
+
+class CancelSubscriptionRequest(BaseModel):
+    customer_id: Annotated[
+        str,
+        pydantic.Field(alias="customerId"),
+        FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
+    ]
+    r"""Provide the ID of the related customer."""
+
+    subscription_id: Annotated[
+        str,
+        pydantic.Field(alias="subscriptionId"),
+        FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
+    ]
+    r"""Provide the ID of the related subscription."""
+
+    request_body: Annotated[
+        Optional[CancelSubscriptionRequestBody],
+        FieldMetadata(request=RequestMetadata(media_type="application/json")),
+    ] = None
 
 
 class CancelSubscriptionSubscriptionsDocumentationTypedDict(TypedDict):

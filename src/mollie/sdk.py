@@ -6,58 +6,85 @@ from .sdkconfiguration import SDKConfiguration
 from .utils.logger import Logger, get_default_logger
 from .utils.retries import RetryConfig
 import httpx
+import importlib
 from mollie import models, utils
 from mollie._hooks import SDKHooks
-from mollie.balances import Balances
-from mollie.capabilities import Capabilities
-from mollie.captures import Captures
-from mollie.chargebacks import Chargebacks
-from mollie.client_links import ClientLinks
-from mollie.clients import Clients
-from mollie.customers import Customers
-from mollie.delayed_routing import DelayedRouting
-from mollie.invoices import Invoices
-from mollie.mandates import Mandates
-from mollie.methods import Methods
-from mollie.onboarding import Onboarding
-from mollie.organizations import Organizations
-from mollie.payment_links import PaymentLinks
-from mollie.payments import Payments
-from mollie.permissions import Permissions
-from mollie.profiles import Profiles
-from mollie.refunds import Refunds
-from mollie.settlements import Settlements
-from mollie.subscriptions import Subscriptions
-from mollie.terminals import Terminals
 from mollie.types import OptionalNullable, UNSET
-from mollie.wallets import Wallets
-from typing import Callable, Dict, Optional, Union, cast
+from typing import Callable, Dict, Optional, TYPE_CHECKING, Union, cast
 import weakref
+
+if TYPE_CHECKING:
+    from mollie.balances import Balances
+    from mollie.capabilities import Capabilities
+    from mollie.captures import Captures
+    from mollie.chargebacks import Chargebacks
+    from mollie.client_links import ClientLinks
+    from mollie.clients import Clients
+    from mollie.customers import Customers
+    from mollie.delayed_routing import DelayedRouting
+    from mollie.invoices import Invoices
+    from mollie.mandates import Mandates
+    from mollie.methods import Methods
+    from mollie.onboarding import Onboarding
+    from mollie.organizations import Organizations
+    from mollie.payment_links import PaymentLinks
+    from mollie.payments import Payments
+    from mollie.permissions import Permissions
+    from mollie.profiles import Profiles
+    from mollie.refunds import Refunds
+    from mollie.settlements import Settlements
+    from mollie.subscriptions import Subscriptions
+    from mollie.terminals import Terminals
+    from mollie.wallets import Wallets
 
 
 class Client(BaseSDK):
-    payments: Payments
-    methods: Methods
-    refunds: Refunds
-    chargebacks: Chargebacks
-    captures: Captures
-    wallets: Wallets
-    payment_links: PaymentLinks
-    terminals: Terminals
-    delayed_routing: DelayedRouting
-    customers: Customers
-    mandates: Mandates
-    subscriptions: Subscriptions
-    permissions: Permissions
-    organizations: Organizations
-    profiles: Profiles
-    onboarding: Onboarding
-    capabilities: Capabilities
-    clients: Clients
-    client_links: ClientLinks
-    balances: Balances
-    settlements: Settlements
-    invoices: Invoices
+    payments: "Payments"
+    methods: "Methods"
+    refunds: "Refunds"
+    chargebacks: "Chargebacks"
+    captures: "Captures"
+    wallets: "Wallets"
+    payment_links: "PaymentLinks"
+    terminals: "Terminals"
+    delayed_routing: "DelayedRouting"
+    customers: "Customers"
+    mandates: "Mandates"
+    subscriptions: "Subscriptions"
+    permissions: "Permissions"
+    organizations: "Organizations"
+    profiles: "Profiles"
+    onboarding: "Onboarding"
+    capabilities: "Capabilities"
+    clients: "Clients"
+    client_links: "ClientLinks"
+    balances: "Balances"
+    settlements: "Settlements"
+    invoices: "Invoices"
+    _sub_sdk_map = {
+        "payments": ("mollie.payments", "Payments"),
+        "methods": ("mollie.methods", "Methods"),
+        "refunds": ("mollie.refunds", "Refunds"),
+        "chargebacks": ("mollie.chargebacks", "Chargebacks"),
+        "captures": ("mollie.captures", "Captures"),
+        "wallets": ("mollie.wallets", "Wallets"),
+        "payment_links": ("mollie.payment_links", "PaymentLinks"),
+        "terminals": ("mollie.terminals", "Terminals"),
+        "delayed_routing": ("mollie.delayed_routing", "DelayedRouting"),
+        "customers": ("mollie.customers", "Customers"),
+        "mandates": ("mollie.mandates", "Mandates"),
+        "subscriptions": ("mollie.subscriptions", "Subscriptions"),
+        "permissions": ("mollie.permissions", "Permissions"),
+        "organizations": ("mollie.organizations", "Organizations"),
+        "profiles": ("mollie.profiles", "Profiles"),
+        "onboarding": ("mollie.onboarding", "Onboarding"),
+        "capabilities": ("mollie.capabilities", "Capabilities"),
+        "clients": ("mollie.clients", "Clients"),
+        "client_links": ("mollie.client_links", "ClientLinks"),
+        "balances": ("mollie.balances", "Balances"),
+        "settlements": ("mollie.settlements", "Settlements"),
+        "invoices": ("mollie.invoices", "Invoices"),
+    }
 
     def __init__(
         self,
@@ -147,31 +174,32 @@ class Client(BaseSDK):
             self.sdk_configuration.async_client_supplied,
         )
 
-        self._init_sdks()
+    def __getattr__(self, name: str):
+        if name in self._sub_sdk_map:
+            module_path, class_name = self._sub_sdk_map[name]
+            try:
+                module = importlib.import_module(module_path)
+                klass = getattr(module, class_name)
+                instance = klass(self.sdk_configuration)
+                setattr(self, name, instance)
+                return instance
+            except ImportError as e:
+                raise AttributeError(
+                    f"Failed to import module {module_path} for attribute {name}: {e}"
+                ) from e
+            except AttributeError as e:
+                raise AttributeError(
+                    f"Failed to find class {class_name} in module {module_path} for attribute {name}: {e}"
+                ) from e
 
-    def _init_sdks(self):
-        self.payments = Payments(self.sdk_configuration)
-        self.methods = Methods(self.sdk_configuration)
-        self.refunds = Refunds(self.sdk_configuration)
-        self.chargebacks = Chargebacks(self.sdk_configuration)
-        self.captures = Captures(self.sdk_configuration)
-        self.wallets = Wallets(self.sdk_configuration)
-        self.payment_links = PaymentLinks(self.sdk_configuration)
-        self.terminals = Terminals(self.sdk_configuration)
-        self.delayed_routing = DelayedRouting(self.sdk_configuration)
-        self.customers = Customers(self.sdk_configuration)
-        self.mandates = Mandates(self.sdk_configuration)
-        self.subscriptions = Subscriptions(self.sdk_configuration)
-        self.permissions = Permissions(self.sdk_configuration)
-        self.organizations = Organizations(self.sdk_configuration)
-        self.profiles = Profiles(self.sdk_configuration)
-        self.onboarding = Onboarding(self.sdk_configuration)
-        self.capabilities = Capabilities(self.sdk_configuration)
-        self.clients = Clients(self.sdk_configuration)
-        self.client_links = ClientLinks(self.sdk_configuration)
-        self.balances = Balances(self.sdk_configuration)
-        self.settlements = Settlements(self.sdk_configuration)
-        self.invoices = Invoices(self.sdk_configuration)
+        raise AttributeError(
+            f"'{type(self).__name__}' object has no attribute '{name}'"
+        )
+
+    def __dir__(self):
+        default_attrs = list(super().__dir__())
+        lazy_attrs = list(self._sub_sdk_map.keys())
+        return sorted(list(set(default_attrs + lazy_attrs)))
 
     def __enter__(self):
         return self

@@ -1154,7 +1154,7 @@ class Payments(BaseSDK):
         > [Access token with **payments.write**](/reference/authentication)
 
         :param payment_id: Provide the ID of the related payment.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1172,7 +1172,9 @@ class Payments(BaseSDK):
 
         request = models.CancelPaymentRequest(
             payment_id=payment_id,
-            testmode=testmode,
+            request_body=models.CancelPaymentRequestBody(
+                testmode=testmode,
+            ),
         )
 
         req = self._build_request(
@@ -1188,6 +1190,13 @@ class Payments(BaseSDK):
             accept_header_value="application/hal+json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.request_body,
+                False,
+                True,
+                "json",
+                Optional[models.CancelPaymentRequestBody],
+            ),
             timeout_ms=timeout_ms,
         )
 
@@ -1275,7 +1284,7 @@ class Payments(BaseSDK):
         > [Access token with **payments.write**](/reference/authentication)
 
         :param payment_id: Provide the ID of the related payment.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1293,7 +1302,9 @@ class Payments(BaseSDK):
 
         request = models.CancelPaymentRequest(
             payment_id=payment_id,
-            testmode=testmode,
+            request_body=models.CancelPaymentRequestBody(
+                testmode=testmode,
+            ),
         )
 
         req = self._build_request_async(
@@ -1309,6 +1320,13 @@ class Payments(BaseSDK):
             accept_header_value="application/hal+json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.request_body,
+                False,
+                True,
+                "json",
+                Optional[models.CancelPaymentRequestBody],
+            ),
             timeout_ms=timeout_ms,
         )
 

@@ -745,7 +745,6 @@ class PaymentLinks(BaseSDK):
         self,
         *,
         payment_link_id: str,
-        testmode: OptionalNullable[bool] = UNSET,
         description: Optional[str] = None,
         minimum_amount: Optional[
             Union[
@@ -757,6 +756,7 @@ class PaymentLinks(BaseSDK):
         allowed_methods: OptionalNullable[
             List[models.UpdatePaymentLinkAllowedMethods]
         ] = UNSET,
+        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -773,11 +773,11 @@ class PaymentLinks(BaseSDK):
         > [Access token with **payment-links.write**](/reference/authentication)
 
         :param payment_link_id: Provide the ID of the related payment link.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param description: A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible.  Updating the description does not affect any previously existing payments created for this payment link.
         :param minimum_amount: The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount.
         :param archived: Whether the payment link is archived. Customers will not be able to complete payments on archived payment links.
         :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -795,7 +795,6 @@ class PaymentLinks(BaseSDK):
 
         request = models.UpdatePaymentLinkRequest(
             payment_link_id=payment_link_id,
-            testmode=testmode,
             request_body=models.UpdatePaymentLinkRequestBody(
                 description=description,
                 minimum_amount=utils.get_pydantic_model(
@@ -803,6 +802,7 @@ class PaymentLinks(BaseSDK):
                 ),
                 archived=archived,
                 allowed_methods=allowed_methods,
+                testmode=testmode,
             ),
         )
 
@@ -897,7 +897,6 @@ class PaymentLinks(BaseSDK):
         self,
         *,
         payment_link_id: str,
-        testmode: OptionalNullable[bool] = UNSET,
         description: Optional[str] = None,
         minimum_amount: Optional[
             Union[
@@ -909,6 +908,7 @@ class PaymentLinks(BaseSDK):
         allowed_methods: OptionalNullable[
             List[models.UpdatePaymentLinkAllowedMethods]
         ] = UNSET,
+        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -925,11 +925,11 @@ class PaymentLinks(BaseSDK):
         > [Access token with **payment-links.write**](/reference/authentication)
 
         :param payment_link_id: Provide the ID of the related payment link.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param description: A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible.  Updating the description does not affect any previously existing payments created for this payment link.
         :param minimum_amount: The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount.
         :param archived: Whether the payment link is archived. Customers will not be able to complete payments on archived payment links.
         :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -947,7 +947,6 @@ class PaymentLinks(BaseSDK):
 
         request = models.UpdatePaymentLinkRequest(
             payment_link_id=payment_link_id,
-            testmode=testmode,
             request_body=models.UpdatePaymentLinkRequestBody(
                 description=description,
                 minimum_amount=utils.get_pydantic_model(
@@ -955,6 +954,7 @@ class PaymentLinks(BaseSDK):
                 ),
                 archived=archived,
                 allowed_methods=allowed_methods,
+                testmode=testmode,
             ),
         )
 
@@ -1070,7 +1070,7 @@ class PaymentLinks(BaseSDK):
         > [Access token with **payment-links.write**](/reference/authentication)
 
         :param payment_link_id: Provide the ID of the related payment link.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1088,7 +1088,9 @@ class PaymentLinks(BaseSDK):
 
         request = models.DeletePaymentLinkRequest(
             payment_link_id=payment_link_id,
-            testmode=testmode,
+            request_body=models.DeletePaymentLinkRequestBody(
+                testmode=testmode,
+            ),
         )
 
         req = self._build_request(
@@ -1104,6 +1106,13 @@ class PaymentLinks(BaseSDK):
             accept_header_value="application/hal+json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.request_body,
+                False,
+                True,
+                "json",
+                Optional[models.DeletePaymentLinkRequestBody],
+            ),
             timeout_ms=timeout_ms,
         )
 
@@ -1191,7 +1200,7 @@ class PaymentLinks(BaseSDK):
         > [Access token with **payment-links.write**](/reference/authentication)
 
         :param payment_link_id: Provide the ID of the related payment link.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1209,7 +1218,9 @@ class PaymentLinks(BaseSDK):
 
         request = models.DeletePaymentLinkRequest(
             payment_link_id=payment_link_id,
-            testmode=testmode,
+            request_body=models.DeletePaymentLinkRequestBody(
+                testmode=testmode,
+            ),
         )
 
         req = self._build_request_async(
@@ -1225,6 +1236,13 @@ class PaymentLinks(BaseSDK):
             accept_header_value="application/hal+json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.request_body,
+                False,
+                True,
+                "json",
+                Optional[models.DeletePaymentLinkRequestBody],
+            ),
             timeout_ms=timeout_ms,
         )
 

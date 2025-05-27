@@ -880,7 +880,6 @@ class Subscriptions(BaseSDK):
         *,
         customer_id: str,
         subscription_id: str,
-        testmode: OptionalNullable[bool] = UNSET,
         amount: Optional[
             Union[
                 models.UpdateSubscriptionAmount,
@@ -899,6 +898,7 @@ class Subscriptions(BaseSDK):
         ] = UNSET,
         webhook_url: Optional[str] = None,
         mandate_id: Optional[str] = None,
+        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -920,7 +920,6 @@ class Subscriptions(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param subscription_id: Provide the ID of the related subscription.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param amount: Update the amount for future payments of this subscription.
         :param description: The subscription's description will be used as the description of the resulting individual payments and so showing up on the bank statement of the consumer.  **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
         :param interval: Interval to wait between payments, for example `1 month` or `14 days`.  The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).  Possible values: `... days` `... weeks` `... months`
@@ -929,6 +928,7 @@ class Subscriptions(BaseSDK):
         :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.  Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
         :param webhook_url: We will call this URL for any payment status changes of payments resulting from this subscription.  This webhook will receive **all** events for the subscription's payments. This may include payment failures as well. Be sure to verify the payment's subscription ID and its status.
         :param mandate_id: The mandate used for this subscription, if any.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -947,7 +947,6 @@ class Subscriptions(BaseSDK):
         request = models.UpdateSubscriptionRequest(
             customer_id=customer_id,
             subscription_id=subscription_id,
-            testmode=testmode,
             request_body=models.UpdateSubscriptionRequestBody(
                 amount=utils.get_pydantic_model(
                     amount, Optional[models.UpdateSubscriptionAmount]
@@ -961,6 +960,7 @@ class Subscriptions(BaseSDK):
                 ),
                 webhook_url=webhook_url,
                 mandate_id=mandate_id,
+                testmode=testmode,
             ),
         )
 
@@ -1048,7 +1048,6 @@ class Subscriptions(BaseSDK):
         *,
         customer_id: str,
         subscription_id: str,
-        testmode: OptionalNullable[bool] = UNSET,
         amount: Optional[
             Union[
                 models.UpdateSubscriptionAmount,
@@ -1067,6 +1066,7 @@ class Subscriptions(BaseSDK):
         ] = UNSET,
         webhook_url: Optional[str] = None,
         mandate_id: Optional[str] = None,
+        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1088,7 +1088,6 @@ class Subscriptions(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param subscription_id: Provide the ID of the related subscription.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param amount: Update the amount for future payments of this subscription.
         :param description: The subscription's description will be used as the description of the resulting individual payments and so showing up on the bank statement of the consumer.  **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
         :param interval: Interval to wait between payments, for example `1 month` or `14 days`.  The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).  Possible values: `... days` `... weeks` `... months`
@@ -1097,6 +1096,7 @@ class Subscriptions(BaseSDK):
         :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.  Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
         :param webhook_url: We will call this URL for any payment status changes of payments resulting from this subscription.  This webhook will receive **all** events for the subscription's payments. This may include payment failures as well. Be sure to verify the payment's subscription ID and its status.
         :param mandate_id: The mandate used for this subscription, if any.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1115,7 +1115,6 @@ class Subscriptions(BaseSDK):
         request = models.UpdateSubscriptionRequest(
             customer_id=customer_id,
             subscription_id=subscription_id,
-            testmode=testmode,
             request_body=models.UpdateSubscriptionRequestBody(
                 amount=utils.get_pydantic_model(
                     amount, Optional[models.UpdateSubscriptionAmount]
@@ -1129,6 +1128,7 @@ class Subscriptions(BaseSDK):
                 ),
                 webhook_url=webhook_url,
                 mandate_id=mandate_id,
+                testmode=testmode,
             ),
         )
 
@@ -1234,7 +1234,7 @@ class Subscriptions(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param subscription_id: Provide the ID of the related subscription.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1253,7 +1253,9 @@ class Subscriptions(BaseSDK):
         request = models.CancelSubscriptionRequest(
             customer_id=customer_id,
             subscription_id=subscription_id,
-            testmode=testmode,
+            request_body=models.CancelSubscriptionRequestBody(
+                testmode=testmode,
+            ),
         )
 
         req = self._build_request(
@@ -1269,6 +1271,13 @@ class Subscriptions(BaseSDK):
             accept_header_value="application/hal+json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.request_body,
+                False,
+                True,
+                "json",
+                Optional[models.CancelSubscriptionRequestBody],
+            ),
             timeout_ms=timeout_ms,
         )
 
@@ -1351,7 +1360,7 @@ class Subscriptions(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param subscription_id: Provide the ID of the related subscription.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1370,7 +1379,9 @@ class Subscriptions(BaseSDK):
         request = models.CancelSubscriptionRequest(
             customer_id=customer_id,
             subscription_id=subscription_id,
-            testmode=testmode,
+            request_body=models.CancelSubscriptionRequestBody(
+                testmode=testmode,
+            ),
         )
 
         req = self._build_request_async(
@@ -1386,6 +1397,13 @@ class Subscriptions(BaseSDK):
             accept_header_value="application/hal+json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.request_body,
+                False,
+                True,
+                "json",
+                Optional[models.CancelSubscriptionRequestBody],
+            ),
             timeout_ms=timeout_ms,
         )
 

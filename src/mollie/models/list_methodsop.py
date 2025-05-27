@@ -328,29 +328,29 @@ class ListMethodsMaximumAmount(BaseModel):
 class ListMethodsImageTypedDict(TypedDict):
     r"""URLs of images representing the payment method."""
 
-    size1x: NotRequired[str]
+    size1x: str
     r"""The URL pointing to an icon of 32 by 24 pixels."""
-    size2x: NotRequired[str]
+    size2x: str
     r"""The URL pointing to an icon of 64 by 48 pixels."""
-    svg: NotRequired[str]
+    svg: str
     r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can scale to any desired size without compromising visual quality."""
 
 
 class ListMethodsImage(BaseModel):
     r"""URLs of images representing the payment method."""
 
-    size1x: Optional[str] = None
+    size1x: str
     r"""The URL pointing to an icon of 32 by 24 pixels."""
 
-    size2x: Optional[str] = None
+    size2x: str
     r"""The URL pointing to an icon of 64 by 48 pixels."""
 
-    svg: Optional[str] = None
+    svg: str
     r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can scale to any desired size without compromising visual quality."""
 
 
 class ListMethodsMethodsImageTypedDict(TypedDict):
-    r"""URLs of images representing the issuer."""
+    r"""URLs of images representing the issuer. required: - size1x - size2x - svg"""
 
     size1x: NotRequired[str]
     r"""The URL pointing to an icon of 32 by 24 pixels."""
@@ -361,7 +361,7 @@ class ListMethodsMethodsImageTypedDict(TypedDict):
 
 
 class ListMethodsMethodsImage(BaseModel):
-    r"""URLs of images representing the issuer."""
+    r"""URLs of images representing the issuer. required: - size1x - size2x - svg"""
 
     size1x: Optional[str] = None
     r"""The URL pointing to an icon of 32 by 24 pixels."""
@@ -374,24 +374,24 @@ class ListMethodsMethodsImage(BaseModel):
 
 
 class ListMethodsIssuersTypedDict(TypedDict):
-    resource: NotRequired[str]
-    id: NotRequired[str]
-    name: NotRequired[str]
+    id: str
+    name: str
     r"""The full name of the issuer."""
-    image: NotRequired[ListMethodsMethodsImageTypedDict]
-    r"""URLs of images representing the issuer."""
+    image: ListMethodsMethodsImageTypedDict
+    r"""URLs of images representing the issuer. required: - size1x - size2x - svg"""
+    resource: NotRequired[str]
 
 
 class ListMethodsIssuers(BaseModel):
-    resource: Optional[str] = "issuer"
+    id: str
 
-    id: Optional[str] = None
-
-    name: Optional[str] = None
+    name: str
     r"""The full name of the issuer."""
 
-    image: Optional[ListMethodsMethodsImage] = None
-    r"""URLs of images representing the issuer."""
+    image: ListMethodsMethodsImage
+    r"""URLs of images representing the issuer. required: - size1x - size2x - svg"""
+
+    resource: Optional[str] = "issuer"
 
 
 class ListMethodsMethodsSelfTypedDict(TypedDict):
@@ -435,7 +435,7 @@ class ListMethodsMethodsResponseDocumentation(BaseModel):
 class ListMethodsMethodsResponseLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListMethodsMethodsSelfTypedDict]
+    self_: ListMethodsMethodsSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     documentation: NotRequired[ListMethodsMethodsResponseDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
@@ -444,9 +444,7 @@ class ListMethodsMethodsResponseLinksTypedDict(TypedDict):
 class ListMethodsMethodsResponseLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[ListMethodsMethodsSelf], pydantic.Field(alias="self")] = (
-        None
-    )
+    self_: Annotated[ListMethodsMethodsSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     documentation: Optional[ListMethodsMethodsResponseDocumentation] = None
@@ -454,92 +452,79 @@ class ListMethodsMethodsResponseLinks(BaseModel):
 
 
 class ListMethodsMethodsTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a payment method object. Will always contain the string `method` for this endpoint."""
-    id: NotRequired[str]
+    id: str
     r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment method selection screen will be skipped.
 
     Possible values: `alma` `applepay` `bacs` `bancomatpay` `bancontact` `banktransfer` `belfius` `billie` `blik` `creditcard` `directdebit` `eps` `giftcard` `ideal` `in3` `kbc` `klarna` `klarnapaylater` `klarnapaynow` `klarnasliceit` `mybank` `paypal` `paysafecard` `przelewy24` `riverty` `satispay` `swish` `trustly` `twint` `voucher`
     """
-    description: NotRequired[str]
+    description: str
     r"""The full name of the payment method.
 
     If a `locale` parameter is provided, the name is translated to the given locale if possible.
     """
-    minimum_amount: NotRequired[ListMethodsMinimumAmountTypedDict]
+    minimum_amount: ListMethodsMinimumAmountTypedDict
     r"""The minimum payment amount required to use this payment method."""
-    maximum_amount: NotRequired[Nullable[ListMethodsMaximumAmountTypedDict]]
+    maximum_amount: Nullable[ListMethodsMaximumAmountTypedDict]
     r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null` is returned instead."""
-    image: NotRequired[ListMethodsImageTypedDict]
+    image: ListMethodsImageTypedDict
     r"""URLs of images representing the payment method."""
-    status: NotRequired[Nullable[str]]
+    status: Nullable[str]
     r"""The payment method's activation status for this profile.
 
     Possible values: `activated` `pending-boarding` `pending-review` `pending-external` `rejected`
     """
+    links: ListMethodsMethodsResponseLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     issuers: NotRequired[List[ListMethodsIssuersTypedDict]]
     r"""**Optional include.** Array of objects for each 'issuer' that is available for this payment method. Only relevant for iDEAL, KBC/CBC, gift cards, and vouchers."""
-    links: NotRequired[ListMethodsMethodsResponseLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class ListMethodsMethods(BaseModel):
-    resource: Optional[str] = "method"
+    resource: str
     r"""Indicates the response contains a payment method object. Will always contain the string `method` for this endpoint."""
 
-    id: Optional[str] = None
+    id: str
     r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment method selection screen will be skipped.
 
     Possible values: `alma` `applepay` `bacs` `bancomatpay` `bancontact` `banktransfer` `belfius` `billie` `blik` `creditcard` `directdebit` `eps` `giftcard` `ideal` `in3` `kbc` `klarna` `klarnapaylater` `klarnapaynow` `klarnasliceit` `mybank` `paypal` `paysafecard` `przelewy24` `riverty` `satispay` `swish` `trustly` `twint` `voucher`
     """
 
-    description: Optional[str] = None
+    description: str
     r"""The full name of the payment method.
 
     If a `locale` parameter is provided, the name is translated to the given locale if possible.
     """
 
     minimum_amount: Annotated[
-        Optional[ListMethodsMinimumAmount], pydantic.Field(alias="minimumAmount")
-    ] = None
+        ListMethodsMinimumAmount, pydantic.Field(alias="minimumAmount")
+    ]
     r"""The minimum payment amount required to use this payment method."""
 
     maximum_amount: Annotated[
-        OptionalNullable[ListMethodsMaximumAmount],
-        pydantic.Field(alias="maximumAmount"),
-    ] = UNSET
+        Nullable[ListMethodsMaximumAmount], pydantic.Field(alias="maximumAmount")
+    ]
     r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null` is returned instead."""
 
-    image: Optional[ListMethodsImage] = None
+    image: ListMethodsImage
     r"""URLs of images representing the payment method."""
 
-    status: OptionalNullable[str] = UNSET
+    status: Nullable[str]
     r"""The payment method's activation status for this profile.
 
     Possible values: `activated` `pending-boarding` `pending-review` `pending-external` `rejected`
     """
 
+    links: Annotated[ListMethodsMethodsResponseLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
     issuers: Optional[List[ListMethodsIssuers]] = None
     r"""**Optional include.** Array of objects for each 'issuer' that is available for this payment method. Only relevant for iDEAL, KBC/CBC, gift cards, and vouchers."""
 
-    links: Annotated[
-        Optional[ListMethodsMethodsResponseLinks], pydantic.Field(alias="_links")
-    ] = None
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "resource",
-            "id",
-            "description",
-            "minimumAmount",
-            "maximumAmount",
-            "image",
-            "status",
-            "issuers",
-            "_links",
-        ]
+        optional_fields = ["issuers"]
         nullable_fields = ["maximumAmount", "status"]
         null_default_fields = []
 
@@ -569,12 +554,12 @@ class ListMethodsMethods(BaseModel):
 
 
 class EmbeddedTypedDict(TypedDict):
-    methods: NotRequired[List[ListMethodsMethodsTypedDict]]
+    methods: List[ListMethodsMethodsTypedDict]
     r"""An array of payment method objects. For a complete reference of the payment method object, refer to the [Get payment method endpoint](get-method) documentation."""
 
 
 class Embedded(BaseModel):
-    methods: Optional[List[ListMethodsMethods]] = None
+    methods: List[ListMethodsMethods]
     r"""An array of payment method objects. For a complete reference of the payment method object, refer to the [Get payment method endpoint](get-method) documentation."""
 
 
@@ -617,35 +602,35 @@ class ListMethodsDocumentation(BaseModel):
 
 
 class ListMethodsLinksTypedDict(TypedDict):
-    self_: NotRequired[ListMethodsSelfTypedDict]
+    self_: ListMethodsSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    documentation: NotRequired[ListMethodsDocumentationTypedDict]
+    documentation: ListMethodsDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListMethodsLinks(BaseModel):
-    self_: Annotated[Optional[ListMethodsSelf], pydantic.Field(alias="self")] = None
+    self_: Annotated[ListMethodsSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    documentation: Optional[ListMethodsDocumentation] = None
+    documentation: ListMethodsDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListMethodsResponseBodyTypedDict(TypedDict):
     r"""A list of payment method objects. For a complete reference of the payment method object, refer to the [Get payment method endpoint](get-method) documentation."""
 
-    count: NotRequired[int]
+    count: int
     r"""The number of payment method objects in this result set. Results are **not** paginated."""
-    embedded: NotRequired[EmbeddedTypedDict]
-    links: NotRequired[ListMethodsLinksTypedDict]
+    embedded: EmbeddedTypedDict
+    links: ListMethodsLinksTypedDict
 
 
 class ListMethodsResponseBody(BaseModel):
     r"""A list of payment method objects. For a complete reference of the payment method object, refer to the [Get payment method endpoint](get-method) documentation."""
 
-    count: Optional[int] = None
+    count: int
     r"""The number of payment method objects in this result set. Results are **not** paginated."""
 
-    embedded: Annotated[Optional[Embedded], pydantic.Field(alias="_embedded")] = None
+    embedded: Annotated[Embedded, pydantic.Field(alias="_embedded")]
 
-    links: Annotated[Optional[ListMethodsLinks], pydantic.Field(alias="_links")] = None
+    links: Annotated[ListMethodsLinks, pydantic.Field(alias="_links")]

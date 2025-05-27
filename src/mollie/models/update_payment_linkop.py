@@ -4,12 +4,7 @@ from __future__ import annotations
 from enum import Enum
 from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-    RequestMetadata,
-)
+from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
@@ -70,6 +65,11 @@ class UpdatePaymentLinkRequestBodyTypedDict(TypedDict):
     r"""Whether the payment link is archived. Customers will not be able to complete payments on archived payment links."""
     allowed_methods: NotRequired[Nullable[List[UpdatePaymentLinkAllowedMethods]]]
     r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available."""
+    testmode: NotRequired[Nullable[bool]]
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+
+    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    """
 
 
 class UpdatePaymentLinkRequestBody(BaseModel):
@@ -93,10 +93,22 @@ class UpdatePaymentLinkRequestBody(BaseModel):
     ] = UNSET
     r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available."""
 
+    testmode: OptionalNullable[bool] = UNSET
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+
+    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    """
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["description", "minimumAmount", "archived", "allowedMethods"]
-        nullable_fields = ["allowedMethods"]
+        optional_fields = [
+            "description",
+            "minimumAmount",
+            "archived",
+            "allowedMethods",
+            "testmode",
+        ]
+        nullable_fields = ["allowedMethods", "testmode"]
         null_default_fields = []
 
         serialized = handler(self)
@@ -127,11 +139,6 @@ class UpdatePaymentLinkRequestBody(BaseModel):
 class UpdatePaymentLinkRequestTypedDict(TypedDict):
     payment_link_id: str
     r"""Provide the ID of the related payment link."""
-    testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
-
-    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
-    """
     request_body: NotRequired[UpdatePaymentLinkRequestBodyTypedDict]
 
 
@@ -143,49 +150,10 @@ class UpdatePaymentLinkRequest(BaseModel):
     ]
     r"""Provide the ID of the related payment link."""
 
-    testmode: Annotated[
-        OptionalNullable[bool],
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
-
-    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
-    """
-
     request_body: Annotated[
         Optional[UpdatePaymentLinkRequestBody],
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ] = None
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = ["testmode", "RequestBody"]
-        nullable_fields = ["testmode"]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
 
 
 class UpdatePaymentLinkPaymentLinksResponseDocumentationTypedDict(TypedDict):

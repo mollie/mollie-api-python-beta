@@ -285,29 +285,29 @@ class MaximumAmount(BaseModel):
 class ImageTypedDict(TypedDict):
     r"""URLs of images representing the payment method."""
 
-    size1x: NotRequired[str]
+    size1x: str
     r"""The URL pointing to an icon of 32 by 24 pixels."""
-    size2x: NotRequired[str]
+    size2x: str
     r"""The URL pointing to an icon of 64 by 48 pixels."""
-    svg: NotRequired[str]
+    svg: str
     r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can scale to any desired size without compromising visual quality."""
 
 
 class Image(BaseModel):
     r"""URLs of images representing the payment method."""
 
-    size1x: Optional[str] = None
+    size1x: str
     r"""The URL pointing to an icon of 32 by 24 pixels."""
 
-    size2x: Optional[str] = None
+    size2x: str
     r"""The URL pointing to an icon of 64 by 48 pixels."""
 
-    svg: Optional[str] = None
+    svg: str
     r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can scale to any desired size without compromising visual quality."""
 
 
 class GetMethodImageTypedDict(TypedDict):
-    r"""URLs of images representing the issuer."""
+    r"""URLs of images representing the issuer. required: - size1x - size2x - svg"""
 
     size1x: NotRequired[str]
     r"""The URL pointing to an icon of 32 by 24 pixels."""
@@ -318,7 +318,7 @@ class GetMethodImageTypedDict(TypedDict):
 
 
 class GetMethodImage(BaseModel):
-    r"""URLs of images representing the issuer."""
+    r"""URLs of images representing the issuer. required: - size1x - size2x - svg"""
 
     size1x: Optional[str] = None
     r"""The URL pointing to an icon of 32 by 24 pixels."""
@@ -331,24 +331,24 @@ class GetMethodImage(BaseModel):
 
 
 class IssuersTypedDict(TypedDict):
-    resource: NotRequired[str]
-    id: NotRequired[str]
-    name: NotRequired[str]
+    id: str
+    name: str
     r"""The full name of the issuer."""
-    image: NotRequired[GetMethodImageTypedDict]
-    r"""URLs of images representing the issuer."""
+    image: GetMethodImageTypedDict
+    r"""URLs of images representing the issuer. required: - size1x - size2x - svg"""
+    resource: NotRequired[str]
 
 
 class Issuers(BaseModel):
-    resource: Optional[str] = "issuer"
+    id: str
 
-    id: Optional[str] = None
-
-    name: Optional[str] = None
+    name: str
     r"""The full name of the issuer."""
 
-    image: Optional[GetMethodImage] = None
-    r"""URLs of images representing the issuer."""
+    image: GetMethodImage
+    r"""URLs of images representing the issuer. required: - size1x - size2x - svg"""
+
+    resource: Optional[str] = "issuer"
 
 
 class GetMethodSelfTypedDict(TypedDict):
@@ -392,7 +392,7 @@ class GetMethodDocumentation(BaseModel):
 class GetMethodLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[GetMethodSelfTypedDict]
+    self_: GetMethodSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     documentation: NotRequired[GetMethodDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
@@ -401,7 +401,7 @@ class GetMethodLinksTypedDict(TypedDict):
 class GetMethodLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[GetMethodSelf], pydantic.Field(alias="self")] = None
+    self_: Annotated[GetMethodSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     documentation: Optional[GetMethodDocumentation] = None
@@ -411,91 +411,81 @@ class GetMethodLinks(BaseModel):
 class GetMethodResponseBodyTypedDict(TypedDict):
     r"""The payment method object."""
 
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a payment method object. Will always contain the string `method` for this endpoint."""
-    id: NotRequired[str]
+    id: str
     r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment method selection screen will be skipped.
 
     Possible values: `alma` `applepay` `bacs` `bancomatpay` `bancontact` `banktransfer` `belfius` `billie` `blik` `creditcard` `directdebit` `eps` `giftcard` `ideal` `in3` `kbc` `klarna` `klarnapaylater` `klarnapaynow` `klarnasliceit` `mybank` `paypal` `paysafecard` `przelewy24` `riverty` `satispay` `swish` `trustly` `twint` `voucher`
     """
-    description: NotRequired[str]
+    description: str
     r"""The full name of the payment method.
 
     If a `locale` parameter is provided, the name is translated to the given locale if possible.
     """
-    minimum_amount: NotRequired[GetMethodMinimumAmountTypedDict]
+    minimum_amount: GetMethodMinimumAmountTypedDict
     r"""The minimum payment amount required to use this payment method."""
-    maximum_amount: NotRequired[Nullable[MaximumAmountTypedDict]]
+    maximum_amount: Nullable[MaximumAmountTypedDict]
     r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null` is returned instead."""
-    image: NotRequired[ImageTypedDict]
+    image: ImageTypedDict
     r"""URLs of images representing the payment method."""
-    status: NotRequired[Nullable[str]]
+    status: Nullable[str]
     r"""The payment method's activation status for this profile.
 
     Possible values: `activated` `pending-boarding` `pending-review` `pending-external` `rejected`
     """
+    links: GetMethodLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     issuers: NotRequired[List[IssuersTypedDict]]
     r"""**Optional include.** Array of objects for each 'issuer' that is available for this payment method. Only relevant for iDEAL, KBC/CBC, gift cards, and vouchers."""
-    links: NotRequired[GetMethodLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class GetMethodResponseBody(BaseModel):
     r"""The payment method object."""
 
-    resource: Optional[str] = "method"
+    resource: str
     r"""Indicates the response contains a payment method object. Will always contain the string `method` for this endpoint."""
 
-    id: Optional[str] = None
+    id: str
     r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment method selection screen will be skipped.
 
     Possible values: `alma` `applepay` `bacs` `bancomatpay` `bancontact` `banktransfer` `belfius` `billie` `blik` `creditcard` `directdebit` `eps` `giftcard` `ideal` `in3` `kbc` `klarna` `klarnapaylater` `klarnapaynow` `klarnasliceit` `mybank` `paypal` `paysafecard` `przelewy24` `riverty` `satispay` `swish` `trustly` `twint` `voucher`
     """
 
-    description: Optional[str] = None
+    description: str
     r"""The full name of the payment method.
 
     If a `locale` parameter is provided, the name is translated to the given locale if possible.
     """
 
     minimum_amount: Annotated[
-        Optional[GetMethodMinimumAmount], pydantic.Field(alias="minimumAmount")
-    ] = None
+        GetMethodMinimumAmount, pydantic.Field(alias="minimumAmount")
+    ]
     r"""The minimum payment amount required to use this payment method."""
 
     maximum_amount: Annotated[
-        OptionalNullable[MaximumAmount], pydantic.Field(alias="maximumAmount")
-    ] = UNSET
+        Nullable[MaximumAmount], pydantic.Field(alias="maximumAmount")
+    ]
     r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null` is returned instead."""
 
-    image: Optional[Image] = None
+    image: Image
     r"""URLs of images representing the payment method."""
 
-    status: OptionalNullable[str] = UNSET
+    status: Nullable[str]
     r"""The payment method's activation status for this profile.
 
     Possible values: `activated` `pending-boarding` `pending-review` `pending-external` `rejected`
     """
 
+    links: Annotated[GetMethodLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
     issuers: Optional[List[Issuers]] = None
     r"""**Optional include.** Array of objects for each 'issuer' that is available for this payment method. Only relevant for iDEAL, KBC/CBC, gift cards, and vouchers."""
 
-    links: Annotated[Optional[GetMethodLinks], pydantic.Field(alias="_links")] = None
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "resource",
-            "id",
-            "description",
-            "minimumAmount",
-            "maximumAmount",
-            "image",
-            "status",
-            "issuers",
-            "_links",
-        ]
+        optional_fields = ["issuers"]
         nullable_fields = ["maximumAmount", "status"]
         null_default_fields = []
 
