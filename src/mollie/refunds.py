@@ -120,6 +120,7 @@ class Refunds(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="create-refund",
                 oauth2_scopes=[],
@@ -281,6 +282,7 @@ class Refunds(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="create-refund",
                 oauth2_scopes=[],
@@ -414,6 +416,7 @@ class Refunds(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="list-refunds",
                 oauth2_scopes=[],
@@ -542,6 +545,7 @@ class Refunds(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="list-refunds",
                 oauth2_scopes=[],
@@ -665,6 +669,7 @@ class Refunds(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="get-refund",
                 oauth2_scopes=[],
@@ -783,6 +788,7 @@ class Refunds(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="get-refund",
                 oauth2_scopes=[],
@@ -900,6 +906,7 @@ class Refunds(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="cancel-refund",
                 oauth2_scopes=[],
@@ -1017,6 +1024,7 @@ class Refunds(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="cancel-refund",
                 oauth2_scopes=[],
@@ -1183,6 +1191,7 @@ class Refunds(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="create-order-refund",
                 oauth2_scopes=[],
@@ -1358,6 +1367,7 @@ class Refunds(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="create-order-refund",
                 oauth2_scopes=[],
@@ -1490,6 +1500,7 @@ class Refunds(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="list-order-refunds",
                 oauth2_scopes=[],
@@ -1615,6 +1626,7 @@ class Refunds(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="list-order-refunds",
                 oauth2_scopes=[],
@@ -1743,6 +1755,7 @@ class Refunds(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="list-all-refunds",
                 oauth2_scopes=[],
@@ -1871,6 +1884,7 @@ class Refunds(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="list-all-refunds",
                 oauth2_scopes=[],

@@ -90,6 +90,7 @@ class Customers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="create-customer",
                 oauth2_scopes=[],
@@ -213,6 +214,7 @@ class Customers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="create-customer",
                 oauth2_scopes=[],
@@ -335,6 +337,7 @@ class Customers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="list-customers",
                 oauth2_scopes=[],
@@ -460,6 +463,7 @@ class Customers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="list-customers",
                 oauth2_scopes=[],
@@ -578,6 +582,7 @@ class Customers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="get-customer",
                 oauth2_scopes=[],
@@ -691,6 +696,7 @@ class Customers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="get-customer",
                 oauth2_scopes=[],
@@ -828,6 +834,7 @@ class Customers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="update-customer",
                 oauth2_scopes=[],
@@ -967,6 +974,7 @@ class Customers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="update-customer",
                 oauth2_scopes=[],
@@ -1088,6 +1096,7 @@ class Customers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="delete-customer",
                 oauth2_scopes=[],
@@ -1207,6 +1216,7 @@ class Customers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="delete-customer",
                 oauth2_scopes=[],
@@ -1453,6 +1463,7 @@ class Customers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="create-customer-payment",
                 oauth2_scopes=[],
@@ -1709,6 +1720,7 @@ class Customers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="create-customer-payment",
                 oauth2_scopes=[],
@@ -1840,6 +1852,7 @@ class Customers(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="list-customer-payments",
                 oauth2_scopes=[],
@@ -1963,6 +1976,7 @@ class Customers(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="list-customer-payments",
                 oauth2_scopes=[],

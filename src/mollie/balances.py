@@ -87,6 +87,7 @@ class Balances(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="list-balances",
                 oauth2_scopes=[],
@@ -210,6 +211,7 @@ class Balances(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="list-balances",
                 oauth2_scopes=[],
@@ -332,6 +334,7 @@ class Balances(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="get-balance",
                 oauth2_scopes=[],
@@ -449,6 +452,7 @@ class Balances(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="get-balance",
                 oauth2_scopes=[],
@@ -551,6 +555,7 @@ class Balances(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="get-primary-balance",
                 oauth2_scopes=[],
@@ -649,6 +654,7 @@ class Balances(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="get-primary-balance",
                 oauth2_scopes=[],
@@ -768,6 +774,7 @@ class Balances(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="get-balance-report",
                 oauth2_scopes=[],
@@ -900,6 +907,7 @@ class Balances(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="get-balance-report",
                 oauth2_scopes=[],
@@ -1031,6 +1039,7 @@ class Balances(BaseSDK):
 
         http_res = self.do_request(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="list-balance-transactions",
                 oauth2_scopes=[],
@@ -1171,6 +1180,7 @@ class Balances(BaseSDK):
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
+                config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="list-balance-transactions",
                 oauth2_scopes=[],
