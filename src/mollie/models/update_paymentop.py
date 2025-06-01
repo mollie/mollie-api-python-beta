@@ -2176,7 +2176,7 @@ class UpdatePaymentResponseBodyTypedDict(TypedDict):
     metadata: NotRequired[Nullable[UpdatePaymentPaymentsMetadataTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
     capture_mode: NotRequired[Nullable[str]]
-    r"""Indicate if the funds should be captured immediately or if you want to [place a hold](place-a-hold-for-a-payment) and capture at a later time.
+    r"""Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/) and capture at a later time.
 
     This field needs to be set to `manual` for method `riverty`.
 
@@ -2448,7 +2448,7 @@ class UpdatePaymentResponseBody(BaseModel):
     capture_mode: Annotated[
         OptionalNullable[str], pydantic.Field(alias="captureMode")
     ] = UNSET
-    r"""Indicate if the funds should be captured immediately or if you want to [place a hold](place-a-hold-for-a-payment) and capture at a later time.
+    r"""Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/) and capture at a later time.
 
     This field needs to be set to `manual` for method `riverty`.
 
