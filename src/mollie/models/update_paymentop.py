@@ -2089,7 +2089,7 @@ class UpdatePaymentResponseBodyTypedDict(TypedDict):
     For more information, see [Authentication](authentication).
     """
     status: str
-    r"""The payment's status. Refer to the [documentation regarding statuses](status-change) for more info about which statuses occur at what point.
+    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which statuses occur at what point.
 
     Possible values: `open` `pending` `authorized` `paid` `canceled` `expired` `failed`
     """
@@ -2312,7 +2312,7 @@ class UpdatePaymentResponseBody(BaseModel):
     """
 
     status: str
-    r"""The payment's status. Refer to the [documentation regarding statuses](status-change) for more info about which statuses occur at what point.
+    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which statuses occur at what point.
 
     Possible values: `open` `pending` `authorized` `paid` `canceled` `expired` `failed`
     """

@@ -307,26 +307,29 @@ class GetCaptureDocumentation(BaseModel):
 class GetCaptureLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[GetCaptureSelfTypedDict]
+    self_: GetCaptureSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    payment: NotRequired[GetCapturePaymentTypedDict]
+    payment: GetCapturePaymentTypedDict
     r"""The API resource URL of the [payment](get-payment) that this capture belongs to."""
+    documentation: GetCaptureDocumentationTypedDict
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     settlement: NotRequired[Nullable[GetCaptureSettlementTypedDict]]
     r"""The API resource URL of the [settlement](get-settlement) this capture has been settled with. Not present if not yet settled."""
     shipment: NotRequired[Nullable[GetCaptureShipmentTypedDict]]
     r"""The API resource URL of the [shipment](get-shipment) this capture is associated with. Not present if it isn't associated with a shipment."""
-    documentation: NotRequired[GetCaptureDocumentationTypedDict]
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class GetCaptureLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[GetCaptureSelf], pydantic.Field(alias="self")] = None
+    self_: Annotated[GetCaptureSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    payment: Optional[GetCapturePayment] = None
+    payment: GetCapturePayment
     r"""The API resource URL of the [payment](get-payment) that this capture belongs to."""
+
+    documentation: GetCaptureDocumentation
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     settlement: OptionalNullable[GetCaptureSettlement] = UNSET
     r"""The API resource URL of the [settlement](get-settlement) this capture has been settled with. Not present if not yet settled."""
@@ -334,12 +337,9 @@ class GetCaptureLinks(BaseModel):
     shipment: OptionalNullable[GetCaptureShipment] = UNSET
     r"""The API resource URL of the [shipment](get-shipment) this capture is associated with. Not present if it isn't associated with a shipment."""
 
-    documentation: Optional[GetCaptureDocumentation] = None
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "payment", "settlement", "shipment", "documentation"]
+        optional_fields = ["settlement", "shipment"]
         nullable_fields = ["settlement", "shipment"]
         null_default_fields = []
 
@@ -371,63 +371,78 @@ class GetCaptureLinks(BaseModel):
 class GetCaptureResponseBodyTypedDict(TypedDict):
     r"""The capture object."""
 
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a capture object. Will always contain the string `capture` for this endpoint."""
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this capture. Example: `cpt_mNepDkEtco6ah3QNPUGYH`."""
-    mode: NotRequired[str]
+    mode: str
     r"""Whether this entity was created in live mode or in test mode.
 
     Possible values: `live` `test`
     """
+    amount: Nullable[GetCaptureAmountTypedDict]
+    r"""The amount captured. If no amount is provided, the full authorized amount is captured."""
+    status: str
+    r"""The capture's status.
+
+    Possible values: `pending` `succeeded` `failed`
+    """
+    payment_id: str
+    r"""The unique identifier of the payment this capture was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
+    created_at: str
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    links: GetCaptureLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     description: NotRequired[str]
     r"""The description of the capture."""
-    amount: NotRequired[Nullable[GetCaptureAmountTypedDict]]
-    r"""The amount captured. If no amount is provided, the full authorized amount is captured."""
     settlement_amount: NotRequired[Nullable[GetCaptureSettlementAmountTypedDict]]
     r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
 
     Since the field contains an estimated amount during capture processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
     """
-    status: NotRequired[str]
-    r"""The capture's status.
-
-    Possible values: `pending` `succeeded` `failed`
-    """
     metadata: NotRequired[Nullable[GetCaptureMetadataTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
-    payment_id: NotRequired[str]
-    r"""The unique identifier of the payment this capture was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
     shipment_id: NotRequired[Nullable[str]]
     r"""The unique identifier of the shipment that triggered the creation of this capture, if applicable. For example: `shp_gNapNy9qQTUFZYnCrCF7J`."""
     settlement_id: NotRequired[Nullable[str]]
     r"""The identifier referring to the settlement this capture was settled with. For example, `stl_BkEjN2eBb`. This field is omitted if the capture is not settled (yet)."""
-    created_at: NotRequired[str]
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: NotRequired[GetCaptureLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class GetCaptureResponseBody(BaseModel):
     r"""The capture object."""
 
-    resource: Optional[str] = "capture"
+    resource: str
     r"""Indicates the response contains a capture object. Will always contain the string `capture` for this endpoint."""
 
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this capture. Example: `cpt_mNepDkEtco6ah3QNPUGYH`."""
 
-    mode: Optional[str] = None
+    mode: str
     r"""Whether this entity was created in live mode or in test mode.
 
     Possible values: `live` `test`
     """
 
+    amount: Nullable[GetCaptureAmount]
+    r"""The amount captured. If no amount is provided, the full authorized amount is captured."""
+
+    status: str
+    r"""The capture's status.
+
+    Possible values: `pending` `succeeded` `failed`
+    """
+
+    payment_id: Annotated[str, pydantic.Field(alias="paymentId")]
+    r"""The unique identifier of the payment this capture was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
+
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
+    links: Annotated[GetCaptureLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
     description: Optional[str] = None
     r"""The description of the capture."""
-
-    amount: OptionalNullable[GetCaptureAmount] = UNSET
-    r"""The amount captured. If no amount is provided, the full authorized amount is captured."""
 
     settlement_amount: Annotated[
         OptionalNullable[GetCaptureSettlementAmount],
@@ -438,17 +453,8 @@ class GetCaptureResponseBody(BaseModel):
     Since the field contains an estimated amount during capture processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
     """
 
-    status: Optional[str] = None
-    r"""The capture's status.
-
-    Possible values: `pending` `succeeded` `failed`
-    """
-
     metadata: OptionalNullable[GetCaptureMetadata] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
-
-    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
-    r"""The unique identifier of the payment this capture was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
 
     shipment_id: Annotated[
         OptionalNullable[str], pydantic.Field(alias="shipmentId")
@@ -460,28 +466,14 @@ class GetCaptureResponseBody(BaseModel):
     ] = UNSET
     r"""The identifier referring to the settlement this capture was settled with. For example, `stl_BkEjN2eBb`. This field is omitted if the capture is not settled (yet)."""
 
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-
-    links: Annotated[Optional[GetCaptureLinks], pydantic.Field(alias="_links")] = None
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "resource",
-            "id",
-            "mode",
             "description",
-            "amount",
             "settlementAmount",
-            "status",
             "metadata",
-            "paymentId",
             "shipmentId",
             "settlementId",
-            "createdAt",
-            "_links",
         ]
         nullable_fields = [
             "amount",

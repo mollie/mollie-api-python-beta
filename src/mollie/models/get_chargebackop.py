@@ -196,19 +196,19 @@ class GetChargebackSettlementAmount(BaseModel):
 class ReasonTypedDict(TypedDict):
     r"""Reason for the chargeback as given by the bank. Only available for chargebacks of SEPA Direct Debit payments."""
 
-    code: NotRequired[str]
+    code: str
     r"""Technical code provided by the bank."""
-    description: NotRequired[str]
+    description: str
     r"""A more detailed human-friendly description."""
 
 
 class Reason(BaseModel):
     r"""Reason for the chargeback as given by the bank. Only available for chargebacks of SEPA Direct Debit payments."""
 
-    code: Optional[str] = None
+    code: str
     r"""Technical code provided by the bank."""
 
-    description: Optional[str] = None
+    description: str
     r"""A more detailed human-friendly description."""
 
 
@@ -291,34 +291,34 @@ class GetChargebackDocumentation(BaseModel):
 class GetChargebackLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[GetChargebackSelfTypedDict]
+    self_: GetChargebackSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    payment: NotRequired[GetChargebackPaymentTypedDict]
+    payment: GetChargebackPaymentTypedDict
     r"""The API resource URL of the [payment](get-payment) that this chargeback belongs to."""
+    documentation: GetChargebackDocumentationTypedDict
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     settlement: NotRequired[Nullable[GetChargebackSettlementTypedDict]]
     r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if not yet settled."""
-    documentation: NotRequired[GetChargebackDocumentationTypedDict]
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class GetChargebackLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[GetChargebackSelf], pydantic.Field(alias="self")] = None
+    self_: Annotated[GetChargebackSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    payment: Optional[GetChargebackPayment] = None
+    payment: GetChargebackPayment
     r"""The API resource URL of the [payment](get-payment) that this chargeback belongs to."""
+
+    documentation: GetChargebackDocumentation
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     settlement: OptionalNullable[GetChargebackSettlement] = UNSET
     r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if not yet settled."""
 
-    documentation: Optional[GetChargebackDocumentation] = None
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "payment", "settlement", "documentation"]
+        optional_fields = ["settlement"]
         nullable_fields = ["settlement"]
         null_default_fields = []
 
@@ -350,12 +350,18 @@ class GetChargebackLinks(BaseModel):
 class GetChargebackResponseBodyTypedDict(TypedDict):
     r"""The chargeback object."""
 
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a chargeback object. Will always contain the string `chargeback` for this endpoint."""
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this chargeback. Example: `chb_n9z0tp`."""
-    amount: NotRequired[GetChargebackAmountTypedDict]
+    amount: GetChargebackAmountTypedDict
     r"""The amount charged back by the customer."""
+    payment_id: str
+    r"""The unique identifier of the payment this chargeback was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
+    created_at: str
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    links: GetChargebackLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     settlement_amount: NotRequired[Nullable[GetChargebackSettlementAmountTypedDict]]
     r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted to the currency your account is settled in.
 
@@ -365,29 +371,32 @@ class GetChargebackResponseBodyTypedDict(TypedDict):
     """
     reason: NotRequired[Nullable[ReasonTypedDict]]
     r"""Reason for the chargeback as given by the bank. Only available for chargebacks of SEPA Direct Debit payments."""
-    payment_id: NotRequired[str]
-    r"""The unique identifier of the payment this chargeback was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
     settlement_id: NotRequired[Nullable[str]]
     r"""The identifier referring to the settlement this payment was settled with. For example, `stl_BkEjN2eBb`. This field is omitted if the refund is not settled (yet)."""
-    created_at: NotRequired[str]
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     reversed_at: NotRequired[Nullable[str]]
     r"""The date and time the chargeback was reversed if applicable, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: NotRequired[GetChargebackLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class GetChargebackResponseBody(BaseModel):
     r"""The chargeback object."""
 
-    resource: Optional[str] = "chargeback"
+    resource: str
     r"""Indicates the response contains a chargeback object. Will always contain the string `chargeback` for this endpoint."""
 
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this chargeback. Example: `chb_n9z0tp`."""
 
-    amount: Optional[GetChargebackAmount] = None
+    amount: GetChargebackAmount
     r"""The amount charged back by the customer."""
+
+    payment_id: Annotated[str, pydantic.Field(alias="paymentId")]
+    r"""The unique identifier of the payment this chargeback was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
+
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
+    links: Annotated[GetChargebackLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     settlement_amount: Annotated[
         OptionalNullable[GetChargebackSettlementAmount],
@@ -403,41 +412,19 @@ class GetChargebackResponseBody(BaseModel):
     reason: OptionalNullable[Reason] = UNSET
     r"""Reason for the chargeback as given by the bank. Only available for chargebacks of SEPA Direct Debit payments."""
 
-    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
-    r"""The unique identifier of the payment this chargeback was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
-
     settlement_id: Annotated[
         OptionalNullable[str], pydantic.Field(alias="settlementId")
     ] = UNSET
     r"""The identifier referring to the settlement this payment was settled with. For example, `stl_BkEjN2eBb`. This field is omitted if the refund is not settled (yet)."""
-
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
     reversed_at: Annotated[
         OptionalNullable[str], pydantic.Field(alias="reversedAt")
     ] = UNSET
     r"""The date and time the chargeback was reversed if applicable, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    links: Annotated[Optional[GetChargebackLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "resource",
-            "id",
-            "amount",
-            "settlementAmount",
-            "reason",
-            "paymentId",
-            "settlementId",
-            "createdAt",
-            "reversedAt",
-            "_links",
-        ]
+        optional_fields = ["settlementAmount", "reason", "settlementId", "reversedAt"]
         nullable_fields = ["settlementAmount", "reason", "settlementId", "reversedAt"]
         null_default_fields = []
 
