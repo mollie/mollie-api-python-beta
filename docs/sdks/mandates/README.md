@@ -98,7 +98,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.mandates.list(customer_id="cst_5B8cwPMGnU", from_="mdt_5B8cwPMGnU", sort="desc", testmode=False)
+    res = client.mandates.list(customer_id="cst_5B8cwPMGnU", from_="mdt_5B8cwPMGnU", limit=50, sort="desc", testmode=False)
 
     # Handle response
     print(res)

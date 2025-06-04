@@ -810,6 +810,71 @@ class UpdatePaymentDiscountAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
+class UpdatePaymentTotalAmountTypedDict(TypedDict):
+    r"""The total amount of the line, including VAT and discounts.
+
+    Should match the following formula: `(unitPrice × quantity) - discountAmount`.
+
+    The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class UpdatePaymentTotalAmount(BaseModel):
+    r"""The total amount of the line, including VAT and discounts.
+
+    Should match the following formula: `(unitPrice × quantity) - discountAmount`.
+
+    The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class UpdatePaymentVatAmountTypedDict(TypedDict):
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+
+    Any deviations from this will result in an error.
+
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class UpdatePaymentVatAmount(BaseModel):
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+
+    Any deviations from this will result in an error.
+
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class UpdatePaymentCategories(str, Enum):
+    MEAL = "meal"
+    ECO = "eco"
+    GIFT = "gift"
+    SPORT_CULTURE = "sport_culture"
+
+
 class UpdatePaymentPaymentsResponse200AmountTypedDict(TypedDict):
     r"""Total amount and currency of the recurring item."""
 
@@ -901,71 +966,6 @@ class UpdatePaymentRecurring(BaseModel):
         return m
 
 
-class UpdatePaymentTotalAmountTypedDict(TypedDict):
-    r"""The total amount of the line, including VAT and discounts.
-
-    Should match the following formula: `(unitPrice × quantity) - discountAmount`.
-
-    The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
-    """
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class UpdatePaymentTotalAmount(BaseModel):
-    r"""The total amount of the line, including VAT and discounts.
-
-    Should match the following formula: `(unitPrice × quantity) - discountAmount`.
-
-    The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
-    """
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class UpdatePaymentVatAmountTypedDict(TypedDict):
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
-
-    Any deviations from this will result in an error.
-
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
-    """
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class UpdatePaymentVatAmount(BaseModel):
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
-
-    Any deviations from this will result in an error.
-
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
-    """
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class UpdatePaymentCategories(str, Enum):
-    MEAL = "meal"
-    ECO = "eco"
-    GIFT = "gift"
-    SPORT_CULTURE = "sport_culture"
-
-
 class UpdatePaymentLinesTypedDict(TypedDict):
     description: str
     r"""A description of the line item. For example *LEGO 4440 Forest Police Station*."""
@@ -998,8 +998,6 @@ class UpdatePaymentLinesTypedDict(TypedDict):
     r"""The unit for the quantity. For example *pcs*, *kg*, or *cm*."""
     discount_amount: NotRequired[UpdatePaymentDiscountAmountTypedDict]
     r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
-    recurring: NotRequired[UpdatePaymentRecurringTypedDict]
-    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout to inform the shopper of the details for recurring products in the payments."""
     vat_rate: NotRequired[str]
     r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and not as a float, to ensure the correct number of decimals are passed."""
     vat_amount: NotRequired[UpdatePaymentVatAmountTypedDict]
@@ -1017,6 +1015,8 @@ class UpdatePaymentLinesTypedDict(TypedDict):
     r"""A link pointing to an image of the product sold."""
     product_url: NotRequired[str]
     r"""A link pointing to the product page in your web shop of the product sold."""
+    recurring: NotRequired[UpdatePaymentRecurringTypedDict]
+    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout to inform the shopper of the details for recurring products in the payments."""
 
 
 class UpdatePaymentLines(BaseModel):
@@ -1062,9 +1062,6 @@ class UpdatePaymentLines(BaseModel):
     ] = None
     r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
 
-    recurring: Optional[UpdatePaymentRecurring] = None
-    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout to inform the shopper of the details for recurring products in the payments."""
-
     vat_rate: Annotated[Optional[str], pydantic.Field(alias="vatRate")] = None
     r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and not as a float, to ensure the correct number of decimals are passed."""
 
@@ -1089,6 +1086,9 @@ class UpdatePaymentLines(BaseModel):
 
     product_url: Annotated[Optional[str], pydantic.Field(alias="productUrl")] = None
     r"""A link pointing to the product page in your web shop of the product sold."""
+
+    recurring: Optional[UpdatePaymentRecurring] = None
+    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout to inform the shopper of the details for recurring products in the payments."""
 
 
 class UpdatePaymentPaymentsBillingAddressTypedDict(TypedDict):

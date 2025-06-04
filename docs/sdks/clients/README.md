@@ -32,7 +32,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.clients.list(embed="organization", from_="org_12345678")
+    res = client.clients.list(embed="organization", from_="org_12345678", limit=50)
 
     # Handle response
     print(res)

@@ -34,7 +34,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.terminals.list(from_="term_vytxeTZskVKR7C7WgdSP3d", sort="desc", testmode=False)
+    res = client.terminals.list(from_="term_vytxeTZskVKR7C7WgdSP3d", limit=50, sort="desc", testmode=False)
 
     # Handle response
     print(res)

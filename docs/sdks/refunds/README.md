@@ -114,7 +114,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.refunds.list(payment_id="tr_5B8cwPMGnU", from_="re_5B8cwPMGnU", include=mollie.ListRefundsQueryParamInclude.PAYMENT, testmode=False)
+    res = client.refunds.list(payment_id="tr_5B8cwPMGnU", from_="re_5B8cwPMGnU", limit=50, include=mollie.ListRefundsQueryParamInclude.PAYMENT, testmode=False)
 
     # Handle response
     print(res)
@@ -408,7 +408,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.refunds.list_for_order(order_id="ord_5B8cwPMGnU", from_="re_4qqhO89gsT", include="payment", testmode=False)
+    res = client.refunds.list_for_order(order_id="ord_5B8cwPMGnU", from_="re_4qqhO89gsT", limit=50, include="payment", testmode=False)
 
     # Handle response
     print(res)
@@ -463,7 +463,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.refunds.all(from_="re_5B8cwPMGnU", sort="desc", embed=mollie.QueryParamEmbed.PAYMENT, profile_id="pfl_5B8cwPMGnU", testmode=False)
+    res = client.refunds.all(from_="re_5B8cwPMGnU", limit=50, sort="desc", embed=mollie.QueryParamEmbed.PAYMENT, profile_id="pfl_5B8cwPMGnU", testmode=False)
 
     # Handle response
     print(res)

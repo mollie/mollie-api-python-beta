@@ -34,16 +34,6 @@ with Client(
                     "currency": "EUR",
                     "value": "10.00",
                 },
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "12 months",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
                 "total_amount": {
                     "currency": "EUR",
                     "value": "10.00",
@@ -60,6 +50,16 @@ with Client(
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
             },
             {
                 "description": "LEGO 4440 Forest Police Station",
@@ -73,16 +73,6 @@ with Client(
                     "currency": "EUR",
                     "value": "10.00",
                 },
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "12 months",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
                 "total_amount": {
                     "currency": "EUR",
                     "value": "10.00",
@@ -99,6 +89,16 @@ with Client(
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
             },
             {
                 "description": "LEGO 4440 Forest Police Station",
@@ -112,16 +112,6 @@ with Client(
                     "currency": "EUR",
                     "value": "10.00",
                 },
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "12 months",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
                 "total_amount": {
                     "currency": "EUR",
                     "value": "10.00",
@@ -138,6 +128,16 @@ with Client(
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
             },
         ],
         "billing_address": {
@@ -277,16 +277,6 @@ async def main():
                         "currency": "EUR",
                         "value": "10.00",
                     },
-                    "recurring": {
-                        "description": "Gym subscription",
-                        "interval": "12 months",
-                        "amount": {
-                            "currency": "EUR",
-                            "value": "10.00",
-                        },
-                        "times": 1,
-                        "start_date": "2024-12-12",
-                    },
                     "total_amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -303,6 +293,16 @@ async def main():
                     ],
                     "image_url": "https://...",
                     "product_url": "https://...",
+                    "recurring": {
+                        "description": "Gym subscription",
+                        "interval": "12 months",
+                        "amount": {
+                            "currency": "EUR",
+                            "value": "10.00",
+                        },
+                        "times": 1,
+                        "start_date": "2024-12-12",
+                    },
                 },
                 {
                     "description": "LEGO 4440 Forest Police Station",
@@ -316,16 +316,6 @@ async def main():
                         "currency": "EUR",
                         "value": "10.00",
                     },
-                    "recurring": {
-                        "description": "Gym subscription",
-                        "interval": "12 months",
-                        "amount": {
-                            "currency": "EUR",
-                            "value": "10.00",
-                        },
-                        "times": 1,
-                        "start_date": "2024-12-12",
-                    },
                     "total_amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -342,6 +332,16 @@ async def main():
                     ],
                     "image_url": "https://...",
                     "product_url": "https://...",
+                    "recurring": {
+                        "description": "Gym subscription",
+                        "interval": "12 months",
+                        "amount": {
+                            "currency": "EUR",
+                            "value": "10.00",
+                        },
+                        "times": 1,
+                        "start_date": "2024-12-12",
+                    },
                 },
                 {
                     "description": "LEGO 4440 Forest Police Station",
@@ -355,16 +355,6 @@ async def main():
                         "currency": "EUR",
                         "value": "10.00",
                     },
-                    "recurring": {
-                        "description": "Gym subscription",
-                        "interval": "12 months",
-                        "amount": {
-                            "currency": "EUR",
-                            "value": "10.00",
-                        },
-                        "times": 1,
-                        "start_date": "2024-12-12",
-                    },
                     "total_amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -381,6 +371,16 @@ async def main():
                     ],
                     "image_url": "https://...",
                     "product_url": "https://...",
+                    "recurring": {
+                        "description": "Gym subscription",
+                        "interval": "12 months",
+                        "amount": {
+                            "currency": "EUR",
+                            "value": "10.00",
+                        },
+                        "times": 1,
+                        "start_date": "2024-12-12",
+                    },
                 },
             ],
             "billing_address": {

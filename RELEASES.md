@@ -139,3 +139,13 @@ Based on:
 - [python v0.5.2] .
 ### Releases
 - [PyPI v0.5.2] https://pypi.org/project/mollie/0.5.2 - .
+
+## 2025-06-04 00:25:58
+### Changes
+Based on:
+- OpenAPI Doc  
+- Speakeasy CLI 1.555.2 (2.620.2) https://github.com/speakeasy-api/speakeasy
+### Generated
+- [python v0.5.3] .
+### Releases
+- [PyPI v0.5.3] https://pypi.org/project/mollie/0.5.3 - .

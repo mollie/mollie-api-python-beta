@@ -35,7 +35,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH", testmode=False)
+    res = client.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH", limit=50, testmode=False)
 
     # Handle response
     print(res)
@@ -250,7 +250,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.balances.list_transactions(balance_id="bal_gVMhHKqSSRYJyPsuoPNFH", from_="baltr_QM24QwzUWR4ev4Xfgyt29A", testmode=False)
+    res = client.balances.list_transactions(balance_id="bal_gVMhHKqSSRYJyPsuoPNFH", from_="baltr_QM24QwzUWR4ev4Xfgyt29A", limit=50, testmode=False)
 
     # Handle response
     print(res)

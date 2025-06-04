@@ -94,7 +94,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.profiles.list(from_="pfl_QkEhN94Ba")
+    res = client.profiles.list(from_="pfl_QkEhN94Ba", limit=50)
 
     # Handle response
     print(res)

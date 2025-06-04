@@ -48,6 +48,65 @@ with Client(
         },
         "redirect_url": "https://webshop.example.org/payment-links/redirect/",
         "webhook_url": "https://webshop.example.org/payment-links/webhook/",
+        "lines": [
+            {
+                "description": "LEGO 4440 Forest Police Station",
+                "quantity": 1,
+                "quantity_unit": "pcs",
+                "unit_price": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "discount_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "total_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "vat_rate": "21.00",
+                "vat_amount": {
+                    "currency": "EUR",
+                    "value": "10.00",
+                },
+                "sku": "9780241661628",
+                "categories": [
+                    mollie.CreatePaymentLinkCategories.MEAL,
+                    mollie.CreatePaymentLinkCategories.ECO,
+                ],
+                "image_url": "https://...",
+                "product_url": "https://...",
+            },
+        ],
+        "billing_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
+        "shipping_address": {
+            "title": "Mr.",
+            "given_name": "Piet",
+            "family_name": "Mondriaan",
+            "organization_name": "Mollie B.V.",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "Apt. 1",
+            "postal_code": "1234AB",
+            "email": "piet@example.org",
+            "phone": "31208202070",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+        },
         "profile_id": "pfl_QkEhN94Ba",
         "expires_at": "2025-12-24T11:00:16+00:00",
         "allowed_methods": [
@@ -112,7 +171,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.payment_links.list(from_="pl_d9fQur83kFdhH8hIhaZfq", testmode=False)
+    res = client.payment_links.list(from_="pl_d9fQur83kFdhH8hIhaZfq", limit=50, testmode=False)
 
     # Handle response
     print(res)
@@ -330,7 +389,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.payment_links.list_payments(payment_link_id="pl_d9fQur83kFdhH8hIhaZfq", from_="tr_5B8cwPMGnU", sort="desc", testmode=False)
+    res = client.payment_links.list_payments(payment_link_id="pl_d9fQur83kFdhH8hIhaZfq", from_="tr_5B8cwPMGnU", limit=50, sort="desc", testmode=False)
 
     # Handle response
     print(res)

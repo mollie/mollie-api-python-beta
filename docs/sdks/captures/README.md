@@ -97,7 +97,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.captures.list(payment_id="tr_5B8cwPMGnU", from_="cpt_vytxeTZskVKR7C7WgdSP3d", embed=mollie.ListCapturesQueryParamEmbed.PAYMENT, testmode=False)
+    res = client.captures.list(payment_id="tr_5B8cwPMGnU", from_="cpt_vytxeTZskVKR7C7WgdSP3d", limit=50, embed=mollie.ListCapturesQueryParamEmbed.PAYMENT, testmode=False)
 
     # Handle response
     print(res)

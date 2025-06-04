@@ -32,7 +32,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.invoices.list(reference="2024.10000", year="2024", month="01", from_="inv_xBEbP9rvAq", sort="desc")
+    res = client.invoices.list(reference="2024.10000", year="2024", month="01", from_="inv_xBEbP9rvAq", limit=50, sort="desc")
 
     # Handle response
     print(res)

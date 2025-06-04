@@ -64,16 +64,6 @@ with Client(
                     "currency": "EUR",
                     "value": "10.00",
                 },
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "12 months",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
                 "total_amount": {
                     "currency": "EUR",
                     "value": "10.00",
@@ -90,6 +80,16 @@ with Client(
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
             },
             {
                 "description": "LEGO 4440 Forest Police Station",
@@ -103,16 +103,6 @@ with Client(
                     "currency": "EUR",
                     "value": "10.00",
                 },
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "12 months",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
                 "total_amount": {
                     "currency": "EUR",
                     "value": "10.00",
@@ -129,6 +119,16 @@ with Client(
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
             },
             {
                 "description": "LEGO 4440 Forest Police Station",
@@ -142,16 +142,6 @@ with Client(
                     "currency": "EUR",
                     "value": "10.00",
                 },
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "12 months",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
                 "total_amount": {
                     "currency": "EUR",
                     "value": "10.00",
@@ -168,6 +158,16 @@ with Client(
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
+                "recurring": {
+                    "description": "Gym subscription",
+                    "interval": "12 months",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "10.00",
+                    },
+                    "times": 1,
+                    "start_date": "2024-12-12",
+                },
             },
         ],
         "billing_address": {
@@ -314,7 +314,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.payments.list(from_="tr_5B8cwPMGnU", sort="desc", testmode=False)
+    res = client.payments.list(from_="tr_5B8cwPMGnU", limit=50, sort="desc", testmode=False)
 
     # Handle response
     print(res)

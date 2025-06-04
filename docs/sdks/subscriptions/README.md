@@ -120,7 +120,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.subscriptions.list(customer_id="cst_5B8cwPMGnU", from_="sub_5B8cwPMGnU", sort="desc", testmode=False)
+    res = client.subscriptions.list(customer_id="cst_5B8cwPMGnU", from_="sub_5B8cwPMGnU", limit=50, sort="desc", testmode=False)
 
     # Handle response
     print(res)
@@ -344,7 +344,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.subscriptions.all(from_="tr_5B8cwPMGnU", sort="desc", testmode=False)
+    res = client.subscriptions.all(from_="tr_5B8cwPMGnU", limit=50, sort="desc", testmode=False)
 
     # Handle response
     print(res)
@@ -398,7 +398,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.subscriptions.list_payments(customer_id="cst_5B8cwPMGnU", subscription_id="sub_5B8cwPMGnU", from_="tr_5B8cwPMGnU", sort="desc", testmode=False)
+    res = client.subscriptions.list_payments(customer_id="cst_5B8cwPMGnU", subscription_id="sub_5B8cwPMGnU", from_="tr_5B8cwPMGnU", limit=50, sort="desc", testmode=False)
 
     # Handle response
     print(res)

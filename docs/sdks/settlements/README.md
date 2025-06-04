@@ -38,7 +38,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.settlements.list(from_="stl_jDk30akdN", balance_id="bal_gVMhHKqSSRYJyPsuoPNFH", year="2025", month="1", currencies="EUR")
+    res = client.settlements.list(from_="stl_jDk30akdN", limit=50, balance_id="bal_gVMhHKqSSRYJyPsuoPNFH", year="2025", month="1", currencies="EUR")
 
     # Handle response
     print(res)
@@ -248,7 +248,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.settlements.list_payments(settlement_id="stl_jDk30akdN", from_="tr_5B8cwPMGnU", sort="desc", testmode=False)
+    res = client.settlements.list_payments(settlement_id="stl_jDk30akdN", from_="tr_5B8cwPMGnU", limit=50, sort="desc", testmode=False)
 
     # Handle response
     print(res)
@@ -301,7 +301,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.settlements.list_captures(settlement_id="stl_jDk30akdN", from_="cpt_vytxeTZskVKR7C7WgdSP3d", embed=mollie.GetSettlementCapturesQueryParamEmbed.PAYMENT, testmode=False)
+    res = client.settlements.list_captures(settlement_id="stl_jDk30akdN", from_="cpt_vytxeTZskVKR7C7WgdSP3d", limit=50, embed=mollie.GetSettlementCapturesQueryParamEmbed.PAYMENT, testmode=False)
 
     # Handle response
     print(res)
@@ -355,7 +355,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.settlements.list_refunds(settlement_id="stl_jDk30akdN", from_="re_5B8cwPMGnU", include=mollie.GetSettlementRefundsQueryParamInclude.PAYMENT, testmode=False)
+    res = client.settlements.list_refunds(settlement_id="stl_jDk30akdN", from_="re_5B8cwPMGnU", limit=50, include=mollie.GetSettlementRefundsQueryParamInclude.PAYMENT, testmode=False)
 
     # Handle response
     print(res)
@@ -409,7 +409,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.settlements.list_chargebacks(settlement_id="stl_jDk30akdN", from_="chb_xFzwUN4ci8HAmSGUACS4J", embed=mollie.GetSettlementChargebacksQueryParamEmbed.PAYMENT, testmode=False)
+    res = client.settlements.list_chargebacks(settlement_id="stl_jDk30akdN", from_="chb_xFzwUN4ci8HAmSGUACS4J", limit=50, embed=mollie.GetSettlementChargebacksQueryParamEmbed.PAYMENT, testmode=False)
 
     # Handle response
     print(res)

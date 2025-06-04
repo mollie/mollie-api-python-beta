@@ -306,6 +306,502 @@ class UpdatePaymentLinkPaymentLinksMinimumAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
+class UpdatePaymentLinkUnitPriceTypedDict(TypedDict):
+    r"""The price of a single item including VAT.
+
+    For example: `{\"currency\":\"EUR\", \"value\":\"89.00\"}` if the box of LEGO costs €89.00 each.
+
+    For types `discount`, `store_credit`, and `gift_card`, the unit price must be negative.
+
+    The unit price can be zero in case of free items.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class UpdatePaymentLinkUnitPrice(BaseModel):
+    r"""The price of a single item including VAT.
+
+    For example: `{\"currency\":\"EUR\", \"value\":\"89.00\"}` if the box of LEGO costs €89.00 each.
+
+    For types `discount`, `store_credit`, and `gift_card`, the unit price must be negative.
+
+    The unit price can be zero in case of free items.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class UpdatePaymentLinkDiscountAmountTypedDict(TypedDict):
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class UpdatePaymentLinkDiscountAmount(BaseModel):
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class UpdatePaymentLinkTotalAmountTypedDict(TypedDict):
+    r"""The total amount of the line, including VAT and discounts.
+
+    Should match the following formula: `(unitPrice × quantity) - discountAmount`.
+
+    The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class UpdatePaymentLinkTotalAmount(BaseModel):
+    r"""The total amount of the line, including VAT and discounts.
+
+    Should match the following formula: `(unitPrice × quantity) - discountAmount`.
+
+    The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class UpdatePaymentLinkVatAmountTypedDict(TypedDict):
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+
+    Any deviations from this will result in an error.
+
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class UpdatePaymentLinkVatAmount(BaseModel):
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+
+    Any deviations from this will result in an error.
+
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class UpdatePaymentLinkCategories(str, Enum):
+    MEAL = "meal"
+    ECO = "eco"
+    GIFT = "gift"
+    SPORT_CULTURE = "sport_culture"
+
+
+class UpdatePaymentLinkLinesTypedDict(TypedDict):
+    description: str
+    r"""A description of the line item. For example *LEGO 4440 Forest Police Station*."""
+    quantity: int
+    r"""The number of items."""
+    unit_price: UpdatePaymentLinkUnitPriceTypedDict
+    r"""The price of a single item including VAT.
+
+    For example: `{\"currency\":\"EUR\", \"value\":\"89.00\"}` if the box of LEGO costs €89.00 each.
+
+    For types `discount`, `store_credit`, and `gift_card`, the unit price must be negative.
+
+    The unit price can be zero in case of free items.
+    """
+    total_amount: UpdatePaymentLinkTotalAmountTypedDict
+    r"""The total amount of the line, including VAT and discounts.
+
+    Should match the following formula: `(unitPrice × quantity) - discountAmount`.
+
+    The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
+    """
+    type: NotRequired[str]
+    r"""The type of product purchased. For example, a physical or a digital product.
+
+    The `tip` payment line type is not available when creating a payment.
+
+    Possible values: `physical` `digital` `shipping_fee` `discount` `store_credit` `gift_card` `surcharge` `tip` (default: `physical`)
+    """
+    quantity_unit: NotRequired[str]
+    r"""The unit for the quantity. For example *pcs*, *kg*, or *cm*."""
+    discount_amount: NotRequired[UpdatePaymentLinkDiscountAmountTypedDict]
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+    vat_rate: NotRequired[str]
+    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and not as a float, to ensure the correct number of decimals are passed."""
+    vat_amount: NotRequired[UpdatePaymentLinkVatAmountTypedDict]
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+
+    Any deviations from this will result in an error.
+
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    """
+    sku: NotRequired[str]
+    r"""The SKU, EAN, ISBN or UPC of the product sold."""
+    categories: NotRequired[List[UpdatePaymentLinkCategories]]
+    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the [Integrating Vouchers](integrating-vouchers) guide for more information."""
+    image_url: NotRequired[str]
+    r"""A link pointing to an image of the product sold."""
+    product_url: NotRequired[str]
+    r"""A link pointing to the product page in your web shop of the product sold."""
+
+
+class UpdatePaymentLinkLines(BaseModel):
+    description: str
+    r"""A description of the line item. For example *LEGO 4440 Forest Police Station*."""
+
+    quantity: int
+    r"""The number of items."""
+
+    unit_price: Annotated[UpdatePaymentLinkUnitPrice, pydantic.Field(alias="unitPrice")]
+    r"""The price of a single item including VAT.
+
+    For example: `{\"currency\":\"EUR\", \"value\":\"89.00\"}` if the box of LEGO costs €89.00 each.
+
+    For types `discount`, `store_credit`, and `gift_card`, the unit price must be negative.
+
+    The unit price can be zero in case of free items.
+    """
+
+    total_amount: Annotated[
+        UpdatePaymentLinkTotalAmount, pydantic.Field(alias="totalAmount")
+    ]
+    r"""The total amount of the line, including VAT and discounts.
+
+    Should match the following formula: `(unitPrice × quantity) - discountAmount`.
+
+    The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
+    """
+
+    type: Optional[str] = None
+    r"""The type of product purchased. For example, a physical or a digital product.
+
+    The `tip` payment line type is not available when creating a payment.
+
+    Possible values: `physical` `digital` `shipping_fee` `discount` `store_credit` `gift_card` `surcharge` `tip` (default: `physical`)
+    """
+
+    quantity_unit: Annotated[Optional[str], pydantic.Field(alias="quantityUnit")] = None
+    r"""The unit for the quantity. For example *pcs*, *kg*, or *cm*."""
+
+    discount_amount: Annotated[
+        Optional[UpdatePaymentLinkDiscountAmount],
+        pydantic.Field(alias="discountAmount"),
+    ] = None
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+
+    vat_rate: Annotated[Optional[str], pydantic.Field(alias="vatRate")] = None
+    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and not as a float, to ensure the correct number of decimals are passed."""
+
+    vat_amount: Annotated[
+        Optional[UpdatePaymentLinkVatAmount], pydantic.Field(alias="vatAmount")
+    ] = None
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+
+    Any deviations from this will result in an error.
+
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    """
+
+    sku: Optional[str] = None
+    r"""The SKU, EAN, ISBN or UPC of the product sold."""
+
+    categories: Optional[List[UpdatePaymentLinkCategories]] = None
+    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the [Integrating Vouchers](integrating-vouchers) guide for more information."""
+
+    image_url: Annotated[Optional[str], pydantic.Field(alias="imageUrl")] = None
+    r"""A link pointing to an image of the product sold."""
+
+    product_url: Annotated[Optional[str], pydantic.Field(alias="productUrl")] = None
+    r"""A link pointing to the product page in your web shop of the product sold."""
+
+
+class UpdatePaymentLinkBillingAddressTypedDict(TypedDict):
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+
+    Required for payment method `in3`, `klarna`, `billie` and `riverty`.
+    """
+
+    title: NotRequired[str]
+    r"""The title of the person, for example *Mr.* or *Mrs.*."""
+    given_name: NotRequired[str]
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    family_name: NotRequired[str]
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    organization_name: NotRequired[str]
+    r"""The name of the organization, in case the addressee is an organization."""
+    street_and_number: NotRequired[str]
+    r"""A street and street number.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    street_additional: NotRequired[str]
+    r"""Any additional addressing details, for example an apartment number."""
+    postal_code: NotRequired[str]
+    r"""A postal code. This field may be required if the provided country has a postal code system.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    email: NotRequired[str]
+    r"""A valid e-mail address.
+
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    phone: NotRequired[str]
+    r"""If provided, it must be in the [E.164](https://en.wikipedia.org/wiki/E.164) format. For example: +31208202070."""
+    city: NotRequired[str]
+    r"""A city name.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    region: NotRequired[str]
+    r"""The top-level administrative subdivision of the country. For example: Noord-Holland."""
+    country: NotRequired[str]
+    r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+
+class UpdatePaymentLinkBillingAddress(BaseModel):
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+
+    Required for payment method `in3`, `klarna`, `billie` and `riverty`.
+    """
+
+    title: Optional[str] = None
+    r"""The title of the person, for example *Mr.* or *Mrs.*."""
+
+    given_name: Annotated[Optional[str], pydantic.Field(alias="givenName")] = None
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    family_name: Annotated[Optional[str], pydantic.Field(alias="familyName")] = None
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    organization_name: Annotated[
+        Optional[str], pydantic.Field(alias="organizationName")
+    ] = None
+    r"""The name of the organization, in case the addressee is an organization."""
+
+    street_and_number: Annotated[
+        Optional[str], pydantic.Field(alias="streetAndNumber")
+    ] = None
+    r"""A street and street number.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    street_additional: Annotated[
+        Optional[str], pydantic.Field(alias="streetAdditional")
+    ] = None
+    r"""Any additional addressing details, for example an apartment number."""
+
+    postal_code: Annotated[Optional[str], pydantic.Field(alias="postalCode")] = None
+    r"""A postal code. This field may be required if the provided country has a postal code system.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    email: Optional[str] = None
+    r"""A valid e-mail address.
+
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    phone: Optional[str] = None
+    r"""If provided, it must be in the [E.164](https://en.wikipedia.org/wiki/E.164) format. For example: +31208202070."""
+
+    city: Optional[str] = None
+    r"""A city name.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    region: Optional[str] = None
+    r"""The top-level administrative subdivision of the country. For example: Noord-Holland."""
+
+    country: Optional[str] = None
+    r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+
+class UpdatePaymentLinkShippingAddressTypedDict(TypedDict):
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    """
+
+    title: NotRequired[str]
+    r"""The title of the person, for example *Mr.* or *Mrs.*."""
+    given_name: NotRequired[str]
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    family_name: NotRequired[str]
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    organization_name: NotRequired[str]
+    r"""The name of the organization, in case the addressee is an organization."""
+    street_and_number: NotRequired[str]
+    r"""A street and street number.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    street_additional: NotRequired[str]
+    r"""Any additional addressing details, for example an apartment number."""
+    postal_code: NotRequired[str]
+    r"""A postal code. This field may be required if the provided country has a postal code system.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    email: NotRequired[str]
+    r"""A valid e-mail address.
+
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    phone: NotRequired[str]
+    r"""If provided, it must be in the [E.164](https://en.wikipedia.org/wiki/E.164) format. For example: +31208202070."""
+    city: NotRequired[str]
+    r"""A city name.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    region: NotRequired[str]
+    r"""The top-level administrative subdivision of the country. For example: Noord-Holland."""
+    country: NotRequired[str]
+    r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+
+class UpdatePaymentLinkShippingAddress(BaseModel):
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    """
+
+    title: Optional[str] = None
+    r"""The title of the person, for example *Mr.* or *Mrs.*."""
+
+    given_name: Annotated[Optional[str], pydantic.Field(alias="givenName")] = None
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    family_name: Annotated[Optional[str], pydantic.Field(alias="familyName")] = None
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    organization_name: Annotated[
+        Optional[str], pydantic.Field(alias="organizationName")
+    ] = None
+    r"""The name of the organization, in case the addressee is an organization."""
+
+    street_and_number: Annotated[
+        Optional[str], pydantic.Field(alias="streetAndNumber")
+    ] = None
+    r"""A street and street number.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    street_additional: Annotated[
+        Optional[str], pydantic.Field(alias="streetAdditional")
+    ] = None
+    r"""Any additional addressing details, for example an apartment number."""
+
+    postal_code: Annotated[Optional[str], pydantic.Field(alias="postalCode")] = None
+    r"""A postal code. This field may be required if the provided country has a postal code system.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    email: Optional[str] = None
+    r"""A valid e-mail address.
+
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    phone: Optional[str] = None
+    r"""If provided, it must be in the [E.164](https://en.wikipedia.org/wiki/E.164) format. For example: +31208202070."""
+
+    city: Optional[str] = None
+    r"""A city name.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    region: Optional[str] = None
+    r"""The top-level administrative subdivision of the country. For example: Noord-Holland."""
+
+    country: Optional[str] = None
+    r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+
 class UpdatePaymentLinkPaymentLinksAllowedMethods(str, Enum):
     APPLEPAY = "applepay"
     BANCOMATPAY = "bancomatpay"
@@ -501,6 +997,25 @@ class UpdatePaymentLinkResponseBodyTypedDict(TypedDict):
 
     The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
     """
+    lines: NotRequired[Nullable[List[UpdatePaymentLinkLinesTypedDict]]]
+    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.
+
+    All lines must have the same currency as the payment.
+
+    Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
+    """
+    billing_address: NotRequired[UpdatePaymentLinkBillingAddressTypedDict]
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+
+    Required for payment method `in3`, `klarna`, `billie` and `riverty`.
+    """
+    shipping_address: NotRequired[UpdatePaymentLinkShippingAddressTypedDict]
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    """
     profile_id: NotRequired[Nullable[str]]
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
@@ -575,6 +1090,34 @@ class UpdatePaymentLinkResponseBody(BaseModel):
     The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
     """
 
+    lines: OptionalNullable[List[UpdatePaymentLinkLines]] = UNSET
+    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.
+
+    All lines must have the same currency as the payment.
+
+    Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
+    """
+
+    billing_address: Annotated[
+        Optional[UpdatePaymentLinkBillingAddress],
+        pydantic.Field(alias="billingAddress"),
+    ] = None
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+
+    Required for payment method `in3`, `klarna`, `billie` and `riverty`.
+    """
+
+    shipping_address: Annotated[
+        Optional[UpdatePaymentLinkShippingAddress],
+        pydantic.Field(alias="shippingAddress"),
+    ] = None
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    """
+
     profile_id: Annotated[OptionalNullable[str], pydantic.Field(alias="profileId")] = (
         UNSET
     )
@@ -632,6 +1175,9 @@ class UpdatePaymentLinkResponseBody(BaseModel):
             "archived",
             "redirectUrl",
             "webhookUrl",
+            "lines",
+            "billingAddress",
+            "shippingAddress",
             "profileId",
             "reusable",
             "createdAt",
@@ -646,6 +1192,7 @@ class UpdatePaymentLinkResponseBody(BaseModel):
             "minimumAmount",
             "redirectUrl",
             "webhookUrl",
+            "lines",
             "profileId",
             "reusable",
             "paidAt",
