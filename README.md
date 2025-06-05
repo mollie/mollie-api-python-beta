@@ -1005,6 +1005,19 @@ with Client(
 
 * [request_apple_pay_session](docs/sdks/wallets/README.md#request_apple_pay_session) - Request Apple Pay payment session
 
+### [webhook_events](docs/sdks/webhookevents/README.md)
+
+* [get_event](docs/sdks/webhookevents/README.md#get_event) - Get a Webhook Event
+
+### [webhooks](docs/sdks/webhooks/README.md)
+
+* [create](docs/sdks/webhooks/README.md#create) - Create a webhook
+* [list](docs/sdks/webhooks/README.md#list) - List all webhooks
+* [update](docs/sdks/webhooks/README.md#update) - Update a webhook
+* [get](docs/sdks/webhooks/README.md#get) - Get a webhook
+* [delete](docs/sdks/webhooks/README.md#delete) - Delete a webhook
+* [test](docs/sdks/webhooks/README.md#test) - Test a webhook
+
 </details>
 <!-- End Available Resources and Operations [operations] -->
 

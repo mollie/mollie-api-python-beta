@@ -36,6 +36,8 @@ if TYPE_CHECKING:
     from mollie.subscriptions import Subscriptions
     from mollie.terminals import Terminals
     from mollie.wallets import Wallets
+    from mollie.webhook_events import WebhookEvents
+    from mollie.webhooks import Webhooks
 
 
 class Client(BaseSDK):
@@ -58,6 +60,8 @@ class Client(BaseSDK):
     capabilities: "Capabilities"
     clients: "Clients"
     client_links: "ClientLinks"
+    webhooks: "Webhooks"
+    webhook_events: "WebhookEvents"
     balances: "Balances"
     settlements: "Settlements"
     invoices: "Invoices"
@@ -81,6 +85,8 @@ class Client(BaseSDK):
         "capabilities": ("mollie.capabilities", "Capabilities"),
         "clients": ("mollie.clients", "Clients"),
         "client_links": ("mollie.client_links", "ClientLinks"),
+        "webhooks": ("mollie.webhooks", "Webhooks"),
+        "webhook_events": ("mollie.webhook_events", "WebhookEvents"),
         "balances": ("mollie.balances", "Balances"),
         "settlements": ("mollie.settlements", "Settlements"),
         "invoices": ("mollie.invoices", "Invoices"),

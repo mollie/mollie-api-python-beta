@@ -1005,6 +1005,19 @@ with Client(
 
 * [request_apple_pay_session](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/wallets/README.md#request_apple_pay_session) - Request Apple Pay payment session
 
+### [webhook_events](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/webhookevents/README.md)
+
+* [get_event](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/webhookevents/README.md#get_event) - Get a Webhook Event
+
+### [webhooks](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/webhooks/README.md)
+
+* [create](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/webhooks/README.md#create) - Create a webhook
+* [list](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/webhooks/README.md#list) - List all webhooks
+* [update](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/webhooks/README.md#update) - Update a webhook
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/webhooks/README.md#get) - Get a webhook
+* [delete](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/webhooks/README.md#delete) - Delete a webhook
+* [test](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/webhooks/README.md#test) - Test a webhook
+
 </details>
 <!-- End Available Resources and Operations [operations] -->
 

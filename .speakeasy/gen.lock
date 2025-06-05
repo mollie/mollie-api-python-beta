@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: 677c6ced5817a42214b50c3e182c693f
+  docChecksum: ff1405bcd862bfcc42243e7f27b0a2d0
   docVersion: 1.0.0
-  speakeasyVersion: 1.555.2
+  speakeasyVersion: 1.555.3
   generationVersion: 2.620.2
-  releaseVersion: 0.5.3
-  configChecksum: da42b20364b73e5398a6099dd0420211
+  releaseVersion: 0.5.4
+  configChecksum: 8c102b391ce27deeef21180003878b89
   repoURL: https://github.com/mollie/mollie-api-python-alpha.git
   installationURL: https://github.com/mollie/mollie-api-python-alpha.git
   published: true
@@ -457,6 +457,13 @@ generatedFiles:
   - docs/models/createsubscriptionsubscriptionsresponse201amount.md
   - docs/models/createsubscriptionsubscriptionsresponseamount.md
   - docs/models/createsubscriptionsubscriptionsresponsebody.md
+  - docs/models/createwebhookdocumentation.md
+  - docs/models/createwebhooklinks.md
+  - docs/models/createwebhookrequestbody.md
+  - docs/models/createwebhookresponsebody.md
+  - docs/models/createwebhookwebhooksdocumentation.md
+  - docs/models/createwebhookwebhookslinks.md
+  - docs/models/createwebhookwebhooksresponsebody.md
   - docs/models/currency.md
   - docs/models/customer.md
   - docs/models/dashboard.md
@@ -481,6 +488,13 @@ generatedFiles:
   - docs/models/deleteprofileprofilesresponsebody.md
   - docs/models/deleteprofilerequest.md
   - docs/models/deleteprofileresponsebody.md
+  - docs/models/deletewebhookdocumentation.md
+  - docs/models/deletewebhooklinks.md
+  - docs/models/deletewebhookrequest.md
+  - docs/models/deletewebhookresponsebody.md
+  - docs/models/deletewebhookwebhooksdocumentation.md
+  - docs/models/deletewebhookwebhookslinks.md
+  - docs/models/deletewebhookwebhooksresponsebody.md
   - docs/models/destination.md
   - docs/models/details.md
   - docs/models/discountamount.md
@@ -488,7 +502,33 @@ generatedFiles:
   - docs/models/documentation.md
   - docs/models/embed.md
   - docs/models/embedded.md
+  - docs/models/entity.md
+  - docs/models/entityallowedmethods.md
+  - docs/models/entityamount.md
+  - docs/models/entityapplicationfee.md
+  - docs/models/entitybillingaddress.md
+  - docs/models/entitycategories.md
+  - docs/models/entitychargebacks.md
+  - docs/models/entitycheckoutpreviewurl.md
+  - docs/models/entitydashboard.md
+  - docs/models/entitydiscountamount.md
+  - docs/models/entitydocumentation.md
+  - docs/models/entitylines.md
+  - docs/models/entitylinks.md
+  - docs/models/entitymethods.md
+  - docs/models/entityminimumamount.md
+  - docs/models/entitypaymentlink.md
+  - docs/models/entitypayments.md
+  - docs/models/entityprofile.md
+  - docs/models/entityrefunds.md
+  - docs/models/entityreview.md
+  - docs/models/entityself.md
+  - docs/models/entityshippingaddress.md
+  - docs/models/entitytotalamount.md
+  - docs/models/entityunitprice.md
+  - docs/models/entityvatamount.md
   - docs/models/events.md
+  - docs/models/eventtypes.md
   - docs/models/externalreference.md
   - docs/models/feeprepayments.md
   - docs/models/fixed.md
@@ -1201,6 +1241,29 @@ generatedFiles:
   - docs/models/getterminalterminalsdocumentation.md
   - docs/models/getterminalterminalslinks.md
   - docs/models/getterminalterminalsresponsebody.md
+  - docs/models/getwebhookdocumentation.md
+  - docs/models/getwebhookeventdocumentation.md
+  - docs/models/getwebhookeventembedded.md
+  - docs/models/getwebhookevententity.md
+  - docs/models/getwebhookevententityamount.md
+  - docs/models/getwebhookevententitydocumentation.md
+  - docs/models/getwebhookevententitylinks.md
+  - docs/models/getwebhookevententitypaymentlink.md
+  - docs/models/getwebhookevententityself.md
+  - docs/models/getwebhookeventlinks.md
+  - docs/models/getwebhookeventrequest.md
+  - docs/models/getwebhookeventresponsebody.md
+  - docs/models/getwebhookeventself.md
+  - docs/models/getwebhookeventwebhookeventsdocumentation.md
+  - docs/models/getwebhookeventwebhookeventslinks.md
+  - docs/models/getwebhookeventwebhookeventsresponsebody.md
+  - docs/models/getwebhooklinks.md
+  - docs/models/getwebhookrequest.md
+  - docs/models/getwebhookresponsebody.md
+  - docs/models/getwebhookwebhooksdocumentation.md
+  - docs/models/getwebhookwebhookslinks.md
+  - docs/models/getwebhookwebhooksresponsebody.md
+  - docs/models/getwebhookwebhooksresponseresponsebody.md
   - docs/models/grossamount.md
   - docs/models/image.md
   - docs/models/immediatelyavailable.md
@@ -1921,6 +1984,18 @@ generatedFiles:
   - docs/models/listterminalsterminalsresponsedocumentation.md
   - docs/models/listterminalsterminalsresponselinks.md
   - docs/models/listterminalsterminalsself.md
+  - docs/models/listwebhooksdocumentation.md
+  - docs/models/listwebhooksembedded.md
+  - docs/models/listwebhookslinks.md
+  - docs/models/listwebhooksnext.md
+  - docs/models/listwebhooksprevious.md
+  - docs/models/listwebhooksrequest.md
+  - docs/models/listwebhooksresponsebody.md
+  - docs/models/listwebhooksself.md
+  - docs/models/listwebhookswebhooks.md
+  - docs/models/listwebhookswebhooksdocumentation.md
+  - docs/models/listwebhookswebhookslinks.md
+  - docs/models/listwebhookswebhooksresponsebody.md
   - docs/models/mandate.md
   - docs/models/maximumamount.md
   - docs/models/metadata.md
@@ -2024,6 +2099,14 @@ generatedFiles:
   - docs/models/subscription.md
   - docs/models/subtotals.md
   - docs/models/terminal.md
+  - docs/models/testwebhookdocumentation.md
+  - docs/models/testwebhooklinks.md
+  - docs/models/testwebhookrequest.md
+  - docs/models/testwebhookrequestbody.md
+  - docs/models/testwebhookresponsebody.md
+  - docs/models/testwebhookwebhooksdocumentation.md
+  - docs/models/testwebhookwebhookslinks.md
+  - docs/models/testwebhookwebhooksresponsebody.md
   - docs/models/topups.md
   - docs/models/totalamount.md
   - docs/models/totals.md
@@ -2081,13 +2164,21 @@ generatedFiles:
   - docs/models/updatepaymentlinkpaymentlink.md
   - docs/models/updatepaymentlinkpaymentlinksallowedmethods.md
   - docs/models/updatepaymentlinkpaymentlinksamount.md
+  - docs/models/updatepaymentlinkpaymentlinksbillingaddress.md
+  - docs/models/updatepaymentlinkpaymentlinkscategories.md
+  - docs/models/updatepaymentlinkpaymentlinksdiscountamount.md
   - docs/models/updatepaymentlinkpaymentlinksdocumentation.md
+  - docs/models/updatepaymentlinkpaymentlinkslines.md
   - docs/models/updatepaymentlinkpaymentlinkslinks.md
   - docs/models/updatepaymentlinkpaymentlinksminimumamount.md
   - docs/models/updatepaymentlinkpaymentlinksresponsebody.md
   - docs/models/updatepaymentlinkpaymentlinksresponsedocumentation.md
   - docs/models/updatepaymentlinkpaymentlinksresponselinks.md
   - docs/models/updatepaymentlinkpaymentlinksresponseresponsebody.md
+  - docs/models/updatepaymentlinkpaymentlinksshippingaddress.md
+  - docs/models/updatepaymentlinkpaymentlinkstotalamount.md
+  - docs/models/updatepaymentlinkpaymentlinksunitprice.md
+  - docs/models/updatepaymentlinkpaymentlinksvatamount.md
   - docs/models/updatepaymentlinkrequest.md
   - docs/models/updatepaymentlinkrequestbody.md
   - docs/models/updatepaymentlinkresponsebody.md
@@ -2176,6 +2267,16 @@ generatedFiles:
   - docs/models/updatesubscriptionsubscriptionsmetadata.md
   - docs/models/updatesubscriptionsubscriptionsresponseamount.md
   - docs/models/updatesubscriptionsubscriptionsresponsebody.md
+  - docs/models/updatewebhookdocumentation.md
+  - docs/models/updatewebhookeventtypes.md
+  - docs/models/updatewebhooklinks.md
+  - docs/models/updatewebhookrequest.md
+  - docs/models/updatewebhookrequestbody.md
+  - docs/models/updatewebhookresponsebody.md
+  - docs/models/updatewebhookwebhooksdocumentation.md
+  - docs/models/updatewebhookwebhookslinks.md
+  - docs/models/updatewebhookwebhooksresponsebody.md
+  - docs/models/updatewebhookwebhooksresponseresponsebody.md
   - docs/models/url.md
   - docs/models/useragenttokens.md
   - docs/models/utils/retryconfig.md
@@ -2203,6 +2304,8 @@ generatedFiles:
   - docs/sdks/subscriptions/README.md
   - docs/sdks/terminals/README.md
   - docs/sdks/wallets/README.md
+  - docs/sdks/webhookevents/README.md
+  - docs/sdks/webhooks/README.md
   - poetry.toml
   - py.typed
   - pylintrc
@@ -2242,9 +2345,11 @@ generatedFiles:
   - src/mollie/models/create_profileop.py
   - src/mollie/models/create_refundop.py
   - src/mollie/models/create_subscriptionop.py
+  - src/mollie/models/create_webhookop.py
   - src/mollie/models/delete_customerop.py
   - src/mollie/models/delete_payment_linkop.py
   - src/mollie/models/delete_profileop.py
+  - src/mollie/models/delete_webhookop.py
   - src/mollie/models/get_balance_reportop.py
   - src/mollie/models/get_balanceop.py
   - src/mollie/models/get_captureop.py
@@ -2275,6 +2380,8 @@ generatedFiles:
   - src/mollie/models/get_settlementop.py
   - src/mollie/models/get_subscriptionop.py
   - src/mollie/models/get_terminalop.py
+  - src/mollie/models/get_webhook_eventop.py
+  - src/mollie/models/get_webhookop.py
   - src/mollie/models/list_all_chargebacksop.py
   - src/mollie/models/list_all_methodsop.py
   - src/mollie/models/list_all_refundsop.py
@@ -2300,6 +2407,7 @@ generatedFiles:
   - src/mollie/models/list_subscription_paymentsop.py
   - src/mollie/models/list_subscriptionsop.py
   - src/mollie/models/list_terminalsop.py
+  - src/mollie/models/list_webhooksop.py
   - src/mollie/models/payment_create_routeop.py
   - src/mollie/models/payment_list_routesop.py
   - src/mollie/models/release_authorizationop.py
@@ -2307,11 +2415,13 @@ generatedFiles:
   - src/mollie/models/revoke_mandateop.py
   - src/mollie/models/security.py
   - src/mollie/models/submit_onboarding_dataop.py
+  - src/mollie/models/test_webhookop.py
   - src/mollie/models/update_customerop.py
   - src/mollie/models/update_payment_linkop.py
   - src/mollie/models/update_paymentop.py
   - src/mollie/models/update_profileop.py
   - src/mollie/models/update_subscriptionop.py
+  - src/mollie/models/update_webhookop.py
   - src/mollie/onboarding.py
   - src/mollie/organizations.py
   - src/mollie/payment_links.py
@@ -2344,6 +2454,8 @@ generatedFiles:
   - src/mollie/utils/url.py
   - src/mollie/utils/values.py
   - src/mollie/wallets.py
+  - src/mollie/webhook_events.py
+  - src/mollie/webhooks.py
 examples:
   create-payment:
     create-payment-201-1:
@@ -3267,7 +3379,7 @@ examples:
         query:
           testmode: false
       requestBody:
-        application/json: {"description": "Chess Board", "minimumAmount": {"currency": "EUR", "value": "10.00"}, "archived": false, "allowedMethods": ["ideal"], "testmode": false}
+        application/json: {"description": "Chess Board", "minimumAmount": {"currency": "EUR", "value": "10.00"}, "archived": false, "allowedMethods": ["ideal"], "lines": [{"description": "LEGO 4440 Forest Police Station", "quantity": 1, "quantityUnit": "pcs", "unitPrice": {"currency": "EUR", "value": "10.00"}, "discountAmount": {"currency": "EUR", "value": "10.00"}, "totalAmount": {"currency": "EUR", "value": "10.00"}, "vatRate": "21.00", "vatAmount": {"currency": "EUR", "value": "10.00"}, "sku": "9780241661628", "categories": ["meal", "eco"], "imageUrl": "https://...", "productUrl": "https://..."}], "billingAddress": {"title": "Mr.", "givenName": "Piet", "familyName": "Mondriaan", "organizationName": "Mollie B.V.", "streetAndNumber": "Keizersgracht 126", "streetAdditional": "Apt. 1", "postalCode": "1234AB", "email": "piet@example.org", "phone": "31208202070", "city": "Amsterdam", "region": "Noord-Holland", "country": "NL"}, "shippingAddress": {"title": "Mr.", "givenName": "Piet", "familyName": "Mondriaan", "organizationName": "Mollie B.V.", "streetAndNumber": "Keizersgracht 126", "streetAdditional": "Apt. 1", "postalCode": "1234AB", "email": "piet@example.org", "phone": "31208202070", "city": "Amsterdam", "region": "Noord-Holland", "country": "NL"}, "testmode": false}
       responses:
         "200":
           application/hal+json: {"resource": "payment-link", "id": "pl_4Y0eZitmBnQ6IDoMqZQKh", "mode": "live", "description": "Bicycle tires", "amount": {"currency": "EUR", "value": "24.95"}, "archived": true, "redirectUrl": "https://webshop.example.org/thanks", "webhookUrl": "https://webshop.example.org/payment-links/webhook", "profileId": "pfl_QkEhN94Ba", "reusable": false, "createdAt": "2021-03-20T09:29:56.0Z", "expiresAt": "2023-06-06T11:00:00.0Z", "allowedMethods": ["creditcard"], "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "paymentLink": {"href": "https://payment-links.mollie.com/payment/4Y0eZitmBnQ6IDoMqZQKh", "type": "text/html"}, "documentation": {"href": "https://...", "type": "text/html"}}}
@@ -3278,7 +3390,7 @@ examples:
         query:
           testmode: false
       requestBody:
-        application/json: {"description": "Chess Board", "minimumAmount": {"currency": "EUR", "value": "10.00"}, "archived": false, "allowedMethods": ["ideal"], "testmode": false}
+        application/json: {"description": "Chess Board", "minimumAmount": {"currency": "EUR", "value": "10.00"}, "archived": false, "allowedMethods": ["ideal"], "lines": [{"description": "LEGO 4440 Forest Police Station", "quantity": 1, "quantityUnit": "pcs", "unitPrice": {"currency": "EUR", "value": "10.00"}, "discountAmount": {"currency": "EUR", "value": "10.00"}, "totalAmount": {"currency": "EUR", "value": "10.00"}, "vatRate": "21.00", "vatAmount": {"currency": "EUR", "value": "10.00"}, "sku": "9780241661628", "categories": ["meal", "eco"], "imageUrl": "https://...", "productUrl": "https://..."}], "billingAddress": {"title": "Mr.", "givenName": "Piet", "familyName": "Mondriaan", "organizationName": "Mollie B.V.", "streetAndNumber": "Keizersgracht 126", "streetAdditional": "Apt. 1", "postalCode": "1234AB", "email": "piet@example.org", "phone": "31208202070", "city": "Amsterdam", "region": "Noord-Holland", "country": "NL"}, "shippingAddress": {"title": "Mr.", "givenName": "Piet", "familyName": "Mondriaan", "organizationName": "Mollie B.V.", "streetAndNumber": "Keizersgracht 126", "streetAdditional": "Apt. 1", "postalCode": "1234AB", "email": "piet@example.org", "phone": "31208202070", "city": "Amsterdam", "region": "Noord-Holland", "country": "NL"}, "testmode": false}
       responses:
         "404":
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "No entity exists with token '7UhSN1zuXS'", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
@@ -4734,6 +4846,136 @@ examples:
       parameters:
         path:
           id: "inv_FrvewDA3Pr"
+      responses:
+        "404":
+          application/hal+json: {"status": 404, "title": "Not Found", "detail": "No entity exists with token '7UhSN1zuXS'", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+  create-webhook:
+    create-webhook-200:
+      requestBody:
+        application/json: {"name": "Webhook #1", "url": "https://mollie.com/", "eventTypes": "payment-link.paid", "testmode": false}
+      responses:
+        "201":
+          application/hal+json: {"resource": "webhook", "id": "hook_B2EyhTH5N4KWUnoYPcgiH", "url": "https://mollie.com", "profileId": "pfl_8XcSdLtrNK", "createdAt": "2024-12-06T10:09:56+00:00", "name": "Webhook #1", "eventTypes": "payment.paid", "status": "enabled", "_links": {"documentation": {"href": "https://docs.mollie.com/reference/create-webhook", "type": "text/html"}}}
+    "":
+      requestBody:
+        application/json: {"name": "Webhook #1", "url": "https://mollie.com/", "eventTypes": "payment-link.paid", "testmode": false}
+      responses:
+        "422":
+          application/hal+json: {"status": 422, "title": "Unprocessable entity", "detail": "Invalid URL provided", "field": "url", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+  list-webhooks:
+    list-webhook-200:
+      parameters:
+        query:
+          from: "hook_B2EyhTH5N4KWUnoYPcgiH"
+          limit: 50
+          sort: "desc"
+          eventTypes: "payment-link.paid"
+          testmode: false
+      responses:
+        "200":
+          application/hal+json: {"count": 2, "_embedded": {"webhooks": [{"resource": "webhook", "id": "hook_yjtBMWDCGw5YFSPQ3HPzH", "url": "https://mollie.com", "profileId": "pfl_8XcSdLtrNK", "createdAt": "2024-12-06T10:09:56+00:00", "name": "Webhook #2", "eventTypes": "payment-link.paid,payment.failed", "status": "enabled"}, {"resource": "webhook", "id": "hook_qHknfTxaDx6s8JNhuGPzH", "url": "https://mollie.com", "profileId": "pfl_8XcSdLtrNK", "createdAt": "2024-12-06T10:08:48+00:00", "name": "Webhook #1", "eventTypes": "payment-link.paid", "status": "blocked"}]}, "_links": {"self": {"href": "https://api.mollie.localhost/v2/webhooks?from=hook_yjtBMWDCGw5YFSPQ3HPzH&limit=2", "type": "application/hal+json"}, "previous": {"href": "https://api.mollie.localhost/v2/webhooks?from=hook_5foxphpBru4xNPCDJJPzH&limit=2", "type": "application/hal+json"}, "next": {"href": "https://api.mollie.localhost/v2/webhooks?from=hook_fTqARmWsfs9oXvKbZEPzH&limit=2", "type": "application/hal+json"}, "documentation": {"href": "https://docs.mollie.com/reference/list-webhook", "type": "text/html"}}}
+    "":
+      parameters:
+        query:
+          from: "hook_B2EyhTH5N4KWUnoYPcgiH"
+          limit: 50
+          sort: "desc"
+          eventTypes: "payment-link.paid"
+          testmode: false
+      responses:
+        "400":
+          application/hal+json: {"status": 400, "title": "Bad Request", "detail": "Invalid cursor value", "field": "from", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+  update-webhook:
+    create-webhook-200:
+      parameters:
+        path:
+          id: "hook_B2EyhTH5N4KWUnoYPcgiH"
+      requestBody:
+        application/json: {"name": "Webhook #1", "url": "https://mollie.com/", "eventTypes": "payment-link.paid", "testmode": false}
+      responses:
+        "200":
+          application/hal+json: {"resource": "webhook", "id": "hook_B2EyhTH5N4KWUnoYPcgiH", "url": "https://mollie.com", "profileId": "pfl_8XcSdLtrNK", "createdAt": "2024-12-06T10:09:56+00:00", "name": "Webhook #1", "eventTypes": "payment.paid", "status": "enabled"}
+    "":
+      parameters:
+        path:
+          id: "hook_B2EyhTH5N4KWUnoYPcgiH"
+      requestBody:
+        application/json: {"name": "Webhook #1", "url": "https://mollie.com/", "eventTypes": "payment-link.paid", "testmode": false}
+      responses:
+        "404":
+          application/hal+json: {"status": 404, "title": "Not Found", "detail": "No entity exists with token '7UhSN1zuXS'", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+        "422":
+          application/hal+json: {"status": 422, "title": "Unprocessable entity", "detail": "Invalid URL provided", "field": "url", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+  get-webhook:
+    get-webhook-200:
+      parameters:
+        path:
+          id: "hook_B2EyhTH5N4KWUnoYPcgiH"
+        query:
+          testmode: false
+      responses:
+        "200":
+          application/hal+json: {"resource": "webhook", "id": "hook_B2EyhTH5N4KWUnoYPcgiH", "url": "https://mollie.com", "profileId": "pfl_8XcSdLtrNK", "createdAt": "2024-12-06T10:09:56+00:00", "name": "Webhook #1", "eventTypes": "payment.expired,payment.paid", "status": "enabled"}
+    get-webhook-200-1:
+      parameters:
+        path:
+          id: "hook_B2EyhTH5N4KWUnoYPcgiH"
+        query:
+          testmode: false
+      responses:
+        "200":
+          application/hal+json: {"resource": "webhook", "id": "hook_B2EyhTH5N4KWUnoYPcgiH", "url": "https://mollie.com", "profileId": "pfl_8XcSdLtrNK", "createdAt": "2024-12-06T10:09:56+00:00", "name": "Webhook #1", "eventTypes": "payment-link.paid", "status": "deleted"}
+    "":
+      parameters:
+        path:
+          id: "hook_B2EyhTH5N4KWUnoYPcgiH"
+        query:
+          testmode: false
+      responses:
+        "404":
+          application/hal+json: {"status": 404, "title": "Not Found", "detail": "No entity exists with token '7UhSN1zuXS'", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+        "422":
+          application/hal+json: {"status": 422, "title": "Unprocessable entity", "detail": "This subscription was already deleted.", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+  delete-webhook:
+    "":
+      parameters:
+        path:
+          id: "hook_B2EyhTH5N4KWUnoYPcgiH"
+        query:
+          testmode: false
+      responses:
+        "204":
+          application/hal+json: {}
+        "404":
+          application/hal+json: {"status": 404, "title": "Not Found", "detail": "No entity exists with token '7UhSN1zuXS'", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+        "422":
+          application/hal+json: {"status": 422, "title": "Unprocessable entity", "detail": "This subscription was already deleted.", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+  test-webhook:
+    "":
+      parameters:
+        path:
+          id: "hook_B2EyhTH5N4KWUnoYPcgiH"
+      requestBody:
+        application/json: {"testmode": false}
+      responses:
+        "202":
+          application/hal+json: {}
+        "404":
+          application/hal+json: {"status": 404, "title": "Not Found", "detail": "No entity exists with token '7UhSN1zuXS'", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+        "422":
+          application/hal+json: {"status": 422, "title": "Unprocessable entity", "detail": "This subscription was already deleted.", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
+  get-webhook-event:
+    get-webhook-event-200:
+      parameters:
+        path:
+          id: "event_jd9v34P5YqN9pT8n3HJyH"
+      responses:
+        "200":
+          application/hal+json: {"resource": "event", "id": "event_GvJ8WHrp5isUdRub9CJyH", "type": "payment-link.paid", "entityId": "pl_qng5gbbv8NAZ5gpM5ZYgx", "createdAt": "2024-12-16T15:57:04.0Z", "_embedded": {"entity": {"resource": "payment-link", "id": "pl_d9fQur83kFdhH8hIhaZfq", "mode": "live", "description": "Chess Board", "amount": {"currency": "EUR", "value": "10.00"}, "minimumAmount": {"currency": "EUR", "value": "10.00"}, "archived": false, "redirectUrl": "https://webshop.example.org/payment-links/redirect/", "webhookUrl": "https://webshop.example.org/payment-links/webhook/", "lines": [{"description": "LEGO 4440 Forest Police Station", "quantity": 1, "quantityUnit": "pcs", "unitPrice": {"currency": "EUR", "value": "10.00"}, "discountAmount": {"currency": "EUR", "value": "10.00"}, "totalAmount": {"currency": "EUR", "value": "10.00"}, "vatRate": "21.00", "vatAmount": {"currency": "EUR", "value": "10.00"}, "sku": "9780241661628", "categories": ["meal", "eco"], "imageUrl": "https://...", "productUrl": "https://..."}], "billingAddress": {"title": "Mr.", "givenName": "Piet", "familyName": "Mondriaan", "organizationName": "Mollie B.V.", "streetAndNumber": "Keizersgracht 126", "streetAdditional": "Apt. 1", "postalCode": "1234AB", "email": "piet@example.org", "phone": "31208202070", "city": "Amsterdam", "region": "Noord-Holland", "country": "NL"}, "shippingAddress": {"title": "Mr.", "givenName": "Piet", "familyName": "Mondriaan", "organizationName": "Mollie B.V.", "streetAndNumber": "Keizersgracht 126", "streetAdditional": "Apt. 1", "postalCode": "1234AB", "email": "piet@example.org", "phone": "31208202070", "city": "Amsterdam", "region": "Noord-Holland", "country": "NL"}, "profileId": "pfl_QkEhN94Ba", "reusable": false, "createdAt": "2024-03-20T09:13:37.0Z", "paidAt": "2025-12-24T11:00:16+00:00", "expiresAt": "2025-12-24T11:00:16+00:00", "allowedMethods": ["ideal"], "applicationFee": {"amount": {"currency": "EUR", "value": "10.00"}, "description": "Platform fee"}, "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "paymentLink": {"href": "https://...", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "application/hal+json"}}}}, "_links": {"self": {"href": "https://api.mollie.com/v2/events/event_GvJ8WHrp5isUdRub9CJyH", "type": "application/hal+json"}, "documentation": {"href": "https://docs.mollie.com/guides/webhooks", "type": "text/html"}, "entity": {"href": "/v2/payment-links/pl_qng5gbbv8NAZ5gpM5ZYgx", "type": "application/hal+json"}}}
+    "":
+      parameters:
+        path:
+          id: "event_jd9v34P5YqN9pT8n3HJyH"
       responses:
         "404":
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "No entity exists with token '7UhSN1zuXS'", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}

@@ -762,6 +762,24 @@ class PaymentLinks(BaseSDK):
         allowed_methods: OptionalNullable[
             List[models.UpdatePaymentLinkAllowedMethods]
         ] = UNSET,
+        lines: OptionalNullable[
+            Union[
+                List[models.UpdatePaymentLinkLines],
+                List[models.UpdatePaymentLinkLinesTypedDict],
+            ]
+        ] = UNSET,
+        billing_address: Optional[
+            Union[
+                models.UpdatePaymentLinkBillingAddress,
+                models.UpdatePaymentLinkBillingAddressTypedDict,
+            ]
+        ] = None,
+        shipping_address: Optional[
+            Union[
+                models.UpdatePaymentLinkShippingAddress,
+                models.UpdatePaymentLinkShippingAddressTypedDict,
+            ]
+        ] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -783,6 +801,9 @@ class PaymentLinks(BaseSDK):
         :param minimum_amount: The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount.
         :param archived: Whether the payment link is archived. Customers will not be able to complete payments on archived payment links.
         :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
+        :param lines: Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.  All lines must have the same currency as the payment.  Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
+        :param billing_address: The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.  Required for payment method `in3`, `klarna`, `billie` and `riverty`.
+        :param shipping_address: The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -808,6 +829,15 @@ class PaymentLinks(BaseSDK):
                 ),
                 archived=archived,
                 allowed_methods=allowed_methods,
+                lines=utils.get_pydantic_model(
+                    lines, OptionalNullable[List[models.UpdatePaymentLinkLines]]
+                ),
+                billing_address=utils.get_pydantic_model(
+                    billing_address, Optional[models.UpdatePaymentLinkBillingAddress]
+                ),
+                shipping_address=utils.get_pydantic_model(
+                    shipping_address, Optional[models.UpdatePaymentLinkShippingAddress]
+                ),
                 testmode=testmode,
             ),
         )
@@ -915,6 +945,24 @@ class PaymentLinks(BaseSDK):
         allowed_methods: OptionalNullable[
             List[models.UpdatePaymentLinkAllowedMethods]
         ] = UNSET,
+        lines: OptionalNullable[
+            Union[
+                List[models.UpdatePaymentLinkLines],
+                List[models.UpdatePaymentLinkLinesTypedDict],
+            ]
+        ] = UNSET,
+        billing_address: Optional[
+            Union[
+                models.UpdatePaymentLinkBillingAddress,
+                models.UpdatePaymentLinkBillingAddressTypedDict,
+            ]
+        ] = None,
+        shipping_address: Optional[
+            Union[
+                models.UpdatePaymentLinkShippingAddress,
+                models.UpdatePaymentLinkShippingAddressTypedDict,
+            ]
+        ] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -936,6 +984,9 @@ class PaymentLinks(BaseSDK):
         :param minimum_amount: The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount.
         :param archived: Whether the payment link is archived. Customers will not be able to complete payments on archived payment links.
         :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
+        :param lines: Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.  All lines must have the same currency as the payment.  Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
+        :param billing_address: The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.  Required for payment method `in3`, `klarna`, `billie` and `riverty`.
+        :param shipping_address: The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -961,6 +1012,15 @@ class PaymentLinks(BaseSDK):
                 ),
                 archived=archived,
                 allowed_methods=allowed_methods,
+                lines=utils.get_pydantic_model(
+                    lines, OptionalNullable[List[models.UpdatePaymentLinkLines]]
+                ),
+                billing_address=utils.get_pydantic_model(
+                    billing_address, Optional[models.UpdatePaymentLinkBillingAddress]
+                ),
+                shipping_address=utils.get_pydantic_model(
+                    shipping_address, Optional[models.UpdatePaymentLinkShippingAddress]
+                ),
                 testmode=testmode,
             ),
         )
