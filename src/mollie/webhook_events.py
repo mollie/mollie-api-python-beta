@@ -24,8 +24,6 @@ class WebhookEvents(BaseSDK):
 
         > 🔑 Access with
         >
-        > [API key](/reference/authentication)
-        >
         > [Access token with **events.read**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
@@ -135,8 +133,6 @@ class WebhookEvents(BaseSDK):
         Retrieve a single webhook event object by its event ID.
 
         > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
         >
         > [Access token with **events.read**](/reference/authentication)
 

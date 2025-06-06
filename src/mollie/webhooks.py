@@ -29,8 +29,6 @@ class Webhooks(BaseSDK):
 
         > 🔑 Access with
         >
-        > [API key](/reference/authentication)
-        >
         > [Access token with **webhooks.write**](/reference/authentication)
 
         :param request: The request object to send.
@@ -149,8 +147,6 @@ class Webhooks(BaseSDK):
 
         > 🔑 Access with
         >
-        > [API key](/reference/authentication)
-        >
         > [Access token with **webhooks.write**](/reference/authentication)
 
         :param request: The request object to send.
@@ -267,8 +263,6 @@ class Webhooks(BaseSDK):
         Returns a paginated list of your webhooks. If no webhook endpoints are available, the resulting array will be empty. This request should never throw an error.
 
         > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
         >
         > [Access token with **webhooks.read**](/reference/authentication)
 
@@ -390,8 +384,6 @@ class Webhooks(BaseSDK):
 
         > 🔑 Access with
         >
-        > [API key](/reference/authentication)
-        >
         > [Access token with **webhooks.read**](/reference/authentication)
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
@@ -511,8 +503,6 @@ class Webhooks(BaseSDK):
         Updates the webhook. You may edit the name, url and the list of subscribed event types.
 
         > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
         >
         > [Access token with **webhooks.write**](/reference/authentication)
 
@@ -648,8 +638,6 @@ class Webhooks(BaseSDK):
 
         > 🔑 Access with
         >
-        > [API key](/reference/authentication)
-        >
         > [Access token with **webhooks.write**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
@@ -781,8 +769,6 @@ class Webhooks(BaseSDK):
 
         > 🔑 Access with
         >
-        > [API key](/reference/authentication)
-        >
         > [Access token with **webhooks.read**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
@@ -898,8 +884,6 @@ class Webhooks(BaseSDK):
         Retrieve a single webhook object by its ID.
 
         > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
         >
         > [Access token with **webhooks.read**](/reference/authentication)
 
@@ -1017,8 +1001,6 @@ class Webhooks(BaseSDK):
 
         > 🔑 Access with
         >
-        > [API key](/reference/authentication)
-        >
         > [Access token with **webhooks.write**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
@@ -1135,8 +1117,6 @@ class Webhooks(BaseSDK):
 
         > 🔑 Access with
         >
-        > [API key](/reference/authentication)
-        >
         > [Access token with **webhooks.write**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
@@ -1252,8 +1232,6 @@ class Webhooks(BaseSDK):
         Sends a test event to the webhook to verify the endpoint is working as expected.
 
         > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
         >
         > [Access token with **webhooks.write**](/reference/authentication)
 
@@ -1379,8 +1357,6 @@ class Webhooks(BaseSDK):
         Sends a test event to the webhook to verify the endpoint is working as expected.
 
         > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
         >
         > [Access token with **webhooks.write**](/reference/authentication)
 
