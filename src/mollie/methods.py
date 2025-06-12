@@ -54,7 +54,7 @@ class Methods(BaseSDK):
         :param billing_country: The country taken from your customer's billing address in ISO 3166-1 alpha-2 format. This parameter can be used to check whether your customer is eligible for certain payment methods, for example for Klarna.  Example: `/v2/methods?resource=orders&billingCountry=DE`
         :param include_wallets: A comma-separated list of the wallets you support in your checkout. Wallets often require wallet specific code to check if they are available on the shoppers device, hence the need to indicate your support.  Possible values: `applepay`
         :param order_line_categories: A comma-separated list of the line categories you support in your checkout.  Example: `/v2/methods?orderLineCategories=eco,meal`  Possible values: `eco` `gift` `meal` `sport_culture` `additional` `consume`
-        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the payment methods for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
@@ -201,7 +201,7 @@ class Methods(BaseSDK):
         :param billing_country: The country taken from your customer's billing address in ISO 3166-1 alpha-2 format. This parameter can be used to check whether your customer is eligible for certain payment methods, for example for Klarna.  Example: `/v2/methods?resource=orders&billingCountry=DE`
         :param include_wallets: A comma-separated list of the wallets you support in your checkout. Wallets often require wallet specific code to check if they are available on the shoppers device, hence the need to indicate your support.  Possible values: `applepay`
         :param order_line_categories: A comma-separated list of the line categories you support in your checkout.  Example: `/v2/methods?orderLineCategories=eco,meal`  Possible values: `eco` `gift` `meal` `sport_culture` `additional` `consume`
-        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the payment methods for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
@@ -315,6 +315,8 @@ class Methods(BaseSDK):
         ] = None,
         include: OptionalNullable[models.ListAllMethodsQueryParamInclude] = UNSET,
         sequence_type: Optional[str] = None,
+        profile_id: Optional[str] = None,
+        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -336,6 +338,8 @@ class Methods(BaseSDK):
         :param amount: If supplied, only payment methods that support the amount and currency are returned.  Example: `/v2/methods/all?amount[value]=100.00&amount[currency]=USD`
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param sequence_type: Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.  Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -358,6 +362,8 @@ class Methods(BaseSDK):
             ),
             include=include,
             sequence_type=sequence_type,
+            profile_id=profile_id,
+            testmode=testmode,
         )
 
         req = self._build_request(
@@ -445,6 +451,8 @@ class Methods(BaseSDK):
         ] = None,
         include: OptionalNullable[models.ListAllMethodsQueryParamInclude] = UNSET,
         sequence_type: Optional[str] = None,
+        profile_id: Optional[str] = None,
+        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -466,6 +474,8 @@ class Methods(BaseSDK):
         :param amount: If supplied, only payment methods that support the amount and currency are returned.  Example: `/v2/methods/all?amount[value]=100.00&amount[currency]=USD`
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param sequence_type: Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.  Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -488,6 +498,8 @@ class Methods(BaseSDK):
             ),
             include=include,
             sequence_type=sequence_type,
+            profile_id=profile_id,
+            testmode=testmode,
         )
 
         req = self._build_request_async(
@@ -597,7 +609,7 @@ class Methods(BaseSDK):
         :param id: Provide the ID of the item you want to perform this operation on.
         :param locale: Passing a locale will sort the payment methods in the preferred order for the country, and translate the payment method names in the corresponding language.
         :param currency: If provided, the `minimumAmount` and `maximumAmount` will be converted to the given currency. An error is returned if the currency is not supported by the payment method.
-        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the payment method for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param sequence_type: Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.  Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -736,7 +748,7 @@ class Methods(BaseSDK):
         :param id: Provide the ID of the item you want to perform this operation on.
         :param locale: Passing a locale will sort the payment methods in the preferred order for the country, and translate the payment method names in the corresponding language.
         :param currency: If provided, the `minimumAmount` and `maximumAmount` will be converted to the given currency. An error is returned if the currency is not supported by the payment method.
-        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the payment method for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param sequence_type: Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.  Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.

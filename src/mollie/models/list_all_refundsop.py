@@ -30,7 +30,10 @@ class ListAllRefundsRequestTypedDict(TypedDict):
     embed: NotRequired[QueryParamEmbed]
     r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter."""
     profile_id: NotRequired[str]
-    r"""The identifier referring to the [profile](get-profile) you wish to retrieve refunds for. Most API credentials are linked to a single profile. In these cases the `profileId` is already implied. To retrieve all refunds across the organization, use an organization-level API credential and omit the `profileId` parameter."""
+    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.
+
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    """
     testmode: NotRequired[Nullable[bool]]
     r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
 
@@ -72,7 +75,10 @@ class ListAllRefundsRequest(BaseModel):
         pydantic.Field(alias="profileId"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""The identifier referring to the [profile](get-profile) you wish to retrieve refunds for. Most API credentials are linked to a single profile. In these cases the `profileId` is already implied. To retrieve all refunds across the organization, use an organization-level API credential and omit the `profileId` parameter."""
+    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.
+
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    """
 
     testmode: Annotated[
         OptionalNullable[bool],

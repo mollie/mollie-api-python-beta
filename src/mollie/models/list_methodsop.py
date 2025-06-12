@@ -78,7 +78,7 @@ class ListMethodsRequestTypedDict(TypedDict):
     Possible values: `eco` `gift` `meal` `sport_culture` `additional` `consume`
     """
     profile_id: NotRequired[str]
-    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the payment methods for.
+    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.
 
     Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
     """
@@ -172,7 +172,7 @@ class ListMethodsRequest(BaseModel):
         pydantic.Field(alias="profileId"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the payment methods for.
+    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.
 
     Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
     """

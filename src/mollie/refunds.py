@@ -1699,7 +1699,7 @@ class Refunds(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
-        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve refunds for. Most API credentials are linked to a single profile. In these cases the `profileId` is already implied. To retrieve all refunds across the organization, use an organization-level API credential and omit the `profileId` parameter.
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1828,7 +1828,7 @@ class Refunds(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
-        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve refunds for. Most API credentials are linked to a single profile. In these cases the `profileId` is already implied. To retrieve all refunds across the organization, use an organization-level API credential and omit the `profileId` parameter.
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

@@ -25,7 +25,7 @@ class GetMethodRequestTypedDict(TypedDict):
     currency: NotRequired[str]
     r"""If provided, the `minimumAmount` and `maximumAmount` will be converted to the given currency. An error is returned if the currency is not supported by the payment method."""
     profile_id: NotRequired[str]
-    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the payment method for.
+    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.
 
     Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
     """
@@ -68,7 +68,7 @@ class GetMethodRequest(BaseModel):
         pydantic.Field(alias="profileId"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the payment method for.
+    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.
 
     Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
     """

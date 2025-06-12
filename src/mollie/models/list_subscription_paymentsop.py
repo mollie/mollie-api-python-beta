@@ -25,6 +25,11 @@ class ListSubscriptionPaymentsRequestTypedDict(TypedDict):
 
     Possible values: `asc` `desc` (default: `desc`)
     """
+    profile_id: NotRequired[str]
+    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.
+
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    """
     testmode: NotRequired[Nullable[bool]]
     r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
 
@@ -69,6 +74,16 @@ class ListSubscriptionPaymentsRequest(BaseModel):
     Possible values: `asc` `desc` (default: `desc`)
     """
 
+    profile_id: Annotated[
+        Optional[str],
+        pydantic.Field(alias="profileId"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.
+
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    """
+
     testmode: Annotated[
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
@@ -80,7 +95,7 @@ class ListSubscriptionPaymentsRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["from", "limit", "sort", "testmode"]
+        optional_fields = ["from", "limit", "sort", "profileId", "testmode"]
         nullable_fields = ["limit", "sort", "testmode"]
         null_default_fields = []
 
