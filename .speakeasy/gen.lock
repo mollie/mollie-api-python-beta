@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: 960acd7ce85dbbd818a3078dac70e0b9
+  docChecksum: d14c3b121f2f30f714e29bd64a8718ac
   docVersion: 1.0.0
-  speakeasyVersion: 1.561.0
-  generationVersion: 2.628.0
-  releaseVersion: 0.5.6
-  configChecksum: 4008f8d65a3ebe2e2abc910d2362df93
+  speakeasyVersion: 1.567.0
+  generationVersion: 2.632.0
+  releaseVersion: 0.5.7
+  configChecksum: caa828a2d7136ab4f5e1dbe27c383afc
   repoURL: https://github.com/mollie/mollie-api-python-alpha.git
   installationURL: https://github.com/mollie/mollie-api-python-alpha.git
   published: true
@@ -43,7 +43,6 @@ generatedFiles:
   - .vscode/settings.json
   - USAGE.md
   - docs/models/address.md
-  - docs/models/allowedmethods.md
   - docs/models/amount.md
   - docs/models/amountcanceled.md
   - docs/models/amountcaptured.md
@@ -329,7 +328,6 @@ generatedFiles:
   - docs/models/createpaymentdiscountamount.md
   - docs/models/createpaymentdocumentation.md
   - docs/models/createpaymentlines.md
-  - docs/models/createpaymentlinkallowedmethods.md
   - docs/models/createpaymentlinkamount.md
   - docs/models/createpaymentlinkapplicationfee.md
   - docs/models/createpaymentlinkbillingaddress.md
@@ -503,7 +501,6 @@ generatedFiles:
   - docs/models/embed.md
   - docs/models/embedded.md
   - docs/models/entity.md
-  - docs/models/entityallowedmethods.md
   - docs/models/entityamount.md
   - docs/models/entityapplicationfee.md
   - docs/models/entitybillingaddress.md
@@ -904,7 +901,6 @@ generatedFiles:
   - docs/models/getpaymentdiscountamount.md
   - docs/models/getpaymentdocumentation.md
   - docs/models/getpaymentlines.md
-  - docs/models/getpaymentlinkallowedmethods.md
   - docs/models/getpaymentlinkamount.md
   - docs/models/getpaymentlinkapplicationfee.md
   - docs/models/getpaymentlinkbillingaddress.md
@@ -1704,7 +1700,6 @@ generatedFiles:
   - docs/models/listorderrefundstype.md
   - docs/models/listorderrefundsunitprice.md
   - docs/models/listorderrefundsvatamount.md
-  - docs/models/listpaymentlinksallowedmethods.md
   - docs/models/listpaymentlinksamount.md
   - docs/models/listpaymentlinksapplicationfee.md
   - docs/models/listpaymentlinksbillingaddress.md
@@ -2151,7 +2146,6 @@ generatedFiles:
   - docs/models/updatepaymentdiscountamount.md
   - docs/models/updatepaymentdocumentation.md
   - docs/models/updatepaymentlines.md
-  - docs/models/updatepaymentlinkallowedmethods.md
   - docs/models/updatepaymentlinkamount.md
   - docs/models/updatepaymentlinkapplicationfee.md
   - docs/models/updatepaymentlinkbillingaddress.md
@@ -2162,7 +2156,6 @@ generatedFiles:
   - docs/models/updatepaymentlinklinks.md
   - docs/models/updatepaymentlinkminimumamount.md
   - docs/models/updatepaymentlinkpaymentlink.md
-  - docs/models/updatepaymentlinkpaymentlinksallowedmethods.md
   - docs/models/updatepaymentlinkpaymentlinksamount.md
   - docs/models/updatepaymentlinkpaymentlinksbillingaddress.md
   - docs/models/updatepaymentlinkpaymentlinkscategories.md

@@ -759,9 +759,7 @@ class PaymentLinks(BaseSDK):
             ]
         ] = None,
         archived: Optional[bool] = None,
-        allowed_methods: OptionalNullable[
-            List[models.UpdatePaymentLinkAllowedMethods]
-        ] = UNSET,
+        allowed_methods: OptionalNullable[List[str]] = UNSET,
         lines: OptionalNullable[
             Union[
                 List[models.UpdatePaymentLinkLines],
@@ -800,7 +798,7 @@ class PaymentLinks(BaseSDK):
         :param description: A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible.  Updating the description does not affect any previously existing payments created for this payment link.
         :param minimum_amount: The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount.
         :param archived: Whether the payment link is archived. Customers will not be able to complete payments on archived payment links.
-        :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
+        :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.  Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint'.
         :param lines: Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.  All lines must have the same currency as the payment.  Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
         :param billing_address: The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.  Required for payment method `in3`, `klarna`, `billie` and `riverty`.
         :param shipping_address: The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
@@ -942,9 +940,7 @@ class PaymentLinks(BaseSDK):
             ]
         ] = None,
         archived: Optional[bool] = None,
-        allowed_methods: OptionalNullable[
-            List[models.UpdatePaymentLinkAllowedMethods]
-        ] = UNSET,
+        allowed_methods: OptionalNullable[List[str]] = UNSET,
         lines: OptionalNullable[
             Union[
                 List[models.UpdatePaymentLinkLines],
@@ -983,7 +979,7 @@ class PaymentLinks(BaseSDK):
         :param description: A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible.  Updating the description does not affect any previously existing payments created for this payment link.
         :param minimum_amount: The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount.
         :param archived: Whether the payment link is archived. Customers will not be able to complete payments on archived payment links.
-        :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
+        :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.  Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint'.
         :param lines: Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.  All lines must have the same currency as the payment.  Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
         :param billing_address: The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.  Required for payment method `in3`, `klarna`, `billie` and `riverty`.
         :param shipping_address: The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.

@@ -665,29 +665,6 @@ class ListPaymentLinksShippingAddress(BaseModel):
     """
 
 
-class ListPaymentLinksAllowedMethods(str, Enum):
-    APPLEPAY = "applepay"
-    BANCOMATPAY = "bancomatpay"
-    BANCONTACT = "bancontact"
-    BANKTRANSFER = "banktransfer"
-    BELFIUS = "belfius"
-    BLIK = "blik"
-    CREDITCARD = "creditcard"
-    EPS = "eps"
-    GIFTCARD = "giftcard"
-    IDEAL = "ideal"
-    KBC = "kbc"
-    MYBANK = "mybank"
-    PAYBYBANK = "paybybank"
-    PAYPAL = "paypal"
-    PAYSAFECARD = "paysafecard"
-    POINTOFSALE = "pointofsale"
-    PRZELEWY24 = "przelewy24"
-    SATISPAY = "satispay"
-    TRUSTLY = "trustly"
-    TWINT = "twint"
-
-
 class ListPaymentLinksPaymentLinksAmountTypedDict(TypedDict):
     r"""The fee that you wish to charge.
 
@@ -893,8 +870,11 @@ class ListPaymentLinksPaymentLinksTypedDict(TypedDict):
     r"""The date and time the payment link became paid, in ISO 8601 format."""
     expires_at: NotRequired[Nullable[str]]
     r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front, the payment link will not expire automatically."""
-    allowed_methods: NotRequired[Nullable[List[ListPaymentLinksAllowedMethods]]]
-    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available."""
+    allowed_methods: NotRequired[Nullable[List[str]]]
+    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
+
+    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint'.
+    """
     application_fee: NotRequired[ListPaymentLinksApplicationFeeTypedDict]
     r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
 
@@ -1000,10 +980,12 @@ class ListPaymentLinksPaymentLinks(BaseModel):
     r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front, the payment link will not expire automatically."""
 
     allowed_methods: Annotated[
-        OptionalNullable[List[ListPaymentLinksAllowedMethods]],
-        pydantic.Field(alias="allowedMethods"),
+        OptionalNullable[List[str]], pydantic.Field(alias="allowedMethods")
     ] = UNSET
-    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available."""
+    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
+
+    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint'.
+    """
 
     application_fee: Annotated[
         Optional[ListPaymentLinksApplicationFee], pydantic.Field(alias="applicationFee")
