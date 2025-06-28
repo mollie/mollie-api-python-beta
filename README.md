@@ -1007,7 +1007,7 @@ with Client(
 
 ### [webhook_events](docs/sdks/webhookevents/README.md)
 
-* [get_event](docs/sdks/webhookevents/README.md#get_event) - Get a Webhook Event
+* [get](docs/sdks/webhookevents/README.md#get) - Get a Webhook Event
 
 ### [webhooks](docs/sdks/webhooks/README.md)
 

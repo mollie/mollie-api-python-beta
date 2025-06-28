@@ -9,7 +9,7 @@ from typing import Any, Mapping, Optional
 
 
 class WebhookEvents(BaseSDK):
-    def get_event(
+    def get(
         self,
         *,
         id: str,
@@ -119,7 +119,7 @@ class WebhookEvents(BaseSDK):
             http_res,
         )
 
-    async def get_event_async(
+    async def get_async(
         self,
         *,
         id: str,

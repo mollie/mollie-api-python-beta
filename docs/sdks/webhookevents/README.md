@@ -5,9 +5,9 @@
 
 ### Available Operations
 
-* [get_event](#get_event) - Get a Webhook Event
+* [get](#get) - Get a Webhook Event
 
-## get_event
+## get
 
 Retrieve a single webhook event object by its event ID.
 
@@ -29,7 +29,7 @@ with Client(
     ),
 ) as client:
 
-    res = client.webhook_events.get_event(id="event_jd9v34P5YqN9pT8n3HJyH")
+    res = client.webhook_events.get(id="event_jd9v34P5YqN9pT8n3HJyH")
 
     # Handle response
     print(res)

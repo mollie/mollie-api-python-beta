@@ -1007,7 +1007,7 @@ with Client(
 
 ### [webhook_events](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/webhookevents/README.md)
 
-* [get_event](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/webhookevents/README.md#get_event) - Get a Webhook Event
+* [get](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/webhookevents/README.md#get) - Get a Webhook Event
 
 ### [webhooks](https://github.com/mollie/mollie-api-python-alpha/blob/master/docs/sdks/webhooks/README.md)
 
