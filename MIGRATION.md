@@ -2,8 +2,8 @@
 Learn how to migrate to the latest version of the Python SDK
 
 > [!WARNING]
-> ### Alpha Feature
-> This feature is currently in Alpha testing, and the final specification may still change.
+> ### Beta Feature
+> This feature is currently in Beta testing, and the final specification may still change.
 
 Mollie uses API specification to autogenerate the SDK and enhance its consistency, ensure frequent updates and provide a more streamlined integration experience for developers.
 
@@ -35,7 +35,7 @@ client.set_api_key('API_KEY')
 
 **New**
 ```py
-from mollie_api_python_alpha import Mollie, Security
+from mollie import Mollie, Security
 
 client = Mollie(
     security = Security(
@@ -55,7 +55,7 @@ client.setup_oauth_authorization_response(authorization_response)
 
 **New**
 ```py
-from mollie_api_python_alpha import Mollie, Security
+from mollie import Mollie, Security
 
 client = Mollie(
     security = Security(
@@ -67,7 +67,7 @@ client = Mollie(
 ### Example - Async Client
 ```py
 import asyncio
-from mollie_api_python_alpha import Mollie, Security
+from mollie import Mollie, Security
 
 async def main():
     async with Mollie(
