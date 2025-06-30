@@ -1,6 +1,6 @@
 
 <div align="center">
-    <a href="https://codespaces.new/mollie/mollie-api-python-alpha.git/tree/main"><img src="https://github.com/codespaces/badge.svg" /></a>
+    <a href="https://codespaces.new/mollie/mollie-api-python-beta.git/tree/main"><img src="https://github.com/codespaces/badge.svg" /></a>
 </div>
 <br>
 

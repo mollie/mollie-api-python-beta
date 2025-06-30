@@ -7,8 +7,8 @@ management:
   generationVersion: 2.640.2
   releaseVersion: 0.5.8
   configChecksum: bdf8aa816ece0276e97c8d6240f2c381
-  repoURL: https://github.com/mollie/mollie-api-python-alpha.git
-  installationURL: https://github.com/mollie/mollie-api-python-alpha.git
+  repoURL: https://github.com/mollie/mollie-api-python-beta.git
+  installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
 features:
   python:
