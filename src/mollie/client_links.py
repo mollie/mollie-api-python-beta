@@ -25,10 +25,6 @@ class ClientLinks(BaseSDK):
     ) -> models.CreateClientLinkResponseBody:
         r"""Create client link
 
-        > 🚧 Open beta
-        >
-        > This feature is currently in open beta, and the final specification may still change.
-
         Link a new or existing organization to your OAuth application, in effect creating a new client. The response contains a `clientLink` where you should redirect your customer to.
 
         The `clientLink` URL behaves similar to the regular OAuth authorization URL. It supports the following parameters from the [Authorize](authorize) endpoint:
@@ -171,10 +167,6 @@ class ClientLinks(BaseSDK):
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateClientLinkResponseBody:
         r"""Create client link
-
-        > 🚧 Open beta
-        >
-        > This feature is currently in open beta, and the final specification may still change.
 
         Link a new or existing organization to your OAuth application, in effect creating a new client. The response contains a `clientLink` where you should redirect your customer to.
 

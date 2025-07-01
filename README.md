@@ -975,6 +975,14 @@ with Client(
 * [list_for_order](docs/sdks/refunds/README.md#list_for_order) - List order refunds
 * [all](docs/sdks/refunds/README.md#all) - List all refunds
 
+### [sales_invoices](docs/sdks/salesinvoices/README.md)
+
+* [create](docs/sdks/salesinvoices/README.md#create) - Create sales invoice
+* [list](docs/sdks/salesinvoices/README.md#list) - List sales invoices
+* [get](docs/sdks/salesinvoices/README.md#get) - Get sales invoice
+* [update](docs/sdks/salesinvoices/README.md#update) - Update sales invoice
+* [delete](docs/sdks/salesinvoices/README.md#delete) - Delete sales invoice
+
 ### [settlements](docs/sdks/settlements/README.md)
 
 * [list](docs/sdks/settlements/README.md#list) - List settlements

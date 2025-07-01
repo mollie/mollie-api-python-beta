@@ -32,6 +32,7 @@ if TYPE_CHECKING:
     from mollie.permissions import Permissions
     from mollie.profiles import Profiles
     from mollie.refunds import Refunds
+    from mollie.sales_invoices import SalesInvoices
     from mollie.settlements import Settlements
     from mollie.subscriptions import Subscriptions
     from mollie.terminals import Terminals
@@ -65,6 +66,7 @@ class Client(BaseSDK):
     balances: "Balances"
     settlements: "Settlements"
     invoices: "Invoices"
+    sales_invoices: "SalesInvoices"
     _sub_sdk_map = {
         "payments": ("mollie.payments", "Payments"),
         "methods": ("mollie.methods", "Methods"),
@@ -90,6 +92,7 @@ class Client(BaseSDK):
         "balances": ("mollie.balances", "Balances"),
         "settlements": ("mollie.settlements", "Settlements"),
         "invoices": ("mollie.invoices", "Invoices"),
+        "sales_invoices": ("mollie.sales_invoices", "SalesInvoices"),
     }
 
     def __init__(

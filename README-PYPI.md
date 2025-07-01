@@ -975,6 +975,14 @@ with Client(
 * [list_for_order](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/refunds/README.md#list_for_order) - List order refunds
 * [all](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/refunds/README.md#all) - List all refunds
 
+### [sales_invoices](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/salesinvoices/README.md)
+
+* [create](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/salesinvoices/README.md#create) - Create sales invoice
+* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/salesinvoices/README.md#list) - List sales invoices
+* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/salesinvoices/README.md#get) - Get sales invoice
+* [update](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/salesinvoices/README.md#update) - Update sales invoice
+* [delete](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/salesinvoices/README.md#delete) - Delete sales invoice
+
 ### [settlements](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/settlements/README.md)
 
 * [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/settlements/README.md#list) - List settlements
