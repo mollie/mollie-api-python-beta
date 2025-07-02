@@ -27,8 +27,6 @@ class Captures(BaseSDK):
     ) -> models.CreateCaptureResponseBody:
         r"""Create capture
 
-        **This feature is currently in open beta. The final specification may still change.**
-
         Capture an *authorized* payment.
 
         Some payment methods allow you to first collect a customer's authorization, and capture the amount at a later point.
@@ -125,36 +123,29 @@ class Captures(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.CreateCaptureResponseBody)
+            return utils.unmarshal_json_response(
+                models.CreateCaptureResponseBody, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateCaptureCapturesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreateCaptureCapturesResponseBodyData, http_res
             )
-            raise models.CreateCaptureCapturesResponseBody(data=response_data)
+            raise models.CreateCaptureCapturesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateCaptureCapturesResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreateCaptureCapturesResponseResponseBodyData, http_res
             )
-            raise models.CreateCaptureCapturesResponseResponseBody(data=response_data)
+            raise models.CreateCaptureCapturesResponseResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def create_async(
         self,
@@ -173,8 +164,6 @@ class Captures(BaseSDK):
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CreateCaptureResponseBody:
         r"""Create capture
-
-        **This feature is currently in open beta. The final specification may still change.**
 
         Capture an *authorized* payment.
 
@@ -272,36 +261,29 @@ class Captures(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.CreateCaptureResponseBody)
+            return utils.unmarshal_json_response(
+                models.CreateCaptureResponseBody, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateCaptureCapturesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreateCaptureCapturesResponseBodyData, http_res
             )
-            raise models.CreateCaptureCapturesResponseBody(data=response_data)
+            raise models.CreateCaptureCapturesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateCaptureCapturesResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreateCaptureCapturesResponseResponseBodyData, http_res
             )
-            raise models.CreateCaptureCapturesResponseResponseBody(data=response_data)
+            raise models.CreateCaptureCapturesResponseResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def list(
         self,
@@ -401,36 +383,29 @@ class Captures(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.ListCapturesResponseBody)
+            return utils.unmarshal_json_response(
+                models.ListCapturesResponseBody, http_res
+            )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListCapturesCapturesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListCapturesCapturesResponseBodyData, http_res
             )
-            raise models.ListCapturesCapturesResponseBody(data=response_data)
+            raise models.ListCapturesCapturesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListCapturesCapturesResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListCapturesCapturesResponseResponseBodyData, http_res
             )
-            raise models.ListCapturesCapturesResponseResponseBody(data=response_data)
+            raise models.ListCapturesCapturesResponseResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def list_async(
         self,
@@ -530,36 +505,29 @@ class Captures(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.ListCapturesResponseBody)
+            return utils.unmarshal_json_response(
+                models.ListCapturesResponseBody, http_res
+            )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListCapturesCapturesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListCapturesCapturesResponseBodyData, http_res
             )
-            raise models.ListCapturesCapturesResponseBody(data=response_data)
+            raise models.ListCapturesCapturesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListCapturesCapturesResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListCapturesCapturesResponseResponseBodyData, http_res
             )
-            raise models.ListCapturesCapturesResponseResponseBody(data=response_data)
+            raise models.ListCapturesCapturesResponseResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def get(
         self,
@@ -654,31 +622,22 @@ class Captures(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.GetCaptureResponseBody)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetCaptureCapturesResponseBodyData
+            return utils.unmarshal_json_response(
+                models.GetCaptureResponseBody, http_res
             )
-            raise models.GetCaptureCapturesResponseBody(data=response_data)
+        if utils.match_response(http_res, "404", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.GetCaptureCapturesResponseBodyData, http_res
+            )
+            raise models.GetCaptureCapturesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def get_async(
         self,
@@ -773,28 +732,19 @@ class Captures(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.GetCaptureResponseBody)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetCaptureCapturesResponseBodyData
+            return utils.unmarshal_json_response(
+                models.GetCaptureResponseBody, http_res
             )
-            raise models.GetCaptureCapturesResponseBody(data=response_data)
+        if utils.match_response(http_res, "404", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.GetCaptureCapturesResponseBodyData, http_res
+            )
+            raise models.GetCaptureCapturesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)

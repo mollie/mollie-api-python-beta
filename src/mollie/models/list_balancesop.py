@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 from enum import Enum
-from mollie import utils
+import httpx
+from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, QueryParamMetadata
 import pydantic
@@ -126,18 +127,20 @@ class ListBalancesBalancesResponseResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class ListBalancesBalancesResponseResponseBody(Exception):
+class ListBalancesBalancesResponseResponseBody(ClientError):
     r"""An error response object."""
 
     data: ListBalancesBalancesResponseResponseBodyData
 
-    def __init__(self, data: ListBalancesBalancesResponseResponseBodyData):
+    def __init__(
+        self,
+        data: ListBalancesBalancesResponseResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, ListBalancesBalancesResponseResponseBodyData
-        )
 
 
 class ListBalancesBalancesDocumentationTypedDict(TypedDict):
@@ -181,16 +184,20 @@ class ListBalancesBalancesResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class ListBalancesBalancesResponseBody(Exception):
+class ListBalancesBalancesResponseBody(ClientError):
     r"""An error response object."""
 
     data: ListBalancesBalancesResponseBodyData
 
-    def __init__(self, data: ListBalancesBalancesResponseBodyData):
+    def __init__(
+        self,
+        data: ListBalancesBalancesResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(self.data, ListBalancesBalancesResponseBodyData)
 
 
 class ListBalancesCurrency(str, Enum):

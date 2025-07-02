@@ -108,40 +108,29 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.ListSettlementsResponseBody
+            return utils.unmarshal_json_response(
+                models.ListSettlementsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListSettlementsSettlementsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListSettlementsSettlementsResponseBodyData, http_res
             )
-            raise models.ListSettlementsSettlementsResponseBody(data=response_data)
+            raise models.ListSettlementsSettlementsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListSettlementsSettlementsResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListSettlementsSettlementsResponseResponseBodyData, http_res
             )
             raise models.ListSettlementsSettlementsResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def list_async(
         self,
@@ -242,40 +231,29 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.ListSettlementsResponseBody
+            return utils.unmarshal_json_response(
+                models.ListSettlementsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListSettlementsSettlementsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListSettlementsSettlementsResponseBodyData, http_res
             )
-            raise models.ListSettlementsSettlementsResponseBody(data=response_data)
+            raise models.ListSettlementsSettlementsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListSettlementsSettlementsResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListSettlementsSettlementsResponseResponseBodyData, http_res
             )
             raise models.ListSettlementsSettlementsResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def get(
         self,
@@ -367,31 +345,22 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.GetSettlementResponseBody)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetSettlementSettlementsResponseBodyData
+            return utils.unmarshal_json_response(
+                models.GetSettlementResponseBody, http_res
             )
-            raise models.GetSettlementSettlementsResponseBody(data=response_data)
+        if utils.match_response(http_res, "404", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.GetSettlementSettlementsResponseBodyData, http_res
+            )
+            raise models.GetSettlementSettlementsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def get_async(
         self,
@@ -483,31 +452,22 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.GetSettlementResponseBody)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetSettlementSettlementsResponseBodyData
+            return utils.unmarshal_json_response(
+                models.GetSettlementResponseBody, http_res
             )
-            raise models.GetSettlementSettlementsResponseBody(data=response_data)
+        if utils.match_response(http_res, "404", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.GetSettlementSettlementsResponseBodyData, http_res
+            )
+            raise models.GetSettlementSettlementsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def get_open(
         self,
@@ -587,28 +547,17 @@ class Settlements(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.GetOpenSettlementResponseBody
+            return utils.unmarshal_json_response(
+                models.GetOpenSettlementResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def get_open_async(
         self,
@@ -688,28 +637,17 @@ class Settlements(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.GetOpenSettlementResponseBody
+            return utils.unmarshal_json_response(
+                models.GetOpenSettlementResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def get_next(
         self,
@@ -789,28 +727,17 @@ class Settlements(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.GetNextSettlementResponseBody
+            return utils.unmarshal_json_response(
+                models.GetNextSettlementResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def get_next_async(
         self,
@@ -890,28 +817,17 @@ class Settlements(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.GetNextSettlementResponseBody
+            return utils.unmarshal_json_response(
+                models.GetNextSettlementResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def list_payments(
         self,
@@ -1014,35 +930,24 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.GetSettlementPaymentsResponseBody
+            return utils.unmarshal_json_response(
+                models.GetSettlementPaymentsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetSettlementPaymentsSettlementsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetSettlementPaymentsSettlementsResponseBodyData, http_res
             )
             raise models.GetSettlementPaymentsSettlementsResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def list_payments_async(
         self,
@@ -1145,35 +1050,24 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.GetSettlementPaymentsResponseBody
+            return utils.unmarshal_json_response(
+                models.GetSettlementPaymentsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetSettlementPaymentsSettlementsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetSettlementPaymentsSettlementsResponseBodyData, http_res
             )
             raise models.GetSettlementPaymentsSettlementsResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def list_captures(
         self,
@@ -1271,43 +1165,32 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.GetSettlementCapturesResponseBody
+            return utils.unmarshal_json_response(
+                models.GetSettlementCapturesResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetSettlementCapturesSettlementsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetSettlementCapturesSettlementsResponseBodyData, http_res
             )
             raise models.GetSettlementCapturesSettlementsResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
+            response_data = utils.unmarshal_json_response(
                 models.GetSettlementCapturesSettlementsResponseResponseBodyData,
+                http_res,
             )
             raise models.GetSettlementCapturesSettlementsResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def list_captures_async(
         self,
@@ -1405,43 +1288,32 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.GetSettlementCapturesResponseBody
+            return utils.unmarshal_json_response(
+                models.GetSettlementCapturesResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetSettlementCapturesSettlementsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetSettlementCapturesSettlementsResponseBodyData, http_res
             )
             raise models.GetSettlementCapturesSettlementsResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
+            response_data = utils.unmarshal_json_response(
                 models.GetSettlementCapturesSettlementsResponseResponseBodyData,
+                http_res,
             )
             raise models.GetSettlementCapturesSettlementsResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def list_refunds(
         self,
@@ -1539,41 +1411,31 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.GetSettlementRefundsResponseBody
+            return utils.unmarshal_json_response(
+                models.GetSettlementRefundsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetSettlementRefundsSettlementsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetSettlementRefundsSettlementsResponseBodyData, http_res
             )
-            raise models.GetSettlementRefundsSettlementsResponseBody(data=response_data)
+            raise models.GetSettlementRefundsSettlementsResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
-                models.GetSettlementRefundsSettlementsResponseResponseBodyData,
+            response_data = utils.unmarshal_json_response(
+                models.GetSettlementRefundsSettlementsResponseResponseBodyData, http_res
             )
             raise models.GetSettlementRefundsSettlementsResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def list_refunds_async(
         self,
@@ -1671,41 +1533,31 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.GetSettlementRefundsResponseBody
+            return utils.unmarshal_json_response(
+                models.GetSettlementRefundsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetSettlementRefundsSettlementsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetSettlementRefundsSettlementsResponseBodyData, http_res
             )
-            raise models.GetSettlementRefundsSettlementsResponseBody(data=response_data)
+            raise models.GetSettlementRefundsSettlementsResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
-                models.GetSettlementRefundsSettlementsResponseResponseBodyData,
+            response_data = utils.unmarshal_json_response(
+                models.GetSettlementRefundsSettlementsResponseResponseBodyData, http_res
             )
             raise models.GetSettlementRefundsSettlementsResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def list_chargebacks(
         self,
@@ -1803,44 +1655,32 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.GetSettlementChargebacksResponseBody
+            return utils.unmarshal_json_response(
+                models.GetSettlementChargebacksResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
-                models.GetSettlementChargebacksSettlementsResponseBodyData,
+            response_data = utils.unmarshal_json_response(
+                models.GetSettlementChargebacksSettlementsResponseBodyData, http_res
             )
             raise models.GetSettlementChargebacksSettlementsResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
+            response_data = utils.unmarshal_json_response(
                 models.GetSettlementChargebacksSettlementsResponseResponseBodyData,
+                http_res,
             )
             raise models.GetSettlementChargebacksSettlementsResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def list_chargebacks_async(
         self,
@@ -1938,41 +1778,29 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.GetSettlementChargebacksResponseBody
+            return utils.unmarshal_json_response(
+                models.GetSettlementChargebacksResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
-                models.GetSettlementChargebacksSettlementsResponseBodyData,
+            response_data = utils.unmarshal_json_response(
+                models.GetSettlementChargebacksSettlementsResponseBodyData, http_res
             )
             raise models.GetSettlementChargebacksSettlementsResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
+            response_data = utils.unmarshal_json_response(
                 models.GetSettlementChargebacksSettlementsResponseResponseBodyData,
+                http_res,
             )
             raise models.GetSettlementChargebacksSettlementsResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)

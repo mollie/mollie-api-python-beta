@@ -101,31 +101,22 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.CreateWebhookResponseBody)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateWebhookWebhooksResponseBodyData
+            return utils.unmarshal_json_response(
+                models.CreateWebhookResponseBody, http_res
             )
-            raise models.CreateWebhookWebhooksResponseBody(data=response_data)
+        if utils.match_response(http_res, "422", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.CreateWebhookWebhooksResponseBodyData, http_res
+            )
+            raise models.CreateWebhookWebhooksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def create_async(
         self,
@@ -219,31 +210,22 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.CreateWebhookResponseBody)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateWebhookWebhooksResponseBodyData
+            return utils.unmarshal_json_response(
+                models.CreateWebhookResponseBody, http_res
             )
-            raise models.CreateWebhookWebhooksResponseBody(data=response_data)
+        if utils.match_response(http_res, "422", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.CreateWebhookWebhooksResponseBodyData, http_res
+            )
+            raise models.CreateWebhookWebhooksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def list(
         self,
@@ -339,31 +321,22 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.ListWebhooksResponseBody)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListWebhooksWebhooksResponseBodyData
+            return utils.unmarshal_json_response(
+                models.ListWebhooksResponseBody, http_res
             )
-            raise models.ListWebhooksWebhooksResponseBody(data=response_data)
+        if utils.match_response(http_res, "400", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.ListWebhooksWebhooksResponseBodyData, http_res
+            )
+            raise models.ListWebhooksWebhooksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def list_async(
         self,
@@ -459,31 +432,22 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.ListWebhooksResponseBody)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListWebhooksWebhooksResponseBodyData
+            return utils.unmarshal_json_response(
+                models.ListWebhooksResponseBody, http_res
             )
-            raise models.ListWebhooksWebhooksResponseBody(data=response_data)
+        if utils.match_response(http_res, "400", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.ListWebhooksWebhooksResponseBodyData, http_res
+            )
+            raise models.ListWebhooksWebhooksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def update(
         self,
@@ -588,36 +552,29 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.UpdateWebhookResponseBody)
+            return utils.unmarshal_json_response(
+                models.UpdateWebhookResponseBody, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdateWebhookWebhooksResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.UpdateWebhookWebhooksResponseBodyData, http_res
             )
-            raise models.UpdateWebhookWebhooksResponseBody(data=response_data)
+            raise models.UpdateWebhookWebhooksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdateWebhookWebhooksResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.UpdateWebhookWebhooksResponseResponseBodyData, http_res
             )
-            raise models.UpdateWebhookWebhooksResponseResponseBody(data=response_data)
+            raise models.UpdateWebhookWebhooksResponseResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def update_async(
         self,
@@ -722,36 +679,29 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.UpdateWebhookResponseBody)
+            return utils.unmarshal_json_response(
+                models.UpdateWebhookResponseBody, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdateWebhookWebhooksResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.UpdateWebhookWebhooksResponseBodyData, http_res
             )
-            raise models.UpdateWebhookWebhooksResponseBody(data=response_data)
+            raise models.UpdateWebhookWebhooksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdateWebhookWebhooksResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.UpdateWebhookWebhooksResponseResponseBodyData, http_res
             )
-            raise models.UpdateWebhookWebhooksResponseResponseBody(data=response_data)
+            raise models.UpdateWebhookWebhooksResponseResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def get(
         self,
@@ -838,36 +788,27 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.GetWebhookResponseBody)
+            return utils.unmarshal_json_response(
+                models.GetWebhookResponseBody, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetWebhookWebhooksResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetWebhookWebhooksResponseBodyData, http_res
             )
-            raise models.GetWebhookWebhooksResponseBody(data=response_data)
+            raise models.GetWebhookWebhooksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetWebhookWebhooksResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetWebhookWebhooksResponseResponseBodyData, http_res
             )
-            raise models.GetWebhookWebhooksResponseResponseBody(data=response_data)
+            raise models.GetWebhookWebhooksResponseResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def get_async(
         self,
@@ -954,36 +895,27 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.GetWebhookResponseBody)
+            return utils.unmarshal_json_response(
+                models.GetWebhookResponseBody, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetWebhookWebhooksResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetWebhookWebhooksResponseBodyData, http_res
             )
-            raise models.GetWebhookWebhooksResponseBody(data=response_data)
+            raise models.GetWebhookWebhooksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetWebhookWebhooksResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetWebhookWebhooksResponseResponseBodyData, http_res
             )
-            raise models.GetWebhookWebhooksResponseResponseBody(data=response_data)
+            raise models.GetWebhookWebhooksResponseResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def delete(
         self,
@@ -1070,36 +1002,25 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.DeleteWebhookResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.DeleteWebhookResponseBodyData, http_res
             )
-            raise models.DeleteWebhookResponseBody(data=response_data)
+            raise models.DeleteWebhookResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.DeleteWebhookWebhooksResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.DeleteWebhookWebhooksResponseBodyData, http_res
             )
-            raise models.DeleteWebhookWebhooksResponseBody(data=response_data)
+            raise models.DeleteWebhookWebhooksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def delete_async(
         self,
@@ -1186,36 +1107,25 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.DeleteWebhookResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.DeleteWebhookResponseBodyData, http_res
             )
-            raise models.DeleteWebhookResponseBody(data=response_data)
+            raise models.DeleteWebhookResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.DeleteWebhookWebhooksResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.DeleteWebhookWebhooksResponseBodyData, http_res
             )
-            raise models.DeleteWebhookWebhooksResponseBody(data=response_data)
+            raise models.DeleteWebhookWebhooksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def test(
         self,
@@ -1311,36 +1221,25 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "202", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.TestWebhookResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.TestWebhookResponseBodyData, http_res
             )
-            raise models.TestWebhookResponseBody(data=response_data)
+            raise models.TestWebhookResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.TestWebhookWebhooksResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.TestWebhookWebhooksResponseBodyData, http_res
             )
-            raise models.TestWebhookWebhooksResponseBody(data=response_data)
+            raise models.TestWebhookWebhooksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def test_async(
         self,
@@ -1436,33 +1335,22 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "202", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.TestWebhookResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.TestWebhookResponseBodyData, http_res
             )
-            raise models.TestWebhookResponseBody(data=response_data)
+            raise models.TestWebhookResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.TestWebhookWebhooksResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.TestWebhookWebhooksResponseBodyData, http_res
             )
-            raise models.TestWebhookWebhooksResponseBody(data=response_data)
+            raise models.TestWebhookWebhooksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)

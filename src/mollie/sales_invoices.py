@@ -111,41 +111,31 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.CreateSalesInvoiceResponseBody
+            return utils.unmarshal_json_response(
+                models.CreateSalesInvoiceResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateSalesInvoiceSalesInvoicesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreateSalesInvoiceSalesInvoicesResponseBodyData, http_res
             )
-            raise models.CreateSalesInvoiceSalesInvoicesResponseBody(data=response_data)
+            raise models.CreateSalesInvoiceSalesInvoicesResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
-                models.CreateSalesInvoiceSalesInvoicesResponseResponseBodyData,
+            response_data = utils.unmarshal_json_response(
+                models.CreateSalesInvoiceSalesInvoicesResponseResponseBodyData, http_res
             )
             raise models.CreateSalesInvoiceSalesInvoicesResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def create_async(
         self,
@@ -249,41 +239,31 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.CreateSalesInvoiceResponseBody
+            return utils.unmarshal_json_response(
+                models.CreateSalesInvoiceResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateSalesInvoiceSalesInvoicesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreateSalesInvoiceSalesInvoicesResponseBodyData, http_res
             )
-            raise models.CreateSalesInvoiceSalesInvoicesResponseBody(data=response_data)
+            raise models.CreateSalesInvoiceSalesInvoicesResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
-                models.CreateSalesInvoiceSalesInvoicesResponseResponseBodyData,
+            response_data = utils.unmarshal_json_response(
+                models.CreateSalesInvoiceSalesInvoicesResponseResponseBodyData, http_res
             )
             raise models.CreateSalesInvoiceSalesInvoicesResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def list(
         self,
@@ -381,33 +361,24 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.ListSalesInvoicesResponseBody
+            return utils.unmarshal_json_response(
+                models.ListSalesInvoicesResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListSalesInvoicesSalesInvoicesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListSalesInvoicesSalesInvoicesResponseBodyData, http_res
             )
-            raise models.ListSalesInvoicesSalesInvoicesResponseBody(data=response_data)
+            raise models.ListSalesInvoicesSalesInvoicesResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def list_async(
         self,
@@ -505,33 +476,24 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.ListSalesInvoicesResponseBody
+            return utils.unmarshal_json_response(
+                models.ListSalesInvoicesResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListSalesInvoicesSalesInvoicesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListSalesInvoicesSalesInvoicesResponseBodyData, http_res
             )
-            raise models.ListSalesInvoicesSalesInvoicesResponseBody(data=response_data)
+            raise models.ListSalesInvoicesSalesInvoicesResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def get(
         self,
@@ -624,33 +586,24 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.GetSalesInvoiceResponseBody
+            return utils.unmarshal_json_response(
+                models.GetSalesInvoiceResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetSalesInvoiceSalesInvoicesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetSalesInvoiceSalesInvoicesResponseBodyData, http_res
             )
-            raise models.GetSalesInvoiceSalesInvoicesResponseBody(data=response_data)
+            raise models.GetSalesInvoiceSalesInvoicesResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def get_async(
         self,
@@ -743,33 +696,24 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.GetSalesInvoiceResponseBody
+            return utils.unmarshal_json_response(
+                models.GetSalesInvoiceResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetSalesInvoiceSalesInvoicesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetSalesInvoiceSalesInvoicesResponseBodyData, http_res
             )
-            raise models.GetSalesInvoiceSalesInvoicesResponseBody(data=response_data)
+            raise models.GetSalesInvoiceSalesInvoicesResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def update(
         self,
@@ -936,41 +880,31 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.UpdateSalesInvoiceResponseBody
+            return utils.unmarshal_json_response(
+                models.UpdateSalesInvoiceResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdateSalesInvoiceSalesInvoicesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.UpdateSalesInvoiceSalesInvoicesResponseBodyData, http_res
             )
-            raise models.UpdateSalesInvoiceSalesInvoicesResponseBody(data=response_data)
+            raise models.UpdateSalesInvoiceSalesInvoicesResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
-                models.UpdateSalesInvoiceSalesInvoicesResponseResponseBodyData,
+            response_data = utils.unmarshal_json_response(
+                models.UpdateSalesInvoiceSalesInvoicesResponseResponseBodyData, http_res
             )
             raise models.UpdateSalesInvoiceSalesInvoicesResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def update_async(
         self,
@@ -1137,41 +1071,31 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.UpdateSalesInvoiceResponseBody
+            return utils.unmarshal_json_response(
+                models.UpdateSalesInvoiceResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdateSalesInvoiceSalesInvoicesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.UpdateSalesInvoiceSalesInvoicesResponseBodyData, http_res
             )
-            raise models.UpdateSalesInvoiceSalesInvoicesResponseBody(data=response_data)
+            raise models.UpdateSalesInvoiceSalesInvoicesResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
-                models.UpdateSalesInvoiceSalesInvoicesResponseResponseBodyData,
+            response_data = utils.unmarshal_json_response(
+                models.UpdateSalesInvoiceSalesInvoicesResponseResponseBodyData, http_res
             )
             raise models.UpdateSalesInvoiceSalesInvoicesResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def delete(
         self,
@@ -1273,36 +1197,27 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.DeleteSalesInvoiceResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.DeleteSalesInvoiceResponseBodyData, http_res
             )
-            raise models.DeleteSalesInvoiceResponseBody(data=response_data)
+            raise models.DeleteSalesInvoiceResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.DeleteSalesInvoiceSalesInvoicesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.DeleteSalesInvoiceSalesInvoicesResponseBodyData, http_res
             )
-            raise models.DeleteSalesInvoiceSalesInvoicesResponseBody(data=response_data)
+            raise models.DeleteSalesInvoiceSalesInvoicesResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def delete_async(
         self,
@@ -1404,33 +1319,24 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.DeleteSalesInvoiceResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.DeleteSalesInvoiceResponseBodyData, http_res
             )
-            raise models.DeleteSalesInvoiceResponseBody(data=response_data)
+            raise models.DeleteSalesInvoiceResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.DeleteSalesInvoiceSalesInvoicesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.DeleteSalesInvoiceSalesInvoicesResponseBodyData, http_res
             )
-            raise models.DeleteSalesInvoiceSalesInvoicesResponseBody(data=response_data)
+            raise models.DeleteSalesInvoiceSalesInvoicesResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)

@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 from enum import Enum
-from mollie import utils
+import httpx
+from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
@@ -528,18 +529,20 @@ class CreateOrderRefundRefundsResponseResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class CreateOrderRefundRefundsResponseResponseBody(Exception):
+class CreateOrderRefundRefundsResponseResponseBody(ClientError):
     r"""An error response object."""
 
     data: CreateOrderRefundRefundsResponseResponseBodyData
 
-    def __init__(self, data: CreateOrderRefundRefundsResponseResponseBodyData):
+    def __init__(
+        self,
+        data: CreateOrderRefundRefundsResponseResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, CreateOrderRefundRefundsResponseResponseBodyData
-        )
 
 
 class CreateOrderRefundRefundsDocumentationTypedDict(TypedDict):
@@ -583,16 +586,20 @@ class CreateOrderRefundRefundsResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class CreateOrderRefundRefundsResponseBody(Exception):
+class CreateOrderRefundRefundsResponseBody(ClientError):
     r"""An error response object."""
 
     data: CreateOrderRefundRefundsResponseBodyData
 
-    def __init__(self, data: CreateOrderRefundRefundsResponseBodyData):
+    def __init__(
+        self,
+        data: CreateOrderRefundRefundsResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(self.data, CreateOrderRefundRefundsResponseBodyData)
 
 
 class CreateOrderRefundRefundsResponseAmountTypedDict(TypedDict):

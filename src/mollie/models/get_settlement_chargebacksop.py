@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 from enum import Enum
-from mollie import utils
+import httpx
+from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
@@ -143,20 +144,20 @@ class GetSettlementChargebacksSettlementsResponseResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class GetSettlementChargebacksSettlementsResponseResponseBody(Exception):
+class GetSettlementChargebacksSettlementsResponseResponseBody(ClientError):
     r"""An error response object."""
 
     data: GetSettlementChargebacksSettlementsResponseResponseBodyData
 
     def __init__(
-        self, data: GetSettlementChargebacksSettlementsResponseResponseBodyData
+        self,
+        data: GetSettlementChargebacksSettlementsResponseResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
     ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, GetSettlementChargebacksSettlementsResponseResponseBodyData
-        )
 
 
 class GetSettlementChargebacksSettlementsDocumentationTypedDict(TypedDict):
@@ -202,18 +203,20 @@ class GetSettlementChargebacksSettlementsResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class GetSettlementChargebacksSettlementsResponseBody(Exception):
+class GetSettlementChargebacksSettlementsResponseBody(ClientError):
     r"""An error response object."""
 
     data: GetSettlementChargebacksSettlementsResponseBodyData
 
-    def __init__(self, data: GetSettlementChargebacksSettlementsResponseBodyData):
+    def __init__(
+        self,
+        data: GetSettlementChargebacksSettlementsResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, GetSettlementChargebacksSettlementsResponseBodyData
-        )
 
 
 class GetSettlementChargebacksAmountTypedDict(TypedDict):

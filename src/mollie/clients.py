@@ -99,36 +99,27 @@ class Clients(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.ListClientsResponseBody)
+            return utils.unmarshal_json_response(
+                models.ListClientsResponseBody, http_res
+            )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListClientsClientsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListClientsClientsResponseBodyData, http_res
             )
-            raise models.ListClientsClientsResponseBody(data=response_data)
+            raise models.ListClientsClientsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListClientsClientsResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListClientsClientsResponseResponseBodyData, http_res
             )
-            raise models.ListClientsClientsResponseResponseBody(data=response_data)
+            raise models.ListClientsClientsResponseResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def list_async(
         self,
@@ -220,36 +211,27 @@ class Clients(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.ListClientsResponseBody)
+            return utils.unmarshal_json_response(
+                models.ListClientsResponseBody, http_res
+            )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListClientsClientsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListClientsClientsResponseBodyData, http_res
             )
-            raise models.ListClientsClientsResponseBody(data=response_data)
+            raise models.ListClientsClientsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListClientsClientsResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListClientsClientsResponseResponseBodyData, http_res
             )
-            raise models.ListClientsClientsResponseResponseBody(data=response_data)
+            raise models.ListClientsClientsResponseResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def get(
         self,
@@ -336,31 +318,20 @@ class Clients(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.GetClientResponseBody)
+            return utils.unmarshal_json_response(models.GetClientResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetClientClientsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetClientClientsResponseBodyData, http_res
             )
-            raise models.GetClientClientsResponseBody(data=response_data)
+            raise models.GetClientClientsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def get_async(
         self,
@@ -447,28 +418,17 @@ class Clients(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.GetClientResponseBody)
+            return utils.unmarshal_json_response(models.GetClientResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetClientClientsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetClientClientsResponseBodyData, http_res
             )
-            raise models.GetClientClientsResponseBody(data=response_data)
+            raise models.GetClientClientsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)

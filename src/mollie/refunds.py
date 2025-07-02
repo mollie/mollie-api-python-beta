@@ -135,41 +135,36 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.CreateRefundResponseBody)
+            return utils.unmarshal_json_response(
+                models.CreateRefundResponseBody, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateRefundRefundsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreateRefundRefundsResponseBodyData, http_res
             )
-            raise models.CreateRefundRefundsResponseBody(data=response_data)
+            raise models.CreateRefundRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "409", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateRefundRefundsResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreateRefundRefundsResponseResponseBodyData, http_res
             )
-            raise models.CreateRefundRefundsResponseResponseBody(data=response_data)
+            raise models.CreateRefundRefundsResponseResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateRefundRefundsResponse422ResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreateRefundRefundsResponse422ResponseBodyData, http_res
             )
-            raise models.CreateRefundRefundsResponse422ResponseBody(data=response_data)
+            raise models.CreateRefundRefundsResponse422ResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def create_async(
         self,
@@ -297,41 +292,36 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.CreateRefundResponseBody)
+            return utils.unmarshal_json_response(
+                models.CreateRefundResponseBody, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateRefundRefundsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreateRefundRefundsResponseBodyData, http_res
             )
-            raise models.CreateRefundRefundsResponseBody(data=response_data)
+            raise models.CreateRefundRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "409", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateRefundRefundsResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreateRefundRefundsResponseResponseBodyData, http_res
             )
-            raise models.CreateRefundRefundsResponseResponseBody(data=response_data)
+            raise models.CreateRefundRefundsResponseResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateRefundRefundsResponse422ResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreateRefundRefundsResponse422ResponseBodyData, http_res
             )
-            raise models.CreateRefundRefundsResponse422ResponseBody(data=response_data)
+            raise models.CreateRefundRefundsResponse422ResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def list(
         self,
@@ -431,36 +421,27 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.ListRefundsResponseBody)
+            return utils.unmarshal_json_response(
+                models.ListRefundsResponseBody, http_res
+            )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListRefundsRefundsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListRefundsRefundsResponseBodyData, http_res
             )
-            raise models.ListRefundsRefundsResponseBody(data=response_data)
+            raise models.ListRefundsRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListRefundsRefundsResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListRefundsRefundsResponseResponseBodyData, http_res
             )
-            raise models.ListRefundsRefundsResponseResponseBody(data=response_data)
+            raise models.ListRefundsRefundsResponseResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def list_async(
         self,
@@ -560,36 +541,27 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.ListRefundsResponseBody)
+            return utils.unmarshal_json_response(
+                models.ListRefundsResponseBody, http_res
+            )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListRefundsRefundsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListRefundsRefundsResponseBodyData, http_res
             )
-            raise models.ListRefundsRefundsResponseBody(data=response_data)
+            raise models.ListRefundsRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListRefundsRefundsResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListRefundsRefundsResponseResponseBodyData, http_res
             )
-            raise models.ListRefundsRefundsResponseResponseBody(data=response_data)
+            raise models.ListRefundsRefundsResponseResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def get(
         self,
@@ -684,31 +656,20 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.GetRefundResponseBody)
+            return utils.unmarshal_json_response(models.GetRefundResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetRefundRefundsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetRefundRefundsResponseBodyData, http_res
             )
-            raise models.GetRefundRefundsResponseBody(data=response_data)
+            raise models.GetRefundRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def get_async(
         self,
@@ -803,31 +764,20 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.GetRefundResponseBody)
+            return utils.unmarshal_json_response(models.GetRefundResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetRefundRefundsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetRefundRefundsResponseBodyData, http_res
             )
-            raise models.GetRefundRefundsResponseBody(data=response_data)
+            raise models.GetRefundRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def cancel(
         self,
@@ -921,31 +871,20 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CancelRefundResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CancelRefundResponseBodyData, http_res
             )
-            raise models.CancelRefundResponseBody(data=response_data)
+            raise models.CancelRefundResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def cancel_async(
         self,
@@ -1039,31 +978,20 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CancelRefundResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CancelRefundResponseBodyData, http_res
             )
-            raise models.CancelRefundResponseBody(data=response_data)
+            raise models.CancelRefundResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def create_order(
         self,
@@ -1206,40 +1134,29 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.CreateOrderRefundResponseBody
+            return utils.unmarshal_json_response(
+                models.CreateOrderRefundResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateOrderRefundRefundsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreateOrderRefundRefundsResponseBodyData, http_res
             )
-            raise models.CreateOrderRefundRefundsResponseBody(data=response_data)
+            raise models.CreateOrderRefundRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateOrderRefundRefundsResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreateOrderRefundRefundsResponseResponseBodyData, http_res
             )
             raise models.CreateOrderRefundRefundsResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def create_order_async(
         self,
@@ -1382,40 +1299,29 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.CreateOrderRefundResponseBody
+            return utils.unmarshal_json_response(
+                models.CreateOrderRefundResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateOrderRefundRefundsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreateOrderRefundRefundsResponseBodyData, http_res
             )
-            raise models.CreateOrderRefundRefundsResponseBody(data=response_data)
+            raise models.CreateOrderRefundRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateOrderRefundRefundsResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreateOrderRefundRefundsResponseResponseBodyData, http_res
             )
             raise models.CreateOrderRefundRefundsResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def list_for_order(
         self,
@@ -1515,33 +1421,22 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.ListOrderRefundsResponseBody
+            return utils.unmarshal_json_response(
+                models.ListOrderRefundsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListOrderRefundsRefundsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListOrderRefundsRefundsResponseBodyData, http_res
             )
-            raise models.ListOrderRefundsRefundsResponseBody(data=response_data)
+            raise models.ListOrderRefundsRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def list_for_order_async(
         self,
@@ -1641,33 +1536,22 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.ListOrderRefundsResponseBody
+            return utils.unmarshal_json_response(
+                models.ListOrderRefundsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListOrderRefundsRefundsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListOrderRefundsRefundsResponseBodyData, http_res
             )
-            raise models.ListOrderRefundsRefundsResponseBody(data=response_data)
+            raise models.ListOrderRefundsRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def all(
         self,
@@ -1770,33 +1654,22 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.ListAllRefundsResponseBody
+            return utils.unmarshal_json_response(
+                models.ListAllRefundsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListAllRefundsRefundsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListAllRefundsRefundsResponseBodyData, http_res
             )
-            raise models.ListAllRefundsRefundsResponseBody(data=response_data)
+            raise models.ListAllRefundsRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def all_async(
         self,
@@ -1899,30 +1772,19 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.ListAllRefundsResponseBody
+            return utils.unmarshal_json_response(
+                models.ListAllRefundsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListAllRefundsRefundsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListAllRefundsRefundsResponseBodyData, http_res
             )
-            raise models.ListAllRefundsRefundsResponseBody(data=response_data)
+            raise models.ListAllRefundsRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)

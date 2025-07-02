@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: 4b0f16d09d14ef8e80fdd3deb2c73bec
+  docChecksum: f7b044e7b7d61c849824b59b98939b15
   docVersion: 1.0.0
-  speakeasyVersion: 1.573.0
-  generationVersion: 2.644.1
-  releaseVersion: 0.5.9
-  configChecksum: e3c41bcbe574c8556088170627158703
+  speakeasyVersion: 1.574.1
+  generationVersion: 2.647.2
+  releaseVersion: 0.5.10
+  configChecksum: 67d3c4e447e44d23b69739a0a326d3ee
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -2457,6 +2457,7 @@ generatedFiles:
   - src/mollie/models/cancel_paymentop.py
   - src/mollie/models/cancel_refundop.py
   - src/mollie/models/cancel_subscriptionop.py
+  - src/mollie/models/clienterror.py
   - src/mollie/models/create_captureop.py
   - src/mollie/models/create_client_linkop.py
   - src/mollie/models/create_customer_paymentop.py
@@ -2535,10 +2536,12 @@ generatedFiles:
   - src/mollie/models/list_subscriptionsop.py
   - src/mollie/models/list_terminalsop.py
   - src/mollie/models/list_webhooksop.py
+  - src/mollie/models/no_response_error.py
   - src/mollie/models/payment_create_routeop.py
   - src/mollie/models/payment_list_routesop.py
   - src/mollie/models/release_authorizationop.py
   - src/mollie/models/request_apple_pay_payment_sessionop.py
+  - src/mollie/models/responsevalidationerror.py
   - src/mollie/models/revoke_mandateop.py
   - src/mollie/models/security.py
   - src/mollie/models/submit_onboarding_dataop.py

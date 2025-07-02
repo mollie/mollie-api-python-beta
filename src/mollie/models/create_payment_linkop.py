@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 from enum import Enum
-from mollie import utils
+import httpx
+from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
@@ -847,18 +848,20 @@ class CreatePaymentLinkPaymentLinksResponseResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class CreatePaymentLinkPaymentLinksResponseResponseBody(Exception):
+class CreatePaymentLinkPaymentLinksResponseResponseBody(ClientError):
     r"""An error response object."""
 
     data: CreatePaymentLinkPaymentLinksResponseResponseBodyData
 
-    def __init__(self, data: CreatePaymentLinkPaymentLinksResponseResponseBodyData):
+    def __init__(
+        self,
+        data: CreatePaymentLinkPaymentLinksResponseResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, CreatePaymentLinkPaymentLinksResponseResponseBodyData
-        )
 
 
 class CreatePaymentLinkPaymentLinksDocumentationTypedDict(TypedDict):
@@ -902,18 +905,20 @@ class CreatePaymentLinkPaymentLinksResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class CreatePaymentLinkPaymentLinksResponseBody(Exception):
+class CreatePaymentLinkPaymentLinksResponseBody(ClientError):
     r"""An error response object."""
 
     data: CreatePaymentLinkPaymentLinksResponseBodyData
 
-    def __init__(self, data: CreatePaymentLinkPaymentLinksResponseBodyData):
+    def __init__(
+        self,
+        data: CreatePaymentLinkPaymentLinksResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, CreatePaymentLinkPaymentLinksResponseBodyData
-        )
 
 
 class CreatePaymentLinkPaymentLinksResponseAmountTypedDict(TypedDict):

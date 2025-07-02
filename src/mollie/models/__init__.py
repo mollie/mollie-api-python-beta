@@ -158,6 +158,7 @@ if TYPE_CHECKING:
         CancelSubscriptionSubscriptionsResponseBody,
         CancelSubscriptionSubscriptionsResponseBodyData,
     )
+    from .clienterror import ClientError
     from .create_captureop import (
         CreateCaptureAmount,
         CreateCaptureAmountTypedDict,
@@ -4328,6 +4329,7 @@ if TYPE_CHECKING:
         ListWebhooksWebhooksResponseBodyData,
         ListWebhooksWebhooksTypedDict,
     )
+    from .no_response_error import NoResponseError
     from .payment_create_routeop import (
         PaymentCreateRouteAmount,
         PaymentCreateRouteAmountTypedDict,
@@ -4420,6 +4422,7 @@ if TYPE_CHECKING:
         RequestApplePayPaymentSessionResponseBody,
         RequestApplePayPaymentSessionResponseBodyData,
     )
+    from .responsevalidationerror import ResponseValidationError
     from .revoke_mandateop import (
         RevokeMandateDocumentation,
         RevokeMandateDocumentationTypedDict,
@@ -5060,6 +5063,7 @@ __all__ = [
     "CheckoutPreviewURL",
     "CheckoutPreviewURLTypedDict",
     "CheckoutTypedDict",
+    "ClientError",
     "ClientLink",
     "ClientLinkTypedDict",
     "Close",
@@ -8913,6 +8917,7 @@ __all__ = [
     "NetAmountTypedDict",
     "Next",
     "NextTypedDict",
+    "NoResponseError",
     "Open",
     "OpenTypedDict",
     "Order",
@@ -9049,6 +9054,7 @@ __all__ = [
     "RequestApplePayPaymentSessionResponseBodyData",
     "Requirements",
     "RequirementsTypedDict",
+    "ResponseValidationError",
     "ResultAmount",
     "ResultAmountTypedDict",
     "ReturnedRefund",
@@ -9678,6 +9684,7 @@ _dynamic_imports: dict[str, str] = {
     "CancelSubscriptionSubscriptionsLinksTypedDict": ".cancel_subscriptionop",
     "CancelSubscriptionSubscriptionsResponseBody": ".cancel_subscriptionop",
     "CancelSubscriptionSubscriptionsResponseBodyData": ".cancel_subscriptionop",
+    "ClientError": ".clienterror",
     "CreateCaptureAmount": ".create_captureop",
     "CreateCaptureAmountTypedDict": ".create_captureop",
     "CreateCaptureCapturesAmount": ".create_captureop",
@@ -13692,6 +13699,7 @@ _dynamic_imports: dict[str, str] = {
     "ListWebhooksWebhooksResponseBody": ".list_webhooksop",
     "ListWebhooksWebhooksResponseBodyData": ".list_webhooksop",
     "ListWebhooksWebhooksTypedDict": ".list_webhooksop",
+    "NoResponseError": ".no_response_error",
     "PaymentCreateRouteAmount": ".payment_create_routeop",
     "PaymentCreateRouteAmountTypedDict": ".payment_create_routeop",
     "PaymentCreateRouteDelayedRoutingAmount": ".payment_create_routeop",
@@ -13776,6 +13784,7 @@ _dynamic_imports: dict[str, str] = {
     "RequestApplePayPaymentSessionRequestBodyTypedDict": ".request_apple_pay_payment_sessionop",
     "RequestApplePayPaymentSessionResponseBody": ".request_apple_pay_payment_sessionop",
     "RequestApplePayPaymentSessionResponseBodyData": ".request_apple_pay_payment_sessionop",
+    "ResponseValidationError": ".responsevalidationerror",
     "RevokeMandateDocumentation": ".revoke_mandateop",
     "RevokeMandateDocumentationTypedDict": ".revoke_mandateop",
     "RevokeMandateLinks": ".revoke_mandateop",

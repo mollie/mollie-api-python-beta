@@ -107,40 +107,29 @@ class Chargebacks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.ListChargebacksResponseBody
+            return utils.unmarshal_json_response(
+                models.ListChargebacksResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListChargebacksChargebacksResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListChargebacksChargebacksResponseBodyData, http_res
             )
-            raise models.ListChargebacksChargebacksResponseBody(data=response_data)
+            raise models.ListChargebacksChargebacksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListChargebacksChargebacksResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListChargebacksChargebacksResponseResponseBodyData, http_res
             )
             raise models.ListChargebacksChargebacksResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def list_async(
         self,
@@ -240,40 +229,29 @@ class Chargebacks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.ListChargebacksResponseBody
+            return utils.unmarshal_json_response(
+                models.ListChargebacksResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListChargebacksChargebacksResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListChargebacksChargebacksResponseBodyData, http_res
             )
-            raise models.ListChargebacksChargebacksResponseBody(data=response_data)
+            raise models.ListChargebacksChargebacksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListChargebacksChargebacksResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListChargebacksChargebacksResponseResponseBodyData, http_res
             )
             raise models.ListChargebacksChargebacksResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def get(
         self,
@@ -368,31 +346,22 @@ class Chargebacks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.GetChargebackResponseBody)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetChargebackChargebacksResponseBodyData
+            return utils.unmarshal_json_response(
+                models.GetChargebackResponseBody, http_res
             )
-            raise models.GetChargebackChargebacksResponseBody(data=response_data)
+        if utils.match_response(http_res, "404", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.GetChargebackChargebacksResponseBodyData, http_res
+            )
+            raise models.GetChargebackChargebacksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def get_async(
         self,
@@ -487,31 +456,22 @@ class Chargebacks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.GetChargebackResponseBody)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetChargebackChargebacksResponseBodyData
+            return utils.unmarshal_json_response(
+                models.GetChargebackResponseBody, http_res
             )
-            raise models.GetChargebackChargebacksResponseBody(data=response_data)
+        if utils.match_response(http_res, "404", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.GetChargebackChargebacksResponseBodyData, http_res
+            )
+            raise models.GetChargebackChargebacksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def all(
         self,
@@ -614,41 +574,31 @@ class Chargebacks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.ListAllChargebacksResponseBody
+            return utils.unmarshal_json_response(
+                models.ListAllChargebacksResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListAllChargebacksChargebacksResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListAllChargebacksChargebacksResponseBodyData, http_res
             )
-            raise models.ListAllChargebacksChargebacksResponseBody(data=response_data)
+            raise models.ListAllChargebacksChargebacksResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
-                models.ListAllChargebacksChargebacksResponseResponseBodyData,
+            response_data = utils.unmarshal_json_response(
+                models.ListAllChargebacksChargebacksResponseResponseBodyData, http_res
             )
             raise models.ListAllChargebacksChargebacksResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def all_async(
         self,
@@ -751,38 +701,28 @@ class Chargebacks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.ListAllChargebacksResponseBody
+            return utils.unmarshal_json_response(
+                models.ListAllChargebacksResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListAllChargebacksChargebacksResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ListAllChargebacksChargebacksResponseBodyData, http_res
             )
-            raise models.ListAllChargebacksChargebacksResponseBody(data=response_data)
+            raise models.ListAllChargebacksChargebacksResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text,
-                models.ListAllChargebacksChargebacksResponseResponseBodyData,
+            response_data = utils.unmarshal_json_response(
+                models.ListAllChargebacksChargebacksResponseResponseBodyData, http_res
             )
             raise models.ListAllChargebacksChargebacksResponseResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)

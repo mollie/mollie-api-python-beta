@@ -116,36 +116,29 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.CreatePaymentResponseBody)
+            return utils.unmarshal_json_response(
+                models.CreatePaymentResponseBody, http_res
+            )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreatePaymentPaymentsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreatePaymentPaymentsResponseBodyData, http_res
             )
-            raise models.CreatePaymentPaymentsResponseBody(data=response_data)
+            raise models.CreatePaymentPaymentsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "503", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreatePaymentPaymentsResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreatePaymentPaymentsResponseResponseBodyData, http_res
             )
-            raise models.CreatePaymentPaymentsResponseResponseBody(data=response_data)
+            raise models.CreatePaymentPaymentsResponseResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def create_async(
         self,
@@ -254,36 +247,29 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.CreatePaymentResponseBody)
+            return utils.unmarshal_json_response(
+                models.CreatePaymentResponseBody, http_res
+            )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreatePaymentPaymentsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreatePaymentPaymentsResponseBodyData, http_res
             )
-            raise models.CreatePaymentPaymentsResponseBody(data=response_data)
+            raise models.CreatePaymentPaymentsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "503", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreatePaymentPaymentsResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CreatePaymentPaymentsResponseResponseBodyData, http_res
             )
-            raise models.CreatePaymentPaymentsResponseResponseBody(data=response_data)
+            raise models.CreatePaymentPaymentsResponseResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def list(
         self,
@@ -383,31 +369,22 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.ListPaymentsResponseBody)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListPaymentsPaymentsResponseBodyData
+            return utils.unmarshal_json_response(
+                models.ListPaymentsResponseBody, http_res
             )
-            raise models.ListPaymentsPaymentsResponseBody(data=response_data)
+        if utils.match_response(http_res, "400", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.ListPaymentsPaymentsResponseBodyData, http_res
+            )
+            raise models.ListPaymentsPaymentsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def list_async(
         self,
@@ -507,31 +484,22 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.ListPaymentsResponseBody)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListPaymentsPaymentsResponseBodyData
+            return utils.unmarshal_json_response(
+                models.ListPaymentsResponseBody, http_res
             )
-            raise models.ListPaymentsPaymentsResponseBody(data=response_data)
+        if utils.match_response(http_res, "400", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.ListPaymentsPaymentsResponseBodyData, http_res
+            )
+            raise models.ListPaymentsPaymentsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def get(
         self,
@@ -626,31 +594,22 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.GetPaymentResponseBody)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetPaymentPaymentsResponseBodyData
+            return utils.unmarshal_json_response(
+                models.GetPaymentResponseBody, http_res
             )
-            raise models.GetPaymentPaymentsResponseBody(data=response_data)
+        if utils.match_response(http_res, "404", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.GetPaymentPaymentsResponseBodyData, http_res
+            )
+            raise models.GetPaymentPaymentsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def get_async(
         self,
@@ -745,31 +704,22 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.GetPaymentResponseBody)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetPaymentPaymentsResponseBodyData
+            return utils.unmarshal_json_response(
+                models.GetPaymentResponseBody, http_res
             )
-            raise models.GetPaymentPaymentsResponseBody(data=response_data)
+        if utils.match_response(http_res, "404", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.GetPaymentPaymentsResponseBodyData, http_res
+            )
+            raise models.GetPaymentPaymentsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def update(
         self,
@@ -926,36 +876,29 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.UpdatePaymentResponseBody)
+            return utils.unmarshal_json_response(
+                models.UpdatePaymentResponseBody, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdatePaymentPaymentsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.UpdatePaymentPaymentsResponseBodyData, http_res
             )
-            raise models.UpdatePaymentPaymentsResponseBody(data=response_data)
+            raise models.UpdatePaymentPaymentsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdatePaymentPaymentsResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.UpdatePaymentPaymentsResponseResponseBodyData, http_res
             )
-            raise models.UpdatePaymentPaymentsResponseResponseBody(data=response_data)
+            raise models.UpdatePaymentPaymentsResponseResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def update_async(
         self,
@@ -1112,36 +1055,29 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.UpdatePaymentResponseBody)
+            return utils.unmarshal_json_response(
+                models.UpdatePaymentResponseBody, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdatePaymentPaymentsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.UpdatePaymentPaymentsResponseBodyData, http_res
             )
-            raise models.UpdatePaymentPaymentsResponseBody(data=response_data)
+            raise models.UpdatePaymentPaymentsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdatePaymentPaymentsResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.UpdatePaymentPaymentsResponseResponseBodyData, http_res
             )
-            raise models.UpdatePaymentPaymentsResponseResponseBody(data=response_data)
+            raise models.UpdatePaymentPaymentsResponseResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def cancel(
         self,
@@ -1243,36 +1179,29 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.CancelPaymentResponseBody)
+            return utils.unmarshal_json_response(
+                models.CancelPaymentResponseBody, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CancelPaymentPaymentsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CancelPaymentPaymentsResponseBodyData, http_res
             )
-            raise models.CancelPaymentPaymentsResponseBody(data=response_data)
+            raise models.CancelPaymentPaymentsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CancelPaymentPaymentsResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CancelPaymentPaymentsResponseResponseBodyData, http_res
             )
-            raise models.CancelPaymentPaymentsResponseResponseBody(data=response_data)
+            raise models.CancelPaymentPaymentsResponseResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def cancel_async(
         self,
@@ -1374,36 +1303,29 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.CancelPaymentResponseBody)
+            return utils.unmarshal_json_response(
+                models.CancelPaymentResponseBody, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CancelPaymentPaymentsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CancelPaymentPaymentsResponseBodyData, http_res
             )
-            raise models.CancelPaymentPaymentsResponseBody(data=response_data)
+            raise models.CancelPaymentPaymentsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CancelPaymentPaymentsResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.CancelPaymentPaymentsResponseResponseBodyData, http_res
             )
-            raise models.CancelPaymentPaymentsResponseResponseBody(data=response_data)
+            raise models.CancelPaymentPaymentsResponseResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def release_authorization(
         self,
@@ -1508,36 +1430,27 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "202", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ReleaseAuthorizationResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ReleaseAuthorizationResponseBodyData, http_res
             )
-            raise models.ReleaseAuthorizationResponseBody(data=response_data)
+            raise models.ReleaseAuthorizationResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ReleaseAuthorizationPaymentsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ReleaseAuthorizationPaymentsResponseBodyData, http_res
             )
-            raise models.ReleaseAuthorizationPaymentsResponseBody(data=response_data)
+            raise models.ReleaseAuthorizationPaymentsResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def release_authorization_async(
         self,
@@ -1642,33 +1555,24 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "202", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ReleaseAuthorizationResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ReleaseAuthorizationResponseBodyData, http_res
             )
-            raise models.ReleaseAuthorizationResponseBody(data=response_data)
+            raise models.ReleaseAuthorizationResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ReleaseAuthorizationPaymentsResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.ReleaseAuthorizationPaymentsResponseBodyData, http_res
             )
-            raise models.ReleaseAuthorizationPaymentsResponseBody(data=response_data)
+            raise models.ReleaseAuthorizationPaymentsResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)

@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 from enum import Enum
-from mollie import utils
+import httpx
+from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, QueryParamMetadata
 import pydantic
@@ -167,18 +168,20 @@ class ListAllChargebacksChargebacksResponseResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class ListAllChargebacksChargebacksResponseResponseBody(Exception):
+class ListAllChargebacksChargebacksResponseResponseBody(ClientError):
     r"""An error response object."""
 
     data: ListAllChargebacksChargebacksResponseResponseBodyData
 
-    def __init__(self, data: ListAllChargebacksChargebacksResponseResponseBodyData):
+    def __init__(
+        self,
+        data: ListAllChargebacksChargebacksResponseResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, ListAllChargebacksChargebacksResponseResponseBodyData
-        )
 
 
 class ListAllChargebacksChargebacksDocumentationTypedDict(TypedDict):
@@ -222,18 +225,20 @@ class ListAllChargebacksChargebacksResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class ListAllChargebacksChargebacksResponseBody(Exception):
+class ListAllChargebacksChargebacksResponseBody(ClientError):
     r"""An error response object."""
 
     data: ListAllChargebacksChargebacksResponseBodyData
 
-    def __init__(self, data: ListAllChargebacksChargebacksResponseBodyData):
+    def __init__(
+        self,
+        data: ListAllChargebacksChargebacksResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, ListAllChargebacksChargebacksResponseBodyData
-        )
 
 
 class ListAllChargebacksAmountTypedDict(TypedDict):

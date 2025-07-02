@@ -114,31 +114,22 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.CreateProfileResponseBody)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateProfileProfilesResponseBodyData
+            return utils.unmarshal_json_response(
+                models.CreateProfileResponseBody, http_res
             )
-            raise models.CreateProfileProfilesResponseBody(data=response_data)
+        if utils.match_response(http_res, "422", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.CreateProfileProfilesResponseBodyData, http_res
+            )
+            raise models.CreateProfileProfilesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def create_async(
         self,
@@ -245,31 +236,22 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.CreateProfileResponseBody)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.CreateProfileProfilesResponseBodyData
+            return utils.unmarshal_json_response(
+                models.CreateProfileResponseBody, http_res
             )
-            raise models.CreateProfileProfilesResponseBody(data=response_data)
+        if utils.match_response(http_res, "422", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.CreateProfileProfilesResponseBodyData, http_res
+            )
+            raise models.CreateProfileProfilesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def list(
         self,
@@ -358,31 +340,22 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.ListProfilesResponseBody)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListProfilesProfilesResponseBodyData
+            return utils.unmarshal_json_response(
+                models.ListProfilesResponseBody, http_res
             )
-            raise models.ListProfilesProfilesResponseBody(data=response_data)
+        if utils.match_response(http_res, "400", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.ListProfilesProfilesResponseBodyData, http_res
+            )
+            raise models.ListProfilesProfilesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def list_async(
         self,
@@ -471,31 +444,22 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.ListProfilesResponseBody)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.ListProfilesProfilesResponseBodyData
+            return utils.unmarshal_json_response(
+                models.ListProfilesResponseBody, http_res
             )
-            raise models.ListProfilesProfilesResponseBody(data=response_data)
+        if utils.match_response(http_res, "400", "application/hal+json"):
+            response_data = utils.unmarshal_json_response(
+                models.ListProfilesProfilesResponseBodyData, http_res
+            )
+            raise models.ListProfilesProfilesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def get(
         self,
@@ -582,36 +546,27 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.GetProfileResponseBody)
+            return utils.unmarshal_json_response(
+                models.GetProfileResponseBody, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetProfileProfilesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetProfileProfilesResponseBodyData, http_res
             )
-            raise models.GetProfileProfilesResponseBody(data=response_data)
+            raise models.GetProfileProfilesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetProfileProfilesResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetProfileProfilesResponseResponseBodyData, http_res
             )
-            raise models.GetProfileProfilesResponseResponseBody(data=response_data)
+            raise models.GetProfileProfilesResponseResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def get_async(
         self,
@@ -698,36 +653,27 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.GetProfileResponseBody)
+            return utils.unmarshal_json_response(
+                models.GetProfileResponseBody, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetProfileProfilesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetProfileProfilesResponseBodyData, http_res
             )
-            raise models.GetProfileProfilesResponseBody(data=response_data)
+            raise models.GetProfileProfilesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.GetProfileProfilesResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.GetProfileProfilesResponseResponseBodyData, http_res
             )
-            raise models.GetProfileProfilesResponseResponseBody(data=response_data)
+            raise models.GetProfileProfilesResponseResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def update(
         self,
@@ -846,43 +792,36 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.UpdateProfileResponseBody)
+            return utils.unmarshal_json_response(
+                models.UpdateProfileResponseBody, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdateProfileProfilesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.UpdateProfileProfilesResponseBodyData, http_res
             )
-            raise models.UpdateProfileProfilesResponseBody(data=response_data)
+            raise models.UpdateProfileProfilesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdateProfileProfilesResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.UpdateProfileProfilesResponseResponseBodyData, http_res
             )
-            raise models.UpdateProfileProfilesResponseResponseBody(data=response_data)
+            raise models.UpdateProfileProfilesResponseResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdateProfileProfilesResponse422ResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.UpdateProfileProfilesResponse422ResponseBodyData, http_res
             )
             raise models.UpdateProfileProfilesResponse422ResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def update_async(
         self,
@@ -1001,43 +940,36 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, models.UpdateProfileResponseBody)
+            return utils.unmarshal_json_response(
+                models.UpdateProfileResponseBody, http_res
+            )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdateProfileProfilesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.UpdateProfileProfilesResponseBodyData, http_res
             )
-            raise models.UpdateProfileProfilesResponseBody(data=response_data)
+            raise models.UpdateProfileProfilesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdateProfileProfilesResponseResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.UpdateProfileProfilesResponseResponseBodyData, http_res
             )
-            raise models.UpdateProfileProfilesResponseResponseBody(data=response_data)
+            raise models.UpdateProfileProfilesResponseResponseBody(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.UpdateProfileProfilesResponse422ResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.UpdateProfileProfilesResponse422ResponseBodyData, http_res
             )
             raise models.UpdateProfileProfilesResponse422ResponseBody(
-                data=response_data
+                response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def delete(
         self,
@@ -1121,36 +1053,25 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.DeleteProfileResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.DeleteProfileResponseBodyData, http_res
             )
-            raise models.DeleteProfileResponseBody(data=response_data)
+            raise models.DeleteProfileResponseBody(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.DeleteProfileProfilesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.DeleteProfileProfilesResponseBodyData, http_res
             )
-            raise models.DeleteProfileProfilesResponseBody(data=response_data)
+            raise models.DeleteProfileProfilesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def delete_async(
         self,
@@ -1234,36 +1155,25 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json(http_res.text, Any)
+            return utils.unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.DeleteProfileResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.DeleteProfileResponseBodyData, http_res
             )
-            raise models.DeleteProfileResponseBody(data=response_data)
+            raise models.DeleteProfileResponseBody(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = utils.unmarshal_json(
-                http_res.text, models.DeleteProfileProfilesResponseBodyData
+            response_data = utils.unmarshal_json_response(
+                models.DeleteProfileProfilesResponseBodyData, http_res
             )
-            raise models.DeleteProfileProfilesResponseBody(data=response_data)
+            raise models.DeleteProfileProfilesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     def get_current(
         self,
@@ -1341,28 +1251,17 @@ class Profiles(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.GetCurrentProfileResponseBody
+            return utils.unmarshal_json_response(
+                models.GetCurrentProfileResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = utils.stream_to_text(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)
 
     async def get_current_async(
         self,
@@ -1440,25 +1339,14 @@ class Profiles(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json(
-                http_res.text, models.GetCurrentProfileResponseBody
+            return utils.unmarshal_json_response(
+                models.GetCurrentProfileResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
-            raise models.APIError(
-                "API error occurred", http_res.status_code, http_res_text, http_res
-            )
+            raise models.APIError("API error occurred", http_res, http_res_text)
 
-        content_type = http_res.headers.get("Content-Type")
-        http_res_text = await utils.stream_to_text_async(http_res)
-        raise models.APIError(
-            f"Unexpected response received (code: {http_res.status_code}, type: {content_type})",
-            http_res.status_code,
-            http_res_text,
-            http_res,
-        )
+        raise models.APIError("Unexpected response received", http_res)

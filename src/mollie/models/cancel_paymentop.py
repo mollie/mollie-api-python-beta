@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 from enum import Enum
-from mollie import utils
+import httpx
+from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
@@ -120,18 +121,20 @@ class CancelPaymentPaymentsResponseResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class CancelPaymentPaymentsResponseResponseBody(Exception):
+class CancelPaymentPaymentsResponseResponseBody(ClientError):
     r"""An error response object."""
 
     data: CancelPaymentPaymentsResponseResponseBodyData
 
-    def __init__(self, data: CancelPaymentPaymentsResponseResponseBodyData):
+    def __init__(
+        self,
+        data: CancelPaymentPaymentsResponseResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, CancelPaymentPaymentsResponseResponseBodyData
-        )
 
 
 class CancelPaymentPaymentsDocumentationTypedDict(TypedDict):
@@ -175,16 +178,20 @@ class CancelPaymentPaymentsResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class CancelPaymentPaymentsResponseBody(Exception):
+class CancelPaymentPaymentsResponseBody(ClientError):
     r"""An error response object."""
 
     data: CancelPaymentPaymentsResponseBodyData
 
-    def __init__(self, data: CancelPaymentPaymentsResponseBodyData):
+    def __init__(
+        self,
+        data: CancelPaymentPaymentsResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(self.data, CancelPaymentPaymentsResponseBodyData)
 
 
 class CancelPaymentAmountTypedDict(TypedDict):

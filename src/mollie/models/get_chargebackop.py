@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 from enum import Enum
-from mollie import utils
+import httpx
+from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
@@ -133,16 +134,20 @@ class GetChargebackChargebacksResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class GetChargebackChargebacksResponseBody(Exception):
+class GetChargebackChargebacksResponseBody(ClientError):
     r"""An error response object."""
 
     data: GetChargebackChargebacksResponseBodyData
 
-    def __init__(self, data: GetChargebackChargebacksResponseBodyData):
+    def __init__(
+        self,
+        data: GetChargebackChargebacksResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(self.data, GetChargebackChargebacksResponseBodyData)
 
 
 class GetChargebackAmountTypedDict(TypedDict):

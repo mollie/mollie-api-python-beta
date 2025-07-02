@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 from enum import Enum
-from mollie import utils
+import httpx
+from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
@@ -1399,18 +1400,20 @@ class CreateCustomerPaymentCustomersResponseResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class CreateCustomerPaymentCustomersResponseResponseBody(Exception):
+class CreateCustomerPaymentCustomersResponseResponseBody(ClientError):
     r"""An error response object."""
 
     data: CreateCustomerPaymentCustomersResponseResponseBodyData
 
-    def __init__(self, data: CreateCustomerPaymentCustomersResponseResponseBodyData):
+    def __init__(
+        self,
+        data: CreateCustomerPaymentCustomersResponseResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, CreateCustomerPaymentCustomersResponseResponseBodyData
-        )
 
 
 class CreateCustomerPaymentCustomersDocumentationTypedDict(TypedDict):
@@ -1456,18 +1459,20 @@ class CreateCustomerPaymentCustomersResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class CreateCustomerPaymentCustomersResponseBody(Exception):
+class CreateCustomerPaymentCustomersResponseBody(ClientError):
     r"""An error response object."""
 
     data: CreateCustomerPaymentCustomersResponseBodyData
 
-    def __init__(self, data: CreateCustomerPaymentCustomersResponseBodyData):
+    def __init__(
+        self,
+        data: CreateCustomerPaymentCustomersResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, CreateCustomerPaymentCustomersResponseBodyData
-        )
 
 
 class CreateCustomerPaymentCustomersResponseAmountTypedDict(TypedDict):

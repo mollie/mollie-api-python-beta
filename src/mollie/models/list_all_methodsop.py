@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 from enum import Enum
-from mollie import utils
+import httpx
+from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, QueryParamMetadata
 import pydantic
@@ -198,16 +199,20 @@ class ListAllMethodsMethodsResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class ListAllMethodsMethodsResponseBody(Exception):
+class ListAllMethodsMethodsResponseBody(ClientError):
     r"""An error response object."""
 
     data: ListAllMethodsMethodsResponseBodyData
 
-    def __init__(self, data: ListAllMethodsMethodsResponseBodyData):
+    def __init__(
+        self,
+        data: ListAllMethodsMethodsResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(self.data, ListAllMethodsMethodsResponseBodyData)
 
 
 class ListAllMethodsMinimumAmountTypedDict(TypedDict):

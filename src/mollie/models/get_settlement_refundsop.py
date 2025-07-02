@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 from enum import Enum
-from mollie import utils
+import httpx
+from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
@@ -143,18 +144,20 @@ class GetSettlementRefundsSettlementsResponseResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class GetSettlementRefundsSettlementsResponseResponseBody(Exception):
+class GetSettlementRefundsSettlementsResponseResponseBody(ClientError):
     r"""An error response object."""
 
     data: GetSettlementRefundsSettlementsResponseResponseBodyData
 
-    def __init__(self, data: GetSettlementRefundsSettlementsResponseResponseBodyData):
+    def __init__(
+        self,
+        data: GetSettlementRefundsSettlementsResponseResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, GetSettlementRefundsSettlementsResponseResponseBodyData
-        )
 
 
 class GetSettlementRefundsSettlementsDocumentationTypedDict(TypedDict):
@@ -200,18 +203,20 @@ class GetSettlementRefundsSettlementsResponseBodyData(BaseModel):
     r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
 
 
-class GetSettlementRefundsSettlementsResponseBody(Exception):
+class GetSettlementRefundsSettlementsResponseBody(ClientError):
     r"""An error response object."""
 
     data: GetSettlementRefundsSettlementsResponseBodyData
 
-    def __init__(self, data: GetSettlementRefundsSettlementsResponseBodyData):
+    def __init__(
+        self,
+        data: GetSettlementRefundsSettlementsResponseBodyData,
+        raw_response: httpx.Response,
+        body: Optional[str] = None,
+    ):
+        message = body or raw_response.text
+        super().__init__(message, raw_response, body)
         self.data = data
-
-    def __str__(self) -> str:
-        return utils.marshal_json(
-            self.data, GetSettlementRefundsSettlementsResponseBodyData
-        )
 
 
 class GetSettlementRefundsAmountTypedDict(TypedDict):
