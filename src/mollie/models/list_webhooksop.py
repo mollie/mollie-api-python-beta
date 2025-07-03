@@ -24,7 +24,7 @@ class ListWebhooksRequestTypedDict(TypedDict):
     event_types: NotRequired[str]
     r"""Used to filter out only the webhooks that are subscribed to certain types of events.
 
-    Possible values: `payment-link.paid`
+    Possible values: `payment-link.paid` `sales-invoice.created` `sales-invoice.issued` `sales-invoice.canceled` `sales-invoice.paid`
     """
     testmode: NotRequired[Nullable[bool]]
     r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
@@ -63,7 +63,7 @@ class ListWebhooksRequest(BaseModel):
     ] = None
     r"""Used to filter out only the webhooks that are subscribed to certain types of events.
 
-    Possible values: `payment-link.paid`
+    Possible values: `payment-link.paid` `sales-invoice.created` `sales-invoice.issued` `sales-invoice.canceled` `sales-invoice.paid`
     """
 
     testmode: Annotated[
@@ -176,12 +176,17 @@ class ListWebhooksWebhooksTypedDict(TypedDict):
     r"""The subscription's date time of creation."""
     name: NotRequired[str]
     r"""The subscription's name."""
-    event_types: NotRequired[str]
+    event_types: NotRequired[List[str]]
     r"""The events types that are subscribed."""
     status: NotRequired[str]
     r"""The subscription's current status.
 
     Possible values: `enabled` `blocked` `disabled`
+    """
+    mode: NotRequired[str]
+    r"""The subscription's mode.
+
+    Possible values: `live` `test`
     """
 
 
@@ -204,13 +209,21 @@ class ListWebhooksWebhooks(BaseModel):
     name: Optional[str] = None
     r"""The subscription's name."""
 
-    event_types: Annotated[Optional[str], pydantic.Field(alias="eventTypes")] = None
+    event_types: Annotated[Optional[List[str]], pydantic.Field(alias="eventTypes")] = (
+        None
+    )
     r"""The events types that are subscribed."""
 
     status: Optional[str] = None
     r"""The subscription's current status.
 
     Possible values: `enabled` `blocked` `disabled`
+    """
+
+    mode: Optional[str] = None
+    r"""The subscription's mode.
+
+    Possible values: `live` `test`
     """
 
 

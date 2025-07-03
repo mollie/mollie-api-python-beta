@@ -8,7 +8,7 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -16,6 +16,10 @@ class UpdateWebhookEventTypes(str, Enum):
     r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those that require explicit selection. Separate multiple event types with a comma."""
 
     PAYMENT_LINK_PAID = "payment-link.paid"
+    SALES_INVOICE_CREATED = "sales-invoice.created"
+    SALES_INVOICE_ISSUED = "sales-invoice.issued"
+    SALES_INVOICE_CANCELED = "sales-invoice.canceled"
+    SALES_INVOICE_PAID = "sales-invoice.paid"
 
 
 class UpdateWebhookRequestBodyTypedDict(TypedDict):
@@ -228,12 +232,17 @@ class UpdateWebhookResponseBodyTypedDict(TypedDict):
     r"""The subscription's date time of creation."""
     name: NotRequired[str]
     r"""The subscription's name."""
-    event_types: NotRequired[str]
+    event_types: NotRequired[List[str]]
     r"""The events types that are subscribed."""
     status: NotRequired[str]
     r"""The subscription's current status.
 
     Possible values: `enabled` `blocked` `disabled`
+    """
+    mode: NotRequired[str]
+    r"""The subscription's mode.
+
+    Possible values: `live` `test`
     """
 
 
@@ -258,11 +267,19 @@ class UpdateWebhookResponseBody(BaseModel):
     name: Optional[str] = None
     r"""The subscription's name."""
 
-    event_types: Annotated[Optional[str], pydantic.Field(alias="eventTypes")] = None
+    event_types: Annotated[Optional[List[str]], pydantic.Field(alias="eventTypes")] = (
+        None
+    )
     r"""The events types that are subscribed."""
 
     status: Optional[str] = None
     r"""The subscription's current status.
 
     Possible values: `enabled` `blocked` `disabled`
+    """
+
+    mode: Optional[str] = None
+    r"""The subscription's mode.
+
+    Possible values: `live` `test`
     """

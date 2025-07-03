@@ -251,7 +251,7 @@ class Webhooks(BaseSDK):
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
-        :param event_types: Used to filter out only the webhooks that are subscribed to certain types of events.  Possible values: `payment-link.paid`
+        :param event_types: Used to filter out only the webhooks that are subscribed to certain types of events.  Possible values: `payment-link.paid` `sales-invoice.created` `sales-invoice.issued` `sales-invoice.canceled` `sales-invoice.paid`
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -362,7 +362,7 @@ class Webhooks(BaseSDK):
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
-        :param event_types: Used to filter out only the webhooks that are subscribed to certain types of events.  Possible values: `payment-link.paid`
+        :param event_types: Used to filter out only the webhooks that are subscribed to certain types of events.  Possible values: `payment-link.paid` `sales-invoice.created` `sales-invoice.issued` `sales-invoice.canceled` `sales-invoice.paid`
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
