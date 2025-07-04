@@ -3,10 +3,9 @@
 from __future__ import annotations
 import httpx
 from mollie.models import ClientError
-from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.types import BaseModel
 from mollie.utils import FieldMetadata, PathParamMetadata
 import pydantic
-from pydantic import model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -106,27 +105,25 @@ class PaymentListRoutesAmount(BaseModel):
 class PaymentListRoutesDestinationTypedDict(TypedDict):
     r"""The destination of the route."""
 
-    type: NotRequired[str]
+    type: str
     r"""The type of destination. Currently only the destination type `organization` is supported.
 
     Possible values: `organization`
     """
-    organization_id: NotRequired[str]
+    organization_id: str
     r"""Required for destination type `organization`. The ID of the connected organization the funds should be routed to."""
 
 
 class PaymentListRoutesDestination(BaseModel):
     r"""The destination of the route."""
 
-    type: Optional[str] = None
+    type: str
     r"""The type of destination. Currently only the destination type `organization` is supported.
 
     Possible values: `organization`
     """
 
-    organization_id: Annotated[
-        Optional[str], pydantic.Field(alias="organizationId")
-    ] = None
+    organization_id: Annotated[str, pydantic.Field(alias="organizationId")]
     r"""Required for destination type `organization`. The ID of the connected organization the funds should be routed to."""
 
 
@@ -171,72 +168,67 @@ class PaymentListRoutesDelayedRoutingResponseDocumentation(BaseModel):
 class PaymentListRoutesDelayedRoutingResponseLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[PaymentListRoutesDelayedRoutingSelfTypedDict]
+    self_: PaymentListRoutesDelayedRoutingSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    documentation: NotRequired[
-        PaymentListRoutesDelayedRoutingResponseDocumentationTypedDict
-    ]
+    documentation: PaymentListRoutesDelayedRoutingResponseDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class PaymentListRoutesDelayedRoutingResponseLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[
-        Optional[PaymentListRoutesDelayedRoutingSelf], pydantic.Field(alias="self")
-    ] = None
+    self_: Annotated[PaymentListRoutesDelayedRoutingSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    documentation: Optional[PaymentListRoutesDelayedRoutingResponseDocumentation] = None
+    documentation: PaymentListRoutesDelayedRoutingResponseDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class RoutesTypedDict(TypedDict):
+    id: str
+    r"""The identifier uniquely referring to this route. Mollie assigns this identifier at route creation time. Mollie will always refer to the route by this ID. Example: `crt_dyARQ3JzCgtPDhU2Pbq3J`."""
+    payment_id: str
+    r"""The unique identifier of the payment. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
+    amount: PaymentListRoutesAmountTypedDict
+    r"""The amount of the route. That amount that will be routed to the specified destination."""
+    description: str
+    r"""The description of the route. This description is shown in the reports."""
+    destination: PaymentListRoutesDestinationTypedDict
+    r"""The destination of the route."""
+    links: PaymentListRoutesDelayedRoutingResponseLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+    created_at: str
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     resource: NotRequired[str]
     r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
-    id: NotRequired[str]
-    r"""The identifier uniquely referring to this route. Mollie assigns this identifier at route creation time. Mollie will always refer to the route by this ID. Example: `crt_dyARQ3JzCgtPDhU2Pbq3J`."""
-    payment_id: NotRequired[str]
-    r"""The unique identifier of the payment. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
-    created_at: NotRequired[str]
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    amount: NotRequired[PaymentListRoutesAmountTypedDict]
-    r"""The amount of the route. That amount that will be routed to the specified destination."""
-    description: NotRequired[str]
-    r"""The description of the route. This description is shown in the reports."""
-    destination: NotRequired[PaymentListRoutesDestinationTypedDict]
-    r"""The destination of the route."""
-    links: NotRequired[PaymentListRoutesDelayedRoutingResponseLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class Routes(BaseModel):
-    resource: Optional[str] = "route"
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
-
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this route. Mollie assigns this identifier at route creation time. Mollie will always refer to the route by this ID. Example: `crt_dyARQ3JzCgtPDhU2Pbq3J`."""
 
-    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+    payment_id: Annotated[str, pydantic.Field(alias="paymentId")]
     r"""The unique identifier of the payment. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
 
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-
-    amount: Optional[PaymentListRoutesAmount] = None
+    amount: PaymentListRoutesAmount
     r"""The amount of the route. That amount that will be routed to the specified destination."""
 
-    description: Optional[str] = None
+    description: str
     r"""The description of the route. This description is shown in the reports."""
 
-    destination: Optional[PaymentListRoutesDestination] = None
+    destination: PaymentListRoutesDestination
     r"""The destination of the route."""
 
     links: Annotated[
-        Optional[PaymentListRoutesDelayedRoutingResponseLinks],
-        pydantic.Field(alias="_links"),
-    ] = None
+        PaymentListRoutesDelayedRoutingResponseLinks, pydantic.Field(alias="_links")
+    ]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
+    resource: Optional[str] = "route"
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
 
 
 class PaymentListRoutesEmbeddedTypedDict(TypedDict):
@@ -268,44 +260,6 @@ class PaymentListRoutesSelf(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class PaymentListRoutesPreviousTypedDict(TypedDict):
-    r"""The previous set of items, if available."""
-
-    href: NotRequired[str]
-    r"""The actual URL string."""
-    type: NotRequired[str]
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class PaymentListRoutesPrevious(BaseModel):
-    r"""The previous set of items, if available."""
-
-    href: Optional[str] = None
-    r"""The actual URL string."""
-
-    type: Optional[str] = None
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class PaymentListRoutesNextTypedDict(TypedDict):
-    r"""The next set of items, if available."""
-
-    href: NotRequired[str]
-    r"""The actual URL string."""
-    type: NotRequired[str]
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class PaymentListRoutesNext(BaseModel):
-    r"""The next set of items, if available."""
-
-    href: Optional[str] = None
-    r"""The actual URL string."""
-
-    type: Optional[str] = None
-    r"""The content type of the page or endpoint the URL points to."""
-
-
 class PaymentListRoutesDocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
@@ -330,10 +284,6 @@ class PaymentListRoutesLinksTypedDict(TypedDict):
 
     self_: NotRequired[PaymentListRoutesSelfTypedDict]
     r"""The URL to the current set of items."""
-    previous: NotRequired[Nullable[PaymentListRoutesPreviousTypedDict]]
-    r"""The previous set of items, if available."""
-    next: NotRequired[Nullable[PaymentListRoutesNextTypedDict]]
-    r"""The next set of items, if available."""
     documentation: NotRequired[PaymentListRoutesDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
@@ -346,44 +296,8 @@ class PaymentListRoutesLinks(BaseModel):
     )
     r"""The URL to the current set of items."""
 
-    previous: OptionalNullable[PaymentListRoutesPrevious] = UNSET
-    r"""The previous set of items, if available."""
-
-    next: OptionalNullable[PaymentListRoutesNext] = UNSET
-    r"""The next set of items, if available."""
-
     documentation: Optional[PaymentListRoutesDocumentation] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = ["self", "previous", "next", "documentation"]
-        nullable_fields = ["previous", "next"]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
 
 
 class PaymentListRoutesResponseBodyTypedDict(TypedDict):

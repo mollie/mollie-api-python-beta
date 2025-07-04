@@ -32,27 +32,25 @@ class PaymentCreateRouteAmount(BaseModel):
 class PaymentCreateRouteDestinationTypedDict(TypedDict):
     r"""The destination of the route."""
 
-    type: NotRequired[str]
+    type: str
     r"""The type of destination. Currently only the destination type `organization` is supported.
 
     Possible values: `organization`
     """
-    organization_id: NotRequired[str]
+    organization_id: str
     r"""Required for destination type `organization`. The ID of the connected organization the funds should be routed to."""
 
 
 class PaymentCreateRouteDestination(BaseModel):
     r"""The destination of the route."""
 
-    type: Optional[str] = None
+    type: str
     r"""The type of destination. Currently only the destination type `organization` is supported.
 
     Possible values: `organization`
     """
 
-    organization_id: Annotated[
-        Optional[str], pydantic.Field(alias="organizationId")
-    ] = None
+    organization_id: Annotated[str, pydantic.Field(alias="organizationId")]
     r"""Required for destination type `organization`. The ID of the connected organization the funds should be routed to."""
 
 
@@ -177,27 +175,25 @@ class PaymentCreateRouteDelayedRoutingAmount(BaseModel):
 class PaymentCreateRouteDelayedRoutingDestinationTypedDict(TypedDict):
     r"""The destination of the route."""
 
-    type: NotRequired[str]
+    type: str
     r"""The type of destination. Currently only the destination type `organization` is supported.
 
     Possible values: `organization`
     """
-    organization_id: NotRequired[str]
+    organization_id: str
     r"""Required for destination type `organization`. The ID of the connected organization the funds should be routed to."""
 
 
 class PaymentCreateRouteDelayedRoutingDestination(BaseModel):
     r"""The destination of the route."""
 
-    type: Optional[str] = None
+    type: str
     r"""The type of destination. Currently only the destination type `organization` is supported.
 
     Possible values: `organization`
     """
 
-    organization_id: Annotated[
-        Optional[str], pydantic.Field(alias="organizationId")
-    ] = None
+    organization_id: Annotated[str, pydantic.Field(alias="organizationId")]
     r"""Required for destination type `organization`. The ID of the connected organization the funds should be routed to."""
 
 
@@ -242,65 +238,61 @@ class PaymentCreateRouteDocumentation(BaseModel):
 class PaymentCreateRouteLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[PaymentCreateRouteSelfTypedDict]
+    self_: PaymentCreateRouteSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    documentation: NotRequired[PaymentCreateRouteDocumentationTypedDict]
+    documentation: PaymentCreateRouteDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class PaymentCreateRouteLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[PaymentCreateRouteSelf], pydantic.Field(alias="self")] = (
-        None
-    )
+    self_: Annotated[PaymentCreateRouteSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    documentation: Optional[PaymentCreateRouteDocumentation] = None
+    documentation: PaymentCreateRouteDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class PaymentCreateRouteResponseBodyTypedDict(TypedDict):
     r"""The route object."""
 
+    id: str
+    r"""The identifier uniquely referring to this route. Mollie assigns this identifier at route creation time. Mollie will always refer to the route by this ID. Example: `crt_dyARQ3JzCgtPDhU2Pbq3J`."""
+    payment_id: str
+    r"""The unique identifier of the payment. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
+    amount: PaymentCreateRouteDelayedRoutingAmountTypedDict
+    r"""The amount of the route. That amount that will be routed to the specified destination."""
+    description: str
+    r"""The description of the route. This description is shown in the reports."""
+    destination: PaymentCreateRouteDelayedRoutingDestinationTypedDict
+    r"""The destination of the route."""
+    links: PaymentCreateRouteLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     resource: NotRequired[str]
     r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
-    id: NotRequired[str]
-    r"""The identifier uniquely referring to this route. Mollie assigns this identifier at route creation time. Mollie will always refer to the route by this ID. Example: `crt_dyARQ3JzCgtPDhU2Pbq3J`."""
-    payment_id: NotRequired[str]
-    r"""The unique identifier of the payment. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
-    amount: NotRequired[PaymentCreateRouteDelayedRoutingAmountTypedDict]
-    r"""The amount of the route. That amount that will be routed to the specified destination."""
-    description: NotRequired[str]
-    r"""The description of the route. This description is shown in the reports."""
-    destination: NotRequired[PaymentCreateRouteDelayedRoutingDestinationTypedDict]
-    r"""The destination of the route."""
-    links: NotRequired[PaymentCreateRouteLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class PaymentCreateRouteResponseBody(BaseModel):
     r"""The route object."""
 
-    resource: Optional[str] = "route"
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
-
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this route. Mollie assigns this identifier at route creation time. Mollie will always refer to the route by this ID. Example: `crt_dyARQ3JzCgtPDhU2Pbq3J`."""
 
-    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+    payment_id: Annotated[str, pydantic.Field(alias="paymentId")]
     r"""The unique identifier of the payment. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
 
-    amount: Optional[PaymentCreateRouteDelayedRoutingAmount] = None
+    amount: PaymentCreateRouteDelayedRoutingAmount
     r"""The amount of the route. That amount that will be routed to the specified destination."""
 
-    description: Optional[str] = None
+    description: str
     r"""The description of the route. This description is shown in the reports."""
 
-    destination: Optional[PaymentCreateRouteDelayedRoutingDestination] = None
+    destination: PaymentCreateRouteDelayedRoutingDestination
     r"""The destination of the route."""
 
-    links: Annotated[
-        Optional[PaymentCreateRouteLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[PaymentCreateRouteLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    resource: Optional[str] = "route"
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
