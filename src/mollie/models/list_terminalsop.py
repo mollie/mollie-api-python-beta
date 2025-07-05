@@ -189,144 +189,126 @@ class ListTerminalsTerminalsResponseDocumentation(BaseModel):
 class ListTerminalsTerminalsResponseLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListTerminalsTerminalsSelfTypedDict]
+    self_: ListTerminalsTerminalsSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    documentation: NotRequired[ListTerminalsTerminalsResponseDocumentationTypedDict]
+    documentation: ListTerminalsTerminalsResponseDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListTerminalsTerminalsResponseLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[
-        Optional[ListTerminalsTerminalsSelf], pydantic.Field(alias="self")
-    ] = None
+    self_: Annotated[ListTerminalsTerminalsSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    documentation: Optional[ListTerminalsTerminalsResponseDocumentation] = None
+    documentation: ListTerminalsTerminalsResponseDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListTerminalsTerminalsTypedDict(TypedDict):
-    resource: NotRequired[str]
-    r"""Indicates the response contains a terminal object. Will always contain the string `terminal` for this endpoint."""
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this terminal. Example: `term_7MgL4wea46qkRcoTZjWEH`."""
-    mode: NotRequired[str]
+    mode: str
     r"""Whether this entity was created in live mode or in test mode.
 
     Possible values: `live` `test`
     """
-    description: NotRequired[str]
+    description: str
     r"""A short description of the terminal. The description can be used as an identifier for the terminal. Currently, the description is set when the terminal is initially configured. It will be visible in the Mollie Dashboard, and it may be visible on the device itself depending on the device."""
-    status: NotRequired[str]
+    status: str
     r"""The status of the terminal.
 
     Possible values: `pending` `active` `inactive`
     """
-    brand: NotRequired[Nullable[str]]
+    brand: Nullable[str]
     r"""The brand of the terminal.
 
     Possible values: `PAX`
     """
-    model: NotRequired[Nullable[str]]
+    model: Nullable[str]
     r"""The model of the terminal. For example for a PAX A920, this field's value will be `A920`.
 
     Possible values: `A35` `A77` `A920` `A920 Pro` `IM30`
     """
-    serial_number: NotRequired[Nullable[str]]
+    serial_number: Nullable[str]
     r"""The serial number of the terminal. The serial number is provided at terminal creation time."""
-    currency: NotRequired[str]
+    currency: str
     r"""The currency configured on the terminal, in ISO 4217 format. Currently most of our terminals are bound to a specific currency, chosen during setup."""
-    profile_id: NotRequired[str]
+    profile_id: str
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
     Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
     """
-    created_at: NotRequired[str]
+    created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    updated_at: NotRequired[str]
+    updated_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: NotRequired[ListTerminalsTerminalsResponseLinksTypedDict]
+    links: ListTerminalsTerminalsResponseLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+    resource: NotRequired[str]
+    r"""Indicates the response contains a terminal object. Will always contain the string `terminal` for this endpoint."""
 
 
 class ListTerminalsTerminals(BaseModel):
-    resource: Optional[str] = "terminal"
-    r"""Indicates the response contains a terminal object. Will always contain the string `terminal` for this endpoint."""
-
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this terminal. Example: `term_7MgL4wea46qkRcoTZjWEH`."""
 
-    mode: Optional[str] = None
+    mode: str
     r"""Whether this entity was created in live mode or in test mode.
 
     Possible values: `live` `test`
     """
 
-    description: Optional[str] = None
+    description: str
     r"""A short description of the terminal. The description can be used as an identifier for the terminal. Currently, the description is set when the terminal is initially configured. It will be visible in the Mollie Dashboard, and it may be visible on the device itself depending on the device."""
 
-    status: Optional[str] = None
+    status: str
     r"""The status of the terminal.
 
     Possible values: `pending` `active` `inactive`
     """
 
-    brand: OptionalNullable[str] = UNSET
+    brand: Nullable[str]
     r"""The brand of the terminal.
 
     Possible values: `PAX`
     """
 
-    model: OptionalNullable[str] = UNSET
+    model: Nullable[str]
     r"""The model of the terminal. For example for a PAX A920, this field's value will be `A920`.
 
     Possible values: `A35` `A77` `A920` `A920 Pro` `IM30`
     """
 
-    serial_number: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="serialNumber")
-    ] = UNSET
+    serial_number: Annotated[Nullable[str], pydantic.Field(alias="serialNumber")]
     r"""The serial number of the terminal. The serial number is provided at terminal creation time."""
 
-    currency: Optional[str] = None
+    currency: str
     r"""The currency configured on the terminal, in ISO 4217 format. Currently most of our terminals are bound to a specific currency, chosen during setup."""
 
-    profile_id: Annotated[Optional[str], pydantic.Field(alias="profileId")] = None
+    profile_id: Annotated[str, pydantic.Field(alias="profileId")]
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
     Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
     """
 
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    updated_at: Annotated[Optional[str], pydantic.Field(alias="updatedAt")] = None
+    updated_at: Annotated[str, pydantic.Field(alias="updatedAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
     links: Annotated[
-        Optional[ListTerminalsTerminalsResponseLinks], pydantic.Field(alias="_links")
-    ] = None
+        ListTerminalsTerminalsResponseLinks, pydantic.Field(alias="_links")
+    ]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    resource: Optional[str] = "terminal"
+    r"""Indicates the response contains a terminal object. Will always contain the string `terminal` for this endpoint."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "resource",
-            "id",
-            "mode",
-            "description",
-            "status",
-            "brand",
-            "model",
-            "serialNumber",
-            "currency",
-            "profileId",
-            "createdAt",
-            "updatedAt",
-            "_links",
-        ]
+        optional_fields = ["resource"]
         nullable_fields = ["brand", "model", "serialNumber"]
         null_default_fields = []
 
