@@ -576,12 +576,12 @@ class CreatePaymentLinkApplicationFeeTypedDict(TypedDict):
     If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
     """
 
-    amount: NotRequired[CreatePaymentLinkPaymentLinksAmountTypedDict]
+    amount: CreatePaymentLinkPaymentLinksAmountTypedDict
     r"""The fee that you wish to charge.
 
     Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
     """
-    description: NotRequired[str]
+    description: str
     r"""The description of the application fee. This will appear on settlement reports towards both you and the connected merchant."""
 
 
@@ -591,13 +591,13 @@ class CreatePaymentLinkApplicationFee(BaseModel):
     If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
     """
 
-    amount: Optional[CreatePaymentLinkPaymentLinksAmount] = None
+    amount: CreatePaymentLinkPaymentLinksAmount
     r"""The fee that you wish to charge.
 
     Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
     """
 
-    description: Optional[str] = None
+    description: str
     r"""The description of the application fee. This will appear on settlement reports towards both you and the connected merchant."""
 
 
@@ -805,14 +805,14 @@ class CreatePaymentLinkRequestBody(BaseModel):
         return m
 
 
-class CreatePaymentLinkPaymentLinksResponseDocumentationTypedDict(TypedDict):
+class CreatePaymentLinkPaymentLinksDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class CreatePaymentLinkPaymentLinksResponseDocumentation(BaseModel):
+class CreatePaymentLinkPaymentLinksDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -821,12 +821,12 @@ class CreatePaymentLinkPaymentLinksResponseDocumentation(BaseModel):
 
 
 class CreatePaymentLinkPaymentLinksResponseLinksTypedDict(TypedDict):
-    documentation: CreatePaymentLinkPaymentLinksResponseDocumentationTypedDict
+    documentation: CreatePaymentLinkPaymentLinksDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class CreatePaymentLinkPaymentLinksResponseLinks(BaseModel):
-    documentation: CreatePaymentLinkPaymentLinksResponseDocumentation
+    documentation: CreatePaymentLinkPaymentLinksDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
@@ -864,14 +864,14 @@ class CreatePaymentLinkPaymentLinksResponseResponseBody(ClientError):
         self.data = data
 
 
-class CreatePaymentLinkPaymentLinksDocumentationTypedDict(TypedDict):
+class CreatePaymentLinkDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class CreatePaymentLinkPaymentLinksDocumentation(BaseModel):
+class CreatePaymentLinkDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -880,12 +880,12 @@ class CreatePaymentLinkPaymentLinksDocumentation(BaseModel):
 
 
 class CreatePaymentLinkPaymentLinksLinksTypedDict(TypedDict):
-    documentation: CreatePaymentLinkPaymentLinksDocumentationTypedDict
+    documentation: CreatePaymentLinkDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
 class CreatePaymentLinkPaymentLinksLinks(BaseModel):
-    documentation: CreatePaymentLinkPaymentLinksDocumentation
+    documentation: CreatePaymentLinkDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
@@ -1489,12 +1489,12 @@ class CreatePaymentLinkPaymentLinksApplicationFeeTypedDict(TypedDict):
     If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
     """
 
-    amount: NotRequired[CreatePaymentLinkPaymentLinksResponse201AmountTypedDict]
+    amount: CreatePaymentLinkPaymentLinksResponse201AmountTypedDict
     r"""The fee that you wish to charge.
 
     Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
     """
-    description: NotRequired[str]
+    description: str
     r"""The description of the application fee. This will appear on settlement reports towards both you and the connected merchant."""
 
 
@@ -1504,13 +1504,13 @@ class CreatePaymentLinkPaymentLinksApplicationFee(BaseModel):
     If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
     """
 
-    amount: Optional[CreatePaymentLinkPaymentLinksResponse201Amount] = None
+    amount: CreatePaymentLinkPaymentLinksResponse201Amount
     r"""The fee that you wish to charge.
 
     Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
     """
 
-    description: Optional[str] = None
+    description: str
     r"""The description of the application fee. This will appear on settlement reports towards both you and the connected merchant."""
 
 
@@ -1552,82 +1552,72 @@ class PaymentLink(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class CreatePaymentLinkDocumentationTypedDict(TypedDict):
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    href: str
-    r"""The actual URL string."""
-    type: str
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class CreatePaymentLinkDocumentation(BaseModel):
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    href: str
-    r"""The actual URL string."""
-
-    type: str
-    r"""The content type of the page or endpoint the URL points to."""
-
-
 class CreatePaymentLinkLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[CreatePaymentLinkSelfTypedDict]
+    self_: CreatePaymentLinkSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    payment_link: NotRequired[PaymentLinkTypedDict]
+    payment_link: PaymentLinkTypedDict
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
-    documentation: NotRequired[CreatePaymentLinkDocumentationTypedDict]
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class CreatePaymentLinkLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[CreatePaymentLinkSelf], pydantic.Field(alias="self")] = (
-        None
-    )
+    self_: Annotated[CreatePaymentLinkSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    payment_link: Annotated[
-        Optional[PaymentLink], pydantic.Field(alias="paymentLink")
-    ] = None
+    payment_link: Annotated[PaymentLink, pydantic.Field(alias="paymentLink")]
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
-
-    documentation: Optional[CreatePaymentLinkDocumentation] = None
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class CreatePaymentLinkResponseBodyTypedDict(TypedDict):
     r"""The newly created payment link object."""
 
-    resource: NotRequired[str]
-    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this endpoint."""
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
-    mode: NotRequired[str]
+    mode: str
     r"""Whether this entity was created in live mode or in test mode.
 
     Possible values: `live` `test`
     """
-    description: NotRequired[str]
+    description: str
     r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible."""
-    amount: NotRequired[Nullable[CreatePaymentLinkPaymentLinksResponseAmountTypedDict]]
+    amount: Nullable[CreatePaymentLinkPaymentLinksResponseAmountTypedDict]
     r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an amount."""
-    minimum_amount: NotRequired[Nullable[CreatePaymentLinkMinimumAmountTypedDict]]
-    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount."""
-    archived: NotRequired[bool]
+    archived: bool
     r"""Whether the payment link is archived. Customers will not be able to complete payments on archived payment links."""
-    redirect_url: NotRequired[Nullable[str]]
+    redirect_url: Nullable[str]
     r"""The URL your customer will be redirected to after completing the payment process. If no redirect URL is provided, the customer will be shown a generic message after completing the payment."""
-    webhook_url: NotRequired[Nullable[str]]
+    webhook_url: Nullable[str]
     r"""The webhook URL where we will send payment status updates to.
 
     The webhookUrl is optional, but without a webhook you will miss out on important status changes to any payments resulting from the payment link.
 
     The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
     """
+    profile_id: Nullable[str]
+    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
+
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    """
+    created_at: str
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    paid_at: Nullable[str]
+    r"""The date and time the payment link became paid, in ISO 8601 format."""
+    expires_at: Nullable[str]
+    r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front, the payment link will not expire automatically."""
+    allowed_methods: Nullable[List[str]]
+    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
+
+    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint'.
+    """
+    links: CreatePaymentLinkLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+    resource: NotRequired[str]
+    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this endpoint."""
+    minimum_amount: NotRequired[Nullable[CreatePaymentLinkMinimumAmountTypedDict]]
+    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount."""
     lines: NotRequired[Nullable[List[CreatePaymentLinkPaymentLinksLinesTypedDict]]]
     r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.
 
@@ -1647,80 +1637,84 @@ class CreatePaymentLinkResponseBodyTypedDict(TypedDict):
 
     Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
     """
-    profile_id: NotRequired[Nullable[str]]
-    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
-
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
-    """
     reusable: NotRequired[Nullable[bool]]
     r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple payments using the same link.
 
     If no value is specified, the field defaults to `false`, allowing only a single payment per link.
-    """
-    created_at: NotRequired[str]
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    paid_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment link became paid, in ISO 8601 format."""
-    expires_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front, the payment link will not expire automatically."""
-    allowed_methods: NotRequired[Nullable[List[str]]]
-    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
-
-    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint'.
     """
     application_fee: NotRequired[CreatePaymentLinkPaymentLinksApplicationFeeTypedDict]
     r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
 
     If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
     """
-    links: NotRequired[CreatePaymentLinkLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class CreatePaymentLinkResponseBody(BaseModel):
     r"""The newly created payment link object."""
 
-    resource: Optional[str] = "payment-link"
-    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this endpoint."""
-
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
 
-    mode: Optional[str] = None
+    mode: str
     r"""Whether this entity was created in live mode or in test mode.
 
     Possible values: `live` `test`
     """
 
-    description: Optional[str] = None
+    description: str
     r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible."""
 
-    amount: OptionalNullable[CreatePaymentLinkPaymentLinksResponseAmount] = UNSET
+    amount: Nullable[CreatePaymentLinkPaymentLinksResponseAmount]
     r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an amount."""
 
-    minimum_amount: Annotated[
-        OptionalNullable[CreatePaymentLinkMinimumAmount],
-        pydantic.Field(alias="minimumAmount"),
-    ] = UNSET
-    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount."""
-
-    archived: Optional[bool] = None
+    archived: bool
     r"""Whether the payment link is archived. Customers will not be able to complete payments on archived payment links."""
 
-    redirect_url: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="redirectUrl")
-    ] = UNSET
+    redirect_url: Annotated[Nullable[str], pydantic.Field(alias="redirectUrl")]
     r"""The URL your customer will be redirected to after completing the payment process. If no redirect URL is provided, the customer will be shown a generic message after completing the payment."""
 
-    webhook_url: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="webhookUrl")
-    ] = UNSET
+    webhook_url: Annotated[Nullable[str], pydantic.Field(alias="webhookUrl")]
     r"""The webhook URL where we will send payment status updates to.
 
     The webhookUrl is optional, but without a webhook you will miss out on important status changes to any payments resulting from the payment link.
 
     The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
     """
+
+    profile_id: Annotated[Nullable[str], pydantic.Field(alias="profileId")]
+    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
+
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    """
+
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
+    paid_at: Annotated[Nullable[str], pydantic.Field(alias="paidAt")]
+    r"""The date and time the payment link became paid, in ISO 8601 format."""
+
+    expires_at: Annotated[Nullable[str], pydantic.Field(alias="expiresAt")]
+    r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front, the payment link will not expire automatically."""
+
+    allowed_methods: Annotated[
+        Nullable[List[str]], pydantic.Field(alias="allowedMethods")
+    ]
+    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
+
+    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint'.
+    """
+
+    links: Annotated[CreatePaymentLinkLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    resource: Optional[str] = "payment-link"
+    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this endpoint."""
+
+    minimum_amount: Annotated[
+        OptionalNullable[CreatePaymentLinkMinimumAmount],
+        pydantic.Field(alias="minimumAmount"),
+    ] = UNSET
+    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount."""
 
     lines: OptionalNullable[List[CreatePaymentLinkPaymentLinksLines]] = UNSET
     r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.
@@ -1750,37 +1744,10 @@ class CreatePaymentLinkResponseBody(BaseModel):
     Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
     """
 
-    profile_id: Annotated[OptionalNullable[str], pydantic.Field(alias="profileId")] = (
-        UNSET
-    )
-    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
-
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
-    """
-
     reusable: OptionalNullable[bool] = False
     r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple payments using the same link.
 
     If no value is specified, the field defaults to `false`, allowing only a single payment per link.
-    """
-
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-
-    paid_at: Annotated[OptionalNullable[str], pydantic.Field(alias="paidAt")] = UNSET
-    r"""The date and time the payment link became paid, in ISO 8601 format."""
-
-    expires_at: Annotated[OptionalNullable[str], pydantic.Field(alias="expiresAt")] = (
-        UNSET
-    )
-    r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front, the payment link will not expire automatically."""
-
-    allowed_methods: Annotated[
-        OptionalNullable[List[str]], pydantic.Field(alias="allowedMethods")
-    ] = UNSET
-    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
-
-    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint'.
     """
 
     application_fee: Annotated[
@@ -1792,34 +1759,16 @@ class CreatePaymentLinkResponseBody(BaseModel):
     If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
     """
 
-    links: Annotated[
-        Optional[CreatePaymentLinkLinks], pydantic.Field(alias="_links")
-    ] = None
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
             "resource",
-            "id",
-            "mode",
-            "description",
-            "amount",
             "minimumAmount",
-            "archived",
-            "redirectUrl",
-            "webhookUrl",
             "lines",
             "billingAddress",
             "shippingAddress",
-            "profileId",
             "reusable",
-            "createdAt",
-            "paidAt",
-            "expiresAt",
-            "allowedMethods",
             "applicationFee",
-            "_links",
         ]
         nullable_fields = [
             "amount",
