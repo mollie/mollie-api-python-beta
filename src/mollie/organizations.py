@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional
 
 
@@ -98,11 +99,9 @@ class Organizations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetOrganizationResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetOrganizationResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetOrganizationOrganizationsResponseBodyData, http_res
             )
             raise models.GetOrganizationOrganizationsResponseBody(
@@ -206,11 +205,9 @@ class Organizations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetOrganizationResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetOrganizationResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetOrganizationOrganizationsResponseBodyData, http_res
             )
             raise models.GetOrganizationOrganizationsResponseBody(
@@ -301,7 +298,7 @@ class Organizations(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetCurrentOrganizationResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -389,7 +386,7 @@ class Organizations(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetCurrentOrganizationResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -475,7 +472,7 @@ class Organizations(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetPartnerStatusResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -561,7 +558,7 @@ class Organizations(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetPartnerStatusResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):

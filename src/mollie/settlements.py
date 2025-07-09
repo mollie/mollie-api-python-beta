@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional
 
 
@@ -108,16 +109,14 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListSettlementsResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListSettlementsResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListSettlementsSettlementsResponseBodyData, http_res
             )
             raise models.ListSettlementsSettlementsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListSettlementsSettlementsResponseResponseBodyData, http_res
             )
             raise models.ListSettlementsSettlementsResponseResponseBody(
@@ -231,16 +230,14 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListSettlementsResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListSettlementsResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListSettlementsSettlementsResponseBodyData, http_res
             )
             raise models.ListSettlementsSettlementsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListSettlementsSettlementsResponseResponseBodyData, http_res
             )
             raise models.ListSettlementsSettlementsResponseResponseBody(
@@ -345,11 +342,9 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetSettlementResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetSettlementResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSettlementSettlementsResponseBodyData, http_res
             )
             raise models.GetSettlementSettlementsResponseBody(response_data, http_res)
@@ -452,11 +447,9 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetSettlementResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetSettlementResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSettlementSettlementsResponseBodyData, http_res
             )
             raise models.GetSettlementSettlementsResponseBody(response_data, http_res)
@@ -547,7 +540,7 @@ class Settlements(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetOpenSettlementResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -637,7 +630,7 @@ class Settlements(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetOpenSettlementResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -727,7 +720,7 @@ class Settlements(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetNextSettlementResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -817,7 +810,7 @@ class Settlements(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetNextSettlementResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -930,11 +923,11 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetSettlementPaymentsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSettlementPaymentsSettlementsResponseBodyData, http_res
             )
             raise models.GetSettlementPaymentsSettlementsResponseBody(
@@ -1050,11 +1043,11 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetSettlementPaymentsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSettlementPaymentsSettlementsResponseBodyData, http_res
             )
             raise models.GetSettlementPaymentsSettlementsResponseBody(
@@ -1165,18 +1158,18 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetSettlementCapturesResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSettlementCapturesSettlementsResponseBodyData, http_res
             )
             raise models.GetSettlementCapturesSettlementsResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSettlementCapturesSettlementsResponseResponseBodyData,
                 http_res,
             )
@@ -1288,18 +1281,18 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetSettlementCapturesResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSettlementCapturesSettlementsResponseBodyData, http_res
             )
             raise models.GetSettlementCapturesSettlementsResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSettlementCapturesSettlementsResponseResponseBodyData,
                 http_res,
             )
@@ -1411,18 +1404,18 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetSettlementRefundsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSettlementRefundsSettlementsResponseBodyData, http_res
             )
             raise models.GetSettlementRefundsSettlementsResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSettlementRefundsSettlementsResponseResponseBodyData, http_res
             )
             raise models.GetSettlementRefundsSettlementsResponseResponseBody(
@@ -1533,18 +1526,18 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetSettlementRefundsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSettlementRefundsSettlementsResponseBodyData, http_res
             )
             raise models.GetSettlementRefundsSettlementsResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSettlementRefundsSettlementsResponseResponseBodyData, http_res
             )
             raise models.GetSettlementRefundsSettlementsResponseResponseBody(
@@ -1655,18 +1648,18 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetSettlementChargebacksResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSettlementChargebacksSettlementsResponseBodyData, http_res
             )
             raise models.GetSettlementChargebacksSettlementsResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSettlementChargebacksSettlementsResponseResponseBodyData,
                 http_res,
             )
@@ -1778,18 +1771,18 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetSettlementChargebacksResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSettlementChargebacksSettlementsResponseBodyData, http_res
             )
             raise models.GetSettlementChargebacksSettlementsResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSettlementChargebacksSettlementsResponseResponseBodyData,
                 http_res,
             )

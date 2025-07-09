@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Mapping, Optional
 
 
@@ -93,7 +94,7 @@ class Capabilities(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListCapabilitiesResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -189,7 +190,7 @@ class Capabilities(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListCapabilitiesResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):

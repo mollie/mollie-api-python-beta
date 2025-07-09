@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional, Union
 
 
@@ -165,11 +166,11 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.CreateSubscriptionResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateSubscriptionSubscriptionsResponseBodyData, http_res
             )
             raise models.CreateSubscriptionSubscriptionsResponseBody(
@@ -340,11 +341,11 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.CreateSubscriptionResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateSubscriptionSubscriptionsResponseBodyData, http_res
             )
             raise models.CreateSubscriptionSubscriptionsResponseBody(
@@ -457,18 +458,18 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListSubscriptionsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListSubscriptionsSubscriptionsResponseBodyData, http_res
             )
             raise models.ListSubscriptionsSubscriptionsResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListSubscriptionsSubscriptionsResponseResponseBodyData, http_res
             )
             raise models.ListSubscriptionsSubscriptionsResponseResponseBody(
@@ -581,18 +582,18 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListSubscriptionsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListSubscriptionsSubscriptionsResponseBodyData, http_res
             )
             raise models.ListSubscriptionsSubscriptionsResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListSubscriptionsSubscriptionsResponseResponseBodyData, http_res
             )
             raise models.ListSubscriptionsSubscriptionsResponseResponseBody(
@@ -697,11 +698,9 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetSubscriptionResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetSubscriptionResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSubscriptionSubscriptionsResponseBodyData, http_res
             )
             raise models.GetSubscriptionSubscriptionsResponseBody(
@@ -806,11 +805,9 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetSubscriptionResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetSubscriptionResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSubscriptionSubscriptionsResponseBodyData, http_res
             )
             raise models.GetSubscriptionSubscriptionsResponseBody(
@@ -966,11 +963,11 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.UpdateSubscriptionResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateSubscriptionSubscriptionsResponseBodyData, http_res
             )
             raise models.UpdateSubscriptionSubscriptionsResponseBody(
@@ -1126,11 +1123,11 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.UpdateSubscriptionResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateSubscriptionSubscriptionsResponseBodyData, http_res
             )
             raise models.UpdateSubscriptionSubscriptionsResponseBody(
@@ -1244,11 +1241,11 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.CancelSubscriptionResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CancelSubscriptionSubscriptionsResponseBodyData, http_res
             )
             raise models.CancelSubscriptionSubscriptionsResponseBody(
@@ -1362,11 +1359,11 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.CancelSubscriptionResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CancelSubscriptionSubscriptionsResponseBodyData, http_res
             )
             raise models.CancelSubscriptionSubscriptionsResponseBody(
@@ -1479,11 +1476,11 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListAllSubscriptionsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListAllSubscriptionsSubscriptionsResponseBodyData, http_res
             )
             raise models.ListAllSubscriptionsSubscriptionsResponseBody(
@@ -1596,11 +1593,11 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListAllSubscriptionsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListAllSubscriptionsSubscriptionsResponseBodyData, http_res
             )
             raise models.ListAllSubscriptionsSubscriptionsResponseBody(
@@ -1719,11 +1716,11 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListSubscriptionPaymentsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListSubscriptionPaymentsSubscriptionsResponseBodyData, http_res
             )
             raise models.ListSubscriptionPaymentsSubscriptionsResponseBody(
@@ -1842,11 +1839,11 @@ class Subscriptions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListSubscriptionPaymentsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListSubscriptionPaymentsSubscriptionsResponseBodyData, http_res
             )
             raise models.ListSubscriptionPaymentsSubscriptionsResponseBody(

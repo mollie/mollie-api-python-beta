@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional
 
 
@@ -108,16 +109,14 @@ class Invoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListInvoicesResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListInvoicesResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListInvoicesInvoicesResponseBodyData, http_res
             )
             raise models.ListInvoicesInvoicesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListInvoicesInvoicesResponseResponseBodyData, http_res
             )
             raise models.ListInvoicesInvoicesResponseResponseBody(
@@ -231,16 +230,14 @@ class Invoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListInvoicesResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListInvoicesResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListInvoicesInvoicesResponseBodyData, http_res
             )
             raise models.ListInvoicesInvoicesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListInvoicesInvoicesResponseResponseBodyData, http_res
             )
             raise models.ListInvoicesInvoicesResponseResponseBody(
@@ -339,11 +336,9 @@ class Invoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetInvoiceResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetInvoiceResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetInvoiceInvoicesResponseBodyData, http_res
             )
             raise models.GetInvoiceInvoicesResponseBody(response_data, http_res)
@@ -440,11 +435,9 @@ class Invoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetInvoiceResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetInvoiceResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetInvoiceInvoicesResponseBodyData, http_res
             )
             raise models.GetInvoiceInvoicesResponseBody(response_data, http_res)

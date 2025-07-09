@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional
 
 
@@ -137,11 +138,9 @@ class Mandates(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.CreateMandateResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreateMandateResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateMandateMandatesResponseBodyData, http_res
             )
             raise models.CreateMandateMandatesResponseBody(response_data, http_res)
@@ -282,11 +281,9 @@ class Mandates(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.CreateMandateResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreateMandateResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateMandateMandatesResponseBodyData, http_res
             )
             raise models.CreateMandateMandatesResponseBody(response_data, http_res)
@@ -397,16 +394,14 @@ class Mandates(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListMandatesResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListMandatesResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListMandatesMandatesResponseBodyData, http_res
             )
             raise models.ListMandatesMandatesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListMandatesMandatesResponseResponseBodyData, http_res
             )
             raise models.ListMandatesMandatesResponseResponseBody(
@@ -519,16 +514,14 @@ class Mandates(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListMandatesResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListMandatesResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListMandatesMandatesResponseBodyData, http_res
             )
             raise models.ListMandatesMandatesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListMandatesMandatesResponseResponseBodyData, http_res
             )
             raise models.ListMandatesMandatesResponseResponseBody(
@@ -633,11 +626,9 @@ class Mandates(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetMandateResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetMandateResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetMandateMandatesResponseBodyData, http_res
             )
             raise models.GetMandateMandatesResponseBody(response_data, http_res)
@@ -740,11 +731,9 @@ class Mandates(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetMandateResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetMandateResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetMandateMandatesResponseBodyData, http_res
             )
             raise models.GetMandateMandatesResponseBody(response_data, http_res)
@@ -856,9 +845,9 @@ class Mandates(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.RevokeMandateResponseBodyData, http_res
             )
             raise models.RevokeMandateResponseBody(response_data, http_res)
@@ -970,9 +959,9 @@ class Mandates(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.RevokeMandateResponseBodyData, http_res
             )
             raise models.RevokeMandateResponseBody(response_data, http_res)

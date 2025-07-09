@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional
 
 
@@ -102,16 +103,14 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListBalancesResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListBalancesResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListBalancesBalancesResponseBodyData, http_res
             )
             raise models.ListBalancesBalancesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListBalancesBalancesResponseResponseBodyData, http_res
             )
             raise models.ListBalancesBalancesResponseResponseBody(
@@ -219,16 +218,14 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListBalancesResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListBalancesResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListBalancesBalancesResponseBodyData, http_res
             )
             raise models.ListBalancesBalancesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListBalancesBalancesResponseResponseBodyData, http_res
             )
             raise models.ListBalancesBalancesResponseResponseBody(
@@ -335,11 +332,9 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetBalanceResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetBalanceResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetBalanceBalancesResponseBodyData, http_res
             )
             raise models.GetBalanceBalancesResponseBody(response_data, http_res)
@@ -444,11 +439,9 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetBalanceResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetBalanceResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetBalanceBalancesResponseBodyData, http_res
             )
             raise models.GetBalanceBalancesResponseBody(response_data, http_res)
@@ -537,7 +530,7 @@ class Balances(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetPrimaryBalanceResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -625,7 +618,7 @@ class Balances(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetPrimaryBalanceResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -735,16 +728,16 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetBalanceReportResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetBalanceReportBalancesResponseBodyData, http_res
             )
             raise models.GetBalanceReportBalancesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetBalanceReportBalancesResponseResponseBodyData, http_res
             )
             raise models.GetBalanceReportBalancesResponseResponseBody(
@@ -857,16 +850,16 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetBalanceReportResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetBalanceReportBalancesResponseBodyData, http_res
             )
             raise models.GetBalanceReportBalancesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetBalanceReportBalancesResponseResponseBodyData, http_res
             )
             raise models.GetBalanceReportBalancesResponseResponseBody(
@@ -978,25 +971,25 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListBalanceTransactionsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListBalanceTransactionsBalancesResponseBodyData, http_res
             )
             raise models.ListBalanceTransactionsBalancesResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListBalanceTransactionsBalancesResponseResponseBodyData, http_res
             )
             raise models.ListBalanceTransactionsBalancesResponseResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "429", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListBalanceTransactionsBalancesResponse429ResponseBodyData,
                 http_res,
             )
@@ -1109,25 +1102,25 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListBalanceTransactionsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListBalanceTransactionsBalancesResponseBodyData, http_res
             )
             raise models.ListBalanceTransactionsBalancesResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListBalanceTransactionsBalancesResponseResponseBodyData, http_res
             )
             raise models.ListBalanceTransactionsBalancesResponseResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "429", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListBalanceTransactionsBalancesResponse429ResponseBodyData,
                 http_res,
             )

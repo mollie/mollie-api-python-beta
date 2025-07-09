@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional, Union
 
 
@@ -130,11 +131,9 @@ class Methods(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListMethodsResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListMethodsResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListMethodsMethodsResponseBodyData, http_res
             )
             raise models.ListMethodsMethodsResponseBody(response_data, http_res)
@@ -268,11 +267,9 @@ class Methods(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListMethodsResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListMethodsResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListMethodsMethodsResponseBodyData, http_res
             )
             raise models.ListMethodsMethodsResponseBody(response_data, http_res)
@@ -393,11 +390,9 @@ class Methods(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListAllMethodsResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListAllMethodsResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListAllMethodsMethodsResponseBodyData, http_res
             )
             raise models.ListAllMethodsMethodsResponseBody(response_data, http_res)
@@ -518,11 +513,9 @@ class Methods(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListAllMethodsResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListAllMethodsResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListAllMethodsMethodsResponseBodyData, http_res
             )
             raise models.ListAllMethodsMethodsResponseBody(response_data, http_res)
@@ -643,14 +636,14 @@ class Methods(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(models.GetMethodResponseBody, http_res)
+            return unmarshal_json_response(models.GetMethodResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetMethodMethodsResponseBodyData, http_res
             )
             raise models.GetMethodMethodsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetMethodMethodsResponseResponseBodyData, http_res
             )
             raise models.GetMethodMethodsResponseResponseBody(response_data, http_res)
@@ -771,14 +764,14 @@ class Methods(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(models.GetMethodResponseBody, http_res)
+            return unmarshal_json_response(models.GetMethodResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetMethodMethodsResponseBodyData, http_res
             )
             raise models.GetMethodMethodsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetMethodMethodsResponseResponseBodyData, http_res
             )
             raise models.GetMethodMethodsResponseResponseBody(response_data, http_res)

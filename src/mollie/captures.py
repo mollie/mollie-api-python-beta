@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional, Union
 
 
@@ -123,16 +124,14 @@ class Captures(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.CreateCaptureResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreateCaptureResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateCaptureCapturesResponseBodyData, http_res
             )
             raise models.CreateCaptureCapturesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateCaptureCapturesResponseResponseBodyData, http_res
             )
             raise models.CreateCaptureCapturesResponseResponseBody(
@@ -261,16 +260,14 @@ class Captures(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.CreateCaptureResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreateCaptureResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateCaptureCapturesResponseBodyData, http_res
             )
             raise models.CreateCaptureCapturesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateCaptureCapturesResponseResponseBodyData, http_res
             )
             raise models.CreateCaptureCapturesResponseResponseBody(
@@ -383,16 +380,14 @@ class Captures(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListCapturesResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListCapturesResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListCapturesCapturesResponseBodyData, http_res
             )
             raise models.ListCapturesCapturesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListCapturesCapturesResponseResponseBodyData, http_res
             )
             raise models.ListCapturesCapturesResponseResponseBody(
@@ -505,16 +500,14 @@ class Captures(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListCapturesResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListCapturesResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListCapturesCapturesResponseBodyData, http_res
             )
             raise models.ListCapturesCapturesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListCapturesCapturesResponseResponseBodyData, http_res
             )
             raise models.ListCapturesCapturesResponseResponseBody(
@@ -622,11 +615,9 @@ class Captures(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetCaptureResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetCaptureResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetCaptureCapturesResponseBodyData, http_res
             )
             raise models.GetCaptureCapturesResponseBody(response_data, http_res)
@@ -732,11 +723,9 @@ class Captures(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetCaptureResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetCaptureResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetCaptureCapturesResponseBodyData, http_res
             )
             raise models.GetCaptureCapturesResponseBody(response_data, http_res)

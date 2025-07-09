@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional
 
 
@@ -86,11 +87,9 @@ class Permissions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListPermissionsResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListPermissionsResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListPermissionsPermissionsResponseBodyData, http_res
             )
             raise models.ListPermissionsPermissionsResponseBody(response_data, http_res)
@@ -180,11 +179,9 @@ class Permissions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListPermissionsResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListPermissionsResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListPermissionsPermissionsResponseBodyData, http_res
             )
             raise models.ListPermissionsPermissionsResponseBody(response_data, http_res)
@@ -282,11 +279,9 @@ class Permissions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetPermissionResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetPermissionResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetPermissionPermissionsResponseBodyData, http_res
             )
             raise models.GetPermissionPermissionsResponseBody(response_data, http_res)
@@ -384,11 +379,9 @@ class Permissions(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetPermissionResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetPermissionResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetPermissionPermissionsResponseBodyData, http_res
             )
             raise models.GetPermissionPermissionsResponseBody(response_data, http_res)

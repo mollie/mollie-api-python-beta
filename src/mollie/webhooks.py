@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import BaseModel, OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional, Union, cast
 
 
@@ -101,11 +102,9 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.CreateWebhookResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreateWebhookResponseBody, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateWebhookWebhooksResponseBodyData, http_res
             )
             raise models.CreateWebhookWebhooksResponseBody(response_data, http_res)
@@ -210,11 +209,9 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.CreateWebhookResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreateWebhookResponseBody, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateWebhookWebhooksResponseBodyData, http_res
             )
             raise models.CreateWebhookWebhooksResponseBody(response_data, http_res)
@@ -321,11 +318,9 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListWebhooksResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListWebhooksResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListWebhooksWebhooksResponseBodyData, http_res
             )
             raise models.ListWebhooksWebhooksResponseBody(response_data, http_res)
@@ -432,11 +427,9 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListWebhooksResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListWebhooksResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListWebhooksWebhooksResponseBodyData, http_res
             )
             raise models.ListWebhooksWebhooksResponseBody(response_data, http_res)
@@ -552,16 +545,14 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.UpdateWebhookResponseBody, http_res
-            )
+            return unmarshal_json_response(models.UpdateWebhookResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateWebhookWebhooksResponseBodyData, http_res
             )
             raise models.UpdateWebhookWebhooksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateWebhookWebhooksResponseResponseBodyData, http_res
             )
             raise models.UpdateWebhookWebhooksResponseResponseBody(
@@ -679,16 +670,14 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.UpdateWebhookResponseBody, http_res
-            )
+            return unmarshal_json_response(models.UpdateWebhookResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateWebhookWebhooksResponseBodyData, http_res
             )
             raise models.UpdateWebhookWebhooksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateWebhookWebhooksResponseResponseBodyData, http_res
             )
             raise models.UpdateWebhookWebhooksResponseResponseBody(
@@ -788,16 +777,14 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetWebhookResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetWebhookResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetWebhookWebhooksResponseBodyData, http_res
             )
             raise models.GetWebhookWebhooksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetWebhookWebhooksResponseResponseBodyData, http_res
             )
             raise models.GetWebhookWebhooksResponseResponseBody(response_data, http_res)
@@ -895,16 +882,14 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetWebhookResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetWebhookResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetWebhookWebhooksResponseBodyData, http_res
             )
             raise models.GetWebhookWebhooksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetWebhookWebhooksResponseResponseBodyData, http_res
             )
             raise models.GetWebhookWebhooksResponseResponseBody(response_data, http_res)
@@ -1002,14 +987,14 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeleteWebhookResponseBodyData, http_res
             )
             raise models.DeleteWebhookResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeleteWebhookWebhooksResponseBodyData, http_res
             )
             raise models.DeleteWebhookWebhooksResponseBody(response_data, http_res)
@@ -1107,14 +1092,14 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeleteWebhookResponseBodyData, http_res
             )
             raise models.DeleteWebhookResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeleteWebhookWebhooksResponseBodyData, http_res
             )
             raise models.DeleteWebhookWebhooksResponseBody(response_data, http_res)
@@ -1221,14 +1206,14 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "202", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.TestWebhookResponseBodyData, http_res
             )
             raise models.TestWebhookResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.TestWebhookWebhooksResponseBodyData, http_res
             )
             raise models.TestWebhookWebhooksResponseBody(response_data, http_res)
@@ -1335,14 +1320,14 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "202", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.TestWebhookResponseBodyData, http_res
             )
             raise models.TestWebhookResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.TestWebhookWebhooksResponseBodyData, http_res
             )
             raise models.TestWebhookWebhooksResponseBody(response_data, http_res)

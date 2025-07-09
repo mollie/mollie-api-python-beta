@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import BaseModel, OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, List, Mapping, Optional, Union, cast
 
 
@@ -111,18 +112,18 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.CreateSalesInvoiceResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateSalesInvoiceSalesInvoicesResponseBodyData, http_res
             )
             raise models.CreateSalesInvoiceSalesInvoicesResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateSalesInvoiceSalesInvoicesResponseResponseBodyData, http_res
             )
             raise models.CreateSalesInvoiceSalesInvoicesResponseResponseBody(
@@ -239,18 +240,18 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.CreateSalesInvoiceResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateSalesInvoiceSalesInvoicesResponseBodyData, http_res
             )
             raise models.CreateSalesInvoiceSalesInvoicesResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateSalesInvoiceSalesInvoicesResponseResponseBodyData, http_res
             )
             raise models.CreateSalesInvoiceSalesInvoicesResponseResponseBody(
@@ -361,11 +362,11 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListSalesInvoicesResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListSalesInvoicesSalesInvoicesResponseBodyData, http_res
             )
             raise models.ListSalesInvoicesSalesInvoicesResponseBody(
@@ -476,11 +477,11 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListSalesInvoicesResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListSalesInvoicesSalesInvoicesResponseBodyData, http_res
             )
             raise models.ListSalesInvoicesSalesInvoicesResponseBody(
@@ -586,11 +587,9 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetSalesInvoiceResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetSalesInvoiceResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSalesInvoiceSalesInvoicesResponseBodyData, http_res
             )
             raise models.GetSalesInvoiceSalesInvoicesResponseBody(
@@ -696,11 +695,9 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetSalesInvoiceResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetSalesInvoiceResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetSalesInvoiceSalesInvoicesResponseBodyData, http_res
             )
             raise models.GetSalesInvoiceSalesInvoicesResponseBody(
@@ -880,18 +877,18 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.UpdateSalesInvoiceResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateSalesInvoiceSalesInvoicesResponseBodyData, http_res
             )
             raise models.UpdateSalesInvoiceSalesInvoicesResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateSalesInvoiceSalesInvoicesResponseResponseBodyData, http_res
             )
             raise models.UpdateSalesInvoiceSalesInvoicesResponseResponseBody(
@@ -1071,18 +1068,18 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.UpdateSalesInvoiceResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateSalesInvoiceSalesInvoicesResponseBodyData, http_res
             )
             raise models.UpdateSalesInvoiceSalesInvoicesResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateSalesInvoiceSalesInvoicesResponseResponseBodyData, http_res
             )
             raise models.UpdateSalesInvoiceSalesInvoicesResponseResponseBody(
@@ -1197,14 +1194,14 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeleteSalesInvoiceResponseBodyData, http_res
             )
             raise models.DeleteSalesInvoiceResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeleteSalesInvoiceSalesInvoicesResponseBodyData, http_res
             )
             raise models.DeleteSalesInvoiceSalesInvoicesResponseBody(
@@ -1319,14 +1316,14 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeleteSalesInvoiceResponseBodyData, http_res
             )
             raise models.DeleteSalesInvoiceResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeleteSalesInvoiceSalesInvoicesResponseBodyData, http_res
             )
             raise models.DeleteSalesInvoiceSalesInvoicesResponseBody(

@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, List, Mapping, Optional, Union
 
 
@@ -135,23 +136,21 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.CreateRefundResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreateRefundResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateRefundRefundsResponseBodyData, http_res
             )
             raise models.CreateRefundRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "409", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateRefundRefundsResponseResponseBodyData, http_res
             )
             raise models.CreateRefundRefundsResponseResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateRefundRefundsResponse422ResponseBodyData, http_res
             )
             raise models.CreateRefundRefundsResponse422ResponseBody(
@@ -292,23 +291,21 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.CreateRefundResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreateRefundResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateRefundRefundsResponseBodyData, http_res
             )
             raise models.CreateRefundRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "409", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateRefundRefundsResponseResponseBodyData, http_res
             )
             raise models.CreateRefundRefundsResponseResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateRefundRefundsResponse422ResponseBodyData, http_res
             )
             raise models.CreateRefundRefundsResponse422ResponseBody(
@@ -421,16 +418,14 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListRefundsResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListRefundsResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListRefundsRefundsResponseBodyData, http_res
             )
             raise models.ListRefundsRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListRefundsRefundsResponseResponseBodyData, http_res
             )
             raise models.ListRefundsRefundsResponseResponseBody(response_data, http_res)
@@ -541,16 +536,14 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListRefundsResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListRefundsResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListRefundsRefundsResponseBodyData, http_res
             )
             raise models.ListRefundsRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListRefundsRefundsResponseResponseBodyData, http_res
             )
             raise models.ListRefundsRefundsResponseResponseBody(response_data, http_res)
@@ -656,9 +649,9 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(models.GetRefundResponseBody, http_res)
+            return unmarshal_json_response(models.GetRefundResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetRefundRefundsResponseBodyData, http_res
             )
             raise models.GetRefundRefundsResponseBody(response_data, http_res)
@@ -764,9 +757,9 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(models.GetRefundResponseBody, http_res)
+            return unmarshal_json_response(models.GetRefundResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetRefundRefundsResponseBodyData, http_res
             )
             raise models.GetRefundRefundsResponseBody(response_data, http_res)
@@ -871,9 +864,9 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CancelRefundResponseBodyData, http_res
             )
             raise models.CancelRefundResponseBody(response_data, http_res)
@@ -978,9 +971,9 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CancelRefundResponseBodyData, http_res
             )
             raise models.CancelRefundResponseBody(response_data, http_res)
@@ -1134,16 +1127,16 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.CreateOrderRefundResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateOrderRefundRefundsResponseBodyData, http_res
             )
             raise models.CreateOrderRefundRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateOrderRefundRefundsResponseResponseBodyData, http_res
             )
             raise models.CreateOrderRefundRefundsResponseResponseBody(
@@ -1299,16 +1292,16 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.CreateOrderRefundResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateOrderRefundRefundsResponseBodyData, http_res
             )
             raise models.CreateOrderRefundRefundsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateOrderRefundRefundsResponseResponseBodyData, http_res
             )
             raise models.CreateOrderRefundRefundsResponseResponseBody(
@@ -1421,11 +1414,11 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListOrderRefundsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListOrderRefundsRefundsResponseBodyData, http_res
             )
             raise models.ListOrderRefundsRefundsResponseBody(response_data, http_res)
@@ -1536,11 +1529,11 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListOrderRefundsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListOrderRefundsRefundsResponseBodyData, http_res
             )
             raise models.ListOrderRefundsRefundsResponseBody(response_data, http_res)
@@ -1654,11 +1647,9 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListAllRefundsResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListAllRefundsResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListAllRefundsRefundsResponseBodyData, http_res
             )
             raise models.ListAllRefundsRefundsResponseBody(response_data, http_res)
@@ -1772,11 +1763,9 @@ class Refunds(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListAllRefundsResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListAllRefundsResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListAllRefundsRefundsResponseBodyData, http_res
             )
             raise models.ListAllRefundsRefundsResponseBody(response_data, http_res)

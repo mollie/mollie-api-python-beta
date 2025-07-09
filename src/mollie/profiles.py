@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, List, Mapping, Optional
 
 
@@ -114,11 +115,9 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.CreateProfileResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreateProfileResponseBody, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateProfileProfilesResponseBodyData, http_res
             )
             raise models.CreateProfileProfilesResponseBody(response_data, http_res)
@@ -236,11 +235,9 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.CreateProfileResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreateProfileResponseBody, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateProfileProfilesResponseBodyData, http_res
             )
             raise models.CreateProfileProfilesResponseBody(response_data, http_res)
@@ -340,11 +337,9 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListProfilesResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListProfilesResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListProfilesProfilesResponseBodyData, http_res
             )
             raise models.ListProfilesProfilesResponseBody(response_data, http_res)
@@ -444,11 +439,9 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListProfilesResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListProfilesResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListProfilesProfilesResponseBodyData, http_res
             )
             raise models.ListProfilesProfilesResponseBody(response_data, http_res)
@@ -546,16 +539,14 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetProfileResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetProfileResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetProfileProfilesResponseBodyData, http_res
             )
             raise models.GetProfileProfilesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetProfileProfilesResponseResponseBodyData, http_res
             )
             raise models.GetProfileProfilesResponseResponseBody(response_data, http_res)
@@ -653,16 +644,14 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetProfileResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetProfileResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetProfileProfilesResponseBodyData, http_res
             )
             raise models.GetProfileProfilesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetProfileProfilesResponseResponseBodyData, http_res
             )
             raise models.GetProfileProfilesResponseResponseBody(response_data, http_res)
@@ -792,23 +781,21 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.UpdateProfileResponseBody, http_res
-            )
+            return unmarshal_json_response(models.UpdateProfileResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateProfileProfilesResponseBodyData, http_res
             )
             raise models.UpdateProfileProfilesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateProfileProfilesResponseResponseBodyData, http_res
             )
             raise models.UpdateProfileProfilesResponseResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateProfileProfilesResponse422ResponseBodyData, http_res
             )
             raise models.UpdateProfileProfilesResponse422ResponseBody(
@@ -940,23 +927,21 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.UpdateProfileResponseBody, http_res
-            )
+            return unmarshal_json_response(models.UpdateProfileResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateProfileProfilesResponseBodyData, http_res
             )
             raise models.UpdateProfileProfilesResponseBody(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateProfileProfilesResponseResponseBodyData, http_res
             )
             raise models.UpdateProfileProfilesResponseResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateProfileProfilesResponse422ResponseBodyData, http_res
             )
             raise models.UpdateProfileProfilesResponse422ResponseBody(
@@ -1053,14 +1038,14 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeleteProfileResponseBodyData, http_res
             )
             raise models.DeleteProfileResponseBody(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeleteProfileProfilesResponseBodyData, http_res
             )
             raise models.DeleteProfileProfilesResponseBody(response_data, http_res)
@@ -1155,14 +1140,14 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeleteProfileResponseBodyData, http_res
             )
             raise models.DeleteProfileResponseBody(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeleteProfileProfilesResponseBodyData, http_res
             )
             raise models.DeleteProfileProfilesResponseBody(response_data, http_res)
@@ -1251,7 +1236,7 @@ class Profiles(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetCurrentProfileResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1339,7 +1324,7 @@ class Profiles(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetCurrentProfileResponseBody, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):

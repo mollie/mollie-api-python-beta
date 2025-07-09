@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional, Union
 
 
@@ -116,16 +117,14 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.CreatePaymentResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreatePaymentResponseBody, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreatePaymentPaymentsResponseBodyData, http_res
             )
             raise models.CreatePaymentPaymentsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "503", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreatePaymentPaymentsResponseResponseBodyData, http_res
             )
             raise models.CreatePaymentPaymentsResponseResponseBody(
@@ -247,16 +246,14 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.CreatePaymentResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreatePaymentResponseBody, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreatePaymentPaymentsResponseBodyData, http_res
             )
             raise models.CreatePaymentPaymentsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "503", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreatePaymentPaymentsResponseResponseBodyData, http_res
             )
             raise models.CreatePaymentPaymentsResponseResponseBody(
@@ -369,11 +366,9 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListPaymentsResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListPaymentsResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListPaymentsPaymentsResponseBodyData, http_res
             )
             raise models.ListPaymentsPaymentsResponseBody(response_data, http_res)
@@ -484,11 +479,9 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListPaymentsResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListPaymentsResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListPaymentsPaymentsResponseBodyData, http_res
             )
             raise models.ListPaymentsPaymentsResponseBody(response_data, http_res)
@@ -594,11 +587,9 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetPaymentResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetPaymentResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetPaymentPaymentsResponseBodyData, http_res
             )
             raise models.GetPaymentPaymentsResponseBody(response_data, http_res)
@@ -704,11 +695,9 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetPaymentResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetPaymentResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetPaymentPaymentsResponseBodyData, http_res
             )
             raise models.GetPaymentPaymentsResponseBody(response_data, http_res)
@@ -876,16 +865,14 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.UpdatePaymentResponseBody, http_res
-            )
+            return unmarshal_json_response(models.UpdatePaymentResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdatePaymentPaymentsResponseBodyData, http_res
             )
             raise models.UpdatePaymentPaymentsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdatePaymentPaymentsResponseResponseBodyData, http_res
             )
             raise models.UpdatePaymentPaymentsResponseResponseBody(
@@ -1055,16 +1042,14 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.UpdatePaymentResponseBody, http_res
-            )
+            return unmarshal_json_response(models.UpdatePaymentResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdatePaymentPaymentsResponseBodyData, http_res
             )
             raise models.UpdatePaymentPaymentsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdatePaymentPaymentsResponseResponseBodyData, http_res
             )
             raise models.UpdatePaymentPaymentsResponseResponseBody(
@@ -1179,16 +1164,14 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.CancelPaymentResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CancelPaymentResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CancelPaymentPaymentsResponseBodyData, http_res
             )
             raise models.CancelPaymentPaymentsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CancelPaymentPaymentsResponseResponseBodyData, http_res
             )
             raise models.CancelPaymentPaymentsResponseResponseBody(
@@ -1303,16 +1286,14 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.CancelPaymentResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CancelPaymentResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CancelPaymentPaymentsResponseBodyData, http_res
             )
             raise models.CancelPaymentPaymentsResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CancelPaymentPaymentsResponseResponseBodyData, http_res
             )
             raise models.CancelPaymentPaymentsResponseResponseBody(
@@ -1430,14 +1411,14 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "202", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ReleaseAuthorizationResponseBodyData, http_res
             )
             raise models.ReleaseAuthorizationResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ReleaseAuthorizationPaymentsResponseBodyData, http_res
             )
             raise models.ReleaseAuthorizationPaymentsResponseBody(
@@ -1555,14 +1536,14 @@ class Payments(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "202", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ReleaseAuthorizationResponseBodyData, http_res
             )
             raise models.ReleaseAuthorizationResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ReleaseAuthorizationPaymentsResponseBodyData, http_res
             )
             raise models.ReleaseAuthorizationPaymentsResponseBody(

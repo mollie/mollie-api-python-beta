@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: 98aecf1db84f9267fe6b4aa960782f5d
+  docChecksum: c7afba05cd9a66e13606d23ac5d9b061
   docVersion: 1.0.0
-  speakeasyVersion: 1.576.1
-  generationVersion: 2.651.2
-  releaseVersion: 0.5.14
-  configChecksum: 442d972275bb02727fae79129a50b53c
+  speakeasyVersion: 1.580.0
+  generationVersion: 2.654.2
+  releaseVersion: 0.5.15
+  configChecksum: 6f109c7a5802d614a0ab8c4d55c61b25
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -39,7 +39,6 @@ generatedFiles:
   - .devcontainer/devcontainer.json
   - .devcontainer/setup.sh
   - .gitattributes
-  - .python-version
   - .vscode/settings.json
   - USAGE.md
   - docs/models/address.md
@@ -2576,6 +2575,7 @@ generatedFiles:
   - src/mollie/utils/retries.py
   - src/mollie/utils/security.py
   - src/mollie/utils/serializers.py
+  - src/mollie/utils/unmarshal_json_response.py
   - src/mollie/utils/url.py
   - src/mollie/utils/values.py
   - src/mollie/wallets.py

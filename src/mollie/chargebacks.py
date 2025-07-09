@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional
 
 
@@ -107,16 +108,14 @@ class Chargebacks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListChargebacksResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListChargebacksResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListChargebacksChargebacksResponseBodyData, http_res
             )
             raise models.ListChargebacksChargebacksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListChargebacksChargebacksResponseResponseBodyData, http_res
             )
             raise models.ListChargebacksChargebacksResponseResponseBody(
@@ -229,16 +228,14 @@ class Chargebacks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListChargebacksResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListChargebacksResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListChargebacksChargebacksResponseBodyData, http_res
             )
             raise models.ListChargebacksChargebacksResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListChargebacksChargebacksResponseResponseBodyData, http_res
             )
             raise models.ListChargebacksChargebacksResponseResponseBody(
@@ -346,11 +343,9 @@ class Chargebacks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetChargebackResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetChargebackResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetChargebackChargebacksResponseBodyData, http_res
             )
             raise models.GetChargebackChargebacksResponseBody(response_data, http_res)
@@ -456,11 +451,9 @@ class Chargebacks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetChargebackResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetChargebackResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetChargebackChargebacksResponseBodyData, http_res
             )
             raise models.GetChargebackChargebacksResponseBody(response_data, http_res)
@@ -574,18 +567,18 @@ class Chargebacks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListAllChargebacksResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListAllChargebacksChargebacksResponseBodyData, http_res
             )
             raise models.ListAllChargebacksChargebacksResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListAllChargebacksChargebacksResponseResponseBodyData, http_res
             )
             raise models.ListAllChargebacksChargebacksResponseResponseBody(
@@ -701,18 +694,18 @@ class Chargebacks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListAllChargebacksResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListAllChargebacksChargebacksResponseBodyData, http_res
             )
             raise models.ListAllChargebacksChargebacksResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListAllChargebacksChargebacksResponseResponseBodyData, http_res
             )
             raise models.ListAllChargebacksChargebacksResponseResponseBody(

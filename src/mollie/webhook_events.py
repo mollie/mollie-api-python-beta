@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional
 
 
@@ -91,11 +92,9 @@ class WebhookEvents(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetWebhookEventResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetWebhookEventResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetWebhookEventWebhookEventsResponseBodyData, http_res
             )
             raise models.GetWebhookEventWebhookEventsResponseBody(
@@ -192,11 +191,9 @@ class WebhookEvents(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetWebhookEventResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetWebhookEventResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetWebhookEventWebhookEventsResponseBodyData, http_res
             )
             raise models.GetWebhookEventWebhookEventsResponseBody(

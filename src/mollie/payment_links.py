@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import BaseModel, OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, List, Mapping, Optional, Union, cast
 
 
@@ -107,18 +108,18 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.CreatePaymentLinkResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreatePaymentLinkPaymentLinksResponseBodyData, http_res
             )
             raise models.CreatePaymentLinkPaymentLinksResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreatePaymentLinkPaymentLinksResponseResponseBodyData, http_res
             )
             raise models.CreatePaymentLinkPaymentLinksResponseResponseBody(
@@ -231,18 +232,18 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.CreatePaymentLinkResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreatePaymentLinkPaymentLinksResponseBodyData, http_res
             )
             raise models.CreatePaymentLinkPaymentLinksResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreatePaymentLinkPaymentLinksResponseResponseBodyData, http_res
             )
             raise models.CreatePaymentLinkPaymentLinksResponseResponseBody(
@@ -349,11 +350,11 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListPaymentLinksResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListPaymentLinksPaymentLinksResponseBodyData, http_res
             )
             raise models.ListPaymentLinksPaymentLinksResponseBody(
@@ -460,11 +461,11 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListPaymentLinksResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListPaymentLinksPaymentLinksResponseBodyData, http_res
             )
             raise models.ListPaymentLinksPaymentLinksResponseBody(
@@ -566,11 +567,9 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetPaymentLinkResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetPaymentLinkResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetPaymentLinkPaymentLinksResponseBodyData, http_res
             )
             raise models.GetPaymentLinkPaymentLinksResponseBody(response_data, http_res)
@@ -670,11 +669,9 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetPaymentLinkResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetPaymentLinkResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetPaymentLinkPaymentLinksResponseBodyData, http_res
             )
             raise models.GetPaymentLinkPaymentLinksResponseBody(response_data, http_res)
@@ -738,7 +735,7 @@ class PaymentLinks(BaseSDK):
         :param description: A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible.  Updating the description does not affect any previously existing payments created for this payment link.
         :param minimum_amount: The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount.
         :param archived: Whether the payment link is archived. Customers will not be able to complete payments on archived payment links.
-        :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.  Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint'.
+        :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.  Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint', 'in3', 'riverty', 'klarna', 'billie'.
         :param lines: Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.  All lines must have the same currency as the payment.  Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
         :param billing_address: The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.  Required for payment method `in3`, `klarna`, `billie` and `riverty`.
         :param shipping_address: The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
@@ -832,18 +829,18 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.UpdatePaymentLinkResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdatePaymentLinkPaymentLinksResponseBodyData, http_res
             )
             raise models.UpdatePaymentLinkPaymentLinksResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdatePaymentLinkPaymentLinksResponseResponseBodyData, http_res
             )
             raise models.UpdatePaymentLinkPaymentLinksResponseResponseBody(
@@ -909,7 +906,7 @@ class PaymentLinks(BaseSDK):
         :param description: A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible.  Updating the description does not affect any previously existing payments created for this payment link.
         :param minimum_amount: The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount.
         :param archived: Whether the payment link is archived. Customers will not be able to complete payments on archived payment links.
-        :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.  Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint'.
+        :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.  Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint', 'in3', 'riverty', 'klarna', 'billie'.
         :param lines: Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.  All lines must have the same currency as the payment.  Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
         :param billing_address: The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.  Required for payment method `in3`, `klarna`, `billie` and `riverty`.
         :param shipping_address: The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
@@ -1003,18 +1000,18 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.UpdatePaymentLinkResponseBody, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdatePaymentLinkPaymentLinksResponseBodyData, http_res
             )
             raise models.UpdatePaymentLinkPaymentLinksResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdatePaymentLinkPaymentLinksResponseResponseBodyData, http_res
             )
             raise models.UpdatePaymentLinkPaymentLinksResponseResponseBody(
@@ -1129,14 +1126,14 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeletePaymentLinkResponseBodyData, http_res
             )
             raise models.DeletePaymentLinkResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeletePaymentLinkPaymentLinksResponseBodyData, http_res
             )
             raise models.DeletePaymentLinkPaymentLinksResponseBody(
@@ -1251,14 +1248,14 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeletePaymentLinkResponseBodyData, http_res
             )
             raise models.DeletePaymentLinkResponseBody(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeletePaymentLinkPaymentLinksResponseBodyData, http_res
             )
             raise models.DeletePaymentLinkPaymentLinksResponseBody(
@@ -1371,11 +1368,11 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetPaymentLinkPaymentsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetPaymentLinkPaymentsPaymentLinksResponseBodyData, http_res
             )
             raise models.GetPaymentLinkPaymentsPaymentLinksResponseBody(
@@ -1488,11 +1485,11 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.GetPaymentLinkPaymentsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetPaymentLinkPaymentsPaymentLinksResponseBodyData, http_res
             )
             raise models.GetPaymentLinkPaymentsPaymentLinksResponseBody(

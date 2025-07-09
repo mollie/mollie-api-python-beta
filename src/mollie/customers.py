@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, List, Mapping, Optional, Union, cast
 
 
@@ -105,11 +106,9 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.CreateCustomerResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreateCustomerResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateCustomerCustomersResponseBodyData, http_res
             )
             raise models.CreateCustomerCustomersResponseBody(response_data, http_res)
@@ -218,11 +217,9 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.CreateCustomerResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreateCustomerResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateCustomerCustomersResponseBodyData, http_res
             )
             raise models.CreateCustomerCustomersResponseBody(response_data, http_res)
@@ -330,16 +327,14 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListCustomersResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListCustomersResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListCustomersCustomersResponseBodyData, http_res
             )
             raise models.ListCustomersCustomersResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListCustomersCustomersResponseResponseBodyData, http_res
             )
             raise models.ListCustomersCustomersResponseResponseBody(
@@ -449,16 +444,14 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.ListCustomersResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListCustomersResponseBody, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListCustomersCustomersResponseBodyData, http_res
             )
             raise models.ListCustomersCustomersResponseBody(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListCustomersCustomersResponseResponseBodyData, http_res
             )
             raise models.ListCustomersCustomersResponseResponseBody(
@@ -561,11 +554,9 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetCustomerResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetCustomerResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetCustomerCustomersResponseBodyData, http_res
             )
             raise models.GetCustomerCustomersResponseBody(response_data, http_res)
@@ -666,11 +657,9 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.GetCustomerResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetCustomerResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.GetCustomerCustomersResponseBodyData, http_res
             )
             raise models.GetCustomerCustomersResponseBody(response_data, http_res)
@@ -795,11 +784,9 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.UpdateCustomerResponseBody, http_res
-            )
+            return unmarshal_json_response(models.UpdateCustomerResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateCustomerCustomersResponseBodyData, http_res
             )
             raise models.UpdateCustomerCustomersResponseBody(response_data, http_res)
@@ -924,11 +911,9 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
-                models.UpdateCustomerResponseBody, http_res
-            )
+            return unmarshal_json_response(models.UpdateCustomerResponseBody, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.UpdateCustomerCustomersResponseBodyData, http_res
             )
             raise models.UpdateCustomerCustomersResponseBody(response_data, http_res)
@@ -1035,9 +1020,9 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeleteCustomerResponseBodyData, http_res
             )
             raise models.DeleteCustomerResponseBody(response_data, http_res)
@@ -1144,9 +1129,9 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
-            return utils.unmarshal_json_response(Any, http_res)
+            return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.DeleteCustomerResponseBodyData, http_res
             )
             raise models.DeleteCustomerResponseBody(response_data, http_res)
@@ -1380,18 +1365,18 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.CreateCustomerPaymentResponseBody, http_res
             )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateCustomerPaymentCustomersResponseBodyData, http_res
             )
             raise models.CreateCustomerPaymentCustomersResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "503", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateCustomerPaymentCustomersResponseResponseBodyData, http_res
             )
             raise models.CreateCustomerPaymentCustomersResponseResponseBody(
@@ -1627,18 +1612,18 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.CreateCustomerPaymentResponseBody, http_res
             )
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateCustomerPaymentCustomersResponseBodyData, http_res
             )
             raise models.CreateCustomerPaymentCustomersResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "503", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.CreateCustomerPaymentCustomersResponseResponseBodyData, http_res
             )
             raise models.CreateCustomerPaymentCustomersResponseResponseBody(
@@ -1752,11 +1737,11 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListCustomerPaymentsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListCustomerPaymentsCustomersResponseBodyData, http_res
             )
             raise models.ListCustomerPaymentsCustomersResponseBody(
@@ -1870,11 +1855,11 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return utils.unmarshal_json_response(
+            return unmarshal_json_response(
                 models.ListCustomerPaymentsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.ListCustomerPaymentsCustomersResponseBodyData, http_res
             )
             raise models.ListCustomerPaymentsCustomersResponseBody(

@@ -5,6 +5,7 @@ from mollie import models, utils
 from mollie._hooks import HookContext
 from mollie.types import BaseModel, OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
+from mollie.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Dict, Mapping, Optional, Union, cast
 
 
@@ -117,9 +118,9 @@ class Wallets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(Dict[str, Any], http_res)
+            return unmarshal_json_response(Dict[str, Any], http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.RequestApplePayPaymentSessionResponseBodyData, http_res
             )
             raise models.RequestApplePayPaymentSessionResponseBody(
@@ -242,9 +243,9 @@ class Wallets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return utils.unmarshal_json_response(Dict[str, Any], http_res)
+            return unmarshal_json_response(Dict[str, Any], http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = utils.unmarshal_json_response(
+            response_data = unmarshal_json_response(
                 models.RequestApplePayPaymentSessionResponseBodyData, http_res
             )
             raise models.RequestApplePayPaymentSessionResponseBody(
