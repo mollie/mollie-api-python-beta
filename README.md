@@ -55,7 +55,7 @@ The SDK can be installed with either *pip* or *poetry* package managers.
 *PIP* is the default package installer for Python, enabling easy installation and management of packages from PyPI via the command line.
 
 ```bash
-pip install mollie
+pip install mollie-api-python-beta
 ```
 
 ### Poetry
@@ -63,7 +63,7 @@ pip install mollie
 *Poetry* is a modern tool that simplifies dependency management and package publishing by using a single `pyproject.toml` file to handle project metadata and dependencies.
 
 ```bash
-poetry add mollie
+poetry add mollie-api-python-beta
 ```
 
 ### Shell and script usage with `uv`
@@ -71,7 +71,7 @@ poetry add mollie
 You can use this SDK in a Python shell with [uv](https://docs.astral.sh/uv/) and the `uvx` command that comes with it like so:
 
 ```shell
-uvx --from mollie python
+uvx --from mollie-api-python-beta python
 ```
 
 It's also possible to write a standalone Python script without needing to set up a whole project like so:
