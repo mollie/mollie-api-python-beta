@@ -1394,6 +1394,8 @@ class UpdateSalesInvoiceResponseBodyTypedDict(TypedDict):
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     issued_at: NotRequired[Nullable[str]]
     r"""If issued, the date when the sales invoice was issued, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    paid_at: NotRequired[Nullable[str]]
+    r"""If paid, the date when the sales invoice was paid, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     due_at: NotRequired[Nullable[str]]
     r"""If issued, the date when the sales invoice payment is due, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: NotRequired[UpdateSalesInvoiceLinksTypedDict]
@@ -1522,6 +1524,9 @@ class UpdateSalesInvoiceResponseBody(BaseModel):
     )
     r"""If issued, the date when the sales invoice was issued, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
+    paid_at: Annotated[OptionalNullable[str], pydantic.Field(alias="paidAt")] = UNSET
+    r"""If paid, the date when the sales invoice was paid, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
     due_at: Annotated[OptionalNullable[str], pydantic.Field(alias="dueAt")] = UNSET
     r"""If issued, the date when the sales invoice payment is due, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
@@ -1557,6 +1562,7 @@ class UpdateSalesInvoiceResponseBody(BaseModel):
             "discountedSubtotalAmount",
             "createdAt",
             "issuedAt",
+            "paidAt",
             "dueAt",
             "_links",
         ]
@@ -1571,6 +1577,7 @@ class UpdateSalesInvoiceResponseBody(BaseModel):
             "lines",
             "discount",
             "issuedAt",
+            "paidAt",
             "dueAt",
         ]
         null_default_fields = []
