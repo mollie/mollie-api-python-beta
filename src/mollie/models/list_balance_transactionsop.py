@@ -608,7 +608,7 @@ class Context(BaseModel):
 
 class BalanceTransactionsTypedDict(TypedDict):
     resource: NotRequired[str]
-    r"""Indicates the response contains a balance transaction object. Will always contain the string `balance_transaction` for this endpoint."""
+    r"""Indicates the response contains a balance transaction object. Will always contain the string `balance-transaction` for this endpoint."""
     id: NotRequired[str]
     r"""The identifier uniquely referring to this balance transaction."""
     type: NotRequired[str]
@@ -659,8 +659,8 @@ class BalanceTransactionsTypedDict(TypedDict):
 
 
 class BalanceTransactions(BaseModel):
-    resource: Optional[str] = "balance_transaction"
-    r"""Indicates the response contains a balance transaction object. Will always contain the string `balance_transaction` for this endpoint."""
+    resource: Optional[str] = "balance-transaction"
+    r"""Indicates the response contains a balance transaction object. Will always contain the string `balance-transaction` for this endpoint."""
 
     id: Optional[str] = None
     r"""The identifier uniquely referring to this balance transaction."""
