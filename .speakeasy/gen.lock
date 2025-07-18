@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: 497e29dcfa185480f100e69737aeb915
+  docChecksum: f39b164a25a719bdf52a1463839266a5
   docVersion: 1.0.0
   speakeasyVersion: 1.582.0
   generationVersion: 2.657.1
-  releaseVersion: 0.5.17
-  configChecksum: d2104ba11421fcba2b11e7513fa0c4d1
+  releaseVersion: 0.5.18
+  configChecksum: 5e43ff3419f981603d67d80c13adff4a
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
