@@ -1,0 +1,9 @@
+# ListSettlementRefundsRoutingReversals
+
+
+## Fields
+
+| Field                                                                                                          | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `amount`                                                                                                       | [Optional[models.ListSettlementRefundsSettlementsAmount]](../models/listsettlementrefundssettlementsamount.md) | :heavy_minus_sign:                                                                                             | The amount that will be pulled back.                                                                           |
+| `source`                                                                                                       | [Optional[models.ListSettlementRefundsSource]](../models/listsettlementrefundssource.md)                       | :heavy_minus_sign:                                                                                             | Where the funds will be pulled back from.                                                                      |

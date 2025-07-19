@@ -1,9 +1,0 @@
-# GetSettlementRefundsRoutingReversals
-
-
-## Fields
-
-| Field                                                                                                        | Type                                                                                                         | Required                                                                                                     | Description                                                                                                  |
-| ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
-| `amount`                                                                                                     | [Optional[models.GetSettlementRefundsSettlementsAmount]](../models/getsettlementrefundssettlementsamount.md) | :heavy_minus_sign:                                                                                           | The amount that will be pulled back.                                                                         |
-| `source`                                                                                                     | [Optional[models.GetSettlementRefundsSource]](../models/getsettlementrefundssource.md)                       | :heavy_minus_sign:                                                                                           | Where the funds will be pulled back from.                                                                    |

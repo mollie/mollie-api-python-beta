@@ -971,8 +971,6 @@ with Client(
 * [list](docs/sdks/refunds/README.md#list) - List payment refunds
 * [get](docs/sdks/refunds/README.md#get) - Get payment refund
 * [cancel](docs/sdks/refunds/README.md#cancel) - Cancel payment refund
-* [create_order](docs/sdks/refunds/README.md#create_order) - Create order refund
-* [list_for_order](docs/sdks/refunds/README.md#list_for_order) - List order refunds
 * [all](docs/sdks/refunds/README.md#all) - List all refunds
 
 ### [sales_invoices](docs/sdks/salesinvoices/README.md)
@@ -989,10 +987,10 @@ with Client(
 * [get](docs/sdks/settlements/README.md#get) - Get settlement
 * [get_open](docs/sdks/settlements/README.md#get_open) - Get open settlement
 * [get_next](docs/sdks/settlements/README.md#get_next) - Get next settlement
-* [list_payments](docs/sdks/settlements/README.md#list_payments) - Get settlement payments
-* [list_captures](docs/sdks/settlements/README.md#list_captures) - Get settlement captures
-* [list_refunds](docs/sdks/settlements/README.md#list_refunds) - Get settlement refunds
-* [list_chargebacks](docs/sdks/settlements/README.md#list_chargebacks) - Get settlement chargebacks
+* [list_payments](docs/sdks/settlements/README.md#list_payments) - List settlement payments
+* [list_captures](docs/sdks/settlements/README.md#list_captures) - List settlement captures
+* [list_refunds](docs/sdks/settlements/README.md#list_refunds) - List settlement refunds
+* [list_chargebacks](docs/sdks/settlements/README.md#list_chargebacks) - List settlement chargebacks
 
 ### [subscriptions](docs/sdks/subscriptions/README.md)
 
@@ -1792,7 +1790,7 @@ with Client(
 **Primary error:**
 * [`ClientError`](./src/mollie/models/clienterror.py): The base class for HTTP error responses.
 
-<details><summary>Less common errors (133)</summary>
+<details><summary>Less common errors (130)</summary>
 
 <br />
 
@@ -1803,134 +1801,131 @@ with Client(
 
 
 **Inherit from [`ClientError`](./src/mollie/models/clienterror.py)**:
-* [`ListPaymentsPaymentsResponseBody`](./src/mollie/models/listpaymentspaymentsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListMethodsMethodsResponseBody`](./src/mollie/models/listmethodsmethodsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListAllMethodsMethodsResponseBody`](./src/mollie/models/listallmethodsmethodsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`GetMethodMethodsResponseBody`](./src/mollie/models/getmethodmethodsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListRefundsRefundsResponseBody`](./src/mollie/models/listrefundsrefundsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListOrderRefundsRefundsResponseBody`](./src/mollie/models/listorderrefundsrefundsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListAllRefundsRefundsResponseBody`](./src/mollie/models/listallrefundsrefundsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListChargebacksChargebacksResponseBody`](./src/mollie/models/listchargebackschargebacksresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListAllChargebacksChargebacksResponseBody`](./src/mollie/models/listallchargebackschargebacksresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListCapturesCapturesResponseBody`](./src/mollie/models/listcapturescapturesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListPaymentLinksPaymentLinksResponseBody`](./src/mollie/models/listpaymentlinkspaymentlinksresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`GetPaymentLinkPaymentsPaymentLinksResponseBody`](./src/mollie/models/getpaymentlinkpaymentspaymentlinksresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListTerminalsTerminalsResponseBody`](./src/mollie/models/listterminalsterminalsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListCustomersCustomersResponseBody`](./src/mollie/models/listcustomerscustomersresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListCustomerPaymentsCustomersResponseBody`](./src/mollie/models/listcustomerpaymentscustomersresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListMandatesMandatesResponseBody`](./src/mollie/models/listmandatesmandatesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListSubscriptionsSubscriptionsResponseBody`](./src/mollie/models/listsubscriptionssubscriptionsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListAllSubscriptionsSubscriptionsResponseBody`](./src/mollie/models/listallsubscriptionssubscriptionsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListSubscriptionPaymentsSubscriptionsResponseBody`](./src/mollie/models/listsubscriptionpaymentssubscriptionsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListPermissionsPermissionsResponseBody`](./src/mollie/models/listpermissionspermissionsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListProfilesProfilesResponseBody`](./src/mollie/models/listprofilesprofilesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListClientsClientsResponseBody`](./src/mollie/models/listclientsclientsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListWebhooksWebhooksResponseBody`](./src/mollie/models/listwebhookswebhooksresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListBalancesBalancesResponseBody`](./src/mollie/models/listbalancesbalancesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListBalanceTransactionsBalancesResponseBody`](./src/mollie/models/listbalancetransactionsbalancesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListSettlementsSettlementsResponseBody`](./src/mollie/models/listsettlementssettlementsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`GetSettlementPaymentsSettlementsResponseBody`](./src/mollie/models/getsettlementpaymentssettlementsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`GetSettlementCapturesSettlementsResponseBody`](./src/mollie/models/getsettlementcapturessettlementsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`GetSettlementRefundsSettlementsResponseBody`](./src/mollie/models/getsettlementrefundssettlementsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`GetSettlementChargebacksSettlementsResponseBody`](./src/mollie/models/getsettlementchargebackssettlementsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListInvoicesInvoicesResponseBody`](./src/mollie/models/listinvoicesinvoicesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`ListSalesInvoicesSalesInvoicesResponseBody`](./src/mollie/models/listsalesinvoicessalesinvoicesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 95 methods.*
-* [`GetPaymentPaymentsResponseBody`](./src/mollie/models/getpaymentpaymentsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`UpdatePaymentPaymentsResponseBody`](./src/mollie/models/updatepaymentpaymentsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`CancelPaymentPaymentsResponseBody`](./src/mollie/models/cancelpaymentpaymentsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`ReleaseAuthorizationResponseBody`](./src/mollie/models/releaseauthorizationresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetMethodMethodsResponseResponseBody`](./src/mollie/models/getmethodmethodsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`CreateRefundRefundsResponseBody`](./src/mollie/models/createrefundrefundsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`ListRefundsRefundsResponseResponseBody`](./src/mollie/models/listrefundsrefundsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetRefundRefundsResponseBody`](./src/mollie/models/getrefundrefundsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`CancelRefundResponseBody`](./src/mollie/models/cancelrefundresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`CreateOrderRefundRefundsResponseBody`](./src/mollie/models/createorderrefundrefundsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`ListChargebacksChargebacksResponseResponseBody`](./src/mollie/models/listchargebackschargebacksresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetChargebackChargebacksResponseBody`](./src/mollie/models/getchargebackchargebacksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`ListAllChargebacksChargebacksResponseResponseBody`](./src/mollie/models/listallchargebackschargebacksresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`CreateCaptureCapturesResponseBody`](./src/mollie/models/createcapturecapturesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`ListCapturesCapturesResponseResponseBody`](./src/mollie/models/listcapturescapturesresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetCaptureCapturesResponseBody`](./src/mollie/models/getcapturecapturesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`CreatePaymentLinkPaymentLinksResponseBody`](./src/mollie/models/createpaymentlinkpaymentlinksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetPaymentLinkPaymentLinksResponseBody`](./src/mollie/models/getpaymentlinkpaymentlinksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`UpdatePaymentLinkPaymentLinksResponseBody`](./src/mollie/models/updatepaymentlinkpaymentlinksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`DeletePaymentLinkResponseBody`](./src/mollie/models/deletepaymentlinkresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetTerminalTerminalsResponseBody`](./src/mollie/models/getterminalterminalsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`PaymentCreateRouteDelayedRoutingResponseBody`](./src/mollie/models/paymentcreateroutedelayedroutingresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`PaymentListRoutesDelayedRoutingResponseBody`](./src/mollie/models/paymentlistroutesdelayedroutingresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`CreateCustomerCustomersResponseBody`](./src/mollie/models/createcustomercustomersresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`ListCustomersCustomersResponseResponseBody`](./src/mollie/models/listcustomerscustomersresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetCustomerCustomersResponseBody`](./src/mollie/models/getcustomercustomersresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`UpdateCustomerCustomersResponseBody`](./src/mollie/models/updatecustomercustomersresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`DeleteCustomerResponseBody`](./src/mollie/models/deletecustomerresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`CreateMandateMandatesResponseBody`](./src/mollie/models/createmandatemandatesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`ListMandatesMandatesResponseResponseBody`](./src/mollie/models/listmandatesmandatesresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetMandateMandatesResponseBody`](./src/mollie/models/getmandatemandatesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`RevokeMandateResponseBody`](./src/mollie/models/revokemandateresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`CreateSubscriptionSubscriptionsResponseBody`](./src/mollie/models/createsubscriptionsubscriptionsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`ListSubscriptionsSubscriptionsResponseResponseBody`](./src/mollie/models/listsubscriptionssubscriptionsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetSubscriptionSubscriptionsResponseBody`](./src/mollie/models/getsubscriptionsubscriptionsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`UpdateSubscriptionSubscriptionsResponseBody`](./src/mollie/models/updatesubscriptionsubscriptionsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`CancelSubscriptionSubscriptionsResponseBody`](./src/mollie/models/cancelsubscriptionsubscriptionsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetPermissionPermissionsResponseBody`](./src/mollie/models/getpermissionpermissionsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetOrganizationOrganizationsResponseBody`](./src/mollie/models/getorganizationorganizationsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetProfileProfilesResponseBody`](./src/mollie/models/getprofileprofilesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`UpdateProfileProfilesResponseBody`](./src/mollie/models/updateprofileprofilesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`DeleteProfileResponseBody`](./src/mollie/models/deleteprofileresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`ListClientsClientsResponseResponseBody`](./src/mollie/models/listclientsclientsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetClientClientsResponseBody`](./src/mollie/models/getclientclientsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`CreateClientLinkClientLinksResponseBody`](./src/mollie/models/createclientlinkclientlinksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`UpdateWebhookWebhooksResponseBody`](./src/mollie/models/updatewebhookwebhooksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetWebhookWebhooksResponseBody`](./src/mollie/models/getwebhookwebhooksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`DeleteWebhookResponseBody`](./src/mollie/models/deletewebhookresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`TestWebhookResponseBody`](./src/mollie/models/testwebhookresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetWebhookEventWebhookEventsResponseBody`](./src/mollie/models/getwebhookeventwebhookeventsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`ListBalancesBalancesResponseResponseBody`](./src/mollie/models/listbalancesbalancesresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetBalanceBalancesResponseBody`](./src/mollie/models/getbalancebalancesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetBalanceReportBalancesResponseBody`](./src/mollie/models/getbalancereportbalancesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`ListBalanceTransactionsBalancesResponseResponseBody`](./src/mollie/models/listbalancetransactionsbalancesresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`ListSettlementsSettlementsResponseResponseBody`](./src/mollie/models/listsettlementssettlementsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetSettlementSettlementsResponseBody`](./src/mollie/models/getsettlementsettlementsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetSettlementCapturesSettlementsResponseResponseBody`](./src/mollie/models/getsettlementcapturessettlementsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetSettlementRefundsSettlementsResponseResponseBody`](./src/mollie/models/getsettlementrefundssettlementsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetSettlementChargebacksSettlementsResponseResponseBody`](./src/mollie/models/getsettlementchargebackssettlementsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`ListInvoicesInvoicesResponseResponseBody`](./src/mollie/models/listinvoicesinvoicesresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetInvoiceInvoicesResponseBody`](./src/mollie/models/getinvoiceinvoicesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`CreateSalesInvoiceSalesInvoicesResponseBody`](./src/mollie/models/createsalesinvoicesalesinvoicesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`GetSalesInvoiceSalesInvoicesResponseBody`](./src/mollie/models/getsalesinvoicesalesinvoicesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`UpdateSalesInvoiceSalesInvoicesResponseBody`](./src/mollie/models/updatesalesinvoicesalesinvoicesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`DeleteSalesInvoiceResponseBody`](./src/mollie/models/deletesalesinvoiceresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 95 methods.*
-* [`CreateRefundRefundsResponseResponseBody`](./src/mollie/models/createrefundrefundsresponseresponsebody.py): An error response object. Status code `409`. Applicable to 1 of 95 methods.*
-* [`GetProfileProfilesResponseResponseBody`](./src/mollie/models/getprofileprofilesresponseresponsebody.py): An error response object. Status code `410`. Applicable to 1 of 95 methods.*
-* [`UpdateProfileProfilesResponseResponseBody`](./src/mollie/models/updateprofileprofilesresponseresponsebody.py): An error response object. Status code `410`. Applicable to 1 of 95 methods.*
-* [`DeleteProfileProfilesResponseBody`](./src/mollie/models/deleteprofileprofilesresponsebody.py): An error response object. Status code `410`. Applicable to 1 of 95 methods.*
-* [`CreatePaymentPaymentsResponseBody`](./src/mollie/models/createpaymentpaymentsresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`UpdatePaymentPaymentsResponseResponseBody`](./src/mollie/models/updatepaymentpaymentsresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`CancelPaymentPaymentsResponseResponseBody`](./src/mollie/models/cancelpaymentpaymentsresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`ReleaseAuthorizationPaymentsResponseBody`](./src/mollie/models/releaseauthorizationpaymentsresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`CreateRefundRefundsResponse422ResponseBody`](./src/mollie/models/createrefundrefundsresponse422responsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`CreateOrderRefundRefundsResponseResponseBody`](./src/mollie/models/createorderrefundrefundsresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`CreateCaptureCapturesResponseResponseBody`](./src/mollie/models/createcapturecapturesresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`RequestApplePayPaymentSessionResponseBody`](./src/mollie/models/requestapplepaypaymentsessionresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`CreatePaymentLinkPaymentLinksResponseResponseBody`](./src/mollie/models/createpaymentlinkpaymentlinksresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`UpdatePaymentLinkPaymentLinksResponseResponseBody`](./src/mollie/models/updatepaymentlinkpaymentlinksresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`DeletePaymentLinkPaymentLinksResponseBody`](./src/mollie/models/deletepaymentlinkpaymentlinksresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`CreateCustomerPaymentCustomersResponseBody`](./src/mollie/models/createcustomerpaymentcustomersresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`CreateProfileProfilesResponseBody`](./src/mollie/models/createprofileprofilesresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`UpdateProfileProfilesResponse422ResponseBody`](./src/mollie/models/updateprofileprofilesresponse422responsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`CreateClientLinkClientLinksResponseResponseBody`](./src/mollie/models/createclientlinkclientlinksresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`CreateWebhookWebhooksResponseBody`](./src/mollie/models/createwebhookwebhooksresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`UpdateWebhookWebhooksResponseResponseBody`](./src/mollie/models/updatewebhookwebhooksresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`GetWebhookWebhooksResponseResponseBody`](./src/mollie/models/getwebhookwebhooksresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`DeleteWebhookWebhooksResponseBody`](./src/mollie/models/deletewebhookwebhooksresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`TestWebhookWebhooksResponseBody`](./src/mollie/models/testwebhookwebhooksresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`GetBalanceReportBalancesResponseResponseBody`](./src/mollie/models/getbalancereportbalancesresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`CreateSalesInvoiceSalesInvoicesResponseResponseBody`](./src/mollie/models/createsalesinvoicesalesinvoicesresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`UpdateSalesInvoiceSalesInvoicesResponseResponseBody`](./src/mollie/models/updatesalesinvoicesalesinvoicesresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`DeleteSalesInvoiceSalesInvoicesResponseBody`](./src/mollie/models/deletesalesinvoicesalesinvoicesresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 95 methods.*
-* [`ListBalanceTransactionsBalancesResponse429ResponseBody`](./src/mollie/models/listbalancetransactionsbalancesresponse429responsebody.py): An error response object. Status code `429`. Applicable to 1 of 95 methods.*
-* [`CreatePaymentPaymentsResponseResponseBody`](./src/mollie/models/createpaymentpaymentsresponseresponsebody.py): An error response object. Status code `503`. Applicable to 1 of 95 methods.*
-* [`CreateCustomerPaymentCustomersResponseResponseBody`](./src/mollie/models/createcustomerpaymentcustomersresponseresponsebody.py): An error response object. Status code `503`. Applicable to 1 of 95 methods.*
+* [`ListPaymentsPaymentsResponseBody`](./src/mollie/models/listpaymentspaymentsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListMethodsMethodsResponseBody`](./src/mollie/models/listmethodsmethodsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListAllMethodsMethodsResponseBody`](./src/mollie/models/listallmethodsmethodsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`GetMethodMethodsResponseBody`](./src/mollie/models/getmethodmethodsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListRefundsRefundsResponseBody`](./src/mollie/models/listrefundsrefundsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListAllRefundsRefundsResponseBody`](./src/mollie/models/listallrefundsrefundsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListChargebacksChargebacksResponseBody`](./src/mollie/models/listchargebackschargebacksresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListAllChargebacksChargebacksResponseBody`](./src/mollie/models/listallchargebackschargebacksresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListCapturesCapturesResponseBody`](./src/mollie/models/listcapturescapturesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListPaymentLinksPaymentLinksResponseBody`](./src/mollie/models/listpaymentlinkspaymentlinksresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`GetPaymentLinkPaymentsPaymentLinksResponseBody`](./src/mollie/models/getpaymentlinkpaymentspaymentlinksresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListTerminalsTerminalsResponseBody`](./src/mollie/models/listterminalsterminalsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListCustomersCustomersResponseBody`](./src/mollie/models/listcustomerscustomersresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListCustomerPaymentsCustomersResponseBody`](./src/mollie/models/listcustomerpaymentscustomersresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListMandatesMandatesResponseBody`](./src/mollie/models/listmandatesmandatesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSubscriptionsSubscriptionsResponseBody`](./src/mollie/models/listsubscriptionssubscriptionsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListAllSubscriptionsSubscriptionsResponseBody`](./src/mollie/models/listallsubscriptionssubscriptionsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSubscriptionPaymentsSubscriptionsResponseBody`](./src/mollie/models/listsubscriptionpaymentssubscriptionsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListPermissionsPermissionsResponseBody`](./src/mollie/models/listpermissionspermissionsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListProfilesProfilesResponseBody`](./src/mollie/models/listprofilesprofilesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListClientsClientsResponseBody`](./src/mollie/models/listclientsclientsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListWebhooksWebhooksResponseBody`](./src/mollie/models/listwebhookswebhooksresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListBalancesBalancesResponseBody`](./src/mollie/models/listbalancesbalancesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListBalanceTransactionsBalancesResponseBody`](./src/mollie/models/listbalancetransactionsbalancesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSettlementsSettlementsResponseBody`](./src/mollie/models/listsettlementssettlementsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSettlementPaymentsSettlementsResponseBody`](./src/mollie/models/listsettlementpaymentssettlementsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSettlementCapturesSettlementsResponseBody`](./src/mollie/models/listsettlementcapturessettlementsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSettlementRefundsSettlementsResponseBody`](./src/mollie/models/listsettlementrefundssettlementsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSettlementChargebacksSettlementsResponseBody`](./src/mollie/models/listsettlementchargebackssettlementsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListInvoicesInvoicesResponseBody`](./src/mollie/models/listinvoicesinvoicesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSalesInvoicesSalesInvoicesResponseBody`](./src/mollie/models/listsalesinvoicessalesinvoicesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`GetPaymentPaymentsResponseBody`](./src/mollie/models/getpaymentpaymentsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`UpdatePaymentPaymentsResponseBody`](./src/mollie/models/updatepaymentpaymentsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CancelPaymentPaymentsResponseBody`](./src/mollie/models/cancelpaymentpaymentsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ReleaseAuthorizationResponseBody`](./src/mollie/models/releaseauthorizationresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetMethodMethodsResponseResponseBody`](./src/mollie/models/getmethodmethodsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreateRefundRefundsResponseBody`](./src/mollie/models/createrefundrefundsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListRefundsRefundsResponseResponseBody`](./src/mollie/models/listrefundsrefundsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetRefundRefundsResponseBody`](./src/mollie/models/getrefundrefundsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CancelRefundResponseBody`](./src/mollie/models/cancelrefundresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListChargebacksChargebacksResponseResponseBody`](./src/mollie/models/listchargebackschargebacksresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetChargebackChargebacksResponseBody`](./src/mollie/models/getchargebackchargebacksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListAllChargebacksChargebacksResponseResponseBody`](./src/mollie/models/listallchargebackschargebacksresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreateCaptureCapturesResponseBody`](./src/mollie/models/createcapturecapturesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListCapturesCapturesResponseResponseBody`](./src/mollie/models/listcapturescapturesresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetCaptureCapturesResponseBody`](./src/mollie/models/getcapturecapturesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreatePaymentLinkPaymentLinksResponseBody`](./src/mollie/models/createpaymentlinkpaymentlinksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetPaymentLinkPaymentLinksResponseBody`](./src/mollie/models/getpaymentlinkpaymentlinksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`UpdatePaymentLinkPaymentLinksResponseBody`](./src/mollie/models/updatepaymentlinkpaymentlinksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`DeletePaymentLinkResponseBody`](./src/mollie/models/deletepaymentlinkresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetTerminalTerminalsResponseBody`](./src/mollie/models/getterminalterminalsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`PaymentCreateRouteDelayedRoutingResponseBody`](./src/mollie/models/paymentcreateroutedelayedroutingresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`PaymentListRoutesDelayedRoutingResponseBody`](./src/mollie/models/paymentlistroutesdelayedroutingresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreateCustomerCustomersResponseBody`](./src/mollie/models/createcustomercustomersresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListCustomersCustomersResponseResponseBody`](./src/mollie/models/listcustomerscustomersresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetCustomerCustomersResponseBody`](./src/mollie/models/getcustomercustomersresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`UpdateCustomerCustomersResponseBody`](./src/mollie/models/updatecustomercustomersresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`DeleteCustomerResponseBody`](./src/mollie/models/deletecustomerresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreateMandateMandatesResponseBody`](./src/mollie/models/createmandatemandatesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListMandatesMandatesResponseResponseBody`](./src/mollie/models/listmandatesmandatesresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetMandateMandatesResponseBody`](./src/mollie/models/getmandatemandatesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`RevokeMandateResponseBody`](./src/mollie/models/revokemandateresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreateSubscriptionSubscriptionsResponseBody`](./src/mollie/models/createsubscriptionsubscriptionsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListSubscriptionsSubscriptionsResponseResponseBody`](./src/mollie/models/listsubscriptionssubscriptionsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetSubscriptionSubscriptionsResponseBody`](./src/mollie/models/getsubscriptionsubscriptionsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`UpdateSubscriptionSubscriptionsResponseBody`](./src/mollie/models/updatesubscriptionsubscriptionsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CancelSubscriptionSubscriptionsResponseBody`](./src/mollie/models/cancelsubscriptionsubscriptionsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetPermissionPermissionsResponseBody`](./src/mollie/models/getpermissionpermissionsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetOrganizationOrganizationsResponseBody`](./src/mollie/models/getorganizationorganizationsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetProfileProfilesResponseBody`](./src/mollie/models/getprofileprofilesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`UpdateProfileProfilesResponseBody`](./src/mollie/models/updateprofileprofilesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`DeleteProfileResponseBody`](./src/mollie/models/deleteprofileresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListClientsClientsResponseResponseBody`](./src/mollie/models/listclientsclientsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetClientClientsResponseBody`](./src/mollie/models/getclientclientsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreateClientLinkClientLinksResponseBody`](./src/mollie/models/createclientlinkclientlinksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`UpdateWebhookWebhooksResponseBody`](./src/mollie/models/updatewebhookwebhooksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetWebhookWebhooksResponseBody`](./src/mollie/models/getwebhookwebhooksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`DeleteWebhookResponseBody`](./src/mollie/models/deletewebhookresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`TestWebhookResponseBody`](./src/mollie/models/testwebhookresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetWebhookEventWebhookEventsResponseBody`](./src/mollie/models/getwebhookeventwebhookeventsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListBalancesBalancesResponseResponseBody`](./src/mollie/models/listbalancesbalancesresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetBalanceBalancesResponseBody`](./src/mollie/models/getbalancebalancesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetBalanceReportBalancesResponseBody`](./src/mollie/models/getbalancereportbalancesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListBalanceTransactionsBalancesResponseResponseBody`](./src/mollie/models/listbalancetransactionsbalancesresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListSettlementsSettlementsResponseResponseBody`](./src/mollie/models/listsettlementssettlementsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetSettlementSettlementsResponseBody`](./src/mollie/models/getsettlementsettlementsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListSettlementCapturesSettlementsResponseResponseBody`](./src/mollie/models/listsettlementcapturessettlementsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListSettlementRefundsSettlementsResponseResponseBody`](./src/mollie/models/listsettlementrefundssettlementsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListSettlementChargebacksSettlementsResponseResponseBody`](./src/mollie/models/listsettlementchargebackssettlementsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListInvoicesInvoicesResponseResponseBody`](./src/mollie/models/listinvoicesinvoicesresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetInvoiceInvoicesResponseBody`](./src/mollie/models/getinvoiceinvoicesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreateSalesInvoiceSalesInvoicesResponseBody`](./src/mollie/models/createsalesinvoicesalesinvoicesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetSalesInvoiceSalesInvoicesResponseBody`](./src/mollie/models/getsalesinvoicesalesinvoicesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`UpdateSalesInvoiceSalesInvoicesResponseBody`](./src/mollie/models/updatesalesinvoicesalesinvoicesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`DeleteSalesInvoiceResponseBody`](./src/mollie/models/deletesalesinvoiceresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreateRefundRefundsResponseResponseBody`](./src/mollie/models/createrefundrefundsresponseresponsebody.py): An error response object. Status code `409`. Applicable to 1 of 93 methods.*
+* [`GetProfileProfilesResponseResponseBody`](./src/mollie/models/getprofileprofilesresponseresponsebody.py): An error response object. Status code `410`. Applicable to 1 of 93 methods.*
+* [`UpdateProfileProfilesResponseResponseBody`](./src/mollie/models/updateprofileprofilesresponseresponsebody.py): An error response object. Status code `410`. Applicable to 1 of 93 methods.*
+* [`DeleteProfileProfilesResponseBody`](./src/mollie/models/deleteprofileprofilesresponsebody.py): An error response object. Status code `410`. Applicable to 1 of 93 methods.*
+* [`CreatePaymentPaymentsResponseBody`](./src/mollie/models/createpaymentpaymentsresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`UpdatePaymentPaymentsResponseResponseBody`](./src/mollie/models/updatepaymentpaymentsresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CancelPaymentPaymentsResponseResponseBody`](./src/mollie/models/cancelpaymentpaymentsresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`ReleaseAuthorizationPaymentsResponseBody`](./src/mollie/models/releaseauthorizationpaymentsresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateRefundRefundsResponse422ResponseBody`](./src/mollie/models/createrefundrefundsresponse422responsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateCaptureCapturesResponseResponseBody`](./src/mollie/models/createcapturecapturesresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`RequestApplePayPaymentSessionResponseBody`](./src/mollie/models/requestapplepaypaymentsessionresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreatePaymentLinkPaymentLinksResponseResponseBody`](./src/mollie/models/createpaymentlinkpaymentlinksresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`UpdatePaymentLinkPaymentLinksResponseResponseBody`](./src/mollie/models/updatepaymentlinkpaymentlinksresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`DeletePaymentLinkPaymentLinksResponseBody`](./src/mollie/models/deletepaymentlinkpaymentlinksresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateCustomerPaymentCustomersResponseBody`](./src/mollie/models/createcustomerpaymentcustomersresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateProfileProfilesResponseBody`](./src/mollie/models/createprofileprofilesresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`UpdateProfileProfilesResponse422ResponseBody`](./src/mollie/models/updateprofileprofilesresponse422responsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateClientLinkClientLinksResponseResponseBody`](./src/mollie/models/createclientlinkclientlinksresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateWebhookWebhooksResponseBody`](./src/mollie/models/createwebhookwebhooksresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`UpdateWebhookWebhooksResponseResponseBody`](./src/mollie/models/updatewebhookwebhooksresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`GetWebhookWebhooksResponseResponseBody`](./src/mollie/models/getwebhookwebhooksresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`DeleteWebhookWebhooksResponseBody`](./src/mollie/models/deletewebhookwebhooksresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`TestWebhookWebhooksResponseBody`](./src/mollie/models/testwebhookwebhooksresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`GetBalanceReportBalancesResponseResponseBody`](./src/mollie/models/getbalancereportbalancesresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateSalesInvoiceSalesInvoicesResponseResponseBody`](./src/mollie/models/createsalesinvoicesalesinvoicesresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`UpdateSalesInvoiceSalesInvoicesResponseResponseBody`](./src/mollie/models/updatesalesinvoicesalesinvoicesresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`DeleteSalesInvoiceSalesInvoicesResponseBody`](./src/mollie/models/deletesalesinvoicesalesinvoicesresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`ListBalanceTransactionsBalancesResponse429ResponseBody`](./src/mollie/models/listbalancetransactionsbalancesresponse429responsebody.py): An error response object. Status code `429`. Applicable to 1 of 93 methods.*
+* [`CreatePaymentPaymentsResponseResponseBody`](./src/mollie/models/createpaymentpaymentsresponseresponsebody.py): An error response object. Status code `503`. Applicable to 1 of 93 methods.*
+* [`CreateCustomerPaymentCustomersResponseResponseBody`](./src/mollie/models/createcustomerpaymentcustomersresponseresponsebody.py): An error response object. Status code `503`. Applicable to 1 of 93 methods.*
 * [`ResponseValidationError`](./src/mollie/models/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

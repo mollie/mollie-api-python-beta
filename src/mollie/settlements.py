@@ -835,8 +835,8 @@ class Settlements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSettlementPaymentsResponseBody:
-        r"""Get settlement payments
+    ) -> models.ListSettlementPaymentsResponseBody:
+        r"""List settlement payments
 
         Retrieve all payments included in the given settlement.
 
@@ -869,7 +869,7 @@ class Settlements(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetSettlementPaymentsRequest(
+        request = models.ListSettlementPaymentsRequest(
             settlement_id=settlement_id,
             from_=from_,
             limit=limit,
@@ -910,7 +910,7 @@ class Settlements(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="get-settlement-payments",
+                operation_id="list-settlement-payments",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -924,13 +924,13 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.GetSettlementPaymentsResponseBody, http_res
+                models.ListSettlementPaymentsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSettlementPaymentsSettlementsResponseBodyData, http_res
+                models.ListSettlementPaymentsSettlementsResponseBodyData, http_res
             )
-            raise models.GetSettlementPaymentsSettlementsResponseBody(
+            raise models.ListSettlementPaymentsSettlementsResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -955,8 +955,8 @@ class Settlements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSettlementPaymentsResponseBody:
-        r"""Get settlement payments
+    ) -> models.ListSettlementPaymentsResponseBody:
+        r"""List settlement payments
 
         Retrieve all payments included in the given settlement.
 
@@ -989,7 +989,7 @@ class Settlements(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetSettlementPaymentsRequest(
+        request = models.ListSettlementPaymentsRequest(
             settlement_id=settlement_id,
             from_=from_,
             limit=limit,
@@ -1030,7 +1030,7 @@ class Settlements(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="get-settlement-payments",
+                operation_id="list-settlement-payments",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -1044,13 +1044,13 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.GetSettlementPaymentsResponseBody, http_res
+                models.ListSettlementPaymentsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSettlementPaymentsSettlementsResponseBodyData, http_res
+                models.ListSettlementPaymentsSettlementsResponseBodyData, http_res
             )
-            raise models.GetSettlementPaymentsSettlementsResponseBody(
+            raise models.ListSettlementPaymentsSettlementsResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1068,14 +1068,14 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        embed: Optional[models.GetSettlementCapturesQueryParamEmbed] = None,
+        embed: Optional[models.ListSettlementCapturesQueryParamEmbed] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSettlementCapturesResponseBody:
-        r"""Get settlement captures
+    ) -> models.ListSettlementCapturesResponseBody:
+        r"""List settlement captures
 
         Retrieve all captures included in the given settlement.
 
@@ -1105,7 +1105,7 @@ class Settlements(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetSettlementCapturesRequest(
+        request = models.ListSettlementCapturesRequest(
             settlement_id=settlement_id,
             from_=from_,
             limit=limit,
@@ -1145,7 +1145,7 @@ class Settlements(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="get-settlement-captures",
+                operation_id="list-settlement-captures",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -1159,21 +1159,21 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.GetSettlementCapturesResponseBody, http_res
+                models.ListSettlementCapturesResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSettlementCapturesSettlementsResponseBodyData, http_res
+                models.ListSettlementCapturesSettlementsResponseBodyData, http_res
             )
-            raise models.GetSettlementCapturesSettlementsResponseBody(
+            raise models.ListSettlementCapturesSettlementsResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSettlementCapturesSettlementsResponseResponseBodyData,
+                models.ListSettlementCapturesSettlementsResponseResponseBodyData,
                 http_res,
             )
-            raise models.GetSettlementCapturesSettlementsResponseResponseBody(
+            raise models.ListSettlementCapturesSettlementsResponseResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1191,14 +1191,14 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        embed: Optional[models.GetSettlementCapturesQueryParamEmbed] = None,
+        embed: Optional[models.ListSettlementCapturesQueryParamEmbed] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSettlementCapturesResponseBody:
-        r"""Get settlement captures
+    ) -> models.ListSettlementCapturesResponseBody:
+        r"""List settlement captures
 
         Retrieve all captures included in the given settlement.
 
@@ -1228,7 +1228,7 @@ class Settlements(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetSettlementCapturesRequest(
+        request = models.ListSettlementCapturesRequest(
             settlement_id=settlement_id,
             from_=from_,
             limit=limit,
@@ -1268,7 +1268,7 @@ class Settlements(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="get-settlement-captures",
+                operation_id="list-settlement-captures",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -1282,21 +1282,21 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.GetSettlementCapturesResponseBody, http_res
+                models.ListSettlementCapturesResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSettlementCapturesSettlementsResponseBodyData, http_res
+                models.ListSettlementCapturesSettlementsResponseBodyData, http_res
             )
-            raise models.GetSettlementCapturesSettlementsResponseBody(
+            raise models.ListSettlementCapturesSettlementsResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSettlementCapturesSettlementsResponseResponseBodyData,
+                models.ListSettlementCapturesSettlementsResponseResponseBodyData,
                 http_res,
             )
-            raise models.GetSettlementCapturesSettlementsResponseResponseBody(
+            raise models.ListSettlementCapturesSettlementsResponseResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1314,14 +1314,16 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        include: OptionalNullable[models.GetSettlementRefundsQueryParamInclude] = UNSET,
+        include: OptionalNullable[
+            models.ListSettlementRefundsQueryParamInclude
+        ] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSettlementRefundsResponseBody:
-        r"""Get settlement refunds
+    ) -> models.ListSettlementRefundsResponseBody:
+        r"""List settlement refunds
 
         Retrieve all refunds 'deducted' from the given settlement.
 
@@ -1351,7 +1353,7 @@ class Settlements(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetSettlementRefundsRequest(
+        request = models.ListSettlementRefundsRequest(
             settlement_id=settlement_id,
             from_=from_,
             limit=limit,
@@ -1391,7 +1393,7 @@ class Settlements(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="get-settlement-refunds",
+                operation_id="list-settlement-refunds",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -1405,20 +1407,21 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.GetSettlementRefundsResponseBody, http_res
+                models.ListSettlementRefundsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSettlementRefundsSettlementsResponseBodyData, http_res
+                models.ListSettlementRefundsSettlementsResponseBodyData, http_res
             )
-            raise models.GetSettlementRefundsSettlementsResponseBody(
+            raise models.ListSettlementRefundsSettlementsResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSettlementRefundsSettlementsResponseResponseBodyData, http_res
+                models.ListSettlementRefundsSettlementsResponseResponseBodyData,
+                http_res,
             )
-            raise models.GetSettlementRefundsSettlementsResponseResponseBody(
+            raise models.ListSettlementRefundsSettlementsResponseResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1436,14 +1439,16 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        include: OptionalNullable[models.GetSettlementRefundsQueryParamInclude] = UNSET,
+        include: OptionalNullable[
+            models.ListSettlementRefundsQueryParamInclude
+        ] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSettlementRefundsResponseBody:
-        r"""Get settlement refunds
+    ) -> models.ListSettlementRefundsResponseBody:
+        r"""List settlement refunds
 
         Retrieve all refunds 'deducted' from the given settlement.
 
@@ -1473,7 +1478,7 @@ class Settlements(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetSettlementRefundsRequest(
+        request = models.ListSettlementRefundsRequest(
             settlement_id=settlement_id,
             from_=from_,
             limit=limit,
@@ -1513,7 +1518,7 @@ class Settlements(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="get-settlement-refunds",
+                operation_id="list-settlement-refunds",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -1527,20 +1532,21 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.GetSettlementRefundsResponseBody, http_res
+                models.ListSettlementRefundsResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSettlementRefundsSettlementsResponseBodyData, http_res
+                models.ListSettlementRefundsSettlementsResponseBodyData, http_res
             )
-            raise models.GetSettlementRefundsSettlementsResponseBody(
+            raise models.ListSettlementRefundsSettlementsResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSettlementRefundsSettlementsResponseResponseBodyData, http_res
+                models.ListSettlementRefundsSettlementsResponseResponseBodyData,
+                http_res,
             )
-            raise models.GetSettlementRefundsSettlementsResponseResponseBody(
+            raise models.ListSettlementRefundsSettlementsResponseResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1558,14 +1564,14 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        embed: Optional[models.GetSettlementChargebacksQueryParamEmbed] = None,
+        embed: Optional[models.ListSettlementChargebacksQueryParamEmbed] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSettlementChargebacksResponseBody:
-        r"""Get settlement chargebacks
+    ) -> models.ListSettlementChargebacksResponseBody:
+        r"""List settlement chargebacks
 
         Retrieve all chargebacks 'deducted' from the given settlement.
 
@@ -1595,7 +1601,7 @@ class Settlements(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetSettlementChargebacksRequest(
+        request = models.ListSettlementChargebacksRequest(
             settlement_id=settlement_id,
             from_=from_,
             limit=limit,
@@ -1635,7 +1641,7 @@ class Settlements(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="get-settlement-chargebacks",
+                operation_id="list-settlement-chargebacks",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -1649,21 +1655,21 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.GetSettlementChargebacksResponseBody, http_res
+                models.ListSettlementChargebacksResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSettlementChargebacksSettlementsResponseBodyData, http_res
+                models.ListSettlementChargebacksSettlementsResponseBodyData, http_res
             )
-            raise models.GetSettlementChargebacksSettlementsResponseBody(
+            raise models.ListSettlementChargebacksSettlementsResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSettlementChargebacksSettlementsResponseResponseBodyData,
+                models.ListSettlementChargebacksSettlementsResponseResponseBodyData,
                 http_res,
             )
-            raise models.GetSettlementChargebacksSettlementsResponseResponseBody(
+            raise models.ListSettlementChargebacksSettlementsResponseResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1681,14 +1687,14 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        embed: Optional[models.GetSettlementChargebacksQueryParamEmbed] = None,
+        embed: Optional[models.ListSettlementChargebacksQueryParamEmbed] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSettlementChargebacksResponseBody:
-        r"""Get settlement chargebacks
+    ) -> models.ListSettlementChargebacksResponseBody:
+        r"""List settlement chargebacks
 
         Retrieve all chargebacks 'deducted' from the given settlement.
 
@@ -1718,7 +1724,7 @@ class Settlements(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetSettlementChargebacksRequest(
+        request = models.ListSettlementChargebacksRequest(
             settlement_id=settlement_id,
             from_=from_,
             limit=limit,
@@ -1758,7 +1764,7 @@ class Settlements(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="get-settlement-chargebacks",
+                operation_id="list-settlement-chargebacks",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -1772,21 +1778,21 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.GetSettlementChargebacksResponseBody, http_res
+                models.ListSettlementChargebacksResponseBody, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSettlementChargebacksSettlementsResponseBodyData, http_res
+                models.ListSettlementChargebacksSettlementsResponseBodyData, http_res
             )
-            raise models.GetSettlementChargebacksSettlementsResponseBody(
+            raise models.ListSettlementChargebacksSettlementsResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSettlementChargebacksSettlementsResponseResponseBodyData,
+                models.ListSettlementChargebacksSettlementsResponseResponseBodyData,
                 http_res,
             )
-            raise models.GetSettlementChargebacksSettlementsResponseResponseBody(
+            raise models.ListSettlementChargebacksSettlementsResponseResponseBody(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):

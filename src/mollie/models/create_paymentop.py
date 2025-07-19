@@ -1523,7 +1523,7 @@ class CreatePaymentPaymentsResponseAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentAmountRefundedTypedDict(TypedDict):
+class AmountRefundedTypedDict(TypedDict):
     r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the costs for a return shipment to the customer."""
 
     currency: str
@@ -1532,7 +1532,7 @@ class CreatePaymentAmountRefundedTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentAmountRefunded(BaseModel):
+class AmountRefunded(BaseModel):
     r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the costs for a return shipment to the customer."""
 
     currency: str
@@ -2973,7 +2973,7 @@ class CreatePaymentResponseBodyTypedDict(TypedDict):
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: CreatePaymentLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    amount_refunded: NotRequired[CreatePaymentAmountRefundedTypedDict]
+    amount_refunded: NotRequired[AmountRefundedTypedDict]
     r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the costs for a return shipment to the customer."""
     amount_remaining: NotRequired[AmountRemainingTypedDict]
     r"""The remaining amount that can be refunded. Only available when refunds are available for this payment."""
@@ -3200,7 +3200,7 @@ class CreatePaymentResponseBody(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     amount_refunded: Annotated[
-        Optional[CreatePaymentAmountRefunded], pydantic.Field(alias="amountRefunded")
+        Optional[AmountRefunded], pydantic.Field(alias="amountRefunded")
     ] = None
     r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the costs for a return shipment to the customer."""
 

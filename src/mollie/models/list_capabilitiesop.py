@@ -9,7 +9,7 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class ListCapabilitiesStatus(str, Enum):
+class Status(str, Enum):
     UNREQUESTED = "unrequested"
     ENABLED = "enabled"
     DISABLED = "disabled"
@@ -116,7 +116,7 @@ class ListCapabilitiesCapabilitiesTypedDict(TypedDict):
     r"""Always the word `capability` for this resource type."""
     name: NotRequired[str]
     r"""A unique name for this capability like `payments` / `settlements`."""
-    status: NotRequired[ListCapabilitiesStatus]
+    status: NotRequired[Status]
     status_reason: NotRequired[Nullable[ListCapabilitiesStatusReason]]
     requirements: NotRequired[List[RequirementsTypedDict]]
 
@@ -128,7 +128,7 @@ class ListCapabilitiesCapabilities(BaseModel):
     name: Optional[str] = None
     r"""A unique name for this capability like `payments` / `settlements`."""
 
-    status: Optional[ListCapabilitiesStatus] = None
+    status: Optional[Status] = None
 
     status_reason: Annotated[
         OptionalNullable[ListCapabilitiesStatusReason],

@@ -1,8 +1,0 @@
-# GetSettlementCapturesSettlementsLinks
-
-
-## Fields
-
-| Field                                                                                                              | Type                                                                                                               | Required                                                                                                           | Description                                                                                                        |
-| ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| `documentation`                                                                                                    | [models.GetSettlementCapturesSettlementsDocumentation](../models/getsettlementcapturessettlementsdocumentation.md) | :heavy_check_mark:                                                                                                 | The URL to the generic Mollie API error handling guide.                                                            |
