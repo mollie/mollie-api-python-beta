@@ -326,37 +326,274 @@ class Deductions(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
+class ListBalanceTransactionsPaymentTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+
+
+class ListBalanceTransactionsPayment(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+
 class CaptureTypedDict(TypedDict):
     payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
     capture_id: NotRequired[str]
+    capture_description: NotRequired[str]
 
 
 class Capture(BaseModel):
     payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
 
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
     capture_id: Annotated[Optional[str], pydantic.Field(alias="captureId")] = None
+
+    capture_description: Annotated[
+        Optional[str], pydantic.Field(alias="captureDescription")
+    ] = None
+
+
+class CaptureCommisionTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+    capture_id: NotRequired[str]
+    capture_description: NotRequired[str]
+
+
+class CaptureCommision(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+    capture_id: Annotated[Optional[str], pydantic.Field(alias="captureId")] = None
+
+    capture_description: Annotated[
+        Optional[str], pydantic.Field(alias="captureDescription")
+    ] = None
+
+
+class CaptureRollingReserveReleaseTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+    capture_id: NotRequired[str]
+    capture_description: NotRequired[str]
+
+
+class CaptureRollingReserveRelease(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+    capture_id: Annotated[Optional[str], pydantic.Field(alias="captureId")] = None
+
+    capture_description: Annotated[
+        Optional[str], pydantic.Field(alias="captureDescription")
+    ] = None
+
+
+class UnauthorizedDirectDebitTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+
+
+class UnauthorizedDirectDebit(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+
+class FailedPaymentTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+
+
+class FailedPayment(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+
+class RefundTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+    refund_id: NotRequired[str]
+    refund_description: NotRequired[str]
+
+
+class Refund(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+    refund_id: Annotated[Optional[str], pydantic.Field(alias="refundId")] = None
+
+    refund_description: Annotated[
+        Optional[str], pydantic.Field(alias="refundDescription")
+    ] = None
+
+
+class RefundCompensationTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+    refund_id: NotRequired[str]
+    refund_description: NotRequired[str]
+
+
+class RefundCompensation(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+    refund_id: Annotated[Optional[str], pydantic.Field(alias="refundId")] = None
+
+    refund_description: Annotated[
+        Optional[str], pydantic.Field(alias="refundDescription")
+    ] = None
 
 
 class ReturnedRefundTypedDict(TypedDict):
     payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
     refund_id: NotRequired[str]
+    refund_description: NotRequired[str]
 
 
 class ReturnedRefund(BaseModel):
     payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
 
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
     refund_id: Annotated[Optional[str], pydantic.Field(alias="refundId")] = None
+
+    refund_description: Annotated[
+        Optional[str], pydantic.Field(alias="refundDescription")
+    ] = None
+
+
+class ReturnedRefundCompensationTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+    refund_id: NotRequired[str]
+    refund_description: NotRequired[str]
+
+
+class ReturnedRefundCompensation(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+    refund_id: Annotated[Optional[str], pydantic.Field(alias="refundId")] = None
+
+    refund_description: Annotated[
+        Optional[str], pydantic.Field(alias="refundDescription")
+    ] = None
 
 
 class ChargebackTypedDict(TypedDict):
     payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
     chargeback_id: NotRequired[str]
+    chargeback_description: NotRequired[str]
 
 
 class Chargeback(BaseModel):
     payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
 
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
     chargeback_id: Annotated[Optional[str], pydantic.Field(alias="chargebackId")] = None
+
+    chargeback_description: Annotated[
+        Optional[str], pydantic.Field(alias="chargebackDescription")
+    ] = None
+
+
+class ChargebackReversalTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+    chargeback_id: NotRequired[str]
+    chargeback_description: NotRequired[str]
+
+
+class ChargebackReversal(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+    chargeback_id: Annotated[Optional[str], pydantic.Field(alias="chargebackId")] = None
+
+    chargeback_description: Annotated[
+        Optional[str], pydantic.Field(alias="chargebackDescription")
+    ] = None
+
+
+class ChargebackCompensationTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+    chargeback_id: NotRequired[str]
+    chargeback_description: NotRequired[str]
+
+
+class ChargebackCompensation(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+    chargeback_id: Annotated[Optional[str], pydantic.Field(alias="chargebackId")] = None
+
+    chargeback_description: Annotated[
+        Optional[str], pydantic.Field(alias="chargebackDescription")
+    ] = None
+
+
+class ReversedChargebackCompensationTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+    chargeback_id: NotRequired[str]
+    chargeback_description: NotRequired[str]
+
+
+class ReversedChargebackCompensation(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+    chargeback_id: Annotated[Optional[str], pydantic.Field(alias="chargebackId")] = None
+
+    chargeback_description: Annotated[
+        Optional[str], pydantic.Field(alias="chargebackDescription")
+    ] = None
 
 
 class OutgoingTransferTypedDict(TypedDict):
@@ -392,118 +629,411 @@ class ReturnedTransfer(BaseModel):
     settlement_id: Annotated[Optional[str], pydantic.Field(alias="settlementId")] = None
 
 
+class InvoiceCompensationTypedDict(TypedDict):
+    invoice_id: NotRequired[str]
+
+
+class InvoiceCompensation(BaseModel):
+    invoice_id: Annotated[Optional[str], pydantic.Field(alias="invoiceId")] = None
+
+
+class ListBalanceTransactionsApplicationFeeTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+    paying_owner: NotRequired[str]
+
+
+class ListBalanceTransactionsApplicationFee(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+    paying_owner: Annotated[Optional[str], pydantic.Field(alias="payingOwner")] = None
+
+
+class SplitPaymentTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+    payment_onwer: NotRequired[str]
+
+
+class SplitPayment(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+    payment_onwer: Annotated[Optional[str], pydantic.Field(alias="paymentOnwer")] = None
+
+
 class PlatformPaymentRefundTypedDict(TypedDict):
     payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
     refund_id: NotRequired[str]
+    refund_description: NotRequired[str]
 
 
 class PlatformPaymentRefund(BaseModel):
     payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
 
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
     refund_id: Annotated[Optional[str], pydantic.Field(alias="refundId")] = None
+
+    refund_description: Annotated[
+        Optional[str], pydantic.Field(alias="refundDescription")
+    ] = None
+
+
+class ReturnedPlatformPaymentRefundTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+    refund_id: NotRequired[str]
+    refund_description: NotRequired[str]
+
+
+class ReturnedPlatformPaymentRefund(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+    refund_id: Annotated[Optional[str], pydantic.Field(alias="refundId")] = None
+
+    refund_description: Annotated[
+        Optional[str], pydantic.Field(alias="refundDescription")
+    ] = None
 
 
 class PlatformPaymentChargebackTypedDict(TypedDict):
     payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
     chargeback_id: NotRequired[str]
+    chargeback_description: NotRequired[str]
 
 
 class PlatformPaymentChargeback(BaseModel):
     payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
 
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
     chargeback_id: Annotated[Optional[str], pydantic.Field(alias="chargebackId")] = None
+
+    chargeback_description: Annotated[
+        Optional[str], pydantic.Field(alias="chargebackDescription")
+    ] = None
+
+
+class ReversedPlatformPaymentChargebackTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+    chargeback_id: NotRequired[str]
+    chargeback_description: NotRequired[str]
+
+
+class ReversedPlatformPaymentChargeback(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+    chargeback_id: Annotated[Optional[str], pydantic.Field(alias="chargebackId")] = None
+
+    chargeback_description: Annotated[
+        Optional[str], pydantic.Field(alias="chargebackDescription")
+    ] = None
+
+
+class PaymentCommissionTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+    organization_id: NotRequired[str]
+
+
+class PaymentCommission(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+    organization_id: Annotated[
+        Optional[str], pydantic.Field(alias="organizationId")
+    ] = None
+
+
+class ReimbursementFeeTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+
+
+class ReimbursementFee(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+
+class FailedPaymentFeeTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+
+
+class FailedPaymentFee(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+
+class PaymentFeeTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+    payment_description: NotRequired[str]
+
+
+class PaymentFee(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+
+    payment_description: Annotated[
+        Optional[str], pydantic.Field(alias="paymentDescription")
+    ] = None
+
+
+class ManagedFeeTypedDict(TypedDict):
+    fee_type: NotRequired[str]
+    fee_id: NotRequired[str]
+
+
+class ManagedFee(BaseModel):
+    fee_type: Annotated[Optional[str], pydantic.Field(alias="feeType")] = None
+
+    fee_id: Annotated[Optional[str], pydantic.Field(alias="feeId")] = None
+
+
+class ReturnedManagedFeeTypedDict(TypedDict):
+    fee_type: NotRequired[str]
+    fee_id: NotRequired[str]
+
+
+class ReturnedManagedFee(BaseModel):
+    fee_type: Annotated[Optional[str], pydantic.Field(alias="feeType")] = None
+
+    fee_id: Annotated[Optional[str], pydantic.Field(alias="feeId")] = None
+
+
+class PostPaymentSplitPaymentTypedDict(TypedDict):
+    payment_id: NotRequired[str]
+
+
+class PostPaymentSplitPayment(BaseModel):
+    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
 
 
 class ContextTypedDict(TypedDict):
-    r"""Depending on the type of the balance transaction, we will try to give more context about the specific event that triggered it. For example, the context object for a payment transaction will look like `{\"paymentId\": \"tr_5B8cwPMGnU6qLbRvo7qEZo\"}`.
+    r"""Depending on the type of the balance transaction, we will try to give more context about the specific event that triggered it. For example, the context object for a payment transaction will look like `{\"paymentId\": \"tr_5B8cwPMGnU6qLbRvo7qEZo\", \"paymentDescription\": \"Description\"}`.
 
     Below is a complete list of the context values that each type of transaction will have.
 
-    * Type `payment`: `paymentId`
-    * Type `capture`: `paymentId` `captureId`
-    * Type `unauthorized-direct-debit`: `paymentId`
-    * Type `failed-payment`: `paymentId`
-    * Type `refund`: `paymentId` `refundId`
-    * Type `returned-refund`: `paymentId` `refundId`
-    * Type `chargeback`: `paymentId` `chargebackId`
-    * Type `chargeback-reversal`: `paymentId`
+    * Type `payment`: `paymentId`, `paymentDescription`
+    * Type `capture`: `paymentId` `captureId`, `paymentDescription`, `captureDescription`
+    * Type `capture-commission`: `paymentId`, `paymentDescription`, `organizationId`
+    * Type `capture-rolling-reserve-release`: `paymentId`, `paymentDescription`, `captureId`, `captureDescription`
+    * Type `unauthorized-direct-debit`: `paymentId`, `paymentDescription`
+    * Type `failed-payment`: `paymentId`, `paymentDescription`
+    * Type `refund`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `refund-compensation`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `returned-refund`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `returned-refund-compensation`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `chargeback`: `paymentId` `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `chargeback-reversal`: `paymentId`, `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `chargeback-compensation`: `paymentId`, `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `reversed-chargeback-compensation`: `paymentId`, `chargebackId`, `paymentDescription`, `chargebackDescription`
     * Type `outgoing-transfer`: `settlementId` `transferId`
     * Type `canceled-outgoing-transfer`: `settlementId` `transferId`
     * Type `returned-transfer`: `settlementId` `transferId`
     * Type `invoice-compensation`: `invoiceId`
     * Type `balance-correction`: none
-    * Type `application-fee`: `paymentId`
-    * Type `split-payment`: `paymentId`
-    * Type `platform-payment-refund`: `paymentId` `refundId`
-    * Type `platform-payment-chargeback`: `paymentId` `chargebackId`
+    * Type `application-fee`: `paymentId`, `paymentDescription`, `payingOwner`
+    * Type `split-payment`: `paymentId`, `paymentDescription`, `paymentOwner`
+    * Type `platform-payment-refund`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `returned-platform-payment-refund`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `platform-payment-chargeback`: `paymentId` `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `reversed-platform-payment-chargeback`: `paymentId` `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `payment-commission`: `paymentId`, `paymentDescription`, `organizationId`
+    * Type `reimbursement-fee`: `paymentId`, `paymentDescription`
+    * Type `failed-payment-fee`: `paymentId`, `paymentDescription`
+    * Type `payment-fee`: `paymentId`, `paymentDescription`
+    * Type `cash-advance-loan`: none
+    * Type `platform-connected-organizations-fee`: none
+    * Type `managed-fee`: `feeType`, `<name of the fee>Id`
+    * Type `returned-managed-fee`:  `feeType`, `<name of the fee>Id`
+    * Type `topup`: none
+    * Type `balance-reserve`: none
+    * Type `balance-reserve-return`: none
+    * Type `movement`: none
+    * Type `post-payment-split-payment`: `paymentId`
+    * Type `cash-collateral-issuance`: none
+    * Type `cash-collateral-release`: none
     """
 
-    payment: NotRequired[Nullable[str]]
+    payment: NotRequired[Nullable[ListBalanceTransactionsPaymentTypedDict]]
     capture: NotRequired[Nullable[CaptureTypedDict]]
-    unauthorized_direct_debit: NotRequired[Nullable[str]]
-    failed_payment: NotRequired[Nullable[str]]
-    refund: NotRequired[Nullable[str]]
+    capture_commision: NotRequired[Nullable[CaptureCommisionTypedDict]]
+    capture_rolling_reserve_release: NotRequired[
+        Nullable[CaptureRollingReserveReleaseTypedDict]
+    ]
+    unauthorized_direct_debit: NotRequired[Nullable[UnauthorizedDirectDebitTypedDict]]
+    failed_payment: NotRequired[Nullable[FailedPaymentTypedDict]]
+    refund: NotRequired[Nullable[RefundTypedDict]]
+    refund_compensation: NotRequired[Nullable[RefundCompensationTypedDict]]
     returned_refund: NotRequired[Nullable[ReturnedRefundTypedDict]]
+    returned_refund_compensation: NotRequired[
+        Nullable[ReturnedRefundCompensationTypedDict]
+    ]
     chargeback: NotRequired[Nullable[ChargebackTypedDict]]
-    chargeback_reversal: NotRequired[Nullable[str]]
+    chargeback_reversal: NotRequired[Nullable[ChargebackReversalTypedDict]]
+    chargeback_compensation: NotRequired[Nullable[ChargebackCompensationTypedDict]]
+    reversed_chargeback_compensation: NotRequired[
+        Nullable[ReversedChargebackCompensationTypedDict]
+    ]
     outgoing_transfer: NotRequired[Nullable[OutgoingTransferTypedDict]]
     canceled_outgoing_transfer: NotRequired[Nullable[CanceledOutgoingTransferTypedDict]]
     returned_transfer: NotRequired[Nullable[ReturnedTransferTypedDict]]
-    invoice_compensation: NotRequired[Nullable[str]]
-    application_fee: NotRequired[Nullable[str]]
-    split_payment: NotRequired[Nullable[str]]
+    invoice_compensation: NotRequired[Nullable[InvoiceCompensationTypedDict]]
+    application_fee: NotRequired[
+        Nullable[ListBalanceTransactionsApplicationFeeTypedDict]
+    ]
+    split_payment: NotRequired[Nullable[SplitPaymentTypedDict]]
     platform_payment_refund: NotRequired[Nullable[PlatformPaymentRefundTypedDict]]
+    returned_platform_payment_refund: NotRequired[
+        Nullable[ReturnedPlatformPaymentRefundTypedDict]
+    ]
     platform_payment_chargeback: NotRequired[
         Nullable[PlatformPaymentChargebackTypedDict]
     ]
+    reversed_platform_payment_chargeback: NotRequired[
+        Nullable[ReversedPlatformPaymentChargebackTypedDict]
+    ]
+    payment_commission: NotRequired[Nullable[PaymentCommissionTypedDict]]
+    reimbursement_fee: NotRequired[Nullable[ReimbursementFeeTypedDict]]
+    failed_payment_fee: NotRequired[Nullable[FailedPaymentFeeTypedDict]]
+    payment_fee: NotRequired[Nullable[PaymentFeeTypedDict]]
+    managed_fee: NotRequired[Nullable[ManagedFeeTypedDict]]
+    returned_managed_fee: NotRequired[Nullable[ReturnedManagedFeeTypedDict]]
+    post_payment_split_payment: NotRequired[Nullable[PostPaymentSplitPaymentTypedDict]]
 
 
 class Context(BaseModel):
-    r"""Depending on the type of the balance transaction, we will try to give more context about the specific event that triggered it. For example, the context object for a payment transaction will look like `{\"paymentId\": \"tr_5B8cwPMGnU6qLbRvo7qEZo\"}`.
+    r"""Depending on the type of the balance transaction, we will try to give more context about the specific event that triggered it. For example, the context object for a payment transaction will look like `{\"paymentId\": \"tr_5B8cwPMGnU6qLbRvo7qEZo\", \"paymentDescription\": \"Description\"}`.
 
     Below is a complete list of the context values that each type of transaction will have.
 
-    * Type `payment`: `paymentId`
-    * Type `capture`: `paymentId` `captureId`
-    * Type `unauthorized-direct-debit`: `paymentId`
-    * Type `failed-payment`: `paymentId`
-    * Type `refund`: `paymentId` `refundId`
-    * Type `returned-refund`: `paymentId` `refundId`
-    * Type `chargeback`: `paymentId` `chargebackId`
-    * Type `chargeback-reversal`: `paymentId`
+    * Type `payment`: `paymentId`, `paymentDescription`
+    * Type `capture`: `paymentId` `captureId`, `paymentDescription`, `captureDescription`
+    * Type `capture-commission`: `paymentId`, `paymentDescription`, `organizationId`
+    * Type `capture-rolling-reserve-release`: `paymentId`, `paymentDescription`, `captureId`, `captureDescription`
+    * Type `unauthorized-direct-debit`: `paymentId`, `paymentDescription`
+    * Type `failed-payment`: `paymentId`, `paymentDescription`
+    * Type `refund`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `refund-compensation`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `returned-refund`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `returned-refund-compensation`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `chargeback`: `paymentId` `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `chargeback-reversal`: `paymentId`, `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `chargeback-compensation`: `paymentId`, `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `reversed-chargeback-compensation`: `paymentId`, `chargebackId`, `paymentDescription`, `chargebackDescription`
     * Type `outgoing-transfer`: `settlementId` `transferId`
     * Type `canceled-outgoing-transfer`: `settlementId` `transferId`
     * Type `returned-transfer`: `settlementId` `transferId`
     * Type `invoice-compensation`: `invoiceId`
     * Type `balance-correction`: none
-    * Type `application-fee`: `paymentId`
-    * Type `split-payment`: `paymentId`
-    * Type `platform-payment-refund`: `paymentId` `refundId`
-    * Type `platform-payment-chargeback`: `paymentId` `chargebackId`
+    * Type `application-fee`: `paymentId`, `paymentDescription`, `payingOwner`
+    * Type `split-payment`: `paymentId`, `paymentDescription`, `paymentOwner`
+    * Type `platform-payment-refund`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `returned-platform-payment-refund`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `platform-payment-chargeback`: `paymentId` `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `reversed-platform-payment-chargeback`: `paymentId` `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `payment-commission`: `paymentId`, `paymentDescription`, `organizationId`
+    * Type `reimbursement-fee`: `paymentId`, `paymentDescription`
+    * Type `failed-payment-fee`: `paymentId`, `paymentDescription`
+    * Type `payment-fee`: `paymentId`, `paymentDescription`
+    * Type `cash-advance-loan`: none
+    * Type `platform-connected-organizations-fee`: none
+    * Type `managed-fee`: `feeType`, `<name of the fee>Id`
+    * Type `returned-managed-fee`:  `feeType`, `<name of the fee>Id`
+    * Type `topup`: none
+    * Type `balance-reserve`: none
+    * Type `balance-reserve-return`: none
+    * Type `movement`: none
+    * Type `post-payment-split-payment`: `paymentId`
+    * Type `cash-collateral-issuance`: none
+    * Type `cash-collateral-release`: none
     """
 
-    payment: OptionalNullable[str] = UNSET
+    payment: OptionalNullable[ListBalanceTransactionsPayment] = UNSET
 
     capture: OptionalNullable[Capture] = UNSET
 
+    capture_commision: Annotated[
+        OptionalNullable[CaptureCommision], pydantic.Field(alias="capture-commision")
+    ] = UNSET
+
+    capture_rolling_reserve_release: Annotated[
+        OptionalNullable[CaptureRollingReserveRelease],
+        pydantic.Field(alias="capture-rolling-reserve-release"),
+    ] = UNSET
+
     unauthorized_direct_debit: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="unauthorized-direct-debit")
+        OptionalNullable[UnauthorizedDirectDebit],
+        pydantic.Field(alias="unauthorized-direct-debit"),
     ] = UNSET
 
     failed_payment: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="failed-payment")
+        OptionalNullable[FailedPayment], pydantic.Field(alias="failed-payment")
     ] = UNSET
 
-    refund: OptionalNullable[str] = UNSET
+    refund: OptionalNullable[Refund] = UNSET
+
+    refund_compensation: Annotated[
+        OptionalNullable[RefundCompensation],
+        pydantic.Field(alias="refund-compensation"),
+    ] = UNSET
 
     returned_refund: Annotated[
         OptionalNullable[ReturnedRefund], pydantic.Field(alias="returned-refund")
     ] = UNSET
 
+    returned_refund_compensation: Annotated[
+        OptionalNullable[ReturnedRefundCompensation],
+        pydantic.Field(alias="returned-refund-compensation"),
+    ] = UNSET
+
     chargeback: OptionalNullable[Chargeback] = UNSET
 
     chargeback_reversal: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="chargeback-reversal")
+        OptionalNullable[ChargebackReversal],
+        pydantic.Field(alias="chargeback-reversal"),
+    ] = UNSET
+
+    chargeback_compensation: Annotated[
+        OptionalNullable[ChargebackCompensation],
+        pydantic.Field(alias="chargeback-compensation"),
+    ] = UNSET
+
+    reversed_chargeback_compensation: Annotated[
+        OptionalNullable[ReversedChargebackCompensation],
+        pydantic.Field(alias="reversed-chargeback-compensation"),
     ] = UNSET
 
     outgoing_transfer: Annotated[
@@ -520,15 +1050,17 @@ class Context(BaseModel):
     ] = UNSET
 
     invoice_compensation: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="invoice-compensation")
+        OptionalNullable[InvoiceCompensation],
+        pydantic.Field(alias="invoice-compensation"),
     ] = UNSET
 
     application_fee: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="application-fee")
+        OptionalNullable[ListBalanceTransactionsApplicationFee],
+        pydantic.Field(alias="application-fee"),
     ] = UNSET
 
     split_payment: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="split-payment")
+        OptionalNullable[SplitPayment], pydantic.Field(alias="split-payment")
     ] = UNSET
 
     platform_payment_refund: Annotated[
@@ -536,9 +1068,49 @@ class Context(BaseModel):
         pydantic.Field(alias="platform-payment-refund"),
     ] = UNSET
 
+    returned_platform_payment_refund: Annotated[
+        OptionalNullable[ReturnedPlatformPaymentRefund],
+        pydantic.Field(alias="returned-platform-payment-refund"),
+    ] = UNSET
+
     platform_payment_chargeback: Annotated[
         OptionalNullable[PlatformPaymentChargeback],
         pydantic.Field(alias="platform-payment-chargeback"),
+    ] = UNSET
+
+    reversed_platform_payment_chargeback: Annotated[
+        OptionalNullable[ReversedPlatformPaymentChargeback],
+        pydantic.Field(alias="reversed-platform-payment-chargeback"),
+    ] = UNSET
+
+    payment_commission: Annotated[
+        OptionalNullable[PaymentCommission], pydantic.Field(alias="payment-commission")
+    ] = UNSET
+
+    reimbursement_fee: Annotated[
+        OptionalNullable[ReimbursementFee], pydantic.Field(alias="reimbursement-fee")
+    ] = UNSET
+
+    failed_payment_fee: Annotated[
+        OptionalNullable[FailedPaymentFee], pydantic.Field(alias="failed-payment-fee")
+    ] = UNSET
+
+    payment_fee: Annotated[
+        OptionalNullable[PaymentFee], pydantic.Field(alias="payment-fee")
+    ] = UNSET
+
+    managed_fee: Annotated[
+        OptionalNullable[ManagedFee], pydantic.Field(alias="managed-fee")
+    ] = UNSET
+
+    returned_managed_fee: Annotated[
+        OptionalNullable[ReturnedManagedFee],
+        pydantic.Field(alias="returned-managed-fee"),
+    ] = UNSET
+
+    post_payment_split_payment: Annotated[
+        OptionalNullable[PostPaymentSplitPayment],
+        pydantic.Field(alias="post-payment-split-payment"),
     ] = UNSET
 
     @model_serializer(mode="wrap")
@@ -546,12 +1118,18 @@ class Context(BaseModel):
         optional_fields = [
             "payment",
             "capture",
+            "capture-commision",
+            "capture-rolling-reserve-release",
             "unauthorized-direct-debit",
             "failed-payment",
             "refund",
+            "refund-compensation",
             "returned-refund",
+            "returned-refund-compensation",
             "chargeback",
             "chargeback-reversal",
+            "chargeback-compensation",
+            "reversed-chargeback-compensation",
             "outgoing-transfer",
             "canceled-outgoing-transfer",
             "returned-transfer",
@@ -559,17 +1137,32 @@ class Context(BaseModel):
             "application-fee",
             "split-payment",
             "platform-payment-refund",
+            "returned-platform-payment-refund",
             "platform-payment-chargeback",
+            "reversed-platform-payment-chargeback",
+            "payment-commission",
+            "reimbursement-fee",
+            "failed-payment-fee",
+            "payment-fee",
+            "managed-fee",
+            "returned-managed-fee",
+            "post-payment-split-payment",
         ]
         nullable_fields = [
             "payment",
             "capture",
+            "capture-commision",
+            "capture-rolling-reserve-release",
             "unauthorized-direct-debit",
             "failed-payment",
             "refund",
+            "refund-compensation",
             "returned-refund",
+            "returned-refund-compensation",
             "chargeback",
             "chargeback-reversal",
+            "chargeback-compensation",
+            "reversed-chargeback-compensation",
             "outgoing-transfer",
             "canceled-outgoing-transfer",
             "returned-transfer",
@@ -577,7 +1170,16 @@ class Context(BaseModel):
             "application-fee",
             "split-payment",
             "platform-payment-refund",
+            "returned-platform-payment-refund",
             "platform-payment-chargeback",
+            "reversed-platform-payment-chargeback",
+            "payment-commission",
+            "reimbursement-fee",
+            "failed-payment-fee",
+            "payment-fee",
+            "managed-fee",
+            "returned-managed-fee",
+            "post-payment-split-payment",
         ]
         null_default_fields = []
 
@@ -620,7 +1222,7 @@ class BalanceTransactionsTypedDict(TypedDict):
     * Invoicing: `invoice-compensation` `balance-correction`
     * Mollie Connect: `application-fee` `split-payment` `platform-payment-refund` `platform-payment-chargeback`
 
-    Possible values: `application-fee` `capture` `chargeback` `chargeback-reversal` `failed-payment-fee` `failed-payment` `invoice-compensation` `payment` `payment-fee` `payment-commission` `refund` `returned-refund` `returned-transfer` `split-payment` `outgoing-transfer` `capture-commission` `canceled-outgoing-transfer` `incoming-transfer` `api-payment-rolling-reserve-release` `capture-rolling-reserve-release` `reimbursement-fee` `balance-correction` `unauthorized-direct-debit` `bank-charged-failure-fee` `platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-platform-payment-refund` `platform-payment-chargeback` `chargeback-compensation` `reversed-platform-payment-chargeback` `reversed-chargeback-compensation` `failed-split-payment-platform` `failed-split-payment-compensation` `cash-advance-repayment` `cash-advance-loan` `platform-connected-organizations-fee` `split-transaction` `managed-fee` `returned-managed-fee` `topup` `balance-reserve` `balance-reserve-return` `movement` `post-payment-split-payment` `cash-collateral-issuance` `cash-collateral-release`
+    Possible values: `application-fee` `capture` `chargeback` `chargeback-reversal` `failed-payment-fee` `failed-payment` `invoice-compensation` `payment` `payment-fee` `payment-commission` `refund` `returned-refund` `returned-transfer` `split-payment` `outgoing-transfer` `capture-commission` `canceled-outgoing-transfer` `incoming-transfer` `api-payment-rolling-reserve-release` `capture-rolling-reserve-release` `reimbursement-fee` `balance-correction` `unauthorized-direct-debit` `bank-charged-failure-fee` `platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-platform-payment-refund` `platform-payment-chargeback` `chargeback-compensation` `reversed-platform-payment-chargeback` `reversed-chargeback-compensation` `failed-split-payment-platform` `failed-split-payment-compensation` `cash-advance-loan` `platform-connected-organizations-fee` `split-transaction` `managed-fee` `returned-managed-fee` `topup` `balance-reserve` `balance-reserve-return` `movement` `post-payment-split-payment` `cash-collateral-issuance` `cash-collateral-release`
     """
     result_amount: NotRequired[ResultAmountTypedDict]
     r"""The final amount that was moved to or from the balance. If the transaction moves funds away from the balance, for example when it concerns a refund, the amount will be negative."""
@@ -632,27 +1234,50 @@ class BalanceTransactionsTypedDict(TypedDict):
     When moving funds to a balance, we always round the deduction to a 'real' amount. Any differences between these real-time rounded amounts and the final invoice will be compensated when the invoice is generated.
     """
     context: NotRequired[ContextTypedDict]
-    r"""Depending on the type of the balance transaction, we will try to give more context about the specific event that triggered it. For example, the context object for a payment transaction will look like `{\"paymentId\": \"tr_5B8cwPMGnU6qLbRvo7qEZo\"}`.
+    r"""Depending on the type of the balance transaction, we will try to give more context about the specific event that triggered it. For example, the context object for a payment transaction will look like `{\"paymentId\": \"tr_5B8cwPMGnU6qLbRvo7qEZo\", \"paymentDescription\": \"Description\"}`.
 
     Below is a complete list of the context values that each type of transaction will have.
 
-    * Type `payment`: `paymentId`
-    * Type `capture`: `paymentId` `captureId`
-    * Type `unauthorized-direct-debit`: `paymentId`
-    * Type `failed-payment`: `paymentId`
-    * Type `refund`: `paymentId` `refundId`
-    * Type `returned-refund`: `paymentId` `refundId`
-    * Type `chargeback`: `paymentId` `chargebackId`
-    * Type `chargeback-reversal`: `paymentId`
+    * Type `payment`: `paymentId`, `paymentDescription`
+    * Type `capture`: `paymentId` `captureId`, `paymentDescription`, `captureDescription`
+    * Type `capture-commission`: `paymentId`, `paymentDescription`, `organizationId`
+    * Type `capture-rolling-reserve-release`: `paymentId`, `paymentDescription`, `captureId`, `captureDescription`
+    * Type `unauthorized-direct-debit`: `paymentId`, `paymentDescription`
+    * Type `failed-payment`: `paymentId`, `paymentDescription`
+    * Type `refund`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `refund-compensation`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `returned-refund`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `returned-refund-compensation`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `chargeback`: `paymentId` `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `chargeback-reversal`: `paymentId`, `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `chargeback-compensation`: `paymentId`, `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `reversed-chargeback-compensation`: `paymentId`, `chargebackId`, `paymentDescription`, `chargebackDescription`
     * Type `outgoing-transfer`: `settlementId` `transferId`
     * Type `canceled-outgoing-transfer`: `settlementId` `transferId`
     * Type `returned-transfer`: `settlementId` `transferId`
     * Type `invoice-compensation`: `invoiceId`
     * Type `balance-correction`: none
-    * Type `application-fee`: `paymentId`
-    * Type `split-payment`: `paymentId`
-    * Type `platform-payment-refund`: `paymentId` `refundId`
-    * Type `platform-payment-chargeback`: `paymentId` `chargebackId`
+    * Type `application-fee`: `paymentId`, `paymentDescription`, `payingOwner`
+    * Type `split-payment`: `paymentId`, `paymentDescription`, `paymentOwner`
+    * Type `platform-payment-refund`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `returned-platform-payment-refund`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `platform-payment-chargeback`: `paymentId` `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `reversed-platform-payment-chargeback`: `paymentId` `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `payment-commission`: `paymentId`, `paymentDescription`, `organizationId`
+    * Type `reimbursement-fee`: `paymentId`, `paymentDescription`
+    * Type `failed-payment-fee`: `paymentId`, `paymentDescription`
+    * Type `payment-fee`: `paymentId`, `paymentDescription`
+    * Type `cash-advance-loan`: none
+    * Type `platform-connected-organizations-fee`: none
+    * Type `managed-fee`: `feeType`, `<name of the fee>Id`
+    * Type `returned-managed-fee`:  `feeType`, `<name of the fee>Id`
+    * Type `topup`: none
+    * Type `balance-reserve`: none
+    * Type `balance-reserve-return`: none
+    * Type `movement`: none
+    * Type `post-payment-split-payment`: `paymentId`
+    * Type `cash-collateral-issuance`: none
+    * Type `cash-collateral-release`: none
     """
     created_at: NotRequired[str]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
@@ -674,7 +1299,7 @@ class BalanceTransactions(BaseModel):
     * Invoicing: `invoice-compensation` `balance-correction`
     * Mollie Connect: `application-fee` `split-payment` `platform-payment-refund` `platform-payment-chargeback`
 
-    Possible values: `application-fee` `capture` `chargeback` `chargeback-reversal` `failed-payment-fee` `failed-payment` `invoice-compensation` `payment` `payment-fee` `payment-commission` `refund` `returned-refund` `returned-transfer` `split-payment` `outgoing-transfer` `capture-commission` `canceled-outgoing-transfer` `incoming-transfer` `api-payment-rolling-reserve-release` `capture-rolling-reserve-release` `reimbursement-fee` `balance-correction` `unauthorized-direct-debit` `bank-charged-failure-fee` `platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-platform-payment-refund` `platform-payment-chargeback` `chargeback-compensation` `reversed-platform-payment-chargeback` `reversed-chargeback-compensation` `failed-split-payment-platform` `failed-split-payment-compensation` `cash-advance-repayment` `cash-advance-loan` `platform-connected-organizations-fee` `split-transaction` `managed-fee` `returned-managed-fee` `topup` `balance-reserve` `balance-reserve-return` `movement` `post-payment-split-payment` `cash-collateral-issuance` `cash-collateral-release`
+    Possible values: `application-fee` `capture` `chargeback` `chargeback-reversal` `failed-payment-fee` `failed-payment` `invoice-compensation` `payment` `payment-fee` `payment-commission` `refund` `returned-refund` `returned-transfer` `split-payment` `outgoing-transfer` `capture-commission` `canceled-outgoing-transfer` `incoming-transfer` `api-payment-rolling-reserve-release` `capture-rolling-reserve-release` `reimbursement-fee` `balance-correction` `unauthorized-direct-debit` `bank-charged-failure-fee` `platform-payment-refund` `refund-compensation` `returned-refund-compensation` `returned-platform-payment-refund` `platform-payment-chargeback` `chargeback-compensation` `reversed-platform-payment-chargeback` `reversed-chargeback-compensation` `failed-split-payment-platform` `failed-split-payment-compensation` `cash-advance-loan` `platform-connected-organizations-fee` `split-transaction` `managed-fee` `returned-managed-fee` `topup` `balance-reserve` `balance-reserve-return` `movement` `post-payment-split-payment` `cash-collateral-issuance` `cash-collateral-release`
     """
 
     result_amount: Annotated[
@@ -694,27 +1319,50 @@ class BalanceTransactions(BaseModel):
     """
 
     context: Optional[Context] = None
-    r"""Depending on the type of the balance transaction, we will try to give more context about the specific event that triggered it. For example, the context object for a payment transaction will look like `{\"paymentId\": \"tr_5B8cwPMGnU6qLbRvo7qEZo\"}`.
+    r"""Depending on the type of the balance transaction, we will try to give more context about the specific event that triggered it. For example, the context object for a payment transaction will look like `{\"paymentId\": \"tr_5B8cwPMGnU6qLbRvo7qEZo\", \"paymentDescription\": \"Description\"}`.
 
     Below is a complete list of the context values that each type of transaction will have.
 
-    * Type `payment`: `paymentId`
-    * Type `capture`: `paymentId` `captureId`
-    * Type `unauthorized-direct-debit`: `paymentId`
-    * Type `failed-payment`: `paymentId`
-    * Type `refund`: `paymentId` `refundId`
-    * Type `returned-refund`: `paymentId` `refundId`
-    * Type `chargeback`: `paymentId` `chargebackId`
-    * Type `chargeback-reversal`: `paymentId`
+    * Type `payment`: `paymentId`, `paymentDescription`
+    * Type `capture`: `paymentId` `captureId`, `paymentDescription`, `captureDescription`
+    * Type `capture-commission`: `paymentId`, `paymentDescription`, `organizationId`
+    * Type `capture-rolling-reserve-release`: `paymentId`, `paymentDescription`, `captureId`, `captureDescription`
+    * Type `unauthorized-direct-debit`: `paymentId`, `paymentDescription`
+    * Type `failed-payment`: `paymentId`, `paymentDescription`
+    * Type `refund`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `refund-compensation`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `returned-refund`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `returned-refund-compensation`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `chargeback`: `paymentId` `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `chargeback-reversal`: `paymentId`, `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `chargeback-compensation`: `paymentId`, `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `reversed-chargeback-compensation`: `paymentId`, `chargebackId`, `paymentDescription`, `chargebackDescription`
     * Type `outgoing-transfer`: `settlementId` `transferId`
     * Type `canceled-outgoing-transfer`: `settlementId` `transferId`
     * Type `returned-transfer`: `settlementId` `transferId`
     * Type `invoice-compensation`: `invoiceId`
     * Type `balance-correction`: none
-    * Type `application-fee`: `paymentId`
-    * Type `split-payment`: `paymentId`
-    * Type `platform-payment-refund`: `paymentId` `refundId`
-    * Type `platform-payment-chargeback`: `paymentId` `chargebackId`
+    * Type `application-fee`: `paymentId`, `paymentDescription`, `payingOwner`
+    * Type `split-payment`: `paymentId`, `paymentDescription`, `paymentOwner`
+    * Type `platform-payment-refund`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `returned-platform-payment-refund`: `paymentId` `refundId`, `paymentDescription`, `refundDescription`
+    * Type `platform-payment-chargeback`: `paymentId` `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `reversed-platform-payment-chargeback`: `paymentId` `chargebackId`, `paymentDescription`, `chargebackDescription`
+    * Type `payment-commission`: `paymentId`, `paymentDescription`, `organizationId`
+    * Type `reimbursement-fee`: `paymentId`, `paymentDescription`
+    * Type `failed-payment-fee`: `paymentId`, `paymentDescription`
+    * Type `payment-fee`: `paymentId`, `paymentDescription`
+    * Type `cash-advance-loan`: none
+    * Type `platform-connected-organizations-fee`: none
+    * Type `managed-fee`: `feeType`, `<name of the fee>Id`
+    * Type `returned-managed-fee`:  `feeType`, `<name of the fee>Id`
+    * Type `topup`: none
+    * Type `balance-reserve`: none
+    * Type `balance-reserve-return`: none
+    * Type `movement`: none
+    * Type `post-payment-split-payment`: `paymentId`
+    * Type `cash-collateral-issuance`: none
+    * Type `cash-collateral-release`: none
     """
 
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None

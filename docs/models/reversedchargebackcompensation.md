@@ -1,4 +1,4 @@
-# PlatformPaymentChargeback
+# ReversedChargebackCompensation
 
 
 ## Fields

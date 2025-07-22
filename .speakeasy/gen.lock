@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: da6de17d0d4db83d32464dbc756282f4
+  docChecksum: f51a106f33c07dcd085761324d555d0e
   docVersion: 1.0.0
-  speakeasyVersion: 1.583.0
-  generationVersion: 2.658.3
-  releaseVersion: 0.5.19
-  configChecksum: 80dcbb49f13d9c2a6182f33eb02d1a8e
+  speakeasyVersion: 1.584.0
+  generationVersion: 2.660.0
+  releaseVersion: 0.5.20
+  configChecksum: 6fcc451ea02b6876bb0c61ea1c531a62
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -134,9 +134,13 @@ generatedFiles:
   - docs/models/cancelsubscriptionsubscriptionsresponsebody.md
   - docs/models/capital.md
   - docs/models/capture.md
+  - docs/models/capturecommision.md
+  - docs/models/capturerollingreserverelease.md
   - docs/models/categories.md
   - docs/models/changepaymentstate.md
   - docs/models/chargeback.md
+  - docs/models/chargebackcompensation.md
+  - docs/models/chargebackreversal.md
   - docs/models/checkout.md
   - docs/models/checkoutpreviewurl.md
   - docs/models/clientlink.md
@@ -519,6 +523,8 @@ generatedFiles:
   - docs/models/events.md
   - docs/models/eventtypes.md
   - docs/models/externalreference.md
+  - docs/models/failedpayment.md
+  - docs/models/failedpaymentfee.md
   - docs/models/feeprepayments.md
   - docs/models/fixed.md
   - docs/models/getbalancebalancesdocumentation.md
@@ -1145,6 +1151,7 @@ generatedFiles:
   - docs/models/include.md
   - docs/models/initialamount.md
   - docs/models/invoice.md
+  - docs/models/invoicecompensation.md
   - docs/models/invoicepayment.md
   - docs/models/issuers.md
   - docs/models/lessthanmonthgreaterthan.md
@@ -1298,6 +1305,7 @@ generatedFiles:
   - docs/models/listbalancesself.md
   - docs/models/listbalancestransferdestination.md
   - docs/models/listbalancestransferthreshold.md
+  - docs/models/listbalancetransactionsapplicationfee.md
   - docs/models/listbalancetransactionsbalancesdocumentation.md
   - docs/models/listbalancetransactionsbalanceslinks.md
   - docs/models/listbalancetransactionsbalancesresponse429documentation.md
@@ -1311,6 +1319,7 @@ generatedFiles:
   - docs/models/listbalancetransactionsembedded.md
   - docs/models/listbalancetransactionslinks.md
   - docs/models/listbalancetransactionsnext.md
+  - docs/models/listbalancetransactionspayment.md
   - docs/models/listbalancetransactionsprevious.md
   - docs/models/listbalancetransactionsrequest.md
   - docs/models/listbalancetransactionsresponsebody.md
@@ -1999,6 +2008,7 @@ generatedFiles:
   - docs/models/listwebhookswebhooksdocumentation.md
   - docs/models/listwebhookswebhookslinks.md
   - docs/models/listwebhookswebhooksresponsebody.md
+  - docs/models/managedfee.md
   - docs/models/mandate.md
   - docs/models/maximumamount.md
   - docs/models/metadata.md
@@ -2015,6 +2025,7 @@ generatedFiles:
   - docs/models/outgoingtransfer.md
   - docs/models/owner.md
   - docs/models/payment.md
+  - docs/models/paymentcommission.md
   - docs/models/paymentcreaterouteamount.md
   - docs/models/paymentcreateroutedelayedroutingamount.md
   - docs/models/paymentcreateroutedelayedroutingdestination.md
@@ -2029,6 +2040,7 @@ generatedFiles:
   - docs/models/paymentcreaterouteresponsebody.md
   - docs/models/paymentcreaterouteself.md
   - docs/models/paymentdetails.md
+  - docs/models/paymentfee.md
   - docs/models/paymentlink.md
   - docs/models/paymentlistroutesamount.md
   - docs/models/paymentlistroutesdelayedroutingdocumentation.md
@@ -2053,6 +2065,7 @@ generatedFiles:
   - docs/models/periods.md
   - docs/models/platformpaymentchargeback.md
   - docs/models/platformpaymentrefund.md
+  - docs/models/postpaymentsplitpayment.md
   - docs/models/previous.md
   - docs/models/pricing.md
   - docs/models/profile.md
@@ -2063,6 +2076,9 @@ generatedFiles:
   - docs/models/reason.md
   - docs/models/recipient.md
   - docs/models/recurring.md
+  - docs/models/refund.md
+  - docs/models/refundcompensation.md
+  - docs/models/reimbursementfee.md
   - docs/models/releaseauthorizationdocumentation.md
   - docs/models/releaseauthorizationlinks.md
   - docs/models/releaseauthorizationpaymentsdocumentation.md
@@ -2077,9 +2093,14 @@ generatedFiles:
   - docs/models/requestapplepaypaymentsessionresponsebody.md
   - docs/models/requirements.md
   - docs/models/resultamount.md
+  - docs/models/returnedmanagedfee.md
+  - docs/models/returnedplatformpaymentrefund.md
   - docs/models/returnedrefund.md
+  - docs/models/returnedrefundcompensation.md
   - docs/models/returnedtransfer.md
   - docs/models/revenue.md
+  - docs/models/reversedchargebackcompensation.md
+  - docs/models/reversedplatformpaymentchargeback.md
   - docs/models/review.md
   - docs/models/revokemandatedocumentation.md
   - docs/models/revokemandatelinks.md
@@ -2097,6 +2118,7 @@ generatedFiles:
   - docs/models/shippingaddress.md
   - docs/models/signuplink.md
   - docs/models/source.md
+  - docs/models/splitpayment.md
   - docs/models/status.md
   - docs/models/statusreason.md
   - docs/models/submitonboardingdatarequestbody.md
@@ -2120,6 +2142,7 @@ generatedFiles:
   - docs/models/transfers.md
   - docs/models/transferthreshold.md
   - docs/models/two.md
+  - docs/models/unauthorizeddirectdebit.md
   - docs/models/unitprice.md
   - docs/models/updatecustomercustomersdocumentation.md
   - docs/models/updatecustomercustomerslinks.md
@@ -5444,7 +5467,7 @@ examples:
           testmode: false
       responses:
         "200":
-          application/hal+json: {"count": 5, "_embedded": {"balance_transactions": [{"resource": "balance_transaction", "id": "baltr_QM24QwzUWR4ev4Xfgyt29d", "type": "payment", "resultAmount": {"currency": "EUR", "value": "10.00"}, "initialAmount": {"currency": "EUR", "value": "10.00"}, "deductions": {"currency": "EUR", "value": "10.00"}, "context": {"payment": "tr_aHbjjdrUdm", "capture": {"paymentId": "tr_5B8cwPMGnU", "captureId": "cpt_vytxeTZskVKR7C7WgdSP3d"}, "unauthorized-direct-debit": "tr_5B8cwPMGnU", "failed-payment": "tr_5B8cwPMGnU", "refund": "tr_5B8cwPMGnU", "returned-refund": {"paymentId": "tr_5B8cwPMGnU", "refundId": "re_5B8cwPMGnU"}, "chargeback": {"paymentId": "tr_5B8cwPMGnU", "chargebackId": "chb_xFzwUN4ci8HAmSGUACS4J"}, "chargeback-reversal": "tr_5B8cwPMGnU", "outgoing-transfer": {"transferId": "trf_nyjwa2", "settlementId": "stl_5B8cwPMGnU"}, "canceled-outgoing-transfer": {"transferId": "trf_nyjwa2", "settlementId": "stl_5B8cwPMGnU"}, "returned-transfer": {"transferId": "trf_nyjwa2", "settlementId": "stl_s3hcSM2hKP"}, "invoice-compensation": "inv_aHbjjdrUdm", "application-fee": "tr_5B8cwPMGnU", "split-payment": "tr_5B8cwPMGnU", "platform-payment-refund": {"paymentId": "tr_5B8cwPMGnU", "refundId": "re_5B8cwPMGnU"}, "platform-payment-chargeback": {"paymentId": "tr_5B8cwPMGnU", "chargebackId": "chb_xFzwUN4ci8HAmSGUACS4J"}}, "createdAt": "2024-03-20T09:13:37.0Z"}]}, "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "previous": {"href": "https://...", "type": "application/hal+json"}, "next": {"href": "https://...", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "application/hal+json"}}}
+          application/hal+json: {"count": 5, "_embedded": {"balance_transactions": [{"resource": "balance_transaction", "id": "baltr_QM24QwzUWR4ev4Xfgyt29d", "type": "payment", "resultAmount": {"currency": "EUR", "value": "10.00"}, "initialAmount": {"currency": "EUR", "value": "10.00"}, "deductions": {"currency": "EUR", "value": "10.00"}, "context": {"payment": {"paymentId": "tr_5B8cwPMGnU", "paymentDescription": "Payment Description"}, "capture": {"paymentId": "tr_5B8cwPMGnU", "captureId": "cpt_vytxeTZskVKR7C7WgdSP3d"}, "unauthorized-direct-debit": {"paymentId": "tr_5B8cwPMGnU", "paymentDescription": "Payment Description"}, "failed-payment": {"paymentId": "tr_5B8cwPMGnU", "paymentDescription": "Payment Description"}, "refund": {"paymentId": "tr_5B8cwPMGnU", "paymentDescription": "Payment Description", "refundId": "re_5B8cwPMGnU", "refundDescription": "Refund Description"}, "returned-refund": {"paymentId": "tr_5B8cwPMGnU", "refundId": "re_5B8cwPMGnU"}, "chargeback": {"paymentId": "tr_5B8cwPMGnU", "chargebackId": "chb_xFzwUN4ci8HAmSGUACS4J"}, "chargeback-reversal": {"paymentId": "tr_5B8cwPMGnU", "paymentDescription": "Payment Description", "chargebackId": "chb_xFzwUN4ci8HAmSGUACS4J", "chargebackDescription": "Chargeback Description"}, "outgoing-transfer": {"transferId": "trf_nyjwa2", "settlementId": "stl_5B8cwPMGnU"}, "canceled-outgoing-transfer": {"transferId": "trf_nyjwa2", "settlementId": "stl_5B8cwPMGnU"}, "returned-transfer": {"transferId": "trf_nyjwa2", "settlementId": "stl_s3hcSM2hKP"}, "invoice-compensation": {"invoiceId": "inv_aHbjjdrUdm"}, "application-fee": {"paymentId": "tr_5B8cwPMGnU", "paymentDescription": "Payment Description", "payingOwner": "org_1234567"}, "split-payment": {"paymentId": "tr_5B8cwPMGnU", "paymentDescription": "Payment Description", "paymentOnwer": "org_1234567"}, "platform-payment-refund": {"paymentId": "tr_5B8cwPMGnU", "refundId": "re_5B8cwPMGnU"}, "platform-payment-chargeback": {"paymentId": "tr_5B8cwPMGnU", "chargebackId": "chb_xFzwUN4ci8HAmSGUACS4J"}}, "createdAt": "2024-03-20T09:13:37.0Z"}]}, "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "previous": {"href": "https://...", "type": "application/hal+json"}, "next": {"href": "https://...", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "application/hal+json"}}}
         "400":
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "The resource does not exist", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
         "404":
@@ -6254,7 +6277,7 @@ examples:
           testmode: false
       responses:
         "200":
-          application/hal+json: {"count": 5, "_embedded": {"refunds": [{"resource": "refund", "id": "re_4qqhO89gsT", "mode": "live", "description": "Order", "amount": {"currency": "EUR", "value": "5.95"}, "metadata": [], "paymentId": "tr_5B8cwPMGnU6qLbRvo7qEZo", "status": "pending", "createdAt": "2023-03-14T17:09:02.0Z", "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "payment": {"href": "https://api.mollie.com/v2/payments/tr_5B8cwPMGnU6qLbRvo7qEZo", "type": "application/hal+json"}}}, {"resource": "refund"}, {"resource": "refund"}, {"resource": "refund"}, {"resource": "refund"}]}, "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "previous": null, "next": {"href": "https://api.mollie.com/v2/payments/tr_5B8cwPMGnU6qLbRvo7qEZo/refunds?from=re_APBiGPH2vV&limit=5", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "text/html"}}}
+          application/hal+json: {"count": 5, "_embedded": {"refunds": [{"resource": "refund", "id": "re_4qqhO89gsT", "mode": "live", "description": "Order", "amount": {"currency": "EUR", "value": "5.95"}, "metadata": {}, "paymentId": "tr_5B8cwPMGnU6qLbRvo7qEZo", "status": "pending", "createdAt": "2023-03-14T17:09:02.0Z", "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "payment": {"href": "https://api.mollie.com/v2/payments/tr_5B8cwPMGnU6qLbRvo7qEZo", "type": "application/hal+json"}}}, {"resource": "refund"}, {"resource": "refund"}, {"resource": "refund"}, {"resource": "refund"}]}, "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "previous": null, "next": {"href": "https://api.mollie.com/v2/payments/tr_5B8cwPMGnU6qLbRvo7qEZo/refunds?from=re_APBiGPH2vV&limit=5", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "text/html"}}}
     speakeasy-default-list-settlement-refunds:
       parameters:
         path:
