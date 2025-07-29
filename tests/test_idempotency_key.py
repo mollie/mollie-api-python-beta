@@ -12,7 +12,7 @@ class TestIdempotencyKey:
 
             print("Request Headers:", headers)
 
-            assert "idempotency-ke" in headers
+            assert "idempotency-key" in headers
             assert headers["idempotency-key"] is not None
 
             return Response(
