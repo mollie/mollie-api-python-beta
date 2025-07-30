@@ -27,6 +27,7 @@ Payment sessions cannot be requested directly from the browser. The request must
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="request-apple-pay-payment-session" method="post" path="/wallets/applepay/sessions" -->
 ```python
 import mollie
 from mollie import Client

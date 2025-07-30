@@ -23,6 +23,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-balances" method="get" path="/balances" -->
 ```python
 import mollie
 from mollie import Client
@@ -81,6 +82,7 @@ With instant payment methods like iDEAL, payments are moved to the available bal
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-balance" method="get" path="/balances/{id}" -->
 ```python
 import mollie
 from mollie import Client
@@ -131,6 +133,7 @@ This endpoint is a convenient alias of the [Get balance](get-balance) endpoint.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-primary-balance" method="get" path="/balances/primary" -->
 ```python
 import mollie
 from mollie import Client
@@ -180,6 +183,7 @@ The alias `primary` can be used instead of the balance ID to refer to the organi
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-balance-report" method="get" path="/balances/{balanceId}/report" -->
 ```python
 import mollie
 from mollie import Client
@@ -238,6 +242,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-balance-transactions" method="get" path="/balances/{balanceId}/transactions" -->
 ```python
 import mollie
 from mollie import Client

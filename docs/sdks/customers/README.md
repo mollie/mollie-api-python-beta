@@ -27,6 +27,7 @@ Once registered, customers will also appear in your Mollie dashboard.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="create-customer" method="post" path="/customers" -->
 ```python
 import mollie
 from mollie import Client
@@ -83,6 +84,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-customers" method="get" path="/customers" -->
 ```python
 import mollie
 from mollie import Client
@@ -134,6 +136,7 @@ Retrieve a single customer by its ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-customer" method="get" path="/customers/{customerId}" -->
 ```python
 import mollie
 from mollie import Client
@@ -185,6 +188,7 @@ For an in-depth explanation of each parameter, refer to the [Create customer](cr
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="update-customer" method="patch" path="/customers/{customerId}" -->
 ```python
 import mollie
 from mollie import Client
@@ -237,6 +241,7 @@ Delete a customer. All mandates and subscriptions created for this customer will
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="delete-customer" method="delete" path="/customers/{customerId}" -->
 ```python
 import mollie
 from mollie import Client
@@ -296,6 +301,7 @@ This endpoint is effectively an alias of the [Create payment endpoint](create-pa
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="create-customer-payment" method="post" path="/customers/{customerId}/payments" -->
 ```python
 import mollie
 from mollie import Client
@@ -487,6 +493,7 @@ Retrieve all payments linked to the customer.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-customer-payments" method="get" path="/customers/{customerId}/payments" -->
 ```python
 import mollie
 from mollie import Client

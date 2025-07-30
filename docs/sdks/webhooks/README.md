@@ -22,6 +22,7 @@ A webhook must have a name, an url and a list of event types. You can also creat
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="create-webhook" method="post" path="/webhooks" -->
 ```python
 import mollie
 from mollie import Client
@@ -74,6 +75,7 @@ Returns a paginated list of your webhooks. If no webhook endpoints are available
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-webhooks" method="get" path="/webhooks" -->
 ```python
 import mollie
 from mollie import Client
@@ -125,6 +127,7 @@ Updates the webhook. You may edit the name, url and the list of subscribed event
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="update-webhook" method="patch" path="/webhooks/{id}" -->
 ```python
 import mollie
 from mollie import Client
@@ -177,6 +180,7 @@ Retrieve a single webhook object by its ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-webhook" method="get" path="/webhooks/{id}" -->
 ```python
 import mollie
 from mollie import Client
@@ -226,6 +230,7 @@ Delete a single webhook object by its webhook ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="delete-webhook" method="delete" path="/webhooks/{id}" -->
 ```python
 import mollie
 from mollie import Client
@@ -275,6 +280,7 @@ Sends a test event to the webhook to verify the endpoint is working as expected.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="test-webhook" method="post" path="/webhooks/{id}/ping" -->
 ```python
 import mollie
 from mollie import Client

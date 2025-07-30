@@ -30,6 +30,7 @@ If you specify the `method` parameter when creating a payment, optional addition
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="create-payment" method="post" path="/payments" -->
 ```python
 import mollie
 from mollie import Client
@@ -302,6 +303,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-payments" method="get" path="/payments" -->
 ```python
 import mollie
 from mollie import Client
@@ -355,6 +357,7 @@ Retrieve a single payment object by its payment ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-payment" method="get" path="/payments/{paymentId}" -->
 ```python
 import mollie
 from mollie import Client
@@ -409,6 +412,7 @@ Updating the payment details will not result in a webhook call.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="update-payment" method="patch" path="/payments/{paymentId}" -->
 ```python
 import mollie
 from mollie import Client
@@ -503,6 +507,7 @@ The `isCancelable` property on the [Payment object](get-payment) will indicate i
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="cancel-payment" method="delete" path="/payments/{paymentId}" -->
 ```python
 import mollie
 from mollie import Client
@@ -558,6 +563,7 @@ If the request does succeed, the payment status will change to `canceled` for pa
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="release-authorization" method="post" path="/payments/{paymentId}/release-authorization" -->
 ```python
 import mollie
 from mollie import Client

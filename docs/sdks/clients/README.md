@@ -20,6 +20,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-clients" method="get" path="/clients" -->
 ```python
 import mollie
 from mollie import Client
@@ -70,6 +71,7 @@ Retrieve a single client by its ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-client" method="get" path="/clients/{id}" -->
 ```python
 import mollie
 from mollie import Client

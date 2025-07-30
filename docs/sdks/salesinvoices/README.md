@@ -27,6 +27,7 @@ With the Sales Invoice API you can generate sales invoices to send to your custo
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="create-sales-invoice" method="post" path="/sales-invoices" -->
 ```python
 import mollie
 from mollie import Client
@@ -122,6 +123,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-sales-invoices" method="get" path="/sales-invoices" -->
 ```python
 import mollie
 from mollie import Client
@@ -177,6 +179,7 @@ Retrieve a single sales invoice by its ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-sales-invoice" method="get" path="/sales-invoices/{id}" -->
 ```python
 import mollie
 from mollie import Client
@@ -231,6 +234,7 @@ Certain details of an existing sales invoice can be updated. For `draft` it is a
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="update-sales-invoice" method="patch" path="/sales-invoices/{id}" -->
 ```python
 import mollie
 from mollie import Client
@@ -335,6 +339,7 @@ Sales invoices which are in status `draft` can be deleted. For all other statuse
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="delete-sales-invoice" method="delete" path="/sales-invoices/{id}" -->
 ```python
 import mollie
 from mollie import Client

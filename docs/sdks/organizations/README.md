@@ -23,6 +23,7 @@ If you have a *partner account*', you can retrieve organization details of conne
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-organization" method="get" path="/organizations/{id}" -->
 ```python
 import mollie
 from mollie import Client
@@ -73,6 +74,7 @@ For a complete reference of the organization object, refer to the [Get organizat
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-current-organization" method="get" path="/organizations/me" -->
 ```python
 import mollie
 from mollie import Client
@@ -118,6 +120,7 @@ Retrieve partnership details about the currently authenticated organization. Onl
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-partner-status" method="get" path="/organizations/me/partner" -->
 ```python
 import mollie
 from mollie import Client

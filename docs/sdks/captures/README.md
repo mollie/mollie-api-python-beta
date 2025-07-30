@@ -25,6 +25,7 @@ By default, Mollie captures payments automatically. If however you configured yo
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="create-capture" method="post" path="/payments/{paymentId}/captures" -->
 ```python
 import mollie
 from mollie import Client
@@ -83,6 +84,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-captures" method="get" path="/payments/{paymentId}/captures" -->
 ```python
 import mollie
 from mollie import Client
@@ -137,6 +139,7 @@ Retrieve a single payment capture by its ID and the ID of its parent payment.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-capture" method="get" path="/payments/{paymentId}/captures/{captureId}" -->
 ```python
 import mollie
 from mollie import Client

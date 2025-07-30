@@ -24,6 +24,7 @@ Profiles are required for payment processing. Normally they are created via the 
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="create-profile" method="post" path="/profiles" -->
 ```python
 import mollie
 from mollie import Client
@@ -82,6 +83,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-profiles" method="get" path="/profiles" -->
 ```python
 import mollie
 from mollie import Client
@@ -130,6 +132,7 @@ Retrieve a single profile by its ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-profile" method="get" path="/profiles/{id}" -->
 ```python
 import mollie
 from mollie import Client
@@ -181,6 +184,7 @@ Profiles are required for payment processing. Normally they are created and upda
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="update-profile" method="patch" path="/profiles/{id}" -->
 ```python
 import mollie
 from mollie import Client
@@ -241,6 +245,7 @@ Delete a profile. A deleted profile and its related credentials can no longer be
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="delete-profile" method="delete" path="/profiles/{id}" -->
 ```python
 import mollie
 from mollie import Client
@@ -291,6 +296,7 @@ For a complete reference of the profile object, refer to the [Get profile](get-p
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-current-profile" method="get" path="/profiles/me" -->
 ```python
 import mollie
 from mollie import Client

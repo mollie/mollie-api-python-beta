@@ -24,6 +24,7 @@ With the Payment links API you can generate payment links that by default, unlik
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="create-payment-link" method="post" path="/payment-links" -->
 ```python
 import mollie
 from mollie import Client
@@ -159,6 +160,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-payment-links" method="get" path="/payment-links" -->
 ```python
 import mollie
 from mollie import Client
@@ -210,6 +212,7 @@ Retrieve a single payment link by its ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-payment-link" method="get" path="/payment-links/{paymentLinkId}" -->
 ```python
 import mollie
 from mollie import Client
@@ -260,6 +263,7 @@ Certain details of an existing payment link can be updated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="update-payment-link" method="patch" path="/payment-links/{paymentLinkId}" -->
 ```python
 import mollie
 from mollie import Client
@@ -383,6 +387,7 @@ To simply disable a payment link without fully deleting it, you can use the `arc
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="delete-payment-link" method="delete" path="/payment-links/{paymentLinkId}" -->
 ```python
 import mollie
 from mollie import Client
@@ -436,6 +441,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-payment-link-payments" method="get" path="/payment-links/{paymentLinkId}/payments" -->
 ```python
 import mollie
 from mollie import Client

@@ -26,6 +26,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-settlements" method="get" path="/settlements" -->
 ```python
 import mollie
 from mollie import Client
@@ -87,6 +88,7 @@ For more accurate bookkeeping, refer to the [balance report](get-balance-report)
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-settlement" method="get" path="/settlements/{id}" -->
 ```python
 import mollie
 from mollie import Client
@@ -138,6 +140,7 @@ For more accurate bookkeeping, refer to the [balance report](get-balance-report)
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-open-settlement" method="get" path="/settlements/open" -->
 ```python
 import mollie
 from mollie import Client
@@ -187,6 +190,7 @@ For more accurate bookkeeping, refer to the [balance report](get-balance-report)
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-next-settlement" method="get" path="/settlements/next" -->
 ```python
 import mollie
 from mollie import Client
@@ -236,6 +240,7 @@ For capture-based payment methods such as Klarna, the payments are not listed he
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-settlement-payments" method="get" path="/settlements/{settlementId}/payments" -->
 ```python
 import mollie
 from mollie import Client
@@ -290,6 +295,7 @@ The response is in the same format as the response of the [List captures endpoin
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-settlement-captures" method="get" path="/settlements/{settlementId}/captures" -->
 ```python
 import mollie
 from mollie import Client
@@ -344,6 +350,7 @@ The response is in the same format as the response of the [List refunds endpoint
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-settlement-refunds" method="get" path="/settlements/{settlementId}/refunds" -->
 ```python
 import mollie
 from mollie import Client
@@ -398,6 +405,7 @@ The response is in the same format as the response of the [List chargebacks endp
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-settlement-chargebacks" method="get" path="/settlements/{settlementId}/chargebacks" -->
 ```python
 import mollie
 from mollie import Client

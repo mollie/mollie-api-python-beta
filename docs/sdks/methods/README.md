@@ -29,6 +29,7 @@ By default, only payment methods for the Euro currency are returned. If you wish
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-methods" method="get" path="/methods" -->
 ```python
 import mollie
 from mollie import Client
@@ -92,6 +93,7 @@ The list can optionally be filtered using a number of parameters described below
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-all-methods" method="get" path="/methods/all" -->
 ```python
 import mollie
 from mollie import Client
@@ -155,6 +157,7 @@ Additionally, it is possible to check if wallet methods such as Apple Pay are en
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-method" method="get" path="/methods/{id}" -->
 ```python
 import mollie
 from mollie import Client

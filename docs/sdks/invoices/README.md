@@ -20,6 +20,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-invoices" method="get" path="/invoices" -->
 ```python
 import mollie
 from mollie import Client
@@ -75,6 +76,7 @@ If you want to retrieve the details of an invoice by its invoice number, call th
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-invoice" method="get" path="/invoices/{id}" -->
 ```python
 import mollie
 from mollie import Client

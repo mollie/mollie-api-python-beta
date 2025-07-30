@@ -20,6 +20,7 @@ The results are **not** paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-permissions" method="get" path="/permissions" -->
 ```python
 import mollie
 from mollie import Client
@@ -66,6 +67,7 @@ Retrieve a single permission by its ID, and see if the permission is granted to 
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-permission" method="get" path="/permissions/{permissionId}" -->
 ```python
 import mollie
 from mollie import Client

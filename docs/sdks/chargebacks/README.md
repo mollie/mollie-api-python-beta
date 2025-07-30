@@ -23,6 +23,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-chargebacks" method="get" path="/payments/{paymentId}/chargebacks" -->
 ```python
 import mollie
 from mollie import Client
@@ -77,6 +78,7 @@ Retrieve a single payment chargeback by its ID and the ID of its parent payment.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-chargeback" method="get" path="/payments/{paymentId}/chargebacks/{chargebackId}" -->
 ```python
 import mollie
 from mollie import Client
@@ -131,6 +133,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-all-chargebacks" method="get" path="/chargebacks" -->
 ```python
 import mollie
 from mollie import Client

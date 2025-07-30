@@ -24,6 +24,7 @@ It is only possible to create mandates for IBANs and PayPal billing agreements w
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="create-mandate" method="post" path="/customers/{customerId}/mandates" -->
 ```python
 import mollie
 from mollie import Client
@@ -86,6 +87,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-mandates" method="get" path="/customers/{customerId}/mandates" -->
 ```python
 import mollie
 from mollie import Client
@@ -140,6 +142,7 @@ Retrieve a single mandate by its ID. Depending on the type of mandate, the objec
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-mandate" method="get" path="/customers/{customerId}/mandates/{mandateId}" -->
 ```python
 import mollie
 from mollie import Client
@@ -191,6 +194,7 @@ Revoke a customer's mandate. You will no longer be able to charge the customer's
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="revoke-mandate" method="delete" path="/customers/{customerId}/mandates/{mandateId}" -->
 ```python
 import mollie
 from mollie import Client

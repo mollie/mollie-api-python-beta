@@ -18,6 +18,7 @@ Retrieve the onboarding status of the currently authenticated organization.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-onboarding-status" method="get" path="/onboarding/me" -->
 ```python
 import mollie
 from mollie import Client
@@ -65,6 +66,7 @@ Submit data that will be prefilled in the merchant's onboarding. The data you su
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="submit-onboarding-data" method="post" path="/onboarding/me" -->
 ```python
 import mollie
 from mollie import Client

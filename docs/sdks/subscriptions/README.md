@@ -37,6 +37,7 @@ A few example usages:
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="create-subscription" method="post" path="/customers/{customerId}/subscriptions" -->
 ```python
 import mollie
 from mollie import Client
@@ -108,6 +109,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-subscriptions" method="get" path="/customers/{customerId}/subscriptions" -->
 ```python
 import mollie
 from mollie import Client
@@ -162,6 +164,7 @@ Retrieve a single subscription by its ID and the ID of its parent customer.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-subscription" method="get" path="/customers/{customerId}/subscriptions/{subscriptionId}" -->
 ```python
 import mollie
 from mollie import Client
@@ -217,6 +220,7 @@ For an in-depth explanation of each parameter, refer to the [Create subscription
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="update-subscription" method="patch" path="/customers/{customerId}/subscriptions/{subscriptionId}" -->
 ```python
 import mollie
 from mollie import Client
@@ -279,6 +283,7 @@ Cancel an existing subscription. Canceling a subscription has no effect on the m
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="cancel-subscription" method="delete" path="/customers/{customerId}/subscriptions/{subscriptionId}" -->
 ```python
 import mollie
 from mollie import Client
@@ -332,6 +337,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-all-subscriptions" method="get" path="/subscriptions" -->
 ```python
 import mollie
 from mollie import Client
@@ -387,6 +393,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-subscription-payments" method="get" path="/customers/{customerId}/subscriptions/{subscriptionId}/payments" -->
 ```python
 import mollie
 from mollie import Client

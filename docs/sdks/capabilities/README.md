@@ -27,6 +27,7 @@ For payments, regardless them being at the profile level, the capability is list
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-capabilities" method="get" path="/capabilities" -->
 ```python
 import mollie
 from mollie import Client

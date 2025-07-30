@@ -23,6 +23,7 @@ Creates a refund for a specific payment. The refunded amount is credited to your
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="create-refund" method="post" path="/payments/{paymentId}/refunds" -->
 ```python
 import mollie
 from mollie import Client
@@ -100,6 +101,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-refunds" method="get" path="/payments/{paymentId}/refunds" -->
 ```python
 import mollie
 from mollie import Client
@@ -154,6 +156,7 @@ Retrieve a single payment refund by its ID and the ID of its parent payment.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-refund" method="get" path="/payments/{paymentId}/refunds/{refundId}" -->
 ```python
 import mollie
 from mollie import Client
@@ -208,6 +211,7 @@ A refund can only be canceled while its `status` field is either `queued` or `pe
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="cancel-refund" method="delete" path="/payments/{paymentId}/refunds/{refundId}" -->
 ```python
 import mollie
 from mollie import Client
@@ -261,6 +265,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-all-refunds" method="get" path="/refunds" -->
 ```python
 import mollie
 from mollie import Client

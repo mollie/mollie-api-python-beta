@@ -55,6 +55,7 @@ Error handling is also dealt with similar to the [Authorize](https://docs.mollie
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="create-client-link" method="post" path="/client-links" -->
 ```python
 import mollie
 from mollie import Client

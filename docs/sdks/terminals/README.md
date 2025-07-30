@@ -22,6 +22,7 @@ The results are paginated.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="list-terminals" method="get" path="/terminals" -->
 ```python
 import mollie
 from mollie import Client
@@ -74,6 +75,7 @@ Retrieve a single terminal by its ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-terminal" method="get" path="/terminals/{terminalId}" -->
 ```python
 import mollie
 from mollie import Client

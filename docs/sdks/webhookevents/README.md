@@ -17,6 +17,7 @@ Retrieve a single webhook event object by its event ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="python" operationID="get-webhook-event" method="get" path="/events/{id}" -->
 ```python
 import mollie
 from mollie import Client
