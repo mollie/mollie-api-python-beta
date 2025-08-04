@@ -19,18 +19,15 @@ class Organizations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetOrganizationResponseBody:
+    ) -> models.GetOrganizationResponse:
         r"""Get organization
 
         Retrieve a single organization by its ID.
 
-        You can normally only retrieve the currently authenticated organization with this endpoint. This is primarily useful for OAuth apps. See also [Get current organization](get-current-organization).
+        You can normally only retrieve the currently authenticated organization with this endpoint. This is primarily useful
+        for OAuth apps. See also [Get current organization](get-current-organization).
 
         If you have a *partner account*', you can retrieve organization details of connected organizations.
-
-        > 🔑 Access with
-        >
-        > [Access token with **organizations.read**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -99,14 +96,12 @@ class Organizations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetOrganizationResponseBody, http_res)
+            return unmarshal_json_response(models.GetOrganizationResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetOrganizationOrganizationsResponseBodyData, http_res
+                models.GetOrganizationHalJSONErrorData, http_res
             )
-            raise models.GetOrganizationOrganizationsResponseBody(
-                response_data, http_res
-            )
+            raise models.GetOrganizationHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -125,18 +120,15 @@ class Organizations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetOrganizationResponseBody:
+    ) -> models.GetOrganizationResponse:
         r"""Get organization
 
         Retrieve a single organization by its ID.
 
-        You can normally only retrieve the currently authenticated organization with this endpoint. This is primarily useful for OAuth apps. See also [Get current organization](get-current-organization).
+        You can normally only retrieve the currently authenticated organization with this endpoint. This is primarily useful
+        for OAuth apps. See also [Get current organization](get-current-organization).
 
         If you have a *partner account*', you can retrieve organization details of connected organizations.
-
-        > 🔑 Access with
-        >
-        > [Access token with **organizations.read**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -205,14 +197,12 @@ class Organizations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetOrganizationResponseBody, http_res)
+            return unmarshal_json_response(models.GetOrganizationResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetOrganizationOrganizationsResponseBodyData, http_res
+                models.GetOrganizationHalJSONErrorData, http_res
             )
-            raise models.GetOrganizationOrganizationsResponseBody(
-                response_data, http_res
-            )
+            raise models.GetOrganizationHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -229,16 +219,14 @@ class Organizations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCurrentOrganizationResponseBody:
+    ) -> models.GetCurrentOrganizationResponse:
         r"""Get current organization
 
-        Retrieve the currently authenticated organization. A convenient alias of the [Get organization](get-organization) endpoint.
+        Retrieve the currently authenticated organization. A convenient alias of the [Get organization](get-organization)
+        endpoint.
 
-        For a complete reference of the organization object, refer to the [Get organization](get-organization) endpoint documentation.
-
-        > 🔑 Access with
-        >
-        > [Access token with **organizations.read**](/reference/authentication)
+        For a complete reference of the organization object, refer to the [Get organization](get-organization) endpoint
+        documentation.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -299,7 +287,7 @@ class Organizations(BaseSDK):
 
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.GetCurrentOrganizationResponseBody, http_res
+                models.GetCurrentOrganizationResponse, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
@@ -317,16 +305,14 @@ class Organizations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCurrentOrganizationResponseBody:
+    ) -> models.GetCurrentOrganizationResponse:
         r"""Get current organization
 
-        Retrieve the currently authenticated organization. A convenient alias of the [Get organization](get-organization) endpoint.
+        Retrieve the currently authenticated organization. A convenient alias of the [Get organization](get-organization)
+        endpoint.
 
-        For a complete reference of the organization object, refer to the [Get organization](get-organization) endpoint documentation.
-
-        > 🔑 Access with
-        >
-        > [Access token with **organizations.read**](/reference/authentication)
+        For a complete reference of the organization object, refer to the [Get organization](get-organization) endpoint
+        documentation.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -387,7 +373,7 @@ class Organizations(BaseSDK):
 
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.GetCurrentOrganizationResponseBody, http_res
+                models.GetCurrentOrganizationResponse, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
@@ -405,14 +391,11 @@ class Organizations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPartnerStatusResponseBody:
+    ) -> models.GetPartnerStatusResponse:
         r"""Get partner status
 
-        Retrieve partnership details about the currently authenticated organization. Only relevant for so-called *partner accounts*.
-
-        > 🔑 Access with
-        >
-        > [Access token with **organizations.read**](/reference/authentication)
+        Retrieve partnership details about the currently authenticated organization. Only relevant for so-called *partner
+        accounts*.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -472,9 +455,7 @@ class Organizations(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.GetPartnerStatusResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetPartnerStatusResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -491,14 +472,11 @@ class Organizations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPartnerStatusResponseBody:
+    ) -> models.GetPartnerStatusResponse:
         r"""Get partner status
 
-        Retrieve partnership details about the currently authenticated organization. Only relevant for so-called *partner accounts*.
-
-        > 🔑 Access with
-        >
-        > [Access token with **organizations.read**](/reference/authentication)
+        Retrieve partnership details about the currently authenticated organization. Only relevant for so-called *partner
+        accounts*.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -558,9 +536,7 @@ class Organizations(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.GetPartnerStatusResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetPartnerStatusResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

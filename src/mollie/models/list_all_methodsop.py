@@ -12,7 +12,36 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class ListAllMethodsQueryParamAmountTypedDict(TypedDict):
+class ListAllMethodsLocale(str, Enum):
+    r"""Passing a locale will sort the payment methods in the preferred order
+    for the country, and translate the payment method names in the corresponding language.
+    """
+
+    EN_US = "en_US"
+    EN_GB = "en_GB"
+    NL_NL = "nl_NL"
+    NL_BE = "nl_BE"
+    DE_DE = "de_DE"
+    DE_AT = "de_AT"
+    DE_CH = "de_CH"
+    FR_FR = "fr_FR"
+    FR_BE = "fr_BE"
+    ES_ES = "es_ES"
+    CA_ES = "ca_ES"
+    PT_PT = "pt_PT"
+    IT_IT = "it_IT"
+    NB_NO = "nb_NO"
+    SV_SE = "sv_SE"
+    FI_FI = "fi_FI"
+    DA_DK = "da_DK"
+    IS_IS = "is_IS"
+    HU_HU = "hu_HU"
+    PL_PL = "pl_PL"
+    LV_LV = "lv_LV"
+    LT_LT = "lt_LT"
+
+
+class ListAllMethodsAmountTypedDict(TypedDict):
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
     currency: str
@@ -21,7 +50,7 @@ class ListAllMethodsQueryParamAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListAllMethodsQueryParamAmount(BaseModel):
+class ListAllMethodsAmount(BaseModel):
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
     currency: Annotated[str, FieldMetadata(query=True)]
@@ -31,37 +60,59 @@ class ListAllMethodsQueryParamAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListAllMethodsQueryParamInclude(str, Enum):
-    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
+class ListAllMethodsInclude(str, Enum):
+    r"""This endpoint allows you to include additional information via the
+    `include` query string parameter.
+    """
 
     ISSUERS = "issuers"
     PRICING = "pricing"
 
 
+class ListAllMethodsSequenceType(str, Enum):
+    r"""Set this parameter to `first` to only return the methods that
+    can be used for the first payment of a recurring sequence.
+
+    Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.
+    """
+
+    ONEOFF = "oneoff"
+    FIRST = "first"
+    RECURRING = "recurring"
+
+
 class ListAllMethodsRequestTypedDict(TypedDict):
-    locale: NotRequired[str]
-    r"""Passing a locale will sort the payment methods in the preferred order for the country, and translate the payment method names in the corresponding language."""
-    amount: NotRequired[ListAllMethodsQueryParamAmountTypedDict]
-    r"""If supplied, only payment methods that support the amount and currency are returned.
+    locale: NotRequired[ListAllMethodsLocale]
+    r"""Passing a locale will sort the payment methods in the preferred order
+    for the country, and translate the payment method names in the corresponding language.
+    """
+    amount: NotRequired[ListAllMethodsAmountTypedDict]
+    r"""If supplied, only payment methods that support the amount and currency
+    are returned.
 
     Example: `/v2/methods/all?amount[value]=100.00&amount[currency]=USD`
     """
-    include: NotRequired[Nullable[ListAllMethodsQueryParamInclude]]
-    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
-    sequence_type: NotRequired[str]
-    r"""Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.
+    include: NotRequired[Nullable[ListAllMethodsInclude]]
+    r"""This endpoint allows you to include additional information via the
+    `include` query string parameter.
+    """
+    sequence_type: NotRequired[ListAllMethodsSequenceType]
+    r"""Set this parameter to `first` to only return the methods that
+    can be used for the first payment of a recurring sequence.
 
     Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.
-
-    Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
     """
     profile_id: NotRequired[str]
-    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.
+    r"""The identifier referring to the [profile](get-profile) you wish to
+    retrieve the resources for.
 
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For
+    organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
     """
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -69,36 +120,40 @@ class ListAllMethodsRequestTypedDict(TypedDict):
 
 class ListAllMethodsRequest(BaseModel):
     locale: Annotated[
-        Optional[str],
+        Optional[ListAllMethodsLocale],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Passing a locale will sort the payment methods in the preferred order for the country, and translate the payment method names in the corresponding language."""
+    r"""Passing a locale will sort the payment methods in the preferred order
+    for the country, and translate the payment method names in the corresponding language.
+    """
 
     amount: Annotated[
-        Optional[ListAllMethodsQueryParamAmount],
+        Optional[ListAllMethodsAmount],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""If supplied, only payment methods that support the amount and currency are returned.
+    r"""If supplied, only payment methods that support the amount and currency
+    are returned.
 
     Example: `/v2/methods/all?amount[value]=100.00&amount[currency]=USD`
     """
 
     include: Annotated[
-        OptionalNullable[ListAllMethodsQueryParamInclude],
+        OptionalNullable[ListAllMethodsInclude],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
+    r"""This endpoint allows you to include additional information via the
+    `include` query string parameter.
+    """
 
     sequence_type: Annotated[
-        Optional[str],
+        Optional[ListAllMethodsSequenceType],
         pydantic.Field(alias="sequenceType"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.
+    ] = ListAllMethodsSequenceType.ONEOFF
+    r"""Set this parameter to `first` to only return the methods that
+    can be used for the first payment of a recurring sequence.
 
     Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.
-
-    Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
     """
 
     profile_id: Annotated[
@@ -106,16 +161,20 @@ class ListAllMethodsRequest(BaseModel):
         pydantic.Field(alias="profileId"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.
+    r"""The identifier referring to the [profile](get-profile) you wish to
+    retrieve the resources for.
 
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For
+    organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
     """
 
     testmode: Annotated[
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -158,14 +217,14 @@ class ListAllMethodsRequest(BaseModel):
         return m
 
 
-class ListAllMethodsMethodsDocumentationTypedDict(TypedDict):
+class ListAllMethodsBadRequestDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class ListAllMethodsMethodsDocumentation(BaseModel):
+class ListAllMethodsBadRequestDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -173,17 +232,17 @@ class ListAllMethodsMethodsDocumentation(BaseModel):
     type: str
 
 
-class ListAllMethodsMethodsLinksTypedDict(TypedDict):
-    documentation: ListAllMethodsMethodsDocumentationTypedDict
+class ListAllMethodsBadRequestLinksTypedDict(TypedDict):
+    documentation: ListAllMethodsBadRequestDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListAllMethodsMethodsLinks(BaseModel):
-    documentation: ListAllMethodsMethodsDocumentation
+class ListAllMethodsBadRequestLinks(BaseModel):
+    documentation: ListAllMethodsBadRequestDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListAllMethodsMethodsResponseBodyData(BaseModel):
+class ListAllMethodsHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -193,26 +252,65 @@ class ListAllMethodsMethodsResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[ListAllMethodsMethodsLinks, pydantic.Field(alias="_links")]
+    links: Annotated[ListAllMethodsBadRequestLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class ListAllMethodsMethodsResponseBody(ClientError):
+class ListAllMethodsHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: ListAllMethodsMethodsResponseBodyData
+    data: ListAllMethodsHalJSONErrorData
 
     def __init__(
         self,
-        data: ListAllMethodsMethodsResponseBodyData,
+        data: ListAllMethodsHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
         message = body or raw_response.text
         super().__init__(message, raw_response, body)
         self.data = data
+
+
+class ListAllMethodsID(str, Enum):
+    r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment
+    method selection screen will be skipped.
+    """
+
+    ALMA = "alma"
+    APPLEPAY = "applepay"
+    BACS = "bacs"
+    BANCOMATPAY = "bancomatpay"
+    BANCONTACT = "bancontact"
+    BANKTRANSFER = "banktransfer"
+    BELFIUS = "belfius"
+    BILLIE = "billie"
+    BLIK = "blik"
+    CREDITCARD = "creditcard"
+    DIRECTDEBIT = "directdebit"
+    EPS = "eps"
+    GIFTCARD = "giftcard"
+    IDEAL = "ideal"
+    IN3 = "in3"
+    KBC = "kbc"
+    KLARNA = "klarna"
+    KLARNAPAYLATER = "klarnapaylater"
+    KLARNAPAYNOW = "klarnapaynow"
+    KLARNASLICEIT = "klarnasliceit"
+    MYBANK = "mybank"
+    PAYPAL = "paypal"
+    PAYSAFECARD = "paysafecard"
+    PRZELEWY24 = "przelewy24"
+    RIVERTY = "riverty"
+    SATISPAY = "satispay"
+    SWISH = "swish"
+    TRUSTLY = "trustly"
+    TWINT = "twint"
+    VOUCHER = "voucher"
 
 
 class ListAllMethodsMinimumAmountTypedDict(TypedDict):
@@ -235,7 +333,9 @@ class ListAllMethodsMinimumAmount(BaseModel):
 
 
 class ListAllMethodsMaximumAmountTypedDict(TypedDict):
-    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null` is returned instead."""
+    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null`
+    is returned instead.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -244,7 +344,9 @@ class ListAllMethodsMaximumAmountTypedDict(TypedDict):
 
 
 class ListAllMethodsMaximumAmount(BaseModel):
-    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null` is returned instead."""
+    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null`
+    is returned instead.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -261,7 +363,9 @@ class ListAllMethodsImageTypedDict(TypedDict):
     size2x: str
     r"""The URL pointing to an icon of 64 by 48 pixels."""
     svg: str
-    r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can scale to any desired size without compromising visual quality."""
+    r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can
+    scale to any desired size without compromising visual quality.
+    """
 
 
 class ListAllMethodsImage(BaseModel):
@@ -274,22 +378,46 @@ class ListAllMethodsImage(BaseModel):
     r"""The URL pointing to an icon of 64 by 48 pixels."""
 
     svg: str
-    r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can scale to any desired size without compromising visual quality."""
+    r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can
+    scale to any desired size without compromising visual quality.
+    """
 
 
-class ListAllMethodsMethodsImageTypedDict(TypedDict):
-    r"""URLs of images representing the issuer. required: - size1x - size2x - svg"""
+class ListAllMethodsStatus(str, Enum):
+    r"""The payment method's activation status for this profile."""
+
+    ACTIVATED = "activated"
+    PENDING_BOARDING = "pending-boarding"
+    PENDING_REVIEW = "pending-review"
+    PENDING_EXTERNAL = "pending-external"
+    REJECTED = "rejected"
+
+
+class ListAllMethodsIssuerImageTypedDict(TypedDict):
+    r"""URLs of images representing the issuer.
+    required:
+    - size1x
+    - size2x
+    - svg
+    """
 
     size1x: NotRequired[str]
     r"""The URL pointing to an icon of 32 by 24 pixels."""
     size2x: NotRequired[str]
     r"""The URL pointing to an icon of 64 by 48 pixels."""
     svg: NotRequired[str]
-    r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can scale to any desired size without compromising visual quality."""
+    r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can
+    scale to any desired size without compromising visual quality.
+    """
 
 
-class ListAllMethodsMethodsImage(BaseModel):
-    r"""URLs of images representing the issuer. required: - size1x - size2x - svg"""
+class ListAllMethodsIssuerImage(BaseModel):
+    r"""URLs of images representing the issuer.
+    required:
+    - size1x
+    - size2x
+    - svg
+    """
 
     size1x: Optional[str] = None
     r"""The URL pointing to an icon of 32 by 24 pixels."""
@@ -298,31 +426,43 @@ class ListAllMethodsMethodsImage(BaseModel):
     r"""The URL pointing to an icon of 64 by 48 pixels."""
 
     svg: Optional[str] = None
-    r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can scale to any desired size without compromising visual quality."""
+    r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can
+    scale to any desired size without compromising visual quality.
+    """
 
 
-class ListAllMethodsIssuersTypedDict(TypedDict):
+class ListAllMethodsIssuerTypedDict(TypedDict):
     id: str
     name: str
     r"""The full name of the issuer."""
-    image: ListAllMethodsMethodsImageTypedDict
-    r"""URLs of images representing the issuer. required: - size1x - size2x - svg"""
+    image: ListAllMethodsIssuerImageTypedDict
+    r"""URLs of images representing the issuer.
+    required:
+    - size1x
+    - size2x
+    - svg
+    """
     resource: NotRequired[str]
 
 
-class ListAllMethodsIssuers(BaseModel):
+class ListAllMethodsIssuer(BaseModel):
     id: str
 
     name: str
     r"""The full name of the issuer."""
 
-    image: ListAllMethodsMethodsImage
-    r"""URLs of images representing the issuer. required: - size1x - size2x - svg"""
+    image: ListAllMethodsIssuerImage
+    r"""URLs of images representing the issuer.
+    required:
+    - size1x
+    - size2x
+    - svg
+    """
 
     resource: Optional[str] = "issuer"
 
 
-class ListAllMethodsMethodsSelfTypedDict(TypedDict):
+class ListAllMethodsMethodSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -331,26 +471,7 @@ class ListAllMethodsMethodsSelfTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListAllMethodsMethodsSelf(BaseModel):
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    href: str
-    r"""The actual URL string."""
-
-    type: str
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class ListAllMethodsMethodsResponseDocumentationTypedDict(TypedDict):
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    href: str
-    r"""The actual URL string."""
-    type: str
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class ListAllMethodsMethodsResponseDocumentation(BaseModel):
+class ListAllMethodsMethodSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -360,26 +481,45 @@ class ListAllMethodsMethodsResponseDocumentation(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListAllMethodsMethodsResponseLinksTypedDict(TypedDict):
+class ListAllMethodsMethodDocumentationTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: str
+    r"""The actual URL string."""
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ListAllMethodsMethodDocumentation(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: str
+    r"""The actual URL string."""
+
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class ListAllMethodsMethodLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: ListAllMethodsMethodsSelfTypedDict
+    self_: ListAllMethodsMethodSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    documentation: NotRequired[ListAllMethodsMethodsResponseDocumentationTypedDict]
+    documentation: NotRequired[ListAllMethodsMethodDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class ListAllMethodsMethodsResponseLinks(BaseModel):
+class ListAllMethodsMethodLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[ListAllMethodsMethodsSelf, pydantic.Field(alias="self")]
+    self_: Annotated[ListAllMethodsMethodSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    documentation: Optional[ListAllMethodsMethodsResponseDocumentation] = None
+    documentation: Optional[ListAllMethodsMethodDocumentation] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class FixedTypedDict(TypedDict):
+class ListAllMethodsFixedTypedDict(TypedDict):
     r"""The fixed price charged per payment."""
 
     currency: str
@@ -388,7 +528,7 @@ class FixedTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class Fixed(BaseModel):
+class ListAllMethodsFixed(BaseModel):
     r"""The fixed price charged per payment."""
 
     currency: str
@@ -400,20 +540,26 @@ class Fixed(BaseModel):
 
 class PricingTypedDict(TypedDict):
     description: str
-    r"""A description of what the pricing applies to. For example, a specific country (`The Netherlands`) or a category of cards (`American Express`). If a `locale` is provided, the description may be translated."""
-    fixed: FixedTypedDict
+    r"""A description of what the pricing applies to. For example, a specific country (`The Netherlands`) or a
+    category of cards (`American Express`). If a `locale` is provided, the description may be translated.
+    """
+    fixed: ListAllMethodsFixedTypedDict
     r"""The fixed price charged per payment."""
     variable: str
     r"""The variable price charged per payment, as a percentage string."""
     fee_region: NotRequired[Nullable[str]]
-    r"""Only present for credit card pricing. It will correspond with the `feeRegion` of credit card payments as returned in the [Payments API](get-payment)."""
+    r"""Only present for credit card pricing. It will correspond with the `feeRegion` of credit card payments as
+    returned in the [Payments API](get-payment).
+    """
 
 
 class Pricing(BaseModel):
     description: str
-    r"""A description of what the pricing applies to. For example, a specific country (`The Netherlands`) or a category of cards (`American Express`). If a `locale` is provided, the description may be translated."""
+    r"""A description of what the pricing applies to. For example, a specific country (`The Netherlands`) or a
+    category of cards (`American Express`). If a `locale` is provided, the description may be translated.
+    """
 
-    fixed: Fixed
+    fixed: ListAllMethodsFixed
     r"""The fixed price charged per payment."""
 
     variable: str
@@ -422,7 +568,9 @@ class Pricing(BaseModel):
     fee_region: Annotated[OptionalNullable[str], pydantic.Field(alias="feeRegion")] = (
         UNSET
     )
-    r"""Only present for credit card pricing. It will correspond with the `feeRegion` of credit card payments as returned in the [Payments API](get-payment)."""
+    r"""Only present for credit card pricing. It will correspond with the `feeRegion` of credit card payments as
+    returned in the [Payments API](get-payment).
+    """
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -455,13 +603,14 @@ class Pricing(BaseModel):
         return m
 
 
-class ListAllMethodsMethodsTypedDict(TypedDict):
+class ListAllMethodsMethodTypedDict(TypedDict):
     resource: str
-    r"""Indicates the response contains a payment method object. Will always contain the string `method` for this endpoint."""
-    id: str
-    r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment method selection screen will be skipped.
-
-    Possible values: `alma` `applepay` `bacs` `bancomatpay` `bancontact` `banktransfer` `belfius` `billie` `blik` `creditcard` `directdebit` `eps` `giftcard` `ideal` `in3` `kbc` `klarna` `klarnapaylater` `klarnapaynow` `klarnasliceit` `mybank` `paypal` `paysafecard` `przelewy24` `riverty` `satispay` `swish` `trustly` `twint` `voucher`
+    r"""Indicates the response contains a payment method object. Will always contain the string `method` for this
+    endpoint.
+    """
+    id: ListAllMethodsID
+    r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment
+    method selection screen will be skipped.
     """
     description: str
     r"""The full name of the payment method.
@@ -471,30 +620,34 @@ class ListAllMethodsMethodsTypedDict(TypedDict):
     minimum_amount: ListAllMethodsMinimumAmountTypedDict
     r"""The minimum payment amount required to use this payment method."""
     maximum_amount: Nullable[ListAllMethodsMaximumAmountTypedDict]
-    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null` is returned instead."""
+    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null`
+    is returned instead.
+    """
     image: ListAllMethodsImageTypedDict
     r"""URLs of images representing the payment method."""
-    status: Nullable[str]
-    r"""The payment method's activation status for this profile.
-
-    Possible values: `activated` `pending-boarding` `pending-review` `pending-external` `rejected`
-    """
-    links: ListAllMethodsMethodsResponseLinksTypedDict
+    status: Nullable[ListAllMethodsStatus]
+    r"""The payment method's activation status for this profile."""
+    links: ListAllMethodsMethodLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    issuers: NotRequired[List[ListAllMethodsIssuersTypedDict]]
-    r"""**Optional include.** Array of objects for each 'issuer' that is available for this payment method. Only relevant for iDEAL, KBC/CBC, gift cards, and vouchers."""
+    issuers: NotRequired[List[ListAllMethodsIssuerTypedDict]]
+    r"""**Optional include.** Array of objects for each 'issuer' that is available for this payment method. Only relevant
+    for iDEAL, KBC/CBC, gift cards, and vouchers.
+    """
     pricing: NotRequired[List[PricingTypedDict]]
-    r"""**Optional include.** Array of objects describing the pricing configuration applicable for this payment method on your account."""
+    r"""**Optional include.** Array of objects describing the pricing configuration applicable for this payment method on
+    your account.
+    """
 
 
-class ListAllMethodsMethods(BaseModel):
+class ListAllMethodsMethod(BaseModel):
     resource: str
-    r"""Indicates the response contains a payment method object. Will always contain the string `method` for this endpoint."""
+    r"""Indicates the response contains a payment method object. Will always contain the string `method` for this
+    endpoint.
+    """
 
-    id: str
-    r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment method selection screen will be skipped.
-
-    Possible values: `alma` `applepay` `bacs` `bancomatpay` `bancontact` `banktransfer` `belfius` `billie` `blik` `creditcard` `directdebit` `eps` `giftcard` `ideal` `in3` `kbc` `klarna` `klarnapaylater` `klarnapaynow` `klarnasliceit` `mybank` `paypal` `paysafecard` `przelewy24` `riverty` `satispay` `swish` `trustly` `twint` `voucher`
+    id: ListAllMethodsID
+    r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment
+    method selection screen will be skipped.
     """
 
     description: str
@@ -511,25 +664,28 @@ class ListAllMethodsMethods(BaseModel):
     maximum_amount: Annotated[
         Nullable[ListAllMethodsMaximumAmount], pydantic.Field(alias="maximumAmount")
     ]
-    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null` is returned instead."""
+    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null`
+    is returned instead.
+    """
 
     image: ListAllMethodsImage
     r"""URLs of images representing the payment method."""
 
-    status: Nullable[str]
-    r"""The payment method's activation status for this profile.
+    status: Nullable[ListAllMethodsStatus]
+    r"""The payment method's activation status for this profile."""
 
-    Possible values: `activated` `pending-boarding` `pending-review` `pending-external` `rejected`
-    """
-
-    links: Annotated[ListAllMethodsMethodsResponseLinks, pydantic.Field(alias="_links")]
+    links: Annotated[ListAllMethodsMethodLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    issuers: Optional[List[ListAllMethodsIssuers]] = None
-    r"""**Optional include.** Array of objects for each 'issuer' that is available for this payment method. Only relevant for iDEAL, KBC/CBC, gift cards, and vouchers."""
+    issuers: Optional[List[ListAllMethodsIssuer]] = None
+    r"""**Optional include.** Array of objects for each 'issuer' that is available for this payment method. Only relevant
+    for iDEAL, KBC/CBC, gift cards, and vouchers.
+    """
 
     pricing: Optional[List[Pricing]] = None
-    r"""**Optional include.** Array of objects describing the pricing configuration applicable for this payment method on your account."""
+    r"""**Optional include.** Array of objects describing the pricing configuration applicable for this payment method on
+    your account.
+    """
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -563,13 +719,19 @@ class ListAllMethodsMethods(BaseModel):
 
 
 class ListAllMethodsEmbeddedTypedDict(TypedDict):
-    methods: List[ListAllMethodsMethodsTypedDict]
-    r"""An array of payment method objects. For a complete reference of the payment method object, refer to the [Get payment method endpoint](get-method) documentation."""
+    methods: List[ListAllMethodsMethodTypedDict]
+    r"""An array of payment method objects. For a complete
+    reference of the payment method object, refer to the [Get payment method endpoint](get-method)
+    documentation.
+    """
 
 
 class ListAllMethodsEmbedded(BaseModel):
-    methods: List[ListAllMethodsMethods]
-    r"""An array of payment method objects. For a complete reference of the payment method object, refer to the [Get payment method endpoint](get-method) documentation."""
+    methods: List[ListAllMethodsMethod]
+    r"""An array of payment method objects. For a complete
+    reference of the payment method object, refer to the [Get payment method endpoint](get-method)
+    documentation.
+    """
 
 
 class ListAllMethodsSelfTypedDict(TypedDict):
@@ -625,8 +787,10 @@ class ListAllMethodsLinks(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class ListAllMethodsResponseBodyTypedDict(TypedDict):
-    r"""A list of payment method objects. For a complete reference of the payment method object, refer to the [Get payment method endpoint](get-method) documentation."""
+class ListAllMethodsResponseTypedDict(TypedDict):
+    r"""A list of payment method objects. For a complete reference of the
+    payment method object, refer to the [Get payment method endpoint](get-method) documentation.
+    """
 
     count: int
     r"""The number of payment method objects in this result set. Results are **not** paginated."""
@@ -634,8 +798,10 @@ class ListAllMethodsResponseBodyTypedDict(TypedDict):
     links: ListAllMethodsLinksTypedDict
 
 
-class ListAllMethodsResponseBody(BaseModel):
-    r"""A list of payment method objects. For a complete reference of the payment method object, refer to the [Get payment method endpoint](get-method) documentation."""
+class ListAllMethodsResponse(BaseModel):
+    r"""A list of payment method objects. For a complete reference of the
+    payment method object, refer to the [Get payment method endpoint](get-method) documentation.
+    """
 
     count: int
     r"""The number of payment method objects in this result set. Results are **not** paginated."""

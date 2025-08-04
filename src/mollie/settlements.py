@@ -18,28 +18,24 @@ class Settlements(BaseSDK):
         balance_id: OptionalNullable[str] = UNSET,
         year: OptionalNullable[str] = UNSET,
         month: OptionalNullable[str] = UNSET,
-        currencies: OptionalNullable[str] = UNSET,
+        currencies: OptionalNullable[models.Currencies] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListSettlementsResponseBody:
+    ) -> models.ListSettlementsResponse:
         r"""List settlements
 
         Retrieve a list of all your settlements.
 
         The results are paginated.
 
-        > 🔑 Access with
-        >
-        > [Access token with **settlements.read**](/reference/authentication)
-
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param balance_id: Provide the token of the balance to filter the settlements by. This is the balance token that the settlement was settled to.
         :param year: Provide the year to query the settlements. Must be used combined with `month` parameter
         :param month: Provide the month to query the settlements. Must be used combined with `year` parameter
-        :param currencies: Provides the currencies to retrieve the settlements. It accepts multiple currencies in a comma-separated format.  Possible values: `EUR` `GBP` `CHF` `DKK` `NOK` `PLN` `SEK` `USD` `CZK` `HUF` `AUD` `CAD`
+        :param currencies: Provides the currencies to retrieve the settlements. It accepts multiple currencies in a comma-separated format.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -109,19 +105,17 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.ListSettlementsResponseBody, http_res)
+            return unmarshal_json_response(models.ListSettlementsResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementsSettlementsResponseBodyData, http_res
+                models.ListSettlementsBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListSettlementsSettlementsResponseBody(response_data, http_res)
+            raise models.ListSettlementsBadRequestHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementsSettlementsResponseResponseBodyData, http_res
+                models.ListSettlementsNotFoundHalJSONErrorData, http_res
             )
-            raise models.ListSettlementsSettlementsResponseResponseBody(
-                response_data, http_res
-            )
+            raise models.ListSettlementsNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -139,28 +133,24 @@ class Settlements(BaseSDK):
         balance_id: OptionalNullable[str] = UNSET,
         year: OptionalNullable[str] = UNSET,
         month: OptionalNullable[str] = UNSET,
-        currencies: OptionalNullable[str] = UNSET,
+        currencies: OptionalNullable[models.Currencies] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListSettlementsResponseBody:
+    ) -> models.ListSettlementsResponse:
         r"""List settlements
 
         Retrieve a list of all your settlements.
 
         The results are paginated.
 
-        > 🔑 Access with
-        >
-        > [Access token with **settlements.read**](/reference/authentication)
-
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param balance_id: Provide the token of the balance to filter the settlements by. This is the balance token that the settlement was settled to.
         :param year: Provide the year to query the settlements. Must be used combined with `month` parameter
         :param month: Provide the month to query the settlements. Must be used combined with `year` parameter
-        :param currencies: Provides the currencies to retrieve the settlements. It accepts multiple currencies in a comma-separated format.  Possible values: `EUR` `GBP` `CHF` `DKK` `NOK` `PLN` `SEK` `USD` `CZK` `HUF` `AUD` `CAD`
+        :param currencies: Provides the currencies to retrieve the settlements. It accepts multiple currencies in a comma-separated format.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -230,19 +220,17 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.ListSettlementsResponseBody, http_res)
+            return unmarshal_json_response(models.ListSettlementsResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementsSettlementsResponseBodyData, http_res
+                models.ListSettlementsBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListSettlementsSettlementsResponseBody(response_data, http_res)
+            raise models.ListSettlementsBadRequestHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementsSettlementsResponseResponseBodyData, http_res
+                models.ListSettlementsNotFoundHalJSONErrorData, http_res
             )
-            raise models.ListSettlementsSettlementsResponseResponseBody(
-                response_data, http_res
-            )
+            raise models.ListSettlementsNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -260,22 +248,21 @@ class Settlements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSettlementResponseBody:
+    ) -> models.GetSettlementResponse:
         r"""Get settlement
 
         Retrieve a single settlement by its ID.
 
-        To lookup settlements by their bank reference, replace the ID in the URL by a reference. For example: `1234567.2404.03`.
+        To lookup settlements by their bank reference, replace the ID in the URL by
+        a reference. For example: `1234567.2404.03`.
 
         A settlement represents a transfer of your balance funds to your external bank account.
 
-        Settlements will typically include a report that details what balance transactions have taken place between this settlement and the previous one.
+        Settlements will typically include a report that details what balance transactions have taken place between this
+        settlement and the previous one.
 
-        For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the [balance transactions](list-balance-transactions) endpoint.
-
-        > 🔑 Access with
-        >
-        > [Access token with **settlements.read**](/reference/authentication)
+        For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the
+        [balance transactions](list-balance-transactions) endpoint.
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param retries: Override the default retry configuration for this method
@@ -342,12 +329,12 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetSettlementResponseBody, http_res)
+            return unmarshal_json_response(models.GetSettlementResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSettlementSettlementsResponseBodyData, http_res
+                models.GetSettlementHalJSONErrorData, http_res
             )
-            raise models.GetSettlementSettlementsResponseBody(response_data, http_res)
+            raise models.GetSettlementHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -365,22 +352,21 @@ class Settlements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSettlementResponseBody:
+    ) -> models.GetSettlementResponse:
         r"""Get settlement
 
         Retrieve a single settlement by its ID.
 
-        To lookup settlements by their bank reference, replace the ID in the URL by a reference. For example: `1234567.2404.03`.
+        To lookup settlements by their bank reference, replace the ID in the URL by
+        a reference. For example: `1234567.2404.03`.
 
         A settlement represents a transfer of your balance funds to your external bank account.
 
-        Settlements will typically include a report that details what balance transactions have taken place between this settlement and the previous one.
+        Settlements will typically include a report that details what balance transactions have taken place between this
+        settlement and the previous one.
 
-        For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the [balance transactions](list-balance-transactions) endpoint.
-
-        > 🔑 Access with
-        >
-        > [Access token with **settlements.read**](/reference/authentication)
+        For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the
+        [balance transactions](list-balance-transactions) endpoint.
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param retries: Override the default retry configuration for this method
@@ -447,12 +433,12 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetSettlementResponseBody, http_res)
+            return unmarshal_json_response(models.GetSettlementResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSettlementSettlementsResponseBodyData, http_res
+                models.GetSettlementHalJSONErrorData, http_res
             )
-            raise models.GetSettlementSettlementsResponseBody(response_data, http_res)
+            raise models.GetSettlementHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -469,18 +455,17 @@ class Settlements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetOpenSettlementResponseBody:
+    ) -> models.GetOpenSettlementResponse:
         r"""Get open settlement
 
-        Retrieve the details of the open balance of the organization. This will return a settlement object representing your organization's balance.
+        Retrieve the details of the open balance of the organization. This will return a settlement object representing your
+        organization's balance.
 
-        For a complete reference of the settlement object, refer to the [Get settlement endpoint](get-settlement) documentation.
+        For a complete reference of the settlement object, refer to the [Get settlement endpoint](get-settlement)
+        documentation.
 
-        For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the [balance transactions](list-balance-transactions) endpoint.
-
-        > 🔑 Access with
-        >
-        > [Access token with **settlements.read**](/reference/authentication)
+        For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the
+        [balance transactions](list-balance-transactions) endpoint.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -540,9 +525,7 @@ class Settlements(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.GetOpenSettlementResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetOpenSettlementResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -559,18 +542,17 @@ class Settlements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetOpenSettlementResponseBody:
+    ) -> models.GetOpenSettlementResponse:
         r"""Get open settlement
 
-        Retrieve the details of the open balance of the organization. This will return a settlement object representing your organization's balance.
+        Retrieve the details of the open balance of the organization. This will return a settlement object representing your
+        organization's balance.
 
-        For a complete reference of the settlement object, refer to the [Get settlement endpoint](get-settlement) documentation.
+        For a complete reference of the settlement object, refer to the [Get settlement endpoint](get-settlement)
+        documentation.
 
-        For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the [balance transactions](list-balance-transactions) endpoint.
-
-        > 🔑 Access with
-        >
-        > [Access token with **settlements.read**](/reference/authentication)
+        For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the
+        [balance transactions](list-balance-transactions) endpoint.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -630,9 +612,7 @@ class Settlements(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.GetOpenSettlementResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetOpenSettlementResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -649,18 +629,16 @@ class Settlements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetNextSettlementResponseBody:
+    ) -> models.GetNextSettlementResponse:
         r"""Get next settlement
 
         Retrieve the details of the current settlement, that has not yet been paid out.
 
-        For a complete reference of the settlement object, refer to the [Get settlement endpoint](get-settlement) documentation.
+        For a complete reference of the settlement object, refer to the [Get settlement endpoint](get-settlement)
+        documentation.
 
-        For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the [balance transactions](list-balance-transactions) endpoint.
-
-        > 🔑 Access with
-        >
-        > [Access token with **settlements.read**](/reference/authentication)
+        For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the
+        [balance transactions](list-balance-transactions) endpoint.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -720,9 +698,7 @@ class Settlements(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.GetNextSettlementResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetNextSettlementResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -739,18 +715,16 @@ class Settlements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetNextSettlementResponseBody:
+    ) -> models.GetNextSettlementResponse:
         r"""Get next settlement
 
         Retrieve the details of the current settlement, that has not yet been paid out.
 
-        For a complete reference of the settlement object, refer to the [Get settlement endpoint](get-settlement) documentation.
+        For a complete reference of the settlement object, refer to the [Get settlement endpoint](get-settlement)
+        documentation.
 
-        For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the [balance transactions](list-balance-transactions) endpoint.
-
-        > 🔑 Access with
-        >
-        > [Access token with **settlements.read**](/reference/authentication)
+        For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the
+        [balance transactions](list-balance-transactions) endpoint.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -810,9 +784,7 @@ class Settlements(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.GetNextSettlementResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetNextSettlementResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -828,30 +800,29 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[
+            models.ListSettlementPaymentsSort
+        ] = models.ListSettlementPaymentsSort.DESC,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListSettlementPaymentsResponseBody:
+    ) -> models.ListSettlementPaymentsResponse:
         r"""List settlement payments
 
         Retrieve all payments included in the given settlement.
 
         The response is in the same format as the response of the [List payments endpoint](list-payments).
 
-        For capture-based payment methods such as Klarna, the payments are not listed here. Refer to the [List captures endpoint](list-captures) endpoint instead.
-
-        > 🔑 Access with
-        >
-        > [Access token with **settlements.read** **payments.read**](/reference/authentication)
+        For capture-based payment methods such as Klarna, the payments are not listed here. Refer to the
+        [List captures endpoint](list-captures) endpoint instead.
 
         :param settlement_id: Provide the ID of the related settlement.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
@@ -924,15 +895,13 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.ListSettlementPaymentsResponseBody, http_res
+                models.ListSettlementPaymentsResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementPaymentsSettlementsResponseBodyData, http_res
+                models.ListSettlementPaymentsHalJSONErrorData, http_res
             )
-            raise models.ListSettlementPaymentsSettlementsResponseBody(
-                response_data, http_res
-            )
+            raise models.ListSettlementPaymentsHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -948,30 +917,29 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[
+            models.ListSettlementPaymentsSort
+        ] = models.ListSettlementPaymentsSort.DESC,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListSettlementPaymentsResponseBody:
+    ) -> models.ListSettlementPaymentsResponse:
         r"""List settlement payments
 
         Retrieve all payments included in the given settlement.
 
         The response is in the same format as the response of the [List payments endpoint](list-payments).
 
-        For capture-based payment methods such as Klarna, the payments are not listed here. Refer to the [List captures endpoint](list-captures) endpoint instead.
-
-        > 🔑 Access with
-        >
-        > [Access token with **settlements.read** **payments.read**](/reference/authentication)
+        For capture-based payment methods such as Klarna, the payments are not listed here. Refer to the
+        [List captures endpoint](list-captures) endpoint instead.
 
         :param settlement_id: Provide the ID of the related settlement.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
@@ -1044,15 +1012,13 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.ListSettlementPaymentsResponseBody, http_res
+                models.ListSettlementPaymentsResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementPaymentsSettlementsResponseBodyData, http_res
+                models.ListSettlementPaymentsHalJSONErrorData, http_res
             )
-            raise models.ListSettlementPaymentsSettlementsResponseBody(
-                response_data, http_res
-            )
+            raise models.ListSettlementPaymentsHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1068,22 +1034,18 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        embed: Optional[models.ListSettlementCapturesQueryParamEmbed] = None,
+        embed: Optional[models.ListSettlementCapturesEmbed] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListSettlementCapturesResponseBody:
+    ) -> models.ListSettlementCapturesResponse:
         r"""List settlement captures
 
         Retrieve all captures included in the given settlement.
 
         The response is in the same format as the response of the [List captures endpoint](list-captures).
-
-        > 🔑 Access with
-        >
-        > [Access token with **settlements.read** **payments.read**](/reference/authentication)
 
         :param settlement_id: Provide the ID of the related settlement.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
@@ -1159,21 +1121,20 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.ListSettlementCapturesResponseBody, http_res
+                models.ListSettlementCapturesResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementCapturesSettlementsResponseBodyData, http_res
+                models.ListSettlementCapturesBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListSettlementCapturesSettlementsResponseBody(
+            raise models.ListSettlementCapturesBadRequestHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementCapturesSettlementsResponseResponseBodyData,
-                http_res,
+                models.ListSettlementCapturesNotFoundHalJSONErrorData, http_res
             )
-            raise models.ListSettlementCapturesSettlementsResponseResponseBody(
+            raise models.ListSettlementCapturesNotFoundHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1191,22 +1152,18 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        embed: Optional[models.ListSettlementCapturesQueryParamEmbed] = None,
+        embed: Optional[models.ListSettlementCapturesEmbed] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListSettlementCapturesResponseBody:
+    ) -> models.ListSettlementCapturesResponse:
         r"""List settlement captures
 
         Retrieve all captures included in the given settlement.
 
         The response is in the same format as the response of the [List captures endpoint](list-captures).
-
-        > 🔑 Access with
-        >
-        > [Access token with **settlements.read** **payments.read**](/reference/authentication)
 
         :param settlement_id: Provide the ID of the related settlement.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
@@ -1282,21 +1239,20 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.ListSettlementCapturesResponseBody, http_res
+                models.ListSettlementCapturesResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementCapturesSettlementsResponseBodyData, http_res
+                models.ListSettlementCapturesBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListSettlementCapturesSettlementsResponseBody(
+            raise models.ListSettlementCapturesBadRequestHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementCapturesSettlementsResponseResponseBodyData,
-                http_res,
+                models.ListSettlementCapturesNotFoundHalJSONErrorData, http_res
             )
-            raise models.ListSettlementCapturesSettlementsResponseResponseBody(
+            raise models.ListSettlementCapturesNotFoundHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1314,24 +1270,18 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        include: OptionalNullable[
-            models.ListSettlementRefundsQueryParamInclude
-        ] = UNSET,
+        include: OptionalNullable[models.ListSettlementRefundsInclude] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListSettlementRefundsResponseBody:
+    ) -> models.ListSettlementRefundsResponse:
         r"""List settlement refunds
 
         Retrieve all refunds 'deducted' from the given settlement.
 
         The response is in the same format as the response of the [List refunds endpoint](list-refunds).
-
-        > 🔑 Access with
-        >
-        > [Access token with **settlements.read** **refunds.read**](/reference/authentication)
 
         :param settlement_id: Provide the ID of the related settlement.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
@@ -1407,21 +1357,20 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.ListSettlementRefundsResponseBody, http_res
+                models.ListSettlementRefundsResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementRefundsSettlementsResponseBodyData, http_res
+                models.ListSettlementRefundsBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListSettlementRefundsSettlementsResponseBody(
+            raise models.ListSettlementRefundsBadRequestHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementRefundsSettlementsResponseResponseBodyData,
-                http_res,
+                models.ListSettlementRefundsNotFoundHalJSONErrorData, http_res
             )
-            raise models.ListSettlementRefundsSettlementsResponseResponseBody(
+            raise models.ListSettlementRefundsNotFoundHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1439,24 +1388,18 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        include: OptionalNullable[
-            models.ListSettlementRefundsQueryParamInclude
-        ] = UNSET,
+        include: OptionalNullable[models.ListSettlementRefundsInclude] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListSettlementRefundsResponseBody:
+    ) -> models.ListSettlementRefundsResponse:
         r"""List settlement refunds
 
         Retrieve all refunds 'deducted' from the given settlement.
 
         The response is in the same format as the response of the [List refunds endpoint](list-refunds).
-
-        > 🔑 Access with
-        >
-        > [Access token with **settlements.read** **refunds.read**](/reference/authentication)
 
         :param settlement_id: Provide the ID of the related settlement.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
@@ -1532,21 +1475,20 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.ListSettlementRefundsResponseBody, http_res
+                models.ListSettlementRefundsResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementRefundsSettlementsResponseBodyData, http_res
+                models.ListSettlementRefundsBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListSettlementRefundsSettlementsResponseBody(
+            raise models.ListSettlementRefundsBadRequestHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementRefundsSettlementsResponseResponseBodyData,
-                http_res,
+                models.ListSettlementRefundsNotFoundHalJSONErrorData, http_res
             )
-            raise models.ListSettlementRefundsSettlementsResponseResponseBody(
+            raise models.ListSettlementRefundsNotFoundHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1564,22 +1506,18 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        embed: Optional[models.ListSettlementChargebacksQueryParamEmbed] = None,
+        embed: Optional[models.ListSettlementChargebacksEmbed] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListSettlementChargebacksResponseBody:
+    ) -> models.ListSettlementChargebacksResponse:
         r"""List settlement chargebacks
 
         Retrieve all chargebacks 'deducted' from the given settlement.
 
         The response is in the same format as the response of the [List chargebacks endpoint](list-chargebacks).
-
-        > 🔑 Access with
-        >
-        > [Access token with **settlements.read** **payments.read**](/reference/authentication)
 
         :param settlement_id: Provide the ID of the related settlement.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
@@ -1655,21 +1593,20 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.ListSettlementChargebacksResponseBody, http_res
+                models.ListSettlementChargebacksResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementChargebacksSettlementsResponseBodyData, http_res
+                models.ListSettlementChargebacksBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListSettlementChargebacksSettlementsResponseBody(
+            raise models.ListSettlementChargebacksBadRequestHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementChargebacksSettlementsResponseResponseBodyData,
-                http_res,
+                models.ListSettlementChargebacksNotFoundHalJSONErrorData, http_res
             )
-            raise models.ListSettlementChargebacksSettlementsResponseResponseBody(
+            raise models.ListSettlementChargebacksNotFoundHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1687,22 +1624,18 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        embed: Optional[models.ListSettlementChargebacksQueryParamEmbed] = None,
+        embed: Optional[models.ListSettlementChargebacksEmbed] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListSettlementChargebacksResponseBody:
+    ) -> models.ListSettlementChargebacksResponse:
         r"""List settlement chargebacks
 
         Retrieve all chargebacks 'deducted' from the given settlement.
 
         The response is in the same format as the response of the [List chargebacks endpoint](list-chargebacks).
-
-        > 🔑 Access with
-        >
-        > [Access token with **settlements.read** **payments.read**](/reference/authentication)
 
         :param settlement_id: Provide the ID of the related settlement.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
@@ -1778,21 +1711,20 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.ListSettlementChargebacksResponseBody, http_res
+                models.ListSettlementChargebacksResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementChargebacksSettlementsResponseBodyData, http_res
+                models.ListSettlementChargebacksBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListSettlementChargebacksSettlementsResponseBody(
+            raise models.ListSettlementChargebacksBadRequestHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSettlementChargebacksSettlementsResponseResponseBodyData,
-                http_res,
+                models.ListSettlementChargebacksNotFoundHalJSONErrorData, http_res
             )
-            raise models.ListSettlementChargebacksSettlementsResponseResponseBody(
+            raise models.ListSettlementChargebacksNotFoundHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):

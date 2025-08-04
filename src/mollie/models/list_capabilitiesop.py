@@ -9,7 +9,7 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class Status(str, Enum):
+class ListCapabilitiesStatus(str, Enum):
     UNREQUESTED = "unrequested"
     ENABLED = "enabled"
     DISABLED = "disabled"
@@ -21,8 +21,20 @@ class ListCapabilitiesStatusReason(str, Enum):
     ONBOARDING_INFORMATION_NEEDED = "onboarding-information-needed"
 
 
+class ListCapabilitiesRequirementStatus(str, Enum):
+    r"""The status of the requirement depends on its due date.
+    If no due date is given, the status will be `requested`.
+    """
+
+    CURRENTLY_DUE = "currently-due"
+    PAST_DUE = "past-due"
+    REQUESTED = "requested"
+
+
 class ListCapabilitiesDashboardTypedDict(TypedDict):
-    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled. For example, where necessary documents are to be uploaded."""
+    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled.
+    For example, where necessary documents are to be uploaded.
+    """
 
     href: NotRequired[str]
     r"""The actual URL string."""
@@ -31,7 +43,9 @@ class ListCapabilitiesDashboardTypedDict(TypedDict):
 
 
 class ListCapabilitiesDashboard(BaseModel):
-    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled. For example, where necessary documents are to be uploaded."""
+    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled.
+    For example, where necessary documents are to be uploaded.
+    """
 
     href: Optional[str] = None
     r"""The actual URL string."""
@@ -40,45 +54,51 @@ class ListCapabilitiesDashboard(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListCapabilitiesCapabilitiesLinksTypedDict(TypedDict):
+class CapabilityLinksTypedDict(TypedDict):
     dashboard: NotRequired[ListCapabilitiesDashboardTypedDict]
-    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled. For example, where necessary documents are to be uploaded."""
+    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled.
+    For example, where necessary documents are to be uploaded.
+    """
 
 
-class ListCapabilitiesCapabilitiesLinks(BaseModel):
+class CapabilityLinks(BaseModel):
     dashboard: Optional[ListCapabilitiesDashboard] = None
-    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled. For example, where necessary documents are to be uploaded."""
+    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled.
+    For example, where necessary documents are to be uploaded.
+    """
 
 
-class RequirementsTypedDict(TypedDict):
+class ListCapabilitiesRequirementTypedDict(TypedDict):
     id: NotRequired[str]
-    r"""The name of this requirement, referring to the task to be fulfilled by the organization to enable or re-enable the capability. The name is unique among other requirements of the same capability."""
-    status: NotRequired[str]
-    r"""The status of the requirement depends on its due date. If no due date is given, the status will be `requested`.
-
-    Possible values: `currently-due` `past-due` `requested`
+    r"""The name of this requirement, referring to the task to be fulfilled by the organization
+    to enable or re-enable the capability. The name is unique among other requirements
+    of the same capability.
+    """
+    status: NotRequired[ListCapabilitiesRequirementStatus]
+    r"""The status of the requirement depends on its due date.
+    If no due date is given, the status will be `requested`.
     """
     due_date: NotRequired[Nullable[str]]
     r"""Due date until the requirement must be fulfilled, if any. The date is shown in ISO-8601 format."""
-    links: NotRequired[ListCapabilitiesCapabilitiesLinksTypedDict]
+    links: NotRequired[CapabilityLinksTypedDict]
 
 
-class Requirements(BaseModel):
+class ListCapabilitiesRequirement(BaseModel):
     id: Optional[str] = None
-    r"""The name of this requirement, referring to the task to be fulfilled by the organization to enable or re-enable the capability. The name is unique among other requirements of the same capability."""
+    r"""The name of this requirement, referring to the task to be fulfilled by the organization
+    to enable or re-enable the capability. The name is unique among other requirements
+    of the same capability.
+    """
 
-    status: Optional[str] = None
-    r"""The status of the requirement depends on its due date. If no due date is given, the status will be `requested`.
-
-    Possible values: `currently-due` `past-due` `requested`
+    status: Optional[ListCapabilitiesRequirementStatus] = None
+    r"""The status of the requirement depends on its due date.
+    If no due date is given, the status will be `requested`.
     """
 
     due_date: Annotated[OptionalNullable[str], pydantic.Field(alias="dueDate")] = UNSET
     r"""Due date until the requirement must be fulfilled, if any. The date is shown in ISO-8601 format."""
 
-    links: Annotated[
-        Optional[ListCapabilitiesCapabilitiesLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[Optional[CapabilityLinks], pydantic.Field(alias="_links")] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -111,31 +131,31 @@ class Requirements(BaseModel):
         return m
 
 
-class ListCapabilitiesCapabilitiesTypedDict(TypedDict):
+class CapabilityTypedDict(TypedDict):
     resource: NotRequired[str]
     r"""Always the word `capability` for this resource type."""
     name: NotRequired[str]
     r"""A unique name for this capability like `payments` / `settlements`."""
-    status: NotRequired[Status]
+    status: NotRequired[ListCapabilitiesStatus]
     status_reason: NotRequired[Nullable[ListCapabilitiesStatusReason]]
-    requirements: NotRequired[List[RequirementsTypedDict]]
+    requirements: NotRequired[List[ListCapabilitiesRequirementTypedDict]]
 
 
-class ListCapabilitiesCapabilities(BaseModel):
+class Capability(BaseModel):
     resource: Optional[str] = None
     r"""Always the word `capability` for this resource type."""
 
     name: Optional[str] = None
     r"""A unique name for this capability like `payments` / `settlements`."""
 
-    status: Optional[Status] = None
+    status: Optional[ListCapabilitiesStatus] = None
 
     status_reason: Annotated[
         OptionalNullable[ListCapabilitiesStatusReason],
         pydantic.Field(alias="statusReason"),
     ] = UNSET
 
-    requirements: Optional[List[Requirements]] = None
+    requirements: Optional[List[ListCapabilitiesRequirement]] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -169,11 +189,11 @@ class ListCapabilitiesCapabilities(BaseModel):
 
 
 class ListCapabilitiesEmbeddedTypedDict(TypedDict):
-    capabilities: NotRequired[List[ListCapabilitiesCapabilitiesTypedDict]]
+    capabilities: NotRequired[List[CapabilityTypedDict]]
 
 
 class ListCapabilitiesEmbedded(BaseModel):
-    capabilities: Optional[List[ListCapabilitiesCapabilities]] = None
+    capabilities: Optional[List[Capability]] = None
 
 
 class ListCapabilitiesDocumentationTypedDict(TypedDict):
@@ -195,7 +215,7 @@ class ListCapabilitiesLinks(BaseModel):
     documentation: Optional[ListCapabilitiesDocumentation] = None
 
 
-class ListCapabilitiesResponseBodyTypedDict(TypedDict):
+class ListCapabilitiesResponseTypedDict(TypedDict):
     r"""A list of capabilities."""
 
     count: NotRequired[int]
@@ -204,7 +224,7 @@ class ListCapabilitiesResponseBodyTypedDict(TypedDict):
     links: NotRequired[ListCapabilitiesLinksTypedDict]
 
 
-class ListCapabilitiesResponseBody(BaseModel):
+class ListCapabilitiesResponse(BaseModel):
     r"""A list of capabilities."""
 
     count: Optional[int] = None

@@ -13,7 +13,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class DeletePaymentLinkRequestBodyTypedDict(TypedDict):
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
+    such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -21,7 +22,8 @@ class DeletePaymentLinkRequestBodyTypedDict(TypedDict):
 
 class DeletePaymentLinkRequestBody(BaseModel):
     testmode: OptionalNullable[bool] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
+    such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -77,14 +79,14 @@ class DeletePaymentLinkRequest(BaseModel):
     ] = None
 
 
-class DeletePaymentLinkPaymentLinksDocumentationTypedDict(TypedDict):
+class DeletePaymentLinkUnprocessableEntityDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class DeletePaymentLinkPaymentLinksDocumentation(BaseModel):
+class DeletePaymentLinkUnprocessableEntityDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -92,17 +94,17 @@ class DeletePaymentLinkPaymentLinksDocumentation(BaseModel):
     type: str
 
 
-class DeletePaymentLinkPaymentLinksLinksTypedDict(TypedDict):
-    documentation: DeletePaymentLinkPaymentLinksDocumentationTypedDict
+class DeletePaymentLinkUnprocessableEntityLinksTypedDict(TypedDict):
+    documentation: DeletePaymentLinkUnprocessableEntityDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeletePaymentLinkPaymentLinksLinks(BaseModel):
-    documentation: DeletePaymentLinkPaymentLinksDocumentation
+class DeletePaymentLinkUnprocessableEntityLinks(BaseModel):
+    documentation: DeletePaymentLinkUnprocessableEntityDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeletePaymentLinkPaymentLinksResponseBodyData(BaseModel):
+class DeletePaymentLinkUnprocessableEntityHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -112,20 +114,24 @@ class DeletePaymentLinkPaymentLinksResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[DeletePaymentLinkPaymentLinksLinks, pydantic.Field(alias="_links")]
+    links: Annotated[
+        DeletePaymentLinkUnprocessableEntityLinks, pydantic.Field(alias="_links")
+    ]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class DeletePaymentLinkPaymentLinksResponseBody(ClientError):
+class DeletePaymentLinkUnprocessableEntityHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: DeletePaymentLinkPaymentLinksResponseBodyData
+    data: DeletePaymentLinkUnprocessableEntityHalJSONErrorData
 
     def __init__(
         self,
-        data: DeletePaymentLinkPaymentLinksResponseBodyData,
+        data: DeletePaymentLinkUnprocessableEntityHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -134,14 +140,14 @@ class DeletePaymentLinkPaymentLinksResponseBody(ClientError):
         self.data = data
 
 
-class DeletePaymentLinkDocumentationTypedDict(TypedDict):
+class DeletePaymentLinkNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class DeletePaymentLinkDocumentation(BaseModel):
+class DeletePaymentLinkNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -149,17 +155,17 @@ class DeletePaymentLinkDocumentation(BaseModel):
     type: str
 
 
-class DeletePaymentLinkLinksTypedDict(TypedDict):
-    documentation: DeletePaymentLinkDocumentationTypedDict
+class DeletePaymentLinkNotFoundLinksTypedDict(TypedDict):
+    documentation: DeletePaymentLinkNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeletePaymentLinkLinks(BaseModel):
-    documentation: DeletePaymentLinkDocumentation
+class DeletePaymentLinkNotFoundLinks(BaseModel):
+    documentation: DeletePaymentLinkNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeletePaymentLinkResponseBodyData(BaseModel):
+class DeletePaymentLinkNotFoundHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -169,20 +175,22 @@ class DeletePaymentLinkResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[DeletePaymentLinkLinks, pydantic.Field(alias="_links")]
+    links: Annotated[DeletePaymentLinkNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class DeletePaymentLinkResponseBody(ClientError):
+class DeletePaymentLinkNotFoundHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: DeletePaymentLinkResponseBodyData
+    data: DeletePaymentLinkNotFoundHalJSONErrorData
 
     def __init__(
         self,
-        data: DeletePaymentLinkResponseBodyData,
+        data: DeletePaymentLinkNotFoundHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):

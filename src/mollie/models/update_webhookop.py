@@ -30,7 +30,8 @@ class UpdateWebhookRequestBodyTypedDict(TypedDict):
     event_types: NotRequired[UpdateWebhookEventTypes]
     r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those that require explicit selection. Separate multiple event types with a comma."""
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
+    such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -49,7 +50,8 @@ class UpdateWebhookRequestBody(BaseModel):
     r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those that require explicit selection. Separate multiple event types with a comma."""
 
     testmode: OptionalNullable[bool] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
+    such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -103,14 +105,14 @@ class UpdateWebhookRequest(BaseModel):
     ] = None
 
 
-class UpdateWebhookWebhooksDocumentationTypedDict(TypedDict):
+class UpdateWebhookUnprocessableEntityDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class UpdateWebhookWebhooksDocumentation(BaseModel):
+class UpdateWebhookUnprocessableEntityDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -118,17 +120,17 @@ class UpdateWebhookWebhooksDocumentation(BaseModel):
     type: str
 
 
-class UpdateWebhookWebhooksLinksTypedDict(TypedDict):
-    documentation: UpdateWebhookWebhooksDocumentationTypedDict
+class UpdateWebhookUnprocessableEntityLinksTypedDict(TypedDict):
+    documentation: UpdateWebhookUnprocessableEntityDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class UpdateWebhookWebhooksLinks(BaseModel):
-    documentation: UpdateWebhookWebhooksDocumentation
+class UpdateWebhookUnprocessableEntityLinks(BaseModel):
+    documentation: UpdateWebhookUnprocessableEntityDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class UpdateWebhookWebhooksResponseResponseBodyData(BaseModel):
+class UpdateWebhookUnprocessableEntityHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -138,20 +140,24 @@ class UpdateWebhookWebhooksResponseResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[UpdateWebhookWebhooksLinks, pydantic.Field(alias="_links")]
+    links: Annotated[
+        UpdateWebhookUnprocessableEntityLinks, pydantic.Field(alias="_links")
+    ]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class UpdateWebhookWebhooksResponseResponseBody(ClientError):
+class UpdateWebhookUnprocessableEntityHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: UpdateWebhookWebhooksResponseResponseBodyData
+    data: UpdateWebhookUnprocessableEntityHalJSONErrorData
 
     def __init__(
         self,
-        data: UpdateWebhookWebhooksResponseResponseBodyData,
+        data: UpdateWebhookUnprocessableEntityHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -160,14 +166,14 @@ class UpdateWebhookWebhooksResponseResponseBody(ClientError):
         self.data = data
 
 
-class UpdateWebhookDocumentationTypedDict(TypedDict):
+class UpdateWebhookNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class UpdateWebhookDocumentation(BaseModel):
+class UpdateWebhookNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -175,17 +181,17 @@ class UpdateWebhookDocumentation(BaseModel):
     type: str
 
 
-class UpdateWebhookLinksTypedDict(TypedDict):
-    documentation: UpdateWebhookDocumentationTypedDict
+class UpdateWebhookNotFoundLinksTypedDict(TypedDict):
+    documentation: UpdateWebhookNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class UpdateWebhookLinks(BaseModel):
-    documentation: UpdateWebhookDocumentation
+class UpdateWebhookNotFoundLinks(BaseModel):
+    documentation: UpdateWebhookNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class UpdateWebhookWebhooksResponseBodyData(BaseModel):
+class UpdateWebhookNotFoundHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -195,20 +201,22 @@ class UpdateWebhookWebhooksResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[UpdateWebhookLinks, pydantic.Field(alias="_links")]
+    links: Annotated[UpdateWebhookNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class UpdateWebhookWebhooksResponseBody(ClientError):
+class UpdateWebhookNotFoundHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: UpdateWebhookWebhooksResponseBodyData
+    data: UpdateWebhookNotFoundHalJSONErrorData
 
     def __init__(
         self,
-        data: UpdateWebhookWebhooksResponseBodyData,
+        data: UpdateWebhookNotFoundHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -217,11 +225,28 @@ class UpdateWebhookWebhooksResponseBody(ClientError):
         self.data = data
 
 
-class UpdateWebhookResponseBodyTypedDict(TypedDict):
+class UpdateWebhookStatus(str, Enum):
+    r"""The subscription's current status."""
+
+    ENABLED = "enabled"
+    BLOCKED = "blocked"
+    DISABLED = "disabled"
+
+
+class UpdateWebhookMode(str, Enum):
+    r"""The subscription's mode."""
+
+    LIVE = "live"
+    TEST = "test"
+
+
+class UpdateWebhookResponseTypedDict(TypedDict):
     r"""The webhook object."""
 
     resource: NotRequired[str]
-    r"""Indicates the response contains a webhook subscription object. Will always contain the string `webhook` for this endpoint."""
+    r"""Indicates the response contains a webhook subscription object.
+    Will always contain the string `webhook` for this endpoint.
+    """
     id: NotRequired[str]
     r"""The identifier uniquely referring to this subscription."""
     url: NotRequired[str]
@@ -234,23 +259,19 @@ class UpdateWebhookResponseBodyTypedDict(TypedDict):
     r"""The subscription's name."""
     event_types: NotRequired[List[str]]
     r"""The events types that are subscribed."""
-    status: NotRequired[str]
-    r"""The subscription's current status.
-
-    Possible values: `enabled` `blocked` `disabled`
-    """
-    mode: NotRequired[str]
-    r"""The subscription's mode.
-
-    Possible values: `live` `test`
-    """
+    status: NotRequired[UpdateWebhookStatus]
+    r"""The subscription's current status."""
+    mode: NotRequired[UpdateWebhookMode]
+    r"""The subscription's mode."""
 
 
-class UpdateWebhookResponseBody(BaseModel):
+class UpdateWebhookResponse(BaseModel):
     r"""The webhook object."""
 
     resource: Optional[str] = "webhook"
-    r"""Indicates the response contains a webhook subscription object. Will always contain the string `webhook` for this endpoint."""
+    r"""Indicates the response contains a webhook subscription object.
+    Will always contain the string `webhook` for this endpoint.
+    """
 
     id: Optional[str] = None
     r"""The identifier uniquely referring to this subscription."""
@@ -272,14 +293,8 @@ class UpdateWebhookResponseBody(BaseModel):
     )
     r"""The events types that are subscribed."""
 
-    status: Optional[str] = None
-    r"""The subscription's current status.
+    status: Optional[UpdateWebhookStatus] = None
+    r"""The subscription's current status."""
 
-    Possible values: `enabled` `blocked` `disabled`
-    """
-
-    mode: Optional[str] = None
-    r"""The subscription's mode.
-
-    Possible values: `live` `test`
-    """
+    mode: Optional[UpdateWebhookMode] = None
+    r"""The subscription's mode."""

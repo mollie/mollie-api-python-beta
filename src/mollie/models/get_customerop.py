@@ -12,7 +12,7 @@ from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class GetCustomerQueryParamInclude(str, Enum):
+class GetCustomerInclude(str, Enum):
     r"""This endpoint allows you to include additional information via the `include` query string parameter."""
 
     EVENTS = "events"
@@ -21,10 +21,12 @@ class GetCustomerQueryParamInclude(str, Enum):
 class GetCustomerRequestTypedDict(TypedDict):
     customer_id: str
     r"""Provide the ID of the related customer."""
-    include: NotRequired[Nullable[GetCustomerQueryParamInclude]]
+    include: NotRequired[Nullable[GetCustomerInclude]]
     r"""This endpoint allows you to include additional information via the `include` query string parameter."""
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -39,7 +41,7 @@ class GetCustomerRequest(BaseModel):
     r"""Provide the ID of the related customer."""
 
     include: Annotated[
-        OptionalNullable[GetCustomerQueryParamInclude],
+        OptionalNullable[GetCustomerInclude],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
     r"""This endpoint allows you to include additional information via the `include` query string parameter."""
@@ -48,7 +50,9 @@ class GetCustomerRequest(BaseModel):
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -84,14 +88,14 @@ class GetCustomerRequest(BaseModel):
         return m
 
 
-class GetCustomerCustomersDocumentationTypedDict(TypedDict):
+class GetCustomerNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class GetCustomerCustomersDocumentation(BaseModel):
+class GetCustomerNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -99,17 +103,17 @@ class GetCustomerCustomersDocumentation(BaseModel):
     type: str
 
 
-class GetCustomerCustomersResponseLinksTypedDict(TypedDict):
-    documentation: GetCustomerCustomersDocumentationTypedDict
+class GetCustomerNotFoundLinksTypedDict(TypedDict):
+    documentation: GetCustomerNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetCustomerCustomersResponseLinks(BaseModel):
-    documentation: GetCustomerCustomersDocumentation
+class GetCustomerNotFoundLinks(BaseModel):
+    documentation: GetCustomerNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetCustomerCustomersResponseBodyData(BaseModel):
+class GetCustomerHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -119,20 +123,22 @@ class GetCustomerCustomersResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[GetCustomerCustomersResponseLinks, pydantic.Field(alias="_links")]
+    links: Annotated[GetCustomerNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class GetCustomerCustomersResponseBody(ClientError):
+class GetCustomerHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: GetCustomerCustomersResponseBodyData
+    data: GetCustomerHalJSONErrorData
 
     def __init__(
         self,
-        data: GetCustomerCustomersResponseBodyData,
+        data: GetCustomerHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -141,24 +147,65 @@ class GetCustomerCustomersResponseBody(ClientError):
         self.data = data
 
 
-class GetCustomerMetadata2TypedDict(TypedDict):
+class GetCustomerMode(str, Enum):
+    r"""Whether this entity was created in live mode or in test mode."""
+
+    LIVE = "live"
+    TEST = "test"
+
+
+class GetCustomerLocale(str, Enum):
+    r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if
+    absolutely necessary. If not provided, the browser language will be used which is typically highly accurate.
+    """
+
+    EN_US = "en_US"
+    EN_GB = "en_GB"
+    NL_NL = "nl_NL"
+    NL_BE = "nl_BE"
+    DE_DE = "de_DE"
+    DE_AT = "de_AT"
+    DE_CH = "de_CH"
+    FR_FR = "fr_FR"
+    FR_BE = "fr_BE"
+    ES_ES = "es_ES"
+    CA_ES = "ca_ES"
+    PT_PT = "pt_PT"
+    IT_IT = "it_IT"
+    NB_NO = "nb_NO"
+    SV_SE = "sv_SE"
+    FI_FI = "fi_FI"
+    DA_DK = "da_DK"
+    IS_IS = "is_IS"
+    HU_HU = "hu_HU"
+    PL_PL = "pl_PL"
+    LV_LV = "lv_LV"
+    LT_LT = "lt_LT"
+
+
+class GetCustomerMetadataTypedDict(TypedDict):
     pass
 
 
-class GetCustomerMetadata2(BaseModel):
+class GetCustomerMetadata(BaseModel):
     pass
 
 
-GetCustomerMetadataTypedDict = TypeAliasType(
-    "GetCustomerMetadataTypedDict", Union[GetCustomerMetadata2TypedDict, str, List[str]]
+GetCustomerMetadataUnionTypedDict = TypeAliasType(
+    "GetCustomerMetadataUnionTypedDict",
+    Union[GetCustomerMetadataTypedDict, str, List[str]],
 )
-r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+"""
 
 
-GetCustomerMetadata = TypeAliasType(
-    "GetCustomerMetadata", Union[GetCustomerMetadata2, str, List[str]]
+GetCustomerMetadataUnion = TypeAliasType(
+    "GetCustomerMetadataUnion", Union[GetCustomerMetadata, str, List[str]]
 )
-r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+"""
 
 
 class GetCustomerSelfTypedDict(TypedDict):
@@ -200,7 +247,9 @@ class GetCustomerDashboard(BaseModel):
 
 
 class GetCustomerPaymentsTypedDict(TypedDict):
-    r"""The API resource URL of the [payments](list-payments) linked to this customer. Omitted if no such payments exist (yet)."""
+    r"""The API resource URL of the [payments](list-payments) linked to this customer. Omitted if no such payments
+    exist (yet).
+    """
 
     href: NotRequired[str]
     r"""The actual URL string."""
@@ -209,7 +258,9 @@ class GetCustomerPaymentsTypedDict(TypedDict):
 
 
 class GetCustomerPayments(BaseModel):
-    r"""The API resource URL of the [payments](list-payments) linked to this customer. Omitted if no such payments exist (yet)."""
+    r"""The API resource URL of the [payments](list-payments) linked to this customer. Omitted if no such payments
+    exist (yet).
+    """
 
     href: Optional[str] = None
     r"""The actual URL string."""
@@ -219,7 +270,9 @@ class GetCustomerPayments(BaseModel):
 
 
 class GetCustomerMandatesTypedDict(TypedDict):
-    r"""The API resource URL of the [mandates](list-mandates) linked to this customer. Omitted if no such mandates exist (yet)."""
+    r"""The API resource URL of the [mandates](list-mandates) linked to this customer. Omitted if no such mandates
+    exist (yet).
+    """
 
     href: NotRequired[str]
     r"""The actual URL string."""
@@ -228,7 +281,9 @@ class GetCustomerMandatesTypedDict(TypedDict):
 
 
 class GetCustomerMandates(BaseModel):
-    r"""The API resource URL of the [mandates](list-mandates) linked to this customer. Omitted if no such mandates exist (yet)."""
+    r"""The API resource URL of the [mandates](list-mandates) linked to this customer. Omitted if no such mandates
+    exist (yet).
+    """
 
     href: Optional[str] = None
     r"""The actual URL string."""
@@ -238,7 +293,9 @@ class GetCustomerMandates(BaseModel):
 
 
 class GetCustomerSubscriptionsTypedDict(TypedDict):
-    r"""The API resource URL of the [subscriptions](list-subscriptions) linked to this customer. Omitted if no such subscriptions exist (yet)."""
+    r"""The API resource URL of the [subscriptions](list-subscriptions) linked to this customer. Omitted if no such
+    subscriptions exist (yet).
+    """
 
     href: NotRequired[str]
     r"""The actual URL string."""
@@ -247,7 +304,9 @@ class GetCustomerSubscriptionsTypedDict(TypedDict):
 
 
 class GetCustomerSubscriptions(BaseModel):
-    r"""The API resource URL of the [subscriptions](list-subscriptions) linked to this customer. Omitted if no such subscriptions exist (yet)."""
+    r"""The API resource URL of the [subscriptions](list-subscriptions) linked to this customer. Omitted if no such
+    subscriptions exist (yet).
+    """
 
     href: Optional[str] = None
     r"""The actual URL string."""
@@ -283,11 +342,17 @@ class GetCustomerLinksTypedDict(TypedDict):
     dashboard: NotRequired[GetCustomerDashboardTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     payments: NotRequired[Nullable[GetCustomerPaymentsTypedDict]]
-    r"""The API resource URL of the [payments](list-payments) linked to this customer. Omitted if no such payments exist (yet)."""
+    r"""The API resource URL of the [payments](list-payments) linked to this customer. Omitted if no such payments
+    exist (yet).
+    """
     mandates: NotRequired[Nullable[GetCustomerMandatesTypedDict]]
-    r"""The API resource URL of the [mandates](list-mandates) linked to this customer. Omitted if no such mandates exist (yet)."""
+    r"""The API resource URL of the [mandates](list-mandates) linked to this customer. Omitted if no such mandates
+    exist (yet).
+    """
     subscriptions: NotRequired[Nullable[GetCustomerSubscriptionsTypedDict]]
-    r"""The API resource URL of the [subscriptions](list-subscriptions) linked to this customer. Omitted if no such subscriptions exist (yet)."""
+    r"""The API resource URL of the [subscriptions](list-subscriptions) linked to this customer. Omitted if no such
+    subscriptions exist (yet).
+    """
     documentation: NotRequired[GetCustomerDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
@@ -302,13 +367,19 @@ class GetCustomerLinks(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     payments: OptionalNullable[GetCustomerPayments] = UNSET
-    r"""The API resource URL of the [payments](list-payments) linked to this customer. Omitted if no such payments exist (yet)."""
+    r"""The API resource URL of the [payments](list-payments) linked to this customer. Omitted if no such payments
+    exist (yet).
+    """
 
     mandates: OptionalNullable[GetCustomerMandates] = UNSET
-    r"""The API resource URL of the [mandates](list-mandates) linked to this customer. Omitted if no such mandates exist (yet)."""
+    r"""The API resource URL of the [mandates](list-mandates) linked to this customer. Omitted if no such mandates
+    exist (yet).
+    """
 
     subscriptions: OptionalNullable[GetCustomerSubscriptions] = UNSET
-    r"""The API resource URL of the [subscriptions](list-subscriptions) linked to this customer. Omitted if no such subscriptions exist (yet)."""
+    r"""The API resource URL of the [subscriptions](list-subscriptions) linked to this customer. Omitted if no such
+    subscriptions exist (yet).
+    """
 
     documentation: Optional[GetCustomerDocumentation] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
@@ -370,31 +441,31 @@ class URL(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetCustomerCustomersLinksTypedDict(TypedDict):
+class EventLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     url: NotRequired[URLTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class GetCustomerCustomersLinks(BaseModel):
+class EventLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     url: Optional[URL] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class EventsTypedDict(TypedDict):
+class EventTypedDict(TypedDict):
     resource: NotRequired[str]
     type: NotRequired[int]
     created_at: NotRequired[str]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     message: NotRequired[str]
-    links: NotRequired[GetCustomerCustomersLinksTypedDict]
+    links: NotRequired[EventLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class Events(BaseModel):
+class Event(BaseModel):
     resource: Optional[str] = "event"
 
     type: Optional[int] = None
@@ -404,40 +475,39 @@ class Events(BaseModel):
 
     message: Optional[str] = None
 
-    links: Annotated[
-        Optional[GetCustomerCustomersLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[Optional[EventLinks], pydantic.Field(alias="_links")] = None
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class GetCustomerResponseBodyTypedDict(TypedDict):
+class GetCustomerResponseTypedDict(TypedDict):
     r"""The customer object."""
 
     resource: NotRequired[str]
     r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
     id: NotRequired[str]
     r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
-    mode: NotRequired[str]
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
-    """
+    mode: NotRequired[GetCustomerMode]
+    r"""Whether this entity was created in live mode or in test mode."""
     name: NotRequired[Nullable[str]]
     r"""The full name of the customer."""
     email: NotRequired[Nullable[str]]
     r"""The email address of the customer."""
-    locale: NotRequired[Nullable[str]]
-    r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if absolutely necessary. If not provided, the browser language will be used which is typically highly accurate."""
-    metadata: NotRequired[Nullable[GetCustomerMetadataTypedDict]]
-    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+    locale: NotRequired[Nullable[GetCustomerLocale]]
+    r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if
+    absolutely necessary. If not provided, the browser language will be used which is typically highly accurate.
+    """
+    metadata: NotRequired[Nullable[GetCustomerMetadataUnionTypedDict]]
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+    you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+    """
     created_at: NotRequired[str]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: NotRequired[GetCustomerLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    events: NotRequired[List[EventsTypedDict]]
+    events: NotRequired[List[EventTypedDict]]
 
 
-class GetCustomerResponseBody(BaseModel):
+class GetCustomerResponse(BaseModel):
     r"""The customer object."""
 
     resource: Optional[str] = "customer"
@@ -446,11 +516,8 @@ class GetCustomerResponseBody(BaseModel):
     id: Optional[str] = None
     r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
 
-    mode: Optional[str] = None
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
-    """
+    mode: Optional[GetCustomerMode] = None
+    r"""Whether this entity was created in live mode or in test mode."""
 
     name: OptionalNullable[str] = UNSET
     r"""The full name of the customer."""
@@ -458,11 +525,15 @@ class GetCustomerResponseBody(BaseModel):
     email: OptionalNullable[str] = UNSET
     r"""The email address of the customer."""
 
-    locale: OptionalNullable[str] = UNSET
-    r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if absolutely necessary. If not provided, the browser language will be used which is typically highly accurate."""
+    locale: OptionalNullable[GetCustomerLocale] = UNSET
+    r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if
+    absolutely necessary. If not provided, the browser language will be used which is typically highly accurate.
+    """
 
-    metadata: OptionalNullable[GetCustomerMetadata] = UNSET
-    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+    metadata: OptionalNullable[GetCustomerMetadataUnion] = UNSET
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+    you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+    """
 
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
@@ -470,7 +541,7 @@ class GetCustomerResponseBody(BaseModel):
     links: Annotated[Optional[GetCustomerLinks], pydantic.Field(alias="_links")] = None
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    events: Optional[List[Events]] = None
+    events: Optional[List[Event]] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

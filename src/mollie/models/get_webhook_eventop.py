@@ -24,14 +24,14 @@ class GetWebhookEventRequest(BaseModel):
     r"""Provide the ID of the item you want to perform this operation on."""
 
 
-class GetWebhookEventWebhookEventsDocumentationTypedDict(TypedDict):
+class GetWebhookEventNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class GetWebhookEventWebhookEventsDocumentation(BaseModel):
+class GetWebhookEventNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -39,17 +39,17 @@ class GetWebhookEventWebhookEventsDocumentation(BaseModel):
     type: str
 
 
-class GetWebhookEventWebhookEventsLinksTypedDict(TypedDict):
-    documentation: GetWebhookEventWebhookEventsDocumentationTypedDict
+class GetWebhookEventNotFoundLinksTypedDict(TypedDict):
+    documentation: GetWebhookEventNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetWebhookEventWebhookEventsLinks(BaseModel):
-    documentation: GetWebhookEventWebhookEventsDocumentation
+class GetWebhookEventNotFoundLinks(BaseModel):
+    documentation: GetWebhookEventNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetWebhookEventWebhookEventsResponseBodyData(BaseModel):
+class GetWebhookEventHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -59,20 +59,22 @@ class GetWebhookEventWebhookEventsResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[GetWebhookEventWebhookEventsLinks, pydantic.Field(alias="_links")]
+    links: Annotated[GetWebhookEventNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class GetWebhookEventWebhookEventsResponseBody(ClientError):
+class GetWebhookEventHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: GetWebhookEventWebhookEventsResponseBodyData
+    data: GetWebhookEventHalJSONErrorData
 
     def __init__(
         self,
-        data: GetWebhookEventWebhookEventsResponseBodyData,
+        data: GetWebhookEventHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -81,27 +83,54 @@ class GetWebhookEventWebhookEventsResponseBody(ClientError):
         self.data = data
 
 
-class EntityReviewTypedDict(TypedDict):
-    r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved automatically, unless a switch to a live profile has been requested. The review object will therefore usually be `null` in test mode."""
+class GetWebhookEventMode2(str, Enum):
+    r"""Whether this entity was created in live mode or in test mode."""
 
-    status: NotRequired[str]
-    r"""The status of the requested changes.
+    LIVE = "live"
+    TEST = "test"
 
-    Possible values: `pending` `rejected`
+
+class GetWebhookEventStatus(str, Enum):
+    r"""The profile status determines whether the profile is able to receive live payments.
+
+    * `unverified`: The profile has not been verified yet and can only be used to create test payments.
+    * `verified`: The profile has been verified and can be used to create live payments and test payments.
+    * `blocked`: The profile is blocked and can no longer be used or changed.
     """
 
+    UNVERIFIED = "unverified"
+    VERIFIED = "verified"
+    BLOCKED = "blocked"
 
-class EntityReview(BaseModel):
-    r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved automatically, unless a switch to a live profile has been requested. The review object will therefore usually be `null` in test mode."""
 
-    status: Optional[str] = None
-    r"""The status of the requested changes.
+class GetWebhookEventReviewStatus(str, Enum):
+    r"""The status of the requested changes."""
 
-    Possible values: `pending` `rejected`
+    PENDING = "pending"
+    REJECTED = "rejected"
+
+
+class GetWebhookEventReviewTypedDict(TypedDict):
+    r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved
+    automatically, unless a switch to a live profile has been requested. The review object will therefore usually be
+    `null` in test mode.
     """
 
+    status: NotRequired[GetWebhookEventReviewStatus]
+    r"""The status of the requested changes."""
 
-class GetWebhookEventEntitySelfTypedDict(TypedDict):
+
+class GetWebhookEventReview(BaseModel):
+    r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved
+    automatically, unless a switch to a live profile has been requested. The review object will therefore usually be
+    `null` in test mode.
+    """
+
+    status: Optional[GetWebhookEventReviewStatus] = None
+    r"""The status of the requested changes."""
+
+
+class EntitySelf2TypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -110,7 +139,7 @@ class GetWebhookEventEntitySelfTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetWebhookEventEntitySelf(BaseModel):
+class EntitySelf2(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -120,7 +149,7 @@ class GetWebhookEventEntitySelf(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class EntityDashboardTypedDict(TypedDict):
+class GetWebhookEventDashboardTypedDict(TypedDict):
     r"""Link to the profile in the Mollie dashboard."""
 
     href: str
@@ -129,7 +158,7 @@ class EntityDashboardTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class EntityDashboard(BaseModel):
+class GetWebhookEventDashboard(BaseModel):
     r"""Link to the profile in the Mollie dashboard."""
 
     href: str
@@ -139,7 +168,7 @@ class EntityDashboard(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class EntityChargebacksTypedDict(TypedDict):
+class GetWebhookEventChargebacksTypedDict(TypedDict):
     r"""The API resource URL of the chargebacks that belong to this profile."""
 
     href: str
@@ -148,7 +177,7 @@ class EntityChargebacksTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class EntityChargebacks(BaseModel):
+class GetWebhookEventChargebacks(BaseModel):
     r"""The API resource URL of the chargebacks that belong to this profile."""
 
     href: str
@@ -158,7 +187,7 @@ class EntityChargebacks(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class EntityMethodsTypedDict(TypedDict):
+class GetWebhookEventMethodsTypedDict(TypedDict):
     r"""The API resource URL of the methods that are enabled for this profile."""
 
     href: str
@@ -167,7 +196,7 @@ class EntityMethodsTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class EntityMethods(BaseModel):
+class GetWebhookEventMethods(BaseModel):
     r"""The API resource URL of the methods that are enabled for this profile."""
 
     href: str
@@ -177,7 +206,7 @@ class EntityMethods(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class EntityPaymentsTypedDict(TypedDict):
+class GetWebhookEventPaymentsTypedDict(TypedDict):
     r"""The API resource URL of the payments that belong to this profile."""
 
     href: str
@@ -186,7 +215,7 @@ class EntityPaymentsTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class EntityPayments(BaseModel):
+class GetWebhookEventPayments(BaseModel):
     r"""The API resource URL of the payments that belong to this profile."""
 
     href: str
@@ -196,7 +225,7 @@ class EntityPayments(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class EntityRefundsTypedDict(TypedDict):
+class GetWebhookEventRefundsTypedDict(TypedDict):
     r"""The API resource URL of the refunds that belong to this profile."""
 
     href: str
@@ -205,7 +234,7 @@ class EntityRefundsTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class EntityRefunds(BaseModel):
+class GetWebhookEventRefunds(BaseModel):
     r"""The API resource URL of the refunds that belong to this profile."""
 
     href: str
@@ -215,7 +244,7 @@ class EntityRefunds(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class EntityCheckoutPreviewURLTypedDict(TypedDict):
+class GetWebhookEventCheckoutPreviewURLTypedDict(TypedDict):
     r"""The hosted checkout preview URL. You need to be logged in to access this page."""
 
     href: str
@@ -224,7 +253,7 @@ class EntityCheckoutPreviewURLTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class EntityCheckoutPreviewURL(BaseModel):
+class GetWebhookEventCheckoutPreviewURL(BaseModel):
     r"""The hosted checkout preview URL. You need to be logged in to access this page."""
 
     href: str
@@ -253,52 +282,51 @@ class EntityDocumentation(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetWebhookEventEntityLinksTypedDict(TypedDict):
+class EntityLinks2TypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[GetWebhookEventEntitySelfTypedDict]
+    self_: NotRequired[EntitySelf2TypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    dashboard: NotRequired[EntityDashboardTypedDict]
+    dashboard: NotRequired[GetWebhookEventDashboardTypedDict]
     r"""Link to the profile in the Mollie dashboard."""
-    chargebacks: NotRequired[EntityChargebacksTypedDict]
+    chargebacks: NotRequired[GetWebhookEventChargebacksTypedDict]
     r"""The API resource URL of the chargebacks that belong to this profile."""
-    methods: NotRequired[EntityMethodsTypedDict]
+    methods: NotRequired[GetWebhookEventMethodsTypedDict]
     r"""The API resource URL of the methods that are enabled for this profile."""
-    payments: NotRequired[EntityPaymentsTypedDict]
+    payments: NotRequired[GetWebhookEventPaymentsTypedDict]
     r"""The API resource URL of the payments that belong to this profile."""
-    refunds: NotRequired[EntityRefundsTypedDict]
+    refunds: NotRequired[GetWebhookEventRefundsTypedDict]
     r"""The API resource URL of the refunds that belong to this profile."""
-    checkout_preview_url: NotRequired[EntityCheckoutPreviewURLTypedDict]
+    checkout_preview_url: NotRequired[GetWebhookEventCheckoutPreviewURLTypedDict]
     r"""The hosted checkout preview URL. You need to be logged in to access this page."""
     documentation: NotRequired[EntityDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class GetWebhookEventEntityLinks(BaseModel):
+class EntityLinks2(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[
-        Optional[GetWebhookEventEntitySelf], pydantic.Field(alias="self")
-    ] = None
+    self_: Annotated[Optional[EntitySelf2], pydantic.Field(alias="self")] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    dashboard: Optional[EntityDashboard] = None
+    dashboard: Optional[GetWebhookEventDashboard] = None
     r"""Link to the profile in the Mollie dashboard."""
 
-    chargebacks: Optional[EntityChargebacks] = None
+    chargebacks: Optional[GetWebhookEventChargebacks] = None
     r"""The API resource URL of the chargebacks that belong to this profile."""
 
-    methods: Optional[EntityMethods] = None
+    methods: Optional[GetWebhookEventMethods] = None
     r"""The API resource URL of the methods that are enabled for this profile."""
 
-    payments: Optional[EntityPayments] = None
+    payments: Optional[GetWebhookEventPayments] = None
     r"""The API resource URL of the payments that belong to this profile."""
 
-    refunds: Optional[EntityRefunds] = None
+    refunds: Optional[GetWebhookEventRefunds] = None
     r"""The API resource URL of the refunds that belong to this profile."""
 
     checkout_preview_url: Annotated[
-        Optional[EntityCheckoutPreviewURL], pydantic.Field(alias="checkoutPreviewUrl")
+        Optional[GetWebhookEventCheckoutPreviewURL],
+        pydantic.Field(alias="checkoutPreviewUrl"),
     ] = None
     r"""The hosted checkout preview URL. You need to be logged in to access this page."""
 
@@ -306,20 +334,21 @@ class GetWebhookEventEntityLinks(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class EntityProfileTypedDict(TypedDict):
+class GetWebhookEventProfileTypedDict(TypedDict):
     resource: NotRequired[str]
     r"""Indicates the response contains a profile object. Will always contain the string `profile` for this endpoint."""
     id: NotRequired[str]
     r"""The identifier uniquely referring to this profile. Example: `pfl_v9hTwCvYqw`."""
-    mode: NotRequired[str]
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
-    """
+    mode: NotRequired[GetWebhookEventMode2]
+    r"""Whether this entity was created in live mode or in test mode."""
     name: NotRequired[str]
-    r"""The profile's name, this will usually reflect the trade name or brand name of the profile's website or application."""
+    r"""The profile's name, this will usually reflect the trade name or brand name of the profile's website or
+    application.
+    """
     website: NotRequired[str]
-    r"""The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are allowed."""
+    r"""The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are
+    allowed.
+    """
     email: NotRequired[str]
     r"""The email address associated with the profile's trade name or brand."""
     phone: NotRequired[str]
@@ -327,44 +356,50 @@ class EntityProfileTypedDict(TypedDict):
     description: NotRequired[str]
     r"""The products or services offered by the profile's website or application."""
     countries_of_activity: NotRequired[List[str]]
-    r"""A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""
+    r"""A list of countries where you expect that the majority of the profile's customers reside,
+    in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+    """
     business_category: NotRequired[str]
-    r"""The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types#business-category) for all possible options."""
-    status: NotRequired[str]
+    r"""The industry associated with the profile's trade name or brand. Please refer to the
+    [business category list](common-data-types#business-category) for all possible options.
+    """
+    status: NotRequired[GetWebhookEventStatus]
     r"""The profile status determines whether the profile is able to receive live payments.
 
     * `unverified`: The profile has not been verified yet and can only be used to create test payments.
     * `verified`: The profile has been verified and can be used to create live payments and test payments.
     * `blocked`: The profile is blocked and can no longer be used or changed.
-
-    Possible values: `unverified` `verified` `blocked`
     """
-    review: NotRequired[EntityReviewTypedDict]
-    r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved automatically, unless a switch to a live profile has been requested. The review object will therefore usually be `null` in test mode."""
+    review: NotRequired[GetWebhookEventReviewTypedDict]
+    r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved
+    automatically, unless a switch to a live profile has been requested. The review object will therefore usually be
+    `null` in test mode.
+    """
     created_at: NotRequired[str]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: NotRequired[GetWebhookEventEntityLinksTypedDict]
+    links: NotRequired[EntityLinks2TypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class EntityProfile(BaseModel):
+class GetWebhookEventProfile(BaseModel):
     resource: Optional[str] = "profile"
     r"""Indicates the response contains a profile object. Will always contain the string `profile` for this endpoint."""
 
     id: Optional[str] = None
     r"""The identifier uniquely referring to this profile. Example: `pfl_v9hTwCvYqw`."""
 
-    mode: Optional[str] = None
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
-    """
+    mode: Optional[GetWebhookEventMode2] = None
+    r"""Whether this entity was created in live mode or in test mode."""
 
     name: Optional[str] = None
-    r"""The profile's name, this will usually reflect the trade name or brand name of the profile's website or application."""
+    r"""The profile's name, this will usually reflect the trade name or brand name of the profile's website or
+    application.
+    """
 
     website: Optional[str] = None
-    r"""The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are allowed."""
+    r"""The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are
+    allowed.
+    """
 
     email: Optional[str] = None
     r"""The email address associated with the profile's trade name or brand."""
@@ -378,37 +413,49 @@ class EntityProfile(BaseModel):
     countries_of_activity: Annotated[
         Optional[List[str]], pydantic.Field(alias="countriesOfActivity")
     ] = None
-    r"""A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""
+    r"""A list of countries where you expect that the majority of the profile's customers reside,
+    in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+    """
 
     business_category: Annotated[
         Optional[str], pydantic.Field(alias="businessCategory")
     ] = None
-    r"""The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types#business-category) for all possible options."""
+    r"""The industry associated with the profile's trade name or brand. Please refer to the
+    [business category list](common-data-types#business-category) for all possible options.
+    """
 
-    status: Optional[str] = None
+    status: Optional[GetWebhookEventStatus] = None
     r"""The profile status determines whether the profile is able to receive live payments.
 
     * `unverified`: The profile has not been verified yet and can only be used to create test payments.
     * `verified`: The profile has been verified and can be used to create live payments and test payments.
     * `blocked`: The profile is blocked and can no longer be used or changed.
-
-    Possible values: `unverified` `verified` `blocked`
     """
 
-    review: Optional[EntityReview] = None
-    r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved automatically, unless a switch to a live profile has been requested. The review object will therefore usually be `null` in test mode."""
+    review: Optional[GetWebhookEventReview] = None
+    r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved
+    automatically, unless a switch to a live profile has been requested. The review object will therefore usually be
+    `null` in test mode.
+    """
 
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    links: Annotated[
-        Optional[GetWebhookEventEntityLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[Optional[EntityLinks2], pydantic.Field(alias="_links")] = None
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class EntityAmountTypedDict(TypedDict):
-    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an amount."""
+class GetWebhookEventMode1(str, Enum):
+    r"""Whether this entity was created in live mode or in test mode."""
+
+    LIVE = "live"
+    TEST = "test"
+
+
+class GetWebhookEventAmountTypedDict(TypedDict):
+    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an
+    amount.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -416,27 +463,10 @@ class EntityAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityAmount(BaseModel):
-    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an amount."""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class EntityMinimumAmountTypedDict(TypedDict):
-    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount."""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class EntityMinimumAmount(BaseModel):
-    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount."""
+class GetWebhookEventAmount(BaseModel):
+    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an
+    amount.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -445,7 +475,46 @@ class EntityMinimumAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityUnitPriceTypedDict(TypedDict):
+class GetWebhookEventMinimumAmountTypedDict(TypedDict):
+    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The
+    customer will be prompted to enter a value greater than or equal to the minimum amount.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetWebhookEventMinimumAmount(BaseModel):
+    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The
+    customer will be prompted to enter a value greater than or equal to the minimum amount.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetWebhookEventType(str, Enum):
+    r"""The type of product purchased. For example, a physical or a digital product.
+
+    The `tip` payment line type is not available when creating a payment.
+    """
+
+    PHYSICAL = "physical"
+    DIGITAL = "digital"
+    SHIPPING_FEE = "shipping_fee"
+    DISCOUNT = "discount"
+    STORE_CREDIT = "store_credit"
+    GIFT_CARD = "gift_card"
+    SURCHARGE = "surcharge"
+    TIP = "tip"
+
+
+class GetWebhookEventUnitPriceTypedDict(TypedDict):
     r"""The price of a single item including VAT.
 
     For example: `{\"currency\":\"EUR\", \"value\":\"89.00\"}` if the box of LEGO costs €89.00 each.
@@ -461,7 +530,7 @@ class EntityUnitPriceTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityUnitPrice(BaseModel):
+class GetWebhookEventUnitPrice(BaseModel):
     r"""The price of a single item including VAT.
 
     For example: `{\"currency\":\"EUR\", \"value\":\"89.00\"}` if the box of LEGO costs €89.00 each.
@@ -478,8 +547,10 @@ class EntityUnitPrice(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityDiscountAmountTypedDict(TypedDict):
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+class GetWebhookEventDiscountAmountTypedDict(TypedDict):
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -487,8 +558,10 @@ class EntityDiscountAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityDiscountAmount(BaseModel):
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+class GetWebhookEventDiscountAmount(BaseModel):
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -497,7 +570,7 @@ class EntityDiscountAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityTotalAmountTypedDict(TypedDict):
+class GetWebhookEventTotalAmountTypedDict(TypedDict):
     r"""The total amount of the line, including VAT and discounts.
 
     Should match the following formula: `(unitPrice × quantity) - discountAmount`.
@@ -511,7 +584,7 @@ class EntityTotalAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityTotalAmount(BaseModel):
+class GetWebhookEventTotalAmount(BaseModel):
     r"""The total amount of the line, including VAT and discounts.
 
     Should match the following formula: `(unitPrice × quantity) - discountAmount`.
@@ -526,12 +599,14 @@ class EntityTotalAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityVatAmountTypedDict(TypedDict):
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+class GetWebhookEventVatAmountTypedDict(TypedDict):
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
 
     currency: str
@@ -540,12 +615,14 @@ class EntityVatAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityVatAmount(BaseModel):
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+class GetWebhookEventVatAmount(BaseModel):
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
 
     currency: str
@@ -555,19 +632,19 @@ class EntityVatAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityCategories(str, Enum):
+class GetWebhookEventCategory(str, Enum):
     MEAL = "meal"
     ECO = "eco"
     GIFT = "gift"
     SPORT_CULTURE = "sport_culture"
 
 
-class EntityLinesTypedDict(TypedDict):
+class GetWebhookEventLineTypedDict(TypedDict):
     description: str
     r"""A description of the line item. For example *LEGO 4440 Forest Police Station*."""
     quantity: int
     r"""The number of items."""
-    unit_price: EntityUnitPriceTypedDict
+    unit_price: GetWebhookEventUnitPriceTypedDict
     r"""The price of a single item including VAT.
 
     For example: `{\"currency\":\"EUR\", \"value\":\"89.00\"}` if the box of LEGO costs €89.00 each.
@@ -576,51 +653,57 @@ class EntityLinesTypedDict(TypedDict):
 
     The unit price can be zero in case of free items.
     """
-    total_amount: EntityTotalAmountTypedDict
+    total_amount: GetWebhookEventTotalAmountTypedDict
     r"""The total amount of the line, including VAT and discounts.
 
     Should match the following formula: `(unitPrice × quantity) - discountAmount`.
 
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
-    type: NotRequired[str]
+    type: NotRequired[GetWebhookEventType]
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
-
-    Possible values: `physical` `digital` `shipping_fee` `discount` `store_credit` `gift_card` `surcharge` `tip` (default: `physical`)
     """
     quantity_unit: NotRequired[str]
     r"""The unit for the quantity. For example *pcs*, *kg*, or *cm*."""
-    discount_amount: NotRequired[EntityDiscountAmountTypedDict]
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+    discount_amount: NotRequired[GetWebhookEventDiscountAmountTypedDict]
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
     vat_rate: NotRequired[str]
-    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and not as a float, to ensure the correct number of decimals are passed."""
-    vat_amount: NotRequired[EntityVatAmountTypedDict]
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and
+    not as a float, to ensure the correct number of decimals are passed.
+    """
+    vat_amount: NotRequired[GetWebhookEventVatAmountTypedDict]
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
     sku: NotRequired[str]
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
-    categories: NotRequired[List[EntityCategories]]
-    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the [Integrating Vouchers](integrating-vouchers) guide for more information."""
+    categories: NotRequired[List[GetWebhookEventCategory]]
+    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
+    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    """
     image_url: NotRequired[str]
     r"""A link pointing to an image of the product sold."""
     product_url: NotRequired[str]
     r"""A link pointing to the product page in your web shop of the product sold."""
 
 
-class EntityLines(BaseModel):
+class GetWebhookEventLine(BaseModel):
     description: str
     r"""A description of the line item. For example *LEGO 4440 Forest Police Station*."""
 
     quantity: int
     r"""The number of items."""
 
-    unit_price: Annotated[EntityUnitPrice, pydantic.Field(alias="unitPrice")]
+    unit_price: Annotated[GetWebhookEventUnitPrice, pydantic.Field(alias="unitPrice")]
     r"""The price of a single item including VAT.
 
     For example: `{\"currency\":\"EUR\", \"value\":\"89.00\"}` if the box of LEGO costs €89.00 each.
@@ -630,7 +713,9 @@ class EntityLines(BaseModel):
     The unit price can be zero in case of free items.
     """
 
-    total_amount: Annotated[EntityTotalAmount, pydantic.Field(alias="totalAmount")]
+    total_amount: Annotated[
+        GetWebhookEventTotalAmount, pydantic.Field(alias="totalAmount")
+    ]
     r"""The total amount of the line, including VAT and discounts.
 
     Should match the following formula: `(unitPrice × quantity) - discountAmount`.
@@ -638,40 +723,46 @@ class EntityLines(BaseModel):
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
 
-    type: Optional[str] = None
+    type: Optional[GetWebhookEventType] = GetWebhookEventType.PHYSICAL
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
-
-    Possible values: `physical` `digital` `shipping_fee` `discount` `store_credit` `gift_card` `surcharge` `tip` (default: `physical`)
     """
 
     quantity_unit: Annotated[Optional[str], pydantic.Field(alias="quantityUnit")] = None
     r"""The unit for the quantity. For example *pcs*, *kg*, or *cm*."""
 
     discount_amount: Annotated[
-        Optional[EntityDiscountAmount], pydantic.Field(alias="discountAmount")
+        Optional[GetWebhookEventDiscountAmount], pydantic.Field(alias="discountAmount")
     ] = None
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
 
     vat_rate: Annotated[Optional[str], pydantic.Field(alias="vatRate")] = None
-    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and not as a float, to ensure the correct number of decimals are passed."""
+    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and
+    not as a float, to ensure the correct number of decimals are passed.
+    """
 
     vat_amount: Annotated[
-        Optional[EntityVatAmount], pydantic.Field(alias="vatAmount")
+        Optional[GetWebhookEventVatAmount], pydantic.Field(alias="vatAmount")
     ] = None
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
 
     sku: Optional[str] = None
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
 
-    categories: Optional[List[EntityCategories]] = None
-    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the [Integrating Vouchers](integrating-vouchers) guide for more information."""
+    categories: Optional[List[GetWebhookEventCategory]] = None
+    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
+    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    """
 
     image_url: Annotated[Optional[str], pydantic.Field(alias="imageUrl")] = None
     r"""A link pointing to an image of the product sold."""
@@ -680,10 +771,12 @@ class EntityLines(BaseModel):
     r"""A link pointing to the product page in your web shop of the product sold."""
 
 
-class EntityBillingAddressTypedDict(TypedDict):
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+class GetWebhookEventBillingAddressTypedDict(TypedDict):
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
@@ -691,12 +784,14 @@ class EntityBillingAddressTypedDict(TypedDict):
     title: NotRequired[str]
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
     given_name: NotRequired[str]
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
     family_name: NotRequired[str]
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -717,7 +812,8 @@ class EntityBillingAddressTypedDict(TypedDict):
     email: NotRequired[str]
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -737,10 +833,12 @@ class EntityBillingAddressTypedDict(TypedDict):
     """
 
 
-class EntityBillingAddress(BaseModel):
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+class GetWebhookEventBillingAddress(BaseModel):
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
@@ -749,13 +847,15 @@ class EntityBillingAddress(BaseModel):
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
 
     given_name: Annotated[Optional[str], pydantic.Field(alias="givenName")] = None
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
 
     family_name: Annotated[Optional[str], pydantic.Field(alias="familyName")] = None
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -787,7 +887,8 @@ class EntityBillingAddress(BaseModel):
     email: Optional[str] = None
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -811,21 +912,25 @@ class EntityBillingAddress(BaseModel):
     """
 
 
-class EntityShippingAddressTypedDict(TypedDict):
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+class GetWebhookEventShippingAddressTypedDict(TypedDict):
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
 
     title: NotRequired[str]
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
     given_name: NotRequired[str]
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
     family_name: NotRequired[str]
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -846,7 +951,8 @@ class EntityShippingAddressTypedDict(TypedDict):
     email: NotRequired[str]
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -866,23 +972,27 @@ class EntityShippingAddressTypedDict(TypedDict):
     """
 
 
-class EntityShippingAddress(BaseModel):
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+class GetWebhookEventShippingAddress(BaseModel):
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
 
     title: Optional[str] = None
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
 
     given_name: Annotated[Optional[str], pydantic.Field(alias="givenName")] = None
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
 
     family_name: Annotated[Optional[str], pydantic.Field(alias="familyName")] = None
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -914,7 +1024,8 @@ class EntityShippingAddress(BaseModel):
     email: Optional[str] = None
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -938,10 +1049,11 @@ class EntityShippingAddress(BaseModel):
     """
 
 
-class GetWebhookEventEntityAmountTypedDict(TypedDict):
+class GetWebhookEventApplicationFeeAmountTypedDict(TypedDict):
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
 
     currency: str
@@ -950,10 +1062,11 @@ class GetWebhookEventEntityAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class GetWebhookEventEntityAmount(BaseModel):
+class GetWebhookEventApplicationFeeAmount(BaseModel):
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
 
     currency: str
@@ -963,38 +1076,50 @@ class GetWebhookEventEntityAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityApplicationFeeTypedDict(TypedDict):
-    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
+class GetWebhookEventApplicationFeeTypedDict(TypedDict):
+    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
     """
 
-    amount: GetWebhookEventEntityAmountTypedDict
+    amount: GetWebhookEventApplicationFeeAmountTypedDict
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
     description: str
-    r"""The description of the application fee. This will appear on settlement reports towards both you and the connected merchant."""
-
-
-class EntityApplicationFee(BaseModel):
-    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
-
-    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    r"""The description of the application fee. This will appear on settlement reports towards both you and the
+    connected merchant.
     """
 
-    amount: GetWebhookEventEntityAmount
+
+class GetWebhookEventApplicationFee(BaseModel):
+    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie
+    merchants.
+
+    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
+    """
+
+    amount: GetWebhookEventApplicationFeeAmount
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
 
     description: str
-    r"""The description of the application fee. This will appear on settlement reports towards both you and the connected merchant."""
+    r"""The description of the application fee. This will appear on settlement reports towards both you and the
+    connected merchant.
+    """
 
 
-class EntitySelfTypedDict(TypedDict):
+class EntitySelf1TypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -1003,7 +1128,7 @@ class EntitySelfTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class EntitySelf(BaseModel):
+class EntitySelf1(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -1013,7 +1138,7 @@ class EntitySelf(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetWebhookEventEntityPaymentLinkTypedDict(TypedDict):
+class GetWebhookEventLinksPaymentLinkTypedDict(TypedDict):
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
 
     href: str
@@ -1022,7 +1147,7 @@ class GetWebhookEventEntityPaymentLinkTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetWebhookEventEntityPaymentLink(BaseModel):
+class GetWebhookEventLinksPaymentLink(BaseModel):
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
 
     href: str
@@ -1032,137 +1157,171 @@ class GetWebhookEventEntityPaymentLink(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class EntityLinksTypedDict(TypedDict):
+class EntityLinks1TypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: EntitySelfTypedDict
+    self_: EntitySelf1TypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    payment_link: GetWebhookEventEntityPaymentLinkTypedDict
+    payment_link: GetWebhookEventLinksPaymentLinkTypedDict
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
 
 
-class EntityLinks(BaseModel):
+class EntityLinks1(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[EntitySelf, pydantic.Field(alias="self")]
+    self_: Annotated[EntitySelf1, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     payment_link: Annotated[
-        GetWebhookEventEntityPaymentLink, pydantic.Field(alias="paymentLink")
+        GetWebhookEventLinksPaymentLink, pydantic.Field(alias="paymentLink")
     ]
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
 
 
-class EntityPaymentLinkTypedDict(TypedDict):
+class GetWebhookEventPaymentLinkTypedDict(TypedDict):
     id: str
     r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
-    mode: str
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
-    """
+    mode: GetWebhookEventMode1
+    r"""Whether this entity was created in live mode or in test mode."""
     description: str
-    r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible."""
-    amount: Nullable[EntityAmountTypedDict]
-    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an amount."""
+    r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the
+    customer's bank or card statement when possible.
+    """
+    amount: Nullable[GetWebhookEventAmountTypedDict]
+    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an
+    amount.
+    """
     archived: bool
     r"""Whether the payment link is archived. Customers will not be able to complete payments on archived payment links."""
     redirect_url: Nullable[str]
-    r"""The URL your customer will be redirected to after completing the payment process. If no redirect URL is provided, the customer will be shown a generic message after completing the payment."""
+    r"""The URL your customer will be redirected to after completing the payment process. If no redirect URL is provided,
+    the customer will be shown a generic message after completing the payment.
+    """
     webhook_url: Nullable[str]
     r"""The webhook URL where we will send payment status updates to.
 
-    The webhookUrl is optional, but without a webhook you will miss out on important status changes to any payments resulting from the payment link.
+    The webhookUrl is optional, but without a webhook you will miss out on important status changes to any payments
+    resulting from the payment link.
 
-    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
+    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use
+    webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your
+    local machine.
     """
     profile_id: Nullable[str]
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation
+    request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
+    required.
     """
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     paid_at: Nullable[str]
     r"""The date and time the payment link became paid, in ISO 8601 format."""
     expires_at: Nullable[str]
-    r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front, the payment link will not expire automatically."""
-    allowed_methods: Nullable[List[str]]
-    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
-
-    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint', 'in3', 'riverty', 'klarna', 'billie'.
+    r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front,
+    the payment link will not expire automatically.
     """
-    links: EntityLinksTypedDict
+    allowed_methods: Nullable[List[str]]
+    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is
+    not provided or is an empty array, all enabled payment methods will be available.
+
+    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard',
+    'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint',
+    'in3', 'riverty', 'klarna', 'billie'.
+    """
+    links: EntityLinks1TypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     resource: NotRequired[str]
-    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this endpoint."""
-    minimum_amount: NotRequired[Nullable[EntityMinimumAmountTypedDict]]
-    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount."""
-    lines: NotRequired[Nullable[List[EntityLinesTypedDict]]]
-    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.
+    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this
+    endpoint.
+    """
+    minimum_amount: NotRequired[Nullable[GetWebhookEventMinimumAmountTypedDict]]
+    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The
+    customer will be prompted to enter a value greater than or equal to the minimum amount.
+    """
+    lines: NotRequired[Nullable[List[GetWebhookEventLineTypedDict]]]
+    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item
+    ordered and its price.
 
     All lines must have the same currency as the payment.
 
     Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
     """
-    billing_address: NotRequired[EntityBillingAddressTypedDict]
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+    billing_address: NotRequired[GetWebhookEventBillingAddressTypedDict]
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
-    shipping_address: NotRequired[EntityShippingAddressTypedDict]
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+    shipping_address: NotRequired[GetWebhookEventShippingAddressTypedDict]
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
     reusable: NotRequired[Nullable[bool]]
-    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple payments using the same link.
+    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple
+    payments using the same link.
 
     If no value is specified, the field defaults to `false`, allowing only a single payment per link.
     """
-    application_fee: NotRequired[EntityApplicationFeeTypedDict]
-    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
+    application_fee: NotRequired[GetWebhookEventApplicationFeeTypedDict]
+    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
     """
 
 
-class EntityPaymentLink(BaseModel):
+class GetWebhookEventPaymentLink(BaseModel):
     id: str
     r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
 
-    mode: str
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
-    """
+    mode: GetWebhookEventMode1
+    r"""Whether this entity was created in live mode or in test mode."""
 
     description: str
-    r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible."""
+    r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the
+    customer's bank or card statement when possible.
+    """
 
-    amount: Nullable[EntityAmount]
-    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an amount."""
+    amount: Nullable[GetWebhookEventAmount]
+    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an
+    amount.
+    """
 
     archived: bool
     r"""Whether the payment link is archived. Customers will not be able to complete payments on archived payment links."""
 
     redirect_url: Annotated[Nullable[str], pydantic.Field(alias="redirectUrl")]
-    r"""The URL your customer will be redirected to after completing the payment process. If no redirect URL is provided, the customer will be shown a generic message after completing the payment."""
+    r"""The URL your customer will be redirected to after completing the payment process. If no redirect URL is provided,
+    the customer will be shown a generic message after completing the payment.
+    """
 
     webhook_url: Annotated[Nullable[str], pydantic.Field(alias="webhookUrl")]
     r"""The webhook URL where we will send payment status updates to.
 
-    The webhookUrl is optional, but without a webhook you will miss out on important status changes to any payments resulting from the payment link.
+    The webhookUrl is optional, but without a webhook you will miss out on important status changes to any payments
+    resulting from the payment link.
 
-    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
+    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use
+    webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your
+    local machine.
     """
 
     profile_id: Annotated[Nullable[str], pydantic.Field(alias="profileId")]
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation
+    request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
+    required.
     """
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
@@ -1172,29 +1331,40 @@ class EntityPaymentLink(BaseModel):
     r"""The date and time the payment link became paid, in ISO 8601 format."""
 
     expires_at: Annotated[Nullable[str], pydantic.Field(alias="expiresAt")]
-    r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front, the payment link will not expire automatically."""
+    r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front,
+    the payment link will not expire automatically.
+    """
 
     allowed_methods: Annotated[
         Nullable[List[str]], pydantic.Field(alias="allowedMethods")
     ]
-    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
+    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is
+    not provided or is an empty array, all enabled payment methods will be available.
 
-    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint', 'in3', 'riverty', 'klarna', 'billie'.
+    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard',
+    'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint',
+    'in3', 'riverty', 'klarna', 'billie'.
     """
 
-    links: Annotated[EntityLinks, pydantic.Field(alias="_links")]
+    links: Annotated[EntityLinks1, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     resource: Optional[str] = "payment-link"
-    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this endpoint."""
+    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this
+    endpoint.
+    """
 
     minimum_amount: Annotated[
-        OptionalNullable[EntityMinimumAmount], pydantic.Field(alias="minimumAmount")
+        OptionalNullable[GetWebhookEventMinimumAmount],
+        pydantic.Field(alias="minimumAmount"),
     ] = UNSET
-    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount."""
+    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The
+    customer will be prompted to enter a value greater than or equal to the minimum amount.
+    """
 
-    lines: OptionalNullable[List[EntityLines]] = UNSET
-    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.
+    lines: OptionalNullable[List[GetWebhookEventLine]] = UNSET
+    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item
+    ordered and its price.
 
     All lines must have the same currency as the payment.
 
@@ -1202,35 +1372,44 @@ class EntityPaymentLink(BaseModel):
     """
 
     billing_address: Annotated[
-        Optional[EntityBillingAddress], pydantic.Field(alias="billingAddress")
+        Optional[GetWebhookEventBillingAddress], pydantic.Field(alias="billingAddress")
     ] = None
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
 
     shipping_address: Annotated[
-        Optional[EntityShippingAddress], pydantic.Field(alias="shippingAddress")
+        Optional[GetWebhookEventShippingAddress],
+        pydantic.Field(alias="shippingAddress"),
     ] = None
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
 
     reusable: OptionalNullable[bool] = False
-    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple payments using the same link.
+    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple
+    payments using the same link.
 
     If no value is specified, the field defaults to `false`, allowing only a single payment per link.
     """
 
     application_fee: Annotated[
-        Optional[EntityApplicationFee], pydantic.Field(alias="applicationFee")
+        Optional[GetWebhookEventApplicationFee], pydantic.Field(alias="applicationFee")
     ] = None
-    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
+    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
     """
 
     @model_serializer(mode="wrap")
@@ -1284,11 +1463,14 @@ class EntityPaymentLink(BaseModel):
 
 
 EntityTypedDict = TypeAliasType(
-    "EntityTypedDict", Union[EntityProfileTypedDict, EntityPaymentLinkTypedDict]
+    "EntityTypedDict",
+    Union[GetWebhookEventProfileTypedDict, GetWebhookEventPaymentLinkTypedDict],
 )
 
 
-Entity = TypeAliasType("Entity", Union[EntityProfile, EntityPaymentLink])
+Entity = TypeAliasType(
+    "Entity", Union[GetWebhookEventProfile, GetWebhookEventPaymentLink]
+)
 
 
 class GetWebhookEventEmbeddedTypedDict(TypedDict):
@@ -1341,7 +1523,7 @@ class GetWebhookEventDocumentation(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetWebhookEventEntityTypedDict(TypedDict):
+class LinksEntityTypedDict(TypedDict):
     r"""The API resource URL of the entity that this event belongs to."""
 
     href: str
@@ -1350,7 +1532,7 @@ class GetWebhookEventEntityTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetWebhookEventEntity(BaseModel):
+class LinksEntity(BaseModel):
     r"""The API resource URL of the entity that this event belongs to."""
 
     href: str
@@ -1367,7 +1549,7 @@ class GetWebhookEventLinksTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     documentation: NotRequired[GetWebhookEventDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    entity: NotRequired[GetWebhookEventEntityTypedDict]
+    entity: NotRequired[LinksEntityTypedDict]
     r"""The API resource URL of the entity that this event belongs to."""
 
 
@@ -1380,11 +1562,11 @@ class GetWebhookEventLinks(BaseModel):
     documentation: Optional[GetWebhookEventDocumentation] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    entity: Optional[GetWebhookEventEntity] = None
+    entity: Optional[LinksEntity] = None
     r"""The API resource URL of the entity that this event belongs to."""
 
 
-class GetWebhookEventResponseBodyTypedDict(TypedDict):
+class GetWebhookEventResponseTypedDict(TypedDict):
     r"""The webhook event object."""
 
     resource: NotRequired[str]
@@ -1403,7 +1585,7 @@ class GetWebhookEventResponseBodyTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class GetWebhookEventResponseBody(BaseModel):
+class GetWebhookEventResponse(BaseModel):
     r"""The webhook event object."""
 
     resource: Optional[str] = "event"

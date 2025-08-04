@@ -15,15 +15,15 @@ class SalesInvoices(BaseSDK):
         *,
         request: Optional[
             Union[
-                models.CreateSalesInvoiceRequestBody,
-                models.CreateSalesInvoiceRequestBodyTypedDict,
+                models.CreateSalesInvoiceRequest,
+                models.CreateSalesInvoiceRequestTypedDict,
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateSalesInvoiceResponseBody:
+    ) -> models.CreateSalesInvoiceResponse:
         r"""Create sales invoice
 
         > 🚧 Beta feature
@@ -31,12 +31,6 @@ class SalesInvoices(BaseSDK):
         > This feature is currently in beta testing, and the final specification may still change.
 
         With the Sales Invoice API you can generate sales invoices to send to your customers.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **sales-invoices.write**](/reference/authentication)
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -56,9 +50,9 @@ class SalesInvoices(BaseSDK):
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(
-                request, Optional[models.CreateSalesInvoiceRequestBody]
+                request, Optional[models.CreateSalesInvoiceRequest]
             )
-        request = cast(Optional[models.CreateSalesInvoiceRequestBody], request)
+        request = cast(Optional[models.CreateSalesInvoiceRequest], request)
 
         req = self._build_request(
             method="POST",
@@ -74,11 +68,7 @@ class SalesInvoices(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request,
-                False,
-                True,
-                "json",
-                Optional[models.CreateSalesInvoiceRequestBody],
+                request, False, True, "json", Optional[models.CreateSalesInvoiceRequest]
             ),
             timeout_ms=timeout_ms,
         )
@@ -112,21 +102,17 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(
-                models.CreateSalesInvoiceResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreateSalesInvoiceResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreateSalesInvoiceSalesInvoicesResponseBodyData, http_res
+                models.CreateSalesInvoiceNotFoundHalJSONErrorData, http_res
             )
-            raise models.CreateSalesInvoiceSalesInvoicesResponseBody(
-                response_data, http_res
-            )
+            raise models.CreateSalesInvoiceNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreateSalesInvoiceSalesInvoicesResponseResponseBodyData, http_res
+                models.CreateSalesInvoiceUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.CreateSalesInvoiceSalesInvoicesResponseResponseBody(
+            raise models.CreateSalesInvoiceUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -143,15 +129,15 @@ class SalesInvoices(BaseSDK):
         *,
         request: Optional[
             Union[
-                models.CreateSalesInvoiceRequestBody,
-                models.CreateSalesInvoiceRequestBodyTypedDict,
+                models.CreateSalesInvoiceRequest,
+                models.CreateSalesInvoiceRequestTypedDict,
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateSalesInvoiceResponseBody:
+    ) -> models.CreateSalesInvoiceResponse:
         r"""Create sales invoice
 
         > 🚧 Beta feature
@@ -159,12 +145,6 @@ class SalesInvoices(BaseSDK):
         > This feature is currently in beta testing, and the final specification may still change.
 
         With the Sales Invoice API you can generate sales invoices to send to your customers.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **sales-invoices.write**](/reference/authentication)
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -184,9 +164,9 @@ class SalesInvoices(BaseSDK):
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(
-                request, Optional[models.CreateSalesInvoiceRequestBody]
+                request, Optional[models.CreateSalesInvoiceRequest]
             )
-        request = cast(Optional[models.CreateSalesInvoiceRequestBody], request)
+        request = cast(Optional[models.CreateSalesInvoiceRequest], request)
 
         req = self._build_request_async(
             method="POST",
@@ -202,11 +182,7 @@ class SalesInvoices(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request,
-                False,
-                True,
-                "json",
-                Optional[models.CreateSalesInvoiceRequestBody],
+                request, False, True, "json", Optional[models.CreateSalesInvoiceRequest]
             ),
             timeout_ms=timeout_ms,
         )
@@ -240,21 +216,17 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(
-                models.CreateSalesInvoiceResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreateSalesInvoiceResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreateSalesInvoiceSalesInvoicesResponseBodyData, http_res
+                models.CreateSalesInvoiceNotFoundHalJSONErrorData, http_res
             )
-            raise models.CreateSalesInvoiceSalesInvoicesResponseBody(
-                response_data, http_res
-            )
+            raise models.CreateSalesInvoiceNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreateSalesInvoiceSalesInvoicesResponseResponseBodyData, http_res
+                models.CreateSalesInvoiceUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.CreateSalesInvoiceSalesInvoicesResponseResponseBody(
+            raise models.CreateSalesInvoiceUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -276,7 +248,7 @@ class SalesInvoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListSalesInvoicesResponseBody:
+    ) -> models.ListSalesInvoicesResponse:
         r"""List sales invoices
 
         > 🚧 Beta feature
@@ -286,12 +258,6 @@ class SalesInvoices(BaseSDK):
         Retrieve a list of all sales invoices created through the API.
 
         The results are paginated.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **sales-invoices.read**](/reference/authentication)
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
@@ -362,16 +328,12 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.ListSalesInvoicesResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListSalesInvoicesResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSalesInvoicesSalesInvoicesResponseBodyData, http_res
+                models.ListSalesInvoicesHalJSONErrorData, http_res
             )
-            raise models.ListSalesInvoicesSalesInvoicesResponseBody(
-                response_data, http_res
-            )
+            raise models.ListSalesInvoicesHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -391,7 +353,7 @@ class SalesInvoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListSalesInvoicesResponseBody:
+    ) -> models.ListSalesInvoicesResponse:
         r"""List sales invoices
 
         > 🚧 Beta feature
@@ -401,12 +363,6 @@ class SalesInvoices(BaseSDK):
         Retrieve a list of all sales invoices created through the API.
 
         The results are paginated.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **sales-invoices.read**](/reference/authentication)
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
@@ -477,16 +433,12 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.ListSalesInvoicesResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListSalesInvoicesResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListSalesInvoicesSalesInvoicesResponseBodyData, http_res
+                models.ListSalesInvoicesHalJSONErrorData, http_res
             )
-            raise models.ListSalesInvoicesSalesInvoicesResponseBody(
-                response_data, http_res
-            )
+            raise models.ListSalesInvoicesHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -505,7 +457,7 @@ class SalesInvoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSalesInvoiceResponseBody:
+    ) -> models.GetSalesInvoiceResponse:
         r"""Get sales invoice
 
         > 🚧 Beta feature
@@ -513,12 +465,6 @@ class SalesInvoices(BaseSDK):
         > This feature is currently in beta testing, and the final specification may still change.
 
         Retrieve a single sales invoice by its ID.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **sales-invoice.read**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -587,14 +533,12 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetSalesInvoiceResponseBody, http_res)
+            return unmarshal_json_response(models.GetSalesInvoiceResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSalesInvoiceSalesInvoicesResponseBodyData, http_res
+                models.GetSalesInvoiceHalJSONErrorData, http_res
             )
-            raise models.GetSalesInvoiceSalesInvoicesResponseBody(
-                response_data, http_res
-            )
+            raise models.GetSalesInvoiceHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -613,7 +557,7 @@ class SalesInvoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSalesInvoiceResponseBody:
+    ) -> models.GetSalesInvoiceResponse:
         r"""Get sales invoice
 
         > 🚧 Beta feature
@@ -621,12 +565,6 @@ class SalesInvoices(BaseSDK):
         > This feature is currently in beta testing, and the final specification may still change.
 
         Retrieve a single sales invoice by its ID.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **sales-invoice.read**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -695,14 +633,12 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetSalesInvoiceResponseBody, http_res)
+            return unmarshal_json_response(models.GetSalesInvoiceResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetSalesInvoiceSalesInvoicesResponseBodyData, http_res
+                models.GetSalesInvoiceHalJSONErrorData, http_res
             )
-            raise models.GetSalesInvoiceSalesInvoicesResponseBody(
-                response_data, http_res
-            )
+            raise models.GetSalesInvoiceHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -717,64 +653,62 @@ class SalesInvoices(BaseSDK):
         *,
         id: str,
         testmode: OptionalNullable[bool] = UNSET,
-        status: Optional[str] = None,
+        status: Optional[models.UpdateSalesInvoiceStatusRequest] = None,
         memo: OptionalNullable[str] = UNSET,
-        payment_term: OptionalNullable[str] = UNSET,
+        payment_term: OptionalNullable[
+            models.UpdateSalesInvoicePaymentTermRequest
+        ] = models.UpdateSalesInvoicePaymentTermRequest.THIRTYDAYS,
         payment_details: OptionalNullable[
             Union[
-                models.UpdateSalesInvoicePaymentDetails,
-                models.UpdateSalesInvoicePaymentDetailsTypedDict,
+                models.UpdateSalesInvoicePaymentDetailsRequest,
+                models.UpdateSalesInvoicePaymentDetailsRequestTypedDict,
             ]
         ] = UNSET,
         email_details: OptionalNullable[
             Union[
-                models.UpdateSalesInvoiceEmailDetails,
-                models.UpdateSalesInvoiceEmailDetailsTypedDict,
+                models.UpdateSalesInvoiceEmailDetailsRequest,
+                models.UpdateSalesInvoiceEmailDetailsRequestTypedDict,
             ]
         ] = UNSET,
         recipient_identifier: Optional[str] = None,
         recipient: OptionalNullable[
             Union[
-                models.UpdateSalesInvoiceRecipient,
-                models.UpdateSalesInvoiceRecipientTypedDict,
+                models.UpdateSalesInvoiceRecipientRequest,
+                models.UpdateSalesInvoiceRecipientRequestTypedDict,
             ]
         ] = UNSET,
         lines: OptionalNullable[
             Union[
-                List[models.UpdateSalesInvoiceLines],
-                List[models.UpdateSalesInvoiceLinesTypedDict],
+                List[models.UpdateSalesInvoiceLineRequest],
+                List[models.UpdateSalesInvoiceLineRequestTypedDict],
             ]
         ] = UNSET,
         discount: OptionalNullable[
             Union[
-                models.UpdateSalesInvoiceSalesInvoicesDiscount,
-                models.UpdateSalesInvoiceSalesInvoicesDiscountTypedDict,
+                models.UpdateSalesInvoiceDiscountRequest,
+                models.UpdateSalesInvoiceDiscountRequestTypedDict,
             ]
         ] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateSalesInvoiceResponseBody:
+    ) -> models.UpdateSalesInvoiceResponse:
         r"""Update sales invoice
 
         > 🚧 Beta feature
         >
         > This feature is currently in beta testing, and the final specification may still change.
 
-        Certain details of an existing sales invoice can be updated. For `draft` it is all values listed below, but for statuses `paid` and `issued` there are certain additional requirements (`paymentDetails` and `emailDetails`, respectively).
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **sales-invoices.write**](/reference/authentication)
+        Certain details of an existing sales invoice can be updated. For `draft` it is all values listed below, but for
+        statuses `paid` and `issued` there are certain additional requirements (`paymentDetails` and `emailDetails`,
+        respectively).
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
-        :param status: The status for the invoice to end up in.  Dependent parameters: `paymentDetails` for `paid`, `emailDetails` for `issued` and `paid`.  Possible values: `draft` `issued` `paid`
+        :param status: The status for the invoice to end up in.  Dependent parameters: `paymentDetails` for `paid`, `emailDetails` for `issued` and `paid`.
         :param memo: A free-form memo you can set on the invoice, and will be shown on the invoice PDF.
-        :param payment_term: The payment term to be set on the invoice.  Possible values: `7 days` `14 days` `30 days` `45 days` `60 days` `90 days` `120 days` (default: `30 days`)
+        :param payment_term: The payment term to be set on the invoice.
         :param payment_details: Used when setting an invoice to status of `paid`, and will store a payment that fully pays the invoice with the provided details. Required for `paid` status.
         :param email_details: Used when setting an invoice to status of either `issued` or `paid`. Will be used to issue the invoice to the recipient with the provided `subject` and `body`. Required for `issued` status.
         :param recipient_identifier: An identifier tied to the recipient data. This should be a unique value based on data your system contains, so that both you and us know who we're referring to. It is a value you provide to us so that recipient management is not required to send a first invoice to a recipient.
@@ -805,22 +739,22 @@ class SalesInvoices(BaseSDK):
                 payment_term=payment_term,
                 payment_details=utils.get_pydantic_model(
                     payment_details,
-                    OptionalNullable[models.UpdateSalesInvoicePaymentDetails],
+                    OptionalNullable[models.UpdateSalesInvoicePaymentDetailsRequest],
                 ),
                 email_details=utils.get_pydantic_model(
                     email_details,
-                    OptionalNullable[models.UpdateSalesInvoiceEmailDetails],
+                    OptionalNullable[models.UpdateSalesInvoiceEmailDetailsRequest],
                 ),
                 recipient_identifier=recipient_identifier,
                 recipient=utils.get_pydantic_model(
-                    recipient, OptionalNullable[models.UpdateSalesInvoiceRecipient]
+                    recipient,
+                    OptionalNullable[models.UpdateSalesInvoiceRecipientRequest],
                 ),
                 lines=utils.get_pydantic_model(
-                    lines, OptionalNullable[List[models.UpdateSalesInvoiceLines]]
+                    lines, OptionalNullable[List[models.UpdateSalesInvoiceLineRequest]]
                 ),
                 discount=utils.get_pydantic_model(
-                    discount,
-                    OptionalNullable[models.UpdateSalesInvoiceSalesInvoicesDiscount],
+                    discount, OptionalNullable[models.UpdateSalesInvoiceDiscountRequest]
                 ),
             ),
         )
@@ -877,21 +811,17 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.UpdateSalesInvoiceResponseBody, http_res
-            )
+            return unmarshal_json_response(models.UpdateSalesInvoiceResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdateSalesInvoiceSalesInvoicesResponseBodyData, http_res
+                models.UpdateSalesInvoiceNotFoundHalJSONErrorData, http_res
             )
-            raise models.UpdateSalesInvoiceSalesInvoicesResponseBody(
-                response_data, http_res
-            )
+            raise models.UpdateSalesInvoiceNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdateSalesInvoiceSalesInvoicesResponseResponseBodyData, http_res
+                models.UpdateSalesInvoiceUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.UpdateSalesInvoiceSalesInvoicesResponseResponseBody(
+            raise models.UpdateSalesInvoiceUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -908,64 +838,62 @@ class SalesInvoices(BaseSDK):
         *,
         id: str,
         testmode: OptionalNullable[bool] = UNSET,
-        status: Optional[str] = None,
+        status: Optional[models.UpdateSalesInvoiceStatusRequest] = None,
         memo: OptionalNullable[str] = UNSET,
-        payment_term: OptionalNullable[str] = UNSET,
+        payment_term: OptionalNullable[
+            models.UpdateSalesInvoicePaymentTermRequest
+        ] = models.UpdateSalesInvoicePaymentTermRequest.THIRTYDAYS,
         payment_details: OptionalNullable[
             Union[
-                models.UpdateSalesInvoicePaymentDetails,
-                models.UpdateSalesInvoicePaymentDetailsTypedDict,
+                models.UpdateSalesInvoicePaymentDetailsRequest,
+                models.UpdateSalesInvoicePaymentDetailsRequestTypedDict,
             ]
         ] = UNSET,
         email_details: OptionalNullable[
             Union[
-                models.UpdateSalesInvoiceEmailDetails,
-                models.UpdateSalesInvoiceEmailDetailsTypedDict,
+                models.UpdateSalesInvoiceEmailDetailsRequest,
+                models.UpdateSalesInvoiceEmailDetailsRequestTypedDict,
             ]
         ] = UNSET,
         recipient_identifier: Optional[str] = None,
         recipient: OptionalNullable[
             Union[
-                models.UpdateSalesInvoiceRecipient,
-                models.UpdateSalesInvoiceRecipientTypedDict,
+                models.UpdateSalesInvoiceRecipientRequest,
+                models.UpdateSalesInvoiceRecipientRequestTypedDict,
             ]
         ] = UNSET,
         lines: OptionalNullable[
             Union[
-                List[models.UpdateSalesInvoiceLines],
-                List[models.UpdateSalesInvoiceLinesTypedDict],
+                List[models.UpdateSalesInvoiceLineRequest],
+                List[models.UpdateSalesInvoiceLineRequestTypedDict],
             ]
         ] = UNSET,
         discount: OptionalNullable[
             Union[
-                models.UpdateSalesInvoiceSalesInvoicesDiscount,
-                models.UpdateSalesInvoiceSalesInvoicesDiscountTypedDict,
+                models.UpdateSalesInvoiceDiscountRequest,
+                models.UpdateSalesInvoiceDiscountRequestTypedDict,
             ]
         ] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateSalesInvoiceResponseBody:
+    ) -> models.UpdateSalesInvoiceResponse:
         r"""Update sales invoice
 
         > 🚧 Beta feature
         >
         > This feature is currently in beta testing, and the final specification may still change.
 
-        Certain details of an existing sales invoice can be updated. For `draft` it is all values listed below, but for statuses `paid` and `issued` there are certain additional requirements (`paymentDetails` and `emailDetails`, respectively).
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **sales-invoices.write**](/reference/authentication)
+        Certain details of an existing sales invoice can be updated. For `draft` it is all values listed below, but for
+        statuses `paid` and `issued` there are certain additional requirements (`paymentDetails` and `emailDetails`,
+        respectively).
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
-        :param status: The status for the invoice to end up in.  Dependent parameters: `paymentDetails` for `paid`, `emailDetails` for `issued` and `paid`.  Possible values: `draft` `issued` `paid`
+        :param status: The status for the invoice to end up in.  Dependent parameters: `paymentDetails` for `paid`, `emailDetails` for `issued` and `paid`.
         :param memo: A free-form memo you can set on the invoice, and will be shown on the invoice PDF.
-        :param payment_term: The payment term to be set on the invoice.  Possible values: `7 days` `14 days` `30 days` `45 days` `60 days` `90 days` `120 days` (default: `30 days`)
+        :param payment_term: The payment term to be set on the invoice.
         :param payment_details: Used when setting an invoice to status of `paid`, and will store a payment that fully pays the invoice with the provided details. Required for `paid` status.
         :param email_details: Used when setting an invoice to status of either `issued` or `paid`. Will be used to issue the invoice to the recipient with the provided `subject` and `body`. Required for `issued` status.
         :param recipient_identifier: An identifier tied to the recipient data. This should be a unique value based on data your system contains, so that both you and us know who we're referring to. It is a value you provide to us so that recipient management is not required to send a first invoice to a recipient.
@@ -996,22 +924,22 @@ class SalesInvoices(BaseSDK):
                 payment_term=payment_term,
                 payment_details=utils.get_pydantic_model(
                     payment_details,
-                    OptionalNullable[models.UpdateSalesInvoicePaymentDetails],
+                    OptionalNullable[models.UpdateSalesInvoicePaymentDetailsRequest],
                 ),
                 email_details=utils.get_pydantic_model(
                     email_details,
-                    OptionalNullable[models.UpdateSalesInvoiceEmailDetails],
+                    OptionalNullable[models.UpdateSalesInvoiceEmailDetailsRequest],
                 ),
                 recipient_identifier=recipient_identifier,
                 recipient=utils.get_pydantic_model(
-                    recipient, OptionalNullable[models.UpdateSalesInvoiceRecipient]
+                    recipient,
+                    OptionalNullable[models.UpdateSalesInvoiceRecipientRequest],
                 ),
                 lines=utils.get_pydantic_model(
-                    lines, OptionalNullable[List[models.UpdateSalesInvoiceLines]]
+                    lines, OptionalNullable[List[models.UpdateSalesInvoiceLineRequest]]
                 ),
                 discount=utils.get_pydantic_model(
-                    discount,
-                    OptionalNullable[models.UpdateSalesInvoiceSalesInvoicesDiscount],
+                    discount, OptionalNullable[models.UpdateSalesInvoiceDiscountRequest]
                 ),
             ),
         )
@@ -1068,21 +996,17 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.UpdateSalesInvoiceResponseBody, http_res
-            )
+            return unmarshal_json_response(models.UpdateSalesInvoiceResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdateSalesInvoiceSalesInvoicesResponseBodyData, http_res
+                models.UpdateSalesInvoiceNotFoundHalJSONErrorData, http_res
             )
-            raise models.UpdateSalesInvoiceSalesInvoicesResponseBody(
-                response_data, http_res
-            )
+            raise models.UpdateSalesInvoiceNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdateSalesInvoiceSalesInvoicesResponseResponseBodyData, http_res
+                models.UpdateSalesInvoiceUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.UpdateSalesInvoiceSalesInvoicesResponseResponseBody(
+            raise models.UpdateSalesInvoiceUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1110,13 +1034,8 @@ class SalesInvoices(BaseSDK):
         >
         > This feature is currently in beta testing, and the final specification may still change.
 
-        Sales invoices which are in status `draft` can be deleted. For all other statuses, please use the [Update sales invoice](update-sales-invoice) endpoint instead.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **sales-invoices.write**](/reference/authentication)
+        Sales invoices which are in status `draft` can be deleted. For all other statuses, please use the
+        [Update sales invoice](update-sales-invoice) endpoint instead.
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -1197,14 +1116,14 @@ class SalesInvoices(BaseSDK):
             return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeleteSalesInvoiceResponseBodyData, http_res
+                models.DeleteSalesInvoiceNotFoundHalJSONErrorData, http_res
             )
-            raise models.DeleteSalesInvoiceResponseBody(response_data, http_res)
+            raise models.DeleteSalesInvoiceNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeleteSalesInvoiceSalesInvoicesResponseBodyData, http_res
+                models.DeleteSalesInvoiceUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.DeleteSalesInvoiceSalesInvoicesResponseBody(
+            raise models.DeleteSalesInvoiceUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1232,13 +1151,8 @@ class SalesInvoices(BaseSDK):
         >
         > This feature is currently in beta testing, and the final specification may still change.
 
-        Sales invoices which are in status `draft` can be deleted. For all other statuses, please use the [Update sales invoice](update-sales-invoice) endpoint instead.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **sales-invoices.write**](/reference/authentication)
+        Sales invoices which are in status `draft` can be deleted. For all other statuses, please use the
+        [Update sales invoice](update-sales-invoice) endpoint instead.
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -1319,14 +1233,14 @@ class SalesInvoices(BaseSDK):
             return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeleteSalesInvoiceResponseBodyData, http_res
+                models.DeleteSalesInvoiceNotFoundHalJSONErrorData, http_res
             )
-            raise models.DeleteSalesInvoiceResponseBody(response_data, http_res)
+            raise models.DeleteSalesInvoiceNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeleteSalesInvoiceSalesInvoicesResponseBodyData, http_res
+                models.DeleteSalesInvoiceUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.DeleteSalesInvoiceSalesInvoicesResponseBody(
+            raise models.DeleteSalesInvoiceUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):

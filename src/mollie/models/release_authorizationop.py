@@ -15,12 +15,16 @@ class ReleaseAuthorizationRequestBodyTypedDict(TypedDict):
     profile_id: NotRequired[str]
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation
+    request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
+    required.
     """
     testmode: NotRequired[Nullable[bool]]
     r"""Whether to create the entity in test mode or live mode.
 
-    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be
+    omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting
+    `testmode` to `true`.
     """
 
 
@@ -28,13 +32,17 @@ class ReleaseAuthorizationRequestBody(BaseModel):
     profile_id: Annotated[Optional[str], pydantic.Field(alias="profileId")] = None
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation
+    request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
+    required.
     """
 
     testmode: OptionalNullable[bool] = UNSET
     r"""Whether to create the entity in test mode or live mode.
 
-    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be
+    omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting
+    `testmode` to `true`.
     """
 
     @model_serializer(mode="wrap")
@@ -88,14 +96,14 @@ class ReleaseAuthorizationRequest(BaseModel):
     ] = None
 
 
-class ReleaseAuthorizationPaymentsDocumentationTypedDict(TypedDict):
+class ReleaseAuthorizationUnprocessableEntityDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class ReleaseAuthorizationPaymentsDocumentation(BaseModel):
+class ReleaseAuthorizationUnprocessableEntityDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -103,17 +111,17 @@ class ReleaseAuthorizationPaymentsDocumentation(BaseModel):
     type: str
 
 
-class ReleaseAuthorizationPaymentsLinksTypedDict(TypedDict):
-    documentation: ReleaseAuthorizationPaymentsDocumentationTypedDict
+class ReleaseAuthorizationUnprocessableEntityLinksTypedDict(TypedDict):
+    documentation: ReleaseAuthorizationUnprocessableEntityDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ReleaseAuthorizationPaymentsLinks(BaseModel):
-    documentation: ReleaseAuthorizationPaymentsDocumentation
+class ReleaseAuthorizationUnprocessableEntityLinks(BaseModel):
+    documentation: ReleaseAuthorizationUnprocessableEntityDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ReleaseAuthorizationPaymentsResponseBodyData(BaseModel):
+class ReleaseAuthorizationUnprocessableEntityHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -123,20 +131,24 @@ class ReleaseAuthorizationPaymentsResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[ReleaseAuthorizationPaymentsLinks, pydantic.Field(alias="_links")]
+    links: Annotated[
+        ReleaseAuthorizationUnprocessableEntityLinks, pydantic.Field(alias="_links")
+    ]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class ReleaseAuthorizationPaymentsResponseBody(ClientError):
+class ReleaseAuthorizationUnprocessableEntityHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: ReleaseAuthorizationPaymentsResponseBodyData
+    data: ReleaseAuthorizationUnprocessableEntityHalJSONErrorData
 
     def __init__(
         self,
-        data: ReleaseAuthorizationPaymentsResponseBodyData,
+        data: ReleaseAuthorizationUnprocessableEntityHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -145,14 +157,14 @@ class ReleaseAuthorizationPaymentsResponseBody(ClientError):
         self.data = data
 
 
-class ReleaseAuthorizationDocumentationTypedDict(TypedDict):
+class ReleaseAuthorizationNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class ReleaseAuthorizationDocumentation(BaseModel):
+class ReleaseAuthorizationNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -160,17 +172,17 @@ class ReleaseAuthorizationDocumentation(BaseModel):
     type: str
 
 
-class ReleaseAuthorizationLinksTypedDict(TypedDict):
-    documentation: ReleaseAuthorizationDocumentationTypedDict
+class ReleaseAuthorizationNotFoundLinksTypedDict(TypedDict):
+    documentation: ReleaseAuthorizationNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ReleaseAuthorizationLinks(BaseModel):
-    documentation: ReleaseAuthorizationDocumentation
+class ReleaseAuthorizationNotFoundLinks(BaseModel):
+    documentation: ReleaseAuthorizationNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ReleaseAuthorizationResponseBodyData(BaseModel):
+class ReleaseAuthorizationNotFoundHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -180,20 +192,22 @@ class ReleaseAuthorizationResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[ReleaseAuthorizationLinks, pydantic.Field(alias="_links")]
+    links: Annotated[ReleaseAuthorizationNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class ReleaseAuthorizationResponseBody(ClientError):
+class ReleaseAuthorizationNotFoundHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: ReleaseAuthorizationResponseBodyData
+    data: ReleaseAuthorizationNotFoundHalJSONErrorData
 
     def __init__(
         self,
-        data: ReleaseAuthorizationResponseBodyData,
+        data: ReleaseAuthorizationNotFoundHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):

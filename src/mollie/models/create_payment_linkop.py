@@ -11,8 +11,10 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class CreatePaymentLinkAmountTypedDict(TypedDict):
-    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an amount."""
+class CreatePaymentLinkAmountRequestTypedDict(TypedDict):
+    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an
+    amount.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -20,27 +22,10 @@ class CreatePaymentLinkAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkAmount(BaseModel):
-    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an amount."""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class MinimumAmountTypedDict(TypedDict):
-    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount."""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class MinimumAmount(BaseModel):
-    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount."""
+class CreatePaymentLinkAmountRequest(BaseModel):
+    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an
+    amount.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -49,7 +34,46 @@ class MinimumAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkUnitPriceTypedDict(TypedDict):
+class CreatePaymentLinkMinimumAmountRequestTypedDict(TypedDict):
+    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The
+    customer will be prompted to enter a value greater than or equal to the minimum amount.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class CreatePaymentLinkMinimumAmountRequest(BaseModel):
+    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The
+    customer will be prompted to enter a value greater than or equal to the minimum amount.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class CreatePaymentLinkTypeRequest(str, Enum):
+    r"""The type of product purchased. For example, a physical or a digital product.
+
+    The `tip` payment line type is not available when creating a payment.
+    """
+
+    PHYSICAL = "physical"
+    DIGITAL = "digital"
+    SHIPPING_FEE = "shipping_fee"
+    DISCOUNT = "discount"
+    STORE_CREDIT = "store_credit"
+    GIFT_CARD = "gift_card"
+    SURCHARGE = "surcharge"
+    TIP = "tip"
+
+
+class CreatePaymentLinkUnitPriceRequestTypedDict(TypedDict):
     r"""The price of a single item including VAT.
 
     For example: `{\"currency\":\"EUR\", \"value\":\"89.00\"}` if the box of LEGO costs €89.00 each.
@@ -65,7 +89,7 @@ class CreatePaymentLinkUnitPriceTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkUnitPrice(BaseModel):
+class CreatePaymentLinkUnitPriceRequest(BaseModel):
     r"""The price of a single item including VAT.
 
     For example: `{\"currency\":\"EUR\", \"value\":\"89.00\"}` if the box of LEGO costs €89.00 each.
@@ -82,8 +106,10 @@ class CreatePaymentLinkUnitPrice(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkDiscountAmountTypedDict(TypedDict):
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+class CreatePaymentLinkDiscountAmountRequestTypedDict(TypedDict):
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -91,8 +117,10 @@ class CreatePaymentLinkDiscountAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkDiscountAmount(BaseModel):
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+class CreatePaymentLinkDiscountAmountRequest(BaseModel):
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -101,7 +129,7 @@ class CreatePaymentLinkDiscountAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkTotalAmountTypedDict(TypedDict):
+class CreatePaymentLinkTotalAmountRequestTypedDict(TypedDict):
     r"""The total amount of the line, including VAT and discounts.
 
     Should match the following formula: `(unitPrice × quantity) - discountAmount`.
@@ -115,7 +143,7 @@ class CreatePaymentLinkTotalAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkTotalAmount(BaseModel):
+class CreatePaymentLinkTotalAmountRequest(BaseModel):
     r"""The total amount of the line, including VAT and discounts.
 
     Should match the following formula: `(unitPrice × quantity) - discountAmount`.
@@ -130,12 +158,14 @@ class CreatePaymentLinkTotalAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkVatAmountTypedDict(TypedDict):
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+class CreatePaymentLinkVatAmountRequestTypedDict(TypedDict):
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
 
     currency: str
@@ -144,12 +174,14 @@ class CreatePaymentLinkVatAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkVatAmount(BaseModel):
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+class CreatePaymentLinkVatAmountRequest(BaseModel):
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
 
     currency: str
@@ -159,19 +191,19 @@ class CreatePaymentLinkVatAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkCategories(str, Enum):
+class CreatePaymentLinkCategoryRequest(str, Enum):
     MEAL = "meal"
     ECO = "eco"
     GIFT = "gift"
     SPORT_CULTURE = "sport_culture"
 
 
-class CreatePaymentLinkLinesTypedDict(TypedDict):
+class CreatePaymentLinkLineRequestTypedDict(TypedDict):
     description: str
     r"""A description of the line item. For example *LEGO 4440 Forest Police Station*."""
     quantity: int
     r"""The number of items."""
-    unit_price: CreatePaymentLinkUnitPriceTypedDict
+    unit_price: CreatePaymentLinkUnitPriceRequestTypedDict
     r"""The price of a single item including VAT.
 
     For example: `{\"currency\":\"EUR\", \"value\":\"89.00\"}` if the box of LEGO costs €89.00 each.
@@ -180,51 +212,59 @@ class CreatePaymentLinkLinesTypedDict(TypedDict):
 
     The unit price can be zero in case of free items.
     """
-    total_amount: CreatePaymentLinkTotalAmountTypedDict
+    total_amount: CreatePaymentLinkTotalAmountRequestTypedDict
     r"""The total amount of the line, including VAT and discounts.
 
     Should match the following formula: `(unitPrice × quantity) - discountAmount`.
 
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
-    type: NotRequired[str]
+    type: NotRequired[CreatePaymentLinkTypeRequest]
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
-
-    Possible values: `physical` `digital` `shipping_fee` `discount` `store_credit` `gift_card` `surcharge` `tip` (default: `physical`)
     """
     quantity_unit: NotRequired[str]
     r"""The unit for the quantity. For example *pcs*, *kg*, or *cm*."""
-    discount_amount: NotRequired[CreatePaymentLinkDiscountAmountTypedDict]
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+    discount_amount: NotRequired[CreatePaymentLinkDiscountAmountRequestTypedDict]
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
     vat_rate: NotRequired[str]
-    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and not as a float, to ensure the correct number of decimals are passed."""
-    vat_amount: NotRequired[CreatePaymentLinkVatAmountTypedDict]
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and
+    not as a float, to ensure the correct number of decimals are passed.
+    """
+    vat_amount: NotRequired[CreatePaymentLinkVatAmountRequestTypedDict]
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
     sku: NotRequired[str]
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
-    categories: NotRequired[List[CreatePaymentLinkCategories]]
-    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the [Integrating Vouchers](integrating-vouchers) guide for more information."""
+    categories: NotRequired[List[CreatePaymentLinkCategoryRequest]]
+    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
+    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    """
     image_url: NotRequired[str]
     r"""A link pointing to an image of the product sold."""
     product_url: NotRequired[str]
     r"""A link pointing to the product page in your web shop of the product sold."""
 
 
-class CreatePaymentLinkLines(BaseModel):
+class CreatePaymentLinkLineRequest(BaseModel):
     description: str
     r"""A description of the line item. For example *LEGO 4440 Forest Police Station*."""
 
     quantity: int
     r"""The number of items."""
 
-    unit_price: Annotated[CreatePaymentLinkUnitPrice, pydantic.Field(alias="unitPrice")]
+    unit_price: Annotated[
+        CreatePaymentLinkUnitPriceRequest, pydantic.Field(alias="unitPrice")
+    ]
     r"""The price of a single item including VAT.
 
     For example: `{\"currency\":\"EUR\", \"value\":\"89.00\"}` if the box of LEGO costs €89.00 each.
@@ -235,7 +275,7 @@ class CreatePaymentLinkLines(BaseModel):
     """
 
     total_amount: Annotated[
-        CreatePaymentLinkTotalAmount, pydantic.Field(alias="totalAmount")
+        CreatePaymentLinkTotalAmountRequest, pydantic.Field(alias="totalAmount")
     ]
     r"""The total amount of the line, including VAT and discounts.
 
@@ -244,41 +284,47 @@ class CreatePaymentLinkLines(BaseModel):
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
 
-    type: Optional[str] = None
+    type: Optional[CreatePaymentLinkTypeRequest] = CreatePaymentLinkTypeRequest.PHYSICAL
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
-
-    Possible values: `physical` `digital` `shipping_fee` `discount` `store_credit` `gift_card` `surcharge` `tip` (default: `physical`)
     """
 
     quantity_unit: Annotated[Optional[str], pydantic.Field(alias="quantityUnit")] = None
     r"""The unit for the quantity. For example *pcs*, *kg*, or *cm*."""
 
     discount_amount: Annotated[
-        Optional[CreatePaymentLinkDiscountAmount],
+        Optional[CreatePaymentLinkDiscountAmountRequest],
         pydantic.Field(alias="discountAmount"),
     ] = None
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
 
     vat_rate: Annotated[Optional[str], pydantic.Field(alias="vatRate")] = None
-    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and not as a float, to ensure the correct number of decimals are passed."""
+    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and
+    not as a float, to ensure the correct number of decimals are passed.
+    """
 
     vat_amount: Annotated[
-        Optional[CreatePaymentLinkVatAmount], pydantic.Field(alias="vatAmount")
+        Optional[CreatePaymentLinkVatAmountRequest], pydantic.Field(alias="vatAmount")
     ] = None
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
 
     sku: Optional[str] = None
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
 
-    categories: Optional[List[CreatePaymentLinkCategories]] = None
-    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the [Integrating Vouchers](integrating-vouchers) guide for more information."""
+    categories: Optional[List[CreatePaymentLinkCategoryRequest]] = None
+    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
+    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    """
 
     image_url: Annotated[Optional[str], pydantic.Field(alias="imageUrl")] = None
     r"""A link pointing to an image of the product sold."""
@@ -287,10 +333,12 @@ class CreatePaymentLinkLines(BaseModel):
     r"""A link pointing to the product page in your web shop of the product sold."""
 
 
-class CreatePaymentLinkBillingAddressTypedDict(TypedDict):
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+class CreatePaymentLinkBillingAddressRequestTypedDict(TypedDict):
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
@@ -298,12 +346,14 @@ class CreatePaymentLinkBillingAddressTypedDict(TypedDict):
     title: NotRequired[str]
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
     given_name: NotRequired[str]
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
     family_name: NotRequired[str]
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -324,7 +374,8 @@ class CreatePaymentLinkBillingAddressTypedDict(TypedDict):
     email: NotRequired[str]
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -344,10 +395,12 @@ class CreatePaymentLinkBillingAddressTypedDict(TypedDict):
     """
 
 
-class CreatePaymentLinkBillingAddress(BaseModel):
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+class CreatePaymentLinkBillingAddressRequest(BaseModel):
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
@@ -356,13 +409,15 @@ class CreatePaymentLinkBillingAddress(BaseModel):
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
 
     given_name: Annotated[Optional[str], pydantic.Field(alias="givenName")] = None
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
 
     family_name: Annotated[Optional[str], pydantic.Field(alias="familyName")] = None
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -394,7 +449,8 @@ class CreatePaymentLinkBillingAddress(BaseModel):
     email: Optional[str] = None
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -418,21 +474,25 @@ class CreatePaymentLinkBillingAddress(BaseModel):
     """
 
 
-class CreatePaymentLinkShippingAddressTypedDict(TypedDict):
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+class CreatePaymentLinkShippingAddressRequestTypedDict(TypedDict):
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
 
     title: NotRequired[str]
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
     given_name: NotRequired[str]
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
     family_name: NotRequired[str]
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -453,7 +513,8 @@ class CreatePaymentLinkShippingAddressTypedDict(TypedDict):
     email: NotRequired[str]
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -473,23 +534,27 @@ class CreatePaymentLinkShippingAddressTypedDict(TypedDict):
     """
 
 
-class CreatePaymentLinkShippingAddress(BaseModel):
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+class CreatePaymentLinkShippingAddressRequest(BaseModel):
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
 
     title: Optional[str] = None
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
 
     given_name: Annotated[Optional[str], pydantic.Field(alias="givenName")] = None
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
 
     family_name: Annotated[Optional[str], pydantic.Field(alias="familyName")] = None
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -521,7 +586,8 @@ class CreatePaymentLinkShippingAddress(BaseModel):
     email: Optional[str] = None
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -545,10 +611,11 @@ class CreatePaymentLinkShippingAddress(BaseModel):
     """
 
 
-class CreatePaymentLinkPaymentLinksAmountTypedDict(TypedDict):
+class CreatePaymentLinkApplicationFeeAmountRequestTypedDict(TypedDict):
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
 
     currency: str
@@ -557,10 +624,11 @@ class CreatePaymentLinkPaymentLinksAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkPaymentLinksAmount(BaseModel):
+class CreatePaymentLinkApplicationFeeAmountRequest(BaseModel):
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
 
     currency: str
@@ -570,125 +638,179 @@ class CreatePaymentLinkPaymentLinksAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkApplicationFeeTypedDict(TypedDict):
-    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
+class CreatePaymentLinkApplicationFeeRequestTypedDict(TypedDict):
+    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
     """
 
-    amount: CreatePaymentLinkPaymentLinksAmountTypedDict
+    amount: CreatePaymentLinkApplicationFeeAmountRequestTypedDict
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
     description: str
-    r"""The description of the application fee. This will appear on settlement reports towards both you and the connected merchant."""
-
-
-class CreatePaymentLinkApplicationFee(BaseModel):
-    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
-
-    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    r"""The description of the application fee. This will appear on settlement reports towards both you and the
+    connected merchant.
     """
 
-    amount: CreatePaymentLinkPaymentLinksAmount
+
+class CreatePaymentLinkApplicationFeeRequest(BaseModel):
+    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie
+    merchants.
+
+    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
+    """
+
+    amount: CreatePaymentLinkApplicationFeeAmountRequest
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
 
     description: str
-    r"""The description of the application fee. This will appear on settlement reports towards both you and the connected merchant."""
+    r"""The description of the application fee. This will appear on settlement reports towards both you and the
+    connected merchant.
+    """
 
 
-class CreatePaymentLinkRequestBodyTypedDict(TypedDict):
+class CreatePaymentLinkRequestTypedDict(TypedDict):
     description: str
-    r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible."""
-    amount: NotRequired[Nullable[CreatePaymentLinkAmountTypedDict]]
-    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an amount."""
-    minimum_amount: NotRequired[Nullable[MinimumAmountTypedDict]]
-    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount."""
+    r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the
+    customer's bank or card statement when possible.
+    """
+    amount: NotRequired[Nullable[CreatePaymentLinkAmountRequestTypedDict]]
+    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an
+    amount.
+    """
+    minimum_amount: NotRequired[
+        Nullable[CreatePaymentLinkMinimumAmountRequestTypedDict]
+    ]
+    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The
+    customer will be prompted to enter a value greater than or equal to the minimum amount.
+    """
     redirect_url: NotRequired[Nullable[str]]
-    r"""The URL your customer will be redirected to after completing the payment process. If no redirect URL is provided, the customer will be shown a generic message after completing the payment."""
+    r"""The URL your customer will be redirected to after completing the payment process. If no redirect URL is provided,
+    the customer will be shown a generic message after completing the payment.
+    """
     webhook_url: NotRequired[Nullable[str]]
     r"""The webhook URL where we will send payment status updates to.
 
-    The webhookUrl is optional, but without a webhook you will miss out on important status changes to any payments resulting from the payment link.
+    The webhookUrl is optional, but without a webhook you will miss out on important status changes to any payments
+    resulting from the payment link.
 
-    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
+    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use
+    webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your
+    local machine.
     """
-    lines: NotRequired[Nullable[List[CreatePaymentLinkLinesTypedDict]]]
-    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.
+    lines: NotRequired[Nullable[List[CreatePaymentLinkLineRequestTypedDict]]]
+    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item
+    ordered and its price.
 
     All lines must have the same currency as the payment.
 
     Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
     """
-    billing_address: NotRequired[CreatePaymentLinkBillingAddressTypedDict]
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+    billing_address: NotRequired[CreatePaymentLinkBillingAddressRequestTypedDict]
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
-    shipping_address: NotRequired[CreatePaymentLinkShippingAddressTypedDict]
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+    shipping_address: NotRequired[CreatePaymentLinkShippingAddressRequestTypedDict]
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
     profile_id: NotRequired[Nullable[str]]
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation
+    request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
+    required.
     """
     reusable: NotRequired[Nullable[bool]]
-    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple payments using the same link.
+    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple
+    payments using the same link.
 
     If no value is specified, the field defaults to `false`, allowing only a single payment per link.
     """
     expires_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front, the payment link will not expire automatically."""
+    r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front,
+    the payment link will not expire automatically.
+    """
     allowed_methods: NotRequired[Nullable[List[str]]]
-    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
+    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is
+    not provided or is an empty array, all enabled payment methods will be available.
 
-    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint', 'in3', 'riverty', 'klarna', 'billie'.
+    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard',
+    'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint',
+    'in3', 'riverty', 'klarna', 'billie'.
     """
-    application_fee: NotRequired[CreatePaymentLinkApplicationFeeTypedDict]
-    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
+    application_fee: NotRequired[CreatePaymentLinkApplicationFeeRequestTypedDict]
+    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
     """
 
 
-class CreatePaymentLinkRequestBody(BaseModel):
+class CreatePaymentLinkRequest(BaseModel):
     description: str
-    r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible."""
+    r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the
+    customer's bank or card statement when possible.
+    """
 
-    amount: OptionalNullable[CreatePaymentLinkAmount] = UNSET
-    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an amount."""
+    amount: OptionalNullable[CreatePaymentLinkAmountRequest] = UNSET
+    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an
+    amount.
+    """
 
     minimum_amount: Annotated[
-        OptionalNullable[MinimumAmount], pydantic.Field(alias="minimumAmount")
+        OptionalNullable[CreatePaymentLinkMinimumAmountRequest],
+        pydantic.Field(alias="minimumAmount"),
     ] = UNSET
-    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount."""
+    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The
+    customer will be prompted to enter a value greater than or equal to the minimum amount.
+    """
 
     redirect_url: Annotated[
         OptionalNullable[str], pydantic.Field(alias="redirectUrl")
     ] = UNSET
-    r"""The URL your customer will be redirected to after completing the payment process. If no redirect URL is provided, the customer will be shown a generic message after completing the payment."""
+    r"""The URL your customer will be redirected to after completing the payment process. If no redirect URL is provided,
+    the customer will be shown a generic message after completing the payment.
+    """
 
     webhook_url: Annotated[
         OptionalNullable[str], pydantic.Field(alias="webhookUrl")
     ] = UNSET
     r"""The webhook URL where we will send payment status updates to.
 
-    The webhookUrl is optional, but without a webhook you will miss out on important status changes to any payments resulting from the payment link.
+    The webhookUrl is optional, but without a webhook you will miss out on important status changes to any payments
+    resulting from the payment link.
 
-    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
+    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use
+    webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your
+    local machine.
     """
 
-    lines: OptionalNullable[List[CreatePaymentLinkLines]] = UNSET
-    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.
+    lines: OptionalNullable[List[CreatePaymentLinkLineRequest]] = UNSET
+    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item
+    ordered and its price.
 
     All lines must have the same currency as the payment.
 
@@ -696,23 +818,27 @@ class CreatePaymentLinkRequestBody(BaseModel):
     """
 
     billing_address: Annotated[
-        Optional[CreatePaymentLinkBillingAddress],
+        Optional[CreatePaymentLinkBillingAddressRequest],
         pydantic.Field(alias="billingAddress"),
     ] = None
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
 
     shipping_address: Annotated[
-        Optional[CreatePaymentLinkShippingAddress],
+        Optional[CreatePaymentLinkShippingAddressRequest],
         pydantic.Field(alias="shippingAddress"),
     ] = None
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
 
     profile_id: Annotated[OptionalNullable[str], pydantic.Field(alias="profileId")] = (
@@ -720,11 +846,14 @@ class CreatePaymentLinkRequestBody(BaseModel):
     )
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation
+    request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
+    required.
     """
 
     reusable: OptionalNullable[bool] = False
-    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple payments using the same link.
+    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple
+    payments using the same link.
 
     If no value is specified, the field defaults to `false`, allowing only a single payment per link.
     """
@@ -732,23 +861,31 @@ class CreatePaymentLinkRequestBody(BaseModel):
     expires_at: Annotated[OptionalNullable[str], pydantic.Field(alias="expiresAt")] = (
         UNSET
     )
-    r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front, the payment link will not expire automatically."""
+    r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front,
+    the payment link will not expire automatically.
+    """
 
     allowed_methods: Annotated[
         OptionalNullable[List[str]], pydantic.Field(alias="allowedMethods")
     ] = UNSET
-    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
+    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is
+    not provided or is an empty array, all enabled payment methods will be available.
 
-    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint', 'in3', 'riverty', 'klarna', 'billie'.
+    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard',
+    'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint',
+    'in3', 'riverty', 'klarna', 'billie'.
     """
 
     application_fee: Annotated[
-        Optional[CreatePaymentLinkApplicationFee],
+        Optional[CreatePaymentLinkApplicationFeeRequest],
         pydantic.Field(alias="applicationFee"),
     ] = None
-    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
+    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
     """
 
     @model_serializer(mode="wrap")
@@ -805,14 +942,14 @@ class CreatePaymentLinkRequestBody(BaseModel):
         return m
 
 
-class CreatePaymentLinkPaymentLinksDocumentationTypedDict(TypedDict):
+class CreatePaymentLinkUnprocessableEntityDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class CreatePaymentLinkPaymentLinksDocumentation(BaseModel):
+class CreatePaymentLinkUnprocessableEntityDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -820,17 +957,17 @@ class CreatePaymentLinkPaymentLinksDocumentation(BaseModel):
     type: str
 
 
-class CreatePaymentLinkPaymentLinksResponseLinksTypedDict(TypedDict):
-    documentation: CreatePaymentLinkPaymentLinksDocumentationTypedDict
+class CreatePaymentLinkUnprocessableEntityLinksTypedDict(TypedDict):
+    documentation: CreatePaymentLinkUnprocessableEntityDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class CreatePaymentLinkPaymentLinksResponseLinks(BaseModel):
-    documentation: CreatePaymentLinkPaymentLinksDocumentation
+class CreatePaymentLinkUnprocessableEntityLinks(BaseModel):
+    documentation: CreatePaymentLinkUnprocessableEntityDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class CreatePaymentLinkPaymentLinksResponseResponseBodyData(BaseModel):
+class CreatePaymentLinkUnprocessableEntityHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -841,21 +978,23 @@ class CreatePaymentLinkPaymentLinksResponseResponseBodyData(BaseModel):
     r"""A detailed human-readable description of the error that occurred."""
 
     links: Annotated[
-        CreatePaymentLinkPaymentLinksResponseLinks, pydantic.Field(alias="_links")
+        CreatePaymentLinkUnprocessableEntityLinks, pydantic.Field(alias="_links")
     ]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class CreatePaymentLinkPaymentLinksResponseResponseBody(ClientError):
+class CreatePaymentLinkUnprocessableEntityHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: CreatePaymentLinkPaymentLinksResponseResponseBodyData
+    data: CreatePaymentLinkUnprocessableEntityHalJSONErrorData
 
     def __init__(
         self,
-        data: CreatePaymentLinkPaymentLinksResponseResponseBodyData,
+        data: CreatePaymentLinkUnprocessableEntityHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -864,14 +1003,14 @@ class CreatePaymentLinkPaymentLinksResponseResponseBody(ClientError):
         self.data = data
 
 
-class CreatePaymentLinkDocumentationTypedDict(TypedDict):
+class CreatePaymentLinkNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class CreatePaymentLinkDocumentation(BaseModel):
+class CreatePaymentLinkNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -879,17 +1018,17 @@ class CreatePaymentLinkDocumentation(BaseModel):
     type: str
 
 
-class CreatePaymentLinkPaymentLinksLinksTypedDict(TypedDict):
-    documentation: CreatePaymentLinkDocumentationTypedDict
+class CreatePaymentLinkNotFoundLinksTypedDict(TypedDict):
+    documentation: CreatePaymentLinkNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class CreatePaymentLinkPaymentLinksLinks(BaseModel):
-    documentation: CreatePaymentLinkDocumentation
+class CreatePaymentLinkNotFoundLinks(BaseModel):
+    documentation: CreatePaymentLinkNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class CreatePaymentLinkPaymentLinksResponseBodyData(BaseModel):
+class CreatePaymentLinkNotFoundHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -899,20 +1038,22 @@ class CreatePaymentLinkPaymentLinksResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[CreatePaymentLinkPaymentLinksLinks, pydantic.Field(alias="_links")]
+    links: Annotated[CreatePaymentLinkNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class CreatePaymentLinkPaymentLinksResponseBody(ClientError):
+class CreatePaymentLinkNotFoundHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: CreatePaymentLinkPaymentLinksResponseBodyData
+    data: CreatePaymentLinkNotFoundHalJSONErrorData
 
     def __init__(
         self,
-        data: CreatePaymentLinkPaymentLinksResponseBodyData,
+        data: CreatePaymentLinkNotFoundHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -921,8 +1062,17 @@ class CreatePaymentLinkPaymentLinksResponseBody(ClientError):
         self.data = data
 
 
-class CreatePaymentLinkPaymentLinksResponseAmountTypedDict(TypedDict):
-    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an amount."""
+class CreatePaymentLinkMode(str, Enum):
+    r"""Whether this entity was created in live mode or in test mode."""
+
+    LIVE = "live"
+    TEST = "test"
+
+
+class CreatePaymentLinkAmountResponseTypedDict(TypedDict):
+    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an
+    amount.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -930,27 +1080,10 @@ class CreatePaymentLinkPaymentLinksResponseAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkPaymentLinksResponseAmount(BaseModel):
-    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an amount."""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class CreatePaymentLinkMinimumAmountTypedDict(TypedDict):
-    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount."""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class CreatePaymentLinkMinimumAmount(BaseModel):
-    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount."""
+class CreatePaymentLinkAmountResponse(BaseModel):
+    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an
+    amount.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -959,7 +1092,46 @@ class CreatePaymentLinkMinimumAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkPaymentLinksUnitPriceTypedDict(TypedDict):
+class CreatePaymentLinkMinimumAmountResponseTypedDict(TypedDict):
+    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The
+    customer will be prompted to enter a value greater than or equal to the minimum amount.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class CreatePaymentLinkMinimumAmountResponse(BaseModel):
+    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The
+    customer will be prompted to enter a value greater than or equal to the minimum amount.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class CreatePaymentLinkTypeResponse(str, Enum):
+    r"""The type of product purchased. For example, a physical or a digital product.
+
+    The `tip` payment line type is not available when creating a payment.
+    """
+
+    PHYSICAL = "physical"
+    DIGITAL = "digital"
+    SHIPPING_FEE = "shipping_fee"
+    DISCOUNT = "discount"
+    STORE_CREDIT = "store_credit"
+    GIFT_CARD = "gift_card"
+    SURCHARGE = "surcharge"
+    TIP = "tip"
+
+
+class CreatePaymentLinkUnitPriceResponseTypedDict(TypedDict):
     r"""The price of a single item including VAT.
 
     For example: `{\"currency\":\"EUR\", \"value\":\"89.00\"}` if the box of LEGO costs €89.00 each.
@@ -975,7 +1147,7 @@ class CreatePaymentLinkPaymentLinksUnitPriceTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkPaymentLinksUnitPrice(BaseModel):
+class CreatePaymentLinkUnitPriceResponse(BaseModel):
     r"""The price of a single item including VAT.
 
     For example: `{\"currency\":\"EUR\", \"value\":\"89.00\"}` if the box of LEGO costs €89.00 each.
@@ -992,8 +1164,10 @@ class CreatePaymentLinkPaymentLinksUnitPrice(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkPaymentLinksDiscountAmountTypedDict(TypedDict):
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+class CreatePaymentLinkDiscountAmountResponseTypedDict(TypedDict):
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -1001,8 +1175,10 @@ class CreatePaymentLinkPaymentLinksDiscountAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkPaymentLinksDiscountAmount(BaseModel):
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+class CreatePaymentLinkDiscountAmountResponse(BaseModel):
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -1011,7 +1187,7 @@ class CreatePaymentLinkPaymentLinksDiscountAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkPaymentLinksTotalAmountTypedDict(TypedDict):
+class CreatePaymentLinkTotalAmountResponseTypedDict(TypedDict):
     r"""The total amount of the line, including VAT and discounts.
 
     Should match the following formula: `(unitPrice × quantity) - discountAmount`.
@@ -1025,7 +1201,7 @@ class CreatePaymentLinkPaymentLinksTotalAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkPaymentLinksTotalAmount(BaseModel):
+class CreatePaymentLinkTotalAmountResponse(BaseModel):
     r"""The total amount of the line, including VAT and discounts.
 
     Should match the following formula: `(unitPrice × quantity) - discountAmount`.
@@ -1040,12 +1216,14 @@ class CreatePaymentLinkPaymentLinksTotalAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkPaymentLinksVatAmountTypedDict(TypedDict):
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+class CreatePaymentLinkVatAmountResponseTypedDict(TypedDict):
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
 
     currency: str
@@ -1054,12 +1232,14 @@ class CreatePaymentLinkPaymentLinksVatAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkPaymentLinksVatAmount(BaseModel):
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+class CreatePaymentLinkVatAmountResponse(BaseModel):
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
 
     currency: str
@@ -1069,19 +1249,19 @@ class CreatePaymentLinkPaymentLinksVatAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkPaymentLinksCategories(str, Enum):
+class CreatePaymentLinkCategoryResponse(str, Enum):
     MEAL = "meal"
     ECO = "eco"
     GIFT = "gift"
     SPORT_CULTURE = "sport_culture"
 
 
-class CreatePaymentLinkPaymentLinksLinesTypedDict(TypedDict):
+class CreatePaymentLinkLineResponseTypedDict(TypedDict):
     description: str
     r"""A description of the line item. For example *LEGO 4440 Forest Police Station*."""
     quantity: int
     r"""The number of items."""
-    unit_price: CreatePaymentLinkPaymentLinksUnitPriceTypedDict
+    unit_price: CreatePaymentLinkUnitPriceResponseTypedDict
     r"""The price of a single item including VAT.
 
     For example: `{\"currency\":\"EUR\", \"value\":\"89.00\"}` if the box of LEGO costs €89.00 each.
@@ -1090,44 +1270,50 @@ class CreatePaymentLinkPaymentLinksLinesTypedDict(TypedDict):
 
     The unit price can be zero in case of free items.
     """
-    total_amount: CreatePaymentLinkPaymentLinksTotalAmountTypedDict
+    total_amount: CreatePaymentLinkTotalAmountResponseTypedDict
     r"""The total amount of the line, including VAT and discounts.
 
     Should match the following formula: `(unitPrice × quantity) - discountAmount`.
 
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
-    type: NotRequired[str]
+    type: NotRequired[CreatePaymentLinkTypeResponse]
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
-
-    Possible values: `physical` `digital` `shipping_fee` `discount` `store_credit` `gift_card` `surcharge` `tip` (default: `physical`)
     """
     quantity_unit: NotRequired[str]
     r"""The unit for the quantity. For example *pcs*, *kg*, or *cm*."""
-    discount_amount: NotRequired[CreatePaymentLinkPaymentLinksDiscountAmountTypedDict]
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+    discount_amount: NotRequired[CreatePaymentLinkDiscountAmountResponseTypedDict]
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
     vat_rate: NotRequired[str]
-    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and not as a float, to ensure the correct number of decimals are passed."""
-    vat_amount: NotRequired[CreatePaymentLinkPaymentLinksVatAmountTypedDict]
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and
+    not as a float, to ensure the correct number of decimals are passed.
+    """
+    vat_amount: NotRequired[CreatePaymentLinkVatAmountResponseTypedDict]
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
     sku: NotRequired[str]
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
-    categories: NotRequired[List[CreatePaymentLinkPaymentLinksCategories]]
-    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the [Integrating Vouchers](integrating-vouchers) guide for more information."""
+    categories: NotRequired[List[CreatePaymentLinkCategoryResponse]]
+    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
+    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    """
     image_url: NotRequired[str]
     r"""A link pointing to an image of the product sold."""
     product_url: NotRequired[str]
     r"""A link pointing to the product page in your web shop of the product sold."""
 
 
-class CreatePaymentLinkPaymentLinksLines(BaseModel):
+class CreatePaymentLinkLineResponse(BaseModel):
     description: str
     r"""A description of the line item. For example *LEGO 4440 Forest Police Station*."""
 
@@ -1135,7 +1321,7 @@ class CreatePaymentLinkPaymentLinksLines(BaseModel):
     r"""The number of items."""
 
     unit_price: Annotated[
-        CreatePaymentLinkPaymentLinksUnitPrice, pydantic.Field(alias="unitPrice")
+        CreatePaymentLinkUnitPriceResponse, pydantic.Field(alias="unitPrice")
     ]
     r"""The price of a single item including VAT.
 
@@ -1147,7 +1333,7 @@ class CreatePaymentLinkPaymentLinksLines(BaseModel):
     """
 
     total_amount: Annotated[
-        CreatePaymentLinkPaymentLinksTotalAmount, pydantic.Field(alias="totalAmount")
+        CreatePaymentLinkTotalAmountResponse, pydantic.Field(alias="totalAmount")
     ]
     r"""The total amount of the line, including VAT and discounts.
 
@@ -1156,42 +1342,49 @@ class CreatePaymentLinkPaymentLinksLines(BaseModel):
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
 
-    type: Optional[str] = None
+    type: Optional[CreatePaymentLinkTypeResponse] = (
+        CreatePaymentLinkTypeResponse.PHYSICAL
+    )
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
-
-    Possible values: `physical` `digital` `shipping_fee` `discount` `store_credit` `gift_card` `surcharge` `tip` (default: `physical`)
     """
 
     quantity_unit: Annotated[Optional[str], pydantic.Field(alias="quantityUnit")] = None
     r"""The unit for the quantity. For example *pcs*, *kg*, or *cm*."""
 
     discount_amount: Annotated[
-        Optional[CreatePaymentLinkPaymentLinksDiscountAmount],
+        Optional[CreatePaymentLinkDiscountAmountResponse],
         pydantic.Field(alias="discountAmount"),
     ] = None
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
 
     vat_rate: Annotated[Optional[str], pydantic.Field(alias="vatRate")] = None
-    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and not as a float, to ensure the correct number of decimals are passed."""
+    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and
+    not as a float, to ensure the correct number of decimals are passed.
+    """
 
     vat_amount: Annotated[
-        Optional[CreatePaymentLinkPaymentLinksVatAmount],
-        pydantic.Field(alias="vatAmount"),
+        Optional[CreatePaymentLinkVatAmountResponse], pydantic.Field(alias="vatAmount")
     ] = None
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
 
     sku: Optional[str] = None
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
 
-    categories: Optional[List[CreatePaymentLinkPaymentLinksCategories]] = None
-    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the [Integrating Vouchers](integrating-vouchers) guide for more information."""
+    categories: Optional[List[CreatePaymentLinkCategoryResponse]] = None
+    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
+    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    """
 
     image_url: Annotated[Optional[str], pydantic.Field(alias="imageUrl")] = None
     r"""A link pointing to an image of the product sold."""
@@ -1200,10 +1393,12 @@ class CreatePaymentLinkPaymentLinksLines(BaseModel):
     r"""A link pointing to the product page in your web shop of the product sold."""
 
 
-class CreatePaymentLinkPaymentLinksBillingAddressTypedDict(TypedDict):
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+class CreatePaymentLinkBillingAddressResponseTypedDict(TypedDict):
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
@@ -1211,12 +1406,14 @@ class CreatePaymentLinkPaymentLinksBillingAddressTypedDict(TypedDict):
     title: NotRequired[str]
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
     given_name: NotRequired[str]
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
     family_name: NotRequired[str]
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -1237,7 +1434,8 @@ class CreatePaymentLinkPaymentLinksBillingAddressTypedDict(TypedDict):
     email: NotRequired[str]
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -1257,10 +1455,12 @@ class CreatePaymentLinkPaymentLinksBillingAddressTypedDict(TypedDict):
     """
 
 
-class CreatePaymentLinkPaymentLinksBillingAddress(BaseModel):
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+class CreatePaymentLinkBillingAddressResponse(BaseModel):
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
@@ -1269,13 +1469,15 @@ class CreatePaymentLinkPaymentLinksBillingAddress(BaseModel):
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
 
     given_name: Annotated[Optional[str], pydantic.Field(alias="givenName")] = None
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
 
     family_name: Annotated[Optional[str], pydantic.Field(alias="familyName")] = None
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -1307,7 +1509,8 @@ class CreatePaymentLinkPaymentLinksBillingAddress(BaseModel):
     email: Optional[str] = None
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -1331,21 +1534,25 @@ class CreatePaymentLinkPaymentLinksBillingAddress(BaseModel):
     """
 
 
-class CreatePaymentLinkPaymentLinksShippingAddressTypedDict(TypedDict):
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+class CreatePaymentLinkShippingAddressResponseTypedDict(TypedDict):
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
 
     title: NotRequired[str]
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
     given_name: NotRequired[str]
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
     family_name: NotRequired[str]
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -1366,7 +1573,8 @@ class CreatePaymentLinkPaymentLinksShippingAddressTypedDict(TypedDict):
     email: NotRequired[str]
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -1386,23 +1594,27 @@ class CreatePaymentLinkPaymentLinksShippingAddressTypedDict(TypedDict):
     """
 
 
-class CreatePaymentLinkPaymentLinksShippingAddress(BaseModel):
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+class CreatePaymentLinkShippingAddressResponse(BaseModel):
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
 
     title: Optional[str] = None
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
 
     given_name: Annotated[Optional[str], pydantic.Field(alias="givenName")] = None
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
 
     family_name: Annotated[Optional[str], pydantic.Field(alias="familyName")] = None
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -1434,7 +1646,8 @@ class CreatePaymentLinkPaymentLinksShippingAddress(BaseModel):
     email: Optional[str] = None
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -1458,10 +1671,11 @@ class CreatePaymentLinkPaymentLinksShippingAddress(BaseModel):
     """
 
 
-class CreatePaymentLinkPaymentLinksResponse201AmountTypedDict(TypedDict):
+class CreatePaymentLinkApplicationFeeAmountResponseTypedDict(TypedDict):
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
 
     currency: str
@@ -1470,10 +1684,11 @@ class CreatePaymentLinkPaymentLinksResponse201AmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkPaymentLinksResponse201Amount(BaseModel):
+class CreatePaymentLinkApplicationFeeAmountResponse(BaseModel):
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
 
     currency: str
@@ -1483,35 +1698,47 @@ class CreatePaymentLinkPaymentLinksResponse201Amount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkPaymentLinksApplicationFeeTypedDict(TypedDict):
-    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
+class CreatePaymentLinkApplicationFeeResponseTypedDict(TypedDict):
+    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
     """
 
-    amount: CreatePaymentLinkPaymentLinksResponse201AmountTypedDict
+    amount: CreatePaymentLinkApplicationFeeAmountResponseTypedDict
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
     description: str
-    r"""The description of the application fee. This will appear on settlement reports towards both you and the connected merchant."""
-
-
-class CreatePaymentLinkPaymentLinksApplicationFee(BaseModel):
-    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
-
-    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    r"""The description of the application fee. This will appear on settlement reports towards both you and the
+    connected merchant.
     """
 
-    amount: CreatePaymentLinkPaymentLinksResponse201Amount
+
+class CreatePaymentLinkApplicationFeeResponse(BaseModel):
+    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie
+    merchants.
+
+    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
+    """
+
+    amount: CreatePaymentLinkApplicationFeeAmountResponse
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
 
     description: str
-    r"""The description of the application fee. This will appear on settlement reports towards both you and the connected merchant."""
+    r"""The description of the application fee. This will appear on settlement reports towards both you and the
+    connected merchant.
+    """
 
 
 class CreatePaymentLinkSelfTypedDict(TypedDict):
@@ -1533,7 +1760,7 @@ class CreatePaymentLinkSelf(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class PaymentLinkTypedDict(TypedDict):
+class CreatePaymentLinkPaymentLinkTypedDict(TypedDict):
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
 
     href: str
@@ -1542,7 +1769,7 @@ class PaymentLinkTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class PaymentLink(BaseModel):
+class CreatePaymentLinkPaymentLink(BaseModel):
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
 
     href: str
@@ -1557,7 +1784,7 @@ class CreatePaymentLinkLinksTypedDict(TypedDict):
 
     self_: CreatePaymentLinkSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    payment_link: PaymentLinkTypedDict
+    payment_link: CreatePaymentLinkPaymentLinkTypedDict
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
 
 
@@ -1567,124 +1794,162 @@ class CreatePaymentLinkLinks(BaseModel):
     self_: Annotated[CreatePaymentLinkSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    payment_link: Annotated[PaymentLink, pydantic.Field(alias="paymentLink")]
+    payment_link: Annotated[
+        CreatePaymentLinkPaymentLink, pydantic.Field(alias="paymentLink")
+    ]
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
 
 
-class CreatePaymentLinkResponseBodyTypedDict(TypedDict):
+class CreatePaymentLinkResponseTypedDict(TypedDict):
     r"""The newly created payment link object."""
 
     id: str
     r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
-    mode: str
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
-    """
+    mode: CreatePaymentLinkMode
+    r"""Whether this entity was created in live mode or in test mode."""
     description: str
-    r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible."""
-    amount: Nullable[CreatePaymentLinkPaymentLinksResponseAmountTypedDict]
-    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an amount."""
+    r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the
+    customer's bank or card statement when possible.
+    """
+    amount: Nullable[CreatePaymentLinkAmountResponseTypedDict]
+    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an
+    amount.
+    """
     archived: bool
     r"""Whether the payment link is archived. Customers will not be able to complete payments on archived payment links."""
     redirect_url: Nullable[str]
-    r"""The URL your customer will be redirected to after completing the payment process. If no redirect URL is provided, the customer will be shown a generic message after completing the payment."""
+    r"""The URL your customer will be redirected to after completing the payment process. If no redirect URL is provided,
+    the customer will be shown a generic message after completing the payment.
+    """
     webhook_url: Nullable[str]
     r"""The webhook URL where we will send payment status updates to.
 
-    The webhookUrl is optional, but without a webhook you will miss out on important status changes to any payments resulting from the payment link.
+    The webhookUrl is optional, but without a webhook you will miss out on important status changes to any payments
+    resulting from the payment link.
 
-    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
+    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use
+    webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your
+    local machine.
     """
     profile_id: Nullable[str]
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation
+    request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
+    required.
     """
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     paid_at: Nullable[str]
     r"""The date and time the payment link became paid, in ISO 8601 format."""
     expires_at: Nullable[str]
-    r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front, the payment link will not expire automatically."""
+    r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front,
+    the payment link will not expire automatically.
+    """
     allowed_methods: Nullable[List[str]]
-    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
+    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is
+    not provided or is an empty array, all enabled payment methods will be available.
 
-    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint', 'in3', 'riverty', 'klarna', 'billie'.
+    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard',
+    'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint',
+    'in3', 'riverty', 'klarna', 'billie'.
     """
     links: CreatePaymentLinkLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     resource: NotRequired[str]
-    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this endpoint."""
-    minimum_amount: NotRequired[Nullable[CreatePaymentLinkMinimumAmountTypedDict]]
-    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount."""
-    lines: NotRequired[Nullable[List[CreatePaymentLinkPaymentLinksLinesTypedDict]]]
-    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.
+    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this
+    endpoint.
+    """
+    minimum_amount: NotRequired[
+        Nullable[CreatePaymentLinkMinimumAmountResponseTypedDict]
+    ]
+    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The
+    customer will be prompted to enter a value greater than or equal to the minimum amount.
+    """
+    lines: NotRequired[Nullable[List[CreatePaymentLinkLineResponseTypedDict]]]
+    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item
+    ordered and its price.
 
     All lines must have the same currency as the payment.
 
     Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
     """
-    billing_address: NotRequired[CreatePaymentLinkPaymentLinksBillingAddressTypedDict]
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+    billing_address: NotRequired[CreatePaymentLinkBillingAddressResponseTypedDict]
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
-    shipping_address: NotRequired[CreatePaymentLinkPaymentLinksShippingAddressTypedDict]
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+    shipping_address: NotRequired[CreatePaymentLinkShippingAddressResponseTypedDict]
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
     reusable: NotRequired[Nullable[bool]]
-    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple payments using the same link.
+    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple
+    payments using the same link.
 
     If no value is specified, the field defaults to `false`, allowing only a single payment per link.
     """
-    application_fee: NotRequired[CreatePaymentLinkPaymentLinksApplicationFeeTypedDict]
-    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
+    application_fee: NotRequired[CreatePaymentLinkApplicationFeeResponseTypedDict]
+    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
     """
 
 
-class CreatePaymentLinkResponseBody(BaseModel):
+class CreatePaymentLinkResponse(BaseModel):
     r"""The newly created payment link object."""
 
     id: str
     r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
 
-    mode: str
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
-    """
+    mode: CreatePaymentLinkMode
+    r"""Whether this entity was created in live mode or in test mode."""
 
     description: str
-    r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible."""
+    r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the
+    customer's bank or card statement when possible.
+    """
 
-    amount: Nullable[CreatePaymentLinkPaymentLinksResponseAmount]
-    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an amount."""
+    amount: Nullable[CreatePaymentLinkAmountResponse]
+    r"""The amount of the payment link. If no amount is provided initially, the customer will be prompted to enter an
+    amount.
+    """
 
     archived: bool
     r"""Whether the payment link is archived. Customers will not be able to complete payments on archived payment links."""
 
     redirect_url: Annotated[Nullable[str], pydantic.Field(alias="redirectUrl")]
-    r"""The URL your customer will be redirected to after completing the payment process. If no redirect URL is provided, the customer will be shown a generic message after completing the payment."""
+    r"""The URL your customer will be redirected to after completing the payment process. If no redirect URL is provided,
+    the customer will be shown a generic message after completing the payment.
+    """
 
     webhook_url: Annotated[Nullable[str], pydantic.Field(alias="webhookUrl")]
     r"""The webhook URL where we will send payment status updates to.
 
-    The webhookUrl is optional, but without a webhook you will miss out on important status changes to any payments resulting from the payment link.
+    The webhookUrl is optional, but without a webhook you will miss out on important status changes to any payments
+    resulting from the payment link.
 
-    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
+    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use
+    webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your
+    local machine.
     """
 
     profile_id: Annotated[Nullable[str], pydantic.Field(alias="profileId")]
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation
+    request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
+    required.
     """
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
@@ -1694,30 +1959,40 @@ class CreatePaymentLinkResponseBody(BaseModel):
     r"""The date and time the payment link became paid, in ISO 8601 format."""
 
     expires_at: Annotated[Nullable[str], pydantic.Field(alias="expiresAt")]
-    r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front, the payment link will not expire automatically."""
+    r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front,
+    the payment link will not expire automatically.
+    """
 
     allowed_methods: Annotated[
         Nullable[List[str]], pydantic.Field(alias="allowedMethods")
     ]
-    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.
+    r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is
+    not provided or is an empty array, all enabled payment methods will be available.
 
-    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint', 'in3', 'riverty', 'klarna', 'billie'.
+    Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard',
+    'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint',
+    'in3', 'riverty', 'klarna', 'billie'.
     """
 
     links: Annotated[CreatePaymentLinkLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     resource: Optional[str] = "payment-link"
-    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this endpoint."""
+    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this
+    endpoint.
+    """
 
     minimum_amount: Annotated[
-        OptionalNullable[CreatePaymentLinkMinimumAmount],
+        OptionalNullable[CreatePaymentLinkMinimumAmountResponse],
         pydantic.Field(alias="minimumAmount"),
     ] = UNSET
-    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount."""
+    r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The
+    customer will be prompted to enter a value greater than or equal to the minimum amount.
+    """
 
-    lines: OptionalNullable[List[CreatePaymentLinkPaymentLinksLines]] = UNSET
-    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.
+    lines: OptionalNullable[List[CreatePaymentLinkLineResponse]] = UNSET
+    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item
+    ordered and its price.
 
     All lines must have the same currency as the payment.
 
@@ -1725,38 +2000,46 @@ class CreatePaymentLinkResponseBody(BaseModel):
     """
 
     billing_address: Annotated[
-        Optional[CreatePaymentLinkPaymentLinksBillingAddress],
+        Optional[CreatePaymentLinkBillingAddressResponse],
         pydantic.Field(alias="billingAddress"),
     ] = None
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
 
     shipping_address: Annotated[
-        Optional[CreatePaymentLinkPaymentLinksShippingAddress],
+        Optional[CreatePaymentLinkShippingAddressResponse],
         pydantic.Field(alias="shippingAddress"),
     ] = None
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
 
     reusable: OptionalNullable[bool] = False
-    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple payments using the same link.
+    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple
+    payments using the same link.
 
     If no value is specified, the field defaults to `false`, allowing only a single payment per link.
     """
 
     application_fee: Annotated[
-        Optional[CreatePaymentLinkPaymentLinksApplicationFee],
+        Optional[CreatePaymentLinkApplicationFeeResponse],
         pydantic.Field(alias="applicationFee"),
     ] = None
-    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie merchants.
+    r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payment links on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
     """
 
     @model_serializer(mode="wrap")

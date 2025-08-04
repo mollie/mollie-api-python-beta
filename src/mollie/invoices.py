@@ -18,28 +18,25 @@ class Invoices(BaseSDK):
         month: OptionalNullable[str] = UNSET,
         from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[models.ListInvoicesSort] = models.ListInvoicesSort.DESC,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListInvoicesResponseBody:
+    ) -> models.ListInvoicesResponse:
         r"""List invoices
 
-        Retrieve a list of all your invoices, optionally filtered by year or by invoice reference.
+        Retrieve a list of all your invoices, optionally filtered by year or by
+        invoice reference.
 
         The results are paginated.
-
-        > 🔑 Access with
-        >
-        > [Access token with **invoices.read**](/reference/authentication)
 
         :param reference: Filter for an invoice with a specific invoice reference, for example `2024.10000`.
         :param year: Filter for invoices of a specific year, for example `2024`.
         :param month: Filter for invoices of a specific month, for example `01`.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -109,19 +106,17 @@ class Invoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.ListInvoicesResponseBody, http_res)
+            return unmarshal_json_response(models.ListInvoicesResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListInvoicesInvoicesResponseBodyData, http_res
+                models.ListInvoicesBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListInvoicesInvoicesResponseBody(response_data, http_res)
+            raise models.ListInvoicesBadRequestHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListInvoicesInvoicesResponseResponseBodyData, http_res
+                models.ListInvoicesNotFoundHalJSONErrorData, http_res
             )
-            raise models.ListInvoicesInvoicesResponseResponseBody(
-                response_data, http_res
-            )
+            raise models.ListInvoicesNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -139,28 +134,25 @@ class Invoices(BaseSDK):
         month: OptionalNullable[str] = UNSET,
         from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[models.ListInvoicesSort] = models.ListInvoicesSort.DESC,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListInvoicesResponseBody:
+    ) -> models.ListInvoicesResponse:
         r"""List invoices
 
-        Retrieve a list of all your invoices, optionally filtered by year or by invoice reference.
+        Retrieve a list of all your invoices, optionally filtered by year or by
+        invoice reference.
 
         The results are paginated.
-
-        > 🔑 Access with
-        >
-        > [Access token with **invoices.read**](/reference/authentication)
 
         :param reference: Filter for an invoice with a specific invoice reference, for example `2024.10000`.
         :param year: Filter for invoices of a specific year, for example `2024`.
         :param month: Filter for invoices of a specific month, for example `01`.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -230,19 +222,17 @@ class Invoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.ListInvoicesResponseBody, http_res)
+            return unmarshal_json_response(models.ListInvoicesResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListInvoicesInvoicesResponseBodyData, http_res
+                models.ListInvoicesBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListInvoicesInvoicesResponseBody(response_data, http_res)
+            raise models.ListInvoicesBadRequestHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListInvoicesInvoicesResponseResponseBodyData, http_res
+                models.ListInvoicesNotFoundHalJSONErrorData, http_res
             )
-            raise models.ListInvoicesInvoicesResponseResponseBody(
-                response_data, http_res
-            )
+            raise models.ListInvoicesNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -260,16 +250,13 @@ class Invoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetInvoiceResponseBody:
+    ) -> models.GetInvoiceResponse:
         r"""Get invoice
 
         Retrieve a single invoice by its ID.
 
-        If you want to retrieve the details of an invoice by its invoice number, call the [List invoices](list-invoices) endpoint with the `reference` parameter.
-
-        > 🔑 Access with
-        >
-        > [Access token with **invoices.read**](/reference/authentication)
+        If you want to retrieve the details of an invoice by its invoice number,
+        call the [List invoices](list-invoices) endpoint with the `reference` parameter.
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param retries: Override the default retry configuration for this method
@@ -336,12 +323,12 @@ class Invoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetInvoiceResponseBody, http_res)
+            return unmarshal_json_response(models.GetInvoiceResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetInvoiceInvoicesResponseBodyData, http_res
+                models.GetInvoiceHalJSONErrorData, http_res
             )
-            raise models.GetInvoiceInvoicesResponseBody(response_data, http_res)
+            raise models.GetInvoiceHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -359,16 +346,13 @@ class Invoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetInvoiceResponseBody:
+    ) -> models.GetInvoiceResponse:
         r"""Get invoice
 
         Retrieve a single invoice by its ID.
 
-        If you want to retrieve the details of an invoice by its invoice number, call the [List invoices](list-invoices) endpoint with the `reference` parameter.
-
-        > 🔑 Access with
-        >
-        > [Access token with **invoices.read**](/reference/authentication)
+        If you want to retrieve the details of an invoice by its invoice number,
+        call the [List invoices](list-invoices) endpoint with the `reference` parameter.
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param retries: Override the default retry configuration for this method
@@ -435,12 +419,12 @@ class Invoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetInvoiceResponseBody, http_res)
+            return unmarshal_json_response(models.GetInvoiceResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetInvoiceInvoicesResponseBodyData, http_res
+                models.GetInvoiceHalJSONErrorData, http_res
             )
-            raise models.GetInvoiceInvoicesResponseBody(response_data, http_res)
+            raise models.GetInvoiceHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

@@ -15,28 +15,24 @@ class Terminals(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[
+            models.ListTerminalsSort
+        ] = models.ListTerminalsSort.DESC,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListTerminalsResponseBody:
+    ) -> models.ListTerminalsResponse:
         r"""List terminals
 
         Retrieve a list of all physical point-of-sale devices.
 
         The results are paginated.
 
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **terminals.read**](/reference/authentication)
-
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -105,12 +101,12 @@ class Terminals(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.ListTerminalsResponseBody, http_res)
+            return unmarshal_json_response(models.ListTerminalsResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListTerminalsTerminalsResponseBodyData, http_res
+                models.ListTerminalsHalJSONErrorData, http_res
             )
-            raise models.ListTerminalsTerminalsResponseBody(response_data, http_res)
+            raise models.ListTerminalsHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -125,28 +121,24 @@ class Terminals(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[
+            models.ListTerminalsSort
+        ] = models.ListTerminalsSort.DESC,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListTerminalsResponseBody:
+    ) -> models.ListTerminalsResponse:
         r"""List terminals
 
         Retrieve a list of all physical point-of-sale devices.
 
         The results are paginated.
 
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **terminals.read**](/reference/authentication)
-
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -215,12 +207,12 @@ class Terminals(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.ListTerminalsResponseBody, http_res)
+            return unmarshal_json_response(models.ListTerminalsResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListTerminalsTerminalsResponseBodyData, http_res
+                models.ListTerminalsHalJSONErrorData, http_res
             )
-            raise models.ListTerminalsTerminalsResponseBody(response_data, http_res)
+            raise models.ListTerminalsHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -239,16 +231,10 @@ class Terminals(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetTerminalResponseBody:
+    ) -> models.GetTerminalResponse:
         r"""Get terminal
 
         Retrieve a single terminal by its ID.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **terminals.read**](/reference/authentication)
 
         :param terminal_id: Provide the ID of the related terminal.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -317,12 +303,12 @@ class Terminals(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetTerminalResponseBody, http_res)
+            return unmarshal_json_response(models.GetTerminalResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetTerminalTerminalsResponseBodyData, http_res
+                models.GetTerminalHalJSONErrorData, http_res
             )
-            raise models.GetTerminalTerminalsResponseBody(response_data, http_res)
+            raise models.GetTerminalHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -341,16 +327,10 @@ class Terminals(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetTerminalResponseBody:
+    ) -> models.GetTerminalResponse:
         r"""Get terminal
 
         Retrieve a single terminal by its ID.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **terminals.read**](/reference/authentication)
 
         :param terminal_id: Provide the ID of the related terminal.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -419,12 +399,12 @@ class Terminals(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetTerminalResponseBody, http_res)
+            return unmarshal_json_response(models.GetTerminalResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetTerminalTerminalsResponseBodyData, http_res
+                models.GetTerminalHalJSONErrorData, http_res
             )
-            raise models.GetTerminalTerminalsResponseBody(response_data, http_res)
+            raise models.GetTerminalHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

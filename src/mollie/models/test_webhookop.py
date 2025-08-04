@@ -15,7 +15,8 @@ class TestWebhookRequestBodyTypedDict(TypedDict):
     __test__ = False  # pyright: ignore[reportGeneralTypeIssues]
 
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
+    such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -25,7 +26,8 @@ class TestWebhookRequestBody(BaseModel):
     __test__ = False
 
     testmode: OptionalNullable[bool] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
+    such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -83,7 +85,7 @@ class TestWebhookRequest(BaseModel):
     ] = None
 
 
-class TestWebhookWebhooksDocumentationTypedDict(TypedDict):
+class TestWebhookUnprocessableEntityDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     __test__ = False  # pyright: ignore[reportGeneralTypeIssues]
@@ -92,7 +94,7 @@ class TestWebhookWebhooksDocumentationTypedDict(TypedDict):
     type: str
 
 
-class TestWebhookWebhooksDocumentation(BaseModel):
+class TestWebhookUnprocessableEntityDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     __test__ = False
@@ -102,21 +104,21 @@ class TestWebhookWebhooksDocumentation(BaseModel):
     type: str
 
 
-class TestWebhookWebhooksLinksTypedDict(TypedDict):
+class TestWebhookUnprocessableEntityLinksTypedDict(TypedDict):
     __test__ = False  # pyright: ignore[reportGeneralTypeIssues]
 
-    documentation: TestWebhookWebhooksDocumentationTypedDict
+    documentation: TestWebhookUnprocessableEntityDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class TestWebhookWebhooksLinks(BaseModel):
+class TestWebhookUnprocessableEntityLinks(BaseModel):
     __test__ = False
 
-    documentation: TestWebhookWebhooksDocumentation
+    documentation: TestWebhookUnprocessableEntityDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class TestWebhookWebhooksResponseBodyData(BaseModel):
+class TestWebhookUnprocessableEntityHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -126,20 +128,24 @@ class TestWebhookWebhooksResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[TestWebhookWebhooksLinks, pydantic.Field(alias="_links")]
+    links: Annotated[
+        TestWebhookUnprocessableEntityLinks, pydantic.Field(alias="_links")
+    ]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class TestWebhookWebhooksResponseBody(ClientError):
+class TestWebhookUnprocessableEntityHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: TestWebhookWebhooksResponseBodyData
+    data: TestWebhookUnprocessableEntityHalJSONErrorData
 
     def __init__(
         self,
-        data: TestWebhookWebhooksResponseBodyData,
+        data: TestWebhookUnprocessableEntityHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -148,7 +154,7 @@ class TestWebhookWebhooksResponseBody(ClientError):
         self.data = data
 
 
-class TestWebhookDocumentationTypedDict(TypedDict):
+class TestWebhookNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     __test__ = False  # pyright: ignore[reportGeneralTypeIssues]
@@ -157,7 +163,7 @@ class TestWebhookDocumentationTypedDict(TypedDict):
     type: str
 
 
-class TestWebhookDocumentation(BaseModel):
+class TestWebhookNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     __test__ = False
@@ -167,21 +173,21 @@ class TestWebhookDocumentation(BaseModel):
     type: str
 
 
-class TestWebhookLinksTypedDict(TypedDict):
+class TestWebhookNotFoundLinksTypedDict(TypedDict):
     __test__ = False  # pyright: ignore[reportGeneralTypeIssues]
 
-    documentation: TestWebhookDocumentationTypedDict
+    documentation: TestWebhookNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class TestWebhookLinks(BaseModel):
+class TestWebhookNotFoundLinks(BaseModel):
     __test__ = False
 
-    documentation: TestWebhookDocumentation
+    documentation: TestWebhookNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class TestWebhookResponseBodyData(BaseModel):
+class TestWebhookNotFoundHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -191,20 +197,22 @@ class TestWebhookResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[TestWebhookLinks, pydantic.Field(alias="_links")]
+    links: Annotated[TestWebhookNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class TestWebhookResponseBody(ClientError):
+class TestWebhookNotFoundHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: TestWebhookResponseBodyData
+    data: TestWebhookNotFoundHalJSONErrorData
 
     def __init__(
         self,
-        data: TestWebhookResponseBodyData,
+        data: TestWebhookNotFoundHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):

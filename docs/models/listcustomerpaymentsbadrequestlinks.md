@@ -1,0 +1,8 @@
+# ListCustomerPaymentsBadRequestLinks
+
+
+## Fields
+
+| Field                                                                                                          | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `documentation`                                                                                                | [models.ListCustomerPaymentsBadRequestDocumentation](../models/listcustomerpaymentsbadrequestdocumentation.md) | :heavy_check_mark:                                                                                             | The URL to the generic Mollie API error handling guide.                                                        |

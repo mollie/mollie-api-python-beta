@@ -1,0 +1,9 @@
+# CreateRefundRoutingReversalResponse
+
+
+## Fields
+
+| Field                                                                                                                | Type                                                                                                                 | Required                                                                                                             | Description                                                                                                          |
+| -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `amount`                                                                                                             | [Optional[models.CreateRefundRoutingReversalAmountResponse]](../models/createrefundroutingreversalamountresponse.md) | :heavy_minus_sign:                                                                                                   | The amount that will be pulled back.                                                                                 |
+| `source`                                                                                                             | [Optional[models.CreateRefundSourceOutput]](../models/createrefundsourceoutput.md)                                   | :heavy_minus_sign:                                                                                                   | Where the funds will be pulled back from.                                                                            |

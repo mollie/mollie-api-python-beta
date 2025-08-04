@@ -14,27 +14,19 @@ class Customers(BaseSDK):
         self,
         *,
         request: Optional[
-            Union[
-                models.CreateCustomerRequestBody,
-                models.CreateCustomerRequestBodyTypedDict,
-            ]
+            Union[models.CreateCustomerRequest, models.CreateCustomerRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateCustomerResponseBody:
+    ) -> models.CreateCustomerResponse:
         r"""Create customer
 
-        Creates a simple minimal representation of a customer. Payments, recurring mandates, and subscriptions can be linked to this customer object, which simplifies management of recurring payments.
+        Creates a simple minimal representation of a customer. Payments, recurring mandates, and subscriptions can be linked
+        to this customer object, which simplifies management of recurring payments.
 
         Once registered, customers will also appear in your Mollie dashboard.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **customers.write**](/reference/authentication)
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -53,10 +45,8 @@ class Customers(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
-            request = utils.unmarshal(
-                request, Optional[models.CreateCustomerRequestBody]
-            )
-        request = cast(Optional[models.CreateCustomerRequestBody], request)
+            request = utils.unmarshal(request, Optional[models.CreateCustomerRequest])
+        request = cast(Optional[models.CreateCustomerRequest], request)
 
         req = self._build_request(
             method="POST",
@@ -72,7 +62,7 @@ class Customers(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.CreateCustomerRequestBody]
+                request, False, True, "json", Optional[models.CreateCustomerRequest]
             ),
             timeout_ms=timeout_ms,
         )
@@ -106,12 +96,12 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreateCustomerResponseBody, http_res)
+            return unmarshal_json_response(models.CreateCustomerResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreateCustomerCustomersResponseBodyData, http_res
+                models.CreateCustomerHalJSONErrorData, http_res
             )
-            raise models.CreateCustomerCustomersResponseBody(response_data, http_res)
+            raise models.CreateCustomerHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -125,27 +115,19 @@ class Customers(BaseSDK):
         self,
         *,
         request: Optional[
-            Union[
-                models.CreateCustomerRequestBody,
-                models.CreateCustomerRequestBodyTypedDict,
-            ]
+            Union[models.CreateCustomerRequest, models.CreateCustomerRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateCustomerResponseBody:
+    ) -> models.CreateCustomerResponse:
         r"""Create customer
 
-        Creates a simple minimal representation of a customer. Payments, recurring mandates, and subscriptions can be linked to this customer object, which simplifies management of recurring payments.
+        Creates a simple minimal representation of a customer. Payments, recurring mandates, and subscriptions can be linked
+        to this customer object, which simplifies management of recurring payments.
 
         Once registered, customers will also appear in your Mollie dashboard.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **customers.write**](/reference/authentication)
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -164,10 +146,8 @@ class Customers(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
-            request = utils.unmarshal(
-                request, Optional[models.CreateCustomerRequestBody]
-            )
-        request = cast(Optional[models.CreateCustomerRequestBody], request)
+            request = utils.unmarshal(request, Optional[models.CreateCustomerRequest])
+        request = cast(Optional[models.CreateCustomerRequest], request)
 
         req = self._build_request_async(
             method="POST",
@@ -183,7 +163,7 @@ class Customers(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.CreateCustomerRequestBody]
+                request, False, True, "json", Optional[models.CreateCustomerRequest]
             ),
             timeout_ms=timeout_ms,
         )
@@ -217,12 +197,12 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreateCustomerResponseBody, http_res)
+            return unmarshal_json_response(models.CreateCustomerResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreateCustomerCustomersResponseBodyData, http_res
+                models.CreateCustomerHalJSONErrorData, http_res
             )
-            raise models.CreateCustomerCustomersResponseBody(response_data, http_res)
+            raise models.CreateCustomerHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -237,28 +217,24 @@ class Customers(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[
+            models.ListCustomersSort
+        ] = models.ListCustomersSort.DESC,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListCustomersResponseBody:
+    ) -> models.ListCustomersResponse:
         r"""List customers
 
         Retrieve a list of all customers.
 
         The results are paginated.
 
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **customers.read**](/reference/authentication)
-
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -327,19 +303,17 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.ListCustomersResponseBody, http_res)
+            return unmarshal_json_response(models.ListCustomersResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListCustomersCustomersResponseBodyData, http_res
+                models.ListCustomersBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListCustomersCustomersResponseBody(response_data, http_res)
+            raise models.ListCustomersBadRequestHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListCustomersCustomersResponseResponseBodyData, http_res
+                models.ListCustomersNotFoundHalJSONErrorData, http_res
             )
-            raise models.ListCustomersCustomersResponseResponseBody(
-                response_data, http_res
-            )
+            raise models.ListCustomersNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -354,28 +328,24 @@ class Customers(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[
+            models.ListCustomersSort
+        ] = models.ListCustomersSort.DESC,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListCustomersResponseBody:
+    ) -> models.ListCustomersResponse:
         r"""List customers
 
         Retrieve a list of all customers.
 
         The results are paginated.
 
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **customers.read**](/reference/authentication)
-
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -444,19 +414,17 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.ListCustomersResponseBody, http_res)
+            return unmarshal_json_response(models.ListCustomersResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListCustomersCustomersResponseBodyData, http_res
+                models.ListCustomersBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListCustomersCustomersResponseBody(response_data, http_res)
+            raise models.ListCustomersBadRequestHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListCustomersCustomersResponseResponseBodyData, http_res
+                models.ListCustomersNotFoundHalJSONErrorData, http_res
             )
-            raise models.ListCustomersCustomersResponseResponseBody(
-                response_data, http_res
-            )
+            raise models.ListCustomersNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -470,20 +438,16 @@ class Customers(BaseSDK):
         self,
         *,
         customer_id: str,
-        include: OptionalNullable[models.GetCustomerQueryParamInclude] = UNSET,
+        include: OptionalNullable[models.GetCustomerInclude] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCustomerResponseBody:
+    ) -> models.GetCustomerResponse:
         r"""Get customer
 
         Retrieve a single customer by its ID.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
 
         :param customer_id: Provide the ID of the related customer.
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
@@ -554,12 +518,12 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetCustomerResponseBody, http_res)
+            return unmarshal_json_response(models.GetCustomerResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetCustomerCustomersResponseBodyData, http_res
+                models.GetCustomerHalJSONErrorData, http_res
             )
-            raise models.GetCustomerCustomersResponseBody(response_data, http_res)
+            raise models.GetCustomerHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -573,20 +537,16 @@ class Customers(BaseSDK):
         self,
         *,
         customer_id: str,
-        include: OptionalNullable[models.GetCustomerQueryParamInclude] = UNSET,
+        include: OptionalNullable[models.GetCustomerInclude] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCustomerResponseBody:
+    ) -> models.GetCustomerResponse:
         r"""Get customer
 
         Retrieve a single customer by its ID.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
 
         :param customer_id: Provide the ID of the related customer.
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
@@ -657,12 +617,12 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetCustomerResponseBody, http_res)
+            return unmarshal_json_response(models.GetCustomerResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetCustomerCustomersResponseBodyData, http_res
+                models.GetCustomerHalJSONErrorData, http_res
             )
-            raise models.GetCustomerCustomersResponseBody(response_data, http_res)
+            raise models.GetCustomerHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -678,25 +638,24 @@ class Customers(BaseSDK):
         customer_id: str,
         name: OptionalNullable[str] = UNSET,
         email: OptionalNullable[str] = UNSET,
-        locale: OptionalNullable[str] = UNSET,
+        locale: OptionalNullable[models.UpdateCustomerLocaleRequest] = UNSET,
         metadata: OptionalNullable[
-            Union[models.UpdateCustomerMetadata, models.UpdateCustomerMetadataTypedDict]
+            Union[
+                models.UpdateCustomerMetadataRequestUnion,
+                models.UpdateCustomerMetadataRequestUnionTypedDict,
+            ]
         ] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateCustomerResponseBody:
+    ) -> models.UpdateCustomerResponse:
         r"""Update customer
 
         Update an existing customer.
 
         For an in-depth explanation of each parameter, refer to the [Create customer](create-customer) endpoint.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
 
         :param customer_id: Provide the ID of the related customer.
         :param name: The full name of the customer.
@@ -726,7 +685,8 @@ class Customers(BaseSDK):
                 email=email,
                 locale=locale,
                 metadata=utils.get_pydantic_model(
-                    metadata, OptionalNullable[models.UpdateCustomerMetadata]
+                    metadata,
+                    OptionalNullable[models.UpdateCustomerMetadataRequestUnion],
                 ),
                 testmode=testmode,
             ),
@@ -784,12 +744,12 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.UpdateCustomerResponseBody, http_res)
+            return unmarshal_json_response(models.UpdateCustomerResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdateCustomerCustomersResponseBodyData, http_res
+                models.UpdateCustomerHalJSONErrorData, http_res
             )
-            raise models.UpdateCustomerCustomersResponseBody(response_data, http_res)
+            raise models.UpdateCustomerHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -805,25 +765,24 @@ class Customers(BaseSDK):
         customer_id: str,
         name: OptionalNullable[str] = UNSET,
         email: OptionalNullable[str] = UNSET,
-        locale: OptionalNullable[str] = UNSET,
+        locale: OptionalNullable[models.UpdateCustomerLocaleRequest] = UNSET,
         metadata: OptionalNullable[
-            Union[models.UpdateCustomerMetadata, models.UpdateCustomerMetadataTypedDict]
+            Union[
+                models.UpdateCustomerMetadataRequestUnion,
+                models.UpdateCustomerMetadataRequestUnionTypedDict,
+            ]
         ] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateCustomerResponseBody:
+    ) -> models.UpdateCustomerResponse:
         r"""Update customer
 
         Update an existing customer.
 
         For an in-depth explanation of each parameter, refer to the [Create customer](create-customer) endpoint.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
 
         :param customer_id: Provide the ID of the related customer.
         :param name: The full name of the customer.
@@ -853,7 +812,8 @@ class Customers(BaseSDK):
                 email=email,
                 locale=locale,
                 metadata=utils.get_pydantic_model(
-                    metadata, OptionalNullable[models.UpdateCustomerMetadata]
+                    metadata,
+                    OptionalNullable[models.UpdateCustomerMetadataRequestUnion],
                 ),
                 testmode=testmode,
             ),
@@ -911,12 +871,12 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.UpdateCustomerResponseBody, http_res)
+            return unmarshal_json_response(models.UpdateCustomerResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdateCustomerCustomersResponseBodyData, http_res
+                models.UpdateCustomerHalJSONErrorData, http_res
             )
-            raise models.UpdateCustomerCustomersResponseBody(response_data, http_res)
+            raise models.UpdateCustomerHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -940,10 +900,6 @@ class Customers(BaseSDK):
 
         Delete a customer. All mandates and subscriptions created for this customer will be canceled as well.
 
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-
         :param customer_id: Provide the ID of the related customer.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
@@ -1023,9 +979,9 @@ class Customers(BaseSDK):
             return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeleteCustomerResponseBodyData, http_res
+                models.DeleteCustomerHalJSONErrorData, http_res
             )
-            raise models.DeleteCustomerResponseBody(response_data, http_res)
+            raise models.DeleteCustomerHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1049,10 +1005,6 @@ class Customers(BaseSDK):
 
         Delete a customer. All mandates and subscriptions created for this customer will be canceled as well.
 
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-
         :param customer_id: Provide the ID of the related customer.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
@@ -1132,9 +1084,9 @@ class Customers(BaseSDK):
             return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeleteCustomerResponseBodyData, http_res
+                models.DeleteCustomerHalJSONErrorData, http_res
             )
-            raise models.DeleteCustomerResponseBody(response_data, http_res)
+            raise models.DeleteCustomerHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1150,55 +1102,59 @@ class Customers(BaseSDK):
         customer_id_param: str,
         description: str,
         amount: Union[
-            models.CreateCustomerPaymentAmount,
-            models.CreateCustomerPaymentAmountTypedDict,
+            models.CreateCustomerPaymentAmountRequest,
+            models.CreateCustomerPaymentAmountRequestTypedDict,
         ],
         redirect_url: Nullable[str],
         cancel_url: OptionalNullable[str] = UNSET,
         webhook_url: OptionalNullable[str] = UNSET,
         lines: OptionalNullable[
             Union[
-                List[models.CreateCustomerPaymentLines],
-                List[models.CreateCustomerPaymentLinesTypedDict],
+                List[models.CreateCustomerPaymentLineRequest],
+                List[models.CreateCustomerPaymentLineRequestTypedDict],
             ]
         ] = UNSET,
         billing_address: Optional[
             Union[
-                models.CreateCustomerPaymentBillingAddress,
-                models.CreateCustomerPaymentBillingAddressTypedDict,
+                models.CreateCustomerPaymentBillingAddressRequest,
+                models.CreateCustomerPaymentBillingAddressRequestTypedDict,
             ]
         ] = None,
         shipping_address: Optional[
             Union[
-                models.CreateCustomerPaymentShippingAddress,
-                models.CreateCustomerPaymentShippingAddressTypedDict,
+                models.CreateCustomerPaymentShippingAddressRequest,
+                models.CreateCustomerPaymentShippingAddressRequestTypedDict,
             ]
         ] = None,
-        locale: OptionalNullable[str] = UNSET,
-        method: OptionalNullable[str] = UNSET,
+        locale: OptionalNullable[models.CreateCustomerPaymentLocaleRequest] = UNSET,
+        method: OptionalNullable[models.CreateCustomerPaymentMethodRequest] = UNSET,
         issuer: OptionalNullable[str] = UNSET,
         restrict_payment_methods_to_country: OptionalNullable[str] = UNSET,
         metadata: OptionalNullable[
             Union[
-                models.CreateCustomerPaymentMetadata,
-                models.CreateCustomerPaymentMetadataTypedDict,
+                models.CreateCustomerPaymentMetadataRequestUnion,
+                models.CreateCustomerPaymentMetadataRequestUnionTypedDict,
             ]
         ] = UNSET,
-        capture_mode: OptionalNullable[str] = UNSET,
+        capture_mode: OptionalNullable[
+            models.CreateCustomerPaymentCaptureModeRequest
+        ] = UNSET,
         capture_delay: OptionalNullable[str] = UNSET,
         application_fee: OptionalNullable[
             Union[
-                models.CreateCustomerPaymentApplicationFee,
-                models.CreateCustomerPaymentApplicationFeeTypedDict,
+                models.CreateCustomerPaymentApplicationFeeRequest,
+                models.CreateCustomerPaymentApplicationFeeRequestTypedDict,
             ]
         ] = UNSET,
         routing: OptionalNullable[
             Union[
-                List[models.CreateCustomerPaymentRouting],
-                List[models.CreateCustomerPaymentRoutingTypedDict],
+                List[models.CreateCustomerPaymentRoutingRequest],
+                List[models.CreateCustomerPaymentRoutingRequestTypedDict],
             ]
         ] = UNSET,
-        sequence_type: OptionalNullable[str] = UNSET,
+        sequence_type: OptionalNullable[
+            models.CreateCustomerPaymentSequenceTypeRequest
+        ] = models.CreateCustomerPaymentSequenceTypeRequest.ONEOFF,
         mandate_id: OptionalNullable[str] = UNSET,
         customer_id: OptionalNullable[str] = UNSET,
         profile_id: Optional[str] = None,
@@ -1208,7 +1164,7 @@ class Customers(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateCustomerPaymentResponseBody:
+    ) -> models.CreateCustomerPaymentResponse:
         r"""Create customer payment
 
         Creates a payment for the customer.
@@ -1220,13 +1176,8 @@ class Customers(BaseSDK):
         * Improve payment insights in the Mollie dashboard
         * Use recurring payments
 
-        This endpoint is effectively an alias of the [Create payment endpoint](create-payment) with the `customerId` parameter predefined.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **payments.write**](/reference/authentication)
+        This endpoint is effectively an alias of the [Create payment endpoint](create-payment) with the `customerId`
+        parameter predefined.
 
         :param customer_id_param: Provide the ID of the related customer.
         :param description: The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.  We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.  The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
@@ -1238,15 +1189,15 @@ class Customers(BaseSDK):
         :param billing_address: The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.  Required for payment method `in3`, `klarna`, `billie` and `riverty`.
         :param shipping_address: The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
         :param locale: Allows you to preset the language to be used in the hosted payment pages shown to the customer. Setting a locale is highly recommended and will greatly improve your conversion rate. When this parameter is omitted the browser language will be used instead if supported by the payment method. You can provide any `xx_XX` format ISO 15897 locale, but our hosted payment pages currently only support the specified languages.  For bank transfer payments specifically, the locale will determine the target bank account the customer has to transfer the money to. We have dedicated bank accounts for Belgium, Germany, and The Netherlands. Having the customer use a local bank account greatly increases the conversion and speed of payment.
-        :param method: Normally, a payment method screen is shown. However, when using this parameter, you can choose a specific payment method and your customer will skip the selection screen and is sent directly to the chosen payment method. The parameter enables you to fully integrate the payment method selection into your website.  You can also specify the methods in an array. By doing so we will still show the payment method selection screen but will only show the methods specified in the array. For example, you can use this functionality to only show payment methods from a specific country to your customer `['bancontact', 'belfius']`.  Possible values: `alma` `applepay` `bacs` `bancomatpay` `bancontact` `banktransfer` `belfius` `billie` `blik` `creditcard` `directdebit` `eps` `giftcard` `ideal` `in3` `kbc` `klarna` `mbway` `multibanco` `mybank` `payconiq` `paypal` `paysafecard` `pointofsale` `przelewy24` `riverty` `satispay` `swish` `trustly` `twint` `voucher`
+        :param method: Normally, a payment method screen is shown. However, when using this parameter, you can choose a specific payment method and your customer will skip the selection screen and is sent directly to the chosen payment method. The parameter enables you to fully integrate the payment method selection into your website.  You can also specify the methods in an array. By doing so we will still show the payment method selection screen but will only show the methods specified in the array. For example, you can use this functionality to only show payment methods from a specific country to your customer `['bancontact', 'belfius']`.
         :param issuer: **Only relevant for iDEAL, KBC/CBC, gift card, and voucher payments.**  **⚠️ With the introduction of iDEAL 2 in 2025, this field will be ignored for iDEAL payments. For more information on the migration, refer to our [help center](https://help.mollie.com/hc/articles/19100313768338-iDEAL-2-0).**  Some payment methods are a network of connected banks or card issuers. In these cases, after selecting the payment method, the customer may still need to select the appropriate issuer before the payment can proceed.  We provide hosted issuer selection screens, but these screens can be skipped by providing the `issuer` via the API up front.  The full list of issuers for a specific method can be retrieved via the Methods API by using the optional `issuers` include.  A valid issuer for iDEAL is for example `ideal_INGBNL2A` (for ING Bank).
         :param restrict_payment_methods_to_country: For digital goods in most jurisdictions, you must apply the VAT rate from your customer's country. Choose the VAT rates you have used for the order to ensure your customer's country matches the VAT country.  Use this parameter to restrict the payment methods available to your customer to those from a single country.  If available, the credit card method will still be offered, but only cards from the allowed country are accepted.  The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
         :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
-        :param capture_mode: Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/) and capture at a later time.  This field needs to be set to `manual` for method `riverty`.  Possible values: `automatic` `manual` (default: `automatic`)
+        :param capture_mode: Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/)  and capture at a later time.  This field needs to be set to `manual` for method `riverty`.
         :param capture_delay: **Only relevant if you wish to manage authorization and capturing separately.**  Some payment methods allow placing a hold on the card or bank account. This hold or 'authorization' can then at a later point either be 'captured' or canceled.  By default, we charge the customer's card or bank account immediately when they complete the payment. If you set a capture delay however, we will delay the automatic capturing of the payment for the specified amount of time. For example `8 hours` or `2 days`.  To schedule an automatic capture, the `captureMode` must be set to `automatic`.  The maximum delay is 7 days (168 hours).  Possible values: `... hours` `... days`
         :param application_fee: With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.  If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.  If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the `routing` parameter.
         :param routing: *This functionality is not enabled by default. Reach out to our partner management team if you wish to use it.*  With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.  If you create payments on your own account that you want to split between yourself and one or more connected merchants, you can use this `routing` parameter to route the payment accordingly.  The `routing` parameter should contain an array of objects, with each object describing the destination for a specific portion of the payment.  It is not necessary to indicate in the array which portion goes to yourself. After all portions of the total payment amount have been routed, the amount left will be routed to the current organization automatically.  If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee` parameter.
-        :param sequence_type: **Only relevant for recurring payments.**  Indicate which part of a recurring sequence this payment is for.  Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place on their account in the future.  If set to `recurring`, the customer's card is charged automatically.  Defaults to `oneoff`, which is a regular non-recurring payment.  For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account are set up correctly for recurring payments.  Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
+        :param sequence_type: **Only relevant for recurring payments.**  Indicate which part of a recurring sequence this payment is for.  Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place on their account in the future.  If set to `recurring`, the customer's card is charged automatically.  Defaults to `oneoff`, which is a regular non-recurring payment.  For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account are set up correctly for recurring payments.
         :param mandate_id: **Only relevant for recurring payments.**  When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of the customer's accounts should be credited.
         :param customer_id: The ID of the [customer](get-customer) the payment is being created for. This is used primarily for recurring payments, but can also be used on regular payments to enable single-click payments.  If `sequenceType` is set to `recurring`, this field is required.
         :param profile_id: The identifier referring to the [profile](get-profile) this entity belongs to.  When using an API Key, the `profileId` can be omitted since it is linked to the key. However, for OAuth and Organization tokens, the `profileId` is required.  For more information, see [Authentication](authentication).
@@ -1272,37 +1223,40 @@ class Customers(BaseSDK):
             request_body=models.CreateCustomerPaymentRequestBody(
                 description=description,
                 amount=utils.get_pydantic_model(
-                    amount, models.CreateCustomerPaymentAmount
+                    amount, models.CreateCustomerPaymentAmountRequest
                 ),
                 redirect_url=redirect_url,
                 cancel_url=cancel_url,
                 webhook_url=webhook_url,
                 lines=utils.get_pydantic_model(
-                    lines, OptionalNullable[List[models.CreateCustomerPaymentLines]]
+                    lines,
+                    OptionalNullable[List[models.CreateCustomerPaymentLineRequest]],
                 ),
                 billing_address=utils.get_pydantic_model(
                     billing_address,
-                    Optional[models.CreateCustomerPaymentBillingAddress],
+                    Optional[models.CreateCustomerPaymentBillingAddressRequest],
                 ),
                 shipping_address=utils.get_pydantic_model(
                     shipping_address,
-                    Optional[models.CreateCustomerPaymentShippingAddress],
+                    Optional[models.CreateCustomerPaymentShippingAddressRequest],
                 ),
                 locale=locale,
                 method=method,
                 issuer=issuer,
                 restrict_payment_methods_to_country=restrict_payment_methods_to_country,
                 metadata=utils.get_pydantic_model(
-                    metadata, OptionalNullable[models.CreateCustomerPaymentMetadata]
+                    metadata,
+                    OptionalNullable[models.CreateCustomerPaymentMetadataRequestUnion],
                 ),
                 capture_mode=capture_mode,
                 capture_delay=capture_delay,
                 application_fee=utils.get_pydantic_model(
                     application_fee,
-                    OptionalNullable[models.CreateCustomerPaymentApplicationFee],
+                    OptionalNullable[models.CreateCustomerPaymentApplicationFeeRequest],
                 ),
                 routing=utils.get_pydantic_model(
-                    routing, OptionalNullable[List[models.CreateCustomerPaymentRouting]]
+                    routing,
+                    OptionalNullable[List[models.CreateCustomerPaymentRoutingRequest]],
                 ),
                 sequence_type=sequence_type,
                 mandate_id=mandate_id,
@@ -1366,20 +1320,21 @@ class Customers(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
             return unmarshal_json_response(
-                models.CreateCustomerPaymentResponseBody, http_res
+                models.CreateCustomerPaymentResponse, http_res
             )
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreateCustomerPaymentCustomersResponseBodyData, http_res
+                models.CreateCustomerPaymentUnprocessableEntityHalJSONErrorData,
+                http_res,
             )
-            raise models.CreateCustomerPaymentCustomersResponseBody(
+            raise models.CreateCustomerPaymentUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "503", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreateCustomerPaymentCustomersResponseResponseBodyData, http_res
+                models.CreateCustomerPaymentServiceUnavailableHalJSONErrorData, http_res
             )
-            raise models.CreateCustomerPaymentCustomersResponseResponseBody(
+            raise models.CreateCustomerPaymentServiceUnavailableHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1397,55 +1352,59 @@ class Customers(BaseSDK):
         customer_id_param: str,
         description: str,
         amount: Union[
-            models.CreateCustomerPaymentAmount,
-            models.CreateCustomerPaymentAmountTypedDict,
+            models.CreateCustomerPaymentAmountRequest,
+            models.CreateCustomerPaymentAmountRequestTypedDict,
         ],
         redirect_url: Nullable[str],
         cancel_url: OptionalNullable[str] = UNSET,
         webhook_url: OptionalNullable[str] = UNSET,
         lines: OptionalNullable[
             Union[
-                List[models.CreateCustomerPaymentLines],
-                List[models.CreateCustomerPaymentLinesTypedDict],
+                List[models.CreateCustomerPaymentLineRequest],
+                List[models.CreateCustomerPaymentLineRequestTypedDict],
             ]
         ] = UNSET,
         billing_address: Optional[
             Union[
-                models.CreateCustomerPaymentBillingAddress,
-                models.CreateCustomerPaymentBillingAddressTypedDict,
+                models.CreateCustomerPaymentBillingAddressRequest,
+                models.CreateCustomerPaymentBillingAddressRequestTypedDict,
             ]
         ] = None,
         shipping_address: Optional[
             Union[
-                models.CreateCustomerPaymentShippingAddress,
-                models.CreateCustomerPaymentShippingAddressTypedDict,
+                models.CreateCustomerPaymentShippingAddressRequest,
+                models.CreateCustomerPaymentShippingAddressRequestTypedDict,
             ]
         ] = None,
-        locale: OptionalNullable[str] = UNSET,
-        method: OptionalNullable[str] = UNSET,
+        locale: OptionalNullable[models.CreateCustomerPaymentLocaleRequest] = UNSET,
+        method: OptionalNullable[models.CreateCustomerPaymentMethodRequest] = UNSET,
         issuer: OptionalNullable[str] = UNSET,
         restrict_payment_methods_to_country: OptionalNullable[str] = UNSET,
         metadata: OptionalNullable[
             Union[
-                models.CreateCustomerPaymentMetadata,
-                models.CreateCustomerPaymentMetadataTypedDict,
+                models.CreateCustomerPaymentMetadataRequestUnion,
+                models.CreateCustomerPaymentMetadataRequestUnionTypedDict,
             ]
         ] = UNSET,
-        capture_mode: OptionalNullable[str] = UNSET,
+        capture_mode: OptionalNullable[
+            models.CreateCustomerPaymentCaptureModeRequest
+        ] = UNSET,
         capture_delay: OptionalNullable[str] = UNSET,
         application_fee: OptionalNullable[
             Union[
-                models.CreateCustomerPaymentApplicationFee,
-                models.CreateCustomerPaymentApplicationFeeTypedDict,
+                models.CreateCustomerPaymentApplicationFeeRequest,
+                models.CreateCustomerPaymentApplicationFeeRequestTypedDict,
             ]
         ] = UNSET,
         routing: OptionalNullable[
             Union[
-                List[models.CreateCustomerPaymentRouting],
-                List[models.CreateCustomerPaymentRoutingTypedDict],
+                List[models.CreateCustomerPaymentRoutingRequest],
+                List[models.CreateCustomerPaymentRoutingRequestTypedDict],
             ]
         ] = UNSET,
-        sequence_type: OptionalNullable[str] = UNSET,
+        sequence_type: OptionalNullable[
+            models.CreateCustomerPaymentSequenceTypeRequest
+        ] = models.CreateCustomerPaymentSequenceTypeRequest.ONEOFF,
         mandate_id: OptionalNullable[str] = UNSET,
         customer_id: OptionalNullable[str] = UNSET,
         profile_id: Optional[str] = None,
@@ -1455,7 +1414,7 @@ class Customers(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateCustomerPaymentResponseBody:
+    ) -> models.CreateCustomerPaymentResponse:
         r"""Create customer payment
 
         Creates a payment for the customer.
@@ -1467,13 +1426,8 @@ class Customers(BaseSDK):
         * Improve payment insights in the Mollie dashboard
         * Use recurring payments
 
-        This endpoint is effectively an alias of the [Create payment endpoint](create-payment) with the `customerId` parameter predefined.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **payments.write**](/reference/authentication)
+        This endpoint is effectively an alias of the [Create payment endpoint](create-payment) with the `customerId`
+        parameter predefined.
 
         :param customer_id_param: Provide the ID of the related customer.
         :param description: The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.  We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.  The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
@@ -1485,15 +1439,15 @@ class Customers(BaseSDK):
         :param billing_address: The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.  Required for payment method `in3`, `klarna`, `billie` and `riverty`.
         :param shipping_address: The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
         :param locale: Allows you to preset the language to be used in the hosted payment pages shown to the customer. Setting a locale is highly recommended and will greatly improve your conversion rate. When this parameter is omitted the browser language will be used instead if supported by the payment method. You can provide any `xx_XX` format ISO 15897 locale, but our hosted payment pages currently only support the specified languages.  For bank transfer payments specifically, the locale will determine the target bank account the customer has to transfer the money to. We have dedicated bank accounts for Belgium, Germany, and The Netherlands. Having the customer use a local bank account greatly increases the conversion and speed of payment.
-        :param method: Normally, a payment method screen is shown. However, when using this parameter, you can choose a specific payment method and your customer will skip the selection screen and is sent directly to the chosen payment method. The parameter enables you to fully integrate the payment method selection into your website.  You can also specify the methods in an array. By doing so we will still show the payment method selection screen but will only show the methods specified in the array. For example, you can use this functionality to only show payment methods from a specific country to your customer `['bancontact', 'belfius']`.  Possible values: `alma` `applepay` `bacs` `bancomatpay` `bancontact` `banktransfer` `belfius` `billie` `blik` `creditcard` `directdebit` `eps` `giftcard` `ideal` `in3` `kbc` `klarna` `mbway` `multibanco` `mybank` `payconiq` `paypal` `paysafecard` `pointofsale` `przelewy24` `riverty` `satispay` `swish` `trustly` `twint` `voucher`
+        :param method: Normally, a payment method screen is shown. However, when using this parameter, you can choose a specific payment method and your customer will skip the selection screen and is sent directly to the chosen payment method. The parameter enables you to fully integrate the payment method selection into your website.  You can also specify the methods in an array. By doing so we will still show the payment method selection screen but will only show the methods specified in the array. For example, you can use this functionality to only show payment methods from a specific country to your customer `['bancontact', 'belfius']`.
         :param issuer: **Only relevant for iDEAL, KBC/CBC, gift card, and voucher payments.**  **⚠️ With the introduction of iDEAL 2 in 2025, this field will be ignored for iDEAL payments. For more information on the migration, refer to our [help center](https://help.mollie.com/hc/articles/19100313768338-iDEAL-2-0).**  Some payment methods are a network of connected banks or card issuers. In these cases, after selecting the payment method, the customer may still need to select the appropriate issuer before the payment can proceed.  We provide hosted issuer selection screens, but these screens can be skipped by providing the `issuer` via the API up front.  The full list of issuers for a specific method can be retrieved via the Methods API by using the optional `issuers` include.  A valid issuer for iDEAL is for example `ideal_INGBNL2A` (for ING Bank).
         :param restrict_payment_methods_to_country: For digital goods in most jurisdictions, you must apply the VAT rate from your customer's country. Choose the VAT rates you have used for the order to ensure your customer's country matches the VAT country.  Use this parameter to restrict the payment methods available to your customer to those from a single country.  If available, the credit card method will still be offered, but only cards from the allowed country are accepted.  The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
         :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
-        :param capture_mode: Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/) and capture at a later time.  This field needs to be set to `manual` for method `riverty`.  Possible values: `automatic` `manual` (default: `automatic`)
+        :param capture_mode: Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/)  and capture at a later time.  This field needs to be set to `manual` for method `riverty`.
         :param capture_delay: **Only relevant if you wish to manage authorization and capturing separately.**  Some payment methods allow placing a hold on the card or bank account. This hold or 'authorization' can then at a later point either be 'captured' or canceled.  By default, we charge the customer's card or bank account immediately when they complete the payment. If you set a capture delay however, we will delay the automatic capturing of the payment for the specified amount of time. For example `8 hours` or `2 days`.  To schedule an automatic capture, the `captureMode` must be set to `automatic`.  The maximum delay is 7 days (168 hours).  Possible values: `... hours` `... days`
         :param application_fee: With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.  If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.  If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the `routing` parameter.
         :param routing: *This functionality is not enabled by default. Reach out to our partner management team if you wish to use it.*  With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.  If you create payments on your own account that you want to split between yourself and one or more connected merchants, you can use this `routing` parameter to route the payment accordingly.  The `routing` parameter should contain an array of objects, with each object describing the destination for a specific portion of the payment.  It is not necessary to indicate in the array which portion goes to yourself. After all portions of the total payment amount have been routed, the amount left will be routed to the current organization automatically.  If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee` parameter.
-        :param sequence_type: **Only relevant for recurring payments.**  Indicate which part of a recurring sequence this payment is for.  Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place on their account in the future.  If set to `recurring`, the customer's card is charged automatically.  Defaults to `oneoff`, which is a regular non-recurring payment.  For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account are set up correctly for recurring payments.  Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
+        :param sequence_type: **Only relevant for recurring payments.**  Indicate which part of a recurring sequence this payment is for.  Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place on their account in the future.  If set to `recurring`, the customer's card is charged automatically.  Defaults to `oneoff`, which is a regular non-recurring payment.  For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account are set up correctly for recurring payments.
         :param mandate_id: **Only relevant for recurring payments.**  When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of the customer's accounts should be credited.
         :param customer_id: The ID of the [customer](get-customer) the payment is being created for. This is used primarily for recurring payments, but can also be used on regular payments to enable single-click payments.  If `sequenceType` is set to `recurring`, this field is required.
         :param profile_id: The identifier referring to the [profile](get-profile) this entity belongs to.  When using an API Key, the `profileId` can be omitted since it is linked to the key. However, for OAuth and Organization tokens, the `profileId` is required.  For more information, see [Authentication](authentication).
@@ -1519,37 +1473,40 @@ class Customers(BaseSDK):
             request_body=models.CreateCustomerPaymentRequestBody(
                 description=description,
                 amount=utils.get_pydantic_model(
-                    amount, models.CreateCustomerPaymentAmount
+                    amount, models.CreateCustomerPaymentAmountRequest
                 ),
                 redirect_url=redirect_url,
                 cancel_url=cancel_url,
                 webhook_url=webhook_url,
                 lines=utils.get_pydantic_model(
-                    lines, OptionalNullable[List[models.CreateCustomerPaymentLines]]
+                    lines,
+                    OptionalNullable[List[models.CreateCustomerPaymentLineRequest]],
                 ),
                 billing_address=utils.get_pydantic_model(
                     billing_address,
-                    Optional[models.CreateCustomerPaymentBillingAddress],
+                    Optional[models.CreateCustomerPaymentBillingAddressRequest],
                 ),
                 shipping_address=utils.get_pydantic_model(
                     shipping_address,
-                    Optional[models.CreateCustomerPaymentShippingAddress],
+                    Optional[models.CreateCustomerPaymentShippingAddressRequest],
                 ),
                 locale=locale,
                 method=method,
                 issuer=issuer,
                 restrict_payment_methods_to_country=restrict_payment_methods_to_country,
                 metadata=utils.get_pydantic_model(
-                    metadata, OptionalNullable[models.CreateCustomerPaymentMetadata]
+                    metadata,
+                    OptionalNullable[models.CreateCustomerPaymentMetadataRequestUnion],
                 ),
                 capture_mode=capture_mode,
                 capture_delay=capture_delay,
                 application_fee=utils.get_pydantic_model(
                     application_fee,
-                    OptionalNullable[models.CreateCustomerPaymentApplicationFee],
+                    OptionalNullable[models.CreateCustomerPaymentApplicationFeeRequest],
                 ),
                 routing=utils.get_pydantic_model(
-                    routing, OptionalNullable[List[models.CreateCustomerPaymentRouting]]
+                    routing,
+                    OptionalNullable[List[models.CreateCustomerPaymentRoutingRequest]],
                 ),
                 sequence_type=sequence_type,
                 mandate_id=mandate_id,
@@ -1613,20 +1570,21 @@ class Customers(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
             return unmarshal_json_response(
-                models.CreateCustomerPaymentResponseBody, http_res
+                models.CreateCustomerPaymentResponse, http_res
             )
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreateCustomerPaymentCustomersResponseBodyData, http_res
+                models.CreateCustomerPaymentUnprocessableEntityHalJSONErrorData,
+                http_res,
             )
-            raise models.CreateCustomerPaymentCustomersResponseBody(
+            raise models.CreateCustomerPaymentUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "503", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreateCustomerPaymentCustomersResponseResponseBodyData, http_res
+                models.CreateCustomerPaymentServiceUnavailableHalJSONErrorData, http_res
             )
-            raise models.CreateCustomerPaymentCustomersResponseResponseBody(
+            raise models.CreateCustomerPaymentServiceUnavailableHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1644,28 +1602,24 @@ class Customers(BaseSDK):
         customer_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[
+            models.ListCustomerPaymentsSort
+        ] = models.ListCustomerPaymentsSort.DESC,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListCustomerPaymentsResponseBody:
+    ) -> models.ListCustomerPaymentsResponse:
         r"""List customer payments
 
         Retrieve all payments linked to the customer.
 
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **payments.read**](/reference/authentication)
-
         :param customer_id: Provide the ID of the related customer.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
@@ -1738,15 +1692,13 @@ class Customers(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.ListCustomerPaymentsResponseBody, http_res
+                models.ListCustomerPaymentsResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListCustomerPaymentsCustomersResponseBodyData, http_res
+                models.ListCustomerPaymentsHalJSONErrorData, http_res
             )
-            raise models.ListCustomerPaymentsCustomersResponseBody(
-                response_data, http_res
-            )
+            raise models.ListCustomerPaymentsHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1762,28 +1714,24 @@ class Customers(BaseSDK):
         customer_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[
+            models.ListCustomerPaymentsSort
+        ] = models.ListCustomerPaymentsSort.DESC,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListCustomerPaymentsResponseBody:
+    ) -> models.ListCustomerPaymentsResponse:
         r"""List customer payments
 
         Retrieve all payments linked to the customer.
 
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **payments.read**](/reference/authentication)
-
         :param customer_id: Provide the ID of the related customer.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
@@ -1856,15 +1804,13 @@ class Customers(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.ListCustomerPaymentsResponseBody, http_res
+                models.ListCustomerPaymentsResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListCustomerPaymentsCustomersResponseBodyData, http_res
+                models.ListCustomerPaymentsHalJSONErrorData, http_res
             )
-            raise models.ListCustomerPaymentsCustomersResponseBody(
-                response_data, http_res
-            )
+            raise models.ListCustomerPaymentsHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

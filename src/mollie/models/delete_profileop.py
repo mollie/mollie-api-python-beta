@@ -22,14 +22,14 @@ class DeleteProfileRequest(BaseModel):
     r"""Provide the ID of the item you want to perform this operation on."""
 
 
-class DeleteProfileProfilesDocumentationTypedDict(TypedDict):
+class DeleteProfileGoneDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class DeleteProfileProfilesDocumentation(BaseModel):
+class DeleteProfileGoneDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -37,17 +37,17 @@ class DeleteProfileProfilesDocumentation(BaseModel):
     type: str
 
 
-class DeleteProfileProfilesLinksTypedDict(TypedDict):
-    documentation: DeleteProfileProfilesDocumentationTypedDict
+class DeleteProfileGoneLinksTypedDict(TypedDict):
+    documentation: DeleteProfileGoneDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeleteProfileProfilesLinks(BaseModel):
-    documentation: DeleteProfileProfilesDocumentation
+class DeleteProfileGoneLinks(BaseModel):
+    documentation: DeleteProfileGoneDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeleteProfileProfilesResponseBodyData(BaseModel):
+class DeleteProfileGoneHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -57,20 +57,22 @@ class DeleteProfileProfilesResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[DeleteProfileProfilesLinks, pydantic.Field(alias="_links")]
+    links: Annotated[DeleteProfileGoneLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class DeleteProfileProfilesResponseBody(ClientError):
+class DeleteProfileGoneHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: DeleteProfileProfilesResponseBodyData
+    data: DeleteProfileGoneHalJSONErrorData
 
     def __init__(
         self,
-        data: DeleteProfileProfilesResponseBodyData,
+        data: DeleteProfileGoneHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -79,14 +81,14 @@ class DeleteProfileProfilesResponseBody(ClientError):
         self.data = data
 
 
-class DeleteProfileDocumentationTypedDict(TypedDict):
+class DeleteProfileNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class DeleteProfileDocumentation(BaseModel):
+class DeleteProfileNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -94,17 +96,17 @@ class DeleteProfileDocumentation(BaseModel):
     type: str
 
 
-class DeleteProfileLinksTypedDict(TypedDict):
-    documentation: DeleteProfileDocumentationTypedDict
+class DeleteProfileNotFoundLinksTypedDict(TypedDict):
+    documentation: DeleteProfileNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeleteProfileLinks(BaseModel):
-    documentation: DeleteProfileDocumentation
+class DeleteProfileNotFoundLinks(BaseModel):
+    documentation: DeleteProfileNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeleteProfileResponseBodyData(BaseModel):
+class DeleteProfileNotFoundHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -114,20 +116,22 @@ class DeleteProfileResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[DeleteProfileLinks, pydantic.Field(alias="_links")]
+    links: Annotated[DeleteProfileNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class DeleteProfileResponseBody(ClientError):
+class DeleteProfileNotFoundHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: DeleteProfileResponseBodyData
+    data: DeleteProfileNotFoundHalJSONErrorData
 
     def __init__(
         self,
-        data: DeleteProfileResponseBodyData,
+        data: DeleteProfileNotFoundHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):

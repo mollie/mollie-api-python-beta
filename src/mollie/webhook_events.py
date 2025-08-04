@@ -18,14 +18,10 @@ class WebhookEvents(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetWebhookEventResponseBody:
+    ) -> models.GetWebhookEventResponse:
         r"""Get a Webhook Event
 
         Retrieve a single webhook event object by its event ID.
-
-        > 🔑 Access with
-        >
-        > [Access token with **events.read**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param retries: Override the default retry configuration for this method
@@ -92,14 +88,12 @@ class WebhookEvents(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetWebhookEventResponseBody, http_res)
+            return unmarshal_json_response(models.GetWebhookEventResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetWebhookEventWebhookEventsResponseBodyData, http_res
+                models.GetWebhookEventHalJSONErrorData, http_res
             )
-            raise models.GetWebhookEventWebhookEventsResponseBody(
-                response_data, http_res
-            )
+            raise models.GetWebhookEventHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -117,14 +111,10 @@ class WebhookEvents(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetWebhookEventResponseBody:
+    ) -> models.GetWebhookEventResponse:
         r"""Get a Webhook Event
 
         Retrieve a single webhook event object by its event ID.
-
-        > 🔑 Access with
-        >
-        > [Access token with **events.read**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param retries: Override the default retry configuration for this method
@@ -191,14 +181,12 @@ class WebhookEvents(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetWebhookEventResponseBody, http_res)
+            return unmarshal_json_response(models.GetWebhookEventResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetWebhookEventWebhookEventsResponseBodyData, http_res
+                models.GetWebhookEventHalJSONErrorData, http_res
             )
-            raise models.GetWebhookEventWebhookEventsResponseBody(
-                response_data, http_res
-            )
+            raise models.GetWebhookEventHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

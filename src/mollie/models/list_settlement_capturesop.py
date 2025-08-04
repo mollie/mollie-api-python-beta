@@ -12,8 +12,10 @@ from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class ListSettlementCapturesQueryParamEmbed(str, Enum):
-    r"""This endpoint allows you to embed additional resources via the `embed` query string parameter."""
+class ListSettlementCapturesEmbed(str, Enum):
+    r"""This endpoint allows you to embed additional resources via the
+    `embed` query string parameter.
+    """
 
     PAYMENT = "payment"
 
@@ -22,13 +24,19 @@ class ListSettlementCapturesRequestTypedDict(TypedDict):
     settlement_id: str
     r"""Provide the ID of the related settlement."""
     from_: NotRequired[str]
-    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set."""
+    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the
+    result set.
+    """
     limit: NotRequired[Nullable[int]]
     r"""The maximum number of items to return. Defaults to 50 items."""
-    embed: NotRequired[ListSettlementCapturesQueryParamEmbed]
-    r"""This endpoint allows you to embed additional resources via the `embed` query string parameter."""
+    embed: NotRequired[ListSettlementCapturesEmbed]
+    r"""This endpoint allows you to embed additional resources via the
+    `embed` query string parameter.
+    """
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -47,7 +55,9 @@ class ListSettlementCapturesRequest(BaseModel):
         pydantic.Field(alias="from"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set."""
+    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the
+    result set.
+    """
 
     limit: Annotated[
         OptionalNullable[int],
@@ -56,16 +66,20 @@ class ListSettlementCapturesRequest(BaseModel):
     r"""The maximum number of items to return. Defaults to 50 items."""
 
     embed: Annotated[
-        Optional[ListSettlementCapturesQueryParamEmbed],
+        Optional[ListSettlementCapturesEmbed],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""This endpoint allows you to embed additional resources via the `embed` query string parameter."""
+    r"""This endpoint allows you to embed additional resources via the
+    `embed` query string parameter.
+    """
 
     testmode: Annotated[
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -101,14 +115,14 @@ class ListSettlementCapturesRequest(BaseModel):
         return m
 
 
-class ListSettlementCapturesSettlementsResponseDocumentationTypedDict(TypedDict):
+class ListSettlementCapturesNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class ListSettlementCapturesSettlementsResponseDocumentation(BaseModel):
+class ListSettlementCapturesNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -116,17 +130,17 @@ class ListSettlementCapturesSettlementsResponseDocumentation(BaseModel):
     type: str
 
 
-class ListSettlementCapturesSettlementsResponseLinksTypedDict(TypedDict):
-    documentation: ListSettlementCapturesSettlementsResponseDocumentationTypedDict
+class ListSettlementCapturesNotFoundLinksTypedDict(TypedDict):
+    documentation: ListSettlementCapturesNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListSettlementCapturesSettlementsResponseLinks(BaseModel):
-    documentation: ListSettlementCapturesSettlementsResponseDocumentation
+class ListSettlementCapturesNotFoundLinks(BaseModel):
+    documentation: ListSettlementCapturesNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListSettlementCapturesSettlementsResponseResponseBodyData(BaseModel):
+class ListSettlementCapturesNotFoundHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -137,21 +151,23 @@ class ListSettlementCapturesSettlementsResponseResponseBodyData(BaseModel):
     r"""A detailed human-readable description of the error that occurred."""
 
     links: Annotated[
-        ListSettlementCapturesSettlementsResponseLinks, pydantic.Field(alias="_links")
+        ListSettlementCapturesNotFoundLinks, pydantic.Field(alias="_links")
     ]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class ListSettlementCapturesSettlementsResponseResponseBody(ClientError):
+class ListSettlementCapturesNotFoundHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: ListSettlementCapturesSettlementsResponseResponseBodyData
+    data: ListSettlementCapturesNotFoundHalJSONErrorData
 
     def __init__(
         self,
-        data: ListSettlementCapturesSettlementsResponseResponseBodyData,
+        data: ListSettlementCapturesNotFoundHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -160,14 +176,14 @@ class ListSettlementCapturesSettlementsResponseResponseBody(ClientError):
         self.data = data
 
 
-class ListSettlementCapturesSettlementsDocumentationTypedDict(TypedDict):
+class ListSettlementCapturesBadRequestDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class ListSettlementCapturesSettlementsDocumentation(BaseModel):
+class ListSettlementCapturesBadRequestDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -175,17 +191,17 @@ class ListSettlementCapturesSettlementsDocumentation(BaseModel):
     type: str
 
 
-class ListSettlementCapturesSettlementsLinksTypedDict(TypedDict):
-    documentation: ListSettlementCapturesSettlementsDocumentationTypedDict
+class ListSettlementCapturesBadRequestLinksTypedDict(TypedDict):
+    documentation: ListSettlementCapturesBadRequestDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListSettlementCapturesSettlementsLinks(BaseModel):
-    documentation: ListSettlementCapturesSettlementsDocumentation
+class ListSettlementCapturesBadRequestLinks(BaseModel):
+    documentation: ListSettlementCapturesBadRequestDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListSettlementCapturesSettlementsResponseBodyData(BaseModel):
+class ListSettlementCapturesBadRequestHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -196,27 +212,36 @@ class ListSettlementCapturesSettlementsResponseBodyData(BaseModel):
     r"""A detailed human-readable description of the error that occurred."""
 
     links: Annotated[
-        ListSettlementCapturesSettlementsLinks, pydantic.Field(alias="_links")
+        ListSettlementCapturesBadRequestLinks, pydantic.Field(alias="_links")
     ]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class ListSettlementCapturesSettlementsResponseBody(ClientError):
+class ListSettlementCapturesBadRequestHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: ListSettlementCapturesSettlementsResponseBodyData
+    data: ListSettlementCapturesBadRequestHalJSONErrorData
 
     def __init__(
         self,
-        data: ListSettlementCapturesSettlementsResponseBodyData,
+        data: ListSettlementCapturesBadRequestHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
         message = body or raw_response.text
         super().__init__(message, raw_response, body)
         self.data = data
+
+
+class ListSettlementCapturesMode(str, Enum):
+    r"""Whether this entity was created in live mode or in test mode."""
+
+    LIVE = "live"
+    TEST = "test"
 
 
 class ListSettlementCapturesAmountTypedDict(TypedDict):
@@ -239,9 +264,12 @@ class ListSettlementCapturesAmount(BaseModel):
 
 
 class ListSettlementCapturesSettlementAmountTypedDict(TypedDict):
-    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
 
-    Since the field contains an estimated amount during capture processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    Since the field contains an estimated amount during capture processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
     """
 
     currency: str
@@ -251,9 +279,12 @@ class ListSettlementCapturesSettlementAmountTypedDict(TypedDict):
 
 
 class ListSettlementCapturesSettlementAmount(BaseModel):
-    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
 
-    Since the field contains an estimated amount during capture processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    Since the field contains an estimated amount during capture processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
     """
 
     currency: str
@@ -263,29 +294,41 @@ class ListSettlementCapturesSettlementAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListSettlementCapturesMetadata2TypedDict(TypedDict):
+class ListSettlementCapturesStatus(str, Enum):
+    r"""The capture's status."""
+
+    PENDING = "pending"
+    SUCCEEDED = "succeeded"
+    FAILED = "failed"
+
+
+class ListSettlementCapturesMetadataTypedDict(TypedDict):
     pass
 
 
-class ListSettlementCapturesMetadata2(BaseModel):
+class ListSettlementCapturesMetadata(BaseModel):
     pass
 
 
-ListSettlementCapturesMetadataTypedDict = TypeAliasType(
-    "ListSettlementCapturesMetadataTypedDict",
-    Union[ListSettlementCapturesMetadata2TypedDict, str, List[str]],
+ListSettlementCapturesMetadataUnionTypedDict = TypeAliasType(
+    "ListSettlementCapturesMetadataUnionTypedDict",
+    Union[ListSettlementCapturesMetadataTypedDict, str, List[str]],
 )
-r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+"""
 
 
-ListSettlementCapturesMetadata = TypeAliasType(
-    "ListSettlementCapturesMetadata",
-    Union[ListSettlementCapturesMetadata2, str, List[str]],
+ListSettlementCapturesMetadataUnion = TypeAliasType(
+    "ListSettlementCapturesMetadataUnion",
+    Union[ListSettlementCapturesMetadata, str, List[str]],
 )
-r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+"""
 
 
-class ListSettlementCapturesSettlementsSelfTypedDict(TypedDict):
+class ListSettlementCapturesCaptureSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -294,7 +337,7 @@ class ListSettlementCapturesSettlementsSelfTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListSettlementCapturesSettlementsSelf(BaseModel):
+class ListSettlementCapturesCaptureSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -324,7 +367,9 @@ class ListSettlementCapturesPayment(BaseModel):
 
 
 class ListSettlementCapturesSettlementTypedDict(TypedDict):
-    r"""The API resource URL of the [settlement](get-settlement) this capture has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this capture has been settled with. Not present if
+    not yet settled.
+    """
 
     href: NotRequired[str]
     r"""The actual URL string."""
@@ -333,7 +378,9 @@ class ListSettlementCapturesSettlementTypedDict(TypedDict):
 
 
 class ListSettlementCapturesSettlement(BaseModel):
-    r"""The API resource URL of the [settlement](get-settlement) this capture has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this capture has been settled with. Not present if
+    not yet settled.
+    """
 
     href: Optional[str] = None
     r"""The actual URL string."""
@@ -343,7 +390,9 @@ class ListSettlementCapturesSettlement(BaseModel):
 
 
 class ListSettlementCapturesShipmentTypedDict(TypedDict):
-    r"""The API resource URL of the [shipment](get-shipment) this capture is associated with. Not present if it isn't associated with a shipment."""
+    r"""The API resource URL of the [shipment](get-shipment) this capture is associated with. Not present if
+    it isn't associated with a shipment.
+    """
 
     href: NotRequired[str]
     r"""The actual URL string."""
@@ -352,7 +401,9 @@ class ListSettlementCapturesShipmentTypedDict(TypedDict):
 
 
 class ListSettlementCapturesShipment(BaseModel):
-    r"""The API resource URL of the [shipment](get-shipment) this capture is associated with. Not present if it isn't associated with a shipment."""
+    r"""The API resource URL of the [shipment](get-shipment) this capture is associated with. Not present if
+    it isn't associated with a shipment.
+    """
 
     href: Optional[str] = None
     r"""The actual URL string."""
@@ -361,7 +412,7 @@ class ListSettlementCapturesShipment(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListSettlementCapturesSettlementsResponse200DocumentationTypedDict(TypedDict):
+class ListSettlementCapturesCaptureDocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -370,7 +421,7 @@ class ListSettlementCapturesSettlementsResponse200DocumentationTypedDict(TypedDi
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListSettlementCapturesSettlementsResponse200Documentation(BaseModel):
+class ListSettlementCapturesCaptureDocumentation(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -380,40 +431,46 @@ class ListSettlementCapturesSettlementsResponse200Documentation(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListSettlementCapturesSettlementsResponse200LinksTypedDict(TypedDict):
+class ListSettlementCapturesCaptureLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: ListSettlementCapturesSettlementsSelfTypedDict
+    self_: ListSettlementCapturesCaptureSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     payment: ListSettlementCapturesPaymentTypedDict
     r"""The API resource URL of the [payment](get-payment) that this capture belongs to."""
-    documentation: ListSettlementCapturesSettlementsResponse200DocumentationTypedDict
+    documentation: ListSettlementCapturesCaptureDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     settlement: NotRequired[Nullable[ListSettlementCapturesSettlementTypedDict]]
-    r"""The API resource URL of the [settlement](get-settlement) this capture has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this capture has been settled with. Not present if
+    not yet settled.
+    """
     shipment: NotRequired[Nullable[ListSettlementCapturesShipmentTypedDict]]
-    r"""The API resource URL of the [shipment](get-shipment) this capture is associated with. Not present if it isn't associated with a shipment."""
+    r"""The API resource URL of the [shipment](get-shipment) this capture is associated with. Not present if
+    it isn't associated with a shipment.
+    """
 
 
-class ListSettlementCapturesSettlementsResponse200Links(BaseModel):
+class ListSettlementCapturesCaptureLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[
-        ListSettlementCapturesSettlementsSelf, pydantic.Field(alias="self")
-    ]
+    self_: Annotated[ListSettlementCapturesCaptureSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     payment: ListSettlementCapturesPayment
     r"""The API resource URL of the [payment](get-payment) that this capture belongs to."""
 
-    documentation: ListSettlementCapturesSettlementsResponse200Documentation
+    documentation: ListSettlementCapturesCaptureDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     settlement: OptionalNullable[ListSettlementCapturesSettlement] = UNSET
-    r"""The API resource URL of the [settlement](get-settlement) this capture has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this capture has been settled with. Not present if
+    not yet settled.
+    """
 
     shipment: OptionalNullable[ListSettlementCapturesShipment] = UNSET
-    r"""The API resource URL of the [shipment](get-shipment) this capture is associated with. Not present if it isn't associated with a shipment."""
+    r"""The API resource URL of the [shipment](get-shipment) this capture is associated with. Not present if
+    it isn't associated with a shipment.
+    """
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -446,78 +503,76 @@ class ListSettlementCapturesSettlementsResponse200Links(BaseModel):
         return m
 
 
-class ListSettlementCapturesCapturesTypedDict(TypedDict):
+class ListSettlementCapturesCaptureTypedDict(TypedDict):
     resource: str
     r"""Indicates the response contains a capture object. Will always contain the string `capture` for this endpoint."""
     id: str
     r"""The identifier uniquely referring to this capture. Example: `cpt_mNepDkEtco6ah3QNPUGYH`."""
-    mode: str
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
-    """
+    mode: ListSettlementCapturesMode
+    r"""Whether this entity was created in live mode or in test mode."""
     amount: Nullable[ListSettlementCapturesAmountTypedDict]
     r"""The amount captured. If no amount is provided, the full authorized amount is captured."""
-    status: str
-    r"""The capture's status.
-
-    Possible values: `pending` `succeeded` `failed`
-    """
+    status: ListSettlementCapturesStatus
+    r"""The capture's status."""
     payment_id: str
-    r"""The unique identifier of the payment this capture was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
+    r"""The unique identifier of the payment this capture was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
+    The full payment object can be retrieved via the payment URL in the `_links` object.
+    """
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: ListSettlementCapturesSettlementsResponse200LinksTypedDict
+    links: ListSettlementCapturesCaptureLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     description: NotRequired[str]
     r"""The description of the capture."""
     settlement_amount: NotRequired[
         Nullable[ListSettlementCapturesSettlementAmountTypedDict]
     ]
-    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
 
-    Since the field contains an estimated amount during capture processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    Since the field contains an estimated amount during capture processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
     """
-    metadata: NotRequired[Nullable[ListSettlementCapturesMetadataTypedDict]]
-    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+    metadata: NotRequired[Nullable[ListSettlementCapturesMetadataUnionTypedDict]]
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+    you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+    """
     shipment_id: NotRequired[Nullable[str]]
-    r"""The unique identifier of the shipment that triggered the creation of this capture, if applicable. For example: `shp_gNapNy9qQTUFZYnCrCF7J`."""
+    r"""The unique identifier of the shipment that triggered the creation of this capture, if applicable. For example:
+    `shp_gNapNy9qQTUFZYnCrCF7J`.
+    """
     settlement_id: NotRequired[Nullable[str]]
-    r"""The identifier referring to the settlement this capture was settled with. For example, `stl_BkEjN2eBb`. This field is omitted if the capture is not settled (yet)."""
+    r"""The identifier referring to the settlement this capture was settled with. For example, `stl_BkEjN2eBb`. This field
+    is omitted if the capture is not settled (yet).
+    """
 
 
-class ListSettlementCapturesCaptures(BaseModel):
+class ListSettlementCapturesCapture(BaseModel):
     resource: str
     r"""Indicates the response contains a capture object. Will always contain the string `capture` for this endpoint."""
 
     id: str
     r"""The identifier uniquely referring to this capture. Example: `cpt_mNepDkEtco6ah3QNPUGYH`."""
 
-    mode: str
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
-    """
+    mode: ListSettlementCapturesMode
+    r"""Whether this entity was created in live mode or in test mode."""
 
     amount: Nullable[ListSettlementCapturesAmount]
     r"""The amount captured. If no amount is provided, the full authorized amount is captured."""
 
-    status: str
-    r"""The capture's status.
-
-    Possible values: `pending` `succeeded` `failed`
-    """
+    status: ListSettlementCapturesStatus
+    r"""The capture's status."""
 
     payment_id: Annotated[str, pydantic.Field(alias="paymentId")]
-    r"""The unique identifier of the payment this capture was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
+    r"""The unique identifier of the payment this capture was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
+    The full payment object can be retrieved via the payment URL in the `_links` object.
+    """
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    links: Annotated[
-        ListSettlementCapturesSettlementsResponse200Links,
-        pydantic.Field(alias="_links"),
-    ]
+    links: Annotated[ListSettlementCapturesCaptureLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     description: Optional[str] = None
@@ -527,23 +582,32 @@ class ListSettlementCapturesCaptures(BaseModel):
         OptionalNullable[ListSettlementCapturesSettlementAmount],
         pydantic.Field(alias="settlementAmount"),
     ] = UNSET
-    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
 
-    Since the field contains an estimated amount during capture processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    Since the field contains an estimated amount during capture processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
     """
 
-    metadata: OptionalNullable[ListSettlementCapturesMetadata] = UNSET
-    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+    metadata: OptionalNullable[ListSettlementCapturesMetadataUnion] = UNSET
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+    you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+    """
 
     shipment_id: Annotated[
         OptionalNullable[str], pydantic.Field(alias="shipmentId")
     ] = UNSET
-    r"""The unique identifier of the shipment that triggered the creation of this capture, if applicable. For example: `shp_gNapNy9qQTUFZYnCrCF7J`."""
+    r"""The unique identifier of the shipment that triggered the creation of this capture, if applicable. For example:
+    `shp_gNapNy9qQTUFZYnCrCF7J`.
+    """
 
     settlement_id: Annotated[
         OptionalNullable[str], pydantic.Field(alias="settlementId")
     ] = UNSET
-    r"""The identifier referring to the settlement this capture was settled with. For example, `stl_BkEjN2eBb`. This field is omitted if the capture is not settled (yet)."""
+    r"""The identifier referring to the settlement this capture was settled with. For example, `stl_BkEjN2eBb`. This field
+    is omitted if the capture is not settled (yet).
+    """
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -589,12 +653,12 @@ class ListSettlementCapturesCaptures(BaseModel):
 
 
 class ListSettlementCapturesEmbeddedTypedDict(TypedDict):
-    captures: NotRequired[List[ListSettlementCapturesCapturesTypedDict]]
+    captures: NotRequired[List[ListSettlementCapturesCaptureTypedDict]]
     r"""An array of capture objects."""
 
 
 class ListSettlementCapturesEmbedded(BaseModel):
-    captures: Optional[List[ListSettlementCapturesCaptures]] = None
+    captures: Optional[List[ListSettlementCapturesCapture]] = None
     r"""An array of capture objects."""
 
 
@@ -735,26 +799,30 @@ class ListSettlementCapturesLinks(BaseModel):
         return m
 
 
-class ListSettlementCapturesResponseBodyTypedDict(TypedDict):
+class ListSettlementCapturesResponseTypedDict(TypedDict):
     r"""A list of capture objects."""
 
     count: NotRequired[int]
-    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.
+    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
+    as well.
 
-    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default limit is 50 items.
+    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
+    limit is 50 items.
     """
     embedded: NotRequired[ListSettlementCapturesEmbeddedTypedDict]
     links: NotRequired[ListSettlementCapturesLinksTypedDict]
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
 
-class ListSettlementCapturesResponseBody(BaseModel):
+class ListSettlementCapturesResponse(BaseModel):
     r"""A list of capture objects."""
 
     count: Optional[int] = None
-    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.
+    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
+    as well.
 
-    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default limit is 50 items.
+    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
+    limit is 50 items.
     """
 
     embedded: Annotated[

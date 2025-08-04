@@ -14,23 +14,16 @@ class Webhooks(BaseSDK):
         self,
         *,
         request: Optional[
-            Union[
-                models.CreateWebhookRequestBody,
-                models.CreateWebhookRequestBodyTypedDict,
-            ]
+            Union[models.CreateWebhookRequest, models.CreateWebhookRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateWebhookResponseBody:
+    ) -> models.CreateWebhookResponse:
         r"""Create a webhook
 
         A webhook must have a name, an url and a list of event types. You can also create webhooks in the webhooks settings section of the Dashboard.
-
-        > 🔑 Access with
-        >
-        > [Access token with **webhooks.write**](/reference/authentication)
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -49,10 +42,8 @@ class Webhooks(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
-            request = utils.unmarshal(
-                request, Optional[models.CreateWebhookRequestBody]
-            )
-        request = cast(Optional[models.CreateWebhookRequestBody], request)
+            request = utils.unmarshal(request, Optional[models.CreateWebhookRequest])
+        request = cast(Optional[models.CreateWebhookRequest], request)
 
         req = self._build_request(
             method="POST",
@@ -68,7 +59,7 @@ class Webhooks(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.CreateWebhookRequestBody]
+                request, False, True, "json", Optional[models.CreateWebhookRequest]
             ),
             timeout_ms=timeout_ms,
         )
@@ -102,12 +93,12 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreateWebhookResponseBody, http_res)
+            return unmarshal_json_response(models.CreateWebhookResponse, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreateWebhookWebhooksResponseBodyData, http_res
+                models.CreateWebhookHalJSONErrorData, http_res
             )
-            raise models.CreateWebhookWebhooksResponseBody(response_data, http_res)
+            raise models.CreateWebhookHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -121,23 +112,16 @@ class Webhooks(BaseSDK):
         self,
         *,
         request: Optional[
-            Union[
-                models.CreateWebhookRequestBody,
-                models.CreateWebhookRequestBodyTypedDict,
-            ]
+            Union[models.CreateWebhookRequest, models.CreateWebhookRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateWebhookResponseBody:
+    ) -> models.CreateWebhookResponse:
         r"""Create a webhook
 
         A webhook must have a name, an url and a list of event types. You can also create webhooks in the webhooks settings section of the Dashboard.
-
-        > 🔑 Access with
-        >
-        > [Access token with **webhooks.write**](/reference/authentication)
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -156,10 +140,8 @@ class Webhooks(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
-            request = utils.unmarshal(
-                request, Optional[models.CreateWebhookRequestBody]
-            )
-        request = cast(Optional[models.CreateWebhookRequestBody], request)
+            request = utils.unmarshal(request, Optional[models.CreateWebhookRequest])
+        request = cast(Optional[models.CreateWebhookRequest], request)
 
         req = self._build_request_async(
             method="POST",
@@ -175,7 +157,7 @@ class Webhooks(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.CreateWebhookRequestBody]
+                request, False, True, "json", Optional[models.CreateWebhookRequest]
             ),
             timeout_ms=timeout_ms,
         )
@@ -209,12 +191,12 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreateWebhookResponseBody, http_res)
+            return unmarshal_json_response(models.CreateWebhookResponse, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreateWebhookWebhooksResponseBodyData, http_res
+                models.CreateWebhookHalJSONErrorData, http_res
             )
-            raise models.CreateWebhookWebhooksResponseBody(response_data, http_res)
+            raise models.CreateWebhookHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -229,26 +211,22 @@ class Webhooks(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[str] = UNSET,
-        event_types: Optional[str] = None,
+        sort: OptionalNullable[models.ListWebhooksSort] = models.ListWebhooksSort.DESC,
+        event_types: Optional[models.ListWebhooksEventTypes] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListWebhooksResponseBody:
+    ) -> models.ListWebhooksResponse:
         r"""List all webhooks
 
         Returns a paginated list of your webhooks. If no webhook endpoints are available, the resulting array will be empty. This request should never throw an error.
 
-        > 🔑 Access with
-        >
-        > [Access token with **webhooks.read**](/reference/authentication)
-
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
-        :param event_types: Used to filter out only the webhooks that are subscribed to certain types of events.  Possible values: `payment-link.paid` `sales-invoice.created` `sales-invoice.issued` `sales-invoice.canceled` `sales-invoice.paid`
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
+        :param event_types: Used to filter out only the webhooks that are subscribed to certain types of events.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -318,12 +296,12 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.ListWebhooksResponseBody, http_res)
+            return unmarshal_json_response(models.ListWebhooksResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListWebhooksWebhooksResponseBodyData, http_res
+                models.ListWebhooksHalJSONErrorData, http_res
             )
-            raise models.ListWebhooksWebhooksResponseBody(response_data, http_res)
+            raise models.ListWebhooksHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -338,26 +316,22 @@ class Webhooks(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[str] = UNSET,
-        event_types: Optional[str] = None,
+        sort: OptionalNullable[models.ListWebhooksSort] = models.ListWebhooksSort.DESC,
+        event_types: Optional[models.ListWebhooksEventTypes] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListWebhooksResponseBody:
+    ) -> models.ListWebhooksResponse:
         r"""List all webhooks
 
         Returns a paginated list of your webhooks. If no webhook endpoints are available, the resulting array will be empty. This request should never throw an error.
 
-        > 🔑 Access with
-        >
-        > [Access token with **webhooks.read**](/reference/authentication)
-
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
-        :param event_types: Used to filter out only the webhooks that are subscribed to certain types of events.  Possible values: `payment-link.paid` `sales-invoice.created` `sales-invoice.issued` `sales-invoice.canceled` `sales-invoice.paid`
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
+        :param event_types: Used to filter out only the webhooks that are subscribed to certain types of events.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -427,12 +401,12 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.ListWebhooksResponseBody, http_res)
+            return unmarshal_json_response(models.ListWebhooksResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListWebhooksWebhooksResponseBodyData, http_res
+                models.ListWebhooksHalJSONErrorData, http_res
             )
-            raise models.ListWebhooksWebhooksResponseBody(response_data, http_res)
+            raise models.ListWebhooksHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -454,14 +428,10 @@ class Webhooks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateWebhookResponseBody:
+    ) -> models.UpdateWebhookResponse:
         r"""Update a webhook
 
         Updates the webhook. You may edit the name, url and the list of subscribed event types.
-
-        > 🔑 Access with
-        >
-        > [Access token with **webhooks.write**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param name: A name that identifies the webhook.
@@ -545,17 +515,17 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.UpdateWebhookResponseBody, http_res)
+            return unmarshal_json_response(models.UpdateWebhookResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdateWebhookWebhooksResponseBodyData, http_res
+                models.UpdateWebhookNotFoundHalJSONErrorData, http_res
             )
-            raise models.UpdateWebhookWebhooksResponseBody(response_data, http_res)
+            raise models.UpdateWebhookNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdateWebhookWebhooksResponseResponseBodyData, http_res
+                models.UpdateWebhookUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.UpdateWebhookWebhooksResponseResponseBody(
+            raise models.UpdateWebhookUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -579,14 +549,10 @@ class Webhooks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateWebhookResponseBody:
+    ) -> models.UpdateWebhookResponse:
         r"""Update a webhook
 
         Updates the webhook. You may edit the name, url and the list of subscribed event types.
-
-        > 🔑 Access with
-        >
-        > [Access token with **webhooks.write**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param name: A name that identifies the webhook.
@@ -670,17 +636,17 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.UpdateWebhookResponseBody, http_res)
+            return unmarshal_json_response(models.UpdateWebhookResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdateWebhookWebhooksResponseBodyData, http_res
+                models.UpdateWebhookNotFoundHalJSONErrorData, http_res
             )
-            raise models.UpdateWebhookWebhooksResponseBody(response_data, http_res)
+            raise models.UpdateWebhookNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdateWebhookWebhooksResponseResponseBodyData, http_res
+                models.UpdateWebhookUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.UpdateWebhookWebhooksResponseResponseBody(
+            raise models.UpdateWebhookUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -701,14 +667,10 @@ class Webhooks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetWebhookResponseBody:
+    ) -> models.GetWebhookResponse:
         r"""Get a webhook
 
         Retrieve a single webhook object by its ID.
-
-        > 🔑 Access with
-        >
-        > [Access token with **webhooks.read**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -777,17 +739,19 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetWebhookResponseBody, http_res)
+            return unmarshal_json_response(models.GetWebhookResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetWebhookWebhooksResponseBodyData, http_res
+                models.GetWebhookNotFoundHalJSONErrorData, http_res
             )
-            raise models.GetWebhookWebhooksResponseBody(response_data, http_res)
+            raise models.GetWebhookNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetWebhookWebhooksResponseResponseBodyData, http_res
+                models.GetWebhookUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.GetWebhookWebhooksResponseResponseBody(response_data, http_res)
+            raise models.GetWebhookUnprocessableEntityHalJSONError(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -806,14 +770,10 @@ class Webhooks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetWebhookResponseBody:
+    ) -> models.GetWebhookResponse:
         r"""Get a webhook
 
         Retrieve a single webhook object by its ID.
-
-        > 🔑 Access with
-        >
-        > [Access token with **webhooks.read**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -882,17 +842,19 @@ class Webhooks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetWebhookResponseBody, http_res)
+            return unmarshal_json_response(models.GetWebhookResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetWebhookWebhooksResponseBodyData, http_res
+                models.GetWebhookNotFoundHalJSONErrorData, http_res
             )
-            raise models.GetWebhookWebhooksResponseBody(response_data, http_res)
+            raise models.GetWebhookNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetWebhookWebhooksResponseResponseBodyData, http_res
+                models.GetWebhookUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.GetWebhookWebhooksResponseResponseBody(response_data, http_res)
+            raise models.GetWebhookUnprocessableEntityHalJSONError(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -916,10 +878,6 @@ class Webhooks(BaseSDK):
 
         Delete a single webhook object by its webhook ID.
 
-        > 🔑 Access with
-        >
-        > [Access token with **webhooks.write**](/reference/authentication)
-
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
@@ -990,14 +948,16 @@ class Webhooks(BaseSDK):
             return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeleteWebhookResponseBodyData, http_res
+                models.DeleteWebhookNotFoundHalJSONErrorData, http_res
             )
-            raise models.DeleteWebhookResponseBody(response_data, http_res)
+            raise models.DeleteWebhookNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeleteWebhookWebhooksResponseBodyData, http_res
+                models.DeleteWebhookUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.DeleteWebhookWebhooksResponseBody(response_data, http_res)
+            raise models.DeleteWebhookUnprocessableEntityHalJSONError(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1021,10 +981,6 @@ class Webhooks(BaseSDK):
 
         Delete a single webhook object by its webhook ID.
 
-        > 🔑 Access with
-        >
-        > [Access token with **webhooks.write**](/reference/authentication)
-
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
@@ -1095,14 +1051,16 @@ class Webhooks(BaseSDK):
             return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeleteWebhookResponseBodyData, http_res
+                models.DeleteWebhookNotFoundHalJSONErrorData, http_res
             )
-            raise models.DeleteWebhookResponseBody(response_data, http_res)
+            raise models.DeleteWebhookNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeleteWebhookWebhooksResponseBodyData, http_res
+                models.DeleteWebhookUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.DeleteWebhookWebhooksResponseBody(response_data, http_res)
+            raise models.DeleteWebhookUnprocessableEntityHalJSONError(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1125,10 +1083,6 @@ class Webhooks(BaseSDK):
         r"""Test a webhook
 
         Sends a test event to the webhook to verify the endpoint is working as expected.
-
-        > 🔑 Access with
-        >
-        > [Access token with **webhooks.write**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -1209,14 +1163,16 @@ class Webhooks(BaseSDK):
             return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.TestWebhookResponseBodyData, http_res
+                models.TestWebhookNotFoundHalJSONErrorData, http_res
             )
-            raise models.TestWebhookResponseBody(response_data, http_res)
+            raise models.TestWebhookNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.TestWebhookWebhooksResponseBodyData, http_res
+                models.TestWebhookUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.TestWebhookWebhooksResponseBody(response_data, http_res)
+            raise models.TestWebhookUnprocessableEntityHalJSONError(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1239,10 +1195,6 @@ class Webhooks(BaseSDK):
         r"""Test a webhook
 
         Sends a test event to the webhook to verify the endpoint is working as expected.
-
-        > 🔑 Access with
-        >
-        > [Access token with **webhooks.write**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -1323,14 +1275,16 @@ class Webhooks(BaseSDK):
             return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.TestWebhookResponseBodyData, http_res
+                models.TestWebhookNotFoundHalJSONErrorData, http_res
             )
-            raise models.TestWebhookResponseBody(response_data, http_res)
+            raise models.TestWebhookNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.TestWebhookWebhooksResponseBodyData, http_res
+                models.TestWebhookUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.TestWebhookWebhooksResponseBody(response_data, http_res)
+            raise models.TestWebhookUnprocessableEntityHalJSONError(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

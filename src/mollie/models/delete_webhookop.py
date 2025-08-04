@@ -15,7 +15,9 @@ class DeleteWebhookRequestTypedDict(TypedDict):
     id: str
     r"""Provide the ID of the item you want to perform this operation on."""
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -31,7 +33,9 @@ class DeleteWebhookRequest(BaseModel):
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -67,14 +71,14 @@ class DeleteWebhookRequest(BaseModel):
         return m
 
 
-class DeleteWebhookWebhooksDocumentationTypedDict(TypedDict):
+class DeleteWebhookUnprocessableEntityDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class DeleteWebhookWebhooksDocumentation(BaseModel):
+class DeleteWebhookUnprocessableEntityDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -82,17 +86,17 @@ class DeleteWebhookWebhooksDocumentation(BaseModel):
     type: str
 
 
-class DeleteWebhookWebhooksLinksTypedDict(TypedDict):
-    documentation: DeleteWebhookWebhooksDocumentationTypedDict
+class DeleteWebhookUnprocessableEntityLinksTypedDict(TypedDict):
+    documentation: DeleteWebhookUnprocessableEntityDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeleteWebhookWebhooksLinks(BaseModel):
-    documentation: DeleteWebhookWebhooksDocumentation
+class DeleteWebhookUnprocessableEntityLinks(BaseModel):
+    documentation: DeleteWebhookUnprocessableEntityDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeleteWebhookWebhooksResponseBodyData(BaseModel):
+class DeleteWebhookUnprocessableEntityHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -102,20 +106,24 @@ class DeleteWebhookWebhooksResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[DeleteWebhookWebhooksLinks, pydantic.Field(alias="_links")]
+    links: Annotated[
+        DeleteWebhookUnprocessableEntityLinks, pydantic.Field(alias="_links")
+    ]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class DeleteWebhookWebhooksResponseBody(ClientError):
+class DeleteWebhookUnprocessableEntityHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: DeleteWebhookWebhooksResponseBodyData
+    data: DeleteWebhookUnprocessableEntityHalJSONErrorData
 
     def __init__(
         self,
-        data: DeleteWebhookWebhooksResponseBodyData,
+        data: DeleteWebhookUnprocessableEntityHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -124,14 +132,14 @@ class DeleteWebhookWebhooksResponseBody(ClientError):
         self.data = data
 
 
-class DeleteWebhookDocumentationTypedDict(TypedDict):
+class DeleteWebhookNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class DeleteWebhookDocumentation(BaseModel):
+class DeleteWebhookNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -139,17 +147,17 @@ class DeleteWebhookDocumentation(BaseModel):
     type: str
 
 
-class DeleteWebhookLinksTypedDict(TypedDict):
-    documentation: DeleteWebhookDocumentationTypedDict
+class DeleteWebhookNotFoundLinksTypedDict(TypedDict):
+    documentation: DeleteWebhookNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeleteWebhookLinks(BaseModel):
-    documentation: DeleteWebhookDocumentation
+class DeleteWebhookNotFoundLinks(BaseModel):
+    documentation: DeleteWebhookNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeleteWebhookResponseBodyData(BaseModel):
+class DeleteWebhookNotFoundHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -159,20 +167,22 @@ class DeleteWebhookResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[DeleteWebhookLinks, pydantic.Field(alias="_links")]
+    links: Annotated[DeleteWebhookNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class DeleteWebhookResponseBody(ClientError):
+class DeleteWebhookNotFoundHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: DeleteWebhookResponseBodyData
+    data: DeleteWebhookNotFoundHalJSONErrorData
 
     def __init__(
         self,
-        data: DeleteWebhookResponseBodyData,
+        data: DeleteWebhookNotFoundHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):

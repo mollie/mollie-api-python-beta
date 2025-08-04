@@ -1,8 +1,0 @@
-# ListSettlementChargebacksSettlementsLinks
-
-
-## Fields
-
-| Field                                                                                                                      | Type                                                                                                                       | Required                                                                                                                   | Description                                                                                                                |
-| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `documentation`                                                                                                            | [models.ListSettlementChargebacksSettlementsDocumentation](../models/listsettlementchargebackssettlementsdocumentation.md) | :heavy_check_mark:                                                                                                         | The URL to the generic Mollie API error handling guide.                                                                    |

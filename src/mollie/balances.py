@@ -21,16 +21,12 @@ class Balances(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListBalancesResponseBody:
+    ) -> models.ListBalancesResponse:
         r"""List balances
 
         Retrieve a list of the organization's balances, including the primary balance.
 
         The results are paginated.
-
-        > 🔑 Access with
-        >
-        > [Access token with **balances.read**](/reference/authentication)
 
         :param currency: Optionally only return balances with the given currency. For example: `EUR`.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
@@ -103,19 +99,17 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.ListBalancesResponseBody, http_res)
+            return unmarshal_json_response(models.ListBalancesResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListBalancesBalancesResponseBodyData, http_res
+                models.ListBalancesBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListBalancesBalancesResponseBody(response_data, http_res)
+            raise models.ListBalancesBadRequestHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListBalancesBalancesResponseResponseBodyData, http_res
+                models.ListBalancesNotFoundHalJSONErrorData, http_res
             )
-            raise models.ListBalancesBalancesResponseResponseBody(
-                response_data, http_res
-            )
+            raise models.ListBalancesNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -136,16 +130,12 @@ class Balances(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListBalancesResponseBody:
+    ) -> models.ListBalancesResponse:
         r"""List balances
 
         Retrieve a list of the organization's balances, including the primary balance.
 
         The results are paginated.
-
-        > 🔑 Access with
-        >
-        > [Access token with **balances.read**](/reference/authentication)
 
         :param currency: Optionally only return balances with the given currency. For example: `EUR`.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
@@ -218,19 +208,17 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.ListBalancesResponseBody, http_res)
+            return unmarshal_json_response(models.ListBalancesResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListBalancesBalancesResponseBodyData, http_res
+                models.ListBalancesBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListBalancesBalancesResponseBody(response_data, http_res)
+            raise models.ListBalancesBadRequestHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListBalancesBalancesResponseResponseBodyData, http_res
+                models.ListBalancesNotFoundHalJSONErrorData, http_res
             )
-            raise models.ListBalancesBalancesResponseResponseBody(
-                response_data, http_res
-            )
+            raise models.ListBalancesNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -249,21 +237,24 @@ class Balances(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetBalanceResponseBody:
+    ) -> models.GetBalanceResponse:
         r"""Get balance
 
-        When processing payments with Mollie, we put all pending funds — usually minus Mollie fees — on a balance. Once you have linked a bank account to your Mollie account, we can pay out your balance towards this bank account.
+        When processing payments with Mollie, we put all pending funds — usually
+        minus Mollie fees — on a balance. Once you have linked a bank account to your Mollie account, we can pay out your
+        balance towards this bank account.
 
-        With the Balances API you can retrieve your current balance. The response includes two amounts:
+        With the Balances API you can retrieve your current balance. The response
+        includes two amounts:
 
-        * The *pending amount*. These are payments that have been marked as `paid`, but are not yet available on your balance.
-        * The *available amount*. This is the amount that you can get paid out to your bank account, or use for refunds.
+        * The *pending amount*. These are payments that have been marked as `paid`,
+        but are not yet available on your balance.
+        * The *available amount*. This is the amount that you can get paid out to
+        your bank account, or use for refunds.
 
-        With instant payment methods like iDEAL, payments are moved to the available balance instantly. With slower payment methods, like credit card for example, it can take a few days before the funds are available on your balance. These funds will be shown under the *pending amount* in the meanwhile.
-
-        > 🔑 Access with
-        >
-        > [Access token with **balances.read**](/reference/authentication)
+        With instant payment methods like iDEAL, payments are moved to the available
+        balance instantly. With slower payment methods, like credit card for example, it can take a few days before the
+        funds are available on your balance. These funds will be shown under the *pending amount* in the meanwhile.
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -332,12 +323,12 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetBalanceResponseBody, http_res)
+            return unmarshal_json_response(models.GetBalanceResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetBalanceBalancesResponseBodyData, http_res
+                models.GetBalanceHalJSONErrorData, http_res
             )
-            raise models.GetBalanceBalancesResponseBody(response_data, http_res)
+            raise models.GetBalanceHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -356,21 +347,24 @@ class Balances(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetBalanceResponseBody:
+    ) -> models.GetBalanceResponse:
         r"""Get balance
 
-        When processing payments with Mollie, we put all pending funds — usually minus Mollie fees — on a balance. Once you have linked a bank account to your Mollie account, we can pay out your balance towards this bank account.
+        When processing payments with Mollie, we put all pending funds — usually
+        minus Mollie fees — on a balance. Once you have linked a bank account to your Mollie account, we can pay out your
+        balance towards this bank account.
 
-        With the Balances API you can retrieve your current balance. The response includes two amounts:
+        With the Balances API you can retrieve your current balance. The response
+        includes two amounts:
 
-        * The *pending amount*. These are payments that have been marked as `paid`, but are not yet available on your balance.
-        * The *available amount*. This is the amount that you can get paid out to your bank account, or use for refunds.
+        * The *pending amount*. These are payments that have been marked as `paid`,
+        but are not yet available on your balance.
+        * The *available amount*. This is the amount that you can get paid out to
+        your bank account, or use for refunds.
 
-        With instant payment methods like iDEAL, payments are moved to the available balance instantly. With slower payment methods, like credit card for example, it can take a few days before the funds are available on your balance. These funds will be shown under the *pending amount* in the meanwhile.
-
-        > 🔑 Access with
-        >
-        > [Access token with **balances.read**](/reference/authentication)
+        With instant payment methods like iDEAL, payments are moved to the available
+        balance instantly. With slower payment methods, like credit card for example, it can take a few days before the
+        funds are available on your balance. These funds will be shown under the *pending amount* in the meanwhile.
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -439,12 +433,12 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetBalanceResponseBody, http_res)
+            return unmarshal_json_response(models.GetBalanceResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetBalanceBalancesResponseBodyData, http_res
+                models.GetBalanceHalJSONErrorData, http_res
             )
-            raise models.GetBalanceBalancesResponseBody(response_data, http_res)
+            raise models.GetBalanceHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -461,16 +455,14 @@ class Balances(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPrimaryBalanceResponseBody:
+    ) -> models.GetPrimaryBalanceResponse:
         r"""Get primary balance
 
-        Retrieve the primary balance. This is the balance of your account's primary currency, where all payments are settled to by default.
+        Retrieve the primary balance. This is the balance of your account's primary
+        currency, where all payments are settled to by default.
 
-        This endpoint is a convenient alias of the [Get balance](get-balance) endpoint.
-
-        > 🔑 Access with
-        >
-        > [Access token with **balances.read**](/reference/authentication)
+        This endpoint is a convenient alias of the [Get balance](get-balance)
+        endpoint.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -530,9 +522,7 @@ class Balances(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.GetPrimaryBalanceResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetPrimaryBalanceResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -549,16 +539,14 @@ class Balances(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPrimaryBalanceResponseBody:
+    ) -> models.GetPrimaryBalanceResponse:
         r"""Get primary balance
 
-        Retrieve the primary balance. This is the balance of your account's primary currency, where all payments are settled to by default.
+        Retrieve the primary balance. This is the balance of your account's primary
+        currency, where all payments are settled to by default.
 
-        This endpoint is a convenient alias of the [Get balance](get-balance) endpoint.
-
-        > 🔑 Access with
-        >
-        > [Access token with **balances.read**](/reference/authentication)
+        This endpoint is a convenient alias of the [Get balance](get-balance)
+        endpoint.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -618,9 +606,7 @@ class Balances(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.GetPrimaryBalanceResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetPrimaryBalanceResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -636,29 +622,29 @@ class Balances(BaseSDK):
         balance_id: str,
         from_: str,
         until: str,
-        grouping: OptionalNullable[str] = UNSET,
+        grouping: OptionalNullable[
+            models.QueryParamGrouping
+        ] = models.QueryParamGrouping.STATUS_BALANCES,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetBalanceReportResponseBody:
+    ) -> models.GetBalanceReportResponse:
         r"""Get balance report
 
         Retrieve a summarized report for all transactions on a given balance within a given timeframe.
 
-        The API also provides a detailed report on all 'prepayments' for Mollie fees that were deducted from your balance during the reported period, ahead of your Mollie invoice.
+        The API also provides a detailed report on all 'prepayments' for Mollie fees that were deducted from your balance
+        during the reported period, ahead of your Mollie invoice.
 
-        The alias `primary` can be used instead of the balance ID to refer to the organization's primary balance.
-
-        > 🔑 Access with
-        >
-        > [Access token with **balance-reports.read**](/reference/authentication)
+        The alias `primary` can be used instead of the balance ID to refer to the
+        organization's primary balance.
 
         :param balance_id: Provide the ID of the related balance.
         :param from_: The start date of the report, in `YYYY-MM-DD` format. The from date is 'inclusive', and in Central European Time. This means a report with for example `from=2024-01-01` will include transactions from 2024-01-01 0:00:00 CET and onwards.
         :param until: The end date of the report, in `YYYY-MM-DD` format. The until date is 'exclusive', and in Central European Time. This means a report with for example `until=2024-02-01` will include transactions up until 2024-01-31 23:59:59 CET.
-        :param grouping: You can retrieve reports in two different formats. With the `status-balances` format, transactions are grouped by status (e.g. `pending`, `available`), then by transaction type, and then by other sub-groupings where available (e.g. payment method).  With the `transaction-categories` format, transactions are grouped by transaction type, then by status, and then again by other sub-groupings where available.  Possible values: `status-balances` `transaction-categories` (default: `status-balances`)
+        :param grouping: You can retrieve reports in two different formats. With the `status-balances` format, transactions are grouped by status (e.g. `pending`, `available`), then by transaction type, and then by other sub-groupings where available (e.g. payment method).  With the `transaction-categories` format, transactions are grouped by transaction type, then by status, and then again by other sub-groupings where available.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -728,19 +714,17 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.GetBalanceReportResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetBalanceReportResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetBalanceReportBalancesResponseBodyData, http_res
+                models.GetBalanceReportNotFoundHalJSONErrorData, http_res
             )
-            raise models.GetBalanceReportBalancesResponseBody(response_data, http_res)
+            raise models.GetBalanceReportNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetBalanceReportBalancesResponseResponseBodyData, http_res
+                models.GetBalanceReportUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.GetBalanceReportBalancesResponseResponseBody(
+            raise models.GetBalanceReportUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -758,29 +742,29 @@ class Balances(BaseSDK):
         balance_id: str,
         from_: str,
         until: str,
-        grouping: OptionalNullable[str] = UNSET,
+        grouping: OptionalNullable[
+            models.QueryParamGrouping
+        ] = models.QueryParamGrouping.STATUS_BALANCES,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetBalanceReportResponseBody:
+    ) -> models.GetBalanceReportResponse:
         r"""Get balance report
 
         Retrieve a summarized report for all transactions on a given balance within a given timeframe.
 
-        The API also provides a detailed report on all 'prepayments' for Mollie fees that were deducted from your balance during the reported period, ahead of your Mollie invoice.
+        The API also provides a detailed report on all 'prepayments' for Mollie fees that were deducted from your balance
+        during the reported period, ahead of your Mollie invoice.
 
-        The alias `primary` can be used instead of the balance ID to refer to the organization's primary balance.
-
-        > 🔑 Access with
-        >
-        > [Access token with **balance-reports.read**](/reference/authentication)
+        The alias `primary` can be used instead of the balance ID to refer to the
+        organization's primary balance.
 
         :param balance_id: Provide the ID of the related balance.
         :param from_: The start date of the report, in `YYYY-MM-DD` format. The from date is 'inclusive', and in Central European Time. This means a report with for example `from=2024-01-01` will include transactions from 2024-01-01 0:00:00 CET and onwards.
         :param until: The end date of the report, in `YYYY-MM-DD` format. The until date is 'exclusive', and in Central European Time. This means a report with for example `until=2024-02-01` will include transactions up until 2024-01-31 23:59:59 CET.
-        :param grouping: You can retrieve reports in two different formats. With the `status-balances` format, transactions are grouped by status (e.g. `pending`, `available`), then by transaction type, and then by other sub-groupings where available (e.g. payment method).  With the `transaction-categories` format, transactions are grouped by transaction type, then by status, and then again by other sub-groupings where available.  Possible values: `status-balances` `transaction-categories` (default: `status-balances`)
+        :param grouping: You can retrieve reports in two different formats. With the `status-balances` format, transactions are grouped by status (e.g. `pending`, `available`), then by transaction type, and then by other sub-groupings where available (e.g. payment method).  With the `transaction-categories` format, transactions are grouped by transaction type, then by status, and then again by other sub-groupings where available.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -850,19 +834,17 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.GetBalanceReportResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetBalanceReportResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetBalanceReportBalancesResponseBodyData, http_res
+                models.GetBalanceReportNotFoundHalJSONErrorData, http_res
             )
-            raise models.GetBalanceReportBalancesResponseBody(response_data, http_res)
+            raise models.GetBalanceReportNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetBalanceReportBalancesResponseResponseBodyData, http_res
+                models.GetBalanceReportUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.GetBalanceReportBalancesResponseResponseBody(
+            raise models.GetBalanceReportUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -885,20 +867,19 @@ class Balances(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListBalanceTransactionsResponseBody:
+    ) -> models.ListBalanceTransactionsResponse:
         r"""List balance transactions
 
-        Retrieve a list of all balance transactions. Transactions include for example payments, refunds, chargebacks, and settlements.
+        Retrieve a list of all balance transactions. Transactions include for
+        example payments, refunds, chargebacks, and settlements.
 
-        For an aggregated report of these balance transactions, refer to the [Get balance report](get-balance-report) endpoint.
+        For an aggregated report of these balance transactions, refer to the [Get
+        balance report](get-balance-report) endpoint.
 
-        The alias `primary` can be used instead of the balance ID to refer to the organization's primary balance.
+        The alias `primary` can be used instead of the balance ID to refer to the
+        organization's primary balance.
 
         The results are paginated.
-
-        > 🔑 Access with
-        >
-        > [Access token with **balances.read**](/reference/authentication)
 
         :param balance_id: Provide the ID of the related balance.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
@@ -972,30 +953,27 @@ class Balances(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.ListBalanceTransactionsResponseBody, http_res
+                models.ListBalanceTransactionsResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListBalanceTransactionsBalancesResponseBodyData, http_res
+                models.ListBalanceTransactionsBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListBalanceTransactionsBalancesResponseBody(
+            raise models.ListBalanceTransactionsBadRequestHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListBalanceTransactionsBalancesResponseResponseBodyData, http_res
+                models.ListBalanceTransactionsNotFoundHalJSONErrorData, http_res
             )
-            raise models.ListBalanceTransactionsBalancesResponseResponseBody(
+            raise models.ListBalanceTransactionsNotFoundHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "429", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListBalanceTransactionsBalancesResponse429ResponseBodyData,
-                http_res,
+                models.TooManyRequestsHalJSONErrorData, http_res
             )
-            raise models.ListBalanceTransactionsBalancesResponse429ResponseBody(
-                response_data, http_res
-            )
+            raise models.TooManyRequestsHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1016,20 +994,19 @@ class Balances(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListBalanceTransactionsResponseBody:
+    ) -> models.ListBalanceTransactionsResponse:
         r"""List balance transactions
 
-        Retrieve a list of all balance transactions. Transactions include for example payments, refunds, chargebacks, and settlements.
+        Retrieve a list of all balance transactions. Transactions include for
+        example payments, refunds, chargebacks, and settlements.
 
-        For an aggregated report of these balance transactions, refer to the [Get balance report](get-balance-report) endpoint.
+        For an aggregated report of these balance transactions, refer to the [Get
+        balance report](get-balance-report) endpoint.
 
-        The alias `primary` can be used instead of the balance ID to refer to the organization's primary balance.
+        The alias `primary` can be used instead of the balance ID to refer to the
+        organization's primary balance.
 
         The results are paginated.
-
-        > 🔑 Access with
-        >
-        > [Access token with **balances.read**](/reference/authentication)
 
         :param balance_id: Provide the ID of the related balance.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
@@ -1103,30 +1080,27 @@ class Balances(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.ListBalanceTransactionsResponseBody, http_res
+                models.ListBalanceTransactionsResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListBalanceTransactionsBalancesResponseBodyData, http_res
+                models.ListBalanceTransactionsBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListBalanceTransactionsBalancesResponseBody(
+            raise models.ListBalanceTransactionsBadRequestHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListBalanceTransactionsBalancesResponseResponseBodyData, http_res
+                models.ListBalanceTransactionsNotFoundHalJSONErrorData, http_res
             )
-            raise models.ListBalanceTransactionsBalancesResponseResponseBody(
+            raise models.ListBalanceTransactionsNotFoundHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "429", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListBalanceTransactionsBalancesResponse429ResponseBodyData,
-                http_res,
+                models.TooManyRequestsHalJSONErrorData, http_res
             )
-            raise models.ListBalanceTransactionsBalancesResponse429ResponseBody(
-                response_data, http_res
-            )
+            raise models.TooManyRequestsHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

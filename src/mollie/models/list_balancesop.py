@@ -16,11 +16,15 @@ class ListBalancesRequestTypedDict(TypedDict):
     currency: NotRequired[Nullable[str]]
     r"""Optionally only return balances with the given currency. For example: `EUR`."""
     from_: NotRequired[str]
-    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set."""
+    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the
+    result set.
+    """
     limit: NotRequired[Nullable[int]]
     r"""The maximum number of items to return. Defaults to 50 items."""
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -38,7 +42,9 @@ class ListBalancesRequest(BaseModel):
         pydantic.Field(alias="from"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set."""
+    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the
+    result set.
+    """
 
     limit: Annotated[
         OptionalNullable[int],
@@ -50,7 +56,9 @@ class ListBalancesRequest(BaseModel):
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -86,14 +94,14 @@ class ListBalancesRequest(BaseModel):
         return m
 
 
-class ListBalancesBalancesResponseDocumentationTypedDict(TypedDict):
+class ListBalancesNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class ListBalancesBalancesResponseDocumentation(BaseModel):
+class ListBalancesNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -101,17 +109,17 @@ class ListBalancesBalancesResponseDocumentation(BaseModel):
     type: str
 
 
-class ListBalancesBalancesResponseLinksTypedDict(TypedDict):
-    documentation: ListBalancesBalancesResponseDocumentationTypedDict
+class ListBalancesNotFoundLinksTypedDict(TypedDict):
+    documentation: ListBalancesNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListBalancesBalancesResponseLinks(BaseModel):
-    documentation: ListBalancesBalancesResponseDocumentation
+class ListBalancesNotFoundLinks(BaseModel):
+    documentation: ListBalancesNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListBalancesBalancesResponseResponseBodyData(BaseModel):
+class ListBalancesNotFoundHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -121,20 +129,22 @@ class ListBalancesBalancesResponseResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[ListBalancesBalancesResponseLinks, pydantic.Field(alias="_links")]
+    links: Annotated[ListBalancesNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class ListBalancesBalancesResponseResponseBody(ClientError):
+class ListBalancesNotFoundHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: ListBalancesBalancesResponseResponseBodyData
+    data: ListBalancesNotFoundHalJSONErrorData
 
     def __init__(
         self,
-        data: ListBalancesBalancesResponseResponseBodyData,
+        data: ListBalancesNotFoundHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -143,14 +153,14 @@ class ListBalancesBalancesResponseResponseBody(ClientError):
         self.data = data
 
 
-class ListBalancesBalancesDocumentationTypedDict(TypedDict):
+class ListBalancesBadRequestDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class ListBalancesBalancesDocumentation(BaseModel):
+class ListBalancesBadRequestDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -158,17 +168,17 @@ class ListBalancesBalancesDocumentation(BaseModel):
     type: str
 
 
-class ListBalancesBalancesLinksTypedDict(TypedDict):
-    documentation: ListBalancesBalancesDocumentationTypedDict
+class ListBalancesBadRequestLinksTypedDict(TypedDict):
+    documentation: ListBalancesBadRequestDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListBalancesBalancesLinks(BaseModel):
-    documentation: ListBalancesBalancesDocumentation
+class ListBalancesBadRequestLinks(BaseModel):
+    documentation: ListBalancesBadRequestDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListBalancesBalancesResponseBodyData(BaseModel):
+class ListBalancesBadRequestHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -178,26 +188,35 @@ class ListBalancesBalancesResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[ListBalancesBalancesLinks, pydantic.Field(alias="_links")]
+    links: Annotated[ListBalancesBadRequestLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class ListBalancesBalancesResponseBody(ClientError):
+class ListBalancesBadRequestHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: ListBalancesBalancesResponseBodyData
+    data: ListBalancesBadRequestHalJSONErrorData
 
     def __init__(
         self,
-        data: ListBalancesBalancesResponseBodyData,
+        data: ListBalancesBadRequestHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
         message = body or raw_response.text
         super().__init__(message, raw_response, body)
         self.data = data
+
+
+class ListBalancesMode(str, Enum):
+    r"""Whether this entity was created in live mode or in test mode."""
+
+    LIVE = "live"
+    TEST = "test"
 
 
 class ListBalancesCurrency(str, Enum):
@@ -217,8 +236,35 @@ class ListBalancesCurrency(str, Enum):
     CAD = "CAD"
 
 
+class ListBalancesStatus(str, Enum):
+    r"""The status of the balance."""
+
+    ACTIVE = "active"
+    INACTIVE = "inactive"
+
+
+class ListBalancesTransferFrequency(str, Enum):
+    r"""The frequency with which the available amount on the balance will be settled to the configured transfer
+    destination.
+
+    Settlements created during weekends or on bank holidays will take place on the next business day.
+    """
+
+    DAILY = "daily"
+    EVERY_MONDAY = "every-monday"
+    EVERY_TUESDAY = "every-tuesday"
+    EVERY_WEDNESDAY = "every-wednesday"
+    EVERY_THURSDAY = "every-thursday"
+    EVERY_FRIDAY = "every-friday"
+    MONTHLY = "monthly"
+    NEVER = "never"
+
+
 class ListBalancesTransferThresholdTypedDict(TypedDict):
-    r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds this threshold, the complete balance will be paid out to the transfer destination according to the configured frequency."""
+    r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds
+    this threshold, the complete balance will be paid out to the transfer destination according to the configured
+    frequency.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -227,7 +273,10 @@ class ListBalancesTransferThresholdTypedDict(TypedDict):
 
 
 class ListBalancesTransferThreshold(BaseModel):
-    r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds this threshold, the complete balance will be paid out to the transfer destination according to the configured frequency."""
+    r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds
+    this threshold, the complete balance will be paid out to the transfer destination according to the configured
+    frequency.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -236,15 +285,24 @@ class ListBalancesTransferThreshold(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListBalancesTransferDestinationTypedDict(TypedDict):
-    r"""The destination where the available amount will be automatically transferred to according to the configured transfer frequency."""
-
-    type: NotRequired[str]
+class ListBalancesType(str, Enum):
     r"""The default destination of automatic scheduled transfers. Currently only `bank-account` is supported.
 
     * `bank-account` — Transfer the balance amount to an external bank account
+    """
 
-    Possible values: `bank-account`
+    BANK_ACCOUNT = "bank-account"
+
+
+class ListBalancesTransferDestinationTypedDict(TypedDict):
+    r"""The destination where the available amount will be automatically transferred to according to the configured
+    transfer frequency.
+    """
+
+    type: NotRequired[ListBalancesType]
+    r"""The default destination of automatic scheduled transfers. Currently only `bank-account` is supported.
+
+    * `bank-account` — Transfer the balance amount to an external bank account
     """
     bank_account: NotRequired[str]
     r"""The configured bank account number of the beneficiary the balance amount is to be transferred to."""
@@ -253,14 +311,14 @@ class ListBalancesTransferDestinationTypedDict(TypedDict):
 
 
 class ListBalancesTransferDestination(BaseModel):
-    r"""The destination where the available amount will be automatically transferred to according to the configured transfer frequency."""
+    r"""The destination where the available amount will be automatically transferred to according to the configured
+    transfer frequency.
+    """
 
-    type: Optional[str] = None
+    type: Optional[ListBalancesType] = None
     r"""The default destination of automatic scheduled transfers. Currently only `bank-account` is supported.
 
     * `bank-account` — Transfer the balance amount to an external bank account
-
-    Possible values: `bank-account`
     """
 
     bank_account: Annotated[Optional[str], pydantic.Field(alias="bankAccount")] = None
@@ -292,7 +350,9 @@ class ListBalancesAvailableAmount(BaseModel):
 
 
 class ListBalancesPendingAmountTypedDict(TypedDict):
-    r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a few days to clear."""
+    r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a
+    few days to clear.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -301,7 +361,9 @@ class ListBalancesPendingAmountTypedDict(TypedDict):
 
 
 class ListBalancesPendingAmount(BaseModel):
-    r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a few days to clear."""
+    r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a
+    few days to clear.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -310,7 +372,7 @@ class ListBalancesPendingAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListBalancesBalancesSelfTypedDict(TypedDict):
+class BalanceSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -319,26 +381,7 @@ class ListBalancesBalancesSelfTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListBalancesBalancesSelf(BaseModel):
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    href: str
-    r"""The actual URL string."""
-
-    type: str
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class ListBalancesBalancesResponse200DocumentationTypedDict(TypedDict):
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    href: str
-    r"""The actual URL string."""
-    type: str
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class ListBalancesBalancesResponse200Documentation(BaseModel):
+class BalanceSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -348,83 +391,97 @@ class ListBalancesBalancesResponse200Documentation(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListBalancesBalancesResponse200LinksTypedDict(TypedDict):
+class BalanceDocumentationTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: str
+    r"""The actual URL string."""
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class BalanceDocumentation(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: str
+    r"""The actual URL string."""
+
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class BalanceLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListBalancesBalancesSelfTypedDict]
+    self_: NotRequired[BalanceSelfTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    documentation: NotRequired[ListBalancesBalancesResponse200DocumentationTypedDict]
+    documentation: NotRequired[BalanceDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class ListBalancesBalancesResponse200Links(BaseModel):
+class BalanceLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[
-        Optional[ListBalancesBalancesSelf], pydantic.Field(alias="self")
-    ] = None
+    self_: Annotated[Optional[BalanceSelf], pydantic.Field(alias="self")] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    documentation: Optional[ListBalancesBalancesResponse200Documentation] = None
+    documentation: Optional[BalanceDocumentation] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class ListBalancesBalancesTypedDict(TypedDict):
+class BalanceTypedDict(TypedDict):
     resource: NotRequired[str]
     r"""Indicates the response contains a balance object. Will always contain the string `balance` for this endpoint."""
     id: NotRequired[str]
     r"""The identifier uniquely referring to this balance."""
-    mode: NotRequired[str]
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
-    """
+    mode: NotRequired[ListBalancesMode]
+    r"""Whether this entity was created in live mode or in test mode."""
     created_at: NotRequired[str]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     currency: NotRequired[ListBalancesCurrency]
     r"""The balance's ISO 4217 currency code."""
     description: NotRequired[str]
     r"""The description or name of the balance. Can be used to denote the purpose of the balance."""
-    status: NotRequired[str]
-    r"""The status of the balance.
-
-    Possible values: `active` `inactive`
-    """
-    transfer_frequency: NotRequired[str]
-    r"""The frequency with which the available amount on the balance will be settled to the configured transfer destination.
+    status: NotRequired[ListBalancesStatus]
+    r"""The status of the balance."""
+    transfer_frequency: NotRequired[ListBalancesTransferFrequency]
+    r"""The frequency with which the available amount on the balance will be settled to the configured transfer
+    destination.
 
     Settlements created during weekends or on bank holidays will take place on the next business day.
-
-    Possible values: `daily` `every-monday` `every-tuesday` `every-wednesday` `every-thursday` `every-friday` `monthly` `never`
     """
     transfer_threshold: NotRequired[ListBalancesTransferThresholdTypedDict]
-    r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds this threshold, the complete balance will be paid out to the transfer destination according to the configured frequency."""
+    r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds
+    this threshold, the complete balance will be paid out to the transfer destination according to the configured
+    frequency.
+    """
     transfer_reference: NotRequired[Nullable[str]]
     r"""The transfer reference set to be included in all the transfers for this balance."""
     transfer_destination: NotRequired[
         Nullable[ListBalancesTransferDestinationTypedDict]
     ]
-    r"""The destination where the available amount will be automatically transferred to according to the configured transfer frequency."""
+    r"""The destination where the available amount will be automatically transferred to according to the configured
+    transfer frequency.
+    """
     available_amount: NotRequired[ListBalancesAvailableAmountTypedDict]
     r"""The amount directly available on the balance, e.g. `{\"currency\":\"EUR\", \"value\":\"100.00\"}`."""
     pending_amount: NotRequired[ListBalancesPendingAmountTypedDict]
-    r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a few days to clear."""
-    links: NotRequired[ListBalancesBalancesResponse200LinksTypedDict]
+    r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a
+    few days to clear.
+    """
+    links: NotRequired[BalanceLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class ListBalancesBalances(BaseModel):
+class Balance(BaseModel):
     resource: Optional[str] = "balance"
     r"""Indicates the response contains a balance object. Will always contain the string `balance` for this endpoint."""
 
     id: Optional[str] = None
     r"""The identifier uniquely referring to this balance."""
 
-    mode: Optional[str] = None
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
-    """
+    mode: Optional[ListBalancesMode] = None
+    r"""Whether this entity was created in live mode or in test mode."""
 
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
@@ -435,27 +492,27 @@ class ListBalancesBalances(BaseModel):
     description: Optional[str] = None
     r"""The description or name of the balance. Can be used to denote the purpose of the balance."""
 
-    status: Optional[str] = None
-    r"""The status of the balance.
-
-    Possible values: `active` `inactive`
-    """
+    status: Optional[ListBalancesStatus] = None
+    r"""The status of the balance."""
 
     transfer_frequency: Annotated[
-        Optional[str], pydantic.Field(alias="transferFrequency")
+        Optional[ListBalancesTransferFrequency],
+        pydantic.Field(alias="transferFrequency"),
     ] = None
-    r"""The frequency with which the available amount on the balance will be settled to the configured transfer destination.
+    r"""The frequency with which the available amount on the balance will be settled to the configured transfer
+    destination.
 
     Settlements created during weekends or on bank holidays will take place on the next business day.
-
-    Possible values: `daily` `every-monday` `every-tuesday` `every-wednesday` `every-thursday` `every-friday` `monthly` `never`
     """
 
     transfer_threshold: Annotated[
         Optional[ListBalancesTransferThreshold],
         pydantic.Field(alias="transferThreshold"),
     ] = None
-    r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds this threshold, the complete balance will be paid out to the transfer destination according to the configured frequency."""
+    r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds
+    this threshold, the complete balance will be paid out to the transfer destination according to the configured
+    frequency.
+    """
 
     transfer_reference: Annotated[
         OptionalNullable[str], pydantic.Field(alias="transferReference")
@@ -466,7 +523,9 @@ class ListBalancesBalances(BaseModel):
         OptionalNullable[ListBalancesTransferDestination],
         pydantic.Field(alias="transferDestination"),
     ] = UNSET
-    r"""The destination where the available amount will be automatically transferred to according to the configured transfer frequency."""
+    r"""The destination where the available amount will be automatically transferred to according to the configured
+    transfer frequency.
+    """
 
     available_amount: Annotated[
         Optional[ListBalancesAvailableAmount], pydantic.Field(alias="availableAmount")
@@ -476,11 +535,11 @@ class ListBalancesBalances(BaseModel):
     pending_amount: Annotated[
         Optional[ListBalancesPendingAmount], pydantic.Field(alias="pendingAmount")
     ] = None
-    r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a few days to clear."""
+    r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a
+    few days to clear.
+    """
 
-    links: Annotated[
-        Optional[ListBalancesBalancesResponse200Links], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[Optional[BalanceLinks], pydantic.Field(alias="_links")] = None
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     @model_serializer(mode="wrap")
@@ -530,13 +589,17 @@ class ListBalancesBalances(BaseModel):
 
 
 class ListBalancesEmbeddedTypedDict(TypedDict):
-    balances: NotRequired[List[ListBalancesBalancesTypedDict]]
-    r"""An array of balance objects. For a complete reference of the balance object, refer to the [Get balance endpoint](get-balance) documentation."""
+    balances: NotRequired[List[BalanceTypedDict]]
+    r"""An array of balance objects. For a complete reference of
+    the balance object, refer to the [Get balance endpoint](get-balance) documentation.
+    """
 
 
 class ListBalancesEmbedded(BaseModel):
-    balances: Optional[List[ListBalancesBalances]] = None
-    r"""An array of balance objects. For a complete reference of the balance object, refer to the [Get balance endpoint](get-balance) documentation."""
+    balances: Optional[List[Balance]] = None
+    r"""An array of balance objects. For a complete reference of
+    the balance object, refer to the [Get balance endpoint](get-balance) documentation.
+    """
 
 
 class ListBalancesSelfTypedDict(TypedDict):
@@ -674,26 +737,34 @@ class ListBalancesLinks(BaseModel):
         return m
 
 
-class ListBalancesResponseBodyTypedDict(TypedDict):
-    r"""A list of balance objects. For a complete reference of the balance object, refer to the [Get balance endpoint](get-balance) documentation."""
+class ListBalancesResponseTypedDict(TypedDict):
+    r"""A list of balance objects. For a complete reference of the balance
+    object, refer to the [Get balance endpoint](get-balance) documentation.
+    """
 
     count: NotRequired[int]
-    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.
+    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
+    as well.
 
-    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default limit is 50 items.
+    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
+    limit is 50 items.
     """
     embedded: NotRequired[ListBalancesEmbeddedTypedDict]
     links: NotRequired[ListBalancesLinksTypedDict]
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
 
-class ListBalancesResponseBody(BaseModel):
-    r"""A list of balance objects. For a complete reference of the balance object, refer to the [Get balance endpoint](get-balance) documentation."""
+class ListBalancesResponse(BaseModel):
+    r"""A list of balance objects. For a complete reference of the balance
+    object, refer to the [Get balance endpoint](get-balance) documentation.
+    """
 
     count: Optional[int] = None
-    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.
+    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
+    as well.
 
-    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default limit is 50 items.
+    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
+    limit is 50 items.
     """
 
     embedded: Annotated[

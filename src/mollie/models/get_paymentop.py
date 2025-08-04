@@ -12,15 +12,17 @@ from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class QueryParamInclude(str, Enum):
+class GetPaymentInclude(str, Enum):
     r"""This endpoint allows you to include additional information via the `include` query string parameter."""
 
     DETAILS_QR_CODE = "details.qrCode"
     DETAILS_REMAINDER_DETAILS = "details.remainderDetails"
 
 
-class Embed(str, Enum):
-    r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter."""
+class GetPaymentEmbed(str, Enum):
+    r"""This endpoint allows embedding related API items by appending the
+    following values via the `embed` query string parameter.
+    """
 
     CAPTURES = "captures"
     REFUNDS = "refunds"
@@ -30,12 +32,16 @@ class Embed(str, Enum):
 class GetPaymentRequestTypedDict(TypedDict):
     payment_id: str
     r"""Provide the ID of the related payment."""
-    include: NotRequired[Nullable[QueryParamInclude]]
+    include: NotRequired[Nullable[GetPaymentInclude]]
     r"""This endpoint allows you to include additional information via the `include` query string parameter."""
-    embed: NotRequired[Nullable[Embed]]
-    r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter."""
+    embed: NotRequired[Nullable[GetPaymentEmbed]]
+    r"""This endpoint allows embedding related API items by appending the
+    following values via the `embed` query string parameter.
+    """
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -50,22 +56,26 @@ class GetPaymentRequest(BaseModel):
     r"""Provide the ID of the related payment."""
 
     include: Annotated[
-        OptionalNullable[QueryParamInclude],
+        OptionalNullable[GetPaymentInclude],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
     r"""This endpoint allows you to include additional information via the `include` query string parameter."""
 
     embed: Annotated[
-        OptionalNullable[Embed],
+        OptionalNullable[GetPaymentEmbed],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter."""
+    r"""This endpoint allows embedding related API items by appending the
+    following values via the `embed` query string parameter.
+    """
 
     testmode: Annotated[
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -101,14 +111,14 @@ class GetPaymentRequest(BaseModel):
         return m
 
 
-class GetPaymentPaymentsDocumentationTypedDict(TypedDict):
+class GetPaymentNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class GetPaymentPaymentsDocumentation(BaseModel):
+class GetPaymentNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -116,17 +126,17 @@ class GetPaymentPaymentsDocumentation(BaseModel):
     type: str
 
 
-class GetPaymentPaymentsResponseLinksTypedDict(TypedDict):
-    documentation: GetPaymentPaymentsDocumentationTypedDict
+class GetPaymentNotFoundLinksTypedDict(TypedDict):
+    documentation: GetPaymentNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetPaymentPaymentsResponseLinks(BaseModel):
-    documentation: GetPaymentPaymentsDocumentation
+class GetPaymentNotFoundLinks(BaseModel):
+    documentation: GetPaymentNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetPaymentPaymentsResponseBodyData(BaseModel):
+class GetPaymentHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -136,20 +146,22 @@ class GetPaymentPaymentsResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[GetPaymentPaymentsResponseLinks, pydantic.Field(alias="_links")]
+    links: Annotated[GetPaymentNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class GetPaymentPaymentsResponseBody(ClientError):
+class GetPaymentHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: GetPaymentPaymentsResponseBodyData
+    data: GetPaymentHalJSONErrorData
 
     def __init__(
         self,
-        data: GetPaymentPaymentsResponseBodyData,
+        data: GetPaymentHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -158,12 +170,21 @@ class GetPaymentPaymentsResponseBody(ClientError):
         self.data = data
 
 
+class GetPaymentMode(str, Enum):
+    r"""Whether this entity was created in live mode or in test mode."""
+
+    LIVE = "live"
+    TEST = "test"
+
+
 class GetPaymentAmountTypedDict(TypedDict):
     r"""The amount that you want to charge, e.g. `{currency:\"EUR\", value:\"1000.00\"}` if you would want to charge €1000.00.
 
-    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be retrieved using the Get method endpoint.
+    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be
+    retrieved using the Get method endpoint.
 
-    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the tip amount.
+    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the
+    tip amount.
     """
 
     currency: str
@@ -175,9 +196,11 @@ class GetPaymentAmountTypedDict(TypedDict):
 class GetPaymentAmount(BaseModel):
     r"""The amount that you want to charge, e.g. `{currency:\"EUR\", value:\"1000.00\"}` if you would want to charge €1000.00.
 
-    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be retrieved using the Get method endpoint.
+    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be
+    retrieved using the Get method endpoint.
 
-    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the tip amount.
+    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the
+    tip amount.
     """
 
     currency: str
@@ -188,7 +211,10 @@ class GetPaymentAmount(BaseModel):
 
 
 class GetPaymentAmountRefundedTypedDict(TypedDict):
-    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the costs for a return shipment to the customer."""
+    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some
+    payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the
+    costs for a return shipment to the customer.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -197,7 +223,10 @@ class GetPaymentAmountRefundedTypedDict(TypedDict):
 
 
 class GetPaymentAmountRefunded(BaseModel):
-    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the costs for a return shipment to the customer."""
+    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some
+    payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the
+    costs for a return shipment to the customer.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -245,7 +274,9 @@ class GetPaymentAmountCaptured(BaseModel):
 
 
 class GetPaymentAmountChargedBackTypedDict(TypedDict):
-    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not zero."""
+    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not
+    zero.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -254,7 +285,9 @@ class GetPaymentAmountChargedBackTypedDict(TypedDict):
 
 
 class GetPaymentAmountChargedBack(BaseModel):
-    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not zero."""
+    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not
+    zero.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -264,11 +297,14 @@ class GetPaymentAmountChargedBack(BaseModel):
 
 
 class GetPaymentSettlementAmountTypedDict(TypedDict):
-    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
 
-    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is settled by Mollie the `settlementAmount` is omitted from the response.
+    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is
+    settled by Mollie the `settlementAmount` is omitted from the response.
 
-    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
+    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest
+    using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
 
     currency: str
@@ -278,11 +314,14 @@ class GetPaymentSettlementAmountTypedDict(TypedDict):
 
 
 class GetPaymentSettlementAmount(BaseModel):
-    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
 
-    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is settled by Mollie the `settlementAmount` is omitted from the response.
+    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is
+    settled by Mollie the `settlementAmount` is omitted from the response.
 
-    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
+    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest
+    using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
 
     currency: str
@@ -290,6 +329,22 @@ class GetPaymentSettlementAmount(BaseModel):
 
     value: str
     r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetPaymentLineType(str, Enum):
+    r"""The type of product purchased. For example, a physical or a digital product.
+
+    The `tip` payment line type is not available when creating a payment.
+    """
+
+    PHYSICAL = "physical"
+    DIGITAL = "digital"
+    SHIPPING_FEE = "shipping_fee"
+    DISCOUNT = "discount"
+    STORE_CREDIT = "store_credit"
+    GIFT_CARD = "gift_card"
+    SURCHARGE = "surcharge"
+    TIP = "tip"
 
 
 class GetPaymentUnitPriceTypedDict(TypedDict):
@@ -326,7 +381,9 @@ class GetPaymentUnitPrice(BaseModel):
 
 
 class GetPaymentDiscountAmountTypedDict(TypedDict):
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -335,7 +392,9 @@ class GetPaymentDiscountAmountTypedDict(TypedDict):
 
 
 class GetPaymentDiscountAmount(BaseModel):
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -374,11 +433,13 @@ class GetPaymentTotalAmount(BaseModel):
 
 
 class GetPaymentVatAmountTypedDict(TypedDict):
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
 
     currency: str
@@ -388,11 +449,13 @@ class GetPaymentVatAmountTypedDict(TypedDict):
 
 
 class GetPaymentVatAmount(BaseModel):
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
 
     currency: str
@@ -402,14 +465,22 @@ class GetPaymentVatAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class GetPaymentCategories(str, Enum):
+class GetPaymentCategory(str, Enum):
     MEAL = "meal"
     ECO = "eco"
     GIFT = "gift"
     SPORT_CULTURE = "sport_culture"
 
 
-class GetPaymentPaymentsResponse200AmountTypedDict(TypedDict):
+class GetPaymentInterval(str, Enum):
+    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`."""
+
+    DOT_DOT_DOT_MONTHS = "... months"
+    DOT_DOT_DOT_WEEKS = "... weeks"
+    DOT_DOT_DOT_DAYS = "... days"
+
+
+class GetPaymentRecurringAmountTypedDict(TypedDict):
     r"""Total amount and currency of the recurring item."""
 
     currency: str
@@ -418,7 +489,7 @@ class GetPaymentPaymentsResponse200AmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class GetPaymentPaymentsResponse200Amount(BaseModel):
+class GetPaymentRecurringAmount(BaseModel):
     r"""Total amount and currency of the recurring item."""
 
     currency: str
@@ -429,16 +500,15 @@ class GetPaymentPaymentsResponse200Amount(BaseModel):
 
 
 class GetPaymentRecurringTypedDict(TypedDict):
-    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout to inform the shopper of the details for recurring products in the payments."""
-
-    interval: str
-    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`.
-
-    Possible values: `... months` `... weeks` `... days`
+    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout
+    to inform the shopper of the details for recurring products in the payments.
     """
+
+    interval: GetPaymentInterval
+    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`."""
     description: NotRequired[str]
     r"""A description of the recurring item. If not present, the main description of the item will be used."""
-    amount: NotRequired[GetPaymentPaymentsResponse200AmountTypedDict]
+    amount: NotRequired[GetPaymentRecurringAmountTypedDict]
     r"""Total amount and currency of the recurring item."""
     times: NotRequired[int]
     r"""Total number of charges for the subscription to complete. Leave empty for ongoing subscription."""
@@ -447,18 +517,17 @@ class GetPaymentRecurringTypedDict(TypedDict):
 
 
 class GetPaymentRecurring(BaseModel):
-    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout to inform the shopper of the details for recurring products in the payments."""
-
-    interval: str
-    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`.
-
-    Possible values: `... months` `... weeks` `... days`
+    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout
+    to inform the shopper of the details for recurring products in the payments.
     """
+
+    interval: GetPaymentInterval
+    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`."""
 
     description: Optional[str] = None
     r"""A description of the recurring item. If not present, the main description of the item will be used."""
 
-    amount: Optional[GetPaymentPaymentsResponse200Amount] = None
+    amount: Optional[GetPaymentRecurringAmount] = None
     r"""Total amount and currency of the recurring item."""
 
     times: Optional[int] = None
@@ -500,7 +569,7 @@ class GetPaymentRecurring(BaseModel):
         return m
 
 
-class GetPaymentLinesTypedDict(TypedDict):
+class GetPaymentLineTypedDict(TypedDict):
     description: str
     r"""A description of the line item. For example *LEGO 4440 Forest Police Station*."""
     quantity: int
@@ -521,39 +590,47 @@ class GetPaymentLinesTypedDict(TypedDict):
 
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
-    type: NotRequired[str]
+    type: NotRequired[GetPaymentLineType]
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
-
-    Possible values: `physical` `digital` `shipping_fee` `discount` `store_credit` `gift_card` `surcharge` `tip` (default: `physical`)
     """
     quantity_unit: NotRequired[str]
     r"""The unit for the quantity. For example *pcs*, *kg*, or *cm*."""
     discount_amount: NotRequired[GetPaymentDiscountAmountTypedDict]
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
     vat_rate: NotRequired[str]
-    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and not as a float, to ensure the correct number of decimals are passed."""
+    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and
+    not as a float, to ensure the correct number of decimals are passed.
+    """
     vat_amount: NotRequired[GetPaymentVatAmountTypedDict]
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
     sku: NotRequired[str]
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
-    categories: NotRequired[List[GetPaymentCategories]]
-    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the [Integrating Vouchers](integrating-vouchers) guide for more information."""
+    categories: NotRequired[List[GetPaymentCategory]]
+    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
+    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    """
     image_url: NotRequired[str]
     r"""A link pointing to an image of the product sold."""
     product_url: NotRequired[str]
     r"""A link pointing to the product page in your web shop of the product sold."""
     recurring: NotRequired[GetPaymentRecurringTypedDict]
-    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout to inform the shopper of the details for recurring products in the payments."""
+    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout
+    to inform the shopper of the details for recurring products in the payments.
+    """
 
 
-class GetPaymentLines(BaseModel):
+class GetPaymentLine(BaseModel):
     description: str
     r"""A description of the line item. For example *LEGO 4440 Forest Police Station*."""
 
@@ -578,12 +655,10 @@ class GetPaymentLines(BaseModel):
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
 
-    type: Optional[str] = None
+    type: Optional[GetPaymentLineType] = GetPaymentLineType.PHYSICAL
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
-
-    Possible values: `physical` `digital` `shipping_fee` `discount` `store_credit` `gift_card` `surcharge` `tip` (default: `physical`)
     """
 
     quantity_unit: Annotated[Optional[str], pydantic.Field(alias="quantityUnit")] = None
@@ -592,26 +667,34 @@ class GetPaymentLines(BaseModel):
     discount_amount: Annotated[
         Optional[GetPaymentDiscountAmount], pydantic.Field(alias="discountAmount")
     ] = None
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
 
     vat_rate: Annotated[Optional[str], pydantic.Field(alias="vatRate")] = None
-    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and not as a float, to ensure the correct number of decimals are passed."""
+    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and
+    not as a float, to ensure the correct number of decimals are passed.
+    """
 
     vat_amount: Annotated[
         Optional[GetPaymentVatAmount], pydantic.Field(alias="vatAmount")
     ] = None
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
 
     sku: Optional[str] = None
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
 
-    categories: Optional[List[GetPaymentCategories]] = None
-    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the [Integrating Vouchers](integrating-vouchers) guide for more information."""
+    categories: Optional[List[GetPaymentCategory]] = None
+    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
+    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    """
 
     image_url: Annotated[Optional[str], pydantic.Field(alias="imageUrl")] = None
     r"""A link pointing to an image of the product sold."""
@@ -620,13 +703,17 @@ class GetPaymentLines(BaseModel):
     r"""A link pointing to the product page in your web shop of the product sold."""
 
     recurring: Optional[GetPaymentRecurring] = None
-    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout to inform the shopper of the details for recurring products in the payments."""
+    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout
+    to inform the shopper of the details for recurring products in the payments.
+    """
 
 
 class GetPaymentBillingAddressTypedDict(TypedDict):
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
@@ -634,12 +721,14 @@ class GetPaymentBillingAddressTypedDict(TypedDict):
     title: NotRequired[str]
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
     given_name: NotRequired[str]
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
     family_name: NotRequired[str]
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -660,7 +749,8 @@ class GetPaymentBillingAddressTypedDict(TypedDict):
     email: NotRequired[str]
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -681,9 +771,11 @@ class GetPaymentBillingAddressTypedDict(TypedDict):
 
 
 class GetPaymentBillingAddress(BaseModel):
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
@@ -692,13 +784,15 @@ class GetPaymentBillingAddress(BaseModel):
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
 
     given_name: Annotated[Optional[str], pydantic.Field(alias="givenName")] = None
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
 
     family_name: Annotated[Optional[str], pydantic.Field(alias="familyName")] = None
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -730,7 +824,8 @@ class GetPaymentBillingAddress(BaseModel):
     email: Optional[str] = None
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -755,20 +850,24 @@ class GetPaymentBillingAddress(BaseModel):
 
 
 class GetPaymentShippingAddressTypedDict(TypedDict):
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
 
     title: NotRequired[str]
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
     given_name: NotRequired[str]
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
     family_name: NotRequired[str]
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -789,7 +888,8 @@ class GetPaymentShippingAddressTypedDict(TypedDict):
     email: NotRequired[str]
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -810,22 +910,26 @@ class GetPaymentShippingAddressTypedDict(TypedDict):
 
 
 class GetPaymentShippingAddress(BaseModel):
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
 
     title: Optional[str] = None
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
 
     given_name: Annotated[Optional[str], pydantic.Field(alias="givenName")] = None
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
 
     family_name: Annotated[Optional[str], pydantic.Field(alias="familyName")] = None
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -857,7 +961,8 @@ class GetPaymentShippingAddress(BaseModel):
     email: Optional[str] = None
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -881,30 +986,122 @@ class GetPaymentShippingAddress(BaseModel):
     """
 
 
-class GetPaymentMetadata2TypedDict(TypedDict):
+class GetPaymentLocale(str, Enum):
+    r"""Allows you to preset the language to be used in the hosted payment pages shown to the customer. Setting a locale
+    is highly recommended and will greatly improve your conversion rate. When this parameter is omitted the browser
+    language will be used instead if supported by the payment method. You can provide any `xx_XX` format ISO 15897
+    locale, but our hosted payment pages currently only support the specified languages.
+
+    For bank transfer payments specifically, the locale will determine the target bank account the customer has to
+    transfer the money to. We have dedicated bank accounts for Belgium, Germany, and The Netherlands. Having the
+    customer use a local bank account greatly increases the conversion and speed of payment.
+    """
+
+    EN_US = "en_US"
+    EN_GB = "en_GB"
+    NL_NL = "nl_NL"
+    NL_BE = "nl_BE"
+    DE_DE = "de_DE"
+    DE_AT = "de_AT"
+    DE_CH = "de_CH"
+    FR_FR = "fr_FR"
+    FR_BE = "fr_BE"
+    ES_ES = "es_ES"
+    CA_ES = "ca_ES"
+    PT_PT = "pt_PT"
+    IT_IT = "it_IT"
+    NB_NO = "nb_NO"
+    SV_SE = "sv_SE"
+    FI_FI = "fi_FI"
+    DA_DK = "da_DK"
+    IS_IS = "is_IS"
+    HU_HU = "hu_HU"
+    PL_PL = "pl_PL"
+    LV_LV = "lv_LV"
+    LT_LT = "lt_LT"
+
+
+class GetPaymentMethod(str, Enum):
+    r"""The payment method used for this transaction. If a specific method was selected during payment initialization,
+    this field reflects that choice.
+    """
+
+    ALMA = "alma"
+    APPLEPAY = "applepay"
+    BACS = "bacs"
+    BANCOMATPAY = "bancomatpay"
+    BANCONTACT = "bancontact"
+    BANKTRANSFER = "banktransfer"
+    BELFIUS = "belfius"
+    BILLIE = "billie"
+    BIZUM = "bizum"
+    BLIK = "blik"
+    CREDITCARD = "creditcard"
+    DIRECTDEBIT = "directdebit"
+    EPS = "eps"
+    GIFTCARD = "giftcard"
+    IDEAL = "ideal"
+    IN3 = "in3"
+    KBC = "kbc"
+    KLARNA = "klarna"
+    MBWAY = "mbway"
+    MULTIBANCO = "multibanco"
+    MYBANK = "mybank"
+    PAYBYBANK = "paybybank"
+    PAYCONIQ = "payconiq"
+    PAYPAL = "paypal"
+    PAYSAFECARD = "paysafecard"
+    POINTOFSALE = "pointofsale"
+    PRZELEWY24 = "przelewy24"
+    RIVERTY = "riverty"
+    SATISPAY = "satispay"
+    SWISH = "swish"
+    TRUSTLY = "trustly"
+    TWINT = "twint"
+    VOUCHER = "voucher"
+
+
+class GetPaymentMetadataTypedDict(TypedDict):
     pass
 
 
-class GetPaymentMetadata2(BaseModel):
+class GetPaymentMetadata(BaseModel):
     pass
 
 
-GetPaymentMetadataTypedDict = TypeAliasType(
-    "GetPaymentMetadataTypedDict", Union[GetPaymentMetadata2TypedDict, str, List[str]]
+GetPaymentMetadataUnionTypedDict = TypeAliasType(
+    "GetPaymentMetadataUnionTypedDict",
+    Union[GetPaymentMetadataTypedDict, str, List[str]],
 )
-r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+"""
 
 
-GetPaymentMetadata = TypeAliasType(
-    "GetPaymentMetadata", Union[GetPaymentMetadata2, str, List[str]]
+GetPaymentMetadataUnion = TypeAliasType(
+    "GetPaymentMetadataUnion", Union[GetPaymentMetadata, str, List[str]]
 )
-r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+"""
 
 
-class GetPaymentPaymentsAmountTypedDict(TypedDict):
+class GetPaymentCaptureMode(str, Enum):
+    r"""Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/)
+    and capture at a later time.
+
+    This field needs to be set to `manual` for method `riverty`.
+    """
+
+    AUTOMATIC = "automatic"
+    MANUAL = "manual"
+
+
+class GetPaymentApplicationFeeAmountTypedDict(TypedDict):
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
 
     currency: str
@@ -913,10 +1110,11 @@ class GetPaymentPaymentsAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class GetPaymentPaymentsAmount(BaseModel):
+class GetPaymentApplicationFeeAmount(BaseModel):
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
 
     currency: str
@@ -927,41 +1125,62 @@ class GetPaymentPaymentsAmount(BaseModel):
 
 
 class GetPaymentApplicationFeeTypedDict(TypedDict):
-    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.
+    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
 
-    If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the `routing` parameter.
+    If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the
+    `routing` parameter.
     """
 
-    amount: NotRequired[GetPaymentPaymentsAmountTypedDict]
+    amount: NotRequired[GetPaymentApplicationFeeAmountTypedDict]
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
     description: NotRequired[str]
-    r"""The description of the application fee. This will appear on settlement reports towards both you and the connected merchant."""
+    r"""The description of the application fee. This will appear on settlement reports towards both you and the
+    connected merchant.
+    """
 
 
 class GetPaymentApplicationFee(BaseModel):
-    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.
+    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
 
-    If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the `routing` parameter.
+    If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the
+    `routing` parameter.
     """
 
-    amount: Optional[GetPaymentPaymentsAmount] = None
+    amount: Optional[GetPaymentApplicationFeeAmount] = None
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
 
     description: Optional[str] = None
-    r"""The description of the application fee. This will appear on settlement reports towards both you and the connected merchant."""
+    r"""The description of the application fee. This will appear on settlement reports towards both you and the
+    connected merchant.
+    """
 
 
-class GetPaymentPaymentsResponseAmountTypedDict(TypedDict):
+class GetPaymentRoutingMode(str, Enum):
+    r"""Whether this entity was created in live mode or in test mode."""
+
+    LIVE = "live"
+    TEST = "test"
+
+
+class GetPaymentRoutingAmountTypedDict(TypedDict):
     r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
 
     currency: str
@@ -970,7 +1189,7 @@ class GetPaymentPaymentsResponseAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class GetPaymentPaymentsResponseAmount(BaseModel):
+class GetPaymentRoutingAmount(BaseModel):
     r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
 
     currency: str
@@ -978,34 +1197,38 @@ class GetPaymentPaymentsResponseAmount(BaseModel):
 
     value: str
     r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GetPaymentRoutingType(str, Enum):
+    r"""The type of destination. Currently only the destination type `organization` is supported."""
+
+    ORGANIZATION = "organization"
 
 
 class GetPaymentDestinationTypedDict(TypedDict):
     r"""The destination of this portion of the payment."""
 
-    type: str
-    r"""The type of destination. Currently only the destination type `organization` is supported.
-
-    Possible values: `organization`
-    """
+    type: GetPaymentRoutingType
+    r"""The type of destination. Currently only the destination type `organization` is supported."""
     organization_id: str
-    r"""Required for destination type `organization`. The ID of the connected organization the funds should be routed to."""
+    r"""Required for destination type `organization`. The ID of the connected organization the funds should be
+    routed to.
+    """
 
 
 class GetPaymentDestination(BaseModel):
     r"""The destination of this portion of the payment."""
 
-    type: str
-    r"""The type of destination. Currently only the destination type `organization` is supported.
-
-    Possible values: `organization`
-    """
+    type: GetPaymentRoutingType
+    r"""The type of destination. Currently only the destination type `organization` is supported."""
 
     organization_id: Annotated[str, pydantic.Field(alias="organizationId")]
-    r"""Required for destination type `organization`. The ID of the connected organization the funds should be routed to."""
+    r"""Required for destination type `organization`. The ID of the connected organization the funds should be
+    routed to.
+    """
 
 
-class GetPaymentPaymentsSelfTypedDict(TypedDict):
+class GetPaymentRoutingSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -1014,7 +1237,7 @@ class GetPaymentPaymentsSelfTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetPaymentPaymentsSelf(BaseModel):
+class GetPaymentRoutingSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -1043,19 +1266,19 @@ class GetPaymentPayment(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetPaymentPaymentsLinksTypedDict(TypedDict):
+class GetPaymentRoutingLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: GetPaymentPaymentsSelfTypedDict
+    self_: GetPaymentRoutingSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     payment: GetPaymentPaymentTypedDict
     r"""The API resource URL of the [payment](get-payment) that belong to this route."""
 
 
-class GetPaymentPaymentsLinks(BaseModel):
+class GetPaymentRoutingLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[GetPaymentPaymentsSelf, pydantic.Field(alias="self")]
+    self_: Annotated[GetPaymentRoutingSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     payment: GetPaymentPayment
@@ -1066,22 +1289,22 @@ class GetPaymentRoutingTypedDict(TypedDict):
     resource: str
     r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
     id: str
-    r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID. Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`."""
-    mode: str
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
+    r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID.
+    Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`.
     """
-    amount: GetPaymentPaymentsResponseAmountTypedDict
+    mode: GetPaymentRoutingMode
+    r"""Whether this entity was created in live mode or in test mode."""
+    amount: GetPaymentRoutingAmountTypedDict
     r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
     destination: GetPaymentDestinationTypedDict
     r"""The destination of this portion of the payment."""
     created_at: str
     r"""The date and time when the route was created. The date is given in ISO 8601 format."""
-    links: GetPaymentPaymentsLinksTypedDict
+    links: GetPaymentRoutingLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     release_date: NotRequired[Nullable[str]]
-    r"""Optionally, schedule this portion of the payment to be transferred to its destination on a later date. The date must be given in `YYYY-MM-DD` format.
+    r"""Optionally, schedule this portion of the payment to be transferred to its destination on a later date. The
+    date must be given in `YYYY-MM-DD` format.
 
     If no date is given, the funds become available to the connected merchant as soon as the payment succeeds.
     """
@@ -1092,15 +1315,14 @@ class GetPaymentRouting(BaseModel):
     r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
 
     id: str
-    r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID. Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`."""
-
-    mode: str
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
+    r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID.
+    Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`.
     """
 
-    amount: GetPaymentPaymentsResponseAmount
+    mode: GetPaymentRoutingMode
+    r"""Whether this entity was created in live mode or in test mode."""
+
+    amount: GetPaymentRoutingAmount
     r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
 
     destination: GetPaymentDestination
@@ -1109,13 +1331,14 @@ class GetPaymentRouting(BaseModel):
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The date and time when the route was created. The date is given in ISO 8601 format."""
 
-    links: Annotated[GetPaymentPaymentsLinks, pydantic.Field(alias="_links")]
+    links: Annotated[GetPaymentRoutingLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     release_date: Annotated[
         OptionalNullable[str], pydantic.Field(alias="releaseDate")
     ] = UNSET
-    r"""Optionally, schedule this portion of the payment to be transferred to its destination on a later date. The date must be given in `YYYY-MM-DD` format.
+    r"""Optionally, schedule this portion of the payment to be transferred to its destination on a later date. The
+    date must be given in `YYYY-MM-DD` format.
 
     If no date is given, the funds become available to the connected merchant as soon as the payment succeeds.
     """
@@ -1151,10 +1374,49 @@ class GetPaymentRouting(BaseModel):
         return m
 
 
-class GetPaymentStatusReasonTypedDict(TypedDict):
-    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale payments.
+class GetPaymentSequenceType(str, Enum):
+    r"""**Only relevant for recurring payments.**
 
-    You can find more information about the possible values of this object on [this page](status-reasons).**
+    Indicate which part of a recurring sequence this payment is for.
+
+    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is
+    through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place
+    on their account in the future.
+
+    If set to `recurring`, the customer's card is charged automatically.
+
+    Defaults to `oneoff`, which is a regular non-recurring payment.
+
+    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our
+    [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account
+    are set up correctly for recurring payments.
+    """
+
+    ONEOFF = "oneoff"
+    FIRST = "first"
+    RECURRING = "recurring"
+
+
+class GetPaymentStatus(str, Enum):
+    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
+    statuses occur at what point.
+    """
+
+    OPEN = "open"
+    PENDING = "pending"
+    AUTHORIZED = "authorized"
+    PAID = "paid"
+    CANCELED = "canceled"
+    EXPIRED = "expired"
+    FAILED = "failed"
+
+
+class GetPaymentStatusReasonTypedDict(TypedDict):
+    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale
+    payments.
+
+    You can find more information about the possible values of this object on
+    [this page](status-reasons).**
     """
 
     code: str
@@ -1164,9 +1426,11 @@ class GetPaymentStatusReasonTypedDict(TypedDict):
 
 
 class GetPaymentStatusReason(BaseModel):
-    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale payments.
+    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale
+    payments.
 
-    You can find more information about the possible values of this object on [this page](status-reasons).**
+    You can find more information about the possible values of this object on
+    [this page](status-reasons).**
     """
 
     code: str
@@ -1234,11 +1498,14 @@ class GetPaymentMobileAppCheckout(BaseModel):
 
 
 class GetPaymentChangePaymentStateTypedDict(TypedDict):
-    r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different payment states.
+    r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different
+    payment states.
 
-    Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these payments are executed without any user interaction.
+    Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these
+    payments are executed without any user interaction.
 
-    Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or chargeback for the test payment.
+    Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or
+    chargeback for the test payment.
     """
 
     href: str
@@ -1248,11 +1515,14 @@ class GetPaymentChangePaymentStateTypedDict(TypedDict):
 
 
 class GetPaymentChangePaymentState(BaseModel):
-    r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different payment states.
+    r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different
+    payment states.
 
-    Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these payments are executed without any user interaction.
+    Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these
+    payments are executed without any user interaction.
 
-    Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or chargeback for the test payment.
+    Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or
+    chargeback for the test payment.
     """
 
     href: str
@@ -1301,7 +1571,9 @@ class GetPaymentRefunds(BaseModel):
 
 
 class GetPaymentChargebacksTypedDict(TypedDict):
-    r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this payment."""
+    r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this
+    payment.
+    """
 
     href: str
     r"""The actual URL string."""
@@ -1310,7 +1582,9 @@ class GetPaymentChargebacksTypedDict(TypedDict):
 
 
 class GetPaymentChargebacks(BaseModel):
-    r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this payment."""
+    r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this
+    payment.
+    """
 
     href: str
     r"""The actual URL string."""
@@ -1339,7 +1613,9 @@ class GetPaymentCaptures(BaseModel):
 
 
 class GetPaymentSettlementTypedDict(TypedDict):
-    r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with.
+    Not present if not yet settled.
+    """
 
     href: str
     r"""The actual URL string."""
@@ -1348,7 +1624,9 @@ class GetPaymentSettlementTypedDict(TypedDict):
 
 
 class GetPaymentSettlement(BaseModel):
-    r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with.
+    Not present if not yet settled.
+    """
 
     href: str
     r"""The actual URL string."""
@@ -1415,7 +1693,9 @@ class GetPaymentSubscription(BaseModel):
 
 
 class GetPaymentOrderTypedDict(TypedDict):
-    r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
+    r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an
+    order.
+    """
 
     href: str
     r"""The actual URL string."""
@@ -1424,7 +1704,9 @@ class GetPaymentOrderTypedDict(TypedDict):
 
 
 class GetPaymentOrder(BaseModel):
-    r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
+    r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an
+    order.
+    """
 
     href: str
     r"""The actual URL string."""
@@ -1434,7 +1716,9 @@ class GetPaymentOrder(BaseModel):
 
 
 class GetPaymentTerminalTypedDict(TypedDict):
-    r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
+    r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for
+    point-of-sale payments.
+    """
 
     href: str
     r"""The actual URL string."""
@@ -1443,7 +1727,9 @@ class GetPaymentTerminalTypedDict(TypedDict):
 
 
 class GetPaymentTerminal(BaseModel):
-    r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
+    r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for
+    point-of-sale payments.
+    """
 
     href: str
     r"""The actual URL string."""
@@ -1483,20 +1769,27 @@ class GetPaymentLinksTypedDict(TypedDict):
     mobile_app_checkout: NotRequired[GetPaymentMobileAppCheckoutTypedDict]
     r"""The deeplink URL to the app of the payment method. Currently only available for `bancontact`."""
     change_payment_state: NotRequired[GetPaymentChangePaymentStateTypedDict]
-    r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different payment states.
+    r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different
+    payment states.
 
-    Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these payments are executed without any user interaction.
+    Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these
+    payments are executed without any user interaction.
 
-    Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or chargeback for the test payment.
+    Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or
+    chargeback for the test payment.
     """
     refunds: NotRequired[GetPaymentRefundsTypedDict]
     r"""The API resource URL of the [refunds](list-payment-refunds) that belong to this payment."""
     chargebacks: NotRequired[GetPaymentChargebacksTypedDict]
-    r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this payment."""
+    r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this
+    payment.
+    """
     captures: NotRequired[GetPaymentCapturesTypedDict]
     r"""The API resource URL of the [captures](list-payment-captures) that belong to this payment."""
     settlement: NotRequired[GetPaymentSettlementTypedDict]
-    r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with.
+    Not present if not yet settled.
+    """
     customer: NotRequired[GetPaymentCustomerTypedDict]
     r"""The API resource URL of the [customer](get-customer)."""
     mandate: NotRequired[GetPaymentMandateTypedDict]
@@ -1504,9 +1797,13 @@ class GetPaymentLinksTypedDict(TypedDict):
     subscription: NotRequired[GetPaymentSubscriptionTypedDict]
     r"""The API resource URL of the [subscription](get-subscription)."""
     order: NotRequired[GetPaymentOrderTypedDict]
-    r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
+    r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an
+    order.
+    """
     terminal: NotRequired[GetPaymentTerminalTypedDict]
-    r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
+    r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for
+    point-of-sale payments.
+    """
     documentation: NotRequired[GetPaymentDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
@@ -1532,24 +1829,31 @@ class GetPaymentLinks(BaseModel):
         Optional[GetPaymentChangePaymentState],
         pydantic.Field(alias="changePaymentState"),
     ] = None
-    r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different payment states.
+    r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different
+    payment states.
 
-    Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these payments are executed without any user interaction.
+    Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these
+    payments are executed without any user interaction.
 
-    Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or chargeback for the test payment.
+    Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or
+    chargeback for the test payment.
     """
 
     refunds: Optional[GetPaymentRefunds] = None
     r"""The API resource URL of the [refunds](list-payment-refunds) that belong to this payment."""
 
     chargebacks: Optional[GetPaymentChargebacks] = None
-    r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this payment."""
+    r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this
+    payment.
+    """
 
     captures: Optional[GetPaymentCaptures] = None
     r"""The API resource URL of the [captures](list-payment-captures) that belong to this payment."""
 
     settlement: Optional[GetPaymentSettlement] = None
-    r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with.
+    Not present if not yet settled.
+    """
 
     customer: Optional[GetPaymentCustomer] = None
     r"""The API resource URL of the [customer](get-customer)."""
@@ -1561,136 +1865,160 @@ class GetPaymentLinks(BaseModel):
     r"""The API resource URL of the [subscription](get-subscription)."""
 
     order: Optional[GetPaymentOrder] = None
-    r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
+    r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an
+    order.
+    """
 
     terminal: Optional[GetPaymentTerminal] = None
-    r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
+    r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for
+    point-of-sale payments.
+    """
 
     documentation: Optional[GetPaymentDocumentation] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class GetPaymentResponseBodyTypedDict(TypedDict):
+class GetPaymentResponseTypedDict(TypedDict):
     r"""The payment object."""
 
     resource: str
     r"""Indicates the response contains a payment object. Will always contain the string `payment` for this endpoint."""
     id: str
-    r"""The identifier uniquely referring to this payment. Mollie assigns this identifier at payment creation time. Mollie will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`."""
-    mode: str
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
+    r"""The identifier uniquely referring to this payment. Mollie assigns this identifier at payment creation time. Mollie
+    will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
     """
+    mode: GetPaymentMode
+    r"""Whether this entity was created in live mode or in test mode."""
     description: str
-    r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.
+    r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible.
+    We truncate the description automatically according to the limits of the used payment method. The description is
+    also visible in any exports you generate.
 
-    We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.
+    We recommend you use a unique identifier so that you can always link the payment to the order in your back office.
+    This is particularly useful for bookkeeping.
 
-    The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
+    The maximum length of the description field differs per payment method, with the absolute maximum being 255
+    characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
     """
     amount: GetPaymentAmountTypedDict
     r"""The amount that you want to charge, e.g. `{currency:\"EUR\", value:\"1000.00\"}` if you would want to charge €1000.00.
 
-    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be retrieved using the Get method endpoint.
+    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be
+    retrieved using the Get method endpoint.
 
-    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the tip amount.
-    """
-    sequence_type: Nullable[str]
-    r"""**Only relevant for recurring payments.**
-
-    Indicate which part of a recurring sequence this payment is for.
-
-    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place on their account in the future.
-
-    If set to `recurring`, the customer's card is charged automatically.
-
-    Defaults to `oneoff`, which is a regular non-recurring payment.
-
-    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account are set up correctly for recurring payments.
-
-    Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
+    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the
+    tip amount.
     """
     profile_id: str
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
-    When using an API Key, the `profileId` can be omitted since it is linked to the key. However, for OAuth and Organization tokens, the `profileId` is required.
+    When using an API Key, the `profileId` can be omitted since it is linked to the key. However, for OAuth and
+    Organization tokens, the `profileId` is required.
 
     For more information, see [Authentication](authentication).
     """
-    status: str
-    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which statuses occur at what point.
-
-    Possible values: `open` `pending` `authorized` `paid` `canceled` `expired` `failed`
+    status: GetPaymentStatus
+    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
+    statuses occur at what point.
     """
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: GetPaymentLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     amount_refunded: NotRequired[GetPaymentAmountRefundedTypedDict]
-    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the costs for a return shipment to the customer."""
+    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some
+    payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the
+    costs for a return shipment to the customer.
+    """
     amount_remaining: NotRequired[GetPaymentAmountRemainingTypedDict]
     r"""The remaining amount that can be refunded. Only available when refunds are available for this payment."""
     amount_captured: NotRequired[GetPaymentAmountCapturedTypedDict]
     r"""The total amount that is already captured for this payment. Only available when this payment supports captures."""
     amount_charged_back: NotRequired[GetPaymentAmountChargedBackTypedDict]
-    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not zero."""
+    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not
+    zero.
+    """
     settlement_amount: NotRequired[GetPaymentSettlementAmountTypedDict]
-    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
 
-    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is settled by Mollie the `settlementAmount` is omitted from the response.
+    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is
+    settled by Mollie the `settlementAmount` is omitted from the response.
 
-    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
+    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest
+    using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
     redirect_url: NotRequired[Nullable[str]]
     r"""The URL your customer will be redirected to after the payment process.
 
-    It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
+    It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the
+    right page referencing the order when your customer returns.
 
-    The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for Apple Pay payments with an `applePayPaymentToken`.
+    The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for
+    Apple Pay payments with an `applePayPaymentToken`.
     """
     cancel_url: NotRequired[Nullable[str]]
-    r"""The URL your customer will be redirected to when the customer explicitly cancels the payment. If this URL is not provided, the customer will be redirected to the `redirectUrl` instead — see above.
+    r"""The URL your customer will be redirected to when the customer explicitly cancels the payment. If this URL is not
+    provided, the customer will be redirected to the `redirectUrl` instead — see above.
 
-    Mollie will always give you status updates via webhooks, including for the canceled status. This parameter is therefore entirely optional, but can be useful when implementing a dedicated customer-facing flow to handle payment cancellations.
+    Mollie will always give you status updates via webhooks, including for the canceled status. This parameter is
+    therefore entirely optional, but can be useful when implementing a dedicated customer-facing flow to handle
+    payment cancellations.
     """
     webhook_url: NotRequired[Nullable[str]]
     r"""The webhook URL where we will send payment status updates to.
 
     The webhookUrl is optional, but without a webhook you will miss out on important status changes to your payment.
 
-    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
+    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use
+    webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your
+    local machine.
     """
-    lines: NotRequired[Nullable[List[GetPaymentLinesTypedDict]]]
-    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.
+    lines: NotRequired[Nullable[List[GetPaymentLineTypedDict]]]
+    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item
+    ordered and its price.
 
     All lines must have the same currency as the payment.
 
     Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
     """
     billing_address: NotRequired[GetPaymentBillingAddressTypedDict]
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
     shipping_address: NotRequired[GetPaymentShippingAddressTypedDict]
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
-    locale: NotRequired[Nullable[str]]
-    r"""Allows you to preset the language to be used in the hosted payment pages shown to the customer. Setting a locale is highly recommended and will greatly improve your conversion rate. When this parameter is omitted the browser language will be used instead if supported by the payment method. You can provide any `xx_XX` format ISO 15897 locale, but our hosted payment pages currently only support the specified languages.
+    locale: NotRequired[Nullable[GetPaymentLocale]]
+    r"""Allows you to preset the language to be used in the hosted payment pages shown to the customer. Setting a locale
+    is highly recommended and will greatly improve your conversion rate. When this parameter is omitted the browser
+    language will be used instead if supported by the payment method. You can provide any `xx_XX` format ISO 15897
+    locale, but our hosted payment pages currently only support the specified languages.
 
-    For bank transfer payments specifically, the locale will determine the target bank account the customer has to transfer the money to. We have dedicated bank accounts for Belgium, Germany, and The Netherlands. Having the customer use a local bank account greatly increases the conversion and speed of payment.
+    For bank transfer payments specifically, the locale will determine the target bank account the customer has to
+    transfer the money to. We have dedicated bank accounts for Belgium, Germany, and The Netherlands. Having the
+    customer use a local bank account greatly increases the conversion and speed of payment.
     """
     country_code: NotRequired[Nullable[str]]
-    r"""This optional field contains your customer's ISO 3166-1 alpha-2 country code, detected by us during checkout. This field is omitted if the country code was not detected."""
-    method: NotRequired[Nullable[str]]
-    r"""The payment method used for this transaction. If a specific method was selected during payment initialization, this field reflects that choice."""
+    r"""This optional field contains your customer's ISO 3166-1 alpha-2 country code, detected by us during checkout. This
+    field is omitted if the country code was not detected.
+    """
+    method: NotRequired[Nullable[GetPaymentMethod]]
+    r"""The payment method used for this transaction. If a specific method was selected during payment initialization,
+    this field reflects that choice.
+    """
     restrict_payment_methods_to_country: NotRequired[Nullable[str]]
-    r"""For digital goods in most jurisdictions, you must apply the VAT rate from your customer's country. Choose the VAT rates you have used for the order to ensure your customer's country matches the VAT country.
+    r"""For digital goods in most jurisdictions, you must apply the VAT rate from your customer's country. Choose the VAT
+    rates you have used for the order to ensure your customer's country matches the VAT country.
 
     Use this parameter to restrict the payment methods available to your customer to those from a single country.
 
@@ -1698,21 +2026,25 @@ class GetPaymentResponseBodyTypedDict(TypedDict):
 
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
-    metadata: NotRequired[Nullable[GetPaymentMetadataTypedDict]]
-    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
-    capture_mode: NotRequired[Nullable[str]]
-    r"""Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/) and capture at a later time.
+    metadata: NotRequired[Nullable[GetPaymentMetadataUnionTypedDict]]
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+    you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+    """
+    capture_mode: NotRequired[Nullable[GetPaymentCaptureMode]]
+    r"""Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/)
+    and capture at a later time.
 
     This field needs to be set to `manual` for method `riverty`.
-
-    Possible values: `automatic` `manual` (default: `automatic`)
     """
     capture_delay: NotRequired[Nullable[str]]
     r"""**Only relevant if you wish to manage authorization and capturing separately.**
 
-    Some payment methods allow placing a hold on the card or bank account. This hold or 'authorization' can then at a later point either be 'captured' or canceled.
+    Some payment methods allow placing a hold on the card or bank account. This hold or 'authorization' can then at a
+    later point either be 'captured' or canceled.
 
-    By default, we charge the customer's card or bank account immediately when they complete the payment. If you set a capture delay however, we will delay the automatic capturing of the payment for the specified amount of time. For example `8 hours` or `2 days`.
+    By default, we charge the customer's card or bank account immediately when they complete the payment. If you set a
+    capture delay however, we will delay the automatic capturing of the payment for the specified amount of time. For
+    example `8 hours` or `2 days`.
 
     To schedule an automatic capture, the `captureMode` must be set to `automatic`.
 
@@ -1721,36 +2053,68 @@ class GetPaymentResponseBodyTypedDict(TypedDict):
     Possible values: `... hours` `... days`
     """
     capture_before: NotRequired[Nullable[str]]
-    r"""Indicates the date before which the payment needs to be captured, in ISO 8601 format. From this date onwards we can no longer guarantee a successful capture. The parameter is omitted if the payment is not authorized (yet)."""
+    r"""Indicates the date before which the payment needs to be captured, in ISO 8601 format. From this date onwards we
+    can no longer guarantee a successful capture. The parameter is omitted if the payment is not authorized (yet).
+    """
     application_fee: NotRequired[Nullable[GetPaymentApplicationFeeTypedDict]]
-    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.
+    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
 
-    If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the `routing` parameter.
+    If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the
+    `routing` parameter.
     """
     routing: NotRequired[Nullable[List[GetPaymentRoutingTypedDict]]]
     r"""*This functionality is not enabled by default. Reach out to our partner management team if you wish to use it.*
 
-    With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.
+    With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you create payments on your own account that you want to split between yourself and one or more connected merchants, you can use this `routing` parameter to route the payment accordingly.
+    If you create payments on your own account that you want to split between yourself and one or more connected
+    merchants, you can use this `routing` parameter to route the payment accordingly.
 
-    The `routing` parameter should contain an array of objects, with each object describing the destination for a specific portion of the payment.
+    The `routing` parameter should contain an array of objects, with each object describing the destination for a
+    specific portion of the payment.
 
-    It is not necessary to indicate in the array which portion goes to yourself. After all portions of the total payment amount have been routed, the amount left will be routed to the current organization automatically.
+    It is not necessary to indicate in the array which portion goes to yourself. After all portions of the total
+    payment amount have been routed, the amount left will be routed to the current organization automatically.
 
-    If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee` parameter.
+    If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee`
+    parameter.
+    """
+    sequence_type: NotRequired[Nullable[GetPaymentSequenceType]]
+    r"""**Only relevant for recurring payments.**
+
+    Indicate which part of a recurring sequence this payment is for.
+
+    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is
+    through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place
+    on their account in the future.
+
+    If set to `recurring`, the customer's card is charged automatically.
+
+    Defaults to `oneoff`, which is a regular non-recurring payment.
+
+    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our
+    [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account
+    are set up correctly for recurring payments.
     """
     subscription_id: NotRequired[Nullable[str]]
-    r"""If the payment was automatically created via a subscription, the ID of the [subscription](get-subscription) will be added to the response."""
+    r"""If the payment was automatically created via a subscription, the ID of the [subscription](get-subscription) will
+    be added to the response.
+    """
     mandate_id: NotRequired[Nullable[str]]
     r"""**Only relevant for recurring payments.**
 
-    When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of the customer's accounts should be credited.
+    When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of
+    the customer's accounts should be credited.
     """
     customer_id: NotRequired[Nullable[str]]
-    r"""The ID of the [customer](get-customer) the payment is being created for. This is used primarily for recurring payments, but can also be used on regular payments to enable single-click payments.
+    r"""The ID of the [customer](get-customer) the payment is being created for. This is used primarily for recurring
+    payments, but can also be used on regular payments to enable single-click payments.
 
     If `sequenceType` is set to `recurring`, this field is required.
     """
@@ -1759,87 +2123,93 @@ class GetPaymentResponseBodyTypedDict(TypedDict):
     order_id: NotRequired[Nullable[str]]
     r"""If the payment was created for an [order](get-order), the ID of that order will be part of the response."""
     status_reason: NotRequired[Nullable[GetPaymentStatusReasonTypedDict]]
-    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale payments.
+    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale
+    payments.
 
-    You can find more information about the possible values of this object on [this page](status-reasons).**
+    You can find more information about the possible values of this object on
+    [this page](status-reasons).**
     """
     is_cancelable: NotRequired[Nullable[bool]]
     r"""Whether the payment can be canceled. This parameter is omitted if the payment reaches a final state."""
     details: NotRequired[Nullable[Dict[str, Any]]]
-    r"""An object containing payment details collected during the payment process. For example, details may include the customer's card or bank details and a payment reference. For the full list of details, please refer to the [method-specific parameters](extra-payment-parameters) guide."""
+    r"""An object containing payment details collected during the payment process. For example, details may include the
+    customer's card or bank details and a payment reference. For the full list of details, please refer to the
+    [method-specific parameters](extra-payment-parameters) guide.
+    """
     authorized_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment became authorized, in ISO 8601 format. This parameter is omitted if the payment is not authorized (yet)."""
+    r"""The date and time the payment became authorized, in ISO 8601 format. This parameter is omitted if the payment is
+    not authorized (yet).
+    """
     paid_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment became paid, in ISO 8601 format. This parameter is omitted if the payment is not completed (yet)."""
+    r"""The date and time the payment became paid, in ISO 8601 format. This parameter is omitted if the payment is not
+    completed (yet).
+    """
     canceled_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment was canceled, in ISO 8601 format. This parameter is omitted if the payment is not canceled (yet)."""
+    r"""The date and time the payment was canceled, in ISO 8601 format. This parameter is omitted if the payment is not
+    canceled (yet).
+    """
     expires_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment will expire, in ISO 8601 format. This parameter is omitted if the payment can no longer expire."""
+    r"""The date and time the payment will expire, in ISO 8601 format. This parameter is omitted if the payment can no
+    longer expire.
+    """
     expired_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment was expired, in ISO 8601 format. This parameter is omitted if the payment did not expire (yet)."""
+    r"""The date and time the payment was expired, in ISO 8601 format. This parameter is omitted if the payment did not
+    expire (yet).
+    """
     failed_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment failed, in ISO 8601 format. This parameter is omitted if the payment did not fail (yet)."""
+    r"""The date and time the payment failed, in ISO 8601 format. This parameter is omitted if the payment did not fail
+    (yet).
+    """
 
 
-class GetPaymentResponseBody(BaseModel):
+class GetPaymentResponse(BaseModel):
     r"""The payment object."""
 
     resource: str
     r"""Indicates the response contains a payment object. Will always contain the string `payment` for this endpoint."""
 
     id: str
-    r"""The identifier uniquely referring to this payment. Mollie assigns this identifier at payment creation time. Mollie will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`."""
-
-    mode: str
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
+    r"""The identifier uniquely referring to this payment. Mollie assigns this identifier at payment creation time. Mollie
+    will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
     """
 
+    mode: GetPaymentMode
+    r"""Whether this entity was created in live mode or in test mode."""
+
     description: str
-    r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.
+    r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible.
+    We truncate the description automatically according to the limits of the used payment method. The description is
+    also visible in any exports you generate.
 
-    We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.
+    We recommend you use a unique identifier so that you can always link the payment to the order in your back office.
+    This is particularly useful for bookkeeping.
 
-    The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
+    The maximum length of the description field differs per payment method, with the absolute maximum being 255
+    characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
     """
 
     amount: GetPaymentAmount
     r"""The amount that you want to charge, e.g. `{currency:\"EUR\", value:\"1000.00\"}` if you would want to charge €1000.00.
 
-    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be retrieved using the Get method endpoint.
+    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be
+    retrieved using the Get method endpoint.
 
-    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the tip amount.
-    """
-
-    sequence_type: Annotated[Nullable[str], pydantic.Field(alias="sequenceType")]
-    r"""**Only relevant for recurring payments.**
-
-    Indicate which part of a recurring sequence this payment is for.
-
-    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place on their account in the future.
-
-    If set to `recurring`, the customer's card is charged automatically.
-
-    Defaults to `oneoff`, which is a regular non-recurring payment.
-
-    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account are set up correctly for recurring payments.
-
-    Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
+    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the
+    tip amount.
     """
 
     profile_id: Annotated[str, pydantic.Field(alias="profileId")]
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
-    When using an API Key, the `profileId` can be omitted since it is linked to the key. However, for OAuth and Organization tokens, the `profileId` is required.
+    When using an API Key, the `profileId` can be omitted since it is linked to the key. However, for OAuth and
+    Organization tokens, the `profileId` is required.
 
     For more information, see [Authentication](authentication).
     """
 
-    status: str
-    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which statuses occur at what point.
-
-    Possible values: `open` `pending` `authorized` `paid` `canceled` `expired` `failed`
+    status: GetPaymentStatus
+    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
+    statuses occur at what point.
     """
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
@@ -1851,7 +2221,10 @@ class GetPaymentResponseBody(BaseModel):
     amount_refunded: Annotated[
         Optional[GetPaymentAmountRefunded], pydantic.Field(alias="amountRefunded")
     ] = None
-    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the costs for a return shipment to the customer."""
+    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some
+    payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the
+    costs for a return shipment to the customer.
+    """
 
     amount_remaining: Annotated[
         Optional[GetPaymentAmountRemaining], pydantic.Field(alias="amountRemaining")
@@ -1866,16 +2239,21 @@ class GetPaymentResponseBody(BaseModel):
     amount_charged_back: Annotated[
         Optional[GetPaymentAmountChargedBack], pydantic.Field(alias="amountChargedBack")
     ] = None
-    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not zero."""
+    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not
+    zero.
+    """
 
     settlement_amount: Annotated[
         Optional[GetPaymentSettlementAmount], pydantic.Field(alias="settlementAmount")
     ] = None
-    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
 
-    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is settled by Mollie the `settlementAmount` is omitted from the response.
+    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is
+    settled by Mollie the `settlementAmount` is omitted from the response.
 
-    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
+    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest
+    using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
 
     redirect_url: Annotated[
@@ -1883,17 +2261,22 @@ class GetPaymentResponseBody(BaseModel):
     ] = UNSET
     r"""The URL your customer will be redirected to after the payment process.
 
-    It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
+    It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the
+    right page referencing the order when your customer returns.
 
-    The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for Apple Pay payments with an `applePayPaymentToken`.
+    The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for
+    Apple Pay payments with an `applePayPaymentToken`.
     """
 
     cancel_url: Annotated[OptionalNullable[str], pydantic.Field(alias="cancelUrl")] = (
         UNSET
     )
-    r"""The URL your customer will be redirected to when the customer explicitly cancels the payment. If this URL is not provided, the customer will be redirected to the `redirectUrl` instead — see above.
+    r"""The URL your customer will be redirected to when the customer explicitly cancels the payment. If this URL is not
+    provided, the customer will be redirected to the `redirectUrl` instead — see above.
 
-    Mollie will always give you status updates via webhooks, including for the canceled status. This parameter is therefore entirely optional, but can be useful when implementing a dedicated customer-facing flow to handle payment cancellations.
+    Mollie will always give you status updates via webhooks, including for the canceled status. This parameter is
+    therefore entirely optional, but can be useful when implementing a dedicated customer-facing flow to handle
+    payment cancellations.
     """
 
     webhook_url: Annotated[
@@ -1903,11 +2286,14 @@ class GetPaymentResponseBody(BaseModel):
 
     The webhookUrl is optional, but without a webhook you will miss out on important status changes to your payment.
 
-    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
+    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use
+    webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your
+    local machine.
     """
 
-    lines: OptionalNullable[List[GetPaymentLines]] = UNSET
-    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.
+    lines: OptionalNullable[List[GetPaymentLine]] = UNSET
+    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item
+    ordered and its price.
 
     All lines must have the same currency as the payment.
 
@@ -1917,9 +2303,11 @@ class GetPaymentResponseBody(BaseModel):
     billing_address: Annotated[
         Optional[GetPaymentBillingAddress], pydantic.Field(alias="billingAddress")
     ] = None
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
@@ -1927,29 +2315,41 @@ class GetPaymentResponseBody(BaseModel):
     shipping_address: Annotated[
         Optional[GetPaymentShippingAddress], pydantic.Field(alias="shippingAddress")
     ] = None
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
 
-    locale: OptionalNullable[str] = UNSET
-    r"""Allows you to preset the language to be used in the hosted payment pages shown to the customer. Setting a locale is highly recommended and will greatly improve your conversion rate. When this parameter is omitted the browser language will be used instead if supported by the payment method. You can provide any `xx_XX` format ISO 15897 locale, but our hosted payment pages currently only support the specified languages.
+    locale: OptionalNullable[GetPaymentLocale] = UNSET
+    r"""Allows you to preset the language to be used in the hosted payment pages shown to the customer. Setting a locale
+    is highly recommended and will greatly improve your conversion rate. When this parameter is omitted the browser
+    language will be used instead if supported by the payment method. You can provide any `xx_XX` format ISO 15897
+    locale, but our hosted payment pages currently only support the specified languages.
 
-    For bank transfer payments specifically, the locale will determine the target bank account the customer has to transfer the money to. We have dedicated bank accounts for Belgium, Germany, and The Netherlands. Having the customer use a local bank account greatly increases the conversion and speed of payment.
+    For bank transfer payments specifically, the locale will determine the target bank account the customer has to
+    transfer the money to. We have dedicated bank accounts for Belgium, Germany, and The Netherlands. Having the
+    customer use a local bank account greatly increases the conversion and speed of payment.
     """
 
     country_code: Annotated[
         OptionalNullable[str], pydantic.Field(alias="countryCode")
     ] = UNSET
-    r"""This optional field contains your customer's ISO 3166-1 alpha-2 country code, detected by us during checkout. This field is omitted if the country code was not detected."""
+    r"""This optional field contains your customer's ISO 3166-1 alpha-2 country code, detected by us during checkout. This
+    field is omitted if the country code was not detected.
+    """
 
-    method: OptionalNullable[str] = UNSET
-    r"""The payment method used for this transaction. If a specific method was selected during payment initialization, this field reflects that choice."""
+    method: OptionalNullable[GetPaymentMethod] = UNSET
+    r"""The payment method used for this transaction. If a specific method was selected during payment initialization,
+    this field reflects that choice.
+    """
 
     restrict_payment_methods_to_country: Annotated[
         OptionalNullable[str], pydantic.Field(alias="restrictPaymentMethodsToCountry")
     ] = UNSET
-    r"""For digital goods in most jurisdictions, you must apply the VAT rate from your customer's country. Choose the VAT rates you have used for the order to ensure your customer's country matches the VAT country.
+    r"""For digital goods in most jurisdictions, you must apply the VAT rate from your customer's country. Choose the VAT
+    rates you have used for the order to ensure your customer's country matches the VAT country.
 
     Use this parameter to restrict the payment methods available to your customer to those from a single country.
 
@@ -1958,17 +2358,18 @@ class GetPaymentResponseBody(BaseModel):
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
 
-    metadata: OptionalNullable[GetPaymentMetadata] = UNSET
-    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+    metadata: OptionalNullable[GetPaymentMetadataUnion] = UNSET
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+    you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+    """
 
     capture_mode: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="captureMode")
+        OptionalNullable[GetPaymentCaptureMode], pydantic.Field(alias="captureMode")
     ] = UNSET
-    r"""Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/) and capture at a later time.
+    r"""Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/)
+    and capture at a later time.
 
     This field needs to be set to `manual` for method `riverty`.
-
-    Possible values: `automatic` `manual` (default: `automatic`)
     """
 
     capture_delay: Annotated[
@@ -1976,9 +2377,12 @@ class GetPaymentResponseBody(BaseModel):
     ] = UNSET
     r"""**Only relevant if you wish to manage authorization and capturing separately.**
 
-    Some payment methods allow placing a hold on the card or bank account. This hold or 'authorization' can then at a later point either be 'captured' or canceled.
+    Some payment methods allow placing a hold on the card or bank account. This hold or 'authorization' can then at a
+    later point either be 'captured' or canceled.
 
-    By default, we charge the customer's card or bank account immediately when they complete the payment. If you set a capture delay however, we will delay the automatic capturing of the payment for the specified amount of time. For example `8 hours` or `2 days`.
+    By default, we charge the customer's card or bank account immediately when they complete the payment. If you set a
+    capture delay however, we will delay the automatic capturing of the payment for the specified amount of time. For
+    example `8 hours` or `2 days`.
 
     To schedule an automatic capture, the `captureMode` must be set to `automatic`.
 
@@ -1990,50 +2394,85 @@ class GetPaymentResponseBody(BaseModel):
     capture_before: Annotated[
         OptionalNullable[str], pydantic.Field(alias="captureBefore")
     ] = UNSET
-    r"""Indicates the date before which the payment needs to be captured, in ISO 8601 format. From this date onwards we can no longer guarantee a successful capture. The parameter is omitted if the payment is not authorized (yet)."""
+    r"""Indicates the date before which the payment needs to be captured, in ISO 8601 format. From this date onwards we
+    can no longer guarantee a successful capture. The parameter is omitted if the payment is not authorized (yet).
+    """
 
     application_fee: Annotated[
         OptionalNullable[GetPaymentApplicationFee],
         pydantic.Field(alias="applicationFee"),
     ] = UNSET
-    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.
+    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
 
-    If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the `routing` parameter.
+    If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the
+    `routing` parameter.
     """
 
     routing: OptionalNullable[List[GetPaymentRouting]] = UNSET
     r"""*This functionality is not enabled by default. Reach out to our partner management team if you wish to use it.*
 
-    With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.
+    With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you create payments on your own account that you want to split between yourself and one or more connected merchants, you can use this `routing` parameter to route the payment accordingly.
+    If you create payments on your own account that you want to split between yourself and one or more connected
+    merchants, you can use this `routing` parameter to route the payment accordingly.
 
-    The `routing` parameter should contain an array of objects, with each object describing the destination for a specific portion of the payment.
+    The `routing` parameter should contain an array of objects, with each object describing the destination for a
+    specific portion of the payment.
 
-    It is not necessary to indicate in the array which portion goes to yourself. After all portions of the total payment amount have been routed, the amount left will be routed to the current organization automatically.
+    It is not necessary to indicate in the array which portion goes to yourself. After all portions of the total
+    payment amount have been routed, the amount left will be routed to the current organization automatically.
 
-    If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee` parameter.
+    If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee`
+    parameter.
+    """
+
+    sequence_type: Annotated[
+        OptionalNullable[GetPaymentSequenceType], pydantic.Field(alias="sequenceType")
+    ] = GetPaymentSequenceType.ONEOFF
+    r"""**Only relevant for recurring payments.**
+
+    Indicate which part of a recurring sequence this payment is for.
+
+    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is
+    through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place
+    on their account in the future.
+
+    If set to `recurring`, the customer's card is charged automatically.
+
+    Defaults to `oneoff`, which is a regular non-recurring payment.
+
+    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our
+    [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account
+    are set up correctly for recurring payments.
     """
 
     subscription_id: Annotated[
         OptionalNullable[str], pydantic.Field(alias="subscriptionId")
     ] = UNSET
-    r"""If the payment was automatically created via a subscription, the ID of the [subscription](get-subscription) will be added to the response."""
+    r"""If the payment was automatically created via a subscription, the ID of the [subscription](get-subscription) will
+    be added to the response.
+    """
 
     mandate_id: Annotated[OptionalNullable[str], pydantic.Field(alias="mandateId")] = (
         UNSET
     )
     r"""**Only relevant for recurring payments.**
 
-    When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of the customer's accounts should be credited.
+    When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of
+    the customer's accounts should be credited.
     """
 
     customer_id: Annotated[
         OptionalNullable[str], pydantic.Field(alias="customerId")
     ] = UNSET
-    r"""The ID of the [customer](get-customer) the payment is being created for. This is used primarily for recurring payments, but can also be used on regular payments to enable single-click payments.
+    r"""The ID of the [customer](get-customer) the payment is being created for. This is used primarily for recurring
+    payments, but can also be used on regular payments to enable single-click payments.
 
     If `sequenceType` is set to `recurring`, this field is required.
     """
@@ -2049,9 +2488,11 @@ class GetPaymentResponseBody(BaseModel):
     status_reason: Annotated[
         OptionalNullable[GetPaymentStatusReason], pydantic.Field(alias="statusReason")
     ] = UNSET
-    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale payments.
+    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale
+    payments.
 
-    You can find more information about the possible values of this object on [this page](status-reasons).**
+    You can find more information about the possible values of this object on
+    [this page](status-reasons).**
     """
 
     is_cancelable: Annotated[
@@ -2060,35 +2501,50 @@ class GetPaymentResponseBody(BaseModel):
     r"""Whether the payment can be canceled. This parameter is omitted if the payment reaches a final state."""
 
     details: OptionalNullable[Dict[str, Any]] = UNSET
-    r"""An object containing payment details collected during the payment process. For example, details may include the customer's card or bank details and a payment reference. For the full list of details, please refer to the [method-specific parameters](extra-payment-parameters) guide."""
+    r"""An object containing payment details collected during the payment process. For example, details may include the
+    customer's card or bank details and a payment reference. For the full list of details, please refer to the
+    [method-specific parameters](extra-payment-parameters) guide.
+    """
 
     authorized_at: Annotated[
         OptionalNullable[str], pydantic.Field(alias="authorizedAt")
     ] = UNSET
-    r"""The date and time the payment became authorized, in ISO 8601 format. This parameter is omitted if the payment is not authorized (yet)."""
+    r"""The date and time the payment became authorized, in ISO 8601 format. This parameter is omitted if the payment is
+    not authorized (yet).
+    """
 
     paid_at: Annotated[OptionalNullable[str], pydantic.Field(alias="paidAt")] = UNSET
-    r"""The date and time the payment became paid, in ISO 8601 format. This parameter is omitted if the payment is not completed (yet)."""
+    r"""The date and time the payment became paid, in ISO 8601 format. This parameter is omitted if the payment is not
+    completed (yet).
+    """
 
     canceled_at: Annotated[
         OptionalNullable[str], pydantic.Field(alias="canceledAt")
     ] = UNSET
-    r"""The date and time the payment was canceled, in ISO 8601 format. This parameter is omitted if the payment is not canceled (yet)."""
+    r"""The date and time the payment was canceled, in ISO 8601 format. This parameter is omitted if the payment is not
+    canceled (yet).
+    """
 
     expires_at: Annotated[OptionalNullable[str], pydantic.Field(alias="expiresAt")] = (
         UNSET
     )
-    r"""The date and time the payment will expire, in ISO 8601 format. This parameter is omitted if the payment can no longer expire."""
+    r"""The date and time the payment will expire, in ISO 8601 format. This parameter is omitted if the payment can no
+    longer expire.
+    """
 
     expired_at: Annotated[OptionalNullable[str], pydantic.Field(alias="expiredAt")] = (
         UNSET
     )
-    r"""The date and time the payment was expired, in ISO 8601 format. This parameter is omitted if the payment did not expire (yet)."""
+    r"""The date and time the payment was expired, in ISO 8601 format. This parameter is omitted if the payment did not
+    expire (yet).
+    """
 
     failed_at: Annotated[OptionalNullable[str], pydantic.Field(alias="failedAt")] = (
         UNSET
     )
-    r"""The date and time the payment failed, in ISO 8601 format. This parameter is omitted if the payment did not fail (yet)."""
+    r"""The date and time the payment failed, in ISO 8601 format. This parameter is omitted if the payment did not fail
+    (yet).
+    """
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -2114,6 +2570,7 @@ class GetPaymentResponseBody(BaseModel):
             "captureBefore",
             "applicationFee",
             "routing",
+            "sequenceType",
             "subscriptionId",
             "mandateId",
             "customerId",

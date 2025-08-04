@@ -13,7 +13,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class DeleteSalesInvoiceRequestBodyTypedDict(TypedDict):
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
+    such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -21,7 +22,8 @@ class DeleteSalesInvoiceRequestBodyTypedDict(TypedDict):
 
 class DeleteSalesInvoiceRequestBody(BaseModel):
     testmode: OptionalNullable[bool] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
+    such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -75,14 +77,14 @@ class DeleteSalesInvoiceRequest(BaseModel):
     ] = None
 
 
-class DeleteSalesInvoiceSalesInvoicesDocumentationTypedDict(TypedDict):
+class DeleteSalesInvoiceUnprocessableEntityDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class DeleteSalesInvoiceSalesInvoicesDocumentation(BaseModel):
+class DeleteSalesInvoiceUnprocessableEntityDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -90,17 +92,17 @@ class DeleteSalesInvoiceSalesInvoicesDocumentation(BaseModel):
     type: str
 
 
-class DeleteSalesInvoiceSalesInvoicesLinksTypedDict(TypedDict):
-    documentation: DeleteSalesInvoiceSalesInvoicesDocumentationTypedDict
+class DeleteSalesInvoiceUnprocessableEntityLinksTypedDict(TypedDict):
+    documentation: DeleteSalesInvoiceUnprocessableEntityDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeleteSalesInvoiceSalesInvoicesLinks(BaseModel):
-    documentation: DeleteSalesInvoiceSalesInvoicesDocumentation
+class DeleteSalesInvoiceUnprocessableEntityLinks(BaseModel):
+    documentation: DeleteSalesInvoiceUnprocessableEntityDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeleteSalesInvoiceSalesInvoicesResponseBodyData(BaseModel):
+class DeleteSalesInvoiceUnprocessableEntityHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -111,21 +113,23 @@ class DeleteSalesInvoiceSalesInvoicesResponseBodyData(BaseModel):
     r"""A detailed human-readable description of the error that occurred."""
 
     links: Annotated[
-        DeleteSalesInvoiceSalesInvoicesLinks, pydantic.Field(alias="_links")
+        DeleteSalesInvoiceUnprocessableEntityLinks, pydantic.Field(alias="_links")
     ]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class DeleteSalesInvoiceSalesInvoicesResponseBody(ClientError):
+class DeleteSalesInvoiceUnprocessableEntityHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: DeleteSalesInvoiceSalesInvoicesResponseBodyData
+    data: DeleteSalesInvoiceUnprocessableEntityHalJSONErrorData
 
     def __init__(
         self,
-        data: DeleteSalesInvoiceSalesInvoicesResponseBodyData,
+        data: DeleteSalesInvoiceUnprocessableEntityHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -134,14 +138,14 @@ class DeleteSalesInvoiceSalesInvoicesResponseBody(ClientError):
         self.data = data
 
 
-class DeleteSalesInvoiceDocumentationTypedDict(TypedDict):
+class DeleteSalesInvoiceNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class DeleteSalesInvoiceDocumentation(BaseModel):
+class DeleteSalesInvoiceNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -149,17 +153,17 @@ class DeleteSalesInvoiceDocumentation(BaseModel):
     type: str
 
 
-class DeleteSalesInvoiceLinksTypedDict(TypedDict):
-    documentation: DeleteSalesInvoiceDocumentationTypedDict
+class DeleteSalesInvoiceNotFoundLinksTypedDict(TypedDict):
+    documentation: DeleteSalesInvoiceNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeleteSalesInvoiceLinks(BaseModel):
-    documentation: DeleteSalesInvoiceDocumentation
+class DeleteSalesInvoiceNotFoundLinks(BaseModel):
+    documentation: DeleteSalesInvoiceNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeleteSalesInvoiceResponseBodyData(BaseModel):
+class DeleteSalesInvoiceNotFoundHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -169,20 +173,22 @@ class DeleteSalesInvoiceResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[DeleteSalesInvoiceLinks, pydantic.Field(alias="_links")]
+    links: Annotated[DeleteSalesInvoiceNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class DeleteSalesInvoiceResponseBody(ClientError):
+class DeleteSalesInvoiceNotFoundHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: DeleteSalesInvoiceResponseBodyData
+    data: DeleteSalesInvoiceNotFoundHalJSONErrorData
 
     def __init__(
         self,
-        data: DeleteSalesInvoiceResponseBodyData,
+        data: DeleteSalesInvoiceNotFoundHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):

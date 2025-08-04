@@ -1,8 +1,0 @@
-# UpdateProfileProfilesResponse422Links
-
-
-## Fields
-
-| Field                                                                                                              | Type                                                                                                               | Required                                                                                                           | Description                                                                                                        |
-| ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| `documentation`                                                                                                    | [models.UpdateProfileProfilesResponse422Documentation](../models/updateprofileprofilesresponse422documentation.md) | :heavy_check_mark:                                                                                                 | The URL to the generic Mollie API error handling guide.                                                            |

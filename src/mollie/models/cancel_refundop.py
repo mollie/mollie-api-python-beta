@@ -17,7 +17,9 @@ class CancelRefundRequestTypedDict(TypedDict):
     refund_id: str
     r"""Provide the ID of the related refund."""
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -42,7 +44,9 @@ class CancelRefundRequest(BaseModel):
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -103,7 +107,7 @@ class CancelRefundLinks(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class CancelRefundResponseBodyData(BaseModel):
+class CancelRefundHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -116,17 +120,19 @@ class CancelRefundResponseBodyData(BaseModel):
     links: Annotated[CancelRefundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class CancelRefundResponseBody(ClientError):
+class CancelRefundHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: CancelRefundResponseBodyData
+    data: CancelRefundHalJSONErrorData
 
     def __init__(
         self,
-        data: CancelRefundResponseBodyData,
+        data: CancelRefundHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):

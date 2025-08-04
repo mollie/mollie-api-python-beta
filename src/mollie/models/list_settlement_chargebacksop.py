@@ -12,7 +12,7 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class ListSettlementChargebacksQueryParamEmbed(str, Enum):
+class ListSettlementChargebacksEmbed(str, Enum):
     r"""This endpoint allows you to embed additional information via the `embed` query string parameter."""
 
     PAYMENT = "payment"
@@ -22,13 +22,17 @@ class ListSettlementChargebacksRequestTypedDict(TypedDict):
     settlement_id: str
     r"""Provide the ID of the related settlement."""
     from_: NotRequired[str]
-    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set."""
+    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the
+    result set.
+    """
     limit: NotRequired[Nullable[int]]
     r"""The maximum number of items to return. Defaults to 50 items."""
-    embed: NotRequired[ListSettlementChargebacksQueryParamEmbed]
+    embed: NotRequired[ListSettlementChargebacksEmbed]
     r"""This endpoint allows you to embed additional information via the `embed` query string parameter."""
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -47,7 +51,9 @@ class ListSettlementChargebacksRequest(BaseModel):
         pydantic.Field(alias="from"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set."""
+    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the
+    result set.
+    """
 
     limit: Annotated[
         OptionalNullable[int],
@@ -56,7 +62,7 @@ class ListSettlementChargebacksRequest(BaseModel):
     r"""The maximum number of items to return. Defaults to 50 items."""
 
     embed: Annotated[
-        Optional[ListSettlementChargebacksQueryParamEmbed],
+        Optional[ListSettlementChargebacksEmbed],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""This endpoint allows you to embed additional information via the `embed` query string parameter."""
@@ -65,7 +71,9 @@ class ListSettlementChargebacksRequest(BaseModel):
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -101,14 +109,14 @@ class ListSettlementChargebacksRequest(BaseModel):
         return m
 
 
-class ListSettlementChargebacksSettlementsResponseDocumentationTypedDict(TypedDict):
+class ListSettlementChargebacksNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class ListSettlementChargebacksSettlementsResponseDocumentation(BaseModel):
+class ListSettlementChargebacksNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -116,17 +124,17 @@ class ListSettlementChargebacksSettlementsResponseDocumentation(BaseModel):
     type: str
 
 
-class ListSettlementChargebacksSettlementsResponseLinksTypedDict(TypedDict):
-    documentation: ListSettlementChargebacksSettlementsResponseDocumentationTypedDict
+class ListSettlementChargebacksNotFoundLinksTypedDict(TypedDict):
+    documentation: ListSettlementChargebacksNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListSettlementChargebacksSettlementsResponseLinks(BaseModel):
-    documentation: ListSettlementChargebacksSettlementsResponseDocumentation
+class ListSettlementChargebacksNotFoundLinks(BaseModel):
+    documentation: ListSettlementChargebacksNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListSettlementChargebacksSettlementsResponseResponseBodyData(BaseModel):
+class ListSettlementChargebacksNotFoundHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -137,22 +145,23 @@ class ListSettlementChargebacksSettlementsResponseResponseBodyData(BaseModel):
     r"""A detailed human-readable description of the error that occurred."""
 
     links: Annotated[
-        ListSettlementChargebacksSettlementsResponseLinks,
-        pydantic.Field(alias="_links"),
+        ListSettlementChargebacksNotFoundLinks, pydantic.Field(alias="_links")
     ]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class ListSettlementChargebacksSettlementsResponseResponseBody(ClientError):
+class ListSettlementChargebacksNotFoundHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: ListSettlementChargebacksSettlementsResponseResponseBodyData
+    data: ListSettlementChargebacksNotFoundHalJSONErrorData
 
     def __init__(
         self,
-        data: ListSettlementChargebacksSettlementsResponseResponseBodyData,
+        data: ListSettlementChargebacksNotFoundHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -161,14 +170,14 @@ class ListSettlementChargebacksSettlementsResponseResponseBody(ClientError):
         self.data = data
 
 
-class ListSettlementChargebacksSettlementsDocumentationTypedDict(TypedDict):
+class ListSettlementChargebacksBadRequestDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class ListSettlementChargebacksSettlementsDocumentation(BaseModel):
+class ListSettlementChargebacksBadRequestDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -176,17 +185,17 @@ class ListSettlementChargebacksSettlementsDocumentation(BaseModel):
     type: str
 
 
-class ListSettlementChargebacksSettlementsLinksTypedDict(TypedDict):
-    documentation: ListSettlementChargebacksSettlementsDocumentationTypedDict
+class ListSettlementChargebacksBadRequestLinksTypedDict(TypedDict):
+    documentation: ListSettlementChargebacksBadRequestDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListSettlementChargebacksSettlementsLinks(BaseModel):
-    documentation: ListSettlementChargebacksSettlementsDocumentation
+class ListSettlementChargebacksBadRequestLinks(BaseModel):
+    documentation: ListSettlementChargebacksBadRequestDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListSettlementChargebacksSettlementsResponseBodyData(BaseModel):
+class ListSettlementChargebacksBadRequestHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -197,21 +206,23 @@ class ListSettlementChargebacksSettlementsResponseBodyData(BaseModel):
     r"""A detailed human-readable description of the error that occurred."""
 
     links: Annotated[
-        ListSettlementChargebacksSettlementsLinks, pydantic.Field(alias="_links")
+        ListSettlementChargebacksBadRequestLinks, pydantic.Field(alias="_links")
     ]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class ListSettlementChargebacksSettlementsResponseBody(ClientError):
+class ListSettlementChargebacksBadRequestHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: ListSettlementChargebacksSettlementsResponseBodyData
+    data: ListSettlementChargebacksBadRequestHalJSONErrorData
 
     def __init__(
         self,
-        data: ListSettlementChargebacksSettlementsResponseBodyData,
+        data: ListSettlementChargebacksBadRequestHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -240,11 +251,14 @@ class ListSettlementChargebacksAmount(BaseModel):
 
 
 class ListSettlementChargebacksSettlementAmountTypedDict(TypedDict):
-    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
 
     The amount is a **negative** amount.
 
-    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
     """
 
     currency: str
@@ -254,11 +268,14 @@ class ListSettlementChargebacksSettlementAmountTypedDict(TypedDict):
 
 
 class ListSettlementChargebacksSettlementAmount(BaseModel):
-    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
 
     The amount is a **negative** amount.
 
-    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
     """
 
     currency: str
@@ -287,7 +304,7 @@ class ListSettlementChargebacksReason(BaseModel):
     r"""A more detailed human-friendly description."""
 
 
-class ListSettlementChargebacksSettlementsSelfTypedDict(TypedDict):
+class ListSettlementChargebacksChargebackSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -296,7 +313,7 @@ class ListSettlementChargebacksSettlementsSelfTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListSettlementChargebacksSettlementsSelf(BaseModel):
+class ListSettlementChargebacksChargebackSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -326,7 +343,9 @@ class ListSettlementChargebacksPayment(BaseModel):
 
 
 class ListSettlementChargebacksSettlementTypedDict(TypedDict):
-    r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if
+    not yet settled.
+    """
 
     href: NotRequired[str]
     r"""The actual URL string."""
@@ -335,7 +354,9 @@ class ListSettlementChargebacksSettlementTypedDict(TypedDict):
 
 
 class ListSettlementChargebacksSettlement(BaseModel):
-    r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if
+    not yet settled.
+    """
 
     href: Optional[str] = None
     r"""The actual URL string."""
@@ -344,7 +365,7 @@ class ListSettlementChargebacksSettlement(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListSettlementChargebacksSettlementsResponse200DocumentationTypedDict(TypedDict):
+class ListSettlementChargebacksChargebackDocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -353,7 +374,7 @@ class ListSettlementChargebacksSettlementsResponse200DocumentationTypedDict(Type
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListSettlementChargebacksSettlementsResponse200Documentation(BaseModel):
+class ListSettlementChargebacksChargebackDocumentation(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -363,35 +384,39 @@ class ListSettlementChargebacksSettlementsResponse200Documentation(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListSettlementChargebacksSettlementsResponse200LinksTypedDict(TypedDict):
+class ListSettlementChargebacksChargebackLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: ListSettlementChargebacksSettlementsSelfTypedDict
+    self_: ListSettlementChargebacksChargebackSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     payment: ListSettlementChargebacksPaymentTypedDict
     r"""The API resource URL of the [payment](get-payment) that this chargeback belongs to."""
-    documentation: ListSettlementChargebacksSettlementsResponse200DocumentationTypedDict
+    documentation: ListSettlementChargebacksChargebackDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     settlement: NotRequired[Nullable[ListSettlementChargebacksSettlementTypedDict]]
-    r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if
+    not yet settled.
+    """
 
 
-class ListSettlementChargebacksSettlementsResponse200Links(BaseModel):
+class ListSettlementChargebacksChargebackLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     self_: Annotated[
-        ListSettlementChargebacksSettlementsSelf, pydantic.Field(alias="self")
+        ListSettlementChargebacksChargebackSelf, pydantic.Field(alias="self")
     ]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     payment: ListSettlementChargebacksPayment
     r"""The API resource URL of the [payment](get-payment) that this chargeback belongs to."""
 
-    documentation: ListSettlementChargebacksSettlementsResponse200Documentation
+    documentation: ListSettlementChargebacksChargebackDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     settlement: OptionalNullable[ListSettlementChargebacksSettlement] = UNSET
-    r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if
+    not yet settled.
+    """
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -424,39 +449,52 @@ class ListSettlementChargebacksSettlementsResponse200Links(BaseModel):
         return m
 
 
-class ListSettlementChargebacksChargebacksTypedDict(TypedDict):
+class ListSettlementChargebacksChargebackTypedDict(TypedDict):
     resource: str
-    r"""Indicates the response contains a chargeback object. Will always contain the string `chargeback` for this endpoint."""
+    r"""Indicates the response contains a chargeback object. Will always contain the string `chargeback` for this
+    endpoint.
+    """
     id: str
     r"""The identifier uniquely referring to this chargeback. Example: `chb_n9z0tp`."""
     amount: ListSettlementChargebacksAmountTypedDict
     r"""The amount charged back by the customer."""
     payment_id: str
-    r"""The unique identifier of the payment this chargeback was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
+    r"""The unique identifier of the payment this chargeback was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
+    The full payment object can be retrieved via the payment URL in the `_links` object.
+    """
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: ListSettlementChargebacksSettlementsResponse200LinksTypedDict
+    links: ListSettlementChargebacksChargebackLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     settlement_amount: NotRequired[
         Nullable[ListSettlementChargebacksSettlementAmountTypedDict]
     ]
-    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
 
     The amount is a **negative** amount.
 
-    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
     """
     reason: NotRequired[Nullable[ListSettlementChargebacksReasonTypedDict]]
     r"""Reason for the chargeback as given by the bank. Only available for chargebacks of SEPA Direct Debit payments."""
     settlement_id: NotRequired[Nullable[str]]
-    r"""The identifier referring to the settlement this payment was settled with. For example, `stl_BkEjN2eBb`. This field is omitted if the refund is not settled (yet)."""
+    r"""The identifier referring to the settlement this payment was settled with. For example, `stl_BkEjN2eBb`. This field
+    is omitted if the refund is not settled (yet).
+    """
     reversed_at: NotRequired[Nullable[str]]
-    r"""The date and time the chargeback was reversed if applicable, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    r"""The date and time the chargeback was reversed if applicable, in
+    [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.
+    """
 
 
-class ListSettlementChargebacksChargebacks(BaseModel):
+class ListSettlementChargebacksChargeback(BaseModel):
     resource: str
-    r"""Indicates the response contains a chargeback object. Will always contain the string `chargeback` for this endpoint."""
+    r"""Indicates the response contains a chargeback object. Will always contain the string `chargeback` for this
+    endpoint.
+    """
 
     id: str
     r"""The identifier uniquely referring to this chargeback. Example: `chb_n9z0tp`."""
@@ -465,14 +503,15 @@ class ListSettlementChargebacksChargebacks(BaseModel):
     r"""The amount charged back by the customer."""
 
     payment_id: Annotated[str, pydantic.Field(alias="paymentId")]
-    r"""The unique identifier of the payment this chargeback was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
+    r"""The unique identifier of the payment this chargeback was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
+    The full payment object can be retrieved via the payment URL in the `_links` object.
+    """
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
     links: Annotated[
-        ListSettlementChargebacksSettlementsResponse200Links,
-        pydantic.Field(alias="_links"),
+        ListSettlementChargebacksChargebackLinks, pydantic.Field(alias="_links")
     ]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
@@ -480,11 +519,14 @@ class ListSettlementChargebacksChargebacks(BaseModel):
         OptionalNullable[ListSettlementChargebacksSettlementAmount],
         pydantic.Field(alias="settlementAmount"),
     ] = UNSET
-    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
 
     The amount is a **negative** amount.
 
-    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
     """
 
     reason: OptionalNullable[ListSettlementChargebacksReason] = UNSET
@@ -493,12 +535,16 @@ class ListSettlementChargebacksChargebacks(BaseModel):
     settlement_id: Annotated[
         OptionalNullable[str], pydantic.Field(alias="settlementId")
     ] = UNSET
-    r"""The identifier referring to the settlement this payment was settled with. For example, `stl_BkEjN2eBb`. This field is omitted if the refund is not settled (yet)."""
+    r"""The identifier referring to the settlement this payment was settled with. For example, `stl_BkEjN2eBb`. This field
+    is omitted if the refund is not settled (yet).
+    """
 
     reversed_at: Annotated[
         OptionalNullable[str], pydantic.Field(alias="reversedAt")
     ] = UNSET
-    r"""The date and time the chargeback was reversed if applicable, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    r"""The date and time the chargeback was reversed if applicable, in
+    [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.
+    """
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -532,12 +578,12 @@ class ListSettlementChargebacksChargebacks(BaseModel):
 
 
 class ListSettlementChargebacksEmbeddedTypedDict(TypedDict):
-    chargebacks: NotRequired[List[ListSettlementChargebacksChargebacksTypedDict]]
+    chargebacks: NotRequired[List[ListSettlementChargebacksChargebackTypedDict]]
     r"""A list of chargeback objects."""
 
 
 class ListSettlementChargebacksEmbedded(BaseModel):
-    chargebacks: Optional[List[ListSettlementChargebacksChargebacks]] = None
+    chargebacks: Optional[List[ListSettlementChargebacksChargeback]] = None
     r"""A list of chargeback objects."""
 
 
@@ -678,26 +724,30 @@ class ListSettlementChargebacksLinks(BaseModel):
         return m
 
 
-class ListSettlementChargebacksResponseBodyTypedDict(TypedDict):
+class ListSettlementChargebacksResponseTypedDict(TypedDict):
     r"""A list of chargeback objects."""
 
     count: NotRequired[int]
-    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.
+    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
+    as well.
 
-    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default limit is 50 items.
+    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
+    limit is 50 items.
     """
     embedded: NotRequired[ListSettlementChargebacksEmbeddedTypedDict]
     links: NotRequired[ListSettlementChargebacksLinksTypedDict]
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
 
-class ListSettlementChargebacksResponseBody(BaseModel):
+class ListSettlementChargebacksResponse(BaseModel):
     r"""A list of chargeback objects."""
 
     count: Optional[int] = None
-    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.
+    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
+    as well.
 
-    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default limit is 50 items.
+    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
+    limit is 50 items.
     """
 
     embedded: Annotated[

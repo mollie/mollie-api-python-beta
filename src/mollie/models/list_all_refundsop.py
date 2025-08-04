@@ -12,31 +12,49 @@ from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class QueryParamEmbed(str, Enum):
-    r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter."""
+class ListAllRefundsSort(str, Enum):
+    r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
+    newest to oldest.
+    """
+
+    ASC = "asc"
+    DESC = "desc"
+
+
+class ListAllRefundsEmbed(str, Enum):
+    r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string
+    parameter.
+    """
 
     PAYMENT = "payment"
 
 
 class ListAllRefundsRequestTypedDict(TypedDict):
     from_: NotRequired[str]
-    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set."""
+    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the
+    result set.
+    """
     limit: NotRequired[Nullable[int]]
     r"""The maximum number of items to return. Defaults to 50 items."""
-    sort: NotRequired[Nullable[str]]
-    r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
-
-    Possible values: `asc` `desc` (default: `desc`)
+    sort: NotRequired[Nullable[ListAllRefundsSort]]
+    r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
+    newest to oldest.
     """
-    embed: NotRequired[QueryParamEmbed]
-    r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter."""
+    embed: NotRequired[ListAllRefundsEmbed]
+    r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string
+    parameter.
+    """
     profile_id: NotRequired[str]
-    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.
+    r"""The identifier referring to the [profile](get-profile) you wish to
+    retrieve the resources for.
 
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For
+    organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
     """
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -48,7 +66,9 @@ class ListAllRefundsRequest(BaseModel):
         pydantic.Field(alias="from"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set."""
+    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the
+    result set.
+    """
 
     limit: Annotated[
         OptionalNullable[int],
@@ -57,35 +77,40 @@ class ListAllRefundsRequest(BaseModel):
     r"""The maximum number of items to return. Defaults to 50 items."""
 
     sort: Annotated[
-        OptionalNullable[str],
+        OptionalNullable[ListAllRefundsSort],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = UNSET
-    r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
-
-    Possible values: `asc` `desc` (default: `desc`)
+    ] = ListAllRefundsSort.DESC
+    r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
+    newest to oldest.
     """
 
     embed: Annotated[
-        Optional[QueryParamEmbed],
+        Optional[ListAllRefundsEmbed],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter."""
+    r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string
+    parameter.
+    """
 
     profile_id: Annotated[
         Optional[str],
         pydantic.Field(alias="profileId"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.
+    r"""The identifier referring to the [profile](get-profile) you wish to
+    retrieve the resources for.
 
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For
+    organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
     """
 
     testmode: Annotated[
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -121,14 +146,14 @@ class ListAllRefundsRequest(BaseModel):
         return m
 
 
-class ListAllRefundsRefundsDocumentationTypedDict(TypedDict):
+class ListAllRefundsBadRequestDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class ListAllRefundsRefundsDocumentation(BaseModel):
+class ListAllRefundsBadRequestDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -136,17 +161,17 @@ class ListAllRefundsRefundsDocumentation(BaseModel):
     type: str
 
 
-class ListAllRefundsRefundsLinksTypedDict(TypedDict):
-    documentation: ListAllRefundsRefundsDocumentationTypedDict
+class ListAllRefundsBadRequestLinksTypedDict(TypedDict):
+    documentation: ListAllRefundsBadRequestDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListAllRefundsRefundsLinks(BaseModel):
-    documentation: ListAllRefundsRefundsDocumentation
+class ListAllRefundsBadRequestLinks(BaseModel):
+    documentation: ListAllRefundsBadRequestDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListAllRefundsRefundsResponseBodyData(BaseModel):
+class ListAllRefundsHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -156,20 +181,22 @@ class ListAllRefundsRefundsResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[ListAllRefundsRefundsLinks, pydantic.Field(alias="_links")]
+    links: Annotated[ListAllRefundsBadRequestLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class ListAllRefundsRefundsResponseBody(ClientError):
+class ListAllRefundsHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: ListAllRefundsRefundsResponseBodyData
+    data: ListAllRefundsHalJSONErrorData
 
     def __init__(
         self,
-        data: ListAllRefundsRefundsResponseBodyData,
+        data: ListAllRefundsHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -178,8 +205,17 @@ class ListAllRefundsRefundsResponseBody(ClientError):
         self.data = data
 
 
+class ListAllRefundsMode(str, Enum):
+    r"""Whether this entity was created in live mode or in test mode."""
+
+    LIVE = "live"
+    TEST = "test"
+
+
 class ListAllRefundsAmountTypedDict(TypedDict):
-    r"""The amount refunded to your customer with this refund. The amount is allowed to be lower than the original payment amount."""
+    r"""The amount refunded to your customer with this refund. The amount is allowed to be lower than the original payment
+    amount.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -188,7 +224,9 @@ class ListAllRefundsAmountTypedDict(TypedDict):
 
 
 class ListAllRefundsAmount(BaseModel):
-    r"""The amount refunded to your customer with this refund. The amount is allowed to be lower than the original payment amount."""
+    r"""The amount refunded to your customer with this refund. The amount is allowed to be lower than the original payment
+    amount.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -198,15 +236,19 @@ class ListAllRefundsAmount(BaseModel):
 
 
 class ListAllRefundsSettlementAmountTypedDict(TypedDict):
-    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
 
     The amount is a **negative** amount.
 
-    If the refund is not directly processed by Mollie, for example for PayPal refunds, the settlement amount will be zero.
+    If the refund is not directly processed by Mollie, for example for PayPal refunds, the settlement amount will be
+    zero.
 
-    Since the field contains an estimated amount during refund processing, it may change over time. For example, while the refund is queued the settlement amount is likely not yet available.
+    Since the field contains an estimated amount during refund processing, it may change over time. For example, while
+    the refund is queued the settlement amount is likely not yet available.
 
-    To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    To retrieve accurate settlement amounts we recommend using the
+    [List balance transactions endpoint](list-balance-transactions) instead.
     """
 
     currency: str
@@ -216,15 +258,19 @@ class ListAllRefundsSettlementAmountTypedDict(TypedDict):
 
 
 class ListAllRefundsSettlementAmount(BaseModel):
-    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
 
     The amount is a **negative** amount.
 
-    If the refund is not directly processed by Mollie, for example for PayPal refunds, the settlement amount will be zero.
+    If the refund is not directly processed by Mollie, for example for PayPal refunds, the settlement amount will be
+    zero.
 
-    Since the field contains an estimated amount during refund processing, it may change over time. For example, while the refund is queued the settlement amount is likely not yet available.
+    Since the field contains an estimated amount during refund processing, it may change over time. For example, while
+    the refund is queued the settlement amount is likely not yet available.
 
-    To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    To retrieve accurate settlement amounts we recommend using the
+    [List balance transactions endpoint](list-balance-transactions) instead.
     """
 
     currency: str
@@ -234,49 +280,64 @@ class ListAllRefundsSettlementAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListAllRefundsMetadata2TypedDict(TypedDict):
+class ListAllRefundsMetadataTypedDict(TypedDict):
     pass
 
 
-class ListAllRefundsMetadata2(BaseModel):
+class ListAllRefundsMetadata(BaseModel):
     pass
 
 
-ListAllRefundsMetadataTypedDict = TypeAliasType(
-    "ListAllRefundsMetadataTypedDict",
-    Union[ListAllRefundsMetadata2TypedDict, str, List[str]],
+ListAllRefundsMetadataUnionTypedDict = TypeAliasType(
+    "ListAllRefundsMetadataUnionTypedDict",
+    Union[ListAllRefundsMetadataTypedDict, str, List[str]],
 )
-r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+"""
 
 
-ListAllRefundsMetadata = TypeAliasType(
-    "ListAllRefundsMetadata", Union[ListAllRefundsMetadata2, str, List[str]]
+ListAllRefundsMetadataUnion = TypeAliasType(
+    "ListAllRefundsMetadataUnion", Union[ListAllRefundsMetadata, str, List[str]]
 )
-r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+"""
+
+
+class ListAllRefundsStatus(str, Enum):
+    r"""Refunds may take some time to get confirmed."""
+
+    QUEUED = "queued"
+    PENDING = "pending"
+    PROCESSING = "processing"
+    REFUNDED = "refunded"
+    FAILED = "failed"
+    CANCELED = "canceled"
+
+
+class ListAllRefundsType(str, Enum):
+    r"""Specifies the reference type"""
+
+    ACQUIRER_REFERENCE = "acquirer-reference"
 
 
 class ListAllRefundsExternalReferenceTypedDict(TypedDict):
-    type: NotRequired[str]
-    r"""Specifies the reference type
-
-    Possible values: `acquirer-reference`
-    """
+    type: NotRequired[ListAllRefundsType]
+    r"""Specifies the reference type"""
     id: NotRequired[str]
     r"""Unique reference from the payment provider"""
 
 
 class ListAllRefundsExternalReference(BaseModel):
-    type: Optional[str] = None
-    r"""Specifies the reference type
-
-    Possible values: `acquirer-reference`
-    """
+    type: Optional[ListAllRefundsType] = None
+    r"""Specifies the reference type"""
 
     id: Optional[str] = None
     r"""Unique reference from the payment provider"""
 
 
-class ListAllRefundsRefundsAmountTypedDict(TypedDict):
+class ListAllRefundsRoutingReversalAmountTypedDict(TypedDict):
     r"""The amount that will be pulled back."""
 
     currency: str
@@ -285,7 +346,7 @@ class ListAllRefundsRefundsAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListAllRefundsRefundsAmount(BaseModel):
+class ListAllRefundsRoutingReversalAmount(BaseModel):
     r"""The amount that will be pulled back."""
 
     currency: str
@@ -299,7 +360,9 @@ class ListAllRefundsSourceTypedDict(TypedDict):
     r"""Where the funds will be pulled back from."""
 
     organization_id: NotRequired[str]
-    r"""Required for source type `organization`. The ID of the connected organization the funds should be pulled back from."""
+    r"""Required for source type `organization`. The ID of the connected organization the funds should be pulled
+    back from.
+    """
 
 
 class ListAllRefundsSource(BaseModel):
@@ -308,25 +371,27 @@ class ListAllRefundsSource(BaseModel):
     organization_id: Annotated[
         Optional[str], pydantic.Field(alias="organizationId")
     ] = None
-    r"""Required for source type `organization`. The ID of the connected organization the funds should be pulled back from."""
+    r"""Required for source type `organization`. The ID of the connected organization the funds should be pulled
+    back from.
+    """
 
 
-class ListAllRefundsRoutingReversalsTypedDict(TypedDict):
-    amount: NotRequired[ListAllRefundsRefundsAmountTypedDict]
+class ListAllRefundsRoutingReversalTypedDict(TypedDict):
+    amount: NotRequired[ListAllRefundsRoutingReversalAmountTypedDict]
     r"""The amount that will be pulled back."""
     source: NotRequired[ListAllRefundsSourceTypedDict]
     r"""Where the funds will be pulled back from."""
 
 
-class ListAllRefundsRoutingReversals(BaseModel):
-    amount: Optional[ListAllRefundsRefundsAmount] = None
+class ListAllRefundsRoutingReversal(BaseModel):
+    amount: Optional[ListAllRefundsRoutingReversalAmount] = None
     r"""The amount that will be pulled back."""
 
     source: Optional[ListAllRefundsSource] = None
     r"""Where the funds will be pulled back from."""
 
 
-class ListAllRefundsRefundsSelfTypedDict(TypedDict):
+class ListAllRefundsRefundSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -335,7 +400,7 @@ class ListAllRefundsRefundsSelfTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListAllRefundsRefundsSelf(BaseModel):
+class ListAllRefundsRefundSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -365,7 +430,9 @@ class ListAllRefundsPayment(BaseModel):
 
 
 class ListAllRefundsSettlementTypedDict(TypedDict):
-    r"""The API resource URL of the [settlement](get-settlement) this refund has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this refund has been settled with. Not present if not
+    yet settled.
+    """
 
     href: NotRequired[str]
     r"""The actual URL string."""
@@ -374,7 +441,9 @@ class ListAllRefundsSettlementTypedDict(TypedDict):
 
 
 class ListAllRefundsSettlement(BaseModel):
-    r"""The API resource URL of the [settlement](get-settlement) this refund has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this refund has been settled with. Not present if not
+    yet settled.
+    """
 
     href: Optional[str] = None
     r"""The actual URL string."""
@@ -383,7 +452,7 @@ class ListAllRefundsSettlement(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListAllRefundsRefundsResponseDocumentationTypedDict(TypedDict):
+class ListAllRefundsRefundDocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -392,7 +461,7 @@ class ListAllRefundsRefundsResponseDocumentationTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListAllRefundsRefundsResponseDocumentation(BaseModel):
+class ListAllRefundsRefundDocumentation(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -402,24 +471,26 @@ class ListAllRefundsRefundsResponseDocumentation(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListAllRefundsRefundsResponseLinksTypedDict(TypedDict):
+class ListAllRefundsRefundLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListAllRefundsRefundsSelfTypedDict]
+    self_: NotRequired[ListAllRefundsRefundSelfTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     payment: NotRequired[ListAllRefundsPaymentTypedDict]
     r"""The API resource URL of the [payment](get-payment) that this refund belongs to."""
     settlement: NotRequired[Nullable[ListAllRefundsSettlementTypedDict]]
-    r"""The API resource URL of the [settlement](get-settlement) this refund has been settled with. Not present if not yet settled."""
-    documentation: NotRequired[ListAllRefundsRefundsResponseDocumentationTypedDict]
+    r"""The API resource URL of the [settlement](get-settlement) this refund has been settled with. Not present if not
+    yet settled.
+    """
+    documentation: NotRequired[ListAllRefundsRefundDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class ListAllRefundsRefundsResponseLinks(BaseModel):
+class ListAllRefundsRefundLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     self_: Annotated[
-        Optional[ListAllRefundsRefundsSelf], pydantic.Field(alias="self")
+        Optional[ListAllRefundsRefundSelf], pydantic.Field(alias="self")
     ] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
@@ -427,9 +498,11 @@ class ListAllRefundsRefundsResponseLinks(BaseModel):
     r"""The API resource URL of the [payment](get-payment) that this refund belongs to."""
 
     settlement: OptionalNullable[ListAllRefundsSettlement] = UNSET
-    r"""The API resource URL of the [settlement](get-settlement) this refund has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this refund has been settled with. Not present if not
+    yet settled.
+    """
 
-    documentation: Optional[ListAllRefundsRefundsResponseDocumentation] = None
+    documentation: Optional[ListAllRefundsRefundDocumentation] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     @model_serializer(mode="wrap")
@@ -463,110 +536,123 @@ class ListAllRefundsRefundsResponseLinks(BaseModel):
         return m
 
 
-class ListAllRefundsRefundsTypedDict(TypedDict):
+class ListAllRefundsRefundTypedDict(TypedDict):
     resource: NotRequired[str]
     r"""Indicates the response contains a refund object. Will always contain the string `refund` for this endpoint."""
     id: NotRequired[str]
-    r"""The identifier uniquely referring to this refund. Mollie assigns this identifier at refund creation time. Mollie will always refer to the refund by this ID. Example: `re_4qqhO89gsT`."""
-    mode: NotRequired[str]
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
+    r"""The identifier uniquely referring to this refund. Mollie assigns this identifier at refund creation time. Mollie
+    will always refer to the refund by this ID. Example: `re_4qqhO89gsT`.
     """
+    mode: NotRequired[ListAllRefundsMode]
+    r"""Whether this entity was created in live mode or in test mode."""
     description: NotRequired[str]
     r"""The description of the refund that may be shown to your customer, depending on the payment method used."""
     amount: NotRequired[ListAllRefundsAmountTypedDict]
-    r"""The amount refunded to your customer with this refund. The amount is allowed to be lower than the original payment amount."""
+    r"""The amount refunded to your customer with this refund. The amount is allowed to be lower than the original payment
+    amount.
+    """
     settlement_amount: NotRequired[Nullable[ListAllRefundsSettlementAmountTypedDict]]
-    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
 
     The amount is a **negative** amount.
 
-    If the refund is not directly processed by Mollie, for example for PayPal refunds, the settlement amount will be zero.
+    If the refund is not directly processed by Mollie, for example for PayPal refunds, the settlement amount will be
+    zero.
 
-    Since the field contains an estimated amount during refund processing, it may change over time. For example, while the refund is queued the settlement amount is likely not yet available.
+    Since the field contains an estimated amount during refund processing, it may change over time. For example, while
+    the refund is queued the settlement amount is likely not yet available.
 
-    To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    To retrieve accurate settlement amounts we recommend using the
+    [List balance transactions endpoint](list-balance-transactions) instead.
     """
-    metadata: NotRequired[Nullable[ListAllRefundsMetadataTypedDict]]
-    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+    metadata: NotRequired[Nullable[ListAllRefundsMetadataUnionTypedDict]]
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+    you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+    """
     payment_id: NotRequired[str]
-    r"""The unique identifier of the payment this refund was created for. The full payment object can be retrieved via the payment URL in the `_links` object."""
+    r"""The unique identifier of the payment this refund was created for.
+    The full payment object can be retrieved via the payment URL in the `_links` object.
+    """
     settlement_id: NotRequired[Nullable[str]]
     r"""The identifier referring to the settlement this refund was settled with. This field is omitted if the refund is not settled (yet)."""
-    status: NotRequired[str]
-    r"""Refunds may take some time to get confirmed.
-
-    Possible values: `queued` `pending` `processing` `refunded` `failed` `canceled`
-    """
+    status: NotRequired[ListAllRefundsStatus]
+    r"""Refunds may take some time to get confirmed."""
     created_at: NotRequired[str]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     external_reference: NotRequired[ListAllRefundsExternalReferenceTypedDict]
     routing_reversals: NotRequired[
-        Nullable[List[ListAllRefundsRoutingReversalsTypedDict]]
+        Nullable[List[ListAllRefundsRoutingReversalTypedDict]]
     ]
     r"""*This feature is only available to marketplace operators.*
 
     When creating refunds for *routed* payments, by default the full amount is deducted from your balance.
 
-    If you want to pull back funds from the connected merchant(s), you can use this parameter to specify what amount needs to be reversed from which merchant(s).
+    If you want to pull back funds from the connected merchant(s), you can use this parameter to specify what amount
+    needs to be reversed from which merchant(s).
 
     If you simply want to fully reverse the routed funds, you can also use the `reverseRouting` parameter instead.
     """
-    links: NotRequired[ListAllRefundsRefundsResponseLinksTypedDict]
+    links: NotRequired[ListAllRefundsRefundLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class ListAllRefundsRefunds(BaseModel):
+class ListAllRefundsRefund(BaseModel):
     resource: Optional[str] = "refund"
     r"""Indicates the response contains a refund object. Will always contain the string `refund` for this endpoint."""
 
     id: Optional[str] = None
-    r"""The identifier uniquely referring to this refund. Mollie assigns this identifier at refund creation time. Mollie will always refer to the refund by this ID. Example: `re_4qqhO89gsT`."""
-
-    mode: Optional[str] = None
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
+    r"""The identifier uniquely referring to this refund. Mollie assigns this identifier at refund creation time. Mollie
+    will always refer to the refund by this ID. Example: `re_4qqhO89gsT`.
     """
+
+    mode: Optional[ListAllRefundsMode] = None
+    r"""Whether this entity was created in live mode or in test mode."""
 
     description: Optional[str] = None
     r"""The description of the refund that may be shown to your customer, depending on the payment method used."""
 
     amount: Optional[ListAllRefundsAmount] = None
-    r"""The amount refunded to your customer with this refund. The amount is allowed to be lower than the original payment amount."""
+    r"""The amount refunded to your customer with this refund. The amount is allowed to be lower than the original payment
+    amount.
+    """
 
     settlement_amount: Annotated[
         OptionalNullable[ListAllRefundsSettlementAmount],
         pydantic.Field(alias="settlementAmount"),
     ] = UNSET
-    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
 
     The amount is a **negative** amount.
 
-    If the refund is not directly processed by Mollie, for example for PayPal refunds, the settlement amount will be zero.
+    If the refund is not directly processed by Mollie, for example for PayPal refunds, the settlement amount will be
+    zero.
 
-    Since the field contains an estimated amount during refund processing, it may change over time. For example, while the refund is queued the settlement amount is likely not yet available.
+    Since the field contains an estimated amount during refund processing, it may change over time. For example, while
+    the refund is queued the settlement amount is likely not yet available.
 
-    To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    To retrieve accurate settlement amounts we recommend using the
+    [List balance transactions endpoint](list-balance-transactions) instead.
     """
 
-    metadata: OptionalNullable[ListAllRefundsMetadata] = UNSET
-    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+    metadata: OptionalNullable[ListAllRefundsMetadataUnion] = UNSET
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+    you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+    """
 
     payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
-    r"""The unique identifier of the payment this refund was created for. The full payment object can be retrieved via the payment URL in the `_links` object."""
+    r"""The unique identifier of the payment this refund was created for.
+    The full payment object can be retrieved via the payment URL in the `_links` object.
+    """
 
     settlement_id: Annotated[
         OptionalNullable[str], pydantic.Field(alias="settlementId")
     ] = UNSET
     r"""The identifier referring to the settlement this refund was settled with. This field is omitted if the refund is not settled (yet)."""
 
-    status: Optional[str] = None
-    r"""Refunds may take some time to get confirmed.
-
-    Possible values: `queued` `pending` `processing` `refunded` `failed` `canceled`
-    """
+    status: Optional[ListAllRefundsStatus] = None
+    r"""Refunds may take some time to get confirmed."""
 
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
@@ -577,20 +663,21 @@ class ListAllRefundsRefunds(BaseModel):
     ] = None
 
     routing_reversals: Annotated[
-        OptionalNullable[List[ListAllRefundsRoutingReversals]],
+        OptionalNullable[List[ListAllRefundsRoutingReversal]],
         pydantic.Field(alias="routingReversals"),
     ] = UNSET
     r"""*This feature is only available to marketplace operators.*
 
     When creating refunds for *routed* payments, by default the full amount is deducted from your balance.
 
-    If you want to pull back funds from the connected merchant(s), you can use this parameter to specify what amount needs to be reversed from which merchant(s).
+    If you want to pull back funds from the connected merchant(s), you can use this parameter to specify what amount
+    needs to be reversed from which merchant(s).
 
     If you simply want to fully reverse the routed funds, you can also use the `reverseRouting` parameter instead.
     """
 
     links: Annotated[
-        Optional[ListAllRefundsRefundsResponseLinks], pydantic.Field(alias="_links")
+        Optional[ListAllRefundsRefundLinks], pydantic.Field(alias="_links")
     ] = None
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
@@ -646,13 +733,17 @@ class ListAllRefundsRefunds(BaseModel):
 
 
 class ListAllRefundsEmbeddedTypedDict(TypedDict):
-    refunds: NotRequired[List[ListAllRefundsRefundsTypedDict]]
-    r"""An array of refund objects. For a complete reference of the refund object, refer to the [Get refund endpoint](get-refund) documentation."""
+    refunds: NotRequired[List[ListAllRefundsRefundTypedDict]]
+    r"""An array of refund objects. For a complete reference of the refund object, refer to the
+    [Get refund endpoint](get-refund) documentation.
+    """
 
 
 class ListAllRefundsEmbedded(BaseModel):
-    refunds: Optional[List[ListAllRefundsRefunds]] = None
-    r"""An array of refund objects. For a complete reference of the refund object, refer to the [Get refund endpoint](get-refund) documentation."""
+    refunds: Optional[List[ListAllRefundsRefund]] = None
+    r"""An array of refund objects. For a complete reference of the refund object, refer to the
+    [Get refund endpoint](get-refund) documentation.
+    """
 
 
 class ListAllRefundsSelfTypedDict(TypedDict):
@@ -790,26 +881,34 @@ class ListAllRefundsLinks(BaseModel):
         return m
 
 
-class ListAllRefundsResponseBodyTypedDict(TypedDict):
-    r"""A list of refund objects. For a complete reference of the refund object, refer to the [Get refund endpoint](get-refund) documentation."""
+class ListAllRefundsResponseTypedDict(TypedDict):
+    r"""A list of refund objects. For a complete reference of the refund object, refer to the
+    [Get refund endpoint](get-refund) documentation.
+    """
 
     count: NotRequired[int]
-    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.
+    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
+    as well.
 
-    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default limit is 50 items.
+    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
+    limit is 50 items.
     """
     embedded: NotRequired[ListAllRefundsEmbeddedTypedDict]
     links: NotRequired[ListAllRefundsLinksTypedDict]
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
 
-class ListAllRefundsResponseBody(BaseModel):
-    r"""A list of refund objects. For a complete reference of the refund object, refer to the [Get refund endpoint](get-refund) documentation."""
+class ListAllRefundsResponse(BaseModel):
+    r"""A list of refund objects. For a complete reference of the refund object, refer to the
+    [Get refund endpoint](get-refund) documentation.
+    """
 
     count: Optional[int] = None
-    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.
+    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
+    as well.
 
-    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default limit is 50 items.
+    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
+    limit is 50 items.
     """
 
     embedded: Annotated[

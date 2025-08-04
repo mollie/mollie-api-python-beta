@@ -11,7 +11,7 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class EventTypes(str, Enum):
+class CreateWebhookEventTypes(str, Enum):
     r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those that require explicit selection. Separate multiple event types with a comma."""
 
     PAYMENT_LINK_PAID = "payment-link.paid"
@@ -21,34 +21,38 @@ class EventTypes(str, Enum):
     SALES_INVOICE_PAID = "sales-invoice.paid"
 
 
-class CreateWebhookRequestBodyTypedDict(TypedDict):
+class CreateWebhookRequestTypedDict(TypedDict):
     name: str
     r"""A name that identifies the webhook."""
     url: str
     r"""The URL Mollie will send the events to. This URL must be publicly accessible."""
-    event_types: EventTypes
+    event_types: CreateWebhookEventTypes
     r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those that require explicit selection. Separate multiple event types with a comma."""
     testmode: NotRequired[Nullable[bool]]
     r"""Whether to create the entity in test mode or live mode.
 
-    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be
+    omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting
+    `testmode` to `true`.
     """
 
 
-class CreateWebhookRequestBody(BaseModel):
+class CreateWebhookRequest(BaseModel):
     name: str
     r"""A name that identifies the webhook."""
 
     url: str
     r"""The URL Mollie will send the events to. This URL must be publicly accessible."""
 
-    event_types: Annotated[EventTypes, pydantic.Field(alias="eventTypes")]
+    event_types: Annotated[CreateWebhookEventTypes, pydantic.Field(alias="eventTypes")]
     r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those that require explicit selection. Separate multiple event types with a comma."""
 
     testmode: OptionalNullable[bool] = UNSET
     r"""Whether to create the entity in test mode or live mode.
 
-    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be
+    omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting
+    `testmode` to `true`.
     """
 
     @model_serializer(mode="wrap")
@@ -82,14 +86,14 @@ class CreateWebhookRequestBody(BaseModel):
         return m
 
 
-class CreateWebhookWebhooksDocumentationTypedDict(TypedDict):
+class CreateWebhookUnprocessableEntityDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class CreateWebhookWebhooksDocumentation(BaseModel):
+class CreateWebhookUnprocessableEntityDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -97,17 +101,17 @@ class CreateWebhookWebhooksDocumentation(BaseModel):
     type: str
 
 
-class CreateWebhookWebhooksLinksTypedDict(TypedDict):
-    documentation: CreateWebhookWebhooksDocumentationTypedDict
+class CreateWebhookUnprocessableEntityLinksTypedDict(TypedDict):
+    documentation: CreateWebhookUnprocessableEntityDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class CreateWebhookWebhooksLinks(BaseModel):
-    documentation: CreateWebhookWebhooksDocumentation
+class CreateWebhookUnprocessableEntityLinks(BaseModel):
+    documentation: CreateWebhookUnprocessableEntityDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class CreateWebhookWebhooksResponseBodyData(BaseModel):
+class CreateWebhookHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -117,26 +121,45 @@ class CreateWebhookWebhooksResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[CreateWebhookWebhooksLinks, pydantic.Field(alias="_links")]
+    links: Annotated[
+        CreateWebhookUnprocessableEntityLinks, pydantic.Field(alias="_links")
+    ]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class CreateWebhookWebhooksResponseBody(ClientError):
+class CreateWebhookHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: CreateWebhookWebhooksResponseBodyData
+    data: CreateWebhookHalJSONErrorData
 
     def __init__(
         self,
-        data: CreateWebhookWebhooksResponseBodyData,
+        data: CreateWebhookHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
         message = body or raw_response.text
         super().__init__(message, raw_response, body)
         self.data = data
+
+
+class CreateWebhookStatus(str, Enum):
+    r"""The subscription's current status."""
+
+    ENABLED = "enabled"
+    BLOCKED = "blocked"
+    DISABLED = "disabled"
+
+
+class CreateWebhookMode(str, Enum):
+    r"""The subscription's mode."""
+
+    LIVE = "live"
+    TEST = "test"
 
 
 class CreateWebhookDocumentationTypedDict(TypedDict):
@@ -172,7 +195,7 @@ class CreateWebhookLinks(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class CreateWebhookResponseBodyTypedDict(TypedDict):
+class CreateWebhookResponseTypedDict(TypedDict):
     r"""The webhook object."""
 
     resource: NotRequired[str]
@@ -189,23 +212,17 @@ class CreateWebhookResponseBodyTypedDict(TypedDict):
     r"""The subscription's name."""
     event_types: NotRequired[List[str]]
     r"""The events types that are subscribed."""
-    status: NotRequired[str]
-    r"""The subscription's current status.
-
-    Possible values: `enabled` `blocked` `disabled`
-    """
-    mode: NotRequired[str]
-    r"""The subscription's mode.
-
-    Possible values: `live` `test`
-    """
+    status: NotRequired[CreateWebhookStatus]
+    r"""The subscription's current status."""
+    mode: NotRequired[CreateWebhookMode]
+    r"""The subscription's mode."""
     webhook_secret: NotRequired[str]
     r"""The subscription's secret."""
     links: NotRequired[CreateWebhookLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class CreateWebhookResponseBody(BaseModel):
+class CreateWebhookResponse(BaseModel):
     r"""The webhook object."""
 
     resource: Optional[str] = "webhook"
@@ -231,17 +248,11 @@ class CreateWebhookResponseBody(BaseModel):
     )
     r"""The events types that are subscribed."""
 
-    status: Optional[str] = None
-    r"""The subscription's current status.
+    status: Optional[CreateWebhookStatus] = None
+    r"""The subscription's current status."""
 
-    Possible values: `enabled` `blocked` `disabled`
-    """
-
-    mode: Optional[str] = None
-    r"""The subscription's mode.
-
-    Possible values: `live` `test`
-    """
+    mode: Optional[CreateWebhookMode] = None
+    r"""The subscription's mode."""
 
     webhook_secret: Annotated[Optional[str], pydantic.Field(alias="webhookSecret")] = (
         None

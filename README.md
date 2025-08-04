@@ -85,9 +85,9 @@ It's also possible to write a standalone Python script without needing to set up
 # ]
 # ///
 
-from mollie import Client
+from mollie import ClientSDK
 
-sdk = Client(
+sdk = ClientSDK(
   # SDK arguments
 )
 
@@ -116,17 +116,17 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 ```python
 # Synchronous Example
 import mollie
-from mollie import Client
+from mollie import ClientSDK
 import os
 
 
-with Client(
+with ClientSDK(
     security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
-) as client:
+) as client_sdk:
 
-    res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+    res = client_sdk.payments.create(include=mollie.CreatePaymentInclude.DETAILS_QR_CODE, request_body={
         "description": "Chess Board",
         "amount": {
             "currency": "EUR",
@@ -159,14 +159,14 @@ with Client(
                 },
                 "sku": "9780241661628",
                 "categories": [
-                    mollie.Categories.MEAL,
-                    mollie.Categories.ECO,
+                    mollie.CreatePaymentCategoryRequest.MEAL,
+                    mollie.CreatePaymentCategoryRequest.ECO,
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": "12 months",
+                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -198,14 +198,14 @@ with Client(
                 },
                 "sku": "9780241661628",
                 "categories": [
-                    mollie.Categories.MEAL,
-                    mollie.Categories.ECO,
+                    mollie.CreatePaymentCategoryRequest.MEAL,
+                    mollie.CreatePaymentCategoryRequest.ECO,
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": "12 months",
+                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_WEEKS,
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -237,14 +237,14 @@ with Client(
                 },
                 "sku": "9780241661628",
                 "categories": [
-                    mollie.Categories.MEAL,
-                    mollie.Categories.ECO,
+                    mollie.CreatePaymentCategoryRequest.MEAL,
+                    mollie.CreatePaymentCategoryRequest.ECO,
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": "12 months",
+                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -282,11 +282,11 @@ with Client(
             "region": "Noord-Holland",
             "country": "NL",
         },
-        "locale": "en_US",
-        "method": "ideal",
+        "locale": mollie.CreatePaymentLocaleRequest.EN_US,
+        "method": mollie.CreatePaymentMethodRequest.IDEAL,
         "issuer": "ideal_INGBNL2A",
         "restrict_payment_methods_to_country": "NL",
-        "capture_mode": "manual",
+        "capture_mode": mollie.CreatePaymentCaptureModeRequest.MANUAL,
         "capture_delay": "8 hours",
         "application_fee": {
             "amount": {
@@ -302,7 +302,7 @@ with Client(
                     "value": "10.00",
                 },
                 "destination": {
-                    "type": "organization",
+                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
                     "organization_id": "org_1234567",
                 },
                 "release_date": "2024-12-12",
@@ -323,7 +323,7 @@ with Client(
                     "value": "10.00",
                 },
                 "destination": {
-                    "type": "organization",
+                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
                     "organization_id": "org_1234567",
                 },
                 "release_date": "2024-12-12",
@@ -339,7 +339,6 @@ with Client(
                 },
             },
         ],
-        "sequence_type": "oneoff",
         "mandate_id": "mdt_5B8cwPMGnU",
         "customer_id": "cst_5B8cwPMGnU",
         "profile_id": "pfl_5B8cwPMGnU",
@@ -358,18 +357,18 @@ The same SDK client can also be used to make asychronous requests by importing a
 # Asynchronous Example
 import asyncio
 import mollie
-from mollie import Client
+from mollie import ClientSDK
 import os
 
 async def main():
 
-    async with Client(
+    async with ClientSDK(
         security=mollie.Security(
             api_key=os.getenv("CLIENT_API_KEY", ""),
         ),
-    ) as client:
+    ) as client_sdk:
 
-        res = await client.payments.create_async(include=mollie.Include.DETAILS_QR_CODE, request_body={
+        res = await client_sdk.payments.create_async(include=mollie.CreatePaymentInclude.DETAILS_QR_CODE, request_body={
             "description": "Chess Board",
             "amount": {
                 "currency": "EUR",
@@ -402,14 +401,14 @@ async def main():
                     },
                     "sku": "9780241661628",
                     "categories": [
-                        mollie.Categories.MEAL,
-                        mollie.Categories.ECO,
+                        mollie.CreatePaymentCategoryRequest.MEAL,
+                        mollie.CreatePaymentCategoryRequest.ECO,
                     ],
                     "image_url": "https://...",
                     "product_url": "https://...",
                     "recurring": {
                         "description": "Gym subscription",
-                        "interval": "12 months",
+                        "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
                         "amount": {
                             "currency": "EUR",
                             "value": "10.00",
@@ -441,14 +440,14 @@ async def main():
                     },
                     "sku": "9780241661628",
                     "categories": [
-                        mollie.Categories.MEAL,
-                        mollie.Categories.ECO,
+                        mollie.CreatePaymentCategoryRequest.MEAL,
+                        mollie.CreatePaymentCategoryRequest.ECO,
                     ],
                     "image_url": "https://...",
                     "product_url": "https://...",
                     "recurring": {
                         "description": "Gym subscription",
-                        "interval": "12 months",
+                        "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_WEEKS,
                         "amount": {
                             "currency": "EUR",
                             "value": "10.00",
@@ -480,14 +479,14 @@ async def main():
                     },
                     "sku": "9780241661628",
                     "categories": [
-                        mollie.Categories.MEAL,
-                        mollie.Categories.ECO,
+                        mollie.CreatePaymentCategoryRequest.MEAL,
+                        mollie.CreatePaymentCategoryRequest.ECO,
                     ],
                     "image_url": "https://...",
                     "product_url": "https://...",
                     "recurring": {
                         "description": "Gym subscription",
-                        "interval": "12 months",
+                        "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
                         "amount": {
                             "currency": "EUR",
                             "value": "10.00",
@@ -525,11 +524,11 @@ async def main():
                 "region": "Noord-Holland",
                 "country": "NL",
             },
-            "locale": "en_US",
-            "method": "ideal",
+            "locale": mollie.CreatePaymentLocaleRequest.EN_US,
+            "method": mollie.CreatePaymentMethodRequest.IDEAL,
             "issuer": "ideal_INGBNL2A",
             "restrict_payment_methods_to_country": "NL",
-            "capture_mode": "manual",
+            "capture_mode": mollie.CreatePaymentCaptureModeRequest.MANUAL,
             "capture_delay": "8 hours",
             "application_fee": {
                 "amount": {
@@ -545,7 +544,7 @@ async def main():
                         "value": "10.00",
                     },
                     "destination": {
-                        "type": "organization",
+                        "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
                         "organization_id": "org_1234567",
                     },
                     "release_date": "2024-12-12",
@@ -566,7 +565,7 @@ async def main():
                         "value": "10.00",
                     },
                     "destination": {
-                        "type": "organization",
+                        "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
                         "organization_id": "org_1234567",
                     },
                     "release_date": "2024-12-12",
@@ -582,7 +581,6 @@ async def main():
                     },
                 },
             ],
-            "sequence_type": "oneoff",
             "mandate_id": "mdt_5B8cwPMGnU",
             "customer_id": "cst_5B8cwPMGnU",
             "profile_id": "pfl_5B8cwPMGnU",
@@ -612,17 +610,17 @@ This SDK supports the following security schemes globally:
 You can set the security parameters through the `security` optional parameter when initializing the SDK client instance. The selected scheme will be used by default to authenticate with the API for all operations that support it. For example:
 ```python
 import mollie
-from mollie import Client
+from mollie import ClientSDK
 import os
 
 
-with Client(
+with ClientSDK(
     security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
-) as client:
+) as client_sdk:
 
-    res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+    res = client_sdk.payments.create(include=mollie.CreatePaymentInclude.DETAILS_QR_CODE, request_body={
         "description": "Chess Board",
         "amount": {
             "currency": "EUR",
@@ -655,14 +653,14 @@ with Client(
                 },
                 "sku": "9780241661628",
                 "categories": [
-                    mollie.Categories.MEAL,
-                    mollie.Categories.ECO,
+                    mollie.CreatePaymentCategoryRequest.MEAL,
+                    mollie.CreatePaymentCategoryRequest.ECO,
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": "12 months",
+                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -694,14 +692,14 @@ with Client(
                 },
                 "sku": "9780241661628",
                 "categories": [
-                    mollie.Categories.MEAL,
-                    mollie.Categories.ECO,
+                    mollie.CreatePaymentCategoryRequest.MEAL,
+                    mollie.CreatePaymentCategoryRequest.ECO,
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": "12 months",
+                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_WEEKS,
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -733,14 +731,14 @@ with Client(
                 },
                 "sku": "9780241661628",
                 "categories": [
-                    mollie.Categories.MEAL,
-                    mollie.Categories.ECO,
+                    mollie.CreatePaymentCategoryRequest.MEAL,
+                    mollie.CreatePaymentCategoryRequest.ECO,
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": "12 months",
+                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -778,11 +776,11 @@ with Client(
             "region": "Noord-Holland",
             "country": "NL",
         },
-        "locale": "en_US",
-        "method": "ideal",
+        "locale": mollie.CreatePaymentLocaleRequest.EN_US,
+        "method": mollie.CreatePaymentMethodRequest.IDEAL,
         "issuer": "ideal_INGBNL2A",
         "restrict_payment_methods_to_country": "NL",
-        "capture_mode": "manual",
+        "capture_mode": mollie.CreatePaymentCaptureModeRequest.MANUAL,
         "capture_delay": "8 hours",
         "application_fee": {
             "amount": {
@@ -798,7 +796,7 @@ with Client(
                     "value": "10.00",
                 },
                 "destination": {
-                    "type": "organization",
+                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
                     "organization_id": "org_1234567",
                 },
                 "release_date": "2024-12-12",
@@ -819,7 +817,7 @@ with Client(
                     "value": "10.00",
                 },
                 "destination": {
-                    "type": "organization",
+                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
                     "organization_id": "org_1234567",
                 },
                 "release_date": "2024-12-12",
@@ -835,7 +833,6 @@ with Client(
                 },
             },
         ],
-        "sequence_type": "oneoff",
         "mandate_id": "mdt_5B8cwPMGnU",
         "customer_id": "cst_5B8cwPMGnU",
         "profile_id": "pfl_5B8cwPMGnU",
@@ -863,31 +860,31 @@ with Client(
 * [get_report](docs/sdks/balances/README.md#get_report) - Get balance report
 * [list_transactions](docs/sdks/balances/README.md#list_transactions) - List balance transactions
 
-### [capabilities](docs/sdks/capabilities/README.md)
+### [capabilities](docs/sdks/capabilitiessdk/README.md)
 
-* [list](docs/sdks/capabilities/README.md#list) - List capabilities
+* [list](docs/sdks/capabilitiessdk/README.md#list) - List capabilities
 
-### [captures](docs/sdks/captures/README.md)
+### [captures](docs/sdks/capturessdk/README.md)
 
-* [create](docs/sdks/captures/README.md#create) - Create capture
-* [list](docs/sdks/captures/README.md#list) - List captures
-* [get](docs/sdks/captures/README.md#get) - Get capture
+* [create](docs/sdks/capturessdk/README.md#create) - Create capture
+* [list](docs/sdks/capturessdk/README.md#list) - List captures
+* [get](docs/sdks/capturessdk/README.md#get) - Get capture
 
-### [chargebacks](docs/sdks/chargebacks/README.md)
+### [chargebacks](docs/sdks/chargebackssdk/README.md)
 
-* [list](docs/sdks/chargebacks/README.md#list) - List payment chargebacks
-* [get](docs/sdks/chargebacks/README.md#get) - Get payment chargeback
-* [all](docs/sdks/chargebacks/README.md#all) - List all chargebacks
+* [list](docs/sdks/chargebackssdk/README.md#list) - List payment chargebacks
+* [get](docs/sdks/chargebackssdk/README.md#get) - Get payment chargeback
+* [all](docs/sdks/chargebackssdk/README.md#all) - List all chargebacks
 
+### [client_links](docs/sdks/clientlinkssdk/README.md)
 
-### [client_links](docs/sdks/clientlinks/README.md)
-
-* [create](docs/sdks/clientlinks/README.md#create) - Create client link
+* [create](docs/sdks/clientlinkssdk/README.md#create) - Create client link
 
 ### [clients](docs/sdks/clients/README.md)
 
 * [list](docs/sdks/clients/README.md#list) - List clients
 * [get](docs/sdks/clients/README.md#get) - Get client
+
 
 ### [customers](docs/sdks/customers/README.md)
 
@@ -909,23 +906,23 @@ with Client(
 * [list](docs/sdks/invoices/README.md#list) - List invoices
 * [get](docs/sdks/invoices/README.md#get) - Get invoice
 
-### [mandates](docs/sdks/mandates/README.md)
+### [mandates](docs/sdks/mandatessdk/README.md)
 
-* [create](docs/sdks/mandates/README.md#create) - Create mandate
-* [list](docs/sdks/mandates/README.md#list) - List mandates
-* [get](docs/sdks/mandates/README.md#get) - Get mandate
-* [revoke](docs/sdks/mandates/README.md#revoke) - Revoke mandate
+* [create](docs/sdks/mandatessdk/README.md#create) - Create mandate
+* [list](docs/sdks/mandatessdk/README.md#list) - List mandates
+* [get](docs/sdks/mandatessdk/README.md#get) - Get mandate
+* [revoke](docs/sdks/mandatessdk/README.md#revoke) - Revoke mandate
 
-### [methods](docs/sdks/methods/README.md)
+### [methods](docs/sdks/methodssdk/README.md)
 
-* [list](docs/sdks/methods/README.md#list) - List payment methods
-* [all](docs/sdks/methods/README.md#all) - List all payment methods
-* [get](docs/sdks/methods/README.md#get) - Get payment method
+* [list](docs/sdks/methodssdk/README.md#list) - List payment methods
+* [all](docs/sdks/methodssdk/README.md#all) - List all payment methods
+* [get](docs/sdks/methodssdk/README.md#get) - Get payment method
 
-### [onboarding](docs/sdks/onboarding/README.md)
+### [onboarding](docs/sdks/onboardingsdk/README.md)
 
-* [get](docs/sdks/onboarding/README.md#get) - Get onboarding status
-* [submit](docs/sdks/onboarding/README.md#submit) - Submit onboarding data
+* [get](docs/sdks/onboardingsdk/README.md#get) - Get onboarding status
+* [submit](docs/sdks/onboardingsdk/README.md#submit) - Submit onboarding data
 
 ### [organizations](docs/sdks/organizations/README.md)
 
@@ -942,14 +939,14 @@ with Client(
 * [delete](docs/sdks/paymentlinks/README.md#delete) - Delete payment link
 * [list_payments](docs/sdks/paymentlinks/README.md#list_payments) - Get payment link payments
 
-### [payments](docs/sdks/payments/README.md)
+### [payments](docs/sdks/paymentssdk/README.md)
 
-* [create](docs/sdks/payments/README.md#create) - Create payment
-* [list](docs/sdks/payments/README.md#list) - List payments
-* [get](docs/sdks/payments/README.md#get) - Get payment
-* [update](docs/sdks/payments/README.md#update) - Update payment
-* [cancel](docs/sdks/payments/README.md#cancel) - Cancel payment
-* [release_authorization](docs/sdks/payments/README.md#release_authorization) - Release payment authorization
+* [create](docs/sdks/paymentssdk/README.md#create) - Create payment
+* [list](docs/sdks/paymentssdk/README.md#list) - List payments
+* [get](docs/sdks/paymentssdk/README.md#get) - Get payment
+* [update](docs/sdks/paymentssdk/README.md#update) - Update payment
+* [cancel](docs/sdks/paymentssdk/README.md#cancel) - Cancel payment
+* [release_authorization](docs/sdks/paymentssdk/README.md#release_authorization) - Release payment authorization
 
 ### [permissions](docs/sdks/permissions/README.md)
 
@@ -965,13 +962,13 @@ with Client(
 * [delete](docs/sdks/profiles/README.md#delete) - Delete profile
 * [get_current](docs/sdks/profiles/README.md#get_current) - Get current profile
 
-### [refunds](docs/sdks/refunds/README.md)
+### [refunds](docs/sdks/refundssdk/README.md)
 
-* [create](docs/sdks/refunds/README.md#create) - Create payment refund
-* [list](docs/sdks/refunds/README.md#list) - List payment refunds
-* [get](docs/sdks/refunds/README.md#get) - Get payment refund
-* [cancel](docs/sdks/refunds/README.md#cancel) - Cancel payment refund
-* [all](docs/sdks/refunds/README.md#all) - List all refunds
+* [create](docs/sdks/refundssdk/README.md#create) - Create payment refund
+* [list](docs/sdks/refundssdk/README.md#list) - List payment refunds
+* [get](docs/sdks/refundssdk/README.md#get) - Get payment refund
+* [cancel](docs/sdks/refundssdk/README.md#cancel) - Cancel payment refund
+* [all](docs/sdks/refundssdk/README.md#all) - List all refunds
 
 ### [sales_invoices](docs/sdks/salesinvoices/README.md)
 
@@ -992,15 +989,15 @@ with Client(
 * [list_refunds](docs/sdks/settlements/README.md#list_refunds) - List settlement refunds
 * [list_chargebacks](docs/sdks/settlements/README.md#list_chargebacks) - List settlement chargebacks
 
-### [subscriptions](docs/sdks/subscriptions/README.md)
+### [subscriptions](docs/sdks/subscriptionssdk/README.md)
 
-* [create](docs/sdks/subscriptions/README.md#create) - Create subscription
-* [list](docs/sdks/subscriptions/README.md#list) - List customer subscriptions
-* [get](docs/sdks/subscriptions/README.md#get) - Get subscription
-* [update](docs/sdks/subscriptions/README.md#update) - Update subscription
-* [cancel](docs/sdks/subscriptions/README.md#cancel) - Cancel subscription
-* [all](docs/sdks/subscriptions/README.md#all) - List all subscriptions
-* [list_payments](docs/sdks/subscriptions/README.md#list_payments) - List subscription payments
+* [create](docs/sdks/subscriptionssdk/README.md#create) - Create subscription
+* [list](docs/sdks/subscriptionssdk/README.md#list) - List customer subscriptions
+* [get](docs/sdks/subscriptionssdk/README.md#get) - Get subscription
+* [update](docs/sdks/subscriptionssdk/README.md#update) - Update subscription
+* [cancel](docs/sdks/subscriptionssdk/README.md#cancel) - Cancel subscription
+* [all](docs/sdks/subscriptionssdk/README.md#all) - List all subscriptions
+* [list_payments](docs/sdks/subscriptionssdk/README.md#list_payments) - List subscription payments
 
 ### [terminals](docs/sdks/terminals/README.md)
 
@@ -1035,18 +1032,18 @@ Some of the endpoints in this SDK support retries. If you use the SDK without an
 To change the default retry strategy for a single API call, simply provide a `RetryConfig` object to the call:
 ```python
 import mollie
-from mollie import Client
+from mollie import ClientSDK
 from mollie.utils import BackoffStrategy, RetryConfig
 import os
 
 
-with Client(
+with ClientSDK(
     security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
-) as client:
+) as client_sdk:
 
-    res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+    res = client_sdk.payments.create(include=mollie.CreatePaymentInclude.DETAILS_QR_CODE, request_body={
         "description": "Chess Board",
         "amount": {
             "currency": "EUR",
@@ -1079,14 +1076,14 @@ with Client(
                 },
                 "sku": "9780241661628",
                 "categories": [
-                    mollie.Categories.MEAL,
-                    mollie.Categories.ECO,
+                    mollie.CreatePaymentCategoryRequest.MEAL,
+                    mollie.CreatePaymentCategoryRequest.ECO,
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": "12 months",
+                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -1118,14 +1115,14 @@ with Client(
                 },
                 "sku": "9780241661628",
                 "categories": [
-                    mollie.Categories.MEAL,
-                    mollie.Categories.ECO,
+                    mollie.CreatePaymentCategoryRequest.MEAL,
+                    mollie.CreatePaymentCategoryRequest.ECO,
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": "12 months",
+                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_WEEKS,
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -1157,14 +1154,14 @@ with Client(
                 },
                 "sku": "9780241661628",
                 "categories": [
-                    mollie.Categories.MEAL,
-                    mollie.Categories.ECO,
+                    mollie.CreatePaymentCategoryRequest.MEAL,
+                    mollie.CreatePaymentCategoryRequest.ECO,
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": "12 months",
+                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -1202,11 +1199,11 @@ with Client(
             "region": "Noord-Holland",
             "country": "NL",
         },
-        "locale": "en_US",
-        "method": "ideal",
+        "locale": mollie.CreatePaymentLocaleRequest.EN_US,
+        "method": mollie.CreatePaymentMethodRequest.IDEAL,
         "issuer": "ideal_INGBNL2A",
         "restrict_payment_methods_to_country": "NL",
-        "capture_mode": "manual",
+        "capture_mode": mollie.CreatePaymentCaptureModeRequest.MANUAL,
         "capture_delay": "8 hours",
         "application_fee": {
             "amount": {
@@ -1222,7 +1219,7 @@ with Client(
                     "value": "10.00",
                 },
                 "destination": {
-                    "type": "organization",
+                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
                     "organization_id": "org_1234567",
                 },
                 "release_date": "2024-12-12",
@@ -1243,7 +1240,7 @@ with Client(
                     "value": "10.00",
                 },
                 "destination": {
-                    "type": "organization",
+                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
                     "organization_id": "org_1234567",
                 },
                 "release_date": "2024-12-12",
@@ -1259,7 +1256,6 @@ with Client(
                 },
             },
         ],
-        "sequence_type": "oneoff",
         "mandate_id": "mdt_5B8cwPMGnU",
         "customer_id": "cst_5B8cwPMGnU",
         "profile_id": "pfl_5B8cwPMGnU",
@@ -1276,19 +1272,19 @@ with Client(
 If you'd like to override the default retry strategy for all operations that support retries, you can use the `retry_config` optional parameter when initializing the SDK:
 ```python
 import mollie
-from mollie import Client
+from mollie import ClientSDK
 from mollie.utils import BackoffStrategy, RetryConfig
 import os
 
 
-with Client(
+with ClientSDK(
     retry_config=RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False),
     security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
-) as client:
+) as client_sdk:
 
-    res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+    res = client_sdk.payments.create(include=mollie.CreatePaymentInclude.DETAILS_QR_CODE, request_body={
         "description": "Chess Board",
         "amount": {
             "currency": "EUR",
@@ -1321,14 +1317,14 @@ with Client(
                 },
                 "sku": "9780241661628",
                 "categories": [
-                    mollie.Categories.MEAL,
-                    mollie.Categories.ECO,
+                    mollie.CreatePaymentCategoryRequest.MEAL,
+                    mollie.CreatePaymentCategoryRequest.ECO,
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": "12 months",
+                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -1360,14 +1356,14 @@ with Client(
                 },
                 "sku": "9780241661628",
                 "categories": [
-                    mollie.Categories.MEAL,
-                    mollie.Categories.ECO,
+                    mollie.CreatePaymentCategoryRequest.MEAL,
+                    mollie.CreatePaymentCategoryRequest.ECO,
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": "12 months",
+                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_WEEKS,
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -1399,14 +1395,14 @@ with Client(
                 },
                 "sku": "9780241661628",
                 "categories": [
-                    mollie.Categories.MEAL,
-                    mollie.Categories.ECO,
+                    mollie.CreatePaymentCategoryRequest.MEAL,
+                    mollie.CreatePaymentCategoryRequest.ECO,
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": "12 months",
+                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -1444,11 +1440,11 @@ with Client(
             "region": "Noord-Holland",
             "country": "NL",
         },
-        "locale": "en_US",
-        "method": "ideal",
+        "locale": mollie.CreatePaymentLocaleRequest.EN_US,
+        "method": mollie.CreatePaymentMethodRequest.IDEAL,
         "issuer": "ideal_INGBNL2A",
         "restrict_payment_methods_to_country": "NL",
-        "capture_mode": "manual",
+        "capture_mode": mollie.CreatePaymentCaptureModeRequest.MANUAL,
         "capture_delay": "8 hours",
         "application_fee": {
             "amount": {
@@ -1464,7 +1460,7 @@ with Client(
                     "value": "10.00",
                 },
                 "destination": {
-                    "type": "organization",
+                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
                     "organization_id": "org_1234567",
                 },
                 "release_date": "2024-12-12",
@@ -1485,7 +1481,7 @@ with Client(
                     "value": "10.00",
                 },
                 "destination": {
-                    "type": "organization",
+                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
                     "organization_id": "org_1234567",
                 },
                 "release_date": "2024-12-12",
@@ -1501,7 +1497,6 @@ with Client(
                 },
             },
         ],
-        "sequence_type": "oneoff",
         "mandate_id": "mdt_5B8cwPMGnU",
         "customer_id": "cst_5B8cwPMGnU",
         "profile_id": "pfl_5B8cwPMGnU",
@@ -1532,19 +1527,19 @@ with Client(
 ### Example
 ```python
 import mollie
-from mollie import Client, models
+from mollie import ClientSDK, models
 import os
 
 
-with Client(
+with ClientSDK(
     security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
-) as client:
+) as client_sdk:
     res = None
     try:
 
-        res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+        res = client_sdk.payments.create(include=mollie.CreatePaymentInclude.DETAILS_QR_CODE, request_body={
             "description": "Chess Board",
             "amount": {
                 "currency": "EUR",
@@ -1577,14 +1572,14 @@ with Client(
                     },
                     "sku": "9780241661628",
                     "categories": [
-                        mollie.Categories.MEAL,
-                        mollie.Categories.ECO,
+                        mollie.CreatePaymentCategoryRequest.MEAL,
+                        mollie.CreatePaymentCategoryRequest.ECO,
                     ],
                     "image_url": "https://...",
                     "product_url": "https://...",
                     "recurring": {
                         "description": "Gym subscription",
-                        "interval": "12 months",
+                        "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
                         "amount": {
                             "currency": "EUR",
                             "value": "10.00",
@@ -1616,14 +1611,14 @@ with Client(
                     },
                     "sku": "9780241661628",
                     "categories": [
-                        mollie.Categories.MEAL,
-                        mollie.Categories.ECO,
+                        mollie.CreatePaymentCategoryRequest.MEAL,
+                        mollie.CreatePaymentCategoryRequest.ECO,
                     ],
                     "image_url": "https://...",
                     "product_url": "https://...",
                     "recurring": {
                         "description": "Gym subscription",
-                        "interval": "12 months",
+                        "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_WEEKS,
                         "amount": {
                             "currency": "EUR",
                             "value": "10.00",
@@ -1655,14 +1650,14 @@ with Client(
                     },
                     "sku": "9780241661628",
                     "categories": [
-                        mollie.Categories.MEAL,
-                        mollie.Categories.ECO,
+                        mollie.CreatePaymentCategoryRequest.MEAL,
+                        mollie.CreatePaymentCategoryRequest.ECO,
                     ],
                     "image_url": "https://...",
                     "product_url": "https://...",
                     "recurring": {
                         "description": "Gym subscription",
-                        "interval": "12 months",
+                        "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
                         "amount": {
                             "currency": "EUR",
                             "value": "10.00",
@@ -1700,11 +1695,11 @@ with Client(
                 "region": "Noord-Holland",
                 "country": "NL",
             },
-            "locale": "en_US",
-            "method": "ideal",
+            "locale": mollie.CreatePaymentLocaleRequest.EN_US,
+            "method": mollie.CreatePaymentMethodRequest.IDEAL,
             "issuer": "ideal_INGBNL2A",
             "restrict_payment_methods_to_country": "NL",
-            "capture_mode": "manual",
+            "capture_mode": mollie.CreatePaymentCaptureModeRequest.MANUAL,
             "capture_delay": "8 hours",
             "application_fee": {
                 "amount": {
@@ -1720,7 +1715,7 @@ with Client(
                         "value": "10.00",
                     },
                     "destination": {
-                        "type": "organization",
+                        "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
                         "organization_id": "org_1234567",
                     },
                     "release_date": "2024-12-12",
@@ -1741,7 +1736,7 @@ with Client(
                         "value": "10.00",
                     },
                     "destination": {
-                        "type": "organization",
+                        "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
                         "organization_id": "org_1234567",
                     },
                     "release_date": "2024-12-12",
@@ -1757,7 +1752,6 @@ with Client(
                     },
                 },
             ],
-            "sequence_type": "oneoff",
             "mandate_id": "mdt_5B8cwPMGnU",
             "customer_id": "cst_5B8cwPMGnU",
             "profile_id": "pfl_5B8cwPMGnU",
@@ -1778,12 +1772,12 @@ with Client(
         print(e.raw_response)
 
         # Depending on the method different errors may be thrown
-        if isinstance(e, models.CreatePaymentPaymentsResponseBody):
+        if isinstance(e, models.CreatePaymentUnprocessableEntityHalJSONError):
             print(e.data.status)  # int
             print(e.data.title)  # str
             print(e.data.detail)  # str
             print(e.data.field)  # Optional[str]
-            print(e.data.links)  # mollie.CreatePaymentPaymentsResponseLinks
+            print(e.data.links)  # mollie.CreatePaymentUnprocessableEntityLinks
 ```
 
 ### Error Classes
@@ -1801,131 +1795,131 @@ with Client(
 
 
 **Inherit from [`ClientError`](./src/mollie/models/clienterror.py)**:
-* [`ListPaymentsPaymentsResponseBody`](./src/mollie/models/listpaymentspaymentsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListMethodsMethodsResponseBody`](./src/mollie/models/listmethodsmethodsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListAllMethodsMethodsResponseBody`](./src/mollie/models/listallmethodsmethodsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`GetMethodMethodsResponseBody`](./src/mollie/models/getmethodmethodsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListRefundsRefundsResponseBody`](./src/mollie/models/listrefundsrefundsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListAllRefundsRefundsResponseBody`](./src/mollie/models/listallrefundsrefundsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListChargebacksChargebacksResponseBody`](./src/mollie/models/listchargebackschargebacksresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListAllChargebacksChargebacksResponseBody`](./src/mollie/models/listallchargebackschargebacksresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListCapturesCapturesResponseBody`](./src/mollie/models/listcapturescapturesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListPaymentLinksPaymentLinksResponseBody`](./src/mollie/models/listpaymentlinkspaymentlinksresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`GetPaymentLinkPaymentsPaymentLinksResponseBody`](./src/mollie/models/getpaymentlinkpaymentspaymentlinksresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListTerminalsTerminalsResponseBody`](./src/mollie/models/listterminalsterminalsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListCustomersCustomersResponseBody`](./src/mollie/models/listcustomerscustomersresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListCustomerPaymentsCustomersResponseBody`](./src/mollie/models/listcustomerpaymentscustomersresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListMandatesMandatesResponseBody`](./src/mollie/models/listmandatesmandatesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSubscriptionsSubscriptionsResponseBody`](./src/mollie/models/listsubscriptionssubscriptionsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListAllSubscriptionsSubscriptionsResponseBody`](./src/mollie/models/listallsubscriptionssubscriptionsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSubscriptionPaymentsSubscriptionsResponseBody`](./src/mollie/models/listsubscriptionpaymentssubscriptionsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListPermissionsPermissionsResponseBody`](./src/mollie/models/listpermissionspermissionsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListProfilesProfilesResponseBody`](./src/mollie/models/listprofilesprofilesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListClientsClientsResponseBody`](./src/mollie/models/listclientsclientsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListWebhooksWebhooksResponseBody`](./src/mollie/models/listwebhookswebhooksresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListBalancesBalancesResponseBody`](./src/mollie/models/listbalancesbalancesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListBalanceTransactionsBalancesResponseBody`](./src/mollie/models/listbalancetransactionsbalancesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSettlementsSettlementsResponseBody`](./src/mollie/models/listsettlementssettlementsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSettlementPaymentsSettlementsResponseBody`](./src/mollie/models/listsettlementpaymentssettlementsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSettlementCapturesSettlementsResponseBody`](./src/mollie/models/listsettlementcapturessettlementsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSettlementRefundsSettlementsResponseBody`](./src/mollie/models/listsettlementrefundssettlementsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSettlementChargebacksSettlementsResponseBody`](./src/mollie/models/listsettlementchargebackssettlementsresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListInvoicesInvoicesResponseBody`](./src/mollie/models/listinvoicesinvoicesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSalesInvoicesSalesInvoicesResponseBody`](./src/mollie/models/listsalesinvoicessalesinvoicesresponsebody.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`GetPaymentPaymentsResponseBody`](./src/mollie/models/getpaymentpaymentsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`UpdatePaymentPaymentsResponseBody`](./src/mollie/models/updatepaymentpaymentsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CancelPaymentPaymentsResponseBody`](./src/mollie/models/cancelpaymentpaymentsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ReleaseAuthorizationResponseBody`](./src/mollie/models/releaseauthorizationresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetMethodMethodsResponseResponseBody`](./src/mollie/models/getmethodmethodsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreateRefundRefundsResponseBody`](./src/mollie/models/createrefundrefundsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListRefundsRefundsResponseResponseBody`](./src/mollie/models/listrefundsrefundsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetRefundRefundsResponseBody`](./src/mollie/models/getrefundrefundsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CancelRefundResponseBody`](./src/mollie/models/cancelrefundresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListChargebacksChargebacksResponseResponseBody`](./src/mollie/models/listchargebackschargebacksresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetChargebackChargebacksResponseBody`](./src/mollie/models/getchargebackchargebacksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListAllChargebacksChargebacksResponseResponseBody`](./src/mollie/models/listallchargebackschargebacksresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreateCaptureCapturesResponseBody`](./src/mollie/models/createcapturecapturesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListCapturesCapturesResponseResponseBody`](./src/mollie/models/listcapturescapturesresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetCaptureCapturesResponseBody`](./src/mollie/models/getcapturecapturesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreatePaymentLinkPaymentLinksResponseBody`](./src/mollie/models/createpaymentlinkpaymentlinksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetPaymentLinkPaymentLinksResponseBody`](./src/mollie/models/getpaymentlinkpaymentlinksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`UpdatePaymentLinkPaymentLinksResponseBody`](./src/mollie/models/updatepaymentlinkpaymentlinksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`DeletePaymentLinkResponseBody`](./src/mollie/models/deletepaymentlinkresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetTerminalTerminalsResponseBody`](./src/mollie/models/getterminalterminalsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`PaymentCreateRouteDelayedRoutingResponseBody`](./src/mollie/models/paymentcreateroutedelayedroutingresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`PaymentListRoutesDelayedRoutingResponseBody`](./src/mollie/models/paymentlistroutesdelayedroutingresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreateCustomerCustomersResponseBody`](./src/mollie/models/createcustomercustomersresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListCustomersCustomersResponseResponseBody`](./src/mollie/models/listcustomerscustomersresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetCustomerCustomersResponseBody`](./src/mollie/models/getcustomercustomersresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`UpdateCustomerCustomersResponseBody`](./src/mollie/models/updatecustomercustomersresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`DeleteCustomerResponseBody`](./src/mollie/models/deletecustomerresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreateMandateMandatesResponseBody`](./src/mollie/models/createmandatemandatesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListMandatesMandatesResponseResponseBody`](./src/mollie/models/listmandatesmandatesresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetMandateMandatesResponseBody`](./src/mollie/models/getmandatemandatesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`RevokeMandateResponseBody`](./src/mollie/models/revokemandateresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreateSubscriptionSubscriptionsResponseBody`](./src/mollie/models/createsubscriptionsubscriptionsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListSubscriptionsSubscriptionsResponseResponseBody`](./src/mollie/models/listsubscriptionssubscriptionsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetSubscriptionSubscriptionsResponseBody`](./src/mollie/models/getsubscriptionsubscriptionsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`UpdateSubscriptionSubscriptionsResponseBody`](./src/mollie/models/updatesubscriptionsubscriptionsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CancelSubscriptionSubscriptionsResponseBody`](./src/mollie/models/cancelsubscriptionsubscriptionsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetPermissionPermissionsResponseBody`](./src/mollie/models/getpermissionpermissionsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetOrganizationOrganizationsResponseBody`](./src/mollie/models/getorganizationorganizationsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetProfileProfilesResponseBody`](./src/mollie/models/getprofileprofilesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`UpdateProfileProfilesResponseBody`](./src/mollie/models/updateprofileprofilesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`DeleteProfileResponseBody`](./src/mollie/models/deleteprofileresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListClientsClientsResponseResponseBody`](./src/mollie/models/listclientsclientsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetClientClientsResponseBody`](./src/mollie/models/getclientclientsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreateClientLinkClientLinksResponseBody`](./src/mollie/models/createclientlinkclientlinksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`UpdateWebhookWebhooksResponseBody`](./src/mollie/models/updatewebhookwebhooksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetWebhookWebhooksResponseBody`](./src/mollie/models/getwebhookwebhooksresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`DeleteWebhookResponseBody`](./src/mollie/models/deletewebhookresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`TestWebhookResponseBody`](./src/mollie/models/testwebhookresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetWebhookEventWebhookEventsResponseBody`](./src/mollie/models/getwebhookeventwebhookeventsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListBalancesBalancesResponseResponseBody`](./src/mollie/models/listbalancesbalancesresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetBalanceBalancesResponseBody`](./src/mollie/models/getbalancebalancesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetBalanceReportBalancesResponseBody`](./src/mollie/models/getbalancereportbalancesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListBalanceTransactionsBalancesResponseResponseBody`](./src/mollie/models/listbalancetransactionsbalancesresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListSettlementsSettlementsResponseResponseBody`](./src/mollie/models/listsettlementssettlementsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetSettlementSettlementsResponseBody`](./src/mollie/models/getsettlementsettlementsresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListSettlementCapturesSettlementsResponseResponseBody`](./src/mollie/models/listsettlementcapturessettlementsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListSettlementRefundsSettlementsResponseResponseBody`](./src/mollie/models/listsettlementrefundssettlementsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListSettlementChargebacksSettlementsResponseResponseBody`](./src/mollie/models/listsettlementchargebackssettlementsresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListInvoicesInvoicesResponseResponseBody`](./src/mollie/models/listinvoicesinvoicesresponseresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetInvoiceInvoicesResponseBody`](./src/mollie/models/getinvoiceinvoicesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreateSalesInvoiceSalesInvoicesResponseBody`](./src/mollie/models/createsalesinvoicesalesinvoicesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetSalesInvoiceSalesInvoicesResponseBody`](./src/mollie/models/getsalesinvoicesalesinvoicesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`UpdateSalesInvoiceSalesInvoicesResponseBody`](./src/mollie/models/updatesalesinvoicesalesinvoicesresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`DeleteSalesInvoiceResponseBody`](./src/mollie/models/deletesalesinvoiceresponsebody.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreateRefundRefundsResponseResponseBody`](./src/mollie/models/createrefundrefundsresponseresponsebody.py): An error response object. Status code `409`. Applicable to 1 of 93 methods.*
-* [`GetProfileProfilesResponseResponseBody`](./src/mollie/models/getprofileprofilesresponseresponsebody.py): An error response object. Status code `410`. Applicable to 1 of 93 methods.*
-* [`UpdateProfileProfilesResponseResponseBody`](./src/mollie/models/updateprofileprofilesresponseresponsebody.py): An error response object. Status code `410`. Applicable to 1 of 93 methods.*
-* [`DeleteProfileProfilesResponseBody`](./src/mollie/models/deleteprofileprofilesresponsebody.py): An error response object. Status code `410`. Applicable to 1 of 93 methods.*
-* [`CreatePaymentPaymentsResponseBody`](./src/mollie/models/createpaymentpaymentsresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`UpdatePaymentPaymentsResponseResponseBody`](./src/mollie/models/updatepaymentpaymentsresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CancelPaymentPaymentsResponseResponseBody`](./src/mollie/models/cancelpaymentpaymentsresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`ReleaseAuthorizationPaymentsResponseBody`](./src/mollie/models/releaseauthorizationpaymentsresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateRefundRefundsResponse422ResponseBody`](./src/mollie/models/createrefundrefundsresponse422responsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateCaptureCapturesResponseResponseBody`](./src/mollie/models/createcapturecapturesresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`RequestApplePayPaymentSessionResponseBody`](./src/mollie/models/requestapplepaypaymentsessionresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreatePaymentLinkPaymentLinksResponseResponseBody`](./src/mollie/models/createpaymentlinkpaymentlinksresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`UpdatePaymentLinkPaymentLinksResponseResponseBody`](./src/mollie/models/updatepaymentlinkpaymentlinksresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`DeletePaymentLinkPaymentLinksResponseBody`](./src/mollie/models/deletepaymentlinkpaymentlinksresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateCustomerPaymentCustomersResponseBody`](./src/mollie/models/createcustomerpaymentcustomersresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateProfileProfilesResponseBody`](./src/mollie/models/createprofileprofilesresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`UpdateProfileProfilesResponse422ResponseBody`](./src/mollie/models/updateprofileprofilesresponse422responsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateClientLinkClientLinksResponseResponseBody`](./src/mollie/models/createclientlinkclientlinksresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateWebhookWebhooksResponseBody`](./src/mollie/models/createwebhookwebhooksresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`UpdateWebhookWebhooksResponseResponseBody`](./src/mollie/models/updatewebhookwebhooksresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`GetWebhookWebhooksResponseResponseBody`](./src/mollie/models/getwebhookwebhooksresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`DeleteWebhookWebhooksResponseBody`](./src/mollie/models/deletewebhookwebhooksresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`TestWebhookWebhooksResponseBody`](./src/mollie/models/testwebhookwebhooksresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`GetBalanceReportBalancesResponseResponseBody`](./src/mollie/models/getbalancereportbalancesresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateSalesInvoiceSalesInvoicesResponseResponseBody`](./src/mollie/models/createsalesinvoicesalesinvoicesresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`UpdateSalesInvoiceSalesInvoicesResponseResponseBody`](./src/mollie/models/updatesalesinvoicesalesinvoicesresponseresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`DeleteSalesInvoiceSalesInvoicesResponseBody`](./src/mollie/models/deletesalesinvoicesalesinvoicesresponsebody.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`ListBalanceTransactionsBalancesResponse429ResponseBody`](./src/mollie/models/listbalancetransactionsbalancesresponse429responsebody.py): An error response object. Status code `429`. Applicable to 1 of 93 methods.*
-* [`CreatePaymentPaymentsResponseResponseBody`](./src/mollie/models/createpaymentpaymentsresponseresponsebody.py): An error response object. Status code `503`. Applicable to 1 of 93 methods.*
-* [`CreateCustomerPaymentCustomersResponseResponseBody`](./src/mollie/models/createcustomerpaymentcustomersresponseresponsebody.py): An error response object. Status code `503`. Applicable to 1 of 93 methods.*
+* [`ListPaymentsHalJSONError`](./src/mollie/models/listpaymentshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListMethodsHalJSONError`](./src/mollie/models/listmethodshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListAllMethodsHalJSONError`](./src/mollie/models/listallmethodshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`GetMethodBadRequestHalJSONError`](./src/mollie/models/getmethodbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListRefundsBadRequestHalJSONError`](./src/mollie/models/listrefundsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListAllRefundsHalJSONError`](./src/mollie/models/listallrefundshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListChargebacksBadRequestHalJSONError`](./src/mollie/models/listchargebacksbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListAllChargebacksBadRequestHalJSONError`](./src/mollie/models/listallchargebacksbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListCapturesBadRequestHalJSONError`](./src/mollie/models/listcapturesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListPaymentLinksHalJSONError`](./src/mollie/models/listpaymentlinkshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`GetPaymentLinkPaymentsHalJSONError`](./src/mollie/models/getpaymentlinkpaymentshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListTerminalsHalJSONError`](./src/mollie/models/listterminalshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListCustomersBadRequestHalJSONError`](./src/mollie/models/listcustomersbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListCustomerPaymentsHalJSONError`](./src/mollie/models/listcustomerpaymentshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListMandatesBadRequestHalJSONError`](./src/mollie/models/listmandatesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSubscriptionsBadRequestHalJSONError`](./src/mollie/models/listsubscriptionsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListAllSubscriptionsHalJSONError`](./src/mollie/models/listallsubscriptionshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSubscriptionPaymentsHalJSONError`](./src/mollie/models/listsubscriptionpaymentshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListPermissionsHalJSONError`](./src/mollie/models/listpermissionshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListProfilesHalJSONError`](./src/mollie/models/listprofileshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListClientsBadRequestHalJSONError`](./src/mollie/models/listclientsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListWebhooksHalJSONError`](./src/mollie/models/listwebhookshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListBalancesBadRequestHalJSONError`](./src/mollie/models/listbalancesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListBalanceTransactionsBadRequestHalJSONError`](./src/mollie/models/listbalancetransactionsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSettlementsBadRequestHalJSONError`](./src/mollie/models/listsettlementsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSettlementPaymentsHalJSONError`](./src/mollie/models/listsettlementpaymentshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSettlementCapturesBadRequestHalJSONError`](./src/mollie/models/listsettlementcapturesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSettlementRefundsBadRequestHalJSONError`](./src/mollie/models/listsettlementrefundsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSettlementChargebacksBadRequestHalJSONError`](./src/mollie/models/listsettlementchargebacksbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListInvoicesBadRequestHalJSONError`](./src/mollie/models/listinvoicesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSalesInvoicesHalJSONError`](./src/mollie/models/listsalesinvoiceshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`GetPaymentHalJSONError`](./src/mollie/models/getpaymenthaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`UpdatePaymentNotFoundHalJSONError`](./src/mollie/models/updatepaymentnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CancelPaymentNotFoundHalJSONError`](./src/mollie/models/cancelpaymentnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ReleaseAuthorizationNotFoundHalJSONError`](./src/mollie/models/releaseauthorizationnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetMethodNotFoundHalJSONError`](./src/mollie/models/getmethodnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreateRefundNotFoundHalJSONError`](./src/mollie/models/createrefundnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListRefundsNotFoundHalJSONError`](./src/mollie/models/listrefundsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetRefundHalJSONError`](./src/mollie/models/getrefundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CancelRefundHalJSONError`](./src/mollie/models/cancelrefundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListChargebacksNotFoundHalJSONError`](./src/mollie/models/listchargebacksnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetChargebackHalJSONError`](./src/mollie/models/getchargebackhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListAllChargebacksNotFoundHalJSONError`](./src/mollie/models/listallchargebacksnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreateCaptureNotFoundHalJSONError`](./src/mollie/models/createcapturenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListCapturesNotFoundHalJSONError`](./src/mollie/models/listcapturesnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetCaptureHalJSONError`](./src/mollie/models/getcapturehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreatePaymentLinkNotFoundHalJSONError`](./src/mollie/models/createpaymentlinknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetPaymentLinkHalJSONError`](./src/mollie/models/getpaymentlinkhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`UpdatePaymentLinkNotFoundHalJSONError`](./src/mollie/models/updatepaymentlinknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`DeletePaymentLinkNotFoundHalJSONError`](./src/mollie/models/deletepaymentlinknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetTerminalHalJSONError`](./src/mollie/models/getterminalhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`PaymentCreateRouteHalJSONError`](./src/mollie/models/paymentcreateroutehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`PaymentListRoutesHalJSONError`](./src/mollie/models/paymentlistrouteshaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreateCustomerHalJSONError`](./src/mollie/models/createcustomerhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListCustomersNotFoundHalJSONError`](./src/mollie/models/listcustomersnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetCustomerHalJSONError`](./src/mollie/models/getcustomerhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`UpdateCustomerHalJSONError`](./src/mollie/models/updatecustomerhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`DeleteCustomerHalJSONError`](./src/mollie/models/deletecustomerhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreateMandateHalJSONError`](./src/mollie/models/createmandatehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListMandatesNotFoundHalJSONError`](./src/mollie/models/listmandatesnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetMandateHalJSONError`](./src/mollie/models/getmandatehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`RevokeMandateHalJSONError`](./src/mollie/models/revokemandatehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreateSubscriptionHalJSONError`](./src/mollie/models/createsubscriptionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListSubscriptionsNotFoundHalJSONError`](./src/mollie/models/listsubscriptionsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetSubscriptionHalJSONError`](./src/mollie/models/getsubscriptionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`UpdateSubscriptionHalJSONError`](./src/mollie/models/updatesubscriptionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CancelSubscriptionHalJSONError`](./src/mollie/models/cancelsubscriptionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetPermissionHalJSONError`](./src/mollie/models/getpermissionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetOrganizationHalJSONError`](./src/mollie/models/getorganizationhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetProfileNotFoundHalJSONError`](./src/mollie/models/getprofilenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`UpdateProfileNotFoundHalJSONError`](./src/mollie/models/updateprofilenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`DeleteProfileNotFoundHalJSONError`](./src/mollie/models/deleteprofilenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListClientsNotFoundHalJSONError`](./src/mollie/models/listclientsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetClientHalJSONError`](./src/mollie/models/getclienthaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreateClientLinkNotFoundHalJSONError`](./src/mollie/models/createclientlinknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`UpdateWebhookNotFoundHalJSONError`](./src/mollie/models/updatewebhooknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetWebhookNotFoundHalJSONError`](./src/mollie/models/getwebhooknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`DeleteWebhookNotFoundHalJSONError`](./src/mollie/models/deletewebhooknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`TestWebhookNotFoundHalJSONError`](./src/mollie/models/testwebhooknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetWebhookEventHalJSONError`](./src/mollie/models/getwebhookeventhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListBalancesNotFoundHalJSONError`](./src/mollie/models/listbalancesnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetBalanceHalJSONError`](./src/mollie/models/getbalancehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetBalanceReportNotFoundHalJSONError`](./src/mollie/models/getbalancereportnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListBalanceTransactionsNotFoundHalJSONError`](./src/mollie/models/listbalancetransactionsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListSettlementsNotFoundHalJSONError`](./src/mollie/models/listsettlementsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetSettlementHalJSONError`](./src/mollie/models/getsettlementhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListSettlementCapturesNotFoundHalJSONError`](./src/mollie/models/listsettlementcapturesnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListSettlementRefundsNotFoundHalJSONError`](./src/mollie/models/listsettlementrefundsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListSettlementChargebacksNotFoundHalJSONError`](./src/mollie/models/listsettlementchargebacksnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListInvoicesNotFoundHalJSONError`](./src/mollie/models/listinvoicesnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetInvoiceHalJSONError`](./src/mollie/models/getinvoicehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreateSalesInvoiceNotFoundHalJSONError`](./src/mollie/models/createsalesinvoicenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetSalesInvoiceHalJSONError`](./src/mollie/models/getsalesinvoicehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`UpdateSalesInvoiceNotFoundHalJSONError`](./src/mollie/models/updatesalesinvoicenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`DeleteSalesInvoiceNotFoundHalJSONError`](./src/mollie/models/deletesalesinvoicenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ConflictHalJSONError`](./src/mollie/models/conflicthaljsonerror.py): An error response object. Status code `409`. Applicable to 1 of 93 methods.*
+* [`GetProfileGoneHalJSONError`](./src/mollie/models/getprofilegonehaljsonerror.py): An error response object. Status code `410`. Applicable to 1 of 93 methods.*
+* [`UpdateProfileGoneHalJSONError`](./src/mollie/models/updateprofilegonehaljsonerror.py): An error response object. Status code `410`. Applicable to 1 of 93 methods.*
+* [`DeleteProfileGoneHalJSONError`](./src/mollie/models/deleteprofilegonehaljsonerror.py): An error response object. Status code `410`. Applicable to 1 of 93 methods.*
+* [`CreatePaymentUnprocessableEntityHalJSONError`](./src/mollie/models/createpaymentunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`UpdatePaymentUnprocessableEntityHalJSONError`](./src/mollie/models/updatepaymentunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CancelPaymentUnprocessableEntityHalJSONError`](./src/mollie/models/cancelpaymentunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`ReleaseAuthorizationUnprocessableEntityHalJSONError`](./src/mollie/models/releaseauthorizationunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateRefundUnprocessableEntityHalJSONError`](./src/mollie/models/createrefundunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateCaptureUnprocessableEntityHalJSONError`](./src/mollie/models/createcaptureunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`RequestApplePayPaymentSessionHalJSONError`](./src/mollie/models/requestapplepaypaymentsessionhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreatePaymentLinkUnprocessableEntityHalJSONError`](./src/mollie/models/createpaymentlinkunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`UpdatePaymentLinkUnprocessableEntityHalJSONError`](./src/mollie/models/updatepaymentlinkunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`DeletePaymentLinkUnprocessableEntityHalJSONError`](./src/mollie/models/deletepaymentlinkunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateCustomerPaymentUnprocessableEntityHalJSONError`](./src/mollie/models/createcustomerpaymentunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateProfileHalJSONError`](./src/mollie/models/createprofilehaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`UpdateProfileUnprocessableEntityHalJSONError`](./src/mollie/models/updateprofileunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateClientLinkUnprocessableEntityHalJSONError`](./src/mollie/models/createclientlinkunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateWebhookHalJSONError`](./src/mollie/models/createwebhookhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`UpdateWebhookUnprocessableEntityHalJSONError`](./src/mollie/models/updatewebhookunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`GetWebhookUnprocessableEntityHalJSONError`](./src/mollie/models/getwebhookunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`DeleteWebhookUnprocessableEntityHalJSONError`](./src/mollie/models/deletewebhookunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`TestWebhookUnprocessableEntityHalJSONError`](./src/mollie/models/testwebhookunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`GetBalanceReportUnprocessableEntityHalJSONError`](./src/mollie/models/getbalancereportunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateSalesInvoiceUnprocessableEntityHalJSONError`](./src/mollie/models/createsalesinvoiceunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`UpdateSalesInvoiceUnprocessableEntityHalJSONError`](./src/mollie/models/updatesalesinvoiceunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`DeleteSalesInvoiceUnprocessableEntityHalJSONError`](./src/mollie/models/deletesalesinvoiceunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`TooManyRequestsHalJSONError`](./src/mollie/models/toomanyrequestshaljsonerror.py): An error response object. Status code `429`. Applicable to 1 of 93 methods.*
+* [`CreatePaymentServiceUnavailableHalJSONError`](./src/mollie/models/createpaymentserviceunavailablehaljsonerror.py): An error response object. Status code `503`. Applicable to 1 of 93 methods.*
+* [`CreateCustomerPaymentServiceUnavailableHalJSONError`](./src/mollie/models/createcustomerpaymentserviceunavailablehaljsonerror.py): An error response object. Status code `503`. Applicable to 1 of 93 methods.*
 * [`ResponseValidationError`](./src/mollie/models/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>
@@ -1941,18 +1935,18 @@ with Client(
 The default server can be overridden globally by passing a URL to the `server_url: str` optional parameter when initializing the SDK client instance. For example:
 ```python
 import mollie
-from mollie import Client
+from mollie import ClientSDK
 import os
 
 
-with Client(
+with ClientSDK(
     server_url="https://api.mollie.com/v2",
     security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
-) as client:
+) as client_sdk:
 
-    res = client.payments.create(include=mollie.Include.DETAILS_QR_CODE, request_body={
+    res = client_sdk.payments.create(include=mollie.CreatePaymentInclude.DETAILS_QR_CODE, request_body={
         "description": "Chess Board",
         "amount": {
             "currency": "EUR",
@@ -1985,14 +1979,14 @@ with Client(
                 },
                 "sku": "9780241661628",
                 "categories": [
-                    mollie.Categories.MEAL,
-                    mollie.Categories.ECO,
+                    mollie.CreatePaymentCategoryRequest.MEAL,
+                    mollie.CreatePaymentCategoryRequest.ECO,
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": "12 months",
+                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -2024,14 +2018,14 @@ with Client(
                 },
                 "sku": "9780241661628",
                 "categories": [
-                    mollie.Categories.MEAL,
-                    mollie.Categories.ECO,
+                    mollie.CreatePaymentCategoryRequest.MEAL,
+                    mollie.CreatePaymentCategoryRequest.ECO,
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": "12 months",
+                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_WEEKS,
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -2063,14 +2057,14 @@ with Client(
                 },
                 "sku": "9780241661628",
                 "categories": [
-                    mollie.Categories.MEAL,
-                    mollie.Categories.ECO,
+                    mollie.CreatePaymentCategoryRequest.MEAL,
+                    mollie.CreatePaymentCategoryRequest.ECO,
                 ],
                 "image_url": "https://...",
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": "12 months",
+                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -2108,11 +2102,11 @@ with Client(
             "region": "Noord-Holland",
             "country": "NL",
         },
-        "locale": "en_US",
-        "method": "ideal",
+        "locale": mollie.CreatePaymentLocaleRequest.EN_US,
+        "method": mollie.CreatePaymentMethodRequest.IDEAL,
         "issuer": "ideal_INGBNL2A",
         "restrict_payment_methods_to_country": "NL",
-        "capture_mode": "manual",
+        "capture_mode": mollie.CreatePaymentCaptureModeRequest.MANUAL,
         "capture_delay": "8 hours",
         "application_fee": {
             "amount": {
@@ -2128,7 +2122,7 @@ with Client(
                     "value": "10.00",
                 },
                 "destination": {
-                    "type": "organization",
+                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
                     "organization_id": "org_1234567",
                 },
                 "release_date": "2024-12-12",
@@ -2149,7 +2143,7 @@ with Client(
                     "value": "10.00",
                 },
                 "destination": {
-                    "type": "organization",
+                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
                     "organization_id": "org_1234567",
                 },
                 "release_date": "2024-12-12",
@@ -2165,7 +2159,6 @@ with Client(
                 },
             },
         ],
-        "sequence_type": "oneoff",
         "mandate_id": "mdt_5B8cwPMGnU",
         "customer_id": "cst_5B8cwPMGnU",
         "profile_id": "pfl_5B8cwPMGnU",
@@ -2188,16 +2181,16 @@ This allows you to wrap the client with your own custom logic, such as adding cu
 
 For example, you could specify a header for every request that this sdk makes as follows:
 ```python
-from mollie import Client
+from mollie import ClientSDK
 import httpx
 
 http_client = httpx.Client(headers={"x-custom-header": "someValue"})
-s = Client(client=http_client)
+s = ClientSDK(client=http_client)
 ```
 
 or you could wrap the client with your own custom logic:
 ```python
-from mollie import Client
+from mollie import ClientSDK
 from mollie.httpclient import AsyncHttpClient
 import httpx
 
@@ -2256,39 +2249,39 @@ class CustomClient(AsyncHttpClient):
             extensions=extensions,
         )
 
-s = Client(async_client=CustomClient(httpx.AsyncClient()))
+s = ClientSDK(async_client=CustomClient(httpx.AsyncClient()))
 ```
 <!-- End Custom HTTP Client [http-client] -->
 
 <!-- Start Resource Management [resource-management] -->
 ## Resource Management
 
-The `Client` class implements the context manager protocol and registers a finalizer function to close the underlying sync and async HTTPX clients it uses under the hood. This will close HTTP connections, release memory and free up other resources held by the SDK. In short-lived Python programs and notebooks that make a few SDK method calls, resource management may not be a concern. However, in longer-lived programs, it is beneficial to create a single SDK instance via a [context manager][context-manager] and reuse it across the application.
+The `ClientSDK` class implements the context manager protocol and registers a finalizer function to close the underlying sync and async HTTPX clients it uses under the hood. This will close HTTP connections, release memory and free up other resources held by the SDK. In short-lived Python programs and notebooks that make a few SDK method calls, resource management may not be a concern. However, in longer-lived programs, it is beneficial to create a single SDK instance via a [context manager][context-manager] and reuse it across the application.
 
 [context-manager]: https://docs.python.org/3/reference/datamodel.html#context-managers
 
 ```python
 import mollie
-from mollie import Client
+from mollie import ClientSDK
 import os
 def main():
 
-    with Client(
+    with ClientSDK(
         security=mollie.Security(
             api_key=os.getenv("CLIENT_API_KEY", ""),
         ),
-    ) as client:
+    ) as client_sdk:
         # Rest of application here...
 
 
 # Or when using async:
 async def amain():
 
-    async with Client(
+    async with ClientSDK(
         security=mollie.Security(
             api_key=os.getenv("CLIENT_API_KEY", ""),
         ),
-    ) as client:
+    ) as client_sdk:
         # Rest of application here...
 ```
 <!-- End Resource Management [resource-management] -->
@@ -2300,11 +2293,11 @@ You can setup your SDK to emit debug logs for SDK requests and responses.
 
 You can pass your own logger class directly into your SDK.
 ```python
-from mollie import Client
+from mollie import ClientSDK
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
-s = Client(debug_logger=logging.getLogger("mollie"))
+s = ClientSDK(debug_logger=logging.getLogger("mollie"))
 ```
 
 You can also enable a default debug logger by setting an environment variable `CLIENT_DEBUG` to true.

@@ -12,7 +12,7 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class GetChargebackQueryParamEmbed(str, Enum):
+class GetChargebackEmbed(str, Enum):
     r"""This endpoint allows you to embed additional information via the `embed` query string parameter."""
 
     PAYMENT = "payment"
@@ -23,10 +23,12 @@ class GetChargebackRequestTypedDict(TypedDict):
     r"""Provide the ID of the related payment."""
     chargeback_id: str
     r"""Provide the ID of the related chargeback."""
-    embed: NotRequired[Nullable[GetChargebackQueryParamEmbed]]
+    embed: NotRequired[Nullable[GetChargebackEmbed]]
     r"""This endpoint allows you to embed additional information via the `embed` query string parameter."""
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -48,7 +50,7 @@ class GetChargebackRequest(BaseModel):
     r"""Provide the ID of the related chargeback."""
 
     embed: Annotated[
-        OptionalNullable[GetChargebackQueryParamEmbed],
+        OptionalNullable[GetChargebackEmbed],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
     r"""This endpoint allows you to embed additional information via the `embed` query string parameter."""
@@ -57,7 +59,9 @@ class GetChargebackRequest(BaseModel):
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -93,14 +97,14 @@ class GetChargebackRequest(BaseModel):
         return m
 
 
-class GetChargebackChargebacksDocumentationTypedDict(TypedDict):
+class GetChargebackNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class GetChargebackChargebacksDocumentation(BaseModel):
+class GetChargebackNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -108,17 +112,17 @@ class GetChargebackChargebacksDocumentation(BaseModel):
     type: str
 
 
-class GetChargebackChargebacksLinksTypedDict(TypedDict):
-    documentation: GetChargebackChargebacksDocumentationTypedDict
+class GetChargebackNotFoundLinksTypedDict(TypedDict):
+    documentation: GetChargebackNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetChargebackChargebacksLinks(BaseModel):
-    documentation: GetChargebackChargebacksDocumentation
+class GetChargebackNotFoundLinks(BaseModel):
+    documentation: GetChargebackNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetChargebackChargebacksResponseBodyData(BaseModel):
+class GetChargebackHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -128,20 +132,22 @@ class GetChargebackChargebacksResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[GetChargebackChargebacksLinks, pydantic.Field(alias="_links")]
+    links: Annotated[GetChargebackNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class GetChargebackChargebacksResponseBody(ClientError):
+class GetChargebackHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: GetChargebackChargebacksResponseBodyData
+    data: GetChargebackHalJSONErrorData
 
     def __init__(
         self,
-        data: GetChargebackChargebacksResponseBodyData,
+        data: GetChargebackHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -170,11 +176,14 @@ class GetChargebackAmount(BaseModel):
 
 
 class GetChargebackSettlementAmountTypedDict(TypedDict):
-    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
 
     The amount is a **negative** amount.
 
-    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
     """
 
     currency: str
@@ -184,11 +193,14 @@ class GetChargebackSettlementAmountTypedDict(TypedDict):
 
 
 class GetChargebackSettlementAmount(BaseModel):
-    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
 
     The amount is a **negative** amount.
 
-    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
     """
 
     currency: str
@@ -198,7 +210,7 @@ class GetChargebackSettlementAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ReasonTypedDict(TypedDict):
+class GetChargebackReasonTypedDict(TypedDict):
     r"""Reason for the chargeback as given by the bank. Only available for chargebacks of SEPA Direct Debit payments."""
 
     code: str
@@ -207,7 +219,7 @@ class ReasonTypedDict(TypedDict):
     r"""A more detailed human-friendly description."""
 
 
-class Reason(BaseModel):
+class GetChargebackReason(BaseModel):
     r"""Reason for the chargeback as given by the bank. Only available for chargebacks of SEPA Direct Debit payments."""
 
     code: str
@@ -256,7 +268,9 @@ class GetChargebackPayment(BaseModel):
 
 
 class GetChargebackSettlementTypedDict(TypedDict):
-    r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if
+    not yet settled.
+    """
 
     href: NotRequired[str]
     r"""The actual URL string."""
@@ -265,7 +279,9 @@ class GetChargebackSettlementTypedDict(TypedDict):
 
 
 class GetChargebackSettlement(BaseModel):
-    r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if
+    not yet settled.
+    """
 
     href: Optional[str] = None
     r"""The actual URL string."""
@@ -303,7 +319,9 @@ class GetChargebackLinksTypedDict(TypedDict):
     documentation: GetChargebackDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     settlement: NotRequired[Nullable[GetChargebackSettlementTypedDict]]
-    r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if
+    not yet settled.
+    """
 
 
 class GetChargebackLinks(BaseModel):
@@ -319,7 +337,9 @@ class GetChargebackLinks(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     settlement: OptionalNullable[GetChargebackSettlement] = UNSET
-    r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this chargeback has been settled with. Not present if
+    not yet settled.
+    """
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -352,41 +372,54 @@ class GetChargebackLinks(BaseModel):
         return m
 
 
-class GetChargebackResponseBodyTypedDict(TypedDict):
+class GetChargebackResponseTypedDict(TypedDict):
     r"""The chargeback object."""
 
     resource: str
-    r"""Indicates the response contains a chargeback object. Will always contain the string `chargeback` for this endpoint."""
+    r"""Indicates the response contains a chargeback object. Will always contain the string `chargeback` for this
+    endpoint.
+    """
     id: str
     r"""The identifier uniquely referring to this chargeback. Example: `chb_n9z0tp`."""
     amount: GetChargebackAmountTypedDict
     r"""The amount charged back by the customer."""
     payment_id: str
-    r"""The unique identifier of the payment this chargeback was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
+    r"""The unique identifier of the payment this chargeback was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
+    The full payment object can be retrieved via the payment URL in the `_links` object.
+    """
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: GetChargebackLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     settlement_amount: NotRequired[Nullable[GetChargebackSettlementAmountTypedDict]]
-    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
 
     The amount is a **negative** amount.
 
-    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
     """
-    reason: NotRequired[Nullable[ReasonTypedDict]]
+    reason: NotRequired[Nullable[GetChargebackReasonTypedDict]]
     r"""Reason for the chargeback as given by the bank. Only available for chargebacks of SEPA Direct Debit payments."""
     settlement_id: NotRequired[Nullable[str]]
-    r"""The identifier referring to the settlement this payment was settled with. For example, `stl_BkEjN2eBb`. This field is omitted if the refund is not settled (yet)."""
+    r"""The identifier referring to the settlement this payment was settled with. For example, `stl_BkEjN2eBb`. This field
+    is omitted if the refund is not settled (yet).
+    """
     reversed_at: NotRequired[Nullable[str]]
-    r"""The date and time the chargeback was reversed if applicable, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    r"""The date and time the chargeback was reversed if applicable, in
+    [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.
+    """
 
 
-class GetChargebackResponseBody(BaseModel):
+class GetChargebackResponse(BaseModel):
     r"""The chargeback object."""
 
     resource: str
-    r"""Indicates the response contains a chargeback object. Will always contain the string `chargeback` for this endpoint."""
+    r"""Indicates the response contains a chargeback object. Will always contain the string `chargeback` for this
+    endpoint.
+    """
 
     id: str
     r"""The identifier uniquely referring to this chargeback. Example: `chb_n9z0tp`."""
@@ -395,7 +428,9 @@ class GetChargebackResponseBody(BaseModel):
     r"""The amount charged back by the customer."""
 
     payment_id: Annotated[str, pydantic.Field(alias="paymentId")]
-    r"""The unique identifier of the payment this chargeback was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`. The full payment object can be retrieved via the payment URL in the `_links` object."""
+    r"""The unique identifier of the payment this chargeback was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
+    The full payment object can be retrieved via the payment URL in the `_links` object.
+    """
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
@@ -407,25 +442,32 @@ class GetChargebackResponseBody(BaseModel):
         OptionalNullable[GetChargebackSettlementAmount],
         pydantic.Field(alias="settlementAmount"),
     ] = UNSET
-    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
 
     The amount is a **negative** amount.
 
-    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions) instead.
+    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
     """
 
-    reason: OptionalNullable[Reason] = UNSET
+    reason: OptionalNullable[GetChargebackReason] = UNSET
     r"""Reason for the chargeback as given by the bank. Only available for chargebacks of SEPA Direct Debit payments."""
 
     settlement_id: Annotated[
         OptionalNullable[str], pydantic.Field(alias="settlementId")
     ] = UNSET
-    r"""The identifier referring to the settlement this payment was settled with. For example, `stl_BkEjN2eBb`. This field is omitted if the refund is not settled (yet)."""
+    r"""The identifier referring to the settlement this payment was settled with. For example, `stl_BkEjN2eBb`. This field
+    is omitted if the refund is not settled (yet).
+    """
 
     reversed_at: Annotated[
         OptionalNullable[str], pydantic.Field(alias="reversedAt")
     ] = UNSET
-    r"""The date and time the chargeback was reversed if applicable, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    r"""The date and time the chargeback was reversed if applicable, in
+    [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.
+    """
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

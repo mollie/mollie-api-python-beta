@@ -1,8 +1,0 @@
-# ListBalanceTransactionsBalancesLinks
-
-
-## Fields
-
-| Field                                                                                                            | Type                                                                                                             | Required                                                                                                         | Description                                                                                                      |
-| ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `documentation`                                                                                                  | [models.ListBalanceTransactionsBalancesDocumentation](../models/listbalancetransactionsbalancesdocumentation.md) | :heavy_check_mark:                                                                                               | The URL to the generic Mollie API error handling guide.                                                          |

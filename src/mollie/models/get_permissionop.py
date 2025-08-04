@@ -15,7 +15,9 @@ class GetPermissionRequestTypedDict(TypedDict):
     permission_id: str
     r"""Provide the ID of the related permission."""
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -33,7 +35,9 @@ class GetPermissionRequest(BaseModel):
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -69,14 +73,14 @@ class GetPermissionRequest(BaseModel):
         return m
 
 
-class GetPermissionPermissionsDocumentationTypedDict(TypedDict):
+class GetPermissionNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class GetPermissionPermissionsDocumentation(BaseModel):
+class GetPermissionNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -84,17 +88,17 @@ class GetPermissionPermissionsDocumentation(BaseModel):
     type: str
 
 
-class GetPermissionPermissionsLinksTypedDict(TypedDict):
-    documentation: GetPermissionPermissionsDocumentationTypedDict
+class GetPermissionNotFoundLinksTypedDict(TypedDict):
+    documentation: GetPermissionNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetPermissionPermissionsLinks(BaseModel):
-    documentation: GetPermissionPermissionsDocumentation
+class GetPermissionNotFoundLinks(BaseModel):
+    documentation: GetPermissionNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetPermissionPermissionsResponseBodyData(BaseModel):
+class GetPermissionHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -104,20 +108,22 @@ class GetPermissionPermissionsResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[GetPermissionPermissionsLinks, pydantic.Field(alias="_links")]
+    links: Annotated[GetPermissionNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class GetPermissionPermissionsResponseBody(ClientError):
+class GetPermissionHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: GetPermissionPermissionsResponseBodyData
+    data: GetPermissionHalJSONErrorData
 
     def __init__(
         self,
-        data: GetPermissionPermissionsResponseBodyData,
+        data: GetPermissionHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -183,11 +189,13 @@ class GetPermissionLinks(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class GetPermissionResponseBodyTypedDict(TypedDict):
+class GetPermissionResponseTypedDict(TypedDict):
     r"""The permission object."""
 
     resource: NotRequired[str]
-    r"""Indicates the response contains a permission object. Will always contain the string `permission` for this endpoint."""
+    r"""Indicates the response contains a permission object. Will always contain the string `permission` for this
+    endpoint.
+    """
     id: NotRequired[str]
     r"""The identifier uniquely referring to this permission. Example: `payments.read`."""
     description: NotRequired[str]
@@ -198,11 +206,13 @@ class GetPermissionResponseBodyTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class GetPermissionResponseBody(BaseModel):
+class GetPermissionResponse(BaseModel):
     r"""The permission object."""
 
     resource: Optional[str] = "permission"
-    r"""Indicates the response contains a permission object. Will always contain the string `permission` for this endpoint."""
+    r"""Indicates the response contains a permission object. Will always contain the string `permission` for this
+    endpoint.
+    """
 
     id: Optional[str] = None
     r"""The identifier uniquely referring to this permission. Example: `payments.read`."""

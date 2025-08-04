@@ -12,35 +12,87 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class GetMethodQueryParamInclude(str, Enum):
-    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
+class GetMethodLocale(str, Enum):
+    r"""Passing a locale will sort the payment methods in the preferred order
+    for the country, and translate the payment method names in the corresponding language.
+    """
+
+    EN_US = "en_US"
+    EN_GB = "en_GB"
+    NL_NL = "nl_NL"
+    NL_BE = "nl_BE"
+    DE_DE = "de_DE"
+    DE_AT = "de_AT"
+    DE_CH = "de_CH"
+    FR_FR = "fr_FR"
+    FR_BE = "fr_BE"
+    ES_ES = "es_ES"
+    CA_ES = "ca_ES"
+    PT_PT = "pt_PT"
+    IT_IT = "it_IT"
+    NB_NO = "nb_NO"
+    SV_SE = "sv_SE"
+    FI_FI = "fi_FI"
+    DA_DK = "da_DK"
+    IS_IS = "is_IS"
+    HU_HU = "hu_HU"
+    PL_PL = "pl_PL"
+    LV_LV = "lv_LV"
+    LT_LT = "lt_LT"
+
+
+class GetMethodInclude(str, Enum):
+    r"""This endpoint allows you to include additional information via the
+    `include` query string parameter.
+    """
 
     ISSUERS = "issuers"
+
+
+class GetMethodSequenceType(str, Enum):
+    r"""Set this parameter to `first` to only return the methods that
+    can be used for the first payment of a recurring sequence.
+
+    Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.
+    """
+
+    ONEOFF = "oneoff"
+    FIRST = "first"
+    RECURRING = "recurring"
 
 
 class GetMethodRequestTypedDict(TypedDict):
     id: str
     r"""Provide the ID of the item you want to perform this operation on."""
-    locale: NotRequired[str]
-    r"""Passing a locale will sort the payment methods in the preferred order for the country, and translate the payment method names in the corresponding language."""
-    currency: NotRequired[str]
-    r"""If provided, the `minimumAmount` and `maximumAmount` will be converted to the given currency. An error is returned if the currency is not supported by the payment method."""
-    profile_id: NotRequired[str]
-    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.
-
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    locale: NotRequired[GetMethodLocale]
+    r"""Passing a locale will sort the payment methods in the preferred order
+    for the country, and translate the payment method names in the corresponding language.
     """
-    include: NotRequired[Nullable[GetMethodQueryParamInclude]]
-    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
-    sequence_type: NotRequired[str]
-    r"""Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.
+    currency: NotRequired[str]
+    r"""If provided, the `minimumAmount` and `maximumAmount` will be converted
+    to the given currency. An error is returned if the currency is not supported by the payment method.
+    """
+    profile_id: NotRequired[str]
+    r"""The identifier referring to the [profile](get-profile) you wish to
+    retrieve the resources for.
+
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For
+    organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    """
+    include: NotRequired[Nullable[GetMethodInclude]]
+    r"""This endpoint allows you to include additional information via the
+    `include` query string parameter.
+    """
+    sequence_type: NotRequired[GetMethodSequenceType]
+    r"""Set this parameter to `first` to only return the methods that
+    can be used for the first payment of a recurring sequence.
 
     Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.
-
-    Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
     """
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -53,50 +105,59 @@ class GetMethodRequest(BaseModel):
     r"""Provide the ID of the item you want to perform this operation on."""
 
     locale: Annotated[
-        Optional[str],
+        Optional[GetMethodLocale],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Passing a locale will sort the payment methods in the preferred order for the country, and translate the payment method names in the corresponding language."""
+    r"""Passing a locale will sort the payment methods in the preferred order
+    for the country, and translate the payment method names in the corresponding language.
+    """
 
     currency: Annotated[
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""If provided, the `minimumAmount` and `maximumAmount` will be converted to the given currency. An error is returned if the currency is not supported by the payment method."""
+    r"""If provided, the `minimumAmount` and `maximumAmount` will be converted
+    to the given currency. An error is returned if the currency is not supported by the payment method.
+    """
 
     profile_id: Annotated[
         Optional[str],
         pydantic.Field(alias="profileId"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.
+    r"""The identifier referring to the [profile](get-profile) you wish to
+    retrieve the resources for.
 
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For
+    organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
     """
 
     include: Annotated[
-        OptionalNullable[GetMethodQueryParamInclude],
+        OptionalNullable[GetMethodInclude],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
+    r"""This endpoint allows you to include additional information via the
+    `include` query string parameter.
+    """
 
     sequence_type: Annotated[
-        Optional[str],
+        Optional[GetMethodSequenceType],
         pydantic.Field(alias="sequenceType"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.
+    ] = GetMethodSequenceType.ONEOFF
+    r"""Set this parameter to `first` to only return the methods that
+    can be used for the first payment of a recurring sequence.
 
     Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.
-
-    Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
     """
 
     testmode: Annotated[
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -139,14 +200,14 @@ class GetMethodRequest(BaseModel):
         return m
 
 
-class GetMethodMethodsResponseDocumentationTypedDict(TypedDict):
+class GetMethodNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class GetMethodMethodsResponseDocumentation(BaseModel):
+class GetMethodNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -154,17 +215,17 @@ class GetMethodMethodsResponseDocumentation(BaseModel):
     type: str
 
 
-class GetMethodMethodsResponseLinksTypedDict(TypedDict):
-    documentation: GetMethodMethodsResponseDocumentationTypedDict
+class GetMethodNotFoundLinksTypedDict(TypedDict):
+    documentation: GetMethodNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetMethodMethodsResponseLinks(BaseModel):
-    documentation: GetMethodMethodsResponseDocumentation
+class GetMethodNotFoundLinks(BaseModel):
+    documentation: GetMethodNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetMethodMethodsResponseResponseBodyData(BaseModel):
+class GetMethodNotFoundHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -174,20 +235,22 @@ class GetMethodMethodsResponseResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[GetMethodMethodsResponseLinks, pydantic.Field(alias="_links")]
+    links: Annotated[GetMethodNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class GetMethodMethodsResponseResponseBody(ClientError):
+class GetMethodNotFoundHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: GetMethodMethodsResponseResponseBodyData
+    data: GetMethodNotFoundHalJSONErrorData
 
     def __init__(
         self,
-        data: GetMethodMethodsResponseResponseBodyData,
+        data: GetMethodNotFoundHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -196,14 +259,14 @@ class GetMethodMethodsResponseResponseBody(ClientError):
         self.data = data
 
 
-class GetMethodMethodsDocumentationTypedDict(TypedDict):
+class GetMethodBadRequestDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class GetMethodMethodsDocumentation(BaseModel):
+class GetMethodBadRequestDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -211,17 +274,17 @@ class GetMethodMethodsDocumentation(BaseModel):
     type: str
 
 
-class GetMethodMethodsLinksTypedDict(TypedDict):
-    documentation: GetMethodMethodsDocumentationTypedDict
+class GetMethodBadRequestLinksTypedDict(TypedDict):
+    documentation: GetMethodBadRequestDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetMethodMethodsLinks(BaseModel):
-    documentation: GetMethodMethodsDocumentation
+class GetMethodBadRequestLinks(BaseModel):
+    documentation: GetMethodBadRequestDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetMethodMethodsResponseBodyData(BaseModel):
+class GetMethodBadRequestHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -231,26 +294,65 @@ class GetMethodMethodsResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[GetMethodMethodsLinks, pydantic.Field(alias="_links")]
+    links: Annotated[GetMethodBadRequestLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class GetMethodMethodsResponseBody(ClientError):
+class GetMethodBadRequestHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: GetMethodMethodsResponseBodyData
+    data: GetMethodBadRequestHalJSONErrorData
 
     def __init__(
         self,
-        data: GetMethodMethodsResponseBodyData,
+        data: GetMethodBadRequestHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
         message = body or raw_response.text
         super().__init__(message, raw_response, body)
         self.data = data
+
+
+class GetMethodID(str, Enum):
+    r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment
+    method selection screen will be skipped.
+    """
+
+    ALMA = "alma"
+    APPLEPAY = "applepay"
+    BACS = "bacs"
+    BANCOMATPAY = "bancomatpay"
+    BANCONTACT = "bancontact"
+    BANKTRANSFER = "banktransfer"
+    BELFIUS = "belfius"
+    BILLIE = "billie"
+    BLIK = "blik"
+    CREDITCARD = "creditcard"
+    DIRECTDEBIT = "directdebit"
+    EPS = "eps"
+    GIFTCARD = "giftcard"
+    IDEAL = "ideal"
+    IN3 = "in3"
+    KBC = "kbc"
+    KLARNA = "klarna"
+    KLARNAPAYLATER = "klarnapaylater"
+    KLARNAPAYNOW = "klarnapaynow"
+    KLARNASLICEIT = "klarnasliceit"
+    MYBANK = "mybank"
+    PAYPAL = "paypal"
+    PAYSAFECARD = "paysafecard"
+    PRZELEWY24 = "przelewy24"
+    RIVERTY = "riverty"
+    SATISPAY = "satispay"
+    SWISH = "swish"
+    TRUSTLY = "trustly"
+    TWINT = "twint"
+    VOUCHER = "voucher"
 
 
 class GetMethodMinimumAmountTypedDict(TypedDict):
@@ -272,8 +374,10 @@ class GetMethodMinimumAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class MaximumAmountTypedDict(TypedDict):
-    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null` is returned instead."""
+class GetMethodMaximumAmountTypedDict(TypedDict):
+    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null`
+    is returned instead.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -281,53 +385,81 @@ class MaximumAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class MaximumAmount(BaseModel):
-    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null` is returned instead."""
+class GetMethodMaximumAmount(BaseModel):
+    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null`
+    is returned instead.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
 
     value: str
     r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ImageTypedDict(TypedDict):
-    r"""URLs of images representing the payment method."""
-
-    size1x: str
-    r"""The URL pointing to an icon of 32 by 24 pixels."""
-    size2x: str
-    r"""The URL pointing to an icon of 64 by 48 pixels."""
-    svg: str
-    r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can scale to any desired size without compromising visual quality."""
-
-
-class Image(BaseModel):
-    r"""URLs of images representing the payment method."""
-
-    size1x: str
-    r"""The URL pointing to an icon of 32 by 24 pixels."""
-
-    size2x: str
-    r"""The URL pointing to an icon of 64 by 48 pixels."""
-
-    svg: str
-    r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can scale to any desired size without compromising visual quality."""
 
 
 class GetMethodImageTypedDict(TypedDict):
-    r"""URLs of images representing the issuer. required: - size1x - size2x - svg"""
+    r"""URLs of images representing the payment method."""
+
+    size1x: str
+    r"""The URL pointing to an icon of 32 by 24 pixels."""
+    size2x: str
+    r"""The URL pointing to an icon of 64 by 48 pixels."""
+    svg: str
+    r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can
+    scale to any desired size without compromising visual quality.
+    """
+
+
+class GetMethodImage(BaseModel):
+    r"""URLs of images representing the payment method."""
+
+    size1x: str
+    r"""The URL pointing to an icon of 32 by 24 pixels."""
+
+    size2x: str
+    r"""The URL pointing to an icon of 64 by 48 pixels."""
+
+    svg: str
+    r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can
+    scale to any desired size without compromising visual quality.
+    """
+
+
+class GetMethodStatus(str, Enum):
+    r"""The payment method's activation status for this profile."""
+
+    ACTIVATED = "activated"
+    PENDING_BOARDING = "pending-boarding"
+    PENDING_REVIEW = "pending-review"
+    PENDING_EXTERNAL = "pending-external"
+    REJECTED = "rejected"
+
+
+class GetMethodIssuerImageTypedDict(TypedDict):
+    r"""URLs of images representing the issuer.
+    required:
+    - size1x
+    - size2x
+    - svg
+    """
 
     size1x: NotRequired[str]
     r"""The URL pointing to an icon of 32 by 24 pixels."""
     size2x: NotRequired[str]
     r"""The URL pointing to an icon of 64 by 48 pixels."""
     svg: NotRequired[str]
-    r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can scale to any desired size without compromising visual quality."""
+    r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can
+    scale to any desired size without compromising visual quality.
+    """
 
 
-class GetMethodImage(BaseModel):
-    r"""URLs of images representing the issuer. required: - size1x - size2x - svg"""
+class GetMethodIssuerImage(BaseModel):
+    r"""URLs of images representing the issuer.
+    required:
+    - size1x
+    - size2x
+    - svg
+    """
 
     size1x: Optional[str] = None
     r"""The URL pointing to an icon of 32 by 24 pixels."""
@@ -336,26 +468,38 @@ class GetMethodImage(BaseModel):
     r"""The URL pointing to an icon of 64 by 48 pixels."""
 
     svg: Optional[str] = None
-    r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can scale to any desired size without compromising visual quality."""
+    r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can
+    scale to any desired size without compromising visual quality.
+    """
 
 
-class IssuersTypedDict(TypedDict):
+class GetMethodIssuerTypedDict(TypedDict):
     id: str
     name: str
     r"""The full name of the issuer."""
-    image: GetMethodImageTypedDict
-    r"""URLs of images representing the issuer. required: - size1x - size2x - svg"""
+    image: GetMethodIssuerImageTypedDict
+    r"""URLs of images representing the issuer.
+    required:
+    - size1x
+    - size2x
+    - svg
+    """
     resource: NotRequired[str]
 
 
-class Issuers(BaseModel):
+class GetMethodIssuer(BaseModel):
     id: str
 
     name: str
     r"""The full name of the issuer."""
 
-    image: GetMethodImage
-    r"""URLs of images representing the issuer. required: - size1x - size2x - svg"""
+    image: GetMethodIssuerImage
+    r"""URLs of images representing the issuer.
+    required:
+    - size1x
+    - size2x
+    - svg
+    """
 
     resource: Optional[str] = "issuer"
 
@@ -417,15 +561,16 @@ class GetMethodLinks(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class GetMethodResponseBodyTypedDict(TypedDict):
+class GetMethodResponseTypedDict(TypedDict):
     r"""The payment method object."""
 
     resource: str
-    r"""Indicates the response contains a payment method object. Will always contain the string `method` for this endpoint."""
-    id: str
-    r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment method selection screen will be skipped.
-
-    Possible values: `alma` `applepay` `bacs` `bancomatpay` `bancontact` `banktransfer` `belfius` `billie` `blik` `creditcard` `directdebit` `eps` `giftcard` `ideal` `in3` `kbc` `klarna` `klarnapaylater` `klarnapaynow` `klarnasliceit` `mybank` `paypal` `paysafecard` `przelewy24` `riverty` `satispay` `swish` `trustly` `twint` `voucher`
+    r"""Indicates the response contains a payment method object. Will always contain the string `method` for this
+    endpoint.
+    """
+    id: GetMethodID
+    r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment
+    method selection screen will be skipped.
     """
     description: str
     r"""The full name of the payment method.
@@ -434,31 +579,33 @@ class GetMethodResponseBodyTypedDict(TypedDict):
     """
     minimum_amount: GetMethodMinimumAmountTypedDict
     r"""The minimum payment amount required to use this payment method."""
-    maximum_amount: Nullable[MaximumAmountTypedDict]
-    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null` is returned instead."""
-    image: ImageTypedDict
-    r"""URLs of images representing the payment method."""
-    status: Nullable[str]
-    r"""The payment method's activation status for this profile.
-
-    Possible values: `activated` `pending-boarding` `pending-review` `pending-external` `rejected`
+    maximum_amount: Nullable[GetMethodMaximumAmountTypedDict]
+    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null`
+    is returned instead.
     """
+    image: GetMethodImageTypedDict
+    r"""URLs of images representing the payment method."""
+    status: Nullable[GetMethodStatus]
+    r"""The payment method's activation status for this profile."""
     links: GetMethodLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    issuers: NotRequired[List[IssuersTypedDict]]
-    r"""**Optional include.** Array of objects for each 'issuer' that is available for this payment method. Only relevant for iDEAL, KBC/CBC, gift cards, and vouchers."""
+    issuers: NotRequired[List[GetMethodIssuerTypedDict]]
+    r"""**Optional include.** Array of objects for each 'issuer' that is available for this payment method. Only relevant
+    for iDEAL, KBC/CBC, gift cards, and vouchers.
+    """
 
 
-class GetMethodResponseBody(BaseModel):
+class GetMethodResponse(BaseModel):
     r"""The payment method object."""
 
     resource: str
-    r"""Indicates the response contains a payment method object. Will always contain the string `method` for this endpoint."""
+    r"""Indicates the response contains a payment method object. Will always contain the string `method` for this
+    endpoint.
+    """
 
-    id: str
-    r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment method selection screen will be skipped.
-
-    Possible values: `alma` `applepay` `bacs` `bancomatpay` `bancontact` `banktransfer` `belfius` `billie` `blik` `creditcard` `directdebit` `eps` `giftcard` `ideal` `in3` `kbc` `klarna` `klarnapaylater` `klarnapaynow` `klarnasliceit` `mybank` `paypal` `paysafecard` `przelewy24` `riverty` `satispay` `swish` `trustly` `twint` `voucher`
+    id: GetMethodID
+    r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment
+    method selection screen will be skipped.
     """
 
     description: str
@@ -473,24 +620,25 @@ class GetMethodResponseBody(BaseModel):
     r"""The minimum payment amount required to use this payment method."""
 
     maximum_amount: Annotated[
-        Nullable[MaximumAmount], pydantic.Field(alias="maximumAmount")
+        Nullable[GetMethodMaximumAmount], pydantic.Field(alias="maximumAmount")
     ]
-    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null` is returned instead."""
+    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null`
+    is returned instead.
+    """
 
-    image: Image
+    image: GetMethodImage
     r"""URLs of images representing the payment method."""
 
-    status: Nullable[str]
-    r"""The payment method's activation status for this profile.
-
-    Possible values: `activated` `pending-boarding` `pending-review` `pending-external` `rejected`
-    """
+    status: Nullable[GetMethodStatus]
+    r"""The payment method's activation status for this profile."""
 
     links: Annotated[GetMethodLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    issuers: Optional[List[Issuers]] = None
-    r"""**Optional include.** Array of objects for each 'issuer' that is available for this payment method. Only relevant for iDEAL, KBC/CBC, gift cards, and vouchers."""
+    issuers: Optional[List[GetMethodIssuer]] = None
+    r"""**Optional include.** Array of objects for each 'issuer' that is available for this payment method. Only relevant
+    for iDEAL, KBC/CBC, gift cards, and vouchers.
+    """
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

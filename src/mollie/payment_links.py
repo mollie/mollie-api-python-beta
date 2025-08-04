@@ -15,24 +15,20 @@ class PaymentLinks(BaseSDK):
         *,
         request: Optional[
             Union[
-                models.CreatePaymentLinkRequestBody,
-                models.CreatePaymentLinkRequestBodyTypedDict,
+                models.CreatePaymentLinkRequest,
+                models.CreatePaymentLinkRequestTypedDict,
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreatePaymentLinkResponseBody:
+    ) -> models.CreatePaymentLinkResponse:
         r"""Create payment link
 
-        With the Payment links API you can generate payment links that by default, unlike regular payments, do not expire. The payment link can be shared with your customers and will redirect them to them the payment page where they can complete the payment. A [payment](get-payment) will only be created once the customer initiates the payment.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **payment-links.write**](/reference/authentication)
+        With the Payment links API you can generate payment links that by default, unlike regular payments, do not expire.
+        The payment link can be shared with your customers and will redirect them to them the payment page where they can
+        complete the payment. A [payment](get-payment) will only be created once the customer initiates the payment.
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -52,9 +48,9 @@ class PaymentLinks(BaseSDK):
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(
-                request, Optional[models.CreatePaymentLinkRequestBody]
+                request, Optional[models.CreatePaymentLinkRequest]
             )
-        request = cast(Optional[models.CreatePaymentLinkRequestBody], request)
+        request = cast(Optional[models.CreatePaymentLinkRequest], request)
 
         req = self._build_request(
             method="POST",
@@ -70,11 +66,7 @@ class PaymentLinks(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request,
-                False,
-                True,
-                "json",
-                Optional[models.CreatePaymentLinkRequestBody],
+                request, False, True, "json", Optional[models.CreatePaymentLinkRequest]
             ),
             timeout_ms=timeout_ms,
         )
@@ -108,21 +100,17 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(
-                models.CreatePaymentLinkResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreatePaymentLinkResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreatePaymentLinkPaymentLinksResponseBodyData, http_res
+                models.CreatePaymentLinkNotFoundHalJSONErrorData, http_res
             )
-            raise models.CreatePaymentLinkPaymentLinksResponseBody(
-                response_data, http_res
-            )
+            raise models.CreatePaymentLinkNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreatePaymentLinkPaymentLinksResponseResponseBodyData, http_res
+                models.CreatePaymentLinkUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.CreatePaymentLinkPaymentLinksResponseResponseBody(
+            raise models.CreatePaymentLinkUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -139,24 +127,20 @@ class PaymentLinks(BaseSDK):
         *,
         request: Optional[
             Union[
-                models.CreatePaymentLinkRequestBody,
-                models.CreatePaymentLinkRequestBodyTypedDict,
+                models.CreatePaymentLinkRequest,
+                models.CreatePaymentLinkRequestTypedDict,
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreatePaymentLinkResponseBody:
+    ) -> models.CreatePaymentLinkResponse:
         r"""Create payment link
 
-        With the Payment links API you can generate payment links that by default, unlike regular payments, do not expire. The payment link can be shared with your customers and will redirect them to them the payment page where they can complete the payment. A [payment](get-payment) will only be created once the customer initiates the payment.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **payment-links.write**](/reference/authentication)
+        With the Payment links API you can generate payment links that by default, unlike regular payments, do not expire.
+        The payment link can be shared with your customers and will redirect them to them the payment page where they can
+        complete the payment. A [payment](get-payment) will only be created once the customer initiates the payment.
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -176,9 +160,9 @@ class PaymentLinks(BaseSDK):
 
         if not isinstance(request, BaseModel):
             request = utils.unmarshal(
-                request, Optional[models.CreatePaymentLinkRequestBody]
+                request, Optional[models.CreatePaymentLinkRequest]
             )
-        request = cast(Optional[models.CreatePaymentLinkRequestBody], request)
+        request = cast(Optional[models.CreatePaymentLinkRequest], request)
 
         req = self._build_request_async(
             method="POST",
@@ -194,11 +178,7 @@ class PaymentLinks(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request,
-                False,
-                True,
-                "json",
-                Optional[models.CreatePaymentLinkRequestBody],
+                request, False, True, "json", Optional[models.CreatePaymentLinkRequest]
             ),
             timeout_ms=timeout_ms,
         )
@@ -232,21 +212,17 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(
-                models.CreatePaymentLinkResponseBody, http_res
-            )
+            return unmarshal_json_response(models.CreatePaymentLinkResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreatePaymentLinkPaymentLinksResponseBodyData, http_res
+                models.CreatePaymentLinkNotFoundHalJSONErrorData, http_res
             )
-            raise models.CreatePaymentLinkPaymentLinksResponseBody(
-                response_data, http_res
-            )
+            raise models.CreatePaymentLinkNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreatePaymentLinkPaymentLinksResponseResponseBodyData, http_res
+                models.CreatePaymentLinkUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.CreatePaymentLinkPaymentLinksResponseResponseBody(
+            raise models.CreatePaymentLinkUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -268,18 +244,12 @@ class PaymentLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListPaymentLinksResponseBody:
+    ) -> models.ListPaymentLinksResponse:
         r"""List payment links
 
         Retrieve a list of all payment links.
 
         The results are paginated.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **payment-links.read**](/reference/authentication)
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
@@ -350,16 +320,12 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.ListPaymentLinksResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListPaymentLinksResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListPaymentLinksPaymentLinksResponseBodyData, http_res
+                models.ListPaymentLinksHalJSONErrorData, http_res
             )
-            raise models.ListPaymentLinksPaymentLinksResponseBody(
-                response_data, http_res
-            )
+            raise models.ListPaymentLinksHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -379,18 +345,12 @@ class PaymentLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListPaymentLinksResponseBody:
+    ) -> models.ListPaymentLinksResponse:
         r"""List payment links
 
         Retrieve a list of all payment links.
 
         The results are paginated.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **payment-links.read**](/reference/authentication)
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
@@ -461,16 +421,12 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.ListPaymentLinksResponseBody, http_res
-            )
+            return unmarshal_json_response(models.ListPaymentLinksResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListPaymentLinksPaymentLinksResponseBodyData, http_res
+                models.ListPaymentLinksHalJSONErrorData, http_res
             )
-            raise models.ListPaymentLinksPaymentLinksResponseBody(
-                response_data, http_res
-            )
+            raise models.ListPaymentLinksHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -489,16 +445,10 @@ class PaymentLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPaymentLinkResponseBody:
+    ) -> models.GetPaymentLinkResponse:
         r"""Get payment link
 
         Retrieve a single payment link by its ID.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **payment-links.read**](/reference/authentication)
 
         :param payment_link_id: Provide the ID of the related payment link.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -567,12 +517,12 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetPaymentLinkResponseBody, http_res)
+            return unmarshal_json_response(models.GetPaymentLinkResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetPaymentLinkPaymentLinksResponseBodyData, http_res
+                models.GetPaymentLinkHalJSONErrorData, http_res
             )
-            raise models.GetPaymentLinkPaymentLinksResponseBody(response_data, http_res)
+            raise models.GetPaymentLinkHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -591,16 +541,10 @@ class PaymentLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPaymentLinkResponseBody:
+    ) -> models.GetPaymentLinkResponse:
         r"""Get payment link
 
         Retrieve a single payment link by its ID.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **payment-links.read**](/reference/authentication)
 
         :param payment_link_id: Provide the ID of the related payment link.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -669,12 +613,12 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetPaymentLinkResponseBody, http_res)
+            return unmarshal_json_response(models.GetPaymentLinkResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetPaymentLinkPaymentLinksResponseBodyData, http_res
+                models.GetPaymentLinkHalJSONErrorData, http_res
             )
-            raise models.GetPaymentLinkPaymentLinksResponseBody(response_data, http_res)
+            raise models.GetPaymentLinkHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -691,28 +635,28 @@ class PaymentLinks(BaseSDK):
         description: Optional[str] = None,
         minimum_amount: Optional[
             Union[
-                models.UpdatePaymentLinkMinimumAmount,
-                models.UpdatePaymentLinkMinimumAmountTypedDict,
+                models.UpdatePaymentLinkMinimumAmountRequest,
+                models.UpdatePaymentLinkMinimumAmountRequestTypedDict,
             ]
         ] = None,
         archived: Optional[bool] = None,
         allowed_methods: OptionalNullable[List[str]] = UNSET,
         lines: OptionalNullable[
             Union[
-                List[models.UpdatePaymentLinkLines],
-                List[models.UpdatePaymentLinkLinesTypedDict],
+                List[models.UpdatePaymentLinkLineRequest],
+                List[models.UpdatePaymentLinkLineRequestTypedDict],
             ]
         ] = UNSET,
         billing_address: Optional[
             Union[
-                models.UpdatePaymentLinkBillingAddress,
-                models.UpdatePaymentLinkBillingAddressTypedDict,
+                models.UpdatePaymentLinkBillingAddressRequest,
+                models.UpdatePaymentLinkBillingAddressRequestTypedDict,
             ]
         ] = None,
         shipping_address: Optional[
             Union[
-                models.UpdatePaymentLinkShippingAddress,
-                models.UpdatePaymentLinkShippingAddressTypedDict,
+                models.UpdatePaymentLinkShippingAddressRequest,
+                models.UpdatePaymentLinkShippingAddressRequestTypedDict,
             ]
         ] = None,
         testmode: OptionalNullable[bool] = UNSET,
@@ -720,16 +664,10 @@ class PaymentLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdatePaymentLinkResponseBody:
+    ) -> models.UpdatePaymentLinkResponse:
         r"""Update payment link
 
         Certain details of an existing payment link can be updated.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **payment-links.write**](/reference/authentication)
 
         :param payment_link_id: Provide the ID of the related payment link.
         :param description: A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible.  Updating the description does not affect any previously existing payments created for this payment link.
@@ -760,18 +698,21 @@ class PaymentLinks(BaseSDK):
             request_body=models.UpdatePaymentLinkRequestBody(
                 description=description,
                 minimum_amount=utils.get_pydantic_model(
-                    minimum_amount, Optional[models.UpdatePaymentLinkMinimumAmount]
+                    minimum_amount,
+                    Optional[models.UpdatePaymentLinkMinimumAmountRequest],
                 ),
                 archived=archived,
                 allowed_methods=allowed_methods,
                 lines=utils.get_pydantic_model(
-                    lines, OptionalNullable[List[models.UpdatePaymentLinkLines]]
+                    lines, OptionalNullable[List[models.UpdatePaymentLinkLineRequest]]
                 ),
                 billing_address=utils.get_pydantic_model(
-                    billing_address, Optional[models.UpdatePaymentLinkBillingAddress]
+                    billing_address,
+                    Optional[models.UpdatePaymentLinkBillingAddressRequest],
                 ),
                 shipping_address=utils.get_pydantic_model(
-                    shipping_address, Optional[models.UpdatePaymentLinkShippingAddress]
+                    shipping_address,
+                    Optional[models.UpdatePaymentLinkShippingAddressRequest],
                 ),
                 testmode=testmode,
             ),
@@ -829,21 +770,17 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.UpdatePaymentLinkResponseBody, http_res
-            )
+            return unmarshal_json_response(models.UpdatePaymentLinkResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdatePaymentLinkPaymentLinksResponseBodyData, http_res
+                models.UpdatePaymentLinkNotFoundHalJSONErrorData, http_res
             )
-            raise models.UpdatePaymentLinkPaymentLinksResponseBody(
-                response_data, http_res
-            )
+            raise models.UpdatePaymentLinkNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdatePaymentLinkPaymentLinksResponseResponseBodyData, http_res
+                models.UpdatePaymentLinkUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.UpdatePaymentLinkPaymentLinksResponseResponseBody(
+            raise models.UpdatePaymentLinkUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -862,28 +799,28 @@ class PaymentLinks(BaseSDK):
         description: Optional[str] = None,
         minimum_amount: Optional[
             Union[
-                models.UpdatePaymentLinkMinimumAmount,
-                models.UpdatePaymentLinkMinimumAmountTypedDict,
+                models.UpdatePaymentLinkMinimumAmountRequest,
+                models.UpdatePaymentLinkMinimumAmountRequestTypedDict,
             ]
         ] = None,
         archived: Optional[bool] = None,
         allowed_methods: OptionalNullable[List[str]] = UNSET,
         lines: OptionalNullable[
             Union[
-                List[models.UpdatePaymentLinkLines],
-                List[models.UpdatePaymentLinkLinesTypedDict],
+                List[models.UpdatePaymentLinkLineRequest],
+                List[models.UpdatePaymentLinkLineRequestTypedDict],
             ]
         ] = UNSET,
         billing_address: Optional[
             Union[
-                models.UpdatePaymentLinkBillingAddress,
-                models.UpdatePaymentLinkBillingAddressTypedDict,
+                models.UpdatePaymentLinkBillingAddressRequest,
+                models.UpdatePaymentLinkBillingAddressRequestTypedDict,
             ]
         ] = None,
         shipping_address: Optional[
             Union[
-                models.UpdatePaymentLinkShippingAddress,
-                models.UpdatePaymentLinkShippingAddressTypedDict,
+                models.UpdatePaymentLinkShippingAddressRequest,
+                models.UpdatePaymentLinkShippingAddressRequestTypedDict,
             ]
         ] = None,
         testmode: OptionalNullable[bool] = UNSET,
@@ -891,16 +828,10 @@ class PaymentLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdatePaymentLinkResponseBody:
+    ) -> models.UpdatePaymentLinkResponse:
         r"""Update payment link
 
         Certain details of an existing payment link can be updated.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **payment-links.write**](/reference/authentication)
 
         :param payment_link_id: Provide the ID of the related payment link.
         :param description: A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible.  Updating the description does not affect any previously existing payments created for this payment link.
@@ -931,18 +862,21 @@ class PaymentLinks(BaseSDK):
             request_body=models.UpdatePaymentLinkRequestBody(
                 description=description,
                 minimum_amount=utils.get_pydantic_model(
-                    minimum_amount, Optional[models.UpdatePaymentLinkMinimumAmount]
+                    minimum_amount,
+                    Optional[models.UpdatePaymentLinkMinimumAmountRequest],
                 ),
                 archived=archived,
                 allowed_methods=allowed_methods,
                 lines=utils.get_pydantic_model(
-                    lines, OptionalNullable[List[models.UpdatePaymentLinkLines]]
+                    lines, OptionalNullable[List[models.UpdatePaymentLinkLineRequest]]
                 ),
                 billing_address=utils.get_pydantic_model(
-                    billing_address, Optional[models.UpdatePaymentLinkBillingAddress]
+                    billing_address,
+                    Optional[models.UpdatePaymentLinkBillingAddressRequest],
                 ),
                 shipping_address=utils.get_pydantic_model(
-                    shipping_address, Optional[models.UpdatePaymentLinkShippingAddress]
+                    shipping_address,
+                    Optional[models.UpdatePaymentLinkShippingAddressRequest],
                 ),
                 testmode=testmode,
             ),
@@ -1000,21 +934,17 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.UpdatePaymentLinkResponseBody, http_res
-            )
+            return unmarshal_json_response(models.UpdatePaymentLinkResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdatePaymentLinkPaymentLinksResponseBodyData, http_res
+                models.UpdatePaymentLinkNotFoundHalJSONErrorData, http_res
             )
-            raise models.UpdatePaymentLinkPaymentLinksResponseBody(
-                response_data, http_res
-            )
+            raise models.UpdatePaymentLinkNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdatePaymentLinkPaymentLinksResponseResponseBodyData, http_res
+                models.UpdatePaymentLinkUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.UpdatePaymentLinkPaymentLinksResponseResponseBody(
+            raise models.UpdatePaymentLinkUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1038,17 +968,13 @@ class PaymentLinks(BaseSDK):
     ) -> Any:
         r"""Delete payment link
 
-        Payment links which have not been opened and no payments have been made yet can be deleted entirely. This can be useful for removing payment links that have been incorrectly configured or that are no longer relevant.
+        Payment links which have not been opened and no payments have been made yet can be deleted entirely.
+        This can be useful for removing payment links that have been incorrectly configured or that are no longer relevant.
 
         Once deleted, the payment link will no longer show up in the API or Mollie dashboard.
 
-        To simply disable a payment link without fully deleting it, you can use the `archived` parameter on the [Update payment link](update-payment-link) endpoint instead.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **payment-links.write**](/reference/authentication)
+        To simply disable a payment link without fully deleting it, you can use the `archived` parameter on the
+        [Update payment link](update-payment-link) endpoint instead.
 
         :param payment_link_id: Provide the ID of the related payment link.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -1129,14 +1055,14 @@ class PaymentLinks(BaseSDK):
             return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeletePaymentLinkResponseBodyData, http_res
+                models.DeletePaymentLinkNotFoundHalJSONErrorData, http_res
             )
-            raise models.DeletePaymentLinkResponseBody(response_data, http_res)
+            raise models.DeletePaymentLinkNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeletePaymentLinkPaymentLinksResponseBodyData, http_res
+                models.DeletePaymentLinkUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.DeletePaymentLinkPaymentLinksResponseBody(
+            raise models.DeletePaymentLinkUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1160,17 +1086,13 @@ class PaymentLinks(BaseSDK):
     ) -> Any:
         r"""Delete payment link
 
-        Payment links which have not been opened and no payments have been made yet can be deleted entirely. This can be useful for removing payment links that have been incorrectly configured or that are no longer relevant.
+        Payment links which have not been opened and no payments have been made yet can be deleted entirely.
+        This can be useful for removing payment links that have been incorrectly configured or that are no longer relevant.
 
         Once deleted, the payment link will no longer show up in the API or Mollie dashboard.
 
-        To simply disable a payment link without fully deleting it, you can use the `archived` parameter on the [Update payment link](update-payment-link) endpoint instead.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **payment-links.write**](/reference/authentication)
+        To simply disable a payment link without fully deleting it, you can use the `archived` parameter on the
+        [Update payment link](update-payment-link) endpoint instead.
 
         :param payment_link_id: Provide the ID of the related payment link.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -1251,14 +1173,14 @@ class PaymentLinks(BaseSDK):
             return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeletePaymentLinkResponseBodyData, http_res
+                models.DeletePaymentLinkNotFoundHalJSONErrorData, http_res
             )
-            raise models.DeletePaymentLinkResponseBody(response_data, http_res)
+            raise models.DeletePaymentLinkNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeletePaymentLinkPaymentLinksResponseBodyData, http_res
+                models.DeletePaymentLinkUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.DeletePaymentLinkPaymentLinksResponseBody(
+            raise models.DeletePaymentLinkUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -1276,29 +1198,25 @@ class PaymentLinks(BaseSDK):
         payment_link_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[
+            models.GetPaymentLinkPaymentsSort
+        ] = models.GetPaymentLinkPaymentsSort.DESC,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPaymentLinkPaymentsResponseBody:
+    ) -> models.GetPaymentLinkPaymentsResponse:
         r"""Get payment link payments
 
         Retrieve the list of payments for a specific payment link.
 
         The results are paginated.
 
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **payment-links.read**](/reference/authentication)
-
         :param payment_link_id: Provide the ID of the related payment link.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1369,15 +1287,13 @@ class PaymentLinks(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.GetPaymentLinkPaymentsResponseBody, http_res
+                models.GetPaymentLinkPaymentsResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetPaymentLinkPaymentsPaymentLinksResponseBodyData, http_res
+                models.GetPaymentLinkPaymentsHalJSONErrorData, http_res
             )
-            raise models.GetPaymentLinkPaymentsPaymentLinksResponseBody(
-                response_data, http_res
-            )
+            raise models.GetPaymentLinkPaymentsHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1393,29 +1309,25 @@ class PaymentLinks(BaseSDK):
         payment_link_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[
+            models.GetPaymentLinkPaymentsSort
+        ] = models.GetPaymentLinkPaymentsSort.DESC,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPaymentLinkPaymentsResponseBody:
+    ) -> models.GetPaymentLinkPaymentsResponse:
         r"""Get payment link payments
 
         Retrieve the list of payments for a specific payment link.
 
         The results are paginated.
 
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
-        >
-        > [Access token with **payment-links.read**](/reference/authentication)
-
         :param payment_link_id: Provide the ID of the related payment link.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.  Possible values: `asc` `desc` (default: `desc`)
+        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1486,15 +1398,13 @@ class PaymentLinks(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(
-                models.GetPaymentLinkPaymentsResponseBody, http_res
+                models.GetPaymentLinkPaymentsResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetPaymentLinkPaymentsPaymentLinksResponseBodyData, http_res
+                models.GetPaymentLinkPaymentsHalJSONErrorData, http_res
             )
-            raise models.GetPaymentLinkPaymentsPaymentLinksResponseBody(
-                response_data, http_res
-            )
+            raise models.GetPaymentLinkPaymentsHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

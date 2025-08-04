@@ -13,7 +13,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class RevokeMandateRequestBodyTypedDict(TypedDict):
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
+    such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -21,7 +22,8 @@ class RevokeMandateRequestBodyTypedDict(TypedDict):
 
 class RevokeMandateRequestBody(BaseModel):
     testmode: OptionalNullable[bool] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
+    such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -111,7 +113,7 @@ class RevokeMandateLinks(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class RevokeMandateResponseBodyData(BaseModel):
+class RevokeMandateHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -124,17 +126,19 @@ class RevokeMandateResponseBodyData(BaseModel):
     links: Annotated[RevokeMandateLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class RevokeMandateResponseBody(ClientError):
+class RevokeMandateHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: RevokeMandateResponseBodyData
+    data: RevokeMandateHalJSONErrorData
 
     def __init__(
         self,
-        data: RevokeMandateResponseBodyData,
+        data: RevokeMandateHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):

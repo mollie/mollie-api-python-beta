@@ -1,8 +1,0 @@
-# CreateRefundRefundsResponse422Links
-
-
-## Fields
-
-| Field                                                                                                          | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    |
-| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `documentation`                                                                                                | [models.CreateRefundRefundsResponse422Documentation](../models/createrefundrefundsresponse422documentation.md) | :heavy_check_mark:                                                                                             | The URL to the generic Mollie API error handling guide.                                                        |

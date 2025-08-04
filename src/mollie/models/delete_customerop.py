@@ -13,7 +13,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class DeleteCustomerRequestBodyTypedDict(TypedDict):
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
+    such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -21,7 +22,8 @@ class DeleteCustomerRequestBodyTypedDict(TypedDict):
 
 class DeleteCustomerRequestBody(BaseModel):
     testmode: OptionalNullable[bool] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
+    such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -102,7 +104,7 @@ class DeleteCustomerLinks(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class DeleteCustomerResponseBodyData(BaseModel):
+class DeleteCustomerHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -115,17 +117,19 @@ class DeleteCustomerResponseBodyData(BaseModel):
     links: Annotated[DeleteCustomerLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class DeleteCustomerResponseBody(ClientError):
+class DeleteCustomerHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: DeleteCustomerResponseBodyData
+    data: DeleteCustomerHalJSONErrorData
 
     def __init__(
         self,
-        data: DeleteCustomerResponseBodyData,
+        data: DeleteCustomerHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):

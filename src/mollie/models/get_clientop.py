@@ -16,11 +16,15 @@ class GetClientRequestTypedDict(TypedDict):
     id: str
     r"""Provide the ID of the item you want to perform this operation on."""
     embed: NotRequired[Nullable[str]]
-    r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
+    r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string
+    parameter.
 
-    * `organization`: Include the organization of the client. Available for `signuplink` partners, or for `oauth` partners with the `organizations.read` scope.
-    * `onboarding`: Include the onboarding status of the client. Available for `signuplink` partners, or for `oauth` partners with the `onboarding.read` scope.
-    * `capabilities`: Include the [capabilities](list-capabilities) of the client organization. Available for *oauth* partners with the `onboarding.read` scope.
+    * `organization`: Include the organization of the client. Available for `signuplink` partners, or for `oauth`
+    partners with the `organizations.read` scope.
+    * `onboarding`: Include the onboarding status of the client. Available for `signuplink` partners, or for `oauth`
+    partners with the `onboarding.read` scope.
+    * `capabilities`: Include the [capabilities](list-capabilities) of the client organization.
+    Available for *oauth* partners with the `onboarding.read` scope.
     """
 
 
@@ -34,11 +38,15 @@ class GetClientRequest(BaseModel):
         OptionalNullable[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
+    r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string
+    parameter.
 
-    * `organization`: Include the organization of the client. Available for `signuplink` partners, or for `oauth` partners with the `organizations.read` scope.
-    * `onboarding`: Include the onboarding status of the client. Available for `signuplink` partners, or for `oauth` partners with the `onboarding.read` scope.
-    * `capabilities`: Include the [capabilities](list-capabilities) of the client organization. Available for *oauth* partners with the `onboarding.read` scope.
+    * `organization`: Include the organization of the client. Available for `signuplink` partners, or for `oauth`
+    partners with the `organizations.read` scope.
+    * `onboarding`: Include the onboarding status of the client. Available for `signuplink` partners, or for `oauth`
+    partners with the `onboarding.read` scope.
+    * `capabilities`: Include the [capabilities](list-capabilities) of the client organization.
+    Available for *oauth* partners with the `onboarding.read` scope.
     """
 
     @model_serializer(mode="wrap")
@@ -72,14 +80,14 @@ class GetClientRequest(BaseModel):
         return m
 
 
-class GetClientClientsDocumentationTypedDict(TypedDict):
+class GetClientNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class GetClientClientsDocumentation(BaseModel):
+class GetClientNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -87,17 +95,17 @@ class GetClientClientsDocumentation(BaseModel):
     type: str
 
 
-class GetClientClientsLinksTypedDict(TypedDict):
-    documentation: GetClientClientsDocumentationTypedDict
+class GetClientNotFoundLinksTypedDict(TypedDict):
+    documentation: GetClientNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetClientClientsLinks(BaseModel):
-    documentation: GetClientClientsDocumentation
+class GetClientNotFoundLinks(BaseModel):
+    documentation: GetClientNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetClientClientsResponseBodyData(BaseModel):
+class GetClientHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -107,20 +115,22 @@ class GetClientClientsResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[GetClientClientsLinks, pydantic.Field(alias="_links")]
+    links: Annotated[GetClientNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class GetClientClientsResponseBody(ClientError):
+class GetClientHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: GetClientClientsResponseBodyData
+    data: GetClientHalJSONErrorData
 
     def __init__(
         self,
-        data: GetClientClientsResponseBodyData,
+        data: GetClientHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -129,14 +139,14 @@ class GetClientClientsResponseBody(ClientError):
         self.data = data
 
 
-class CommissionTypedDict(TypedDict):
+class GetClientCommissionTypedDict(TypedDict):
     r"""The commission object."""
 
     count: NotRequired[int]
     r"""The commission count."""
 
 
-class Commission(BaseModel):
+class GetClientCommission(BaseModel):
     r"""The commission object."""
 
     count: Optional[int] = None
@@ -162,7 +172,7 @@ class GetClientSelf(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetClientOrganizationTypedDict(TypedDict):
+class GetClientLinksOrganizationTypedDict(TypedDict):
     r"""The API resource URL of the client's organization."""
 
     href: str
@@ -171,7 +181,7 @@ class GetClientOrganizationTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetClientOrganization(BaseModel):
+class GetClientLinksOrganization(BaseModel):
     r"""The API resource URL of the client's organization."""
 
     href: str
@@ -181,7 +191,7 @@ class GetClientOrganization(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetClientClientsOnboardingTypedDict(TypedDict):
+class GetClientLinksOnboardingTypedDict(TypedDict):
     r"""The API resource URL of the client's onboarding status."""
 
     href: str
@@ -190,7 +200,7 @@ class GetClientClientsOnboardingTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetClientClientsOnboarding(BaseModel):
+class GetClientLinksOnboarding(BaseModel):
     r"""The API resource URL of the client's onboarding status."""
 
     href: str
@@ -224,9 +234,9 @@ class GetClientLinksTypedDict(TypedDict):
 
     self_: NotRequired[GetClientSelfTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    organization: NotRequired[GetClientOrganizationTypedDict]
+    organization: NotRequired[GetClientLinksOrganizationTypedDict]
     r"""The API resource URL of the client's organization."""
-    onboarding: NotRequired[GetClientClientsOnboardingTypedDict]
+    onboarding: NotRequired[GetClientLinksOnboardingTypedDict]
     r"""The API resource URL of the client's onboarding status."""
     documentation: NotRequired[GetClientDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
@@ -238,14 +248,41 @@ class GetClientLinks(BaseModel):
     self_: Annotated[Optional[GetClientSelf], pydantic.Field(alias="self")] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    organization: Optional[GetClientOrganization] = None
+    organization: Optional[GetClientLinksOrganization] = None
     r"""The API resource URL of the client's organization."""
 
-    onboarding: Optional[GetClientClientsOnboarding] = None
+    onboarding: Optional[GetClientLinksOnboarding] = None
     r"""The API resource URL of the client's onboarding status."""
 
     documentation: Optional[GetClientDocumentation] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
+class GetClientLocale(str, Enum):
+    r"""The preferred locale of the merchant, as set in their Mollie dashboard."""
+
+    EN_US = "en_US"
+    EN_GB = "en_GB"
+    NL_NL = "nl_NL"
+    NL_BE = "nl_BE"
+    DE_DE = "de_DE"
+    DE_AT = "de_AT"
+    DE_CH = "de_CH"
+    FR_FR = "fr_FR"
+    FR_BE = "fr_BE"
+    ES_ES = "es_ES"
+    CA_ES = "ca_ES"
+    PT_PT = "pt_PT"
+    IT_IT = "it_IT"
+    NB_NO = "nb_NO"
+    SV_SE = "sv_SE"
+    FI_FI = "fi_FI"
+    DA_DK = "da_DK"
+    IS_IS = "is_IS"
+    HU_HU = "hu_HU"
+    PL_PL = "pl_PL"
+    LV_LV = "lv_LV"
+    LT_LT = "lt_LT"
 
 
 class GetClientAddressTypedDict(TypedDict):
@@ -277,7 +314,19 @@ class GetClientAddress(BaseModel):
     r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""
 
 
-class GetClientClientsSelfTypedDict(TypedDict):
+class GetClientVatRegulation(str, Enum):
+    r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in The United
+    Kingdom, and shifted VAT for merchants in the European Union.
+
+    The field is not present for merchants residing in other countries.
+    """
+
+    DUTCH = "dutch"
+    BRITISH = "british"
+    SHIFTED = "shifted"
+
+
+class GetClientOrganizationSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -286,7 +335,7 @@ class GetClientClientsSelfTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetClientClientsSelf(BaseModel):
+class GetClientOrganizationSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -296,7 +345,7 @@ class GetClientClientsSelf(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetClientDashboardTypedDict(TypedDict):
+class GetClientOrganizationDashboardTypedDict(TypedDict):
     r"""Direct link to the organization's Mollie dashboard."""
 
     href: str
@@ -305,7 +354,7 @@ class GetClientDashboardTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetClientDashboard(BaseModel):
+class GetClientOrganizationDashboard(BaseModel):
     r"""Direct link to the organization's Mollie dashboard."""
 
     href: str
@@ -315,7 +364,7 @@ class GetClientDashboard(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetClientClientsResponse200DocumentationTypedDict(TypedDict):
+class GetClientOrganizationDocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -324,7 +373,7 @@ class GetClientClientsResponse200DocumentationTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetClientClientsResponse200Documentation(BaseModel):
+class GetClientOrganizationDocumentation(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -334,66 +383,70 @@ class GetClientClientsResponse200Documentation(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetClientClientsResponse200LinksTypedDict(TypedDict):
+class GetClientOrganizationLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[GetClientClientsSelfTypedDict]
+    self_: NotRequired[GetClientOrganizationSelfTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    dashboard: NotRequired[GetClientDashboardTypedDict]
+    dashboard: NotRequired[GetClientOrganizationDashboardTypedDict]
     r"""Direct link to the organization's Mollie dashboard."""
-    documentation: NotRequired[GetClientClientsResponse200DocumentationTypedDict]
+    documentation: NotRequired[GetClientOrganizationDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class GetClientClientsResponse200Links(BaseModel):
+class GetClientOrganizationLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[GetClientClientsSelf], pydantic.Field(alias="self")] = (
-        None
-    )
+    self_: Annotated[
+        Optional[GetClientOrganizationSelf], pydantic.Field(alias="self")
+    ] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    dashboard: Optional[GetClientDashboard] = None
+    dashboard: Optional[GetClientOrganizationDashboard] = None
     r"""Direct link to the organization's Mollie dashboard."""
 
-    documentation: Optional[GetClientClientsResponse200Documentation] = None
+    documentation: Optional[GetClientOrganizationDocumentation] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class GetClientClientsOrganizationTypedDict(TypedDict):
+class GetClientEmbeddedOrganizationTypedDict(TypedDict):
     resource: NotRequired[str]
-    r"""Indicates the response contains an organization object. Will always contain the string `organization` for this resource type."""
+    r"""Indicates the response contains an organization object. Will always contain the string `organization` for this
+    resource type.
+    """
     id: NotRequired[str]
     r"""The identifier uniquely referring to this organization. Example: `org_12345678`."""
     name: NotRequired[str]
     r"""The name of the organization."""
     email: NotRequired[str]
     r"""The email address associated with the organization."""
-    locale: NotRequired[str]
+    locale: NotRequired[GetClientLocale]
     r"""The preferred locale of the merchant, as set in their Mollie dashboard."""
     address: NotRequired[GetClientAddressTypedDict]
     r"""The address of the organization."""
     registration_number: NotRequired[str]
     r"""The registration number of the organization at their local chamber of commerce."""
     vat_number: NotRequired[Nullable[str]]
-    r"""The VAT number of the organization, if based in the European Union or in The United Kingdom. VAT numbers are verified against the international registry *VIES*.
+    r"""The VAT number of the organization, if based in the European Union or in The United Kingdom. VAT numbers are
+    verified against the international registry *VIES*.
 
     The field is not present for merchants residing in other countries.
     """
-    vat_regulation: NotRequired[Nullable[str]]
-    r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in The United Kingdom, and shifted VAT for merchants in the European Union.
+    vat_regulation: NotRequired[Nullable[GetClientVatRegulation]]
+    r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in The United
+    Kingdom, and shifted VAT for merchants in the European Union.
 
     The field is not present for merchants residing in other countries.
-
-    Possible values: `dutch` `british` `shifted`
     """
-    links: NotRequired[GetClientClientsResponse200LinksTypedDict]
+    links: NotRequired[GetClientOrganizationLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class GetClientClientsOrganization(BaseModel):
+class GetClientEmbeddedOrganization(BaseModel):
     resource: Optional[str] = "organization"
-    r"""Indicates the response contains an organization object. Will always contain the string `organization` for this resource type."""
+    r"""Indicates the response contains an organization object. Will always contain the string `organization` for this
+    resource type.
+    """
 
     id: Optional[str] = None
     r"""The identifier uniquely referring to this organization. Example: `org_12345678`."""
@@ -404,7 +457,7 @@ class GetClientClientsOrganization(BaseModel):
     email: Optional[str] = None
     r"""The email address associated with the organization."""
 
-    locale: Optional[str] = None
+    locale: Optional[GetClientLocale] = None
     r"""The preferred locale of the merchant, as set in their Mollie dashboard."""
 
     address: Optional[GetClientAddress] = None
@@ -418,23 +471,23 @@ class GetClientClientsOrganization(BaseModel):
     vat_number: Annotated[OptionalNullable[str], pydantic.Field(alias="vatNumber")] = (
         UNSET
     )
-    r"""The VAT number of the organization, if based in the European Union or in The United Kingdom. VAT numbers are verified against the international registry *VIES*.
+    r"""The VAT number of the organization, if based in the European Union or in The United Kingdom. VAT numbers are
+    verified against the international registry *VIES*.
 
     The field is not present for merchants residing in other countries.
     """
 
     vat_regulation: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="vatRegulation")
+        OptionalNullable[GetClientVatRegulation], pydantic.Field(alias="vatRegulation")
     ] = UNSET
-    r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in The United Kingdom, and shifted VAT for merchants in the European Union.
+    r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in The United
+    Kingdom, and shifted VAT for merchants in the European Union.
 
     The field is not present for merchants residing in other countries.
-
-    Possible values: `dutch` `british` `shifted`
     """
 
     links: Annotated[
-        Optional[GetClientClientsResponse200Links], pydantic.Field(alias="_links")
+        Optional[GetClientOrganizationLinks], pydantic.Field(alias="_links")
     ] = None
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
@@ -480,126 +533,147 @@ class GetClientClientsOrganization(BaseModel):
         return m
 
 
-class GetClientClientsResponseSelfTypedDict(TypedDict):
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    href: str
-    r"""The actual URL string."""
-    type: str
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class GetClientClientsResponseSelf(BaseModel):
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    href: str
-    r"""The actual URL string."""
-
-    type: str
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class GetClientClientsDashboardTypedDict(TypedDict):
-    r"""Direct link to the onboarding process in the Mollie dashboard. The merchant can be redirected to this page to complete their onboarding."""
-
-    href: str
-    r"""The actual URL string."""
-    type: str
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class GetClientClientsDashboard(BaseModel):
-    r"""Direct link to the onboarding process in the Mollie dashboard. The merchant can be redirected to this page to complete their onboarding."""
-
-    href: str
-    r"""The actual URL string."""
-
-    type: str
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class GetClientClientsResponseOrganizationTypedDict(TypedDict):
-    r"""The API resource URL of the organization."""
-
-    href: str
-    r"""The actual URL string."""
-    type: str
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class GetClientClientsResponseOrganization(BaseModel):
-    r"""The API resource URL of the organization."""
-
-    href: str
-    r"""The actual URL string."""
-
-    type: str
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class GetClientClientsResponseDocumentationTypedDict(TypedDict):
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    href: str
-    r"""The actual URL string."""
-    type: str
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class GetClientClientsResponseDocumentation(BaseModel):
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    href: str
-    r"""The actual URL string."""
-
-    type: str
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class GetClientClientsResponseLinksTypedDict(TypedDict):
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
-    self_: NotRequired[GetClientClientsResponseSelfTypedDict]
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    dashboard: NotRequired[GetClientClientsDashboardTypedDict]
-    r"""Direct link to the onboarding process in the Mollie dashboard. The merchant can be redirected to this page to complete their onboarding."""
-    organization: NotRequired[GetClientClientsResponseOrganizationTypedDict]
-    r"""The API resource URL of the organization."""
-    documentation: NotRequired[GetClientClientsResponseDocumentationTypedDict]
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-
-class GetClientClientsResponseLinks(BaseModel):
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
-    self_: Annotated[
-        Optional[GetClientClientsResponseSelf], pydantic.Field(alias="self")
-    ] = None
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    dashboard: Optional[GetClientClientsDashboard] = None
-    r"""Direct link to the onboarding process in the Mollie dashboard. The merchant can be redirected to this page to complete their onboarding."""
-
-    organization: Optional[GetClientClientsResponseOrganization] = None
-    r"""The API resource URL of the organization."""
-
-    documentation: Optional[GetClientClientsResponseDocumentation] = None
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-
-class GetClientOnboardingTypedDict(TypedDict):
-    resource: NotRequired[str]
-    r"""Indicates the response contains an onboarding status object. Will always contain the string `onboarding` for this resource type."""
-    name: NotRequired[str]
-    r"""The name of the organization."""
-    status: NotRequired[str]
+class GetClientOnboardingStatus(str, Enum):
     r"""The current status of the organization's onboarding process.
 
     * `needs-data` — The merchant needs to provide additional information
     * `in-review` — The merchant provided all information, awaiting review from Mollie
     * `completed` — The onboarding is completed
+    """
 
-    Possible values: `needs-data` `in-review` `completed`
+    NEEDS_DATA = "needs-data"
+    IN_REVIEW = "in-review"
+    COMPLETED = "completed"
+
+
+class GetClientOnboardingSelfTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: str
+    r"""The actual URL string."""
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class GetClientOnboardingSelf(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: str
+    r"""The actual URL string."""
+
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class GetClientOnboardingDashboardTypedDict(TypedDict):
+    r"""Direct link to the onboarding process in the Mollie dashboard. The merchant can be redirected to this page to
+    complete their onboarding.
+    """
+
+    href: str
+    r"""The actual URL string."""
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class GetClientOnboardingDashboard(BaseModel):
+    r"""Direct link to the onboarding process in the Mollie dashboard. The merchant can be redirected to this page to
+    complete their onboarding.
+    """
+
+    href: str
+    r"""The actual URL string."""
+
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class GetClientOnboardingOrganizationTypedDict(TypedDict):
+    r"""The API resource URL of the organization."""
+
+    href: str
+    r"""The actual URL string."""
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class GetClientOnboardingOrganization(BaseModel):
+    r"""The API resource URL of the organization."""
+
+    href: str
+    r"""The actual URL string."""
+
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class GetClientOnboardingDocumentationTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: str
+    r"""The actual URL string."""
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class GetClientOnboardingDocumentation(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: str
+    r"""The actual URL string."""
+
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class GetClientOnboardingLinksTypedDict(TypedDict):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: NotRequired[GetClientOnboardingSelfTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+    dashboard: NotRequired[GetClientOnboardingDashboardTypedDict]
+    r"""Direct link to the onboarding process in the Mollie dashboard. The merchant can be redirected to this page to
+    complete their onboarding.
+    """
+    organization: NotRequired[GetClientOnboardingOrganizationTypedDict]
+    r"""The API resource URL of the organization."""
+    documentation: NotRequired[GetClientOnboardingDocumentationTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
+class GetClientOnboardingLinks(BaseModel):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: Annotated[
+        Optional[GetClientOnboardingSelf], pydantic.Field(alias="self")
+    ] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    dashboard: Optional[GetClientOnboardingDashboard] = None
+    r"""Direct link to the onboarding process in the Mollie dashboard. The merchant can be redirected to this page to
+    complete their onboarding.
+    """
+
+    organization: Optional[GetClientOnboardingOrganization] = None
+    r"""The API resource URL of the organization."""
+
+    documentation: Optional[GetClientOnboardingDocumentation] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
+class GetClientEmbeddedOnboardingTypedDict(TypedDict):
+    resource: NotRequired[str]
+    r"""Indicates the response contains an onboarding status object. Will always contain the string `onboarding` for this
+    resource type.
+    """
+    name: NotRequired[str]
+    r"""The name of the organization."""
+    status: NotRequired[GetClientOnboardingStatus]
+    r"""The current status of the organization's onboarding process.
+
+    * `needs-data` — The merchant needs to provide additional information
+    * `in-review` — The merchant provided all information, awaiting review from Mollie
+    * `completed` — The onboarding is completed
     """
     can_receive_payments: NotRequired[bool]
     r"""Whether the organization can receive payments."""
@@ -607,25 +681,25 @@ class GetClientOnboardingTypedDict(TypedDict):
     r"""Whether the organization can receive settlements to their external bank account."""
     signed_up_at: NotRequired[str]
     r"""The sign up date time of the organization in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: NotRequired[GetClientClientsResponseLinksTypedDict]
+    links: NotRequired[GetClientOnboardingLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class GetClientOnboarding(BaseModel):
+class GetClientEmbeddedOnboarding(BaseModel):
     resource: Optional[str] = "onboarding"
-    r"""Indicates the response contains an onboarding status object. Will always contain the string `onboarding` for this resource type."""
+    r"""Indicates the response contains an onboarding status object. Will always contain the string `onboarding` for this
+    resource type.
+    """
 
     name: Optional[str] = None
     r"""The name of the organization."""
 
-    status: Optional[str] = None
+    status: Optional[GetClientOnboardingStatus] = None
     r"""The current status of the organization's onboarding process.
 
     * `needs-data` — The merchant needs to provide additional information
     * `in-review` — The merchant provided all information, awaiting review from Mollie
     * `completed` — The onboarding is completed
-
-    Possible values: `needs-data` `in-review` `completed`
     """
 
     can_receive_payments: Annotated[
@@ -642,12 +716,12 @@ class GetClientOnboarding(BaseModel):
     r"""The sign up date time of the organization in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
     links: Annotated[
-        Optional[GetClientClientsResponseLinks], pydantic.Field(alias="_links")
+        Optional[GetClientOnboardingLinks], pydantic.Field(alias="_links")
     ] = None
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class GetClientStatus(str, Enum):
+class GetClientCapabilitiesStatus(str, Enum):
     UNREQUESTED = "unrequested"
     ENABLED = "enabled"
     DISABLED = "disabled"
@@ -659,8 +733,20 @@ class GetClientStatusReason(str, Enum):
     ONBOARDING_INFORMATION_NEEDED = "onboarding-information-needed"
 
 
-class GetClientClientsResponseDashboardTypedDict(TypedDict):
-    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled. For example, where necessary documents are to be uploaded."""
+class GetClientRequirementStatus(str, Enum):
+    r"""The status of the requirement depends on its due date.
+    If no due date is given, the status will be `requested`.
+    """
+
+    CURRENTLY_DUE = "currently-due"
+    PAST_DUE = "past-due"
+    REQUESTED = "requested"
+
+
+class GetClientCapabilitiesDashboardTypedDict(TypedDict):
+    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled.
+    For example, where necessary documents are to be uploaded.
+    """
 
     href: NotRequired[str]
     r"""The actual URL string."""
@@ -668,8 +754,10 @@ class GetClientClientsResponseDashboardTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetClientClientsResponseDashboard(BaseModel):
-    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled. For example, where necessary documents are to be uploaded."""
+class GetClientCapabilitiesDashboard(BaseModel):
+    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled.
+    For example, where necessary documents are to be uploaded.
+    """
 
     href: Optional[str] = None
     r"""The actual URL string."""
@@ -678,45 +766,52 @@ class GetClientClientsResponseDashboard(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class GetClientClientsResponse200ApplicationHalPlusJSONLinksTypedDict(TypedDict):
-    dashboard: NotRequired[GetClientClientsResponseDashboardTypedDict]
-    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled. For example, where necessary documents are to be uploaded."""
+class GetClientRequirementLinksTypedDict(TypedDict):
+    dashboard: NotRequired[GetClientCapabilitiesDashboardTypedDict]
+    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled.
+    For example, where necessary documents are to be uploaded.
+    """
 
 
-class GetClientClientsResponse200ApplicationHalPlusJSONLinks(BaseModel):
-    dashboard: Optional[GetClientClientsResponseDashboard] = None
-    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled. For example, where necessary documents are to be uploaded."""
+class GetClientRequirementLinks(BaseModel):
+    dashboard: Optional[GetClientCapabilitiesDashboard] = None
+    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled.
+    For example, where necessary documents are to be uploaded.
+    """
 
 
-class GetClientRequirementsTypedDict(TypedDict):
+class GetClientRequirementTypedDict(TypedDict):
     id: NotRequired[str]
-    r"""The name of this requirement, referring to the task to be fulfilled by the organization to enable or re-enable the capability. The name is unique among other requirements of the same capability."""
-    status: NotRequired[str]
-    r"""The status of the requirement depends on its due date. If no due date is given, the status will be `requested`.
-
-    Possible values: `currently-due` `past-due` `requested`
+    r"""The name of this requirement, referring to the task to be fulfilled by the organization
+    to enable or re-enable the capability. The name is unique among other requirements
+    of the same capability.
+    """
+    status: NotRequired[GetClientRequirementStatus]
+    r"""The status of the requirement depends on its due date.
+    If no due date is given, the status will be `requested`.
     """
     due_date: NotRequired[Nullable[str]]
     r"""Due date until the requirement must be fulfilled, if any. The date is shown in ISO-8601 format."""
-    links: NotRequired[GetClientClientsResponse200ApplicationHalPlusJSONLinksTypedDict]
+    links: NotRequired[GetClientRequirementLinksTypedDict]
 
 
-class GetClientRequirements(BaseModel):
+class GetClientRequirement(BaseModel):
     id: Optional[str] = None
-    r"""The name of this requirement, referring to the task to be fulfilled by the organization to enable or re-enable the capability. The name is unique among other requirements of the same capability."""
+    r"""The name of this requirement, referring to the task to be fulfilled by the organization
+    to enable or re-enable the capability. The name is unique among other requirements
+    of the same capability.
+    """
 
-    status: Optional[str] = None
-    r"""The status of the requirement depends on its due date. If no due date is given, the status will be `requested`.
-
-    Possible values: `currently-due` `past-due` `requested`
+    status: Optional[GetClientRequirementStatus] = None
+    r"""The status of the requirement depends on its due date.
+    If no due date is given, the status will be `requested`.
     """
 
     due_date: Annotated[OptionalNullable[str], pydantic.Field(alias="dueDate")] = UNSET
     r"""Due date until the requirement must be fulfilled, if any. The date is shown in ISO-8601 format."""
 
     links: Annotated[
-        Optional[GetClientClientsResponse200ApplicationHalPlusJSONLinks],
-        pydantic.Field(alias="_links"),
+        Optional[GetClientRequirementLinks], pydantic.Field(alias="_links")
     ] = None
 
     @model_serializer(mode="wrap")
@@ -755,9 +850,9 @@ class GetClientCapabilitiesTypedDict(TypedDict):
     r"""Always the word `capability` for this resource type."""
     name: NotRequired[str]
     r"""A unique name for this capability like `payments` / `settlements`."""
-    status: NotRequired[GetClientStatus]
+    status: NotRequired[GetClientCapabilitiesStatus]
     status_reason: NotRequired[Nullable[GetClientStatusReason]]
-    requirements: NotRequired[List[GetClientRequirementsTypedDict]]
+    requirements: NotRequired[List[GetClientRequirementTypedDict]]
 
 
 class GetClientCapabilities(BaseModel):
@@ -767,13 +862,13 @@ class GetClientCapabilities(BaseModel):
     name: Optional[str] = None
     r"""A unique name for this capability like `payments` / `settlements`."""
 
-    status: Optional[GetClientStatus] = None
+    status: Optional[GetClientCapabilitiesStatus] = None
 
     status_reason: Annotated[
         OptionalNullable[GetClientStatusReason], pydantic.Field(alias="statusReason")
     ] = UNSET
 
-    requirements: Optional[List[GetClientRequirements]] = None
+    requirements: Optional[List[GetClientRequirement]] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -807,36 +902,38 @@ class GetClientCapabilities(BaseModel):
 
 
 class GetClientEmbeddedTypedDict(TypedDict):
-    organization: NotRequired[GetClientClientsOrganizationTypedDict]
-    onboarding: NotRequired[GetClientOnboardingTypedDict]
+    organization: NotRequired[GetClientEmbeddedOrganizationTypedDict]
+    onboarding: NotRequired[GetClientEmbeddedOnboardingTypedDict]
     capabilities: NotRequired[GetClientCapabilitiesTypedDict]
 
 
 class GetClientEmbedded(BaseModel):
-    organization: Optional[GetClientClientsOrganization] = None
+    organization: Optional[GetClientEmbeddedOrganization] = None
 
-    onboarding: Optional[GetClientOnboarding] = None
+    onboarding: Optional[GetClientEmbeddedOnboarding] = None
 
     capabilities: Optional[GetClientCapabilities] = None
 
 
-class GetClientResponseBodyTypedDict(TypedDict):
+class GetClientResponseTypedDict(TypedDict):
     r"""The client object."""
 
     resource: NotRequired[str]
     r"""Indicates the response contains a client object. Will always contain the string `client` for this resource type."""
     id: NotRequired[str]
     r"""The identifier uniquely referring to this client. Example: `org_12345678`."""
-    commission: NotRequired[Nullable[CommissionTypedDict]]
+    commission: NotRequired[Nullable[GetClientCommissionTypedDict]]
     r"""The commission object."""
     organization_created_at: NotRequired[str]
-    r"""The date and time the client organization was created, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    r"""The date and time the client organization was created, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
+    format.
+    """
     links: NotRequired[GetClientLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     embedded: NotRequired[GetClientEmbeddedTypedDict]
 
 
-class GetClientResponseBody(BaseModel):
+class GetClientResponse(BaseModel):
     r"""The client object."""
 
     resource: Optional[str] = "client"
@@ -845,13 +942,15 @@ class GetClientResponseBody(BaseModel):
     id: Optional[str] = None
     r"""The identifier uniquely referring to this client. Example: `org_12345678`."""
 
-    commission: OptionalNullable[Commission] = UNSET
+    commission: OptionalNullable[GetClientCommission] = UNSET
     r"""The commission object."""
 
     organization_created_at: Annotated[
         Optional[str], pydantic.Field(alias="organizationCreatedAt")
     ] = None
-    r"""The date and time the client organization was created, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    r"""The date and time the client organization was created, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
+    format.
+    """
 
     links: Annotated[Optional[GetClientLinks], pydantic.Field(alias="_links")] = None
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""

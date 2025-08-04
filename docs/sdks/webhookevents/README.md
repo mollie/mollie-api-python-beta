@@ -11,26 +11,22 @@
 
 Retrieve a single webhook event object by its event ID.
 
-> 🔑 Access with
->
-> [Access token with **events.read**](/reference/authentication)
-
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="get-webhook-event" method="get" path="/events/{id}" -->
 ```python
 import mollie
-from mollie import Client
+from mollie import ClientSDK
 import os
 
 
-with Client(
+with ClientSDK(
     security=mollie.Security(
         api_key=os.getenv("CLIENT_API_KEY", ""),
     ),
-) as client:
+) as client_sdk:
 
-    res = client.webhook_events.get(id="event_jd9v34P5YqN9pT8n3HJyH")
+    res = client_sdk.webhook_events.get(id="event_jd9v34P5YqN9pT8n3HJyH")
 
     # Handle response
     print(res)
@@ -46,11 +42,11 @@ with Client(
 
 ### Response
 
-**[models.GetWebhookEventResponseBody](../../models/getwebhookeventresponsebody.md)**
+**[models.GetWebhookEventResponse](../../models/getwebhookeventresponse.md)**
 
 ### Errors
 
-| Error Type                                      | Status Code                                     | Content Type                                    |
-| ----------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
-| models.GetWebhookEventWebhookEventsResponseBody | 404                                             | application/hal+json                            |
-| models.APIError                                 | 4XX, 5XX                                        | \*/\*                                           |
+| Error Type                         | Status Code                        | Content Type                       |
+| ---------------------------------- | ---------------------------------- | ---------------------------------- |
+| models.GetWebhookEventHalJSONError | 404                                | application/hal+json               |
+| models.APIError                    | 4XX, 5XX                           | \*/\*                              |

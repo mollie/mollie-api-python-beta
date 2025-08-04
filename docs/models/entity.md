@@ -3,15 +3,15 @@
 
 ## Supported Types
 
-### `models.EntityPaymentLink`
+### `models.GetWebhookEventPaymentLink`
 
 ```python
-value: models.EntityPaymentLink = /* values here */
+value: models.GetWebhookEventPaymentLink = /* values here */
 ```
 
-### `models.EntityProfile`
+### `models.GetWebhookEventProfile`
 
 ```python
-value: models.EntityProfile = /* values here */
+value: models.GetWebhookEventProfile = /* values here */
 ```
 

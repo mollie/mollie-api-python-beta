@@ -1,0 +1,9 @@
+# CorrectionsImmediatelyAvailable
+
+
+## Fields
+
+| Field                                                                                                          | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `amount`                                                                                                       | [Optional[models.CorrectionsImmediatelyAvailableAmount]](../models/correctionsimmediatelyavailableamount.md)   | :heavy_minus_sign:                                                                                             | In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field.              |
+| `subtotals`                                                                                                    | List[[models.CorrectionsImmediatelyAvailableSubtotal2](../models/correctionsimmediatelyavailablesubtotal2.md)] | :heavy_minus_sign:                                                                                             | N/A                                                                                                            |

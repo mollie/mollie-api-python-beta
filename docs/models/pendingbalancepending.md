@@ -1,0 +1,9 @@
+# PendingBalancePending
+
+
+## Fields
+
+| Field                                                                                             | Type                                                                                              | Required                                                                                          | Description                                                                                       |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `amount`                                                                                          | [Optional[models.PendingBalancePendingAmount]](../models/pendingbalancependingamount.md)          | :heavy_minus_sign:                                                                                | In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field. |
+| `subtotals`                                                                                       | List[[models.PendingBalancePendingSubtotal2](../models/pendingbalancependingsubtotal2.md)]        | :heavy_minus_sign:                                                                                | N/A                                                                                               |

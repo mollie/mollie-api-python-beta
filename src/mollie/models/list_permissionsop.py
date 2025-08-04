@@ -9,14 +9,14 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class ListPermissionsPermissionsDocumentationTypedDict(TypedDict):
+class ListPermissionsBadRequestDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class ListPermissionsPermissionsDocumentation(BaseModel):
+class ListPermissionsBadRequestDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -24,17 +24,17 @@ class ListPermissionsPermissionsDocumentation(BaseModel):
     type: str
 
 
-class ListPermissionsPermissionsLinksTypedDict(TypedDict):
-    documentation: ListPermissionsPermissionsDocumentationTypedDict
+class ListPermissionsBadRequestLinksTypedDict(TypedDict):
+    documentation: ListPermissionsBadRequestDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListPermissionsPermissionsLinks(BaseModel):
-    documentation: ListPermissionsPermissionsDocumentation
+class ListPermissionsBadRequestLinks(BaseModel):
+    documentation: ListPermissionsBadRequestDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListPermissionsPermissionsResponseBodyData(BaseModel):
+class ListPermissionsHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -44,20 +44,22 @@ class ListPermissionsPermissionsResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[ListPermissionsPermissionsLinks, pydantic.Field(alias="_links")]
+    links: Annotated[ListPermissionsBadRequestLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class ListPermissionsPermissionsResponseBody(ClientError):
+class ListPermissionsHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: ListPermissionsPermissionsResponseBodyData
+    data: ListPermissionsHalJSONErrorData
 
     def __init__(
         self,
-        data: ListPermissionsPermissionsResponseBodyData,
+        data: ListPermissionsHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -66,7 +68,7 @@ class ListPermissionsPermissionsResponseBody(ClientError):
         self.data = data
 
 
-class ListPermissionsPermissionsSelfTypedDict(TypedDict):
+class PermissionSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -75,26 +77,7 @@ class ListPermissionsPermissionsSelfTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListPermissionsPermissionsSelf(BaseModel):
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    href: str
-    r"""The actual URL string."""
-
-    type: str
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class ListPermissionsPermissionsResponseDocumentationTypedDict(TypedDict):
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    href: str
-    r"""The actual URL string."""
-    type: str
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class ListPermissionsPermissionsResponseDocumentation(BaseModel):
+class PermissionSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -104,43 +87,64 @@ class ListPermissionsPermissionsResponseDocumentation(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListPermissionsPermissionsResponseLinksTypedDict(TypedDict):
+class PermissionDocumentationTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: str
+    r"""The actual URL string."""
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class PermissionDocumentation(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: str
+    r"""The actual URL string."""
+
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class PermissionLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListPermissionsPermissionsSelfTypedDict]
+    self_: NotRequired[PermissionSelfTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    documentation: NotRequired[ListPermissionsPermissionsResponseDocumentationTypedDict]
+    documentation: NotRequired[PermissionDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class ListPermissionsPermissionsResponseLinks(BaseModel):
+class PermissionLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[
-        Optional[ListPermissionsPermissionsSelf], pydantic.Field(alias="self")
-    ] = None
+    self_: Annotated[Optional[PermissionSelf], pydantic.Field(alias="self")] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    documentation: Optional[ListPermissionsPermissionsResponseDocumentation] = None
+    documentation: Optional[PermissionDocumentation] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class ListPermissionsPermissionsTypedDict(TypedDict):
+class PermissionTypedDict(TypedDict):
     resource: NotRequired[str]
-    r"""Indicates the response contains a permission object. Will always contain the string `permission` for this endpoint."""
+    r"""Indicates the response contains a permission object. Will always contain the string `permission` for this
+    endpoint.
+    """
     id: NotRequired[str]
     r"""The identifier uniquely referring to this permission. Example: `payments.read`."""
     description: NotRequired[str]
     r"""A short description of what kind of access the permission enables."""
     granted: NotRequired[bool]
     r"""Whether this permission is granted to the app by the organization."""
-    links: NotRequired[ListPermissionsPermissionsResponseLinksTypedDict]
+    links: NotRequired[PermissionLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class ListPermissionsPermissions(BaseModel):
+class Permission(BaseModel):
     resource: Optional[str] = "permission"
-    r"""Indicates the response contains a permission object. Will always contain the string `permission` for this endpoint."""
+    r"""Indicates the response contains a permission object. Will always contain the string `permission` for this
+    endpoint.
+    """
 
     id: Optional[str] = None
     r"""The identifier uniquely referring to this permission. Example: `payments.read`."""
@@ -151,20 +155,17 @@ class ListPermissionsPermissions(BaseModel):
     granted: Optional[bool] = None
     r"""Whether this permission is granted to the app by the organization."""
 
-    links: Annotated[
-        Optional[ListPermissionsPermissionsResponseLinks],
-        pydantic.Field(alias="_links"),
-    ] = None
+    links: Annotated[Optional[PermissionLinks], pydantic.Field(alias="_links")] = None
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class ListPermissionsEmbeddedTypedDict(TypedDict):
-    permissions: NotRequired[List[ListPermissionsPermissionsTypedDict]]
+    permissions: NotRequired[List[PermissionTypedDict]]
     r"""An array of permission objects."""
 
 
 class ListPermissionsEmbedded(BaseModel):
-    permissions: Optional[List[ListPermissionsPermissions]] = None
+    permissions: Optional[List[Permission]] = None
     r"""An array of permission objects."""
 
 
@@ -225,26 +226,30 @@ class ListPermissionsLinks(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class ListPermissionsResponseBodyTypedDict(TypedDict):
+class ListPermissionsResponseTypedDict(TypedDict):
     r"""A list of permission objects."""
 
     count: NotRequired[int]
-    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.
+    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
+    as well.
 
-    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default limit is 50 items.
+    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
+    limit is 50 items.
     """
     embedded: NotRequired[ListPermissionsEmbeddedTypedDict]
     links: NotRequired[ListPermissionsLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class ListPermissionsResponseBody(BaseModel):
+class ListPermissionsResponse(BaseModel):
     r"""A list of permission objects."""
 
     count: Optional[int] = None
-    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.
+    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
+    as well.
 
-    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default limit is 50 items.
+    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
+    limit is 50 items.
     """
 
     embedded: Annotated[

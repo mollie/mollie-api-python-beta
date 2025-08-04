@@ -12,27 +12,41 @@ from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
+class ListSubscriptionPaymentsSort(str, Enum):
+    r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
+    newest to oldest.
+    """
+
+    ASC = "asc"
+    DESC = "desc"
+
+
 class ListSubscriptionPaymentsRequestTypedDict(TypedDict):
     customer_id: str
     r"""Provide the ID of the related customer."""
     subscription_id: str
     r"""Provide the ID of the related subscription."""
     from_: NotRequired[str]
-    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set."""
+    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate
+    the result set.
+    """
     limit: NotRequired[Nullable[int]]
     r"""The maximum number of items to return. Defaults to 50 items."""
-    sort: NotRequired[Nullable[str]]
-    r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
-
-    Possible values: `asc` `desc` (default: `desc`)
+    sort: NotRequired[Nullable[ListSubscriptionPaymentsSort]]
+    r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
+    newest to oldest.
     """
     profile_id: NotRequired[str]
-    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.
+    r"""The identifier referring to the [profile](get-profile) you wish to
+    retrieve the resources for.
 
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For
+    organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
     """
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -58,7 +72,9 @@ class ListSubscriptionPaymentsRequest(BaseModel):
         pydantic.Field(alias="from"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set."""
+    r"""Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate
+    the result set.
+    """
 
     limit: Annotated[
         OptionalNullable[int],
@@ -67,12 +83,11 @@ class ListSubscriptionPaymentsRequest(BaseModel):
     r"""The maximum number of items to return. Defaults to 50 items."""
 
     sort: Annotated[
-        OptionalNullable[str],
+        OptionalNullable[ListSubscriptionPaymentsSort],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = UNSET
-    r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
-
-    Possible values: `asc` `desc` (default: `desc`)
+    ] = ListSubscriptionPaymentsSort.DESC
+    r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
+    newest to oldest.
     """
 
     profile_id: Annotated[
@@ -80,16 +95,20 @@ class ListSubscriptionPaymentsRequest(BaseModel):
         pydantic.Field(alias="profileId"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.
+    r"""The identifier referring to the [profile](get-profile) you wish to
+    retrieve the resources for.
 
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For
+    organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
     """
 
     testmode: Annotated[
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -125,14 +144,14 @@ class ListSubscriptionPaymentsRequest(BaseModel):
         return m
 
 
-class ListSubscriptionPaymentsSubscriptionsDocumentationTypedDict(TypedDict):
+class ListSubscriptionPaymentsBadRequestDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class ListSubscriptionPaymentsSubscriptionsDocumentation(BaseModel):
+class ListSubscriptionPaymentsBadRequestDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -140,17 +159,17 @@ class ListSubscriptionPaymentsSubscriptionsDocumentation(BaseModel):
     type: str
 
 
-class ListSubscriptionPaymentsSubscriptionsLinksTypedDict(TypedDict):
-    documentation: ListSubscriptionPaymentsSubscriptionsDocumentationTypedDict
+class ListSubscriptionPaymentsBadRequestLinksTypedDict(TypedDict):
+    documentation: ListSubscriptionPaymentsBadRequestDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListSubscriptionPaymentsSubscriptionsLinks(BaseModel):
-    documentation: ListSubscriptionPaymentsSubscriptionsDocumentation
+class ListSubscriptionPaymentsBadRequestLinks(BaseModel):
+    documentation: ListSubscriptionPaymentsBadRequestDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class ListSubscriptionPaymentsSubscriptionsResponseBodyData(BaseModel):
+class ListSubscriptionPaymentsHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -161,21 +180,23 @@ class ListSubscriptionPaymentsSubscriptionsResponseBodyData(BaseModel):
     r"""A detailed human-readable description of the error that occurred."""
 
     links: Annotated[
-        ListSubscriptionPaymentsSubscriptionsLinks, pydantic.Field(alias="_links")
+        ListSubscriptionPaymentsBadRequestLinks, pydantic.Field(alias="_links")
     ]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class ListSubscriptionPaymentsSubscriptionsResponseBody(ClientError):
+class ListSubscriptionPaymentsHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: ListSubscriptionPaymentsSubscriptionsResponseBodyData
+    data: ListSubscriptionPaymentsHalJSONErrorData
 
     def __init__(
         self,
-        data: ListSubscriptionPaymentsSubscriptionsResponseBodyData,
+        data: ListSubscriptionPaymentsHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -184,12 +205,21 @@ class ListSubscriptionPaymentsSubscriptionsResponseBody(ClientError):
         self.data = data
 
 
+class ListSubscriptionPaymentsMode(str, Enum):
+    r"""Whether this entity was created in live mode or in test mode."""
+
+    LIVE = "live"
+    TEST = "test"
+
+
 class ListSubscriptionPaymentsAmountTypedDict(TypedDict):
     r"""The amount that you want to charge, e.g. `{currency:\"EUR\", value:\"1000.00\"}` if you would want to charge €1000.00.
 
-    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be retrieved using the Get method endpoint.
+    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be
+    retrieved using the Get method endpoint.
 
-    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the tip amount.
+    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the
+    tip amount.
     """
 
     currency: str
@@ -201,9 +231,11 @@ class ListSubscriptionPaymentsAmountTypedDict(TypedDict):
 class ListSubscriptionPaymentsAmount(BaseModel):
     r"""The amount that you want to charge, e.g. `{currency:\"EUR\", value:\"1000.00\"}` if you would want to charge €1000.00.
 
-    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be retrieved using the Get method endpoint.
+    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be
+    retrieved using the Get method endpoint.
 
-    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the tip amount.
+    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the
+    tip amount.
     """
 
     currency: str
@@ -214,7 +246,10 @@ class ListSubscriptionPaymentsAmount(BaseModel):
 
 
 class ListSubscriptionPaymentsAmountRefundedTypedDict(TypedDict):
-    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the costs for a return shipment to the customer."""
+    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some
+    payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the
+    costs for a return shipment to the customer.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -223,7 +258,10 @@ class ListSubscriptionPaymentsAmountRefundedTypedDict(TypedDict):
 
 
 class ListSubscriptionPaymentsAmountRefunded(BaseModel):
-    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the costs for a return shipment to the customer."""
+    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some
+    payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the
+    costs for a return shipment to the customer.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -271,7 +309,9 @@ class ListSubscriptionPaymentsAmountCaptured(BaseModel):
 
 
 class ListSubscriptionPaymentsAmountChargedBackTypedDict(TypedDict):
-    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not zero."""
+    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not
+    zero.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -280,7 +320,9 @@ class ListSubscriptionPaymentsAmountChargedBackTypedDict(TypedDict):
 
 
 class ListSubscriptionPaymentsAmountChargedBack(BaseModel):
-    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not zero."""
+    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not
+    zero.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -290,11 +332,14 @@ class ListSubscriptionPaymentsAmountChargedBack(BaseModel):
 
 
 class ListSubscriptionPaymentsSettlementAmountTypedDict(TypedDict):
-    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
 
-    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is settled by Mollie the `settlementAmount` is omitted from the response.
+    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is
+    settled by Mollie the `settlementAmount` is omitted from the response.
 
-    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
+    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest
+    using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
 
     currency: str
@@ -304,11 +349,14 @@ class ListSubscriptionPaymentsSettlementAmountTypedDict(TypedDict):
 
 
 class ListSubscriptionPaymentsSettlementAmount(BaseModel):
-    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
 
-    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is settled by Mollie the `settlementAmount` is omitted from the response.
+    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is
+    settled by Mollie the `settlementAmount` is omitted from the response.
 
-    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
+    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest
+    using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
 
     currency: str
@@ -316,6 +364,22 @@ class ListSubscriptionPaymentsSettlementAmount(BaseModel):
 
     value: str
     r"""A string containing an exact monetary amount in the given currency."""
+
+
+class ListSubscriptionPaymentsLineType(str, Enum):
+    r"""The type of product purchased. For example, a physical or a digital product.
+
+    The `tip` payment line type is not available when creating a payment.
+    """
+
+    PHYSICAL = "physical"
+    DIGITAL = "digital"
+    SHIPPING_FEE = "shipping_fee"
+    DISCOUNT = "discount"
+    STORE_CREDIT = "store_credit"
+    GIFT_CARD = "gift_card"
+    SURCHARGE = "surcharge"
+    TIP = "tip"
 
 
 class ListSubscriptionPaymentsUnitPriceTypedDict(TypedDict):
@@ -352,7 +416,9 @@ class ListSubscriptionPaymentsUnitPrice(BaseModel):
 
 
 class ListSubscriptionPaymentsDiscountAmountTypedDict(TypedDict):
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -361,7 +427,9 @@ class ListSubscriptionPaymentsDiscountAmountTypedDict(TypedDict):
 
 
 class ListSubscriptionPaymentsDiscountAmount(BaseModel):
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -400,11 +468,13 @@ class ListSubscriptionPaymentsTotalAmount(BaseModel):
 
 
 class ListSubscriptionPaymentsVatAmountTypedDict(TypedDict):
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
 
     currency: str
@@ -414,11 +484,13 @@ class ListSubscriptionPaymentsVatAmountTypedDict(TypedDict):
 
 
 class ListSubscriptionPaymentsVatAmount(BaseModel):
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
 
     currency: str
@@ -428,14 +500,22 @@ class ListSubscriptionPaymentsVatAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListSubscriptionPaymentsCategories(str, Enum):
+class ListSubscriptionPaymentsCategory(str, Enum):
     MEAL = "meal"
     ECO = "eco"
     GIFT = "gift"
     SPORT_CULTURE = "sport_culture"
 
 
-class ListSubscriptionPaymentsSubscriptionsResponse200AmountTypedDict(TypedDict):
+class ListSubscriptionPaymentsInterval(str, Enum):
+    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`."""
+
+    DOT_DOT_DOT_MONTHS = "... months"
+    DOT_DOT_DOT_WEEKS = "... weeks"
+    DOT_DOT_DOT_DAYS = "... days"
+
+
+class ListSubscriptionPaymentsRecurringAmountTypedDict(TypedDict):
     r"""Total amount and currency of the recurring item."""
 
     currency: str
@@ -444,7 +524,7 @@ class ListSubscriptionPaymentsSubscriptionsResponse200AmountTypedDict(TypedDict)
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListSubscriptionPaymentsSubscriptionsResponse200Amount(BaseModel):
+class ListSubscriptionPaymentsRecurringAmount(BaseModel):
     r"""Total amount and currency of the recurring item."""
 
     currency: str
@@ -455,16 +535,15 @@ class ListSubscriptionPaymentsSubscriptionsResponse200Amount(BaseModel):
 
 
 class ListSubscriptionPaymentsRecurringTypedDict(TypedDict):
-    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout to inform the shopper of the details for recurring products in the payments."""
-
-    interval: str
-    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`.
-
-    Possible values: `... months` `... weeks` `... days`
+    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout
+    to inform the shopper of the details for recurring products in the payments.
     """
+
+    interval: ListSubscriptionPaymentsInterval
+    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`."""
     description: NotRequired[str]
     r"""A description of the recurring item. If not present, the main description of the item will be used."""
-    amount: NotRequired[ListSubscriptionPaymentsSubscriptionsResponse200AmountTypedDict]
+    amount: NotRequired[ListSubscriptionPaymentsRecurringAmountTypedDict]
     r"""Total amount and currency of the recurring item."""
     times: NotRequired[int]
     r"""Total number of charges for the subscription to complete. Leave empty for ongoing subscription."""
@@ -473,18 +552,17 @@ class ListSubscriptionPaymentsRecurringTypedDict(TypedDict):
 
 
 class ListSubscriptionPaymentsRecurring(BaseModel):
-    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout to inform the shopper of the details for recurring products in the payments."""
-
-    interval: str
-    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`.
-
-    Possible values: `... months` `... weeks` `... days`
+    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout
+    to inform the shopper of the details for recurring products in the payments.
     """
+
+    interval: ListSubscriptionPaymentsInterval
+    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`."""
 
     description: Optional[str] = None
     r"""A description of the recurring item. If not present, the main description of the item will be used."""
 
-    amount: Optional[ListSubscriptionPaymentsSubscriptionsResponse200Amount] = None
+    amount: Optional[ListSubscriptionPaymentsRecurringAmount] = None
     r"""Total amount and currency of the recurring item."""
 
     times: Optional[int] = None
@@ -526,7 +604,7 @@ class ListSubscriptionPaymentsRecurring(BaseModel):
         return m
 
 
-class ListSubscriptionPaymentsLinesTypedDict(TypedDict):
+class ListSubscriptionPaymentsLineTypedDict(TypedDict):
     description: str
     r"""A description of the line item. For example *LEGO 4440 Forest Police Station*."""
     quantity: int
@@ -547,39 +625,47 @@ class ListSubscriptionPaymentsLinesTypedDict(TypedDict):
 
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
-    type: NotRequired[str]
+    type: NotRequired[ListSubscriptionPaymentsLineType]
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
-
-    Possible values: `physical` `digital` `shipping_fee` `discount` `store_credit` `gift_card` `surcharge` `tip` (default: `physical`)
     """
     quantity_unit: NotRequired[str]
     r"""The unit for the quantity. For example *pcs*, *kg*, or *cm*."""
     discount_amount: NotRequired[ListSubscriptionPaymentsDiscountAmountTypedDict]
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
     vat_rate: NotRequired[str]
-    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and not as a float, to ensure the correct number of decimals are passed."""
+    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and
+    not as a float, to ensure the correct number of decimals are passed.
+    """
     vat_amount: NotRequired[ListSubscriptionPaymentsVatAmountTypedDict]
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
     sku: NotRequired[str]
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
-    categories: NotRequired[List[ListSubscriptionPaymentsCategories]]
-    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the [Integrating Vouchers](integrating-vouchers) guide for more information."""
+    categories: NotRequired[List[ListSubscriptionPaymentsCategory]]
+    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
+    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    """
     image_url: NotRequired[str]
     r"""A link pointing to an image of the product sold."""
     product_url: NotRequired[str]
     r"""A link pointing to the product page in your web shop of the product sold."""
     recurring: NotRequired[ListSubscriptionPaymentsRecurringTypedDict]
-    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout to inform the shopper of the details for recurring products in the payments."""
+    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout
+    to inform the shopper of the details for recurring products in the payments.
+    """
 
 
-class ListSubscriptionPaymentsLines(BaseModel):
+class ListSubscriptionPaymentsLine(BaseModel):
     description: str
     r"""A description of the line item. For example *LEGO 4440 Forest Police Station*."""
 
@@ -608,12 +694,12 @@ class ListSubscriptionPaymentsLines(BaseModel):
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
 
-    type: Optional[str] = None
+    type: Optional[ListSubscriptionPaymentsLineType] = (
+        ListSubscriptionPaymentsLineType.PHYSICAL
+    )
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
-
-    Possible values: `physical` `digital` `shipping_fee` `discount` `store_credit` `gift_card` `surcharge` `tip` (default: `physical`)
     """
 
     quantity_unit: Annotated[Optional[str], pydantic.Field(alias="quantityUnit")] = None
@@ -623,26 +709,34 @@ class ListSubscriptionPaymentsLines(BaseModel):
         Optional[ListSubscriptionPaymentsDiscountAmount],
         pydantic.Field(alias="discountAmount"),
     ] = None
-    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount type."""
+    r"""Any line-specific discounts, as a positive amount. Not relevant if the line itself is already a discount
+    type.
+    """
 
     vat_rate: Annotated[Optional[str], pydantic.Field(alias="vatRate")] = None
-    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and not as a float, to ensure the correct number of decimals are passed."""
+    r"""The VAT rate applied to the line, for example `21.00` for 21%. The vatRate should be passed as a string and
+    not as a float, to ensure the correct number of decimals are passed.
+    """
 
     vat_amount: Annotated[
         Optional[ListSubscriptionPaymentsVatAmount], pydantic.Field(alias="vatAmount")
     ] = None
-    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
+    r"""The amount of value-added tax on the line. The `totalAmount` field includes VAT, so the `vatAmount` can be
+    calculated with the formula `totalAmount × (vatRate / (100 + vatRate))`.
 
     Any deviations from this will result in an error.
 
-    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of `SEK 100.00 × (25 / 125) = SEK 20.00`.
+    For example, for a `totalAmount` of SEK 100.00 with a 25.00% VAT rate, we expect a VAT amount of
+    `SEK 100.00 × (25 / 125) = SEK 20.00`.
     """
 
     sku: Optional[str] = None
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
 
-    categories: Optional[List[ListSubscriptionPaymentsCategories]] = None
-    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the [Integrating Vouchers](integrating-vouchers) guide for more information."""
+    categories: Optional[List[ListSubscriptionPaymentsCategory]] = None
+    r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
+    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    """
 
     image_url: Annotated[Optional[str], pydantic.Field(alias="imageUrl")] = None
     r"""A link pointing to an image of the product sold."""
@@ -651,13 +745,17 @@ class ListSubscriptionPaymentsLines(BaseModel):
     r"""A link pointing to the product page in your web shop of the product sold."""
 
     recurring: Optional[ListSubscriptionPaymentsRecurring] = None
-    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout to inform the shopper of the details for recurring products in the payments."""
+    r"""The details of subsequent recurring billing cycles. These parameters are used in the Mollie Checkout
+    to inform the shopper of the details for recurring products in the payments.
+    """
 
 
 class ListSubscriptionPaymentsBillingAddressTypedDict(TypedDict):
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
@@ -665,12 +763,14 @@ class ListSubscriptionPaymentsBillingAddressTypedDict(TypedDict):
     title: NotRequired[str]
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
     given_name: NotRequired[str]
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
     family_name: NotRequired[str]
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -691,7 +791,8 @@ class ListSubscriptionPaymentsBillingAddressTypedDict(TypedDict):
     email: NotRequired[str]
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -712,9 +813,11 @@ class ListSubscriptionPaymentsBillingAddressTypedDict(TypedDict):
 
 
 class ListSubscriptionPaymentsBillingAddress(BaseModel):
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
@@ -723,13 +826,15 @@ class ListSubscriptionPaymentsBillingAddress(BaseModel):
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
 
     given_name: Annotated[Optional[str], pydantic.Field(alias="givenName")] = None
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
 
     family_name: Annotated[Optional[str], pydantic.Field(alias="familyName")] = None
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -761,7 +866,8 @@ class ListSubscriptionPaymentsBillingAddress(BaseModel):
     email: Optional[str] = None
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -786,20 +892,24 @@ class ListSubscriptionPaymentsBillingAddress(BaseModel):
 
 
 class ListSubscriptionPaymentsShippingAddressTypedDict(TypedDict):
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
 
     title: NotRequired[str]
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
     given_name: NotRequired[str]
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
     family_name: NotRequired[str]
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -820,7 +930,8 @@ class ListSubscriptionPaymentsShippingAddressTypedDict(TypedDict):
     email: NotRequired[str]
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -841,22 +952,26 @@ class ListSubscriptionPaymentsShippingAddressTypedDict(TypedDict):
 
 
 class ListSubscriptionPaymentsShippingAddress(BaseModel):
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
 
     title: Optional[str] = None
     r"""The title of the person, for example *Mr.* or *Mrs.*."""
 
     given_name: Annotated[Optional[str], pydantic.Field(alias="givenName")] = None
-    r"""The given name (first name) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
 
     family_name: Annotated[Optional[str], pydantic.Field(alias="familyName")] = None
-    r"""The given family name (surname) of the person should be at least two characters and cannot contain only numbers.
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -888,7 +1003,8 @@ class ListSubscriptionPaymentsShippingAddress(BaseModel):
     email: Optional[str] = None
     r"""A valid e-mail address.
 
-    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions email upon payment creation. The language of the email will follow the locale parameter of the payment.
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
 
     Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
     """
@@ -912,32 +1028,123 @@ class ListSubscriptionPaymentsShippingAddress(BaseModel):
     """
 
 
-class ListSubscriptionPaymentsMetadata2TypedDict(TypedDict):
+class ListSubscriptionPaymentsLocale(str, Enum):
+    r"""Allows you to preset the language to be used in the hosted payment pages shown to the customer. Setting a locale
+    is highly recommended and will greatly improve your conversion rate. When this parameter is omitted the browser
+    language will be used instead if supported by the payment method. You can provide any `xx_XX` format ISO 15897
+    locale, but our hosted payment pages currently only support the specified languages.
+
+    For bank transfer payments specifically, the locale will determine the target bank account the customer has to
+    transfer the money to. We have dedicated bank accounts for Belgium, Germany, and The Netherlands. Having the
+    customer use a local bank account greatly increases the conversion and speed of payment.
+    """
+
+    EN_US = "en_US"
+    EN_GB = "en_GB"
+    NL_NL = "nl_NL"
+    NL_BE = "nl_BE"
+    DE_DE = "de_DE"
+    DE_AT = "de_AT"
+    DE_CH = "de_CH"
+    FR_FR = "fr_FR"
+    FR_BE = "fr_BE"
+    ES_ES = "es_ES"
+    CA_ES = "ca_ES"
+    PT_PT = "pt_PT"
+    IT_IT = "it_IT"
+    NB_NO = "nb_NO"
+    SV_SE = "sv_SE"
+    FI_FI = "fi_FI"
+    DA_DK = "da_DK"
+    IS_IS = "is_IS"
+    HU_HU = "hu_HU"
+    PL_PL = "pl_PL"
+    LV_LV = "lv_LV"
+    LT_LT = "lt_LT"
+
+
+class ListSubscriptionPaymentsMethod(str, Enum):
+    r"""The payment method used for this transaction. If a specific method was selected during payment initialization,
+    this field reflects that choice.
+    """
+
+    ALMA = "alma"
+    APPLEPAY = "applepay"
+    BACS = "bacs"
+    BANCOMATPAY = "bancomatpay"
+    BANCONTACT = "bancontact"
+    BANKTRANSFER = "banktransfer"
+    BELFIUS = "belfius"
+    BILLIE = "billie"
+    BIZUM = "bizum"
+    BLIK = "blik"
+    CREDITCARD = "creditcard"
+    DIRECTDEBIT = "directdebit"
+    EPS = "eps"
+    GIFTCARD = "giftcard"
+    IDEAL = "ideal"
+    IN3 = "in3"
+    KBC = "kbc"
+    KLARNA = "klarna"
+    MBWAY = "mbway"
+    MULTIBANCO = "multibanco"
+    MYBANK = "mybank"
+    PAYBYBANK = "paybybank"
+    PAYCONIQ = "payconiq"
+    PAYPAL = "paypal"
+    PAYSAFECARD = "paysafecard"
+    POINTOFSALE = "pointofsale"
+    PRZELEWY24 = "przelewy24"
+    RIVERTY = "riverty"
+    SATISPAY = "satispay"
+    SWISH = "swish"
+    TRUSTLY = "trustly"
+    TWINT = "twint"
+    VOUCHER = "voucher"
+
+
+class ListSubscriptionPaymentsMetadataTypedDict(TypedDict):
     pass
 
 
-class ListSubscriptionPaymentsMetadata2(BaseModel):
+class ListSubscriptionPaymentsMetadata(BaseModel):
     pass
 
 
-ListSubscriptionPaymentsMetadataTypedDict = TypeAliasType(
-    "ListSubscriptionPaymentsMetadataTypedDict",
-    Union[ListSubscriptionPaymentsMetadata2TypedDict, str, List[str]],
+ListSubscriptionPaymentsMetadataUnionTypedDict = TypeAliasType(
+    "ListSubscriptionPaymentsMetadataUnionTypedDict",
+    Union[ListSubscriptionPaymentsMetadataTypedDict, str, List[str]],
 )
-r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+"""
 
 
-ListSubscriptionPaymentsMetadata = TypeAliasType(
-    "ListSubscriptionPaymentsMetadata",
-    Union[ListSubscriptionPaymentsMetadata2, str, List[str]],
+ListSubscriptionPaymentsMetadataUnion = TypeAliasType(
+    "ListSubscriptionPaymentsMetadataUnion",
+    Union[ListSubscriptionPaymentsMetadata, str, List[str]],
 )
-r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+"""
 
 
-class ListSubscriptionPaymentsSubscriptionsAmountTypedDict(TypedDict):
+class ListSubscriptionPaymentsCaptureMode(str, Enum):
+    r"""Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/)
+    and capture at a later time.
+
+    This field needs to be set to `manual` for method `riverty`.
+    """
+
+    AUTOMATIC = "automatic"
+    MANUAL = "manual"
+
+
+class ListSubscriptionPaymentsApplicationFeeAmountTypedDict(TypedDict):
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
 
     currency: str
@@ -946,10 +1153,11 @@ class ListSubscriptionPaymentsSubscriptionsAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListSubscriptionPaymentsSubscriptionsAmount(BaseModel):
+class ListSubscriptionPaymentsApplicationFeeAmount(BaseModel):
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
 
     currency: str
@@ -960,41 +1168,62 @@ class ListSubscriptionPaymentsSubscriptionsAmount(BaseModel):
 
 
 class ListSubscriptionPaymentsApplicationFeeTypedDict(TypedDict):
-    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.
+    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
 
-    If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the `routing` parameter.
+    If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the
+    `routing` parameter.
     """
 
-    amount: NotRequired[ListSubscriptionPaymentsSubscriptionsAmountTypedDict]
+    amount: NotRequired[ListSubscriptionPaymentsApplicationFeeAmountTypedDict]
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
     description: NotRequired[str]
-    r"""The description of the application fee. This will appear on settlement reports towards both you and the connected merchant."""
+    r"""The description of the application fee. This will appear on settlement reports towards both you and the
+    connected merchant.
+    """
 
 
 class ListSubscriptionPaymentsApplicationFee(BaseModel):
-    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.
+    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
 
-    If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the `routing` parameter.
+    If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the
+    `routing` parameter.
     """
 
-    amount: Optional[ListSubscriptionPaymentsSubscriptionsAmount] = None
+    amount: Optional[ListSubscriptionPaymentsApplicationFeeAmount] = None
     r"""The fee that you wish to charge.
 
-    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge a €0.99 fee on a €1.00 payment.
+    Be careful to leave enough space for Mollie's own fees to be deducted as well. For example, you cannot charge
+    a €0.99 fee on a €1.00 payment.
     """
 
     description: Optional[str] = None
-    r"""The description of the application fee. This will appear on settlement reports towards both you and the connected merchant."""
+    r"""The description of the application fee. This will appear on settlement reports towards both you and the
+    connected merchant.
+    """
 
 
-class ListSubscriptionPaymentsSubscriptionsResponseAmountTypedDict(TypedDict):
+class ListSubscriptionPaymentsRoutingMode(str, Enum):
+    r"""Whether this entity was created in live mode or in test mode."""
+
+    LIVE = "live"
+    TEST = "test"
+
+
+class ListSubscriptionPaymentsRoutingAmountTypedDict(TypedDict):
     r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
 
     currency: str
@@ -1003,7 +1232,7 @@ class ListSubscriptionPaymentsSubscriptionsResponseAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListSubscriptionPaymentsSubscriptionsResponseAmount(BaseModel):
+class ListSubscriptionPaymentsRoutingAmount(BaseModel):
     r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
 
     currency: str
@@ -1011,34 +1240,38 @@ class ListSubscriptionPaymentsSubscriptionsResponseAmount(BaseModel):
 
     value: str
     r"""A string containing an exact monetary amount in the given currency."""
+
+
+class ListSubscriptionPaymentsRoutingType(str, Enum):
+    r"""The type of destination. Currently only the destination type `organization` is supported."""
+
+    ORGANIZATION = "organization"
 
 
 class ListSubscriptionPaymentsDestinationTypedDict(TypedDict):
     r"""The destination of this portion of the payment."""
 
-    type: str
-    r"""The type of destination. Currently only the destination type `organization` is supported.
-
-    Possible values: `organization`
-    """
+    type: ListSubscriptionPaymentsRoutingType
+    r"""The type of destination. Currently only the destination type `organization` is supported."""
     organization_id: str
-    r"""Required for destination type `organization`. The ID of the connected organization the funds should be routed to."""
+    r"""Required for destination type `organization`. The ID of the connected organization the funds should be
+    routed to.
+    """
 
 
 class ListSubscriptionPaymentsDestination(BaseModel):
     r"""The destination of this portion of the payment."""
 
-    type: str
-    r"""The type of destination. Currently only the destination type `organization` is supported.
-
-    Possible values: `organization`
-    """
+    type: ListSubscriptionPaymentsRoutingType
+    r"""The type of destination. Currently only the destination type `organization` is supported."""
 
     organization_id: Annotated[str, pydantic.Field(alias="organizationId")]
-    r"""Required for destination type `organization`. The ID of the connected organization the funds should be routed to."""
+    r"""Required for destination type `organization`. The ID of the connected organization the funds should be
+    routed to.
+    """
 
 
-class ListSubscriptionPaymentsSubscriptionsResponseSelfTypedDict(TypedDict):
+class ListSubscriptionPaymentsRoutingSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -1047,7 +1280,7 @@ class ListSubscriptionPaymentsSubscriptionsResponseSelfTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListSubscriptionPaymentsSubscriptionsResponseSelf(BaseModel):
+class ListSubscriptionPaymentsRoutingSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -1057,7 +1290,7 @@ class ListSubscriptionPaymentsSubscriptionsResponseSelf(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListSubscriptionPaymentsPaymentTypedDict(TypedDict):
+class ListSubscriptionPaymentsRoutingPaymentTypedDict(TypedDict):
     r"""The API resource URL of the [payment](get-payment) that belong to this route."""
 
     href: str
@@ -1066,7 +1299,7 @@ class ListSubscriptionPaymentsPaymentTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListSubscriptionPaymentsPayment(BaseModel):
+class ListSubscriptionPaymentsRoutingPayment(BaseModel):
     r"""The API resource URL of the [payment](get-payment) that belong to this route."""
 
     href: str
@@ -1076,24 +1309,22 @@ class ListSubscriptionPaymentsPayment(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListSubscriptionPaymentsSubscriptionsResponse200LinksTypedDict(TypedDict):
+class ListSubscriptionPaymentsRoutingLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: ListSubscriptionPaymentsSubscriptionsResponseSelfTypedDict
+    self_: ListSubscriptionPaymentsRoutingSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    payment: ListSubscriptionPaymentsPaymentTypedDict
+    payment: ListSubscriptionPaymentsRoutingPaymentTypedDict
     r"""The API resource URL of the [payment](get-payment) that belong to this route."""
 
 
-class ListSubscriptionPaymentsSubscriptionsResponse200Links(BaseModel):
+class ListSubscriptionPaymentsRoutingLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[
-        ListSubscriptionPaymentsSubscriptionsResponseSelf, pydantic.Field(alias="self")
-    ]
+    self_: Annotated[ListSubscriptionPaymentsRoutingSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    payment: ListSubscriptionPaymentsPayment
+    payment: ListSubscriptionPaymentsRoutingPayment
     r"""The API resource URL of the [payment](get-payment) that belong to this route."""
 
 
@@ -1101,22 +1332,22 @@ class ListSubscriptionPaymentsRoutingTypedDict(TypedDict):
     resource: str
     r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
     id: str
-    r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID. Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`."""
-    mode: str
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
+    r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID.
+    Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`.
     """
-    amount: ListSubscriptionPaymentsSubscriptionsResponseAmountTypedDict
+    mode: ListSubscriptionPaymentsRoutingMode
+    r"""Whether this entity was created in live mode or in test mode."""
+    amount: ListSubscriptionPaymentsRoutingAmountTypedDict
     r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
     destination: ListSubscriptionPaymentsDestinationTypedDict
     r"""The destination of this portion of the payment."""
     created_at: str
     r"""The date and time when the route was created. The date is given in ISO 8601 format."""
-    links: ListSubscriptionPaymentsSubscriptionsResponse200LinksTypedDict
+    links: ListSubscriptionPaymentsRoutingLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     release_date: NotRequired[Nullable[str]]
-    r"""Optionally, schedule this portion of the payment to be transferred to its destination on a later date. The date must be given in `YYYY-MM-DD` format.
+    r"""Optionally, schedule this portion of the payment to be transferred to its destination on a later date. The
+    date must be given in `YYYY-MM-DD` format.
 
     If no date is given, the funds become available to the connected merchant as soon as the payment succeeds.
     """
@@ -1127,15 +1358,14 @@ class ListSubscriptionPaymentsRouting(BaseModel):
     r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
 
     id: str
-    r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID. Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`."""
-
-    mode: str
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
+    r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID.
+    Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`.
     """
 
-    amount: ListSubscriptionPaymentsSubscriptionsResponseAmount
+    mode: ListSubscriptionPaymentsRoutingMode
+    r"""Whether this entity was created in live mode or in test mode."""
+
+    amount: ListSubscriptionPaymentsRoutingAmount
     r"""The portion of the total payment amount being routed. Currently only `EUR` payments can be routed."""
 
     destination: ListSubscriptionPaymentsDestination
@@ -1145,15 +1375,15 @@ class ListSubscriptionPaymentsRouting(BaseModel):
     r"""The date and time when the route was created. The date is given in ISO 8601 format."""
 
     links: Annotated[
-        ListSubscriptionPaymentsSubscriptionsResponse200Links,
-        pydantic.Field(alias="_links"),
+        ListSubscriptionPaymentsRoutingLinks, pydantic.Field(alias="_links")
     ]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     release_date: Annotated[
         OptionalNullable[str], pydantic.Field(alias="releaseDate")
     ] = UNSET
-    r"""Optionally, schedule this portion of the payment to be transferred to its destination on a later date. The date must be given in `YYYY-MM-DD` format.
+    r"""Optionally, schedule this portion of the payment to be transferred to its destination on a later date. The
+    date must be given in `YYYY-MM-DD` format.
 
     If no date is given, the funds become available to the connected merchant as soon as the payment succeeds.
     """
@@ -1189,10 +1419,49 @@ class ListSubscriptionPaymentsRouting(BaseModel):
         return m
 
 
-class ListSubscriptionPaymentsStatusReasonTypedDict(TypedDict):
-    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale payments.
+class ListSubscriptionPaymentsSequenceType(str, Enum):
+    r"""**Only relevant for recurring payments.**
 
-    You can find more information about the possible values of this object on [this page](status-reasons).**
+    Indicate which part of a recurring sequence this payment is for.
+
+    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is
+    through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place
+    on their account in the future.
+
+    If set to `recurring`, the customer's card is charged automatically.
+
+    Defaults to `oneoff`, which is a regular non-recurring payment.
+
+    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our
+    [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account
+    are set up correctly for recurring payments.
+    """
+
+    ONEOFF = "oneoff"
+    FIRST = "first"
+    RECURRING = "recurring"
+
+
+class ListSubscriptionPaymentsStatus(str, Enum):
+    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
+    statuses occur at what point.
+    """
+
+    OPEN = "open"
+    PENDING = "pending"
+    AUTHORIZED = "authorized"
+    PAID = "paid"
+    CANCELED = "canceled"
+    EXPIRED = "expired"
+    FAILED = "failed"
+
+
+class ListSubscriptionPaymentsStatusReasonTypedDict(TypedDict):
+    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale
+    payments.
+
+    You can find more information about the possible values of this object on
+    [this page](status-reasons).**
     """
 
     code: str
@@ -1202,9 +1471,11 @@ class ListSubscriptionPaymentsStatusReasonTypedDict(TypedDict):
 
 
 class ListSubscriptionPaymentsStatusReason(BaseModel):
-    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale payments.
+    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale
+    payments.
 
-    You can find more information about the possible values of this object on [this page](status-reasons).**
+    You can find more information about the possible values of this object on
+    [this page](status-reasons).**
     """
 
     code: str
@@ -1214,7 +1485,7 @@ class ListSubscriptionPaymentsStatusReason(BaseModel):
     r"""A description of the status reason, localized according to the payment `locale`."""
 
 
-class ListSubscriptionPaymentsSubscriptionsSelfTypedDict(TypedDict):
+class ListSubscriptionPaymentsPaymentSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -1223,7 +1494,7 @@ class ListSubscriptionPaymentsSubscriptionsSelfTypedDict(TypedDict):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListSubscriptionPaymentsSubscriptionsSelf(BaseModel):
+class ListSubscriptionPaymentsPaymentSelf(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -1272,11 +1543,14 @@ class ListSubscriptionPaymentsMobileAppCheckout(BaseModel):
 
 
 class ListSubscriptionPaymentsChangePaymentStateTypedDict(TypedDict):
-    r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different payment states.
+    r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different
+    payment states.
 
-    Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these payments are executed without any user interaction.
+    Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these
+    payments are executed without any user interaction.
 
-    Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or chargeback for the test payment.
+    Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or
+    chargeback for the test payment.
     """
 
     href: str
@@ -1286,11 +1560,14 @@ class ListSubscriptionPaymentsChangePaymentStateTypedDict(TypedDict):
 
 
 class ListSubscriptionPaymentsChangePaymentState(BaseModel):
-    r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different payment states.
+    r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different
+    payment states.
 
-    Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these payments are executed without any user interaction.
+    Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these
+    payments are executed without any user interaction.
 
-    Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or chargeback for the test payment.
+    Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or
+    chargeback for the test payment.
     """
 
     href: str
@@ -1339,7 +1616,9 @@ class ListSubscriptionPaymentsRefunds(BaseModel):
 
 
 class ListSubscriptionPaymentsChargebacksTypedDict(TypedDict):
-    r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this payment."""
+    r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this
+    payment.
+    """
 
     href: str
     r"""The actual URL string."""
@@ -1348,7 +1627,9 @@ class ListSubscriptionPaymentsChargebacksTypedDict(TypedDict):
 
 
 class ListSubscriptionPaymentsChargebacks(BaseModel):
-    r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this payment."""
+    r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this
+    payment.
+    """
 
     href: str
     r"""The actual URL string."""
@@ -1377,7 +1658,9 @@ class ListSubscriptionPaymentsCaptures(BaseModel):
 
 
 class ListSubscriptionPaymentsSettlementTypedDict(TypedDict):
-    r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with.
+    Not present if not yet settled.
+    """
 
     href: str
     r"""The actual URL string."""
@@ -1386,7 +1669,9 @@ class ListSubscriptionPaymentsSettlementTypedDict(TypedDict):
 
 
 class ListSubscriptionPaymentsSettlement(BaseModel):
-    r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with.
+    Not present if not yet settled.
+    """
 
     href: str
     r"""The actual URL string."""
@@ -1453,7 +1738,9 @@ class ListSubscriptionPaymentsSubscription(BaseModel):
 
 
 class ListSubscriptionPaymentsOrderTypedDict(TypedDict):
-    r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
+    r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an
+    order.
+    """
 
     href: str
     r"""The actual URL string."""
@@ -1462,7 +1749,9 @@ class ListSubscriptionPaymentsOrderTypedDict(TypedDict):
 
 
 class ListSubscriptionPaymentsOrder(BaseModel):
-    r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
+    r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an
+    order.
+    """
 
     href: str
     r"""The actual URL string."""
@@ -1472,7 +1761,9 @@ class ListSubscriptionPaymentsOrder(BaseModel):
 
 
 class ListSubscriptionPaymentsTerminalTypedDict(TypedDict):
-    r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
+    r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for
+    point-of-sale payments.
+    """
 
     href: str
     r"""The actual URL string."""
@@ -1481,7 +1772,9 @@ class ListSubscriptionPaymentsTerminalTypedDict(TypedDict):
 
 
 class ListSubscriptionPaymentsTerminal(BaseModel):
-    r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
+    r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for
+    point-of-sale payments.
+    """
 
     href: str
     r"""The actual URL string."""
@@ -1490,7 +1783,7 @@ class ListSubscriptionPaymentsTerminal(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListSubscriptionPaymentsSubscriptionsResponseDocumentationTypedDict(TypedDict):
+class ListSubscriptionPaymentsPaymentDocumentationTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -1499,7 +1792,7 @@ class ListSubscriptionPaymentsSubscriptionsResponseDocumentationTypedDict(TypedD
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListSubscriptionPaymentsSubscriptionsResponseDocumentation(BaseModel):
+class ListSubscriptionPaymentsPaymentDocumentation(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     href: str
@@ -1509,10 +1802,10 @@ class ListSubscriptionPaymentsSubscriptionsResponseDocumentation(BaseModel):
     r"""The content type of the page or endpoint the URL points to."""
 
 
-class ListSubscriptionPaymentsSubscriptionsResponseLinksTypedDict(TypedDict):
+class ListSubscriptionPaymentsPaymentLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: ListSubscriptionPaymentsSubscriptionsSelfTypedDict
+    self_: ListSubscriptionPaymentsPaymentSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     dashboard: ListSubscriptionPaymentsDashboardTypedDict
     r"""Direct link to the payment in the Mollie Dashboard."""
@@ -1523,20 +1816,27 @@ class ListSubscriptionPaymentsSubscriptionsResponseLinksTypedDict(TypedDict):
     change_payment_state: NotRequired[
         ListSubscriptionPaymentsChangePaymentStateTypedDict
     ]
-    r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different payment states.
+    r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different
+    payment states.
 
-    Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these payments are executed without any user interaction.
+    Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these
+    payments are executed without any user interaction.
 
-    Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or chargeback for the test payment.
+    Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or
+    chargeback for the test payment.
     """
     refunds: NotRequired[ListSubscriptionPaymentsRefundsTypedDict]
     r"""The API resource URL of the [refunds](list-payment-refunds) that belong to this payment."""
     chargebacks: NotRequired[ListSubscriptionPaymentsChargebacksTypedDict]
-    r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this payment."""
+    r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this
+    payment.
+    """
     captures: NotRequired[ListSubscriptionPaymentsCapturesTypedDict]
     r"""The API resource URL of the [captures](list-payment-captures) that belong to this payment."""
     settlement: NotRequired[ListSubscriptionPaymentsSettlementTypedDict]
-    r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with.
+    Not present if not yet settled.
+    """
     customer: NotRequired[ListSubscriptionPaymentsCustomerTypedDict]
     r"""The API resource URL of the [customer](get-customer)."""
     mandate: NotRequired[ListSubscriptionPaymentsMandateTypedDict]
@@ -1544,21 +1844,21 @@ class ListSubscriptionPaymentsSubscriptionsResponseLinksTypedDict(TypedDict):
     subscription: NotRequired[ListSubscriptionPaymentsSubscriptionTypedDict]
     r"""The API resource URL of the [subscription](get-subscription)."""
     order: NotRequired[ListSubscriptionPaymentsOrderTypedDict]
-    r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
+    r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an
+    order.
+    """
     terminal: NotRequired[ListSubscriptionPaymentsTerminalTypedDict]
-    r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
-    documentation: NotRequired[
-        ListSubscriptionPaymentsSubscriptionsResponseDocumentationTypedDict
-    ]
+    r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for
+    point-of-sale payments.
+    """
+    documentation: NotRequired[ListSubscriptionPaymentsPaymentDocumentationTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class ListSubscriptionPaymentsSubscriptionsResponseLinks(BaseModel):
+class ListSubscriptionPaymentsPaymentLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[
-        ListSubscriptionPaymentsSubscriptionsSelf, pydantic.Field(alias="self")
-    ]
+    self_: Annotated[ListSubscriptionPaymentsPaymentSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     dashboard: ListSubscriptionPaymentsDashboard
@@ -1577,24 +1877,31 @@ class ListSubscriptionPaymentsSubscriptionsResponseLinks(BaseModel):
         Optional[ListSubscriptionPaymentsChangePaymentState],
         pydantic.Field(alias="changePaymentState"),
     ] = None
-    r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different payment states.
+    r"""For test mode payments in certain scenarios, a hosted interface is available to help you test different
+    payment states.
 
-    Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these payments are executed without any user interaction.
+    Firstly, for recurring test mode payments. Recurring payments do not have a checkout URL, because these
+    payments are executed without any user interaction.
 
-    Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or chargeback for the test payment.
+    Secondly, for paid test mode payments. The payment state screen will then allow you to create a refund or
+    chargeback for the test payment.
     """
 
     refunds: Optional[ListSubscriptionPaymentsRefunds] = None
     r"""The API resource URL of the [refunds](list-payment-refunds) that belong to this payment."""
 
     chargebacks: Optional[ListSubscriptionPaymentsChargebacks] = None
-    r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this payment."""
+    r"""The API resource URL of the [chargebacks](list-payment-chargebacks) that belong to this
+    payment.
+    """
 
     captures: Optional[ListSubscriptionPaymentsCaptures] = None
     r"""The API resource URL of the [captures](list-payment-captures) that belong to this payment."""
 
     settlement: Optional[ListSubscriptionPaymentsSettlement] = None
-    r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with. Not present if not yet settled."""
+    r"""The API resource URL of the [settlement](get-settlement) this payment has been settled with.
+    Not present if not yet settled.
+    """
 
     customer: Optional[ListSubscriptionPaymentsCustomer] = None
     r"""The API resource URL of the [customer](get-customer)."""
@@ -1606,136 +1913,158 @@ class ListSubscriptionPaymentsSubscriptionsResponseLinks(BaseModel):
     r"""The API resource URL of the [subscription](get-subscription)."""
 
     order: Optional[ListSubscriptionPaymentsOrder] = None
-    r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an order."""
+    r"""The API resource URL of the [order](get-order) this payment was created for. Not present if not created for an
+    order.
+    """
 
     terminal: Optional[ListSubscriptionPaymentsTerminal] = None
-    r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for point-of-sale payments."""
+    r"""The API resource URL of the [terminal](get-terminal) this payment was created for. Only present for
+    point-of-sale payments.
+    """
 
-    documentation: Optional[
-        ListSubscriptionPaymentsSubscriptionsResponseDocumentation
-    ] = None
+    documentation: Optional[ListSubscriptionPaymentsPaymentDocumentation] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class ListSubscriptionPaymentsPaymentsTypedDict(TypedDict):
+class ListSubscriptionPaymentsPaymentOutputTypedDict(TypedDict):
     resource: str
     r"""Indicates the response contains a payment object. Will always contain the string `payment` for this endpoint."""
     id: str
-    r"""The identifier uniquely referring to this payment. Mollie assigns this identifier at payment creation time. Mollie will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`."""
-    mode: str
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
+    r"""The identifier uniquely referring to this payment. Mollie assigns this identifier at payment creation time. Mollie
+    will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
     """
+    mode: ListSubscriptionPaymentsMode
+    r"""Whether this entity was created in live mode or in test mode."""
     description: str
-    r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.
+    r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible.
+    We truncate the description automatically according to the limits of the used payment method. The description is
+    also visible in any exports you generate.
 
-    We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.
+    We recommend you use a unique identifier so that you can always link the payment to the order in your back office.
+    This is particularly useful for bookkeeping.
 
-    The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
+    The maximum length of the description field differs per payment method, with the absolute maximum being 255
+    characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
     """
     amount: ListSubscriptionPaymentsAmountTypedDict
     r"""The amount that you want to charge, e.g. `{currency:\"EUR\", value:\"1000.00\"}` if you would want to charge €1000.00.
 
-    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be retrieved using the Get method endpoint.
+    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be
+    retrieved using the Get method endpoint.
 
-    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the tip amount.
-    """
-    sequence_type: Nullable[str]
-    r"""**Only relevant for recurring payments.**
-
-    Indicate which part of a recurring sequence this payment is for.
-
-    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place on their account in the future.
-
-    If set to `recurring`, the customer's card is charged automatically.
-
-    Defaults to `oneoff`, which is a regular non-recurring payment.
-
-    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account are set up correctly for recurring payments.
-
-    Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
+    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the
+    tip amount.
     """
     profile_id: str
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
-    When using an API Key, the `profileId` can be omitted since it is linked to the key. However, for OAuth and Organization tokens, the `profileId` is required.
+    When using an API Key, the `profileId` can be omitted since it is linked to the key. However, for OAuth and
+    Organization tokens, the `profileId` is required.
 
     For more information, see [Authentication](authentication).
     """
-    status: str
-    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which statuses occur at what point.
-
-    Possible values: `open` `pending` `authorized` `paid` `canceled` `expired` `failed`
+    status: ListSubscriptionPaymentsStatus
+    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
+    statuses occur at what point.
     """
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: ListSubscriptionPaymentsSubscriptionsResponseLinksTypedDict
+    links: ListSubscriptionPaymentsPaymentLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     amount_refunded: NotRequired[ListSubscriptionPaymentsAmountRefundedTypedDict]
-    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the costs for a return shipment to the customer."""
+    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some
+    payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the
+    costs for a return shipment to the customer.
+    """
     amount_remaining: NotRequired[ListSubscriptionPaymentsAmountRemainingTypedDict]
     r"""The remaining amount that can be refunded. Only available when refunds are available for this payment."""
     amount_captured: NotRequired[ListSubscriptionPaymentsAmountCapturedTypedDict]
     r"""The total amount that is already captured for this payment. Only available when this payment supports captures."""
     amount_charged_back: NotRequired[ListSubscriptionPaymentsAmountChargedBackTypedDict]
-    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not zero."""
+    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not
+    zero.
+    """
     settlement_amount: NotRequired[ListSubscriptionPaymentsSettlementAmountTypedDict]
-    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
 
-    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is settled by Mollie the `settlementAmount` is omitted from the response.
+    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is
+    settled by Mollie the `settlementAmount` is omitted from the response.
 
-    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
+    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest
+    using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
     redirect_url: NotRequired[Nullable[str]]
     r"""The URL your customer will be redirected to after the payment process.
 
-    It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
+    It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the
+    right page referencing the order when your customer returns.
 
-    The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for Apple Pay payments with an `applePayPaymentToken`.
+    The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for
+    Apple Pay payments with an `applePayPaymentToken`.
     """
     cancel_url: NotRequired[Nullable[str]]
-    r"""The URL your customer will be redirected to when the customer explicitly cancels the payment. If this URL is not provided, the customer will be redirected to the `redirectUrl` instead — see above.
+    r"""The URL your customer will be redirected to when the customer explicitly cancels the payment. If this URL is not
+    provided, the customer will be redirected to the `redirectUrl` instead — see above.
 
-    Mollie will always give you status updates via webhooks, including for the canceled status. This parameter is therefore entirely optional, but can be useful when implementing a dedicated customer-facing flow to handle payment cancellations.
+    Mollie will always give you status updates via webhooks, including for the canceled status. This parameter is
+    therefore entirely optional, but can be useful when implementing a dedicated customer-facing flow to handle
+    payment cancellations.
     """
     webhook_url: NotRequired[Nullable[str]]
     r"""The webhook URL where we will send payment status updates to.
 
     The webhookUrl is optional, but without a webhook you will miss out on important status changes to your payment.
 
-    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
+    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use
+    webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your
+    local machine.
     """
-    lines: NotRequired[Nullable[List[ListSubscriptionPaymentsLinesTypedDict]]]
-    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.
+    lines: NotRequired[Nullable[List[ListSubscriptionPaymentsLineTypedDict]]]
+    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item
+    ordered and its price.
 
     All lines must have the same currency as the payment.
 
     Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
     """
     billing_address: NotRequired[ListSubscriptionPaymentsBillingAddressTypedDict]
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
     shipping_address: NotRequired[ListSubscriptionPaymentsShippingAddressTypedDict]
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
-    locale: NotRequired[Nullable[str]]
-    r"""Allows you to preset the language to be used in the hosted payment pages shown to the customer. Setting a locale is highly recommended and will greatly improve your conversion rate. When this parameter is omitted the browser language will be used instead if supported by the payment method. You can provide any `xx_XX` format ISO 15897 locale, but our hosted payment pages currently only support the specified languages.
+    locale: NotRequired[Nullable[ListSubscriptionPaymentsLocale]]
+    r"""Allows you to preset the language to be used in the hosted payment pages shown to the customer. Setting a locale
+    is highly recommended and will greatly improve your conversion rate. When this parameter is omitted the browser
+    language will be used instead if supported by the payment method. You can provide any `xx_XX` format ISO 15897
+    locale, but our hosted payment pages currently only support the specified languages.
 
-    For bank transfer payments specifically, the locale will determine the target bank account the customer has to transfer the money to. We have dedicated bank accounts for Belgium, Germany, and The Netherlands. Having the customer use a local bank account greatly increases the conversion and speed of payment.
+    For bank transfer payments specifically, the locale will determine the target bank account the customer has to
+    transfer the money to. We have dedicated bank accounts for Belgium, Germany, and The Netherlands. Having the
+    customer use a local bank account greatly increases the conversion and speed of payment.
     """
     country_code: NotRequired[Nullable[str]]
-    r"""This optional field contains your customer's ISO 3166-1 alpha-2 country code, detected by us during checkout. This field is omitted if the country code was not detected."""
-    method: NotRequired[Nullable[str]]
-    r"""The payment method used for this transaction. If a specific method was selected during payment initialization, this field reflects that choice."""
+    r"""This optional field contains your customer's ISO 3166-1 alpha-2 country code, detected by us during checkout. This
+    field is omitted if the country code was not detected.
+    """
+    method: NotRequired[Nullable[ListSubscriptionPaymentsMethod]]
+    r"""The payment method used for this transaction. If a specific method was selected during payment initialization,
+    this field reflects that choice.
+    """
     restrict_payment_methods_to_country: NotRequired[Nullable[str]]
-    r"""For digital goods in most jurisdictions, you must apply the VAT rate from your customer's country. Choose the VAT rates you have used for the order to ensure your customer's country matches the VAT country.
+    r"""For digital goods in most jurisdictions, you must apply the VAT rate from your customer's country. Choose the VAT
+    rates you have used for the order to ensure your customer's country matches the VAT country.
 
     Use this parameter to restrict the payment methods available to your customer to those from a single country.
 
@@ -1743,21 +2072,25 @@ class ListSubscriptionPaymentsPaymentsTypedDict(TypedDict):
 
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
-    metadata: NotRequired[Nullable[ListSubscriptionPaymentsMetadataTypedDict]]
-    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
-    capture_mode: NotRequired[Nullable[str]]
-    r"""Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/) and capture at a later time.
+    metadata: NotRequired[Nullable[ListSubscriptionPaymentsMetadataUnionTypedDict]]
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+    you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+    """
+    capture_mode: NotRequired[Nullable[ListSubscriptionPaymentsCaptureMode]]
+    r"""Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/)
+    and capture at a later time.
 
     This field needs to be set to `manual` for method `riverty`.
-
-    Possible values: `automatic` `manual` (default: `automatic`)
     """
     capture_delay: NotRequired[Nullable[str]]
     r"""**Only relevant if you wish to manage authorization and capturing separately.**
 
-    Some payment methods allow placing a hold on the card or bank account. This hold or 'authorization' can then at a later point either be 'captured' or canceled.
+    Some payment methods allow placing a hold on the card or bank account. This hold or 'authorization' can then at a
+    later point either be 'captured' or canceled.
 
-    By default, we charge the customer's card or bank account immediately when they complete the payment. If you set a capture delay however, we will delay the automatic capturing of the payment for the specified amount of time. For example `8 hours` or `2 days`.
+    By default, we charge the customer's card or bank account immediately when they complete the payment. If you set a
+    capture delay however, we will delay the automatic capturing of the payment for the specified amount of time. For
+    example `8 hours` or `2 days`.
 
     To schedule an automatic capture, the `captureMode` must be set to `automatic`.
 
@@ -1766,38 +2099,70 @@ class ListSubscriptionPaymentsPaymentsTypedDict(TypedDict):
     Possible values: `... hours` `... days`
     """
     capture_before: NotRequired[Nullable[str]]
-    r"""Indicates the date before which the payment needs to be captured, in ISO 8601 format. From this date onwards we can no longer guarantee a successful capture. The parameter is omitted if the payment is not authorized (yet)."""
+    r"""Indicates the date before which the payment needs to be captured, in ISO 8601 format. From this date onwards we
+    can no longer guarantee a successful capture. The parameter is omitted if the payment is not authorized (yet).
+    """
     application_fee: NotRequired[
         Nullable[ListSubscriptionPaymentsApplicationFeeTypedDict]
     ]
-    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.
+    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
 
-    If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the `routing` parameter.
+    If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the
+    `routing` parameter.
     """
     routing: NotRequired[Nullable[List[ListSubscriptionPaymentsRoutingTypedDict]]]
     r"""*This functionality is not enabled by default. Reach out to our partner management team if you wish to use it.*
 
-    With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.
+    With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you create payments on your own account that you want to split between yourself and one or more connected merchants, you can use this `routing` parameter to route the payment accordingly.
+    If you create payments on your own account that you want to split between yourself and one or more connected
+    merchants, you can use this `routing` parameter to route the payment accordingly.
 
-    The `routing` parameter should contain an array of objects, with each object describing the destination for a specific portion of the payment.
+    The `routing` parameter should contain an array of objects, with each object describing the destination for a
+    specific portion of the payment.
 
-    It is not necessary to indicate in the array which portion goes to yourself. After all portions of the total payment amount have been routed, the amount left will be routed to the current organization automatically.
+    It is not necessary to indicate in the array which portion goes to yourself. After all portions of the total
+    payment amount have been routed, the amount left will be routed to the current organization automatically.
 
-    If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee` parameter.
+    If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee`
+    parameter.
+    """
+    sequence_type: NotRequired[Nullable[ListSubscriptionPaymentsSequenceType]]
+    r"""**Only relevant for recurring payments.**
+
+    Indicate which part of a recurring sequence this payment is for.
+
+    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is
+    through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place
+    on their account in the future.
+
+    If set to `recurring`, the customer's card is charged automatically.
+
+    Defaults to `oneoff`, which is a regular non-recurring payment.
+
+    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our
+    [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account
+    are set up correctly for recurring payments.
     """
     subscription_id: NotRequired[Nullable[str]]
-    r"""If the payment was automatically created via a subscription, the ID of the [subscription](get-subscription) will be added to the response."""
+    r"""If the payment was automatically created via a subscription, the ID of the [subscription](get-subscription) will
+    be added to the response.
+    """
     mandate_id: NotRequired[Nullable[str]]
     r"""**Only relevant for recurring payments.**
 
-    When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of the customer's accounts should be credited.
+    When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of
+    the customer's accounts should be credited.
     """
     customer_id: NotRequired[Nullable[str]]
-    r"""The ID of the [customer](get-customer) the payment is being created for. This is used primarily for recurring payments, but can also be used on regular payments to enable single-click payments.
+    r"""The ID of the [customer](get-customer) the payment is being created for. This is used primarily for recurring
+    payments, but can also be used on regular payments to enable single-click payments.
 
     If `sequenceType` is set to `recurring`, this field is required.
     """
@@ -1806,93 +2171,98 @@ class ListSubscriptionPaymentsPaymentsTypedDict(TypedDict):
     order_id: NotRequired[Nullable[str]]
     r"""If the payment was created for an [order](get-order), the ID of that order will be part of the response."""
     status_reason: NotRequired[Nullable[ListSubscriptionPaymentsStatusReasonTypedDict]]
-    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale payments.
+    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale
+    payments.
 
-    You can find more information about the possible values of this object on [this page](status-reasons).**
+    You can find more information about the possible values of this object on
+    [this page](status-reasons).**
     """
     is_cancelable: NotRequired[Nullable[bool]]
     r"""Whether the payment can be canceled. This parameter is omitted if the payment reaches a final state."""
     details: NotRequired[Nullable[Dict[str, Any]]]
-    r"""An object containing payment details collected during the payment process. For example, details may include the customer's card or bank details and a payment reference. For the full list of details, please refer to the [method-specific parameters](extra-payment-parameters) guide."""
+    r"""An object containing payment details collected during the payment process. For example, details may include the
+    customer's card or bank details and a payment reference. For the full list of details, please refer to the
+    [method-specific parameters](extra-payment-parameters) guide.
+    """
     authorized_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment became authorized, in ISO 8601 format. This parameter is omitted if the payment is not authorized (yet)."""
+    r"""The date and time the payment became authorized, in ISO 8601 format. This parameter is omitted if the payment is
+    not authorized (yet).
+    """
     paid_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment became paid, in ISO 8601 format. This parameter is omitted if the payment is not completed (yet)."""
+    r"""The date and time the payment became paid, in ISO 8601 format. This parameter is omitted if the payment is not
+    completed (yet).
+    """
     canceled_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment was canceled, in ISO 8601 format. This parameter is omitted if the payment is not canceled (yet)."""
+    r"""The date and time the payment was canceled, in ISO 8601 format. This parameter is omitted if the payment is not
+    canceled (yet).
+    """
     expires_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment will expire, in ISO 8601 format. This parameter is omitted if the payment can no longer expire."""
+    r"""The date and time the payment will expire, in ISO 8601 format. This parameter is omitted if the payment can no
+    longer expire.
+    """
     expired_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment was expired, in ISO 8601 format. This parameter is omitted if the payment did not expire (yet)."""
+    r"""The date and time the payment was expired, in ISO 8601 format. This parameter is omitted if the payment did not
+    expire (yet).
+    """
     failed_at: NotRequired[Nullable[str]]
-    r"""The date and time the payment failed, in ISO 8601 format. This parameter is omitted if the payment did not fail (yet)."""
+    r"""The date and time the payment failed, in ISO 8601 format. This parameter is omitted if the payment did not fail
+    (yet).
+    """
 
 
-class ListSubscriptionPaymentsPayments(BaseModel):
+class ListSubscriptionPaymentsPaymentOutput(BaseModel):
     resource: str
     r"""Indicates the response contains a payment object. Will always contain the string `payment` for this endpoint."""
 
     id: str
-    r"""The identifier uniquely referring to this payment. Mollie assigns this identifier at payment creation time. Mollie will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`."""
-
-    mode: str
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
+    r"""The identifier uniquely referring to this payment. Mollie assigns this identifier at payment creation time. Mollie
+    will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
     """
 
+    mode: ListSubscriptionPaymentsMode
+    r"""Whether this entity was created in live mode or in test mode."""
+
     description: str
-    r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.
+    r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible.
+    We truncate the description automatically according to the limits of the used payment method. The description is
+    also visible in any exports you generate.
 
-    We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.
+    We recommend you use a unique identifier so that you can always link the payment to the order in your back office.
+    This is particularly useful for bookkeeping.
 
-    The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
+    The maximum length of the description field differs per payment method, with the absolute maximum being 255
+    characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
     """
 
     amount: ListSubscriptionPaymentsAmount
     r"""The amount that you want to charge, e.g. `{currency:\"EUR\", value:\"1000.00\"}` if you would want to charge €1000.00.
 
-    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be retrieved using the Get method endpoint.
+    You can find the minimum and maximum amounts per payment method in our help center. Additionally, they can be
+    retrieved using the Get method endpoint.
 
-    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the tip amount.
-    """
-
-    sequence_type: Annotated[Nullable[str], pydantic.Field(alias="sequenceType")]
-    r"""**Only relevant for recurring payments.**
-
-    Indicate which part of a recurring sequence this payment is for.
-
-    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place on their account in the future.
-
-    If set to `recurring`, the customer's card is charged automatically.
-
-    Defaults to `oneoff`, which is a regular non-recurring payment.
-
-    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account are set up correctly for recurring payments.
-
-    Possible values: `oneoff` `first` `recurring` (default: `oneoff`)
+    If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the
+    tip amount.
     """
 
     profile_id: Annotated[str, pydantic.Field(alias="profileId")]
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
-    When using an API Key, the `profileId` can be omitted since it is linked to the key. However, for OAuth and Organization tokens, the `profileId` is required.
+    When using an API Key, the `profileId` can be omitted since it is linked to the key. However, for OAuth and
+    Organization tokens, the `profileId` is required.
 
     For more information, see [Authentication](authentication).
     """
 
-    status: str
-    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which statuses occur at what point.
-
-    Possible values: `open` `pending` `authorized` `paid` `canceled` `expired` `failed`
+    status: ListSubscriptionPaymentsStatus
+    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
+    statuses occur at what point.
     """
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
     links: Annotated[
-        ListSubscriptionPaymentsSubscriptionsResponseLinks,
-        pydantic.Field(alias="_links"),
+        ListSubscriptionPaymentsPaymentLinks, pydantic.Field(alias="_links")
     ]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
@@ -1900,7 +2270,10 @@ class ListSubscriptionPaymentsPayments(BaseModel):
         Optional[ListSubscriptionPaymentsAmountRefunded],
         pydantic.Field(alias="amountRefunded"),
     ] = None
-    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the costs for a return shipment to the customer."""
+    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some
+    payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the
+    costs for a return shipment to the customer.
+    """
 
     amount_remaining: Annotated[
         Optional[ListSubscriptionPaymentsAmountRemaining],
@@ -1918,17 +2291,22 @@ class ListSubscriptionPaymentsPayments(BaseModel):
         Optional[ListSubscriptionPaymentsAmountChargedBack],
         pydantic.Field(alias="amountChargedBack"),
     ] = None
-    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not zero."""
+    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not
+    zero.
+    """
 
     settlement_amount: Annotated[
         Optional[ListSubscriptionPaymentsSettlementAmount],
         pydantic.Field(alias="settlementAmount"),
     ] = None
-    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the currency your account is settled in.
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
 
-    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is settled by Mollie the `settlementAmount` is omitted from the response.
+    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is
+    settled by Mollie the `settlementAmount` is omitted from the response.
 
-    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
+    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest
+    using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
     """
 
     redirect_url: Annotated[
@@ -1936,17 +2314,22 @@ class ListSubscriptionPaymentsPayments(BaseModel):
     ] = UNSET
     r"""The URL your customer will be redirected to after the payment process.
 
-    It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.
+    It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the
+    right page referencing the order when your customer returns.
 
-    The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for Apple Pay payments with an `applePayPaymentToken`.
+    The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for
+    Apple Pay payments with an `applePayPaymentToken`.
     """
 
     cancel_url: Annotated[OptionalNullable[str], pydantic.Field(alias="cancelUrl")] = (
         UNSET
     )
-    r"""The URL your customer will be redirected to when the customer explicitly cancels the payment. If this URL is not provided, the customer will be redirected to the `redirectUrl` instead — see above.
+    r"""The URL your customer will be redirected to when the customer explicitly cancels the payment. If this URL is not
+    provided, the customer will be redirected to the `redirectUrl` instead — see above.
 
-    Mollie will always give you status updates via webhooks, including for the canceled status. This parameter is therefore entirely optional, but can be useful when implementing a dedicated customer-facing flow to handle payment cancellations.
+    Mollie will always give you status updates via webhooks, including for the canceled status. This parameter is
+    therefore entirely optional, but can be useful when implementing a dedicated customer-facing flow to handle
+    payment cancellations.
     """
 
     webhook_url: Annotated[
@@ -1956,11 +2339,14 @@ class ListSubscriptionPaymentsPayments(BaseModel):
 
     The webhookUrl is optional, but without a webhook you will miss out on important status changes to your payment.
 
-    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
+    The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use
+    webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your
+    local machine.
     """
 
-    lines: OptionalNullable[List[ListSubscriptionPaymentsLines]] = UNSET
-    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.
+    lines: OptionalNullable[List[ListSubscriptionPaymentsLine]] = UNSET
+    r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item
+    ordered and its price.
 
     All lines must have the same currency as the payment.
 
@@ -1971,9 +2357,11 @@ class ListSubscriptionPaymentsPayments(BaseModel):
         Optional[ListSubscriptionPaymentsBillingAddress],
         pydantic.Field(alias="billingAddress"),
     ] = None
-    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
 
     Required for payment method `in3`, `klarna`, `billie` and `riverty`.
     """
@@ -1982,29 +2370,41 @@ class ListSubscriptionPaymentsPayments(BaseModel):
         Optional[ListSubscriptionPaymentsShippingAddress],
         pydantic.Field(alias="shippingAddress"),
     ] = None
-    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.
+    r"""The customer's shipping address details. We advise to provide these details to improve fraud protection and
+    conversion.
 
-    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
     """
 
-    locale: OptionalNullable[str] = UNSET
-    r"""Allows you to preset the language to be used in the hosted payment pages shown to the customer. Setting a locale is highly recommended and will greatly improve your conversion rate. When this parameter is omitted the browser language will be used instead if supported by the payment method. You can provide any `xx_XX` format ISO 15897 locale, but our hosted payment pages currently only support the specified languages.
+    locale: OptionalNullable[ListSubscriptionPaymentsLocale] = UNSET
+    r"""Allows you to preset the language to be used in the hosted payment pages shown to the customer. Setting a locale
+    is highly recommended and will greatly improve your conversion rate. When this parameter is omitted the browser
+    language will be used instead if supported by the payment method. You can provide any `xx_XX` format ISO 15897
+    locale, but our hosted payment pages currently only support the specified languages.
 
-    For bank transfer payments specifically, the locale will determine the target bank account the customer has to transfer the money to. We have dedicated bank accounts for Belgium, Germany, and The Netherlands. Having the customer use a local bank account greatly increases the conversion and speed of payment.
+    For bank transfer payments specifically, the locale will determine the target bank account the customer has to
+    transfer the money to. We have dedicated bank accounts for Belgium, Germany, and The Netherlands. Having the
+    customer use a local bank account greatly increases the conversion and speed of payment.
     """
 
     country_code: Annotated[
         OptionalNullable[str], pydantic.Field(alias="countryCode")
     ] = UNSET
-    r"""This optional field contains your customer's ISO 3166-1 alpha-2 country code, detected by us during checkout. This field is omitted if the country code was not detected."""
+    r"""This optional field contains your customer's ISO 3166-1 alpha-2 country code, detected by us during checkout. This
+    field is omitted if the country code was not detected.
+    """
 
-    method: OptionalNullable[str] = UNSET
-    r"""The payment method used for this transaction. If a specific method was selected during payment initialization, this field reflects that choice."""
+    method: OptionalNullable[ListSubscriptionPaymentsMethod] = UNSET
+    r"""The payment method used for this transaction. If a specific method was selected during payment initialization,
+    this field reflects that choice.
+    """
 
     restrict_payment_methods_to_country: Annotated[
         OptionalNullable[str], pydantic.Field(alias="restrictPaymentMethodsToCountry")
     ] = UNSET
-    r"""For digital goods in most jurisdictions, you must apply the VAT rate from your customer's country. Choose the VAT rates you have used for the order to ensure your customer's country matches the VAT country.
+    r"""For digital goods in most jurisdictions, you must apply the VAT rate from your customer's country. Choose the VAT
+    rates you have used for the order to ensure your customer's country matches the VAT country.
 
     Use this parameter to restrict the payment methods available to your customer to those from a single country.
 
@@ -2013,17 +2413,19 @@ class ListSubscriptionPaymentsPayments(BaseModel):
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
 
-    metadata: OptionalNullable[ListSubscriptionPaymentsMetadata] = UNSET
-    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB."""
+    metadata: OptionalNullable[ListSubscriptionPaymentsMetadataUnion] = UNSET
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+    you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+    """
 
     capture_mode: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="captureMode")
+        OptionalNullable[ListSubscriptionPaymentsCaptureMode],
+        pydantic.Field(alias="captureMode"),
     ] = UNSET
-    r"""Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/) and capture at a later time.
+    r"""Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/)
+    and capture at a later time.
 
     This field needs to be set to `manual` for method `riverty`.
-
-    Possible values: `automatic` `manual` (default: `automatic`)
     """
 
     capture_delay: Annotated[
@@ -2031,9 +2433,12 @@ class ListSubscriptionPaymentsPayments(BaseModel):
     ] = UNSET
     r"""**Only relevant if you wish to manage authorization and capturing separately.**
 
-    Some payment methods allow placing a hold on the card or bank account. This hold or 'authorization' can then at a later point either be 'captured' or canceled.
+    Some payment methods allow placing a hold on the card or bank account. This hold or 'authorization' can then at a
+    later point either be 'captured' or canceled.
 
-    By default, we charge the customer's card or bank account immediately when they complete the payment. If you set a capture delay however, we will delay the automatic capturing of the payment for the specified amount of time. For example `8 hours` or `2 days`.
+    By default, we charge the customer's card or bank account immediately when they complete the payment. If you set a
+    capture delay however, we will delay the automatic capturing of the payment for the specified amount of time. For
+    example `8 hours` or `2 days`.
 
     To schedule an automatic capture, the `captureMode` must be set to `automatic`.
 
@@ -2045,50 +2450,86 @@ class ListSubscriptionPaymentsPayments(BaseModel):
     capture_before: Annotated[
         OptionalNullable[str], pydantic.Field(alias="captureBefore")
     ] = UNSET
-    r"""Indicates the date before which the payment needs to be captured, in ISO 8601 format. From this date onwards we can no longer guarantee a successful capture. The parameter is omitted if the payment is not authorized (yet)."""
+    r"""Indicates the date before which the payment needs to be captured, in ISO 8601 format. From this date onwards we
+    can no longer guarantee a successful capture. The parameter is omitted if the payment is not authorized (yet).
+    """
 
     application_fee: Annotated[
         OptionalNullable[ListSubscriptionPaymentsApplicationFee],
         pydantic.Field(alias="applicationFee"),
     ] = UNSET
-    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.
+    r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent to your own account balance.
+    If you use OAuth to create payments on a connected merchant's account, you can charge a fee using this
+    `applicationFee` parameter. If the payment succeeds, the fee will be deducted from the merchant's balance and sent
+    to your own account balance.
 
-    If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the `routing` parameter.
+    If instead you want to split a payment on your own account between yourself and a connected merchant, refer to the
+    `routing` parameter.
     """
 
     routing: OptionalNullable[List[ListSubscriptionPaymentsRouting]] = UNSET
     r"""*This functionality is not enabled by default. Reach out to our partner management team if you wish to use it.*
 
-    With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.
+    With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
+    merchants.
 
-    If you create payments on your own account that you want to split between yourself and one or more connected merchants, you can use this `routing` parameter to route the payment accordingly.
+    If you create payments on your own account that you want to split between yourself and one or more connected
+    merchants, you can use this `routing` parameter to route the payment accordingly.
 
-    The `routing` parameter should contain an array of objects, with each object describing the destination for a specific portion of the payment.
+    The `routing` parameter should contain an array of objects, with each object describing the destination for a
+    specific portion of the payment.
 
-    It is not necessary to indicate in the array which portion goes to yourself. After all portions of the total payment amount have been routed, the amount left will be routed to the current organization automatically.
+    It is not necessary to indicate in the array which portion goes to yourself. After all portions of the total
+    payment amount have been routed, the amount left will be routed to the current organization automatically.
 
-    If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee` parameter.
+    If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee`
+    parameter.
+    """
+
+    sequence_type: Annotated[
+        OptionalNullable[ListSubscriptionPaymentsSequenceType],
+        pydantic.Field(alias="sequenceType"),
+    ] = ListSubscriptionPaymentsSequenceType.ONEOFF
+    r"""**Only relevant for recurring payments.**
+
+    Indicate which part of a recurring sequence this payment is for.
+
+    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is
+    through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place
+    on their account in the future.
+
+    If set to `recurring`, the customer's card is charged automatically.
+
+    Defaults to `oneoff`, which is a regular non-recurring payment.
+
+    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our
+    [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account
+    are set up correctly for recurring payments.
     """
 
     subscription_id: Annotated[
         OptionalNullable[str], pydantic.Field(alias="subscriptionId")
     ] = UNSET
-    r"""If the payment was automatically created via a subscription, the ID of the [subscription](get-subscription) will be added to the response."""
+    r"""If the payment was automatically created via a subscription, the ID of the [subscription](get-subscription) will
+    be added to the response.
+    """
 
     mandate_id: Annotated[OptionalNullable[str], pydantic.Field(alias="mandateId")] = (
         UNSET
     )
     r"""**Only relevant for recurring payments.**
 
-    When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of the customer's accounts should be credited.
+    When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of
+    the customer's accounts should be credited.
     """
 
     customer_id: Annotated[
         OptionalNullable[str], pydantic.Field(alias="customerId")
     ] = UNSET
-    r"""The ID of the [customer](get-customer) the payment is being created for. This is used primarily for recurring payments, but can also be used on regular payments to enable single-click payments.
+    r"""The ID of the [customer](get-customer) the payment is being created for. This is used primarily for recurring
+    payments, but can also be used on regular payments to enable single-click payments.
 
     If `sequenceType` is set to `recurring`, this field is required.
     """
@@ -2105,9 +2546,11 @@ class ListSubscriptionPaymentsPayments(BaseModel):
         OptionalNullable[ListSubscriptionPaymentsStatusReason],
         pydantic.Field(alias="statusReason"),
     ] = UNSET
-    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale payments.
+    r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale
+    payments.
 
-    You can find more information about the possible values of this object on [this page](status-reasons).**
+    You can find more information about the possible values of this object on
+    [this page](status-reasons).**
     """
 
     is_cancelable: Annotated[
@@ -2116,35 +2559,50 @@ class ListSubscriptionPaymentsPayments(BaseModel):
     r"""Whether the payment can be canceled. This parameter is omitted if the payment reaches a final state."""
 
     details: OptionalNullable[Dict[str, Any]] = UNSET
-    r"""An object containing payment details collected during the payment process. For example, details may include the customer's card or bank details and a payment reference. For the full list of details, please refer to the [method-specific parameters](extra-payment-parameters) guide."""
+    r"""An object containing payment details collected during the payment process. For example, details may include the
+    customer's card or bank details and a payment reference. For the full list of details, please refer to the
+    [method-specific parameters](extra-payment-parameters) guide.
+    """
 
     authorized_at: Annotated[
         OptionalNullable[str], pydantic.Field(alias="authorizedAt")
     ] = UNSET
-    r"""The date and time the payment became authorized, in ISO 8601 format. This parameter is omitted if the payment is not authorized (yet)."""
+    r"""The date and time the payment became authorized, in ISO 8601 format. This parameter is omitted if the payment is
+    not authorized (yet).
+    """
 
     paid_at: Annotated[OptionalNullable[str], pydantic.Field(alias="paidAt")] = UNSET
-    r"""The date and time the payment became paid, in ISO 8601 format. This parameter is omitted if the payment is not completed (yet)."""
+    r"""The date and time the payment became paid, in ISO 8601 format. This parameter is omitted if the payment is not
+    completed (yet).
+    """
 
     canceled_at: Annotated[
         OptionalNullable[str], pydantic.Field(alias="canceledAt")
     ] = UNSET
-    r"""The date and time the payment was canceled, in ISO 8601 format. This parameter is omitted if the payment is not canceled (yet)."""
+    r"""The date and time the payment was canceled, in ISO 8601 format. This parameter is omitted if the payment is not
+    canceled (yet).
+    """
 
     expires_at: Annotated[OptionalNullable[str], pydantic.Field(alias="expiresAt")] = (
         UNSET
     )
-    r"""The date and time the payment will expire, in ISO 8601 format. This parameter is omitted if the payment can no longer expire."""
+    r"""The date and time the payment will expire, in ISO 8601 format. This parameter is omitted if the payment can no
+    longer expire.
+    """
 
     expired_at: Annotated[OptionalNullable[str], pydantic.Field(alias="expiredAt")] = (
         UNSET
     )
-    r"""The date and time the payment was expired, in ISO 8601 format. This parameter is omitted if the payment did not expire (yet)."""
+    r"""The date and time the payment was expired, in ISO 8601 format. This parameter is omitted if the payment did not
+    expire (yet).
+    """
 
     failed_at: Annotated[OptionalNullable[str], pydantic.Field(alias="failedAt")] = (
         UNSET
     )
-    r"""The date and time the payment failed, in ISO 8601 format. This parameter is omitted if the payment did not fail (yet)."""
+    r"""The date and time the payment failed, in ISO 8601 format. This parameter is omitted if the payment did not fail
+    (yet).
+    """
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -2170,6 +2628,7 @@ class ListSubscriptionPaymentsPayments(BaseModel):
             "captureBefore",
             "applicationFee",
             "routing",
+            "sequenceType",
             "subscriptionId",
             "mandateId",
             "customerId",
@@ -2244,12 +2703,12 @@ class ListSubscriptionPaymentsPayments(BaseModel):
 
 
 class ListSubscriptionPaymentsEmbeddedTypedDict(TypedDict):
-    payments: NotRequired[List[ListSubscriptionPaymentsPaymentsTypedDict]]
+    payments: NotRequired[List[ListSubscriptionPaymentsPaymentOutputTypedDict]]
     r"""An array of payment objects."""
 
 
 class ListSubscriptionPaymentsEmbedded(BaseModel):
-    payments: Optional[List[ListSubscriptionPaymentsPayments]] = None
+    payments: Optional[List[ListSubscriptionPaymentsPaymentOutput]] = None
     r"""An array of payment objects."""
 
 
@@ -2390,26 +2849,30 @@ class ListSubscriptionPaymentsLinks(BaseModel):
         return m
 
 
-class ListSubscriptionPaymentsResponseBodyTypedDict(TypedDict):
+class ListSubscriptionPaymentsResponseTypedDict(TypedDict):
     r"""A list of payment objects."""
 
     count: NotRequired[int]
-    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.
+    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
+    as well.
 
-    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default limit is 50 items.
+    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
+    limit is 50 items.
     """
     embedded: NotRequired[ListSubscriptionPaymentsEmbeddedTypedDict]
     links: NotRequired[ListSubscriptionPaymentsLinksTypedDict]
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
 
-class ListSubscriptionPaymentsResponseBody(BaseModel):
+class ListSubscriptionPaymentsResponse(BaseModel):
     r"""A list of payment objects."""
 
     count: Optional[int] = None
-    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result as well.
+    r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
+    as well.
 
-    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default limit is 50 items.
+    The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
+    limit is 50 items.
     """
 
     embedded: Annotated[

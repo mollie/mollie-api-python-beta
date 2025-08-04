@@ -24,16 +24,13 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateProfileResponseBody:
+    ) -> models.CreateProfileResponse:
         r"""Create profile
 
         Create a profile to process payments on.
 
-        Profiles are required for payment processing. Normally they are created via the Mollie dashboard. Alternatively, you can use this endpoint to automate profile creation.
-
-        > 🔑 Access with
-        >
-        > [Access token with **profiles.write**](/reference/authentication)
+        Profiles are required for payment processing. Normally they are created via the Mollie dashboard. Alternatively, you
+        can use this endpoint to automate profile creation.
 
         :param name: The profile's name, this will usually reflect the trade name or brand name of the profile's website or application.
         :param website: The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are allowed.
@@ -57,7 +54,7 @@ class Profiles(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.CreateProfileRequestBody(
+        request = models.CreateProfileRequest(
             name=name,
             website=website,
             email=email,
@@ -81,7 +78,7 @@ class Profiles(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.CreateProfileRequestBody
+                request, False, False, "json", models.CreateProfileRequest
             ),
             timeout_ms=timeout_ms,
         )
@@ -115,12 +112,12 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreateProfileResponseBody, http_res)
+            return unmarshal_json_response(models.CreateProfileResponse, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreateProfileProfilesResponseBodyData, http_res
+                models.CreateProfileHalJSONErrorData, http_res
             )
-            raise models.CreateProfileProfilesResponseBody(response_data, http_res)
+            raise models.CreateProfileHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -144,16 +141,13 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateProfileResponseBody:
+    ) -> models.CreateProfileResponse:
         r"""Create profile
 
         Create a profile to process payments on.
 
-        Profiles are required for payment processing. Normally they are created via the Mollie dashboard. Alternatively, you can use this endpoint to automate profile creation.
-
-        > 🔑 Access with
-        >
-        > [Access token with **profiles.write**](/reference/authentication)
+        Profiles are required for payment processing. Normally they are created via the Mollie dashboard. Alternatively, you
+        can use this endpoint to automate profile creation.
 
         :param name: The profile's name, this will usually reflect the trade name or brand name of the profile's website or application.
         :param website: The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are allowed.
@@ -177,7 +171,7 @@ class Profiles(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.CreateProfileRequestBody(
+        request = models.CreateProfileRequest(
             name=name,
             website=website,
             email=email,
@@ -201,7 +195,7 @@ class Profiles(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.CreateProfileRequestBody
+                request, False, False, "json", models.CreateProfileRequest
             ),
             timeout_ms=timeout_ms,
         )
@@ -235,12 +229,12 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreateProfileResponseBody, http_res)
+            return unmarshal_json_response(models.CreateProfileResponse, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.CreateProfileProfilesResponseBodyData, http_res
+                models.CreateProfileHalJSONErrorData, http_res
             )
-            raise models.CreateProfileProfilesResponseBody(response_data, http_res)
+            raise models.CreateProfileHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -259,16 +253,12 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListProfilesResponseBody:
+    ) -> models.ListProfilesResponse:
         r"""List profiles
 
         Retrieve a list of all of your profiles.
 
         The results are paginated.
-
-        > 🔑 Access with
-        >
-        > [Access token with **profiles.read**](/reference/authentication)
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
@@ -337,12 +327,12 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.ListProfilesResponseBody, http_res)
+            return unmarshal_json_response(models.ListProfilesResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListProfilesProfilesResponseBodyData, http_res
+                models.ListProfilesHalJSONErrorData, http_res
             )
-            raise models.ListProfilesProfilesResponseBody(response_data, http_res)
+            raise models.ListProfilesHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -361,16 +351,12 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.ListProfilesResponseBody:
+    ) -> models.ListProfilesResponse:
         r"""List profiles
 
         Retrieve a list of all of your profiles.
 
         The results are paginated.
-
-        > 🔑 Access with
-        >
-        > [Access token with **profiles.read**](/reference/authentication)
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
@@ -439,12 +425,12 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.ListProfilesResponseBody, http_res)
+            return unmarshal_json_response(models.ListProfilesResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListProfilesProfilesResponseBodyData, http_res
+                models.ListProfilesHalJSONErrorData, http_res
             )
-            raise models.ListProfilesProfilesResponseBody(response_data, http_res)
+            raise models.ListProfilesHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -463,14 +449,10 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetProfileResponseBody:
+    ) -> models.GetProfileResponse:
         r"""Get profile
 
         Retrieve a single profile by its ID.
-
-        > 🔑 Access with
-        >
-        > [Access token with **profiles.read**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -539,17 +521,17 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetProfileResponseBody, http_res)
+            return unmarshal_json_response(models.GetProfileResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetProfileProfilesResponseBodyData, http_res
+                models.GetProfileNotFoundHalJSONErrorData, http_res
             )
-            raise models.GetProfileProfilesResponseBody(response_data, http_res)
+            raise models.GetProfileNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetProfileProfilesResponseResponseBodyData, http_res
+                models.GetProfileGoneHalJSONErrorData, http_res
             )
-            raise models.GetProfileProfilesResponseResponseBody(response_data, http_res)
+            raise models.GetProfileGoneHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -568,14 +550,10 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetProfileResponseBody:
+    ) -> models.GetProfileResponse:
         r"""Get profile
 
         Retrieve a single profile by its ID.
-
-        > 🔑 Access with
-        >
-        > [Access token with **profiles.read**](/reference/authentication)
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -644,17 +622,17 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetProfileResponseBody, http_res)
+            return unmarshal_json_response(models.GetProfileResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetProfileProfilesResponseBodyData, http_res
+                models.GetProfileNotFoundHalJSONErrorData, http_res
             )
-            raise models.GetProfileProfilesResponseBody(response_data, http_res)
+            raise models.GetProfileNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.GetProfileProfilesResponseResponseBodyData, http_res
+                models.GetProfileGoneHalJSONErrorData, http_res
             )
-            raise models.GetProfileProfilesResponseResponseBody(response_data, http_res)
+            raise models.GetProfileGoneHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -675,21 +653,18 @@ class Profiles(BaseSDK):
         description: OptionalNullable[str] = UNSET,
         countries_of_activity: OptionalNullable[List[str]] = UNSET,
         business_category: OptionalNullable[str] = UNSET,
-        mode: OptionalNullable[str] = UNSET,
+        mode: OptionalNullable[models.ModeRequest] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateProfileResponseBody:
+    ) -> models.UpdateProfileResponse:
         r"""Update profile
 
         Update an existing profile.
 
-        Profiles are required for payment processing. Normally they are created and updated via the Mollie dashboard. Alternatively, you can use this endpoint to automate profile management.
-
-        > 🔑 Access with
-        >
-        > [Access token with **profiles.write**](/reference/authentication)
+        Profiles are required for payment processing. Normally they are created and updated via the Mollie dashboard.
+        Alternatively, you can use this endpoint to automate profile management.
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param name: The profile's name, this will usually reflect the trade name or brand name of the profile's website or application.
@@ -699,7 +674,7 @@ class Profiles(BaseSDK):
         :param description: The products or services offered by the profile's website or application.
         :param countries_of_activity: A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
         :param business_category: The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types) for all possible options.
-        :param mode: Updating a profile from `test` mode to `live` mode will trigger a verification process, where we review the profile before it can start accepting payments.  Possible values: `live` `test`
+        :param mode: Updating a profile from `test` mode to `live` mode will trigger a verification process, where we review the profile before it can start accepting payments.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -781,24 +756,22 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.UpdateProfileResponseBody, http_res)
+            return unmarshal_json_response(models.UpdateProfileResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdateProfileProfilesResponseBodyData, http_res
+                models.UpdateProfileNotFoundHalJSONErrorData, http_res
             )
-            raise models.UpdateProfileProfilesResponseBody(response_data, http_res)
+            raise models.UpdateProfileNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdateProfileProfilesResponseResponseBodyData, http_res
+                models.UpdateProfileGoneHalJSONErrorData, http_res
             )
-            raise models.UpdateProfileProfilesResponseResponseBody(
-                response_data, http_res
-            )
+            raise models.UpdateProfileGoneHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdateProfileProfilesResponse422ResponseBodyData, http_res
+                models.UpdateProfileUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.UpdateProfileProfilesResponse422ResponseBody(
+            raise models.UpdateProfileUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -821,21 +794,18 @@ class Profiles(BaseSDK):
         description: OptionalNullable[str] = UNSET,
         countries_of_activity: OptionalNullable[List[str]] = UNSET,
         business_category: OptionalNullable[str] = UNSET,
-        mode: OptionalNullable[str] = UNSET,
+        mode: OptionalNullable[models.ModeRequest] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateProfileResponseBody:
+    ) -> models.UpdateProfileResponse:
         r"""Update profile
 
         Update an existing profile.
 
-        Profiles are required for payment processing. Normally they are created and updated via the Mollie dashboard. Alternatively, you can use this endpoint to automate profile management.
-
-        > 🔑 Access with
-        >
-        > [Access token with **profiles.write**](/reference/authentication)
+        Profiles are required for payment processing. Normally they are created and updated via the Mollie dashboard.
+        Alternatively, you can use this endpoint to automate profile management.
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param name: The profile's name, this will usually reflect the trade name or brand name of the profile's website or application.
@@ -845,7 +815,7 @@ class Profiles(BaseSDK):
         :param description: The products or services offered by the profile's website or application.
         :param countries_of_activity: A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
         :param business_category: The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types) for all possible options.
-        :param mode: Updating a profile from `test` mode to `live` mode will trigger a verification process, where we review the profile before it can start accepting payments.  Possible values: `live` `test`
+        :param mode: Updating a profile from `test` mode to `live` mode will trigger a verification process, where we review the profile before it can start accepting payments.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -927,24 +897,22 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.UpdateProfileResponseBody, http_res)
+            return unmarshal_json_response(models.UpdateProfileResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdateProfileProfilesResponseBodyData, http_res
+                models.UpdateProfileNotFoundHalJSONErrorData, http_res
             )
-            raise models.UpdateProfileProfilesResponseBody(response_data, http_res)
+            raise models.UpdateProfileNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdateProfileProfilesResponseResponseBodyData, http_res
+                models.UpdateProfileGoneHalJSONErrorData, http_res
             )
-            raise models.UpdateProfileProfilesResponseResponseBody(
-                response_data, http_res
-            )
+            raise models.UpdateProfileGoneHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.UpdateProfileProfilesResponse422ResponseBodyData, http_res
+                models.UpdateProfileUnprocessableEntityHalJSONErrorData, http_res
             )
-            raise models.UpdateProfileProfilesResponse422ResponseBody(
+            raise models.UpdateProfileUnprocessableEntityHalJSONError(
                 response_data, http_res
             )
         if utils.match_response(http_res, "4XX", "*"):
@@ -969,10 +937,6 @@ class Profiles(BaseSDK):
 
         Delete a profile. A deleted profile and its related credentials can no longer be used for accepting payments.
 
-        > 🔑 Access with
-        >
-        > [Access token with **profiles.write**](/reference/authentication)
-
         :param id: Provide the ID of the item you want to perform this operation on.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1041,14 +1005,14 @@ class Profiles(BaseSDK):
             return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeleteProfileResponseBodyData, http_res
+                models.DeleteProfileNotFoundHalJSONErrorData, http_res
             )
-            raise models.DeleteProfileResponseBody(response_data, http_res)
+            raise models.DeleteProfileNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeleteProfileProfilesResponseBodyData, http_res
+                models.DeleteProfileGoneHalJSONErrorData, http_res
             )
-            raise models.DeleteProfileProfilesResponseBody(response_data, http_res)
+            raise models.DeleteProfileGoneHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1071,10 +1035,6 @@ class Profiles(BaseSDK):
 
         Delete a profile. A deleted profile and its related credentials can no longer be used for accepting payments.
 
-        > 🔑 Access with
-        >
-        > [Access token with **profiles.write**](/reference/authentication)
-
         :param id: Provide the ID of the item you want to perform this operation on.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1143,14 +1103,14 @@ class Profiles(BaseSDK):
             return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeleteProfileResponseBodyData, http_res
+                models.DeleteProfileNotFoundHalJSONErrorData, http_res
             )
-            raise models.DeleteProfileResponseBody(response_data, http_res)
+            raise models.DeleteProfileNotFoundHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "410", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.DeleteProfileProfilesResponseBodyData, http_res
+                models.DeleteProfileGoneHalJSONErrorData, http_res
             )
-            raise models.DeleteProfileProfilesResponseBody(response_data, http_res)
+            raise models.DeleteProfileGoneHalJSONError(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1167,16 +1127,14 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCurrentProfileResponseBody:
+    ) -> models.GetCurrentProfileResponse:
         r"""Get current profile
 
-        Retrieve the currently authenticated profile. A convenient alias of the [Get profile](get-profile) endpoint.
+        Retrieve the currently authenticated profile. A convenient alias of the [Get profile](get-profile)
+        endpoint.
 
-        For a complete reference of the profile object, refer to the [Get profile](get-profile) endpoint documentation.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
+        For a complete reference of the profile object, refer to the [Get profile](get-profile) endpoint
+        documentation.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1236,9 +1194,7 @@ class Profiles(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.GetCurrentProfileResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetCurrentProfileResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1255,16 +1211,14 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCurrentProfileResponseBody:
+    ) -> models.GetCurrentProfileResponse:
         r"""Get current profile
 
-        Retrieve the currently authenticated profile. A convenient alias of the [Get profile](get-profile) endpoint.
+        Retrieve the currently authenticated profile. A convenient alias of the [Get profile](get-profile)
+        endpoint.
 
-        For a complete reference of the profile object, refer to the [Get profile](get-profile) endpoint documentation.
-
-        > 🔑 Access with
-        >
-        > [API key](/reference/authentication)
+        For a complete reference of the profile object, refer to the [Get profile](get-profile) endpoint
+        documentation.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1324,9 +1278,7 @@ class Profiles(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.GetCurrentProfileResponseBody, http_res
-            )
+            return unmarshal_json_response(models.GetCurrentProfileResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

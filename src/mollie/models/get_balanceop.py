@@ -16,7 +16,9 @@ class GetBalanceRequestTypedDict(TypedDict):
     id: str
     r"""Provide the ID of the item you want to perform this operation on."""
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -32,7 +34,9 @@ class GetBalanceRequest(BaseModel):
         OptionalNullable[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -68,14 +72,14 @@ class GetBalanceRequest(BaseModel):
         return m
 
 
-class GetBalanceBalancesDocumentationTypedDict(TypedDict):
+class GetBalanceNotFoundDocumentationTypedDict(TypedDict):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
     type: str
 
 
-class GetBalanceBalancesDocumentation(BaseModel):
+class GetBalanceNotFoundDocumentation(BaseModel):
     r"""The URL to the generic Mollie API error handling guide."""
 
     href: str
@@ -83,17 +87,17 @@ class GetBalanceBalancesDocumentation(BaseModel):
     type: str
 
 
-class GetBalanceBalancesLinksTypedDict(TypedDict):
-    documentation: GetBalanceBalancesDocumentationTypedDict
+class GetBalanceNotFoundLinksTypedDict(TypedDict):
+    documentation: GetBalanceNotFoundDocumentationTypedDict
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetBalanceBalancesLinks(BaseModel):
-    documentation: GetBalanceBalancesDocumentation
+class GetBalanceNotFoundLinks(BaseModel):
+    documentation: GetBalanceNotFoundDocumentation
     r"""The URL to the generic Mollie API error handling guide."""
 
 
-class GetBalanceBalancesResponseBodyData(BaseModel):
+class GetBalanceHalJSONErrorData(BaseModel):
     status: int
     r"""The status code of the error message. This is always the same code as the status code of the HTTP message itself."""
 
@@ -103,20 +107,22 @@ class GetBalanceBalancesResponseBodyData(BaseModel):
     detail: str
     r"""A detailed human-readable description of the error that occurred."""
 
-    links: Annotated[GetBalanceBalancesLinks, pydantic.Field(alias="_links")]
+    links: Annotated[GetBalanceNotFoundLinks, pydantic.Field(alias="_links")]
 
     field: Optional[str] = None
-    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name of the field that caused the issue."""
+    r"""If the error was caused by a value provided by you in a specific field, the `field` property will contain the name
+    of the field that caused the issue.
+    """
 
 
-class GetBalanceBalancesResponseBody(ClientError):
+class GetBalanceHalJSONError(ClientError):
     r"""An error response object."""
 
-    data: GetBalanceBalancesResponseBodyData
+    data: GetBalanceHalJSONErrorData
 
     def __init__(
         self,
-        data: GetBalanceBalancesResponseBodyData,
+        data: GetBalanceHalJSONErrorData,
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
@@ -125,7 +131,14 @@ class GetBalanceBalancesResponseBody(ClientError):
         self.data = data
 
 
-class Currency(str, Enum):
+class GetBalanceMode(str, Enum):
+    r"""Whether this entity was created in live mode or in test mode."""
+
+    LIVE = "live"
+    TEST = "test"
+
+
+class GetBalanceCurrency(str, Enum):
     r"""The balance's ISO 4217 currency code."""
 
     EUR = "EUR"
@@ -142,8 +155,35 @@ class Currency(str, Enum):
     CAD = "CAD"
 
 
-class TransferThresholdTypedDict(TypedDict):
-    r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds this threshold, the complete balance will be paid out to the transfer destination according to the configured frequency."""
+class GetBalanceStatus(str, Enum):
+    r"""The status of the balance."""
+
+    ACTIVE = "active"
+    INACTIVE = "inactive"
+
+
+class GetBalanceTransferFrequency(str, Enum):
+    r"""The frequency with which the available amount on the balance will be settled to the configured transfer
+    destination.
+
+    Settlements created during weekends or on bank holidays will take place on the next business day.
+    """
+
+    DAILY = "daily"
+    EVERY_MONDAY = "every-monday"
+    EVERY_TUESDAY = "every-tuesday"
+    EVERY_WEDNESDAY = "every-wednesday"
+    EVERY_THURSDAY = "every-thursday"
+    EVERY_FRIDAY = "every-friday"
+    MONTHLY = "monthly"
+    NEVER = "never"
+
+
+class GetBalanceTransferThresholdTypedDict(TypedDict):
+    r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds
+    this threshold, the complete balance will be paid out to the transfer destination according to the configured
+    frequency.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -151,8 +191,11 @@ class TransferThresholdTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class TransferThreshold(BaseModel):
-    r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds this threshold, the complete balance will be paid out to the transfer destination according to the configured frequency."""
+class GetBalanceTransferThreshold(BaseModel):
+    r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds
+    this threshold, the complete balance will be paid out to the transfer destination according to the configured
+    frequency.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -161,15 +204,24 @@ class TransferThreshold(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class TransferDestinationTypedDict(TypedDict):
-    r"""The destination where the available amount will be automatically transferred to according to the configured transfer frequency."""
-
-    type: NotRequired[str]
+class GetBalanceType(str, Enum):
     r"""The default destination of automatic scheduled transfers. Currently only `bank-account` is supported.
 
     * `bank-account` — Transfer the balance amount to an external bank account
+    """
 
-    Possible values: `bank-account`
+    BANK_ACCOUNT = "bank-account"
+
+
+class GetBalanceTransferDestinationTypedDict(TypedDict):
+    r"""The destination where the available amount will be automatically transferred to according to the configured
+    transfer frequency.
+    """
+
+    type: NotRequired[GetBalanceType]
+    r"""The default destination of automatic scheduled transfers. Currently only `bank-account` is supported.
+
+    * `bank-account` — Transfer the balance amount to an external bank account
     """
     bank_account: NotRequired[str]
     r"""The configured bank account number of the beneficiary the balance amount is to be transferred to."""
@@ -177,15 +229,15 @@ class TransferDestinationTypedDict(TypedDict):
     r"""The full name of the beneficiary the balance amount is to be transferred to."""
 
 
-class TransferDestination(BaseModel):
-    r"""The destination where the available amount will be automatically transferred to according to the configured transfer frequency."""
+class GetBalanceTransferDestination(BaseModel):
+    r"""The destination where the available amount will be automatically transferred to according to the configured
+    transfer frequency.
+    """
 
-    type: Optional[str] = None
+    type: Optional[GetBalanceType] = None
     r"""The default destination of automatic scheduled transfers. Currently only `bank-account` is supported.
 
     * `bank-account` — Transfer the balance amount to an external bank account
-
-    Possible values: `bank-account`
     """
 
     bank_account: Annotated[Optional[str], pydantic.Field(alias="bankAccount")] = None
@@ -197,7 +249,7 @@ class TransferDestination(BaseModel):
     r"""The full name of the beneficiary the balance amount is to be transferred to."""
 
 
-class AvailableAmountTypedDict(TypedDict):
+class GetBalanceAvailableAmountTypedDict(TypedDict):
     r"""The amount directly available on the balance, e.g. `{\"currency\":\"EUR\", \"value\":\"100.00\"}`."""
 
     currency: str
@@ -206,7 +258,7 @@ class AvailableAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class AvailableAmount(BaseModel):
+class GetBalanceAvailableAmount(BaseModel):
     r"""The amount directly available on the balance, e.g. `{\"currency\":\"EUR\", \"value\":\"100.00\"}`."""
 
     currency: str
@@ -216,8 +268,10 @@ class AvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class PendingAmountTypedDict(TypedDict):
-    r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a few days to clear."""
+class GetBalancePendingAmountTypedDict(TypedDict):
+    r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a
+    few days to clear.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -225,8 +279,10 @@ class PendingAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class PendingAmount(BaseModel):
-    r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a few days to clear."""
+class GetBalancePendingAmount(BaseModel):
+    r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a
+    few days to clear.
+    """
 
     currency: str
     r"""A three-character ISO 4217 currency code."""
@@ -292,51 +348,51 @@ class GetBalanceLinks(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class GetBalanceResponseBodyTypedDict(TypedDict):
+class GetBalanceResponseTypedDict(TypedDict):
     r"""The balance object."""
 
     resource: NotRequired[str]
     r"""Indicates the response contains a balance object. Will always contain the string `balance` for this endpoint."""
     id: NotRequired[str]
     r"""The identifier uniquely referring to this balance."""
-    mode: NotRequired[str]
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
-    """
+    mode: NotRequired[GetBalanceMode]
+    r"""Whether this entity was created in live mode or in test mode."""
     created_at: NotRequired[str]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    currency: NotRequired[Currency]
+    currency: NotRequired[GetBalanceCurrency]
     r"""The balance's ISO 4217 currency code."""
     description: NotRequired[str]
     r"""The description or name of the balance. Can be used to denote the purpose of the balance."""
-    status: NotRequired[str]
-    r"""The status of the balance.
-
-    Possible values: `active` `inactive`
-    """
-    transfer_frequency: NotRequired[str]
-    r"""The frequency with which the available amount on the balance will be settled to the configured transfer destination.
+    status: NotRequired[GetBalanceStatus]
+    r"""The status of the balance."""
+    transfer_frequency: NotRequired[GetBalanceTransferFrequency]
+    r"""The frequency with which the available amount on the balance will be settled to the configured transfer
+    destination.
 
     Settlements created during weekends or on bank holidays will take place on the next business day.
-
-    Possible values: `daily` `every-monday` `every-tuesday` `every-wednesday` `every-thursday` `every-friday` `monthly` `never`
     """
-    transfer_threshold: NotRequired[TransferThresholdTypedDict]
-    r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds this threshold, the complete balance will be paid out to the transfer destination according to the configured frequency."""
+    transfer_threshold: NotRequired[GetBalanceTransferThresholdTypedDict]
+    r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds
+    this threshold, the complete balance will be paid out to the transfer destination according to the configured
+    frequency.
+    """
     transfer_reference: NotRequired[Nullable[str]]
     r"""The transfer reference set to be included in all the transfers for this balance."""
-    transfer_destination: NotRequired[Nullable[TransferDestinationTypedDict]]
-    r"""The destination where the available amount will be automatically transferred to according to the configured transfer frequency."""
-    available_amount: NotRequired[AvailableAmountTypedDict]
+    transfer_destination: NotRequired[Nullable[GetBalanceTransferDestinationTypedDict]]
+    r"""The destination where the available amount will be automatically transferred to according to the configured
+    transfer frequency.
+    """
+    available_amount: NotRequired[GetBalanceAvailableAmountTypedDict]
     r"""The amount directly available on the balance, e.g. `{\"currency\":\"EUR\", \"value\":\"100.00\"}`."""
-    pending_amount: NotRequired[PendingAmountTypedDict]
-    r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a few days to clear."""
+    pending_amount: NotRequired[GetBalancePendingAmountTypedDict]
+    r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a
+    few days to clear.
+    """
     links: NotRequired[GetBalanceLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class GetBalanceResponseBody(BaseModel):
+class GetBalanceResponse(BaseModel):
     r"""The balance object."""
 
     resource: Optional[str] = "balance"
@@ -345,41 +401,37 @@ class GetBalanceResponseBody(BaseModel):
     id: Optional[str] = None
     r"""The identifier uniquely referring to this balance."""
 
-    mode: Optional[str] = None
-    r"""Whether this entity was created in live mode or in test mode.
-
-    Possible values: `live` `test`
-    """
+    mode: Optional[GetBalanceMode] = None
+    r"""Whether this entity was created in live mode or in test mode."""
 
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    currency: Optional[Currency] = None
+    currency: Optional[GetBalanceCurrency] = None
     r"""The balance's ISO 4217 currency code."""
 
     description: Optional[str] = None
     r"""The description or name of the balance. Can be used to denote the purpose of the balance."""
 
-    status: Optional[str] = None
-    r"""The status of the balance.
-
-    Possible values: `active` `inactive`
-    """
+    status: Optional[GetBalanceStatus] = None
+    r"""The status of the balance."""
 
     transfer_frequency: Annotated[
-        Optional[str], pydantic.Field(alias="transferFrequency")
+        Optional[GetBalanceTransferFrequency], pydantic.Field(alias="transferFrequency")
     ] = None
-    r"""The frequency with which the available amount on the balance will be settled to the configured transfer destination.
+    r"""The frequency with which the available amount on the balance will be settled to the configured transfer
+    destination.
 
     Settlements created during weekends or on bank holidays will take place on the next business day.
-
-    Possible values: `daily` `every-monday` `every-tuesday` `every-wednesday` `every-thursday` `every-friday` `monthly` `never`
     """
 
     transfer_threshold: Annotated[
-        Optional[TransferThreshold], pydantic.Field(alias="transferThreshold")
+        Optional[GetBalanceTransferThreshold], pydantic.Field(alias="transferThreshold")
     ] = None
-    r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds this threshold, the complete balance will be paid out to the transfer destination according to the configured frequency."""
+    r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds
+    this threshold, the complete balance will be paid out to the transfer destination according to the configured
+    frequency.
+    """
 
     transfer_reference: Annotated[
         OptionalNullable[str], pydantic.Field(alias="transferReference")
@@ -387,20 +439,24 @@ class GetBalanceResponseBody(BaseModel):
     r"""The transfer reference set to be included in all the transfers for this balance."""
 
     transfer_destination: Annotated[
-        OptionalNullable[TransferDestination],
+        OptionalNullable[GetBalanceTransferDestination],
         pydantic.Field(alias="transferDestination"),
     ] = UNSET
-    r"""The destination where the available amount will be automatically transferred to according to the configured transfer frequency."""
+    r"""The destination where the available amount will be automatically transferred to according to the configured
+    transfer frequency.
+    """
 
     available_amount: Annotated[
-        Optional[AvailableAmount], pydantic.Field(alias="availableAmount")
+        Optional[GetBalanceAvailableAmount], pydantic.Field(alias="availableAmount")
     ] = None
     r"""The amount directly available on the balance, e.g. `{\"currency\":\"EUR\", \"value\":\"100.00\"}`."""
 
     pending_amount: Annotated[
-        Optional[PendingAmount], pydantic.Field(alias="pendingAmount")
+        Optional[GetBalancePendingAmount], pydantic.Field(alias="pendingAmount")
     ] = None
-    r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a few days to clear."""
+    r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a
+    few days to clear.
+    """
 
     links: Annotated[Optional[GetBalanceLinks], pydantic.Field(alias="_links")] = None
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
