@@ -1,15 +1,15 @@
 import pytest
 
-from mollie import Client, Security
+from mollie import ClientSDK, Security
 
 @pytest.fixture
-def client() -> Client:
+def client() -> ClientSDK:
     """
     Fixture to create a test client for the Mollie API.
 
     :return: An instance of the Mollie Client with API key.
     """
-    return Client(
+    return ClientSDK(
         security=Security(
             api_key="test_api_key"
         )
