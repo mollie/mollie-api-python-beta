@@ -34,6 +34,7 @@ This documentation is for the new Mollie's SDK. You can find more details on how
   * [Custom HTTP Client](#custom-http-client)
   * [Resource Management](#resource-management)
   * [Debugging](#debugging)
+  * [Idempotency Key](#idempotency-key)
 * [Development](#development)
   * [Maturity](#maturity)
   * [Contributions](#contributions)
@@ -2305,6 +2306,48 @@ You can also enable a default debug logger by setting an environment variable `C
 <!-- End Debugging [debug] -->
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->
+
+## Idempotency Key
+
+You can setup an Idempotency Key.
+
+```
+import os
+from mollie import ClientSDK, Security
+
+client = ClientSDK(
+    security = Security(
+        api_key = os.getenv("MOLLIE_API_KEY", "test_..."),
+    )
+)
+
+payload = {
+    "description": "Some Description",
+    "amount": {
+        "currency": "EUR",
+        "value": "0.01",
+    },
+    "redirect_url": "https://example.org/redirect",
+}
+
+idempotency_key = "unique-idempotency-key-12345"
+payment1 = client.payments.create(
+    request_body=payload,
+    http_headers={
+        "Idempotency-Key": idempotency_key
+    }
+)
+
+payment2 = client.payments.create(
+    request_body=payload,
+    http_headers={
+        "Idempotency-Key": idempotency_key
+    }
+)
+print(f"Payment created with ID: {payment1.id}")
+print(f"Payment created with ID: {payment2.id}")
+print("Payments are the same" if payment1.id == payment2.id else "Payments are different")
+```
 
 # Development
 
