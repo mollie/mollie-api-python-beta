@@ -12,8 +12,10 @@ from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class ListRefundsInclude(str, Enum):
-    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
+class ListRefundsEmbed(str, Enum):
+    r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string
+    parameter.
+    """
 
     PAYMENT = "payment"
 
@@ -27,8 +29,10 @@ class ListRefundsRequestTypedDict(TypedDict):
     """
     limit: NotRequired[Nullable[int]]
     r"""The maximum number of items to return. Defaults to 50 items."""
-    include: NotRequired[Nullable[ListRefundsInclude]]
-    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
+    embed: NotRequired[ListRefundsEmbed]
+    r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string
+    parameter.
+    """
     testmode: NotRequired[Nullable[bool]]
     r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
     parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
@@ -61,11 +65,13 @@ class ListRefundsRequest(BaseModel):
     ] = 50
     r"""The maximum number of items to return. Defaults to 50 items."""
 
-    include: Annotated[
-        OptionalNullable[ListRefundsInclude],
+    embed: Annotated[
+        Optional[ListRefundsEmbed],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = UNSET
-    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
+    ] = None
+    r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string
+    parameter.
+    """
 
     testmode: Annotated[
         OptionalNullable[bool],
@@ -80,8 +86,8 @@ class ListRefundsRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["from", "limit", "include", "testmode"]
-        nullable_fields = ["limit", "include", "testmode"]
+        optional_fields = ["from", "limit", "embed", "testmode"]
+        nullable_fields = ["limit", "testmode"]
         null_default_fields = []
 
         serialized = handler(self)
@@ -496,40 +502,38 @@ class ListRefundsRefundDocumentation(BaseModel):
 class ListRefundsRefundLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListRefundsRefundSelfTypedDict]
+    self_: ListRefundsRefundSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    payment: NotRequired[ListRefundsPaymentTypedDict]
+    payment: ListRefundsPaymentTypedDict
     r"""The API resource URL of the [payment](get-payment) that this refund belongs to."""
+    documentation: ListRefundsRefundDocumentationTypedDict
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     settlement: NotRequired[Nullable[ListRefundsSettlementTypedDict]]
     r"""The API resource URL of the [settlement](get-settlement) this refund has been settled with. Not present if not
     yet settled.
     """
-    documentation: NotRequired[ListRefundsRefundDocumentationTypedDict]
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListRefundsRefundLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[ListRefundsRefundSelf], pydantic.Field(alias="self")] = (
-        None
-    )
+    self_: Annotated[ListRefundsRefundSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    payment: Optional[ListRefundsPayment] = None
+    payment: ListRefundsPayment
     r"""The API resource URL of the [payment](get-payment) that this refund belongs to."""
+
+    documentation: ListRefundsRefundDocumentation
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     settlement: OptionalNullable[ListRefundsSettlement] = UNSET
     r"""The API resource URL of the [settlement](get-settlement) this refund has been settled with. Not present if not
     yet settled.
     """
 
-    documentation: Optional[ListRefundsRefundDocumentation] = None
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "payment", "settlement", "documentation"]
+        optional_fields = ["settlement"]
         nullable_fields = ["settlement"]
         null_default_fields = []
 
@@ -618,7 +622,7 @@ class ListRefundsRefundTypedDict(TypedDict):
 
 
 class ListRefundsRefund(BaseModel):
-    resource: Optional[str] = "refund"
+    resource: Optional[str] = None
     r"""Indicates the response contains a refund object. Will always contain the string `refund` for this endpoint."""
 
     id: Optional[str] = None

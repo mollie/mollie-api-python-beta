@@ -1270,7 +1270,7 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        include: OptionalNullable[models.ListSettlementRefundsInclude] = UNSET,
+        embed: Optional[models.ListSettlementRefundsEmbed] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1286,7 +1286,7 @@ class Settlements(BaseSDK):
         :param settlement_id: Provide the ID of the related settlement.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1307,7 +1307,7 @@ class Settlements(BaseSDK):
             settlement_id=settlement_id,
             from_=from_,
             limit=limit,
-            include=include,
+            embed=embed,
             testmode=testmode,
         )
 
@@ -1388,7 +1388,7 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        include: OptionalNullable[models.ListSettlementRefundsInclude] = UNSET,
+        embed: Optional[models.ListSettlementRefundsEmbed] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1404,7 +1404,7 @@ class Settlements(BaseSDK):
         :param settlement_id: Provide the ID of the related settlement.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1425,7 +1425,7 @@ class Settlements(BaseSDK):
             settlement_id=settlement_id,
             from_=from_,
             limit=limit,
-            include=include,
+            embed=embed,
             testmode=testmode,
         )
 

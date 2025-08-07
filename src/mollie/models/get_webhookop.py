@@ -196,6 +196,7 @@ class GetWebhookStatus(str, Enum):
     ENABLED = "enabled"
     BLOCKED = "blocked"
     DISABLED = "disabled"
+    DELETED = "deleted"
 
 
 class GetWebhookMode(str, Enum):

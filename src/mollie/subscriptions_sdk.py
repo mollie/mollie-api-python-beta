@@ -1311,10 +1311,7 @@ class SubscriptionsSDK(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[
-            models.ListAllSubscriptionsSort
-        ] = models.ListAllSubscriptionsSort.DESC,
-        profile_id: Optional[str] = None,
+        profile_id: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1329,8 +1326,7 @@ class SubscriptionsSDK(BaseSDK):
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
-        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve subscriptions for.  Most API credentials are linked to a single profile. In these cases the `profileId` is already implied.  To retrieve all subscriptions across the organization, use an organization-level API credential and omit the `profileId` parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1350,7 +1346,6 @@ class SubscriptionsSDK(BaseSDK):
         request = models.ListAllSubscriptionsRequest(
             from_=from_,
             limit=limit,
-            sort=sort,
             profile_id=profile_id,
             testmode=testmode,
         )
@@ -1394,7 +1389,7 @@ class SubscriptionsSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["400", "4XX", "5XX"],
+            error_status_codes=["400", "404", "4XX", "5XX"],
             retry_config=retry_config,
         )
 
@@ -1405,9 +1400,18 @@ class SubscriptionsSDK(BaseSDK):
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListAllSubscriptionsHalJSONErrorData, http_res
+                models.ListAllSubscriptionsBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListAllSubscriptionsHalJSONError(response_data, http_res)
+            raise models.ListAllSubscriptionsBadRequestHalJSONError(
+                response_data, http_res
+            )
+        if utils.match_response(http_res, "404", "application/hal+json"):
+            response_data = unmarshal_json_response(
+                models.ListAllSubscriptionsNotFoundHalJSONErrorData, http_res
+            )
+            raise models.ListAllSubscriptionsNotFoundHalJSONError(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1422,10 +1426,7 @@ class SubscriptionsSDK(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[
-            models.ListAllSubscriptionsSort
-        ] = models.ListAllSubscriptionsSort.DESC,
-        profile_id: Optional[str] = None,
+        profile_id: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1440,8 +1441,7 @@ class SubscriptionsSDK(BaseSDK):
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
-        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve subscriptions for.  Most API credentials are linked to a single profile. In these cases the `profileId` is already implied.  To retrieve all subscriptions across the organization, use an organization-level API credential and omit the `profileId` parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1461,7 +1461,6 @@ class SubscriptionsSDK(BaseSDK):
         request = models.ListAllSubscriptionsRequest(
             from_=from_,
             limit=limit,
-            sort=sort,
             profile_id=profile_id,
             testmode=testmode,
         )
@@ -1505,7 +1504,7 @@ class SubscriptionsSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["400", "4XX", "5XX"],
+            error_status_codes=["400", "404", "4XX", "5XX"],
             retry_config=retry_config,
         )
 
@@ -1516,9 +1515,18 @@ class SubscriptionsSDK(BaseSDK):
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
             response_data = unmarshal_json_response(
-                models.ListAllSubscriptionsHalJSONErrorData, http_res
+                models.ListAllSubscriptionsBadRequestHalJSONErrorData, http_res
             )
-            raise models.ListAllSubscriptionsHalJSONError(response_data, http_res)
+            raise models.ListAllSubscriptionsBadRequestHalJSONError(
+                response_data, http_res
+            )
+        if utils.match_response(http_res, "404", "application/hal+json"):
+            response_data = unmarshal_json_response(
+                models.ListAllSubscriptionsNotFoundHalJSONErrorData, http_res
+            )
+            raise models.ListAllSubscriptionsNotFoundHalJSONError(
+                response_data, http_res
+            )
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

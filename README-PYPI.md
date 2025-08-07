@@ -1784,7 +1784,7 @@ with ClientSDK(
 **Primary error:**
 * [`ClientError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/clienterror.py): The base class for HTTP error responses.
 
-<details><summary>Less common errors (130)</summary>
+<details><summary>Less common errors (131)</summary>
 
 <br />
 
@@ -1811,7 +1811,7 @@ with ClientSDK(
 * [`ListCustomerPaymentsHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listcustomerpaymentshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
 * [`ListMandatesBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listmandatesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
 * [`ListSubscriptionsBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsubscriptionsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListAllSubscriptionsHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listallsubscriptionshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListAllSubscriptionsBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listallsubscriptionsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
 * [`ListSubscriptionPaymentsHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsubscriptionpaymentshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
 * [`ListPermissionsHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listpermissionshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
 * [`ListProfilesHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listprofileshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
@@ -1862,6 +1862,7 @@ with ClientSDK(
 * [`GetSubscriptionHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getsubscriptionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
 * [`UpdateSubscriptionHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/updatesubscriptionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
 * [`CancelSubscriptionHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/cancelsubscriptionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListAllSubscriptionsNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listallsubscriptionsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
 * [`GetPermissionHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getpermissionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
 * [`GetOrganizationHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getorganizationhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
 * [`GetProfileNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getprofilenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*

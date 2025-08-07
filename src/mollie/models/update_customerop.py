@@ -415,9 +415,11 @@ class UpdateCustomerDocumentation(BaseModel):
 class UpdateCustomerLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[UpdateCustomerSelfTypedDict]
+    self_: UpdateCustomerSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    dashboard: NotRequired[UpdateCustomerDashboardTypedDict]
+    dashboard: UpdateCustomerDashboardTypedDict
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+    documentation: UpdateCustomerDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     payments: NotRequired[Nullable[UpdateCustomerPaymentsTypedDict]]
     r"""The API resource URL of the [payments](list-payments) linked to this customer. Omitted if no such payments
@@ -431,17 +433,18 @@ class UpdateCustomerLinksTypedDict(TypedDict):
     r"""The API resource URL of the [subscriptions](list-subscriptions) linked to this customer. Omitted if no such
     subscriptions exist (yet).
     """
-    documentation: NotRequired[UpdateCustomerDocumentationTypedDict]
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class UpdateCustomerLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[UpdateCustomerSelf], pydantic.Field(alias="self")] = None
+    self_: Annotated[UpdateCustomerSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    dashboard: Optional[UpdateCustomerDashboard] = None
+    dashboard: UpdateCustomerDashboard
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    documentation: UpdateCustomerDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     payments: OptionalNullable[UpdateCustomerPayments] = UNSET
@@ -459,19 +462,9 @@ class UpdateCustomerLinks(BaseModel):
     subscriptions exist (yet).
     """
 
-    documentation: Optional[UpdateCustomerDocumentation] = None
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "self",
-            "dashboard",
-            "payments",
-            "mandates",
-            "subscriptions",
-            "documentation",
-        ]
+        optional_fields = ["payments", "mandates", "subscriptions"]
         nullable_fields = ["payments", "mandates", "subscriptions"]
         null_default_fields = []
 
@@ -503,79 +496,67 @@ class UpdateCustomerLinks(BaseModel):
 class UpdateCustomerResponseTypedDict(TypedDict):
     r"""The updated customer object."""
 
-    resource: NotRequired[str]
-    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
-    mode: NotRequired[UpdateCustomerMode]
+    mode: UpdateCustomerMode
     r"""Whether this entity was created in live mode or in test mode."""
-    name: NotRequired[Nullable[str]]
+    name: Nullable[str]
     r"""The full name of the customer."""
-    email: NotRequired[Nullable[str]]
+    email: Nullable[str]
     r"""The email address of the customer."""
-    locale: NotRequired[Nullable[UpdateCustomerLocaleResponse]]
+    locale: Nullable[UpdateCustomerLocaleResponse]
     r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if
     absolutely necessary. If not provided, the browser language will be used which is typically highly accurate.
     """
-    metadata: NotRequired[Nullable[UpdateCustomerMetadataResponseUnionTypedDict]]
+    metadata: Nullable[UpdateCustomerMetadataResponseUnionTypedDict]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-    created_at: NotRequired[str]
+    created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: NotRequired[UpdateCustomerLinksTypedDict]
+    links: UpdateCustomerLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+    resource: NotRequired[str]
+    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
 
 
 class UpdateCustomerResponse(BaseModel):
     r"""The updated customer object."""
 
-    resource: Optional[str] = "customer"
-    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
-
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
 
-    mode: Optional[UpdateCustomerMode] = None
+    mode: UpdateCustomerMode
     r"""Whether this entity was created in live mode or in test mode."""
 
-    name: OptionalNullable[str] = UNSET
+    name: Nullable[str]
     r"""The full name of the customer."""
 
-    email: OptionalNullable[str] = UNSET
+    email: Nullable[str]
     r"""The email address of the customer."""
 
-    locale: OptionalNullable[UpdateCustomerLocaleResponse] = UNSET
+    locale: Nullable[UpdateCustomerLocaleResponse]
     r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if
     absolutely necessary. If not provided, the browser language will be used which is typically highly accurate.
     """
 
-    metadata: OptionalNullable[UpdateCustomerMetadataResponseUnion] = UNSET
+    metadata: Nullable[UpdateCustomerMetadataResponseUnion]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
 
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    links: Annotated[Optional[UpdateCustomerLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
+    links: Annotated[UpdateCustomerLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    resource: Optional[str] = "customer"
+    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "resource",
-            "id",
-            "mode",
-            "name",
-            "email",
-            "locale",
-            "metadata",
-            "createdAt",
-            "_links",
-        ]
+        optional_fields = ["resource"]
         nullable_fields = ["name", "email", "locale", "metadata"]
         null_default_fields = []
 

@@ -337,9 +337,11 @@ class GetCustomerDocumentation(BaseModel):
 class GetCustomerLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[GetCustomerSelfTypedDict]
+    self_: GetCustomerSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    dashboard: NotRequired[GetCustomerDashboardTypedDict]
+    dashboard: GetCustomerDashboardTypedDict
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+    documentation: GetCustomerDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     payments: NotRequired[Nullable[GetCustomerPaymentsTypedDict]]
     r"""The API resource URL of the [payments](list-payments) linked to this customer. Omitted if no such payments
@@ -353,17 +355,18 @@ class GetCustomerLinksTypedDict(TypedDict):
     r"""The API resource URL of the [subscriptions](list-subscriptions) linked to this customer. Omitted if no such
     subscriptions exist (yet).
     """
-    documentation: NotRequired[GetCustomerDocumentationTypedDict]
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class GetCustomerLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[GetCustomerSelf], pydantic.Field(alias="self")] = None
+    self_: Annotated[GetCustomerSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    dashboard: Optional[GetCustomerDashboard] = None
+    dashboard: GetCustomerDashboard
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    documentation: GetCustomerDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     payments: OptionalNullable[GetCustomerPayments] = UNSET
@@ -381,19 +384,9 @@ class GetCustomerLinks(BaseModel):
     subscriptions exist (yet).
     """
 
-    documentation: Optional[GetCustomerDocumentation] = None
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "self",
-            "dashboard",
-            "payments",
-            "mandates",
-            "subscriptions",
-            "documentation",
-        ]
+        optional_fields = ["payments", "mandates", "subscriptions"]
         nullable_fields = ["payments", "mandates", "subscriptions"]
         null_default_fields = []
 
@@ -456,24 +449,24 @@ class EventLinks(BaseModel):
 
 
 class EventTypedDict(TypedDict):
-    resource: NotRequired[str]
-    type: NotRequired[int]
-    created_at: NotRequired[str]
+    type: int
+    created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    message: NotRequired[str]
+    message: str
+    resource: NotRequired[str]
     links: NotRequired[EventLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class Event(BaseModel):
-    resource: Optional[str] = "event"
+    type: int
 
-    type: Optional[int] = None
-
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    message: Optional[str] = None
+    message: str
+
+    resource: Optional[str] = "event"
 
     links: Annotated[Optional[EventLinks], pydantic.Field(alias="_links")] = None
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
@@ -482,81 +475,70 @@ class Event(BaseModel):
 class GetCustomerResponseTypedDict(TypedDict):
     r"""The customer object."""
 
-    resource: NotRequired[str]
-    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
-    mode: NotRequired[GetCustomerMode]
+    mode: GetCustomerMode
     r"""Whether this entity was created in live mode or in test mode."""
-    name: NotRequired[Nullable[str]]
+    name: Nullable[str]
     r"""The full name of the customer."""
-    email: NotRequired[Nullable[str]]
+    email: Nullable[str]
     r"""The email address of the customer."""
-    locale: NotRequired[Nullable[GetCustomerLocale]]
+    locale: Nullable[GetCustomerLocale]
     r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if
     absolutely necessary. If not provided, the browser language will be used which is typically highly accurate.
     """
-    metadata: NotRequired[Nullable[GetCustomerMetadataUnionTypedDict]]
+    metadata: Nullable[GetCustomerMetadataUnionTypedDict]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-    created_at: NotRequired[str]
+    created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: NotRequired[GetCustomerLinksTypedDict]
+    links: GetCustomerLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+    resource: NotRequired[str]
+    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
     events: NotRequired[List[EventTypedDict]]
 
 
 class GetCustomerResponse(BaseModel):
     r"""The customer object."""
 
-    resource: Optional[str] = "customer"
-    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
-
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
 
-    mode: Optional[GetCustomerMode] = None
+    mode: GetCustomerMode
     r"""Whether this entity was created in live mode or in test mode."""
 
-    name: OptionalNullable[str] = UNSET
+    name: Nullable[str]
     r"""The full name of the customer."""
 
-    email: OptionalNullable[str] = UNSET
+    email: Nullable[str]
     r"""The email address of the customer."""
 
-    locale: OptionalNullable[GetCustomerLocale] = UNSET
+    locale: Nullable[GetCustomerLocale]
     r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if
     absolutely necessary. If not provided, the browser language will be used which is typically highly accurate.
     """
 
-    metadata: OptionalNullable[GetCustomerMetadataUnion] = UNSET
+    metadata: Nullable[GetCustomerMetadataUnion]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
 
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    links: Annotated[Optional[GetCustomerLinks], pydantic.Field(alias="_links")] = None
+    links: Annotated[GetCustomerLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    resource: Optional[str] = "customer"
+    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
 
     events: Optional[List[Event]] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "resource",
-            "id",
-            "mode",
-            "name",
-            "email",
-            "locale",
-            "metadata",
-            "createdAt",
-            "_links",
-            "events",
-        ]
+        optional_fields = ["resource", "events"]
         nullable_fields = ["name", "email", "locale", "metadata"]
         null_default_fields = []
 

@@ -471,123 +471,107 @@ class CreateMandateDocumentation(BaseModel):
 class CreateMandateLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[CreateMandateSelfTypedDict]
+    self_: CreateMandateSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    customer: NotRequired[CreateMandateCustomerTypedDict]
+    customer: CreateMandateCustomerTypedDict
     r"""The API resource URL of the [customer](get-customer) that this mandate belongs to."""
-    documentation: NotRequired[CreateMandateDocumentationTypedDict]
+    documentation: CreateMandateDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class CreateMandateLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[CreateMandateSelf], pydantic.Field(alias="self")] = None
+    self_: Annotated[CreateMandateSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    customer: Optional[CreateMandateCustomer] = None
+    customer: CreateMandateCustomer
     r"""The API resource URL of the [customer](get-customer) that this mandate belongs to."""
 
-    documentation: Optional[CreateMandateDocumentation] = None
+    documentation: CreateMandateDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class CreateMandateResponseTypedDict(TypedDict):
     r"""The newly created mandate object."""
 
-    resource: NotRequired[str]
-    r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`."""
-    mode: NotRequired[CreateMandateMode]
+    mode: CreateMandateMode
     r"""Whether this entity was created in live mode or in test mode."""
-    method: NotRequired[CreateMandateMethodResponse]
+    method: CreateMandateMethodResponse
     r"""Payment method of the mandate.
 
     SEPA Direct Debit and PayPal mandates can be created directly.
     """
-    details: NotRequired[CreateMandateDetailsTypedDict]
-    signature_date: NotRequired[Nullable[str]]
+    details: CreateMandateDetailsTypedDict
+    signature_date: Nullable[str]
     r"""The date when the mandate was signed in `YYYY-MM-DD` format."""
-    mandate_reference: NotRequired[Nullable[str]]
+    mandate_reference: Nullable[str]
     r"""A custom mandate reference. For SEPA Direct Debit, it is vital to provide a unique reference. Some banks will
     decline Direct Debit payments if the mandate reference is not unique.
     """
-    status: NotRequired[CreateMandateStatus]
+    status: CreateMandateStatus
     r"""The status of the mandate. A status can be `pending` for mandates when the first payment is not yet finalized, or
     when we did not received the IBAN yet from the first payment.
     """
-    customer_id: NotRequired[str]
+    customer_id: str
     r"""The identifier referring to the [customer](get-customer) this mandate was linked to."""
-    created_at: NotRequired[str]
+    created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: NotRequired[CreateMandateLinksTypedDict]
+    links: CreateMandateLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+    resource: NotRequired[str]
+    r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
 
 
 class CreateMandateResponse(BaseModel):
     r"""The newly created mandate object."""
 
-    resource: Optional[str] = "mandate"
-    r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
-
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`."""
 
-    mode: Optional[CreateMandateMode] = None
+    mode: CreateMandateMode
     r"""Whether this entity was created in live mode or in test mode."""
 
-    method: Optional[CreateMandateMethodResponse] = None
+    method: CreateMandateMethodResponse
     r"""Payment method of the mandate.
 
     SEPA Direct Debit and PayPal mandates can be created directly.
     """
 
-    details: Optional[CreateMandateDetails] = None
+    details: CreateMandateDetails
 
-    signature_date: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="signatureDate")
-    ] = UNSET
+    signature_date: Annotated[Nullable[str], pydantic.Field(alias="signatureDate")]
     r"""The date when the mandate was signed in `YYYY-MM-DD` format."""
 
     mandate_reference: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="mandateReference")
-    ] = UNSET
+        Nullable[str], pydantic.Field(alias="mandateReference")
+    ]
     r"""A custom mandate reference. For SEPA Direct Debit, it is vital to provide a unique reference. Some banks will
     decline Direct Debit payments if the mandate reference is not unique.
     """
 
-    status: Optional[CreateMandateStatus] = None
+    status: CreateMandateStatus
     r"""The status of the mandate. A status can be `pending` for mandates when the first payment is not yet finalized, or
     when we did not received the IBAN yet from the first payment.
     """
 
-    customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
+    customer_id: Annotated[str, pydantic.Field(alias="customerId")]
     r"""The identifier referring to the [customer](get-customer) this mandate was linked to."""
 
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    links: Annotated[Optional[CreateMandateLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
+    links: Annotated[CreateMandateLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    resource: Optional[str] = "mandate"
+    r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "resource",
-            "id",
-            "mode",
-            "method",
-            "details",
-            "signatureDate",
-            "mandateReference",
-            "status",
-            "customerId",
-            "createdAt",
-            "_links",
-        ]
+        optional_fields = ["resource"]
         nullable_fields = ["signatureDate", "mandateReference"]
         null_default_fields = []
 

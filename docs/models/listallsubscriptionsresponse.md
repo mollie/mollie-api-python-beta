@@ -1,6 +1,6 @@
 # ListAllSubscriptionsResponse
 
-A list of payment objects.
+A list of subscription objects.
 
 
 ## Fields

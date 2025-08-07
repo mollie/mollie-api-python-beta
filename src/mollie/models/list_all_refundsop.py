@@ -474,40 +474,38 @@ class ListAllRefundsRefundDocumentation(BaseModel):
 class ListAllRefundsRefundLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListAllRefundsRefundSelfTypedDict]
+    self_: ListAllRefundsRefundSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    payment: NotRequired[ListAllRefundsPaymentTypedDict]
+    payment: ListAllRefundsPaymentTypedDict
     r"""The API resource URL of the [payment](get-payment) that this refund belongs to."""
+    documentation: ListAllRefundsRefundDocumentationTypedDict
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     settlement: NotRequired[Nullable[ListAllRefundsSettlementTypedDict]]
     r"""The API resource URL of the [settlement](get-settlement) this refund has been settled with. Not present if not
     yet settled.
     """
-    documentation: NotRequired[ListAllRefundsRefundDocumentationTypedDict]
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListAllRefundsRefundLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[
-        Optional[ListAllRefundsRefundSelf], pydantic.Field(alias="self")
-    ] = None
+    self_: Annotated[ListAllRefundsRefundSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    payment: Optional[ListAllRefundsPayment] = None
+    payment: ListAllRefundsPayment
     r"""The API resource URL of the [payment](get-payment) that this refund belongs to."""
+
+    documentation: ListAllRefundsRefundDocumentation
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     settlement: OptionalNullable[ListAllRefundsSettlement] = UNSET
     r"""The API resource URL of the [settlement](get-settlement) this refund has been settled with. Not present if not
     yet settled.
     """
 
-    documentation: Optional[ListAllRefundsRefundDocumentation] = None
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "payment", "settlement", "documentation"]
+        optional_fields = ["settlement"]
         nullable_fields = ["settlement"]
         null_default_fields = []
 
@@ -598,7 +596,7 @@ class ListAllRefundsRefundTypedDict(TypedDict):
 
 
 class ListAllRefundsRefund(BaseModel):
-    resource: Optional[str] = "refund"
+    resource: Optional[str] = None
     r"""Indicates the response contains a refund object. Will always contain the string `refund` for this endpoint."""
 
     id: Optional[str] = None
@@ -734,16 +732,12 @@ class ListAllRefundsRefund(BaseModel):
 
 class ListAllRefundsEmbeddedTypedDict(TypedDict):
     refunds: NotRequired[List[ListAllRefundsRefundTypedDict]]
-    r"""An array of refund objects. For a complete reference of the refund object, refer to the
-    [Get refund endpoint](get-refund) documentation.
-    """
+    r"""An array of refund objects."""
 
 
 class ListAllRefundsEmbedded(BaseModel):
     refunds: Optional[List[ListAllRefundsRefund]] = None
-    r"""An array of refund objects. For a complete reference of the refund object, refer to the
-    [Get refund endpoint](get-refund) documentation.
-    """
+    r"""An array of refund objects."""
 
 
 class ListAllRefundsSelfTypedDict(TypedDict):
@@ -882,9 +876,7 @@ class ListAllRefundsLinks(BaseModel):
 
 
 class ListAllRefundsResponseTypedDict(TypedDict):
-    r"""A list of refund objects. For a complete reference of the refund object, refer to the
-    [Get refund endpoint](get-refund) documentation.
-    """
+    r"""A list of refund objects"""
 
     count: NotRequired[int]
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
@@ -899,9 +891,7 @@ class ListAllRefundsResponseTypedDict(TypedDict):
 
 
 class ListAllRefundsResponse(BaseModel):
-    r"""A list of refund objects. For a complete reference of the refund object, refer to the
-    [Get refund endpoint](get-refund) documentation.
-    """
+    r"""A list of refund objects"""
 
     count: Optional[int] = None
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result

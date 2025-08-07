@@ -1119,6 +1119,19 @@ class GetWebhookEventApplicationFee(BaseModel):
     """
 
 
+class GetWebhookEventSequenceType(str, Enum):
+    r"""If set to `first`, a payment mandate is established right after a payment is made by the customer.
+
+    Defaults to `oneoff`, which is a regular payment link and will not establish a mandate after payment.
+
+    The mandate ID can be retrieved by making a call to the
+    [Payment Link Payments Endpoint](get-payment-link-payments).
+    """
+
+    ONEOFF = "oneoff"
+    FIRST = "first"
+
+
 class EntitySelf1TypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
@@ -1278,6 +1291,21 @@ class GetWebhookEventPaymentLinkTypedDict(TypedDict):
     `applicationFee` parameter. If a payment on the payment link succeeds, the fee will be deducted from the merchant's balance and sent
     to your own account balance.
     """
+    sequence_type: NotRequired[Nullable[GetWebhookEventSequenceType]]
+    r"""If set to `first`, a payment mandate is established right after a payment is made by the customer.
+
+    Defaults to `oneoff`, which is a regular payment link and will not establish a mandate after payment.
+
+    The mandate ID can be retrieved by making a call to the
+    [Payment Link Payments Endpoint](get-payment-link-payments).
+    """
+    customer_id: NotRequired[Nullable[str]]
+    r"""**Only relevant when `sequenceType` is set to `first`**
+
+    The ID of the [customer](get-customer) the payment link is being created for. If a value is not provided,
+    the customer will be required to input relevant information which will be used to establish a mandate after
+    the payment is made.
+    """
 
 
 class GetWebhookEventPaymentLink(BaseModel):
@@ -1412,6 +1440,28 @@ class GetWebhookEventPaymentLink(BaseModel):
     to your own account balance.
     """
 
+    sequence_type: Annotated[
+        OptionalNullable[GetWebhookEventSequenceType],
+        pydantic.Field(alias="sequenceType"),
+    ] = UNSET
+    r"""If set to `first`, a payment mandate is established right after a payment is made by the customer.
+
+    Defaults to `oneoff`, which is a regular payment link and will not establish a mandate after payment.
+
+    The mandate ID can be retrieved by making a call to the
+    [Payment Link Payments Endpoint](get-payment-link-payments).
+    """
+
+    customer_id: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="customerId")
+    ] = UNSET
+    r"""**Only relevant when `sequenceType` is set to `first`**
+
+    The ID of the [customer](get-customer) the payment link is being created for. If a value is not provided,
+    the customer will be required to input relevant information which will be used to establish a mandate after
+    the payment is made.
+    """
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
@@ -1422,6 +1472,8 @@ class GetWebhookEventPaymentLink(BaseModel):
             "shippingAddress",
             "reusable",
             "applicationFee",
+            "sequenceType",
+            "customerId",
         ]
         nullable_fields = [
             "amount",
@@ -1434,6 +1486,8 @@ class GetWebhookEventPaymentLink(BaseModel):
             "paidAt",
             "expiresAt",
             "allowedMethods",
+            "sequenceType",
+            "customerId",
         ]
         null_default_fields = []
 

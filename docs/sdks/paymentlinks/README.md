@@ -116,6 +116,8 @@ with ClientSDK(
             },
             "description": "Platform fee",
         },
+        "sequence_type": mollie.CreatePaymentLinkSequenceTypeRequest.ONEOFF,
+        "customer_id": "cst_XimFHuaEzd",
     })
 
     # Handle response

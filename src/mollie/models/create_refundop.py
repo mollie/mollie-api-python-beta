@@ -754,38 +754,38 @@ class CreateRefundDocumentation(BaseModel):
 class CreateRefundLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[CreateRefundSelfTypedDict]
+    self_: CreateRefundSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    payment: NotRequired[CreateRefundPaymentTypedDict]
+    payment: CreateRefundPaymentTypedDict
     r"""The API resource URL of the [payment](get-payment) that this refund belongs to."""
+    documentation: CreateRefundDocumentationTypedDict
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     settlement: NotRequired[Nullable[CreateRefundSettlementTypedDict]]
     r"""The API resource URL of the [settlement](get-settlement) this refund has been settled with. Not present if not
     yet settled.
     """
-    documentation: NotRequired[CreateRefundDocumentationTypedDict]
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class CreateRefundLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[CreateRefundSelf], pydantic.Field(alias="self")] = None
+    self_: Annotated[CreateRefundSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    payment: Optional[CreateRefundPayment] = None
+    payment: CreateRefundPayment
     r"""The API resource URL of the [payment](get-payment) that this refund belongs to."""
+
+    documentation: CreateRefundDocumentation
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     settlement: OptionalNullable[CreateRefundSettlement] = UNSET
     r"""The API resource URL of the [settlement](get-settlement) this refund has been settled with. Not present if not
     yet settled.
     """
 
-    documentation: Optional[CreateRefundDocumentation] = None
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "payment", "settlement", "documentation"]
+        optional_fields = ["settlement"]
         nullable_fields = ["settlement"]
         null_default_fields = []
 
@@ -880,7 +880,7 @@ class CreateRefundResponseTypedDict(TypedDict):
 class CreateRefundResponse(BaseModel):
     r"""The newly created refund object."""
 
-    resource: Optional[str] = "refund"
+    resource: Optional[str] = None
     r"""Indicates the response contains a refund object. Will always contain the string `refund` for this endpoint."""
 
     id: Optional[str] = None
