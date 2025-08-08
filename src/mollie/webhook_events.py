@@ -14,6 +14,7 @@ class WebhookEvents(BaseSDK):
         self,
         *,
         id: str,
+        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -24,6 +25,7 @@ class WebhookEvents(BaseSDK):
         Retrieve a single webhook event object by its event ID.
 
         :param id: Provide the ID of the item you want to perform this operation on.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -41,6 +43,7 @@ class WebhookEvents(BaseSDK):
 
         request = models.GetWebhookEventRequest(
             id=id,
+            testmode=testmode,
         )
 
         req = self._build_request(
@@ -107,6 +110,7 @@ class WebhookEvents(BaseSDK):
         self,
         *,
         id: str,
+        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -117,6 +121,7 @@ class WebhookEvents(BaseSDK):
         Retrieve a single webhook event object by its event ID.
 
         :param id: Provide the ID of the item you want to perform this operation on.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -134,6 +139,7 @@ class WebhookEvents(BaseSDK):
 
         request = models.GetWebhookEventRequest(
             id=id,
+            testmode=testmode,
         )
 
         req = self._build_request_async(

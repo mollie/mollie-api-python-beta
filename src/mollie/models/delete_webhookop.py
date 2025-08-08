@@ -4,38 +4,26 @@ from __future__ import annotations
 import httpx
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
+from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class DeleteWebhookRequestTypedDict(TypedDict):
-    id: str
-    r"""Provide the ID of the item you want to perform this operation on."""
+class DeleteWebhookRequestBodyTypedDict(TypedDict):
     testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
-    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
-    setting the `testmode` query parameter to `true`.
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
+    such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
 
 
-class DeleteWebhookRequest(BaseModel):
-    id: Annotated[
-        str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
-    ]
-    r"""Provide the ID of the item you want to perform this operation on."""
-
-    testmode: Annotated[
-        OptionalNullable[bool],
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
-    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
-    setting the `testmode` query parameter to `true`.
+class DeleteWebhookRequestBody(BaseModel):
+    testmode: OptionalNullable[bool] = UNSET
+    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
+    such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -69,6 +57,24 @@ class DeleteWebhookRequest(BaseModel):
                 m[k] = val
 
         return m
+
+
+class DeleteWebhookRequestTypedDict(TypedDict):
+    id: str
+    r"""Provide the ID of the item you want to perform this operation on."""
+    request_body: NotRequired[DeleteWebhookRequestBodyTypedDict]
+
+
+class DeleteWebhookRequest(BaseModel):
+    id: Annotated[
+        str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
+    ]
+    r"""Provide the ID of the item you want to perform this operation on."""
+
+    request_body: Annotated[
+        Optional[DeleteWebhookRequestBody],
+        FieldMetadata(request=RequestMetadata(media_type="application/json")),
+    ] = None
 
 
 class DeleteWebhookUnprocessableEntityDocumentationTypedDict(TypedDict):
