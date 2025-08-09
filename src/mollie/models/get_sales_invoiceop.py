@@ -968,7 +968,7 @@ class GetSalesInvoiceResponseTypedDict(TypedDict):
 class GetSalesInvoiceResponse(BaseModel):
     r"""The Sales Invoice object."""
 
-    resource: Optional[str] = "sales-invoice"
+    resource: Optional[str] = None
     r"""Indicates the response contains a sales invoice object. Will always contain the string `sales-invoice` for this
     endpoint.
     """
@@ -999,12 +999,12 @@ class GetSalesInvoiceResponse(BaseModel):
 
     vat_scheme: Annotated[
         Optional[GetSalesInvoiceVatScheme], pydantic.Field(alias="vatScheme")
-    ] = GetSalesInvoiceVatScheme.STANDARD
+    ] = None
     r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
 
     vat_mode: Annotated[
         Optional[GetSalesInvoiceVatMode], pydantic.Field(alias="vatMode")
-    ] = GetSalesInvoiceVatMode.EXCLUSIVE
+    ] = None
     r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
     price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
     """
@@ -1020,7 +1020,7 @@ class GetSalesInvoiceResponse(BaseModel):
     payment_term: Annotated[
         OptionalNullable[GetSalesInvoicePaymentTerm],
         pydantic.Field(alias="paymentTerm"),
-    ] = GetSalesInvoicePaymentTerm.THIRTYDAYS
+    ] = UNSET
     r"""The payment term to be set on the invoice."""
 
     payment_details: Annotated[

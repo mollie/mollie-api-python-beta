@@ -841,7 +841,7 @@ class GetNextSettlementResponse(BaseModel):
     [Get settlement](get-settlement) endpoint documentation.
     """
 
-    resource: Optional[str] = "settlement"
+    resource: Optional[str] = None
     r"""Indicates the response contains a settlement object. Will always contain the string `settlement` for this
     endpoint.
     """

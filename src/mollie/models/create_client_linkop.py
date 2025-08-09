@@ -477,7 +477,7 @@ class CreateClientLinkResponseTypedDict(TypedDict):
 class CreateClientLinkResponse(BaseModel):
     r"""The newly created client link object."""
 
-    resource: Optional[str] = "client-link"
+    resource: Optional[str] = None
     r"""Indicates the response contains a client link object. Will always contain the string `client-link` for this
     endpoint.
     """

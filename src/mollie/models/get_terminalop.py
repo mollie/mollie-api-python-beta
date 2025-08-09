@@ -224,6 +224,8 @@ class GetTerminalLinks(BaseModel):
 class GetTerminalResponseTypedDict(TypedDict):
     r"""The terminal object."""
 
+    resource: str
+    r"""Indicates the response contains a terminal object. Will always contain the string `terminal` for this endpoint."""
     id: str
     r"""The identifier uniquely referring to this terminal. Example: `term_7MgL4wea46qkRcoTZjWEH`."""
     mode: GetTerminalMode
@@ -258,12 +260,13 @@ class GetTerminalResponseTypedDict(TypedDict):
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: GetTerminalLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    resource: NotRequired[str]
-    r"""Indicates the response contains a terminal object. Will always contain the string `terminal` for this endpoint."""
 
 
 class GetTerminalResponse(BaseModel):
     r"""The terminal object."""
+
+    resource: str
+    r"""Indicates the response contains a terminal object. Will always contain the string `terminal` for this endpoint."""
 
     id: str
     r"""The identifier uniquely referring to this terminal. Example: `term_7MgL4wea46qkRcoTZjWEH`."""
@@ -311,12 +314,9 @@ class GetTerminalResponse(BaseModel):
     links: Annotated[GetTerminalLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    resource: Optional[str] = "terminal"
-    r"""Indicates the response contains a terminal object. Will always contain the string `terminal` for this endpoint."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["resource"]
+        optional_fields = []
         nullable_fields = ["brand", "model", "serialNumber"]
         null_default_fields = []
 

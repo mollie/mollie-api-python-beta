@@ -13,14 +13,12 @@ class MethodsSDK(BaseSDK):
     def list(
         self,
         *,
-        sequence_type: Optional[
-            models.ListMethodsSequenceType
-        ] = models.ListMethodsSequenceType.ONEOFF,
+        sequence_type: Optional[models.ListMethodsSequenceType] = None,
         locale: Optional[models.ListMethodsLocale] = None,
         amount: Optional[
             Union[models.ListMethodsAmount, models.ListMethodsAmountTypedDict]
         ] = None,
-        resource: Optional[models.Resource] = models.Resource.PAYMENTS,
+        resource: Optional[models.Resource] = None,
         billing_country: Optional[str] = None,
         include_wallets: Optional[models.IncludeWallets] = None,
         order_line_categories: Optional[models.OrderLineCategories] = None,
@@ -152,14 +150,12 @@ class MethodsSDK(BaseSDK):
     async def list_async(
         self,
         *,
-        sequence_type: Optional[
-            models.ListMethodsSequenceType
-        ] = models.ListMethodsSequenceType.ONEOFF,
+        sequence_type: Optional[models.ListMethodsSequenceType] = None,
         locale: Optional[models.ListMethodsLocale] = None,
         amount: Optional[
             Union[models.ListMethodsAmount, models.ListMethodsAmountTypedDict]
         ] = None,
-        resource: Optional[models.Resource] = models.Resource.PAYMENTS,
+        resource: Optional[models.Resource] = None,
         billing_country: Optional[str] = None,
         include_wallets: Optional[models.IncludeWallets] = None,
         order_line_categories: Optional[models.OrderLineCategories] = None,
@@ -296,9 +292,7 @@ class MethodsSDK(BaseSDK):
             Union[models.ListAllMethodsAmount, models.ListAllMethodsAmountTypedDict]
         ] = None,
         include: OptionalNullable[models.ListAllMethodsInclude] = UNSET,
-        sequence_type: Optional[
-            models.ListAllMethodsSequenceType
-        ] = models.ListAllMethodsSequenceType.ONEOFF,
+        sequence_type: Optional[models.ListAllMethodsSequenceType] = None,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -413,9 +407,7 @@ class MethodsSDK(BaseSDK):
             Union[models.ListAllMethodsAmount, models.ListAllMethodsAmountTypedDict]
         ] = None,
         include: OptionalNullable[models.ListAllMethodsInclude] = UNSET,
-        sequence_type: Optional[
-            models.ListAllMethodsSequenceType
-        ] = models.ListAllMethodsSequenceType.ONEOFF,
+        sequence_type: Optional[models.ListAllMethodsSequenceType] = None,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -530,9 +522,7 @@ class MethodsSDK(BaseSDK):
         currency: Optional[str] = None,
         profile_id: Optional[str] = None,
         include: OptionalNullable[models.GetMethodInclude] = UNSET,
-        sequence_type: Optional[
-            models.GetMethodSequenceType
-        ] = models.GetMethodSequenceType.ONEOFF,
+        sequence_type: Optional[models.GetMethodSequenceType] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -659,9 +649,7 @@ class MethodsSDK(BaseSDK):
         currency: Optional[str] = None,
         profile_id: Optional[str] = None,
         include: OptionalNullable[models.GetMethodInclude] = UNSET,
-        sequence_type: Optional[
-            models.GetMethodSequenceType
-        ] = models.GetMethodSequenceType.ONEOFF,
+        sequence_type: Optional[models.GetMethodSequenceType] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,

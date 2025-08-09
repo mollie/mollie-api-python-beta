@@ -50,7 +50,7 @@ class ListBalanceTransactionsRequest(BaseModel):
     limit: Annotated[
         OptionalNullable[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = 50
+    ] = UNSET
     r"""The maximum number of items to return. Defaults to 50 items."""
 
     testmode: Annotated[
@@ -1381,7 +1381,7 @@ class BalanceTransactionTypedDict(TypedDict):
 
 
 class BalanceTransaction(BaseModel):
-    resource: Optional[str] = "balance-transaction"
+    resource: Optional[str] = None
     r"""Indicates the response contains a balance transaction object. Will always contain the string `balance-transaction`
     for this endpoint.
     """

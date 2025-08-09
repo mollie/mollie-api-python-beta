@@ -335,7 +335,7 @@ class GetInvoiceResponseTypedDict(TypedDict):
 class GetInvoiceResponse(BaseModel):
     r"""The invoice object."""
 
-    resource: Optional[str] = "invoice"
+    resource: Optional[str] = None
     r"""Indicates that the response contains an invoice object.
     Will always contain the string `invoice` for this endpoint.
     """

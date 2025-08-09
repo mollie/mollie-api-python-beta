@@ -430,7 +430,7 @@ class GetWebhookEventProfileTypedDict(TypedDict):
 
 
 class GetWebhookEventProfile(BaseModel):
-    resource: Optional[str] = "profile"
+    resource: Optional[str] = None
     r"""Indicates the response contains a profile object. Will always contain the string `profile` for this endpoint."""
 
     id: Optional[str] = None
@@ -771,7 +771,7 @@ class GetWebhookEventLine(BaseModel):
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
 
-    type: Optional[GetWebhookEventType] = GetWebhookEventType.PHYSICAL
+    type: Optional[GetWebhookEventType] = None
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -1240,6 +1240,10 @@ class EntityLinks1(BaseModel):
 
 
 class GetWebhookEventPaymentLinkTypedDict(TypedDict):
+    resource: str
+    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this
+    endpoint.
+    """
     id: str
     r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
     mode: GetWebhookEventMode1
@@ -1275,6 +1279,12 @@ class GetWebhookEventPaymentLinkTypedDict(TypedDict):
     request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
     required.
     """
+    reusable: Nullable[bool]
+    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple
+    payments using the same link.
+
+    If no value is specified, the field defaults to `false`, allowing only a single payment per link.
+    """
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     paid_at: Nullable[str]
@@ -1293,10 +1303,6 @@ class GetWebhookEventPaymentLinkTypedDict(TypedDict):
     """
     links: EntityLinks1TypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    resource: NotRequired[str]
-    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this
-    endpoint.
-    """
     minimum_amount: NotRequired[Nullable[GetWebhookEventMinimumAmountTypedDict]]
     r"""The minimum amount of the payment link. This property is only allowed when there is no amount provided. The
     customer will be prompted to enter a value greater than or equal to the minimum amount.
@@ -1325,12 +1331,6 @@ class GetWebhookEventPaymentLinkTypedDict(TypedDict):
     Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
     `country`.
     """
-    reusable: NotRequired[Nullable[bool]]
-    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple
-    payments using the same link.
-
-    If no value is specified, the field defaults to `false`, allowing only a single payment per link.
-    """
     application_fee: NotRequired[GetWebhookEventApplicationFeeTypedDict]
     r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie
     merchants.
@@ -1357,6 +1357,11 @@ class GetWebhookEventPaymentLinkTypedDict(TypedDict):
 
 
 class GetWebhookEventPaymentLink(BaseModel):
+    resource: str
+    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this
+    endpoint.
+    """
+
     id: str
     r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
 
@@ -1400,6 +1405,13 @@ class GetWebhookEventPaymentLink(BaseModel):
     required.
     """
 
+    reusable: Nullable[bool]
+    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple
+    payments using the same link.
+
+    If no value is specified, the field defaults to `false`, allowing only a single payment per link.
+    """
+
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
@@ -1424,11 +1436,6 @@ class GetWebhookEventPaymentLink(BaseModel):
 
     links: Annotated[EntityLinks1, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
-    resource: Optional[str] = "payment-link"
-    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this
-    endpoint.
-    """
 
     minimum_amount: Annotated[
         OptionalNullable[GetWebhookEventMinimumAmount],
@@ -1470,13 +1477,6 @@ class GetWebhookEventPaymentLink(BaseModel):
     `country`.
     """
 
-    reusable: OptionalNullable[bool] = False
-    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple
-    payments using the same link.
-
-    If no value is specified, the field defaults to `false`, allowing only a single payment per link.
-    """
-
     application_fee: Annotated[
         Optional[GetWebhookEventApplicationFee], pydantic.Field(alias="applicationFee")
     ] = None
@@ -1513,12 +1513,10 @@ class GetWebhookEventPaymentLink(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "resource",
             "minimumAmount",
             "lines",
             "billingAddress",
             "shippingAddress",
-            "reusable",
             "applicationFee",
             "sequenceType",
             "customerId",
@@ -1690,7 +1688,7 @@ class GetWebhookEventResponseTypedDict(TypedDict):
 class GetWebhookEventResponse(BaseModel):
     r"""The webhook event object."""
 
-    resource: Optional[str] = "event"
+    resource: Optional[str] = None
     r"""Indicates the response contains a webhook event object. Will always contain the string `event` for this endpoint."""
 
     id: Optional[str] = None

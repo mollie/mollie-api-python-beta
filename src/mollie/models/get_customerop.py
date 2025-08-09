@@ -449,24 +449,24 @@ class EventLinks(BaseModel):
 
 
 class EventTypedDict(TypedDict):
+    resource: str
     type: int
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     message: str
-    resource: NotRequired[str]
     links: NotRequired[EventLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class Event(BaseModel):
+    resource: str
+
     type: int
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
     message: str
-
-    resource: Optional[str] = "event"
 
     links: Annotated[Optional[EventLinks], pydantic.Field(alias="_links")] = None
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
@@ -475,6 +475,8 @@ class Event(BaseModel):
 class GetCustomerResponseTypedDict(TypedDict):
     r"""The customer object."""
 
+    resource: str
+    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
     id: str
     r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
     mode: GetCustomerMode
@@ -495,13 +497,14 @@ class GetCustomerResponseTypedDict(TypedDict):
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: GetCustomerLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    resource: NotRequired[str]
-    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
     events: NotRequired[List[EventTypedDict]]
 
 
 class GetCustomerResponse(BaseModel):
     r"""The customer object."""
+
+    resource: str
+    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
 
     id: str
     r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
@@ -531,14 +534,11 @@ class GetCustomerResponse(BaseModel):
     links: Annotated[GetCustomerLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    resource: Optional[str] = "customer"
-    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
-
     events: Optional[List[Event]] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["resource", "events"]
+        optional_fields = ["events"]
         nullable_fields = ["name", "email", "locale", "metadata"]
         null_default_fields = []
 

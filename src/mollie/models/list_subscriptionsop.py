@@ -63,13 +63,13 @@ class ListSubscriptionsRequest(BaseModel):
     limit: Annotated[
         OptionalNullable[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = 50
+    ] = UNSET
     r"""The maximum number of items to return. Defaults to 50 items."""
 
     sort: Annotated[
         OptionalNullable[ListSubscriptionsSort],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = ListSubscriptionsSort.DESC
+    ] = UNSET
     r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
     newest to oldest.
     """
@@ -568,6 +568,10 @@ class ListSubscriptionsSubscriptionLinks(BaseModel):
 
 
 class ListSubscriptionsSubscriptionTypedDict(TypedDict):
+    resource: str
+    r"""Indicates the response contains a subscription object. Will always contain the string `subscription` for this
+    endpoint.
+    """
     id: str
     r"""The identifier uniquely referring to this subscription. Example: `sub_rVKGtNd6s3`."""
     mode: ListSubscriptionsMode
@@ -620,10 +624,6 @@ class ListSubscriptionsSubscriptionTypedDict(TypedDict):
     r"""The customer this subscription belongs to."""
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    resource: NotRequired[str]
-    r"""Indicates the response contains a subscription object. Will always contain the string `subscription` for this
-    endpoint.
-    """
     next_payment_date: NotRequired[Nullable[str]]
     r"""The date of the next scheduled payment in `YYYY-MM-DD` format. If the subscription has been completed or canceled,
     this parameter will not be returned.
@@ -648,6 +648,11 @@ class ListSubscriptionsSubscriptionTypedDict(TypedDict):
 
 
 class ListSubscriptionsSubscription(BaseModel):
+    resource: str
+    r"""Indicates the response contains a subscription object. Will always contain the string `subscription` for this
+    endpoint.
+    """
+
     id: str
     r"""The identifier uniquely referring to this subscription. Example: `sub_rVKGtNd6s3`."""
 
@@ -714,11 +719,6 @@ class ListSubscriptionsSubscription(BaseModel):
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    resource: Optional[str] = "subscription"
-    r"""Indicates the response contains a subscription object. Will always contain the string `subscription` for this
-    endpoint.
-    """
-
     next_payment_date: Annotated[
         OptionalNullable[str], pydantic.Field(alias="nextPaymentDate")
     ] = UNSET
@@ -759,7 +759,6 @@ class ListSubscriptionsSubscription(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "resource",
             "nextPaymentDate",
             "applicationFee",
             "mandateId",

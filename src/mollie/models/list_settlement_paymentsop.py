@@ -70,13 +70,13 @@ class ListSettlementPaymentsRequest(BaseModel):
     limit: Annotated[
         OptionalNullable[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = 50
+    ] = UNSET
     r"""The maximum number of items to return. Defaults to 50 items."""
 
     sort: Annotated[
         OptionalNullable[ListSettlementPaymentsSort],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = ListSettlementPaymentsSort.DESC
+    ] = UNSET
     r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
     newest to oldest.
     """
@@ -685,9 +685,7 @@ class ListSettlementPaymentsLine(BaseModel):
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
 
-    type: Optional[ListSettlementPaymentsLineType] = (
-        ListSettlementPaymentsLineType.PHYSICAL
-    )
+    type: Optional[ListSettlementPaymentsLineType] = None
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -1945,6 +1943,23 @@ class ListSettlementPaymentsPaymentOutputTypedDict(TypedDict):
     If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the
     tip amount.
     """
+    sequence_type: Nullable[ListSettlementPaymentsSequenceType]
+    r"""**Only relevant for recurring payments.**
+
+    Indicate which part of a recurring sequence this payment is for.
+
+    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is
+    through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place
+    on their account in the future.
+
+    If set to `recurring`, the customer's card is charged automatically.
+
+    Defaults to `oneoff`, which is a regular non-recurring payment.
+
+    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our
+    [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account
+    are set up correctly for recurring payments.
+    """
     profile_id: str
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
 
@@ -2123,23 +2138,6 @@ class ListSettlementPaymentsPaymentOutputTypedDict(TypedDict):
     If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee`
     parameter.
     """
-    sequence_type: NotRequired[Nullable[ListSettlementPaymentsSequenceType]]
-    r"""**Only relevant for recurring payments.**
-
-    Indicate which part of a recurring sequence this payment is for.
-
-    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is
-    through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place
-    on their account in the future.
-
-    If set to `recurring`, the customer's card is charged automatically.
-
-    Defaults to `oneoff`, which is a regular non-recurring payment.
-
-    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our
-    [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account
-    are set up correctly for recurring payments.
-    """
     subscription_id: NotRequired[Nullable[str]]
     r"""If the payment was automatically created via a subscription, the ID of the [subscription](get-subscription) will
     be added to the response.
@@ -2232,6 +2230,27 @@ class ListSettlementPaymentsPaymentOutput(BaseModel):
 
     If a tip was added for a Point-of-Sale payment, the amount will be updated to reflect the initial amount plus the
     tip amount.
+    """
+
+    sequence_type: Annotated[
+        Nullable[ListSettlementPaymentsSequenceType],
+        pydantic.Field(alias="sequenceType"),
+    ]
+    r"""**Only relevant for recurring payments.**
+
+    Indicate which part of a recurring sequence this payment is for.
+
+    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is
+    through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place
+    on their account in the future.
+
+    If set to `recurring`, the customer's card is charged automatically.
+
+    Defaults to `oneoff`, which is a regular non-recurring payment.
+
+    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our
+    [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account
+    are set up correctly for recurring payments.
     """
 
     profile_id: Annotated[str, pydantic.Field(alias="profileId")]
@@ -2476,27 +2495,6 @@ class ListSettlementPaymentsPaymentOutput(BaseModel):
     parameter.
     """
 
-    sequence_type: Annotated[
-        OptionalNullable[ListSettlementPaymentsSequenceType],
-        pydantic.Field(alias="sequenceType"),
-    ] = ListSettlementPaymentsSequenceType.ONEOFF
-    r"""**Only relevant for recurring payments.**
-
-    Indicate which part of a recurring sequence this payment is for.
-
-    Recurring payments can only take place if a mandate is available. A common way to establish such a mandate is
-    through a `first` payment. With a `first` payment, the customer agrees to automatic recurring charges taking place
-    on their account in the future.
-
-    If set to `recurring`, the customer's card is charged automatically.
-
-    Defaults to `oneoff`, which is a regular non-recurring payment.
-
-    For PayPal payments, recurring is only possible if your connected PayPal account allows it. You can call our
-    [Methods API](list-methods) with parameter `sequenceType: first` to discover which payment methods on your account
-    are set up correctly for recurring payments.
-    """
-
     subscription_id: Annotated[
         OptionalNullable[str], pydantic.Field(alias="subscriptionId")
     ] = UNSET
@@ -2616,7 +2614,6 @@ class ListSettlementPaymentsPaymentOutput(BaseModel):
             "captureBefore",
             "applicationFee",
             "routing",
-            "sequenceType",
             "subscriptionId",
             "mandateId",
             "customerId",

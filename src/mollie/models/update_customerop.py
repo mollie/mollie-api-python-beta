@@ -496,6 +496,8 @@ class UpdateCustomerLinks(BaseModel):
 class UpdateCustomerResponseTypedDict(TypedDict):
     r"""The updated customer object."""
 
+    resource: str
+    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
     id: str
     r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
     mode: UpdateCustomerMode
@@ -516,12 +518,13 @@ class UpdateCustomerResponseTypedDict(TypedDict):
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: UpdateCustomerLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    resource: NotRequired[str]
-    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
 
 
 class UpdateCustomerResponse(BaseModel):
     r"""The updated customer object."""
+
+    resource: str
+    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
 
     id: str
     r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
@@ -551,12 +554,9 @@ class UpdateCustomerResponse(BaseModel):
     links: Annotated[UpdateCustomerLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    resource: Optional[str] = "customer"
-    r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["resource"]
+        optional_fields = []
         nullable_fields = ["name", "email", "locale", "metadata"]
         null_default_fields = []
 

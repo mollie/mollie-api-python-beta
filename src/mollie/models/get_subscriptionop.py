@@ -478,6 +478,10 @@ class GetSubscriptionLinks(BaseModel):
 class GetSubscriptionResponseTypedDict(TypedDict):
     r"""The subscription object."""
 
+    resource: str
+    r"""Indicates the response contains a subscription object. Will always contain the string `subscription` for this
+    endpoint.
+    """
     id: str
     r"""The identifier uniquely referring to this subscription. Example: `sub_rVKGtNd6s3`."""
     mode: GetSubscriptionMode
@@ -530,10 +534,6 @@ class GetSubscriptionResponseTypedDict(TypedDict):
     r"""The customer this subscription belongs to."""
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    resource: NotRequired[str]
-    r"""Indicates the response contains a subscription object. Will always contain the string `subscription` for this
-    endpoint.
-    """
     next_payment_date: NotRequired[Nullable[str]]
     r"""The date of the next scheduled payment in `YYYY-MM-DD` format. If the subscription has been completed or canceled,
     this parameter will not be returned.
@@ -559,6 +559,11 @@ class GetSubscriptionResponseTypedDict(TypedDict):
 
 class GetSubscriptionResponse(BaseModel):
     r"""The subscription object."""
+
+    resource: str
+    r"""Indicates the response contains a subscription object. Will always contain the string `subscription` for this
+    endpoint.
+    """
 
     id: str
     r"""The identifier uniquely referring to this subscription. Example: `sub_rVKGtNd6s3`."""
@@ -626,11 +631,6 @@ class GetSubscriptionResponse(BaseModel):
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    resource: Optional[str] = "subscription"
-    r"""Indicates the response contains a subscription object. Will always contain the string `subscription` for this
-    endpoint.
-    """
-
     next_payment_date: Annotated[
         OptionalNullable[str], pydantic.Field(alias="nextPaymentDate")
     ] = UNSET
@@ -670,7 +670,6 @@ class GetSubscriptionResponse(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "resource",
             "nextPaymentDate",
             "applicationFee",
             "mandateId",

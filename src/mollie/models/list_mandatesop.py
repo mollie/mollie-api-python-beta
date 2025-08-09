@@ -63,13 +63,13 @@ class ListMandatesRequest(BaseModel):
     limit: Annotated[
         OptionalNullable[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = 50
+    ] = UNSET
     r"""The maximum number of items to return. Defaults to 50 items."""
 
     sort: Annotated[
         OptionalNullable[ListMandatesSort],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = ListMandatesSort.DESC
+    ] = UNSET
     r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
     newest to oldest.
     """
@@ -474,6 +474,8 @@ class MandateLinks(BaseModel):
 
 
 class ListMandatesMandateTypedDict(TypedDict):
+    resource: str
+    r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
     id: str
     r"""The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`."""
     mode: ListMandatesMode
@@ -500,11 +502,12 @@ class ListMandatesMandateTypedDict(TypedDict):
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: MandateLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    resource: NotRequired[str]
-    r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
 
 
 class ListMandatesMandate(BaseModel):
+    resource: str
+    r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
+
     id: str
     r"""The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`."""
 
@@ -543,12 +546,9 @@ class ListMandatesMandate(BaseModel):
     links: Annotated[MandateLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    resource: Optional[str] = "mandate"
-    r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["resource"]
+        optional_fields = []
         nullable_fields = ["signatureDate", "mandateReference"]
         null_default_fields = []
 

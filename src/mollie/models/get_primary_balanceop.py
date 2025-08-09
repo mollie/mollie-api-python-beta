@@ -277,7 +277,7 @@ class GetPrimaryBalanceResponseTypedDict(TypedDict):
 class GetPrimaryBalanceResponse(BaseModel):
     r"""The primary balance object."""
 
-    resource: Optional[str] = "balance"
+    resource: Optional[str] = None
     r"""Indicates the response contains a balance object. Will always contain the string `balance` for this endpoint."""
 
     id: Optional[str] = None

@@ -75,13 +75,13 @@ class ListInvoicesRequest(BaseModel):
     limit: Annotated[
         OptionalNullable[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = 50
+    ] = UNSET
     r"""The maximum number of items to return. Defaults to 50 items."""
 
     sort: Annotated[
         OptionalNullable[ListInvoicesSort],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = ListInvoicesSort.DESC
+    ] = UNSET
     r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
     newest to oldest.
     """

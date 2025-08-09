@@ -14,10 +14,8 @@ class Terminals(BaseSDK):
         self,
         *,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[
-            models.ListTerminalsSort
-        ] = models.ListTerminalsSort.DESC,
+        limit: OptionalNullable[int] = UNSET,
+        sort: OptionalNullable[models.ListTerminalsSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -120,10 +118,8 @@ class Terminals(BaseSDK):
         self,
         *,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[
-            models.ListTerminalsSort
-        ] = models.ListTerminalsSort.DESC,
+        limit: OptionalNullable[int] = UNSET,
+        sort: OptionalNullable[models.ListTerminalsSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,

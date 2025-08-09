@@ -165,7 +165,7 @@ class GetOnboardingStatusResponseTypedDict(TypedDict):
 class GetOnboardingStatusResponse(BaseModel):
     r"""The onboarding status object of the current organization."""
 
-    resource: Optional[str] = "onboarding"
+    resource: Optional[str] = None
     r"""Indicates the response contains an onboarding status object. Will always contain the string `onboarding` for this
     resource type.
     """

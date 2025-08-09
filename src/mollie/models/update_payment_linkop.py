@@ -262,7 +262,7 @@ class UpdatePaymentLinkLineRequest(BaseModel):
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
 
-    type: Optional[UpdatePaymentLinkTypeRequest] = UpdatePaymentLinkTypeRequest.PHYSICAL
+    type: Optional[UpdatePaymentLinkTypeRequest] = None
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -1176,9 +1176,7 @@ class UpdatePaymentLinkLineResponse(BaseModel):
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
 
-    type: Optional[UpdatePaymentLinkTypeResponse] = (
-        UpdatePaymentLinkTypeResponse.PHYSICAL
-    )
+    type: Optional[UpdatePaymentLinkTypeResponse] = None
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -1650,6 +1648,10 @@ class UpdatePaymentLinkLinks(BaseModel):
 class UpdatePaymentLinkResponseTypedDict(TypedDict):
     r"""The payment link object."""
 
+    resource: str
+    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this
+    endpoint.
+    """
     id: str
     r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
     mode: UpdatePaymentLinkMode
@@ -1685,6 +1687,12 @@ class UpdatePaymentLinkResponseTypedDict(TypedDict):
     request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
     required.
     """
+    reusable: Nullable[bool]
+    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple
+    payments using the same link.
+
+    If no value is specified, the field defaults to `false`, allowing only a single payment per link.
+    """
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     paid_at: Nullable[str]
@@ -1703,10 +1711,6 @@ class UpdatePaymentLinkResponseTypedDict(TypedDict):
     """
     links: UpdatePaymentLinkLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    resource: NotRequired[str]
-    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this
-    endpoint.
-    """
     minimum_amount: NotRequired[
         Nullable[UpdatePaymentLinkMinimumAmountResponseTypedDict]
     ]
@@ -1737,12 +1741,6 @@ class UpdatePaymentLinkResponseTypedDict(TypedDict):
     Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
     `country`.
     """
-    reusable: NotRequired[Nullable[bool]]
-    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple
-    payments using the same link.
-
-    If no value is specified, the field defaults to `false`, allowing only a single payment per link.
-    """
     application_fee: NotRequired[UpdatePaymentLinkApplicationFeeTypedDict]
     r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie
     merchants.
@@ -1770,6 +1768,11 @@ class UpdatePaymentLinkResponseTypedDict(TypedDict):
 
 class UpdatePaymentLinkResponse(BaseModel):
     r"""The payment link object."""
+
+    resource: str
+    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this
+    endpoint.
+    """
 
     id: str
     r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
@@ -1814,6 +1817,13 @@ class UpdatePaymentLinkResponse(BaseModel):
     required.
     """
 
+    reusable: Nullable[bool]
+    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple
+    payments using the same link.
+
+    If no value is specified, the field defaults to `false`, allowing only a single payment per link.
+    """
+
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
@@ -1838,11 +1848,6 @@ class UpdatePaymentLinkResponse(BaseModel):
 
     links: Annotated[UpdatePaymentLinkLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
-    resource: Optional[str] = "payment-link"
-    r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this
-    endpoint.
-    """
 
     minimum_amount: Annotated[
         OptionalNullable[UpdatePaymentLinkMinimumAmountResponse],
@@ -1885,13 +1890,6 @@ class UpdatePaymentLinkResponse(BaseModel):
     `country`.
     """
 
-    reusable: OptionalNullable[bool] = False
-    r"""Indicates whether the payment link is reusable. If this field is set to `true`, customers can make multiple
-    payments using the same link.
-
-    If no value is specified, the field defaults to `false`, allowing only a single payment per link.
-    """
-
     application_fee: Annotated[
         Optional[UpdatePaymentLinkApplicationFee],
         pydantic.Field(alias="applicationFee"),
@@ -1929,12 +1927,10 @@ class UpdatePaymentLinkResponse(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "resource",
             "minimumAmount",
             "lines",
             "billingAddress",
             "shippingAddress",
-            "reusable",
             "applicationFee",
             "sequenceType",
             "customerId",

@@ -291,6 +291,7 @@ with ClientSDK(
         "value": "10.00",
     }, redirect_url="https://example.org/redirect", cancel_url="https://example.org/cancel", webhook_url="https://example.org/webhooks", lines=[
         {
+            "type": mollie.CreateCustomerPaymentLineTypeRequest.PHYSICAL,
             "description": "LEGO 4440 Forest Police Station",
             "quantity": 1,
             "quantity_unit": "pcs",

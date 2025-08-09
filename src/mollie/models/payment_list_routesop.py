@@ -243,6 +243,8 @@ class RouteLinks(BaseModel):
 
 
 class RouteTypedDict(TypedDict):
+    resource: str
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
     id: str
     r"""The identifier uniquely referring to this route. Mollie assigns this identifier at route creation time. Mollie
     will always refer to the route by this ID. Example: `crt_dyARQ3JzCgtPDhU2Pbq3J`.
@@ -263,11 +265,12 @@ class RouteTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    resource: NotRequired[str]
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
 
 
 class Route(BaseModel):
+    resource: str
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
+
     id: str
     r"""The identifier uniquely referring to this route. Mollie assigns this identifier at route creation time. Mollie
     will always refer to the route by this ID. Example: `crt_dyARQ3JzCgtPDhU2Pbq3J`.
@@ -294,9 +297,6 @@ class Route(BaseModel):
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-
-    resource: Optional[str] = "route"
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
 
 
 class PaymentListRoutesEmbeddedTypedDict(TypedDict):

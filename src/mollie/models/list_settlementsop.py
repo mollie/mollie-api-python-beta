@@ -61,7 +61,7 @@ class ListSettlementsRequest(BaseModel):
     limit: Annotated[
         OptionalNullable[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = 50
+    ] = UNSET
     r"""The maximum number of items to return. Defaults to 50 items."""
 
     balance_id: Annotated[
@@ -1060,7 +1060,7 @@ class ListSettlementsSettlementTypedDict(TypedDict):
 
 
 class ListSettlementsSettlement(BaseModel):
-    resource: Optional[str] = "settlement"
+    resource: Optional[str] = None
     r"""Indicates the response contains a settlement object. Will always contain the string `settlement` for this
     endpoint.
     """

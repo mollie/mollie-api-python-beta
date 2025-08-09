@@ -906,7 +906,7 @@ class GetSettlementResponseTypedDict(TypedDict):
 class GetSettlementResponse(BaseModel):
     r"""The settlement object."""
 
-    resource: Optional[str] = "settlement"
+    resource: Optional[str] = None
     r"""Indicates the response contains a settlement object. Will always contain the string `settlement` for this
     endpoint.
     """

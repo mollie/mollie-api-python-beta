@@ -41,7 +41,7 @@ class ListSalesInvoicesRequest(BaseModel):
     limit: Annotated[
         OptionalNullable[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = 50
+    ] = UNSET
     r"""The maximum number of items to return. Defaults to 50 items."""
 
     testmode: Annotated[
@@ -979,7 +979,7 @@ class SalesInvoiceTypedDict(TypedDict):
 
 
 class SalesInvoice(BaseModel):
-    resource: Optional[str] = "sales-invoice"
+    resource: Optional[str] = None
     r"""Indicates the response contains a sales invoice object. Will always contain the string `sales-invoice` for this
     endpoint.
     """
@@ -1010,12 +1010,12 @@ class SalesInvoice(BaseModel):
 
     vat_scheme: Annotated[
         Optional[ListSalesInvoicesVatScheme], pydantic.Field(alias="vatScheme")
-    ] = ListSalesInvoicesVatScheme.STANDARD
+    ] = None
     r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
 
     vat_mode: Annotated[
         Optional[ListSalesInvoicesVatMode], pydantic.Field(alias="vatMode")
-    ] = ListSalesInvoicesVatMode.EXCLUSIVE
+    ] = None
     r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
     price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
     """
@@ -1031,7 +1031,7 @@ class SalesInvoice(BaseModel):
     payment_term: Annotated[
         OptionalNullable[ListSalesInvoicesPaymentTerm],
         pydantic.Field(alias="paymentTerm"),
-    ] = ListSalesInvoicesPaymentTerm.THIRTYDAYS
+    ] = UNSET
     r"""The payment term to be set on the invoice."""
 
     payment_details: Annotated[

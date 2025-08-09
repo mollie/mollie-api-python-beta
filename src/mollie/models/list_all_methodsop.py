@@ -149,7 +149,7 @@ class ListAllMethodsRequest(BaseModel):
         Optional[ListAllMethodsSequenceType],
         pydantic.Field(alias="sequenceType"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = ListAllMethodsSequenceType.ONEOFF
+    ] = None
     r"""Set this parameter to `first` to only return the methods that
     can be used for the first payment of a recurring sequence.
 
@@ -438,6 +438,7 @@ class ListAllMethodsIssuerImage(BaseModel):
 
 
 class ListAllMethodsIssuerTypedDict(TypedDict):
+    resource: str
     id: str
     name: str
     r"""The full name of the issuer."""
@@ -448,10 +449,11 @@ class ListAllMethodsIssuerTypedDict(TypedDict):
     - size2x
     - svg
     """
-    resource: NotRequired[str]
 
 
 class ListAllMethodsIssuer(BaseModel):
+    resource: str
+
     id: str
 
     name: str
@@ -464,8 +466,6 @@ class ListAllMethodsIssuer(BaseModel):
     - size2x
     - svg
     """
-
-    resource: Optional[str] = "issuer"
 
 
 class ListAllMethodsMethodSelfTypedDict(TypedDict):

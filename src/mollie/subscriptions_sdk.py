@@ -363,10 +363,8 @@ class SubscriptionsSDK(BaseSDK):
         *,
         customer_id: str,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[
-            models.ListSubscriptionsSort
-        ] = models.ListSubscriptionsSort.DESC,
+        limit: OptionalNullable[int] = UNSET,
+        sort: OptionalNullable[models.ListSubscriptionsSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -479,10 +477,8 @@ class SubscriptionsSDK(BaseSDK):
         *,
         customer_id: str,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[
-            models.ListSubscriptionsSort
-        ] = models.ListSubscriptionsSort.DESC,
+        limit: OptionalNullable[int] = UNSET,
+        sort: OptionalNullable[models.ListSubscriptionsSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1310,7 +1306,7 @@ class SubscriptionsSDK(BaseSDK):
         self,
         *,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
+        limit: OptionalNullable[int] = UNSET,
         profile_id: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1425,7 +1421,7 @@ class SubscriptionsSDK(BaseSDK):
         self,
         *,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
+        limit: OptionalNullable[int] = UNSET,
         profile_id: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1542,10 +1538,8 @@ class SubscriptionsSDK(BaseSDK):
         customer_id: str,
         subscription_id: str,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[
-            models.ListSubscriptionPaymentsSort
-        ] = models.ListSubscriptionPaymentsSort.DESC,
+        limit: OptionalNullable[int] = UNSET,
+        sort: OptionalNullable[models.ListSubscriptionPaymentsSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1659,10 +1653,8 @@ class SubscriptionsSDK(BaseSDK):
         customer_id: str,
         subscription_id: str,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[
-            models.ListSubscriptionPaymentsSort
-        ] = models.ListSubscriptionPaymentsSort.DESC,
+        limit: OptionalNullable[int] = UNSET,
+        sort: OptionalNullable[models.ListSubscriptionPaymentsSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,

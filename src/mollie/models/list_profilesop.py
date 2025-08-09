@@ -34,7 +34,7 @@ class ListProfilesRequest(BaseModel):
     limit: Annotated[
         OptionalNullable[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = 50
+    ] = UNSET
     r"""The maximum number of items to return. Defaults to 50 items."""
 
     @model_serializer(mode="wrap")
@@ -426,7 +426,7 @@ class ListProfilesProfileTypedDict(TypedDict):
 
 
 class ListProfilesProfile(BaseModel):
-    resource: Optional[str] = "profile"
+    resource: Optional[str] = None
     r"""Indicates the response contains a profile object. Will always contain the string `profile` for this endpoint."""
 
     id: Optional[str] = None

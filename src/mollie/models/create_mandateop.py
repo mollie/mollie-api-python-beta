@@ -495,6 +495,8 @@ class CreateMandateLinks(BaseModel):
 class CreateMandateResponseTypedDict(TypedDict):
     r"""The newly created mandate object."""
 
+    resource: str
+    r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
     id: str
     r"""The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`."""
     mode: CreateMandateMode
@@ -521,12 +523,13 @@ class CreateMandateResponseTypedDict(TypedDict):
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: CreateMandateLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    resource: NotRequired[str]
-    r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
 
 
 class CreateMandateResponse(BaseModel):
     r"""The newly created mandate object."""
+
+    resource: str
+    r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
 
     id: str
     r"""The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`."""
@@ -566,12 +569,9 @@ class CreateMandateResponse(BaseModel):
     links: Annotated[CreateMandateLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    resource: Optional[str] = "mandate"
-    r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["resource"]
+        optional_fields = []
         nullable_fields = ["signatureDate", "mandateReference"]
         null_default_fields = []
 

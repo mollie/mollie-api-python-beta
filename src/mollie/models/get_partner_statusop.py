@@ -167,13 +167,13 @@ class GetPartnerStatusLinks(BaseModel):
 class GetPartnerStatusResponseTypedDict(TypedDict):
     r"""The partner status object."""
 
+    resource: str
+    r"""Indicates the response contains a partner status object. Will always contain the string `partner` for
+    this endpoint.
+    """
     partner_type: Nullable[PartnerType]
     r"""Indicates the type of partner. Will be `null` if the currently authenticated organization is not
     enrolled as a partner.
-    """
-    resource: NotRequired[str]
-    r"""Indicates the response contains a partner status object. Will always contain the string `partner` for
-    this endpoint.
     """
     is_commission_partner: NotRequired[bool]
     r"""Whether the current organization is receiving commissions."""
@@ -198,14 +198,14 @@ class GetPartnerStatusResponseTypedDict(TypedDict):
 class GetPartnerStatusResponse(BaseModel):
     r"""The partner status object."""
 
+    resource: str
+    r"""Indicates the response contains a partner status object. Will always contain the string `partner` for
+    this endpoint.
+    """
+
     partner_type: Annotated[Nullable[PartnerType], pydantic.Field(alias="partnerType")]
     r"""Indicates the type of partner. Will be `null` if the currently authenticated organization is not
     enrolled as a partner.
-    """
-
-    resource: Optional[str] = "partner"
-    r"""Indicates the response contains a partner status object. Will always contain the string `partner` for
-    this endpoint.
     """
 
     is_commission_partner: Annotated[
@@ -247,7 +247,6 @@ class GetPartnerStatusResponse(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "resource",
             "isCommissionPartner",
             "userAgentTokens",
             "partnerContractSignedAt",

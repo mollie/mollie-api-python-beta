@@ -443,7 +443,7 @@ class GetClientEmbeddedOrganizationTypedDict(TypedDict):
 
 
 class GetClientEmbeddedOrganization(BaseModel):
-    resource: Optional[str] = "organization"
+    resource: Optional[str] = None
     r"""Indicates the response contains an organization object. Will always contain the string `organization` for this
     resource type.
     """
@@ -686,7 +686,7 @@ class GetClientEmbeddedOnboardingTypedDict(TypedDict):
 
 
 class GetClientEmbeddedOnboarding(BaseModel):
-    resource: Optional[str] = "onboarding"
+    resource: Optional[str] = None
     r"""Indicates the response contains an onboarding status object. Will always contain the string `onboarding` for this
     resource type.
     """
@@ -936,7 +936,7 @@ class GetClientResponseTypedDict(TypedDict):
 class GetClientResponse(BaseModel):
     r"""The client object."""
 
-    resource: Optional[str] = "client"
+    resource: Optional[str] = None
     r"""Indicates the response contains a client object. Will always contain the string `client` for this resource type."""
 
     id: Optional[str] = None

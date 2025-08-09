@@ -234,7 +234,7 @@ class GetWebhookResponseTypedDict(TypedDict):
 class GetWebhookResponse(BaseModel):
     r"""The webhook object."""
 
-    resource: Optional[str] = "webhook"
+    resource: Optional[str] = None
     r"""Indicates the response contains a webhook subscription object.
     Will always contain the string `webhook` for this endpoint.
     """

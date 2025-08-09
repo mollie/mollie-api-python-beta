@@ -339,7 +339,7 @@ class RefundsSDK(BaseSDK):
         *,
         payment_id: str,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
+        limit: OptionalNullable[int] = UNSET,
         embed: Optional[models.ListRefundsEmbed] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -451,7 +451,7 @@ class RefundsSDK(BaseSDK):
         *,
         payment_id: str,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
+        limit: OptionalNullable[int] = UNSET,
         embed: Optional[models.ListRefundsEmbed] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -972,10 +972,8 @@ class RefundsSDK(BaseSDK):
         self,
         *,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[
-            models.ListAllRefundsSort
-        ] = models.ListAllRefundsSort.DESC,
+        limit: OptionalNullable[int] = UNSET,
+        sort: OptionalNullable[models.ListAllRefundsSort] = UNSET,
         embed: Optional[models.ListAllRefundsEmbed] = None,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
@@ -1084,10 +1082,8 @@ class RefundsSDK(BaseSDK):
         self,
         *,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[
-            models.ListAllRefundsSort
-        ] = models.ListAllRefundsSort.DESC,
+        limit: OptionalNullable[int] = UNSET,
+        sort: OptionalNullable[models.ListAllRefundsSort] = UNSET,
         embed: Optional[models.ListAllRefundsEmbed] = None,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,

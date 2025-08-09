@@ -67,13 +67,13 @@ class ListWebhooksRequest(BaseModel):
     limit: Annotated[
         OptionalNullable[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = 50
+    ] = UNSET
     r"""The maximum number of items to return. Defaults to 50 items."""
 
     sort: Annotated[
         OptionalNullable[ListWebhooksSort],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = ListWebhooksSort.DESC
+    ] = UNSET
     r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
     newest to oldest.
     """
@@ -226,7 +226,7 @@ class WebhookTypedDict(TypedDict):
 
 
 class Webhook(BaseModel):
-    resource: Optional[str] = "webhook"
+    resource: Optional[str] = None
     r"""Indicates the response contains a webhook subscription object.
     Will always contain the string `webhook` for this endpoint.
     """

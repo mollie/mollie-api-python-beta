@@ -638,7 +638,7 @@ class UpdateProfileResponseTypedDict(TypedDict):
 class UpdateProfileResponse(BaseModel):
     r"""The updated profile object."""
 
-    resource: Optional[str] = "profile"
+    resource: Optional[str] = None
     r"""Indicates the response contains a profile object. Will always contain the string `profile` for this endpoint."""
 
     id: Optional[str] = None

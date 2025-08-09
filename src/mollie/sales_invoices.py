@@ -242,7 +242,7 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
+        limit: OptionalNullable[int] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -347,7 +347,7 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
+        limit: OptionalNullable[int] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -657,7 +657,7 @@ class SalesInvoices(BaseSDK):
         memo: OptionalNullable[str] = UNSET,
         payment_term: OptionalNullable[
             models.UpdateSalesInvoicePaymentTermRequest
-        ] = models.UpdateSalesInvoicePaymentTermRequest.THIRTYDAYS,
+        ] = UNSET,
         payment_details: OptionalNullable[
             Union[
                 models.UpdateSalesInvoicePaymentDetailsRequest,
@@ -842,7 +842,7 @@ class SalesInvoices(BaseSDK):
         memo: OptionalNullable[str] = UNSET,
         payment_term: OptionalNullable[
             models.UpdateSalesInvoicePaymentTermRequest
-        ] = models.UpdateSalesInvoicePaymentTermRequest.THIRTYDAYS,
+        ] = UNSET,
         payment_details: OptionalNullable[
             Union[
                 models.UpdateSalesInvoicePaymentDetailsRequest,

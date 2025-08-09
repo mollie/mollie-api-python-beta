@@ -318,7 +318,7 @@ class GetOrganizationResponseTypedDict(TypedDict):
 class GetOrganizationResponse(BaseModel):
     r"""The organization object."""
 
-    resource: Optional[str] = "organization"
+    resource: Optional[str] = None
     r"""Indicates the response contains an organization object. Will always contain the string `organization` for this
     resource type.
     """

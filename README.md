@@ -138,6 +138,7 @@ with ClientSDK(
         "webhook_url": "https://example.org/webhooks",
         "lines": [
             {
+                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
                 "quantity_unit": "pcs",
@@ -177,6 +178,7 @@ with ClientSDK(
                 },
             },
             {
+                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
                 "quantity_unit": "pcs",
@@ -216,6 +218,7 @@ with ClientSDK(
                 },
             },
             {
+                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
                 "quantity_unit": "pcs",
@@ -340,6 +343,7 @@ with ClientSDK(
                 },
             },
         ],
+        "sequence_type": mollie.CreatePaymentSequenceTypeRequest.ONEOFF,
         "mandate_id": "mdt_5B8cwPMGnU",
         "customer_id": "cst_5B8cwPMGnU",
         "profile_id": "pfl_5B8cwPMGnU",
@@ -380,6 +384,7 @@ async def main():
             "webhook_url": "https://example.org/webhooks",
             "lines": [
                 {
+                    "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                     "description": "LEGO 4440 Forest Police Station",
                     "quantity": 1,
                     "quantity_unit": "pcs",
@@ -419,6 +424,7 @@ async def main():
                     },
                 },
                 {
+                    "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                     "description": "LEGO 4440 Forest Police Station",
                     "quantity": 1,
                     "quantity_unit": "pcs",
@@ -458,6 +464,7 @@ async def main():
                     },
                 },
                 {
+                    "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                     "description": "LEGO 4440 Forest Police Station",
                     "quantity": 1,
                     "quantity_unit": "pcs",
@@ -582,6 +589,7 @@ async def main():
                     },
                 },
             ],
+            "sequence_type": mollie.CreatePaymentSequenceTypeRequest.ONEOFF,
             "mandate_id": "mdt_5B8cwPMGnU",
             "customer_id": "cst_5B8cwPMGnU",
             "profile_id": "pfl_5B8cwPMGnU",
@@ -632,6 +640,7 @@ with ClientSDK(
         "webhook_url": "https://example.org/webhooks",
         "lines": [
             {
+                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
                 "quantity_unit": "pcs",
@@ -671,6 +680,7 @@ with ClientSDK(
                 },
             },
             {
+                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
                 "quantity_unit": "pcs",
@@ -710,6 +720,7 @@ with ClientSDK(
                 },
             },
             {
+                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
                 "quantity_unit": "pcs",
@@ -834,6 +845,7 @@ with ClientSDK(
                 },
             },
         ],
+        "sequence_type": mollie.CreatePaymentSequenceTypeRequest.ONEOFF,
         "mandate_id": "mdt_5B8cwPMGnU",
         "customer_id": "cst_5B8cwPMGnU",
         "profile_id": "pfl_5B8cwPMGnU",
@@ -1055,6 +1067,7 @@ with ClientSDK(
         "webhook_url": "https://example.org/webhooks",
         "lines": [
             {
+                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
                 "quantity_unit": "pcs",
@@ -1094,6 +1107,7 @@ with ClientSDK(
                 },
             },
             {
+                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
                 "quantity_unit": "pcs",
@@ -1133,6 +1147,7 @@ with ClientSDK(
                 },
             },
             {
+                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
                 "quantity_unit": "pcs",
@@ -1257,6 +1272,7 @@ with ClientSDK(
                 },
             },
         ],
+        "sequence_type": mollie.CreatePaymentSequenceTypeRequest.ONEOFF,
         "mandate_id": "mdt_5B8cwPMGnU",
         "customer_id": "cst_5B8cwPMGnU",
         "profile_id": "pfl_5B8cwPMGnU",
@@ -1296,6 +1312,7 @@ with ClientSDK(
         "webhook_url": "https://example.org/webhooks",
         "lines": [
             {
+                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
                 "quantity_unit": "pcs",
@@ -1335,6 +1352,7 @@ with ClientSDK(
                 },
             },
             {
+                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
                 "quantity_unit": "pcs",
@@ -1374,6 +1392,7 @@ with ClientSDK(
                 },
             },
             {
+                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
                 "quantity_unit": "pcs",
@@ -1498,6 +1517,7 @@ with ClientSDK(
                 },
             },
         ],
+        "sequence_type": mollie.CreatePaymentSequenceTypeRequest.ONEOFF,
         "mandate_id": "mdt_5B8cwPMGnU",
         "customer_id": "cst_5B8cwPMGnU",
         "profile_id": "pfl_5B8cwPMGnU",
@@ -1551,6 +1571,7 @@ with ClientSDK(
             "webhook_url": "https://example.org/webhooks",
             "lines": [
                 {
+                    "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                     "description": "LEGO 4440 Forest Police Station",
                     "quantity": 1,
                     "quantity_unit": "pcs",
@@ -1590,6 +1611,7 @@ with ClientSDK(
                     },
                 },
                 {
+                    "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                     "description": "LEGO 4440 Forest Police Station",
                     "quantity": 1,
                     "quantity_unit": "pcs",
@@ -1629,6 +1651,7 @@ with ClientSDK(
                     },
                 },
                 {
+                    "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                     "description": "LEGO 4440 Forest Police Station",
                     "quantity": 1,
                     "quantity_unit": "pcs",
@@ -1753,6 +1776,7 @@ with ClientSDK(
                     },
                 },
             ],
+            "sequence_type": mollie.CreatePaymentSequenceTypeRequest.ONEOFF,
             "mandate_id": "mdt_5B8cwPMGnU",
             "customer_id": "cst_5B8cwPMGnU",
             "profile_id": "pfl_5B8cwPMGnU",
@@ -1959,6 +1983,7 @@ with ClientSDK(
         "webhook_url": "https://example.org/webhooks",
         "lines": [
             {
+                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
                 "quantity_unit": "pcs",
@@ -1998,6 +2023,7 @@ with ClientSDK(
                 },
             },
             {
+                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
                 "quantity_unit": "pcs",
@@ -2037,6 +2063,7 @@ with ClientSDK(
                 },
             },
             {
+                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
                 "quantity_unit": "pcs",
@@ -2161,6 +2188,7 @@ with ClientSDK(
                 },
             },
         ],
+        "sequence_type": mollie.CreatePaymentSequenceTypeRequest.ONEOFF,
         "mandate_id": "mdt_5B8cwPMGnU",
         "customer_id": "cst_5B8cwPMGnU",
         "profile_id": "pfl_5B8cwPMGnU",

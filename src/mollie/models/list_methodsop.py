@@ -182,7 +182,7 @@ class ListMethodsRequest(BaseModel):
         Optional[ListMethodsSequenceType],
         pydantic.Field(alias="sequenceType"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = ListMethodsSequenceType.ONEOFF
+    ] = None
     r"""Set this parameter to `first` to only return the enabled methods that
     can be used for the first payment of a recurring sequence.
 
@@ -213,7 +213,7 @@ class ListMethodsRequest(BaseModel):
             deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
         ),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = Resource.PAYMENTS
+    ] = None
     r"""**⚠️ We no longer recommend using the Orders API. Please refer to the [Payments API](payments-api) instead.**
 
     Indicate if you will use the result for the [Create order](create-order)
@@ -547,6 +547,7 @@ class ListMethodsIssuerImage(BaseModel):
 
 
 class ListMethodsIssuerTypedDict(TypedDict):
+    resource: str
     id: str
     name: str
     r"""The full name of the issuer."""
@@ -557,10 +558,11 @@ class ListMethodsIssuerTypedDict(TypedDict):
     - size2x
     - svg
     """
-    resource: NotRequired[str]
 
 
 class ListMethodsIssuer(BaseModel):
+    resource: str
+
     id: str
 
     name: str
@@ -573,8 +575,6 @@ class ListMethodsIssuer(BaseModel):
     - size2x
     - svg
     """
-
-    resource: Optional[str] = "issuer"
 
 
 class ListMethodsMethodSelfTypedDict(TypedDict):

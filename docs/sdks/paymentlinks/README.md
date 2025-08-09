@@ -47,6 +47,7 @@ with ClientSDK(
         "webhook_url": "https://webshop.example.org/payment-links/webhook/",
         "lines": [
             {
+                "type": mollie.CreatePaymentLinkTypeRequest.PHYSICAL,
                 "description": "LEGO 4440 Forest Police Station",
                 "quantity": 1,
                 "quantity_unit": "pcs",
@@ -105,6 +106,7 @@ with ClientSDK(
             "country": "NL",
         },
         "profile_id": "pfl_QkEhN94Ba",
+        "reusable": False,
         "expires_at": "2025-12-24T11:00:16+00:00",
         "allowed_methods": [
             "ideal",
@@ -263,6 +265,7 @@ with ClientSDK(
         "ideal",
     ], lines=[
         {
+            "type": mollie.UpdatePaymentLinkTypeRequest.PHYSICAL,
             "description": "LEGO 4440 Forest Police Station",
             "quantity": 1,
             "quantity_unit": "pcs",

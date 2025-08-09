@@ -324,6 +324,8 @@ class PaymentCreateRouteLinks(BaseModel):
 class PaymentCreateRouteResponseTypedDict(TypedDict):
     r"""The route object."""
 
+    resource: str
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
     id: str
     r"""The identifier uniquely referring to this route. Mollie assigns this identifier at route creation time. Mollie
     will always refer to the route by this ID. Example: `crt_dyARQ3JzCgtPDhU2Pbq3J`.
@@ -342,12 +344,13 @@ class PaymentCreateRouteResponseTypedDict(TypedDict):
     r"""The destination of the route."""
     links: PaymentCreateRouteLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    resource: NotRequired[str]
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
 
 
 class PaymentCreateRouteResponse(BaseModel):
     r"""The route object."""
+
+    resource: str
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
 
     id: str
     r"""The identifier uniquely referring to this route. Mollie assigns this identifier at route creation time. Mollie
@@ -372,6 +375,3 @@ class PaymentCreateRouteResponse(BaseModel):
 
     links: Annotated[PaymentCreateRouteLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
-    resource: Optional[str] = "route"
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""

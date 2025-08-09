@@ -238,7 +238,7 @@ class PaymentLinks(BaseSDK):
         self,
         *,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
+        limit: OptionalNullable[int] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -339,7 +339,7 @@ class PaymentLinks(BaseSDK):
         self,
         *,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
+        limit: OptionalNullable[int] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1197,10 +1197,8 @@ class PaymentLinks(BaseSDK):
         *,
         payment_link_id: str,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[
-            models.GetPaymentLinkPaymentsSort
-        ] = models.GetPaymentLinkPaymentsSort.DESC,
+        limit: OptionalNullable[int] = UNSET,
+        sort: OptionalNullable[models.GetPaymentLinkPaymentsSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1308,10 +1306,8 @@ class PaymentLinks(BaseSDK):
         *,
         payment_link_id: str,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[
-            models.GetPaymentLinkPaymentsSort
-        ] = models.GetPaymentLinkPaymentsSort.DESC,
+        limit: OptionalNullable[int] = UNSET,
+        sort: OptionalNullable[models.GetPaymentLinkPaymentsSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,

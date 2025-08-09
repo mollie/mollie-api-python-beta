@@ -84,7 +84,7 @@ class GetBalanceReportRequest(BaseModel):
     grouping: Annotated[
         OptionalNullable[QueryParamGrouping],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = QueryParamGrouping.STATUS_BALANCES
+    ] = UNSET
     r"""You can retrieve reports in two different formats. With the `status-balances` format, transactions are grouped
     by status (e.g. `pending`, `available`), then by transaction type, and then by other sub-groupings where
     available (e.g. payment method).
@@ -23586,7 +23586,7 @@ class GetBalanceReportResponseTypedDict(TypedDict):
 class GetBalanceReportResponse(BaseModel):
     r"""The balance report object."""
 
-    resource: Optional[str] = "balance-report"
+    resource: Optional[str] = None
     r"""Indicates the response contains a balance report object. Will always contain the string `balance-report` for this
     endpoint.
     """
@@ -23608,7 +23608,7 @@ class GetBalanceReportResponse(BaseModel):
     This means a report with for example `until=2024-02-01` will include movements up until 2024-01-31 23:59:59 CET.
     """
 
-    grouping: Optional[GroupingResponse] = GroupingResponse.STATUS_BALANCES
+    grouping: Optional[GroupingResponse] = None
     r"""You can retrieve reports in two different formats. With the `status-balances` format, transactions are grouped by
     status (e.g. `pending`, `available`), then by direction of movement (e.g. moved from pending to available), then
     by transaction type, and then by other sub-groupings where available (e.g. payment method).

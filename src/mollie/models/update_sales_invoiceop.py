@@ -541,7 +541,7 @@ class UpdateSalesInvoiceRequestBody(BaseModel):
     payment_term: Annotated[
         OptionalNullable[UpdateSalesInvoicePaymentTermRequest],
         pydantic.Field(alias="paymentTerm"),
-    ] = UpdateSalesInvoicePaymentTermRequest.THIRTYDAYS
+    ] = UNSET
     r"""The payment term to be set on the invoice."""
 
     payment_details: Annotated[
@@ -1618,7 +1618,7 @@ class UpdateSalesInvoiceResponseTypedDict(TypedDict):
 class UpdateSalesInvoiceResponse(BaseModel):
     r"""The sales invoice object."""
 
-    resource: Optional[str] = "sales-invoice"
+    resource: Optional[str] = None
     r"""Indicates the response contains a sales invoice object. Will always contain the string `sales-invoice` for this
     endpoint.
     """
@@ -1649,12 +1649,12 @@ class UpdateSalesInvoiceResponse(BaseModel):
 
     vat_scheme: Annotated[
         Optional[UpdateSalesInvoiceVatScheme], pydantic.Field(alias="vatScheme")
-    ] = UpdateSalesInvoiceVatScheme.STANDARD
+    ] = None
     r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
 
     vat_mode: Annotated[
         Optional[UpdateSalesInvoiceVatMode], pydantic.Field(alias="vatMode")
-    ] = UpdateSalesInvoiceVatMode.EXCLUSIVE
+    ] = None
     r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
     price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
     """
@@ -1670,7 +1670,7 @@ class UpdateSalesInvoiceResponse(BaseModel):
     payment_term: Annotated[
         OptionalNullable[UpdateSalesInvoicePaymentTermResponse],
         pydantic.Field(alias="paymentTerm"),
-    ] = UpdateSalesInvoicePaymentTermResponse.THIRTYDAYS
+    ] = UNSET
     r"""The payment term to be set on the invoice."""
 
     payment_details: Annotated[

@@ -216,10 +216,8 @@ class Customers(BaseSDK):
         self,
         *,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[
-            models.ListCustomersSort
-        ] = models.ListCustomersSort.DESC,
+        limit: OptionalNullable[int] = UNSET,
+        sort: OptionalNullable[models.ListCustomersSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -327,10 +325,8 @@ class Customers(BaseSDK):
         self,
         *,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[
-            models.ListCustomersSort
-        ] = models.ListCustomersSort.DESC,
+        limit: OptionalNullable[int] = UNSET,
+        sort: OptionalNullable[models.ListCustomersSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1154,7 +1150,7 @@ class Customers(BaseSDK):
         ] = UNSET,
         sequence_type: OptionalNullable[
             models.CreateCustomerPaymentSequenceTypeRequest
-        ] = models.CreateCustomerPaymentSequenceTypeRequest.ONEOFF,
+        ] = UNSET,
         mandate_id: OptionalNullable[str] = UNSET,
         customer_id: OptionalNullable[str] = UNSET,
         profile_id: Optional[str] = None,
@@ -1404,7 +1400,7 @@ class Customers(BaseSDK):
         ] = UNSET,
         sequence_type: OptionalNullable[
             models.CreateCustomerPaymentSequenceTypeRequest
-        ] = models.CreateCustomerPaymentSequenceTypeRequest.ONEOFF,
+        ] = UNSET,
         mandate_id: OptionalNullable[str] = UNSET,
         customer_id: OptionalNullable[str] = UNSET,
         profile_id: Optional[str] = None,
@@ -1601,10 +1597,8 @@ class Customers(BaseSDK):
         *,
         customer_id: str,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[
-            models.ListCustomerPaymentsSort
-        ] = models.ListCustomerPaymentsSort.DESC,
+        limit: OptionalNullable[int] = UNSET,
+        sort: OptionalNullable[models.ListCustomerPaymentsSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1713,10 +1707,8 @@ class Customers(BaseSDK):
         *,
         customer_id: str,
         from_: Optional[str] = None,
-        limit: OptionalNullable[int] = 50,
-        sort: OptionalNullable[
-            models.ListCustomerPaymentsSort
-        ] = models.ListCustomerPaymentsSort.DESC,
+        limit: OptionalNullable[int] = UNSET,
+        sort: OptionalNullable[models.ListCustomerPaymentsSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,

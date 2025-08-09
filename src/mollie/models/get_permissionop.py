@@ -209,7 +209,7 @@ class GetPermissionResponseTypedDict(TypedDict):
 class GetPermissionResponse(BaseModel):
     r"""The permission object."""
 
-    resource: Optional[str] = "permission"
+    resource: Optional[str] = None
     r"""Indicates the response contains a permission object. Will always contain the string `permission` for this
     endpoint.
     """

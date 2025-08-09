@@ -635,11 +635,11 @@ class CreateSalesInvoiceRequest(BaseModel):
 
     vat_scheme: Annotated[
         Optional[VatSchemeRequest], pydantic.Field(alias="vatScheme")
-    ] = VatSchemeRequest.STANDARD
+    ] = None
     r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
 
     vat_mode: Annotated[Optional[VatModeRequest], pydantic.Field(alias="vatMode")] = (
-        VatModeRequest.EXCLUSIVE
+        None
     )
     r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
     price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
@@ -656,7 +656,7 @@ class CreateSalesInvoiceRequest(BaseModel):
     payment_term: Annotated[
         OptionalNullable[CreateSalesInvoicePaymentTermRequest],
         pydantic.Field(alias="paymentTerm"),
-    ] = CreateSalesInvoicePaymentTermRequest.THIRTYDAYS
+    ] = UNSET
     r"""The payment term to be set on the invoice."""
 
     payment_details: Annotated[
@@ -1713,7 +1713,7 @@ class CreateSalesInvoiceResponse(BaseModel):
     [Get sales invoice endpoint](get-sales-invoice) documentation.
     """
 
-    resource: Optional[str] = "sales-invoice"
+    resource: Optional[str] = None
     r"""Indicates the response contains a sales invoice object. Will always contain the string `sales-invoice` for this
     endpoint.
     """
@@ -1744,12 +1744,12 @@ class CreateSalesInvoiceResponse(BaseModel):
 
     vat_scheme: Annotated[
         Optional[CreateSalesInvoiceVatSchemeResponse], pydantic.Field(alias="vatScheme")
-    ] = CreateSalesInvoiceVatSchemeResponse.STANDARD
+    ] = None
     r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
 
     vat_mode: Annotated[
         Optional[CreateSalesInvoiceVatModeResponse], pydantic.Field(alias="vatMode")
-    ] = CreateSalesInvoiceVatModeResponse.EXCLUSIVE
+    ] = None
     r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
     price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
     """
@@ -1765,7 +1765,7 @@ class CreateSalesInvoiceResponse(BaseModel):
     payment_term: Annotated[
         OptionalNullable[CreateSalesInvoicePaymentTermResponse],
         pydantic.Field(alias="paymentTerm"),
-    ] = CreateSalesInvoicePaymentTermResponse.THIRTYDAYS
+    ] = UNSET
     r"""The payment term to be set on the invoice."""
 
     payment_details: Annotated[

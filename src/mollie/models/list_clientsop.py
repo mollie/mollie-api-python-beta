@@ -60,7 +60,7 @@ class ListClientsRequest(BaseModel):
     limit: Annotated[
         OptionalNullable[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = 50
+    ] = UNSET
     r"""The maximum number of items to return. Defaults to 50 items."""
 
     @model_serializer(mode="wrap")
@@ -516,7 +516,7 @@ class ListClientsOrganizationTypedDict(TypedDict):
 
 
 class ListClientsOrganization(BaseModel):
-    resource: Optional[str] = "organization"
+    resource: Optional[str] = None
     r"""Indicates the response contains an organization object. Will always contain the string `organization` for this
     resource type.
     """
@@ -760,7 +760,7 @@ class ListClientsOnboardingTypedDict(TypedDict):
 
 
 class ListClientsOnboarding(BaseModel):
-    resource: Optional[str] = "onboarding"
+    resource: Optional[str] = None
     r"""Indicates the response contains an onboarding status object. Will always contain the string `onboarding` for this
     resource type.
     """
@@ -1006,7 +1006,7 @@ class ListClientsClientTypedDict(TypedDict):
 
 
 class ListClientsClient(BaseModel):
-    resource: Optional[str] = "client"
+    resource: Optional[str] = None
     r"""Indicates the response contains a client object. Will always contain the string `client` for this resource type."""
 
     id: Optional[str] = None
