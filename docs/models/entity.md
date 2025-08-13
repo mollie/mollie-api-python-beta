@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.GetWebhookEventPaymentLink`
+### `models.GetWebhookEventPaymentLinkOutput`
 
 ```python
-value: models.GetWebhookEventPaymentLink = /* values here */
+value: models.GetWebhookEventPaymentLinkOutput = /* values here */
 ```
 
 ### `models.GetWebhookEventProfile`

@@ -891,7 +891,7 @@ class PaymentLinkLinks(BaseModel):
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
 
 
-class ListPaymentLinksPaymentLinkTypedDict(TypedDict):
+class ListPaymentLinksPaymentLinkOutputTypedDict(TypedDict):
     resource: str
     r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this
     endpoint.
@@ -1008,7 +1008,7 @@ class ListPaymentLinksPaymentLinkTypedDict(TypedDict):
     """
 
 
-class ListPaymentLinksPaymentLink(BaseModel):
+class ListPaymentLinksPaymentLinkOutput(BaseModel):
     resource: str
     r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this
     endpoint.
@@ -1215,12 +1215,12 @@ class ListPaymentLinksPaymentLink(BaseModel):
 
 
 class ListPaymentLinksEmbeddedTypedDict(TypedDict):
-    payment_links: NotRequired[List[ListPaymentLinksPaymentLinkTypedDict]]
+    payment_links: NotRequired[List[ListPaymentLinksPaymentLinkOutputTypedDict]]
     r"""An array of payment link objects."""
 
 
 class ListPaymentLinksEmbedded(BaseModel):
-    payment_links: Optional[List[ListPaymentLinksPaymentLink]] = None
+    payment_links: Optional[List[ListPaymentLinksPaymentLinkOutput]] = None
     r"""An array of payment link objects."""
 
 
@@ -1364,22 +1364,22 @@ class ListPaymentLinksLinks(BaseModel):
 class ListPaymentLinksResponseTypedDict(TypedDict):
     r"""A list of payment link objects."""
 
-    count: NotRequired[int]
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
     The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
     limit is 50 items.
     """
-    embedded: NotRequired[ListPaymentLinksEmbeddedTypedDict]
-    links: NotRequired[ListPaymentLinksLinksTypedDict]
+    embedded: ListPaymentLinksEmbeddedTypedDict
+    links: ListPaymentLinksLinksTypedDict
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
 
 class ListPaymentLinksResponse(BaseModel):
     r"""A list of payment link objects."""
 
-    count: Optional[int] = None
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
@@ -1387,11 +1387,7 @@ class ListPaymentLinksResponse(BaseModel):
     limit is 50 items.
     """
 
-    embedded: Annotated[
-        Optional[ListPaymentLinksEmbedded], pydantic.Field(alias="_embedded")
-    ] = None
+    embedded: Annotated[ListPaymentLinksEmbedded, pydantic.Field(alias="_embedded")]
 
-    links: Annotated[
-        Optional[ListPaymentLinksLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[ListPaymentLinksLinks, pydantic.Field(alias="_links")]
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""

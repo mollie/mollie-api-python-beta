@@ -1,4 +1,4 @@
-# ListPaymentLinksPaymentLink
+# ListPaymentLinksPaymentLinkOutput
 
 
 ## Fields

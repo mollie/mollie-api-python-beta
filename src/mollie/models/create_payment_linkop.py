@@ -795,6 +795,13 @@ class CreatePaymentLinkRequestTypedDict(TypedDict):
     the customer will be required to input relevant information which will be used to establish a mandate after
     the payment is made.
     """
+    testmode: NotRequired[Nullable[bool]]
+    r"""Whether to create the entity in test mode or live mode.
+
+    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be
+    omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting
+    `testmode` to `true`.
+    """
 
 
 class CreatePaymentLinkRequest(BaseModel):
@@ -938,6 +945,14 @@ class CreatePaymentLinkRequest(BaseModel):
     the payment is made.
     """
 
+    testmode: OptionalNullable[bool] = UNSET
+    r"""Whether to create the entity in test mode or live mode.
+
+    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be
+    omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting
+    `testmode` to `true`.
+    """
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
@@ -955,6 +970,7 @@ class CreatePaymentLinkRequest(BaseModel):
             "applicationFee",
             "sequenceType",
             "customerId",
+            "testmode",
         ]
         nullable_fields = [
             "amount",
@@ -968,6 +984,7 @@ class CreatePaymentLinkRequest(BaseModel):
             "allowedMethods",
             "sequenceType",
             "customerId",
+            "testmode",
         ]
         null_default_fields = []
 

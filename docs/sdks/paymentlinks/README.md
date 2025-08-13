@@ -120,6 +120,7 @@ with ClientSDK(
         },
         "sequence_type": mollie.CreatePaymentLinkSequenceTypeRequest.ONEOFF,
         "customer_id": "cst_XimFHuaEzd",
+        "testmode": False,
     })
 
     # Handle response

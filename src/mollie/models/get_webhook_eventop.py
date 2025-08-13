@@ -1239,7 +1239,7 @@ class EntityLinks1(BaseModel):
     r"""The URL your customer should visit to make the payment. This is where you should redirect the customer to."""
 
 
-class GetWebhookEventPaymentLinkTypedDict(TypedDict):
+class GetWebhookEventPaymentLinkOutputTypedDict(TypedDict):
     resource: str
     r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this
     endpoint.
@@ -1356,7 +1356,7 @@ class GetWebhookEventPaymentLinkTypedDict(TypedDict):
     """
 
 
-class GetWebhookEventPaymentLink(BaseModel):
+class GetWebhookEventPaymentLinkOutput(BaseModel):
     resource: str
     r"""Indicates the response contains a payment link object. Will always contain the string `payment-link` for this
     endpoint.
@@ -1564,12 +1564,12 @@ class GetWebhookEventPaymentLink(BaseModel):
 
 EntityTypedDict = TypeAliasType(
     "EntityTypedDict",
-    Union[GetWebhookEventProfileTypedDict, GetWebhookEventPaymentLinkTypedDict],
+    Union[GetWebhookEventProfileTypedDict, GetWebhookEventPaymentLinkOutputTypedDict],
 )
 
 
 Entity = TypeAliasType(
-    "Entity", Union[GetWebhookEventProfile, GetWebhookEventPaymentLink]
+    "Entity", Union[GetWebhookEventProfile, GetWebhookEventPaymentLinkOutput]
 )
 
 

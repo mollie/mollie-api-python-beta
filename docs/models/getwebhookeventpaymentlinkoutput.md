@@ -1,4 +1,4 @@
-# GetWebhookEventPaymentLink
+# GetWebhookEventPaymentLinkOutput
 
 
 ## Fields
