@@ -40,7 +40,7 @@ python:
   fixFlags:
     responseRequiredSep2024: true
   flattenGlobalSecurity: true
-  flattenRequests: true
+  flattenRequests: false
   flatteningOrder: parameters-first
   imports:
     option: openapi
