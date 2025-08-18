@@ -8,7 +8,7 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -268,541 +268,6 @@ class ListSettlementsAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListSettlementsCostMethod(str, Enum):
-    r"""The payment method, if applicable"""
-
-    ALMA = "alma"
-    BACS = "bacs"
-    APPLEPAY = "applepay"
-    BANCOMATPAY = "bancomatpay"
-    BANCONTACT = "bancontact"
-    BANKTRANSFER = "banktransfer"
-    BELFIUS = "belfius"
-    BILLIE = "billie"
-    BIZUM = "bizum"
-    BITCOIN = "bitcoin"
-    BLIK = "blik"
-    CREDITCARD = "creditcard"
-    DIRECTDEBIT = "directdebit"
-    EPS = "eps"
-    GIFTCARD = "giftcard"
-    GIROPAY = "giropay"
-    GOOGLEPAY = "googlepay"
-    IDEAL = "ideal"
-    IN3 = "in3"
-    INGHOMEPAY = "inghomepay"
-    KBC = "kbc"
-    KLARNAPAYLATER = "klarnapaylater"
-    KLARNAPAYNOW = "klarnapaynow"
-    KLARNASLICEIT = "klarnasliceit"
-    KLARNA = "klarna"
-    MBWAY = "mbway"
-    MULTIBANCO = "multibanco"
-    MYBANK = "mybank"
-    PAYBYBANK = "paybybank"
-    PAYCONIQ = "payconiq"
-    PAYPAL = "paypal"
-    PAYSAFECARD = "paysafecard"
-    PRZELEWY24 = "przelewy24"
-    RIVERTY = "riverty"
-    SATISPAY = "satispay"
-    PODIUMCADEAUKAART = "podiumcadeaukaart"
-    POINTOFSALE = "pointofsale"
-    SOFORT = "sofort"
-    SWISH = "swish"
-    TRUSTLY = "trustly"
-    TWINT = "twint"
-    VOUCHER = "voucher"
-
-
-class ListSettlementsFixedTypedDict(TypedDict):
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ListSettlementsFixed(BaseModel):
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ListSettlementsPercentageTypedDict(TypedDict):
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ListSettlementsPercentage(BaseModel):
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ListSettlementsRateTypedDict(TypedDict):
-    r"""The service rates, further divided into `fixed` and `percentage` costs."""
-
-    fixed: NotRequired[ListSettlementsFixedTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    percentage: NotRequired[ListSettlementsPercentageTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-
-class ListSettlementsRate(BaseModel):
-    r"""The service rates, further divided into `fixed` and `percentage` costs."""
-
-    fixed: Optional[ListSettlementsFixed] = None
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-    percentage: Optional[ListSettlementsPercentage] = None
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-
-class ListSettlementsCostAmountNetTypedDict(TypedDict):
-    r"""The net total cost, i.e. excluding VAT"""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ListSettlementsCostAmountNet(BaseModel):
-    r"""The net total cost, i.e. excluding VAT"""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ListSettlementsCostAmountVatTypedDict(TypedDict):
-    r"""The applicable VAT"""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ListSettlementsCostAmountVat(BaseModel):
-    r"""The applicable VAT"""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ListSettlementsCostAmountGrossTypedDict(TypedDict):
-    r"""The gross total cost, i.e. including VAT"""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ListSettlementsCostAmountGross(BaseModel):
-    r"""The gross total cost, i.e. including VAT"""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ListSettlementsCostTypedDict(TypedDict):
-    description: NotRequired[str]
-    r"""A description of the cost subtotal"""
-    method: NotRequired[Nullable[ListSettlementsCostMethod]]
-    r"""The payment method, if applicable"""
-    count: NotRequired[int]
-    r"""The number of fees"""
-    rate: NotRequired[ListSettlementsRateTypedDict]
-    r"""The service rates, further divided into `fixed` and `percentage` costs."""
-    amount_net: NotRequired[ListSettlementsCostAmountNetTypedDict]
-    r"""The net total cost, i.e. excluding VAT"""
-    amount_vat: NotRequired[ListSettlementsCostAmountVatTypedDict]
-    r"""The applicable VAT"""
-    amount_gross: NotRequired[ListSettlementsCostAmountGrossTypedDict]
-    r"""The gross total cost, i.e. including VAT"""
-
-
-class ListSettlementsCost(BaseModel):
-    description: Optional[str] = None
-    r"""A description of the cost subtotal"""
-
-    method: OptionalNullable[ListSettlementsCostMethod] = UNSET
-    r"""The payment method, if applicable"""
-
-    count: Optional[int] = None
-    r"""The number of fees"""
-
-    rate: Optional[ListSettlementsRate] = None
-    r"""The service rates, further divided into `fixed` and `percentage` costs."""
-
-    amount_net: Annotated[
-        Optional[ListSettlementsCostAmountNet], pydantic.Field(alias="amountNet")
-    ] = None
-    r"""The net total cost, i.e. excluding VAT"""
-
-    amount_vat: Annotated[
-        Optional[ListSettlementsCostAmountVat], pydantic.Field(alias="amountVat")
-    ] = None
-    r"""The applicable VAT"""
-
-    amount_gross: Annotated[
-        Optional[ListSettlementsCostAmountGross], pydantic.Field(alias="amountGross")
-    ] = None
-    r"""The gross total cost, i.e. including VAT"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = [
-            "description",
-            "method",
-            "count",
-            "rate",
-            "amountNet",
-            "amountVat",
-            "amountGross",
-        ]
-        nullable_fields = ["method"]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
-
-
-class ListSettlementsRevenueMethod(str, Enum):
-    r"""The payment method, if applicable"""
-
-    ALMA = "alma"
-    BACS = "bacs"
-    APPLEPAY = "applepay"
-    BANCOMATPAY = "bancomatpay"
-    BANCONTACT = "bancontact"
-    BANKTRANSFER = "banktransfer"
-    BELFIUS = "belfius"
-    BILLIE = "billie"
-    BIZUM = "bizum"
-    BITCOIN = "bitcoin"
-    BLIK = "blik"
-    CREDITCARD = "creditcard"
-    DIRECTDEBIT = "directdebit"
-    EPS = "eps"
-    GIFTCARD = "giftcard"
-    GIROPAY = "giropay"
-    GOOGLEPAY = "googlepay"
-    IDEAL = "ideal"
-    IN3 = "in3"
-    INGHOMEPAY = "inghomepay"
-    KBC = "kbc"
-    KLARNAPAYLATER = "klarnapaylater"
-    KLARNAPAYNOW = "klarnapaynow"
-    KLARNASLICEIT = "klarnasliceit"
-    KLARNA = "klarna"
-    MBWAY = "mbway"
-    MULTIBANCO = "multibanco"
-    MYBANK = "mybank"
-    PAYBYBANK = "paybybank"
-    PAYCONIQ = "payconiq"
-    PAYPAL = "paypal"
-    PAYSAFECARD = "paysafecard"
-    PRZELEWY24 = "przelewy24"
-    RIVERTY = "riverty"
-    SATISPAY = "satispay"
-    PODIUMCADEAUKAART = "podiumcadeaukaart"
-    POINTOFSALE = "pointofsale"
-    SOFORT = "sofort"
-    SWISH = "swish"
-    TRUSTLY = "trustly"
-    TWINT = "twint"
-    VOUCHER = "voucher"
-
-
-class ListSettlementsRevenueAmountNetTypedDict(TypedDict):
-    r"""The net total of received funds, i.e. excluding VAT"""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ListSettlementsRevenueAmountNet(BaseModel):
-    r"""The net total of received funds, i.e. excluding VAT"""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ListSettlementsRevenueAmountVatTypedDict(TypedDict):
-    r"""The applicable VAT"""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ListSettlementsRevenueAmountVat(BaseModel):
-    r"""The applicable VAT"""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ListSettlementsRevenueAmountGrossTypedDict(TypedDict):
-    r"""The gross total of received funds, i.e. including VAT"""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ListSettlementsRevenueAmountGross(BaseModel):
-    r"""The gross total of received funds, i.e. including VAT"""
-
-    currency: str
-    r"""A three-character ISO 4217 currency code."""
-
-    value: str
-    r"""A string containing an exact monetary amount in the given currency."""
-
-
-class ListSettlementsRevenueTypedDict(TypedDict):
-    description: NotRequired[str]
-    r"""A description of the revenue subtotal"""
-    method: NotRequired[Nullable[ListSettlementsRevenueMethod]]
-    r"""The payment method, if applicable"""
-    count: NotRequired[int]
-    r"""The number of payments"""
-    amount_net: NotRequired[ListSettlementsRevenueAmountNetTypedDict]
-    r"""The net total of received funds, i.e. excluding VAT"""
-    amount_vat: NotRequired[ListSettlementsRevenueAmountVatTypedDict]
-    r"""The applicable VAT"""
-    amount_gross: NotRequired[ListSettlementsRevenueAmountGrossTypedDict]
-    r"""The gross total of received funds, i.e. including VAT"""
-
-
-class ListSettlementsRevenue(BaseModel):
-    description: Optional[str] = None
-    r"""A description of the revenue subtotal"""
-
-    method: OptionalNullable[ListSettlementsRevenueMethod] = UNSET
-    r"""The payment method, if applicable"""
-
-    count: Optional[int] = None
-    r"""The number of payments"""
-
-    amount_net: Annotated[
-        Optional[ListSettlementsRevenueAmountNet], pydantic.Field(alias="amountNet")
-    ] = None
-    r"""The net total of received funds, i.e. excluding VAT"""
-
-    amount_vat: Annotated[
-        Optional[ListSettlementsRevenueAmountVat], pydantic.Field(alias="amountVat")
-    ] = None
-    r"""The applicable VAT"""
-
-    amount_gross: Annotated[
-        Optional[ListSettlementsRevenueAmountGross], pydantic.Field(alias="amountGross")
-    ] = None
-    r"""The gross total of received funds, i.e. including VAT"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = [
-            "description",
-            "method",
-            "count",
-            "amountNet",
-            "amountVat",
-            "amountGross",
-        ]
-        nullable_fields = ["method"]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
-
-
-class ListSettlementsLessThanMonthGreaterThanTypedDict(TypedDict):
-    costs: NotRequired[List[ListSettlementsCostTypedDict]]
-    r"""An array of cost objects, describing the fees withheld for each payment method during this period."""
-    revenue: NotRequired[List[ListSettlementsRevenueTypedDict]]
-    r"""An array of revenue objects containing the total revenue for each payment method during this period."""
-    invoice_id: NotRequired[Nullable[str]]
-    r"""The ID of the invoice created for this period, if the invoice has been created already."""
-    invoice_reference: NotRequired[Nullable[str]]
-    r"""The invoice reference, if the invoice has been created already."""
-
-
-class ListSettlementsLessThanMonthGreaterThan(BaseModel):
-    costs: Optional[List[ListSettlementsCost]] = None
-    r"""An array of cost objects, describing the fees withheld for each payment method during this period."""
-
-    revenue: Optional[List[ListSettlementsRevenue]] = None
-    r"""An array of revenue objects containing the total revenue for each payment method during this period."""
-
-    invoice_id: Annotated[OptionalNullable[str], pydantic.Field(alias="invoiceId")] = (
-        UNSET
-    )
-    r"""The ID of the invoice created for this period, if the invoice has been created already."""
-
-    invoice_reference: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="invoiceReference")
-    ] = UNSET
-    r"""The invoice reference, if the invoice has been created already."""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = ["costs", "revenue", "invoiceId", "invoiceReference"]
-        nullable_fields = ["invoiceId", "invoiceReference"]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
-
-
-class ListSettlementsLessThanYearGreaterThanTypedDict(TypedDict):
-    less_than_month_greater_than: NotRequired[
-        ListSettlementsLessThanMonthGreaterThanTypedDict
-    ]
-
-
-class ListSettlementsLessThanYearGreaterThan(BaseModel):
-    less_than_month_greater_than: Annotated[
-        Optional[ListSettlementsLessThanMonthGreaterThan],
-        pydantic.Field(alias="<month>"),
-    ] = None
-
-
-class ListSettlementsPeriodsTypedDict(TypedDict):
-    r"""For bookkeeping purposes, the settlement includes an overview of transactions included in the settlement. These
-    transactions are grouped into 'period' objects — one for each calendar month.
-
-    For example, if a settlement includes funds from 15 April until 4 May, it will include two period objects. One for
-    all transactions processed between 15 April and 30 April, and one for all transactions between 1 May and 4 May.
-
-    Period objects are grouped by year, and then by month. So in the above example, the full `periods` collection will
-    look as follows: `{\"2024\": {\"04\": {...}, \"05\": {...}}}`. The year and month in this documentation are referred as `<year>` and `<month>`.
-
-    The example response should give a good idea of what this looks like in practise.
-    """
-
-    less_than_year_greater_than: NotRequired[
-        ListSettlementsLessThanYearGreaterThanTypedDict
-    ]
-
-
-class ListSettlementsPeriods(BaseModel):
-    r"""For bookkeeping purposes, the settlement includes an overview of transactions included in the settlement. These
-    transactions are grouped into 'period' objects — one for each calendar month.
-
-    For example, if a settlement includes funds from 15 April until 4 May, it will include two period objects. One for
-    all transactions processed between 15 April and 30 April, and one for all transactions between 1 May and 4 May.
-
-    Period objects are grouped by year, and then by month. So in the above example, the full `periods` collection will
-    look as follows: `{\"2024\": {\"04\": {...}, \"05\": {...}}}`. The year and month in this documentation are referred as `<year>` and `<month>`.
-
-    The example response should give a good idea of what this looks like in practise.
-    """
-
-    less_than_year_greater_than: Annotated[
-        Optional[ListSettlementsLessThanYearGreaterThan], pydantic.Field(alias="<year>")
-    ] = None
-
-
 class SettlementSelfTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
@@ -1043,7 +508,7 @@ class ListSettlementsSettlementTypedDict(TypedDict):
     r"""The balance token that the settlement was settled to."""
     invoice_id: NotRequired[Nullable[str]]
     r"""The ID of the oldest invoice created for all the periods, if the invoice has been created yet."""
-    periods: NotRequired[ListSettlementsPeriodsTypedDict]
+    periods: NotRequired[Dict[str, Any]]
     r"""For bookkeeping purposes, the settlement includes an overview of transactions included in the settlement. These
     transactions are grouped into 'period' objects — one for each calendar month.
 
@@ -1097,7 +562,7 @@ class ListSettlementsSettlement(BaseModel):
     )
     r"""The ID of the oldest invoice created for all the periods, if the invoice has been created yet."""
 
-    periods: Optional[ListSettlementsPeriods] = None
+    periods: Optional[Dict[str, Any]] = None
     r"""For bookkeeping purposes, the settlement includes an overview of transactions included in the settlement. These
     transactions are grouped into 'period' objects — one for each calendar month.
 
@@ -1249,34 +714,34 @@ class ListSettlementsDocumentation(BaseModel):
 class ListSettlementsLinksTypedDict(TypedDict):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListSettlementsSelfTypedDict]
+    self_: ListSettlementsSelfTypedDict
     r"""The URL to the current set of items."""
-    previous: NotRequired[Nullable[ListSettlementsPreviousTypedDict]]
+    previous: Nullable[ListSettlementsPreviousTypedDict]
     r"""The previous set of items, if available."""
-    next: NotRequired[Nullable[ListSettlementsNextTypedDict]]
+    next: Nullable[ListSettlementsNextTypedDict]
     r"""The next set of items, if available."""
-    documentation: NotRequired[ListSettlementsDocumentationTypedDict]
+    documentation: ListSettlementsDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListSettlementsLinks(BaseModel):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[ListSettlementsSelf], pydantic.Field(alias="self")] = None
+    self_: Annotated[ListSettlementsSelf, pydantic.Field(alias="self")]
     r"""The URL to the current set of items."""
 
-    previous: OptionalNullable[ListSettlementsPrevious] = UNSET
+    previous: Nullable[ListSettlementsPrevious]
     r"""The previous set of items, if available."""
 
-    next: OptionalNullable[ListSettlementsNext] = UNSET
+    next: Nullable[ListSettlementsNext]
     r"""The next set of items, if available."""
 
-    documentation: Optional[ListSettlementsDocumentation] = None
+    documentation: ListSettlementsDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "previous", "next", "documentation"]
+        optional_fields = []
         nullable_fields = ["previous", "next"]
         null_default_fields = []
 

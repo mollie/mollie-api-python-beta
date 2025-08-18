@@ -656,34 +656,34 @@ class ListChargebacksDocumentation(BaseModel):
 class ListChargebacksLinksTypedDict(TypedDict):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListChargebacksSelfTypedDict]
+    self_: ListChargebacksSelfTypedDict
     r"""The URL to the current set of items."""
-    previous: NotRequired[Nullable[ListChargebacksPreviousTypedDict]]
+    previous: Nullable[ListChargebacksPreviousTypedDict]
     r"""The previous set of items, if available."""
-    next: NotRequired[Nullable[ListChargebacksNextTypedDict]]
+    next: Nullable[ListChargebacksNextTypedDict]
     r"""The next set of items, if available."""
-    documentation: NotRequired[ListChargebacksDocumentationTypedDict]
+    documentation: ListChargebacksDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListChargebacksLinks(BaseModel):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[ListChargebacksSelf], pydantic.Field(alias="self")] = None
+    self_: Annotated[ListChargebacksSelf, pydantic.Field(alias="self")]
     r"""The URL to the current set of items."""
 
-    previous: OptionalNullable[ListChargebacksPrevious] = UNSET
+    previous: Nullable[ListChargebacksPrevious]
     r"""The previous set of items, if available."""
 
-    next: OptionalNullable[ListChargebacksNext] = UNSET
+    next: Nullable[ListChargebacksNext]
     r"""The next set of items, if available."""
 
-    documentation: Optional[ListChargebacksDocumentation] = None
+    documentation: ListChargebacksDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "previous", "next", "documentation"]
+        optional_fields = []
         nullable_fields = ["previous", "next"]
         null_default_fields = []
 

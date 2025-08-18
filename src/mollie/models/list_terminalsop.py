@@ -463,34 +463,34 @@ class ListTerminalsDocumentation(BaseModel):
 class ListTerminalsLinksTypedDict(TypedDict):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListTerminalsSelfTypedDict]
+    self_: ListTerminalsSelfTypedDict
     r"""The URL to the current set of items."""
-    previous: NotRequired[Nullable[ListTerminalsPreviousTypedDict]]
+    previous: Nullable[ListTerminalsPreviousTypedDict]
     r"""The previous set of items, if available."""
-    next: NotRequired[Nullable[ListTerminalsNextTypedDict]]
+    next: Nullable[ListTerminalsNextTypedDict]
     r"""The next set of items, if available."""
-    documentation: NotRequired[ListTerminalsDocumentationTypedDict]
+    documentation: ListTerminalsDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListTerminalsLinks(BaseModel):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[ListTerminalsSelf], pydantic.Field(alias="self")] = None
+    self_: Annotated[ListTerminalsSelf, pydantic.Field(alias="self")]
     r"""The URL to the current set of items."""
 
-    previous: OptionalNullable[ListTerminalsPrevious] = UNSET
+    previous: Nullable[ListTerminalsPrevious]
     r"""The previous set of items, if available."""
 
-    next: OptionalNullable[ListTerminalsNext] = UNSET
+    next: Nullable[ListTerminalsNext]
     r"""The next set of items, if available."""
 
-    documentation: Optional[ListTerminalsDocumentation] = None
+    documentation: ListTerminalsDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "previous", "next", "documentation"]
+        optional_fields = []
         nullable_fields = ["previous", "next"]
         null_default_fields = []
 

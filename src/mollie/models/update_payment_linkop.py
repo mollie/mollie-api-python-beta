@@ -225,7 +225,7 @@ class UpdatePaymentLinkLineRequestTypedDict(TypedDict):
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
     categories: NotRequired[List[UpdatePaymentLinkCategoryRequest]]
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
-    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
     image_url: NotRequired[str]
     r"""A link pointing to an image of the product sold."""
@@ -301,7 +301,7 @@ class UpdatePaymentLinkLineRequest(BaseModel):
 
     categories: Optional[List[UpdatePaymentLinkCategoryRequest]] = None
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
-    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
 
     image_url: Annotated[Optional[str], pydantic.Field(alias="imageUrl")] = None
@@ -1139,7 +1139,7 @@ class UpdatePaymentLinkLineResponseTypedDict(TypedDict):
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
     categories: NotRequired[List[UpdatePaymentLinkCategoryResponse]]
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
-    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
     image_url: NotRequired[str]
     r"""A link pointing to an image of the product sold."""
@@ -1215,7 +1215,7 @@ class UpdatePaymentLinkLineResponse(BaseModel):
 
     categories: Optional[List[UpdatePaymentLinkCategoryResponse]] = None
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
-    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
 
     image_url: Annotated[Optional[str], pydantic.Field(alias="imageUrl")] = None

@@ -1,6 +1,7 @@
 <!-- Start SDK Example Usage [usage] -->
 ```python
 # Synchronous Example
+from datetime import date
 import mollie
 from mollie import ClientSDK
 import os
@@ -234,6 +235,18 @@ with ClientSDK(
         "profile_id": "pfl_5B8cwPMGnU",
         "due_date": "2025-01-01",
         "testmode": False,
+        "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
+        "company": {
+            "registration_number": "12345678",
+            "vat_number": "NL123456789B01",
+        },
+        "card_token": "tkn_12345",
+        "voucher_number": "1234567890",
+        "voucher_pin": "1234",
+        "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
+        "digital_goods": True,
+        "customer_reference": "1234567890",
+        "terminal_id": "term_1234567890",
     })
 
     # Handle response
@@ -246,6 +259,7 @@ The same SDK client can also be used to make asynchronous requests by importing 
 ```python
 # Asynchronous Example
 import asyncio
+from datetime import date
 import mollie
 from mollie import ClientSDK
 import os
@@ -480,6 +494,18 @@ async def main():
             "profile_id": "pfl_5B8cwPMGnU",
             "due_date": "2025-01-01",
             "testmode": False,
+            "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
+            "company": {
+                "registration_number": "12345678",
+                "vat_number": "NL123456789B01",
+            },
+            "card_token": "tkn_12345",
+            "voucher_number": "1234567890",
+            "voucher_pin": "1234",
+            "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
+            "digital_goods": True,
+            "customer_reference": "1234567890",
+            "terminal_id": "term_1234567890",
         })
 
         # Handle response

@@ -736,7 +736,7 @@ class GetWebhookEventLineTypedDict(TypedDict):
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
     categories: NotRequired[List[GetWebhookEventCategory]]
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
-    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
     image_url: NotRequired[str]
     r"""A link pointing to an image of the product sold."""
@@ -809,7 +809,7 @@ class GetWebhookEventLine(BaseModel):
 
     categories: Optional[List[GetWebhookEventCategory]] = None
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
-    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
 
     image_url: Annotated[Optional[str], pydantic.Field(alias="imageUrl")] = None

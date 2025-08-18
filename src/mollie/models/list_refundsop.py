@@ -836,34 +836,34 @@ class ListRefundsDocumentation(BaseModel):
 class ListRefundsLinksTypedDict(TypedDict):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListRefundsSelfTypedDict]
+    self_: ListRefundsSelfTypedDict
     r"""The URL to the current set of items."""
-    previous: NotRequired[Nullable[ListRefundsPreviousTypedDict]]
+    previous: Nullable[ListRefundsPreviousTypedDict]
     r"""The previous set of items, if available."""
-    next: NotRequired[Nullable[ListRefundsNextTypedDict]]
+    next: Nullable[ListRefundsNextTypedDict]
     r"""The next set of items, if available."""
-    documentation: NotRequired[ListRefundsDocumentationTypedDict]
+    documentation: ListRefundsDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListRefundsLinks(BaseModel):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[ListRefundsSelf], pydantic.Field(alias="self")] = None
+    self_: Annotated[ListRefundsSelf, pydantic.Field(alias="self")]
     r"""The URL to the current set of items."""
 
-    previous: OptionalNullable[ListRefundsPrevious] = UNSET
+    previous: Nullable[ListRefundsPrevious]
     r"""The previous set of items, if available."""
 
-    next: OptionalNullable[ListRefundsNext] = UNSET
+    next: Nullable[ListRefundsNext]
     r"""The next set of items, if available."""
 
-    documentation: Optional[ListRefundsDocumentation] = None
+    documentation: ListRefundsDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "previous", "next", "documentation"]
+        optional_fields = []
         nullable_fields = ["previous", "next"]
         null_default_fields = []
 

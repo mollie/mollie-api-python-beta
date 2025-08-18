@@ -388,7 +388,7 @@ class ListPaymentLinksLineTypedDict(TypedDict):
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
     categories: NotRequired[List[ListPaymentLinksCategory]]
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
-    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
     image_url: NotRequired[str]
     r"""A link pointing to an image of the product sold."""
@@ -461,7 +461,7 @@ class ListPaymentLinksLine(BaseModel):
 
     categories: Optional[List[ListPaymentLinksCategory]] = None
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
-    [Integrating Vouchers](integrating-vouchers) guide for more information.
+    [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
 
     image_url: Annotated[Optional[str], pydantic.Field(alias="imageUrl")] = None
@@ -1303,36 +1303,34 @@ class ListPaymentLinksDocumentation(BaseModel):
 class ListPaymentLinksLinksTypedDict(TypedDict):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListPaymentLinksSelfTypedDict]
+    self_: ListPaymentLinksSelfTypedDict
     r"""The URL to the current set of items."""
-    previous: NotRequired[Nullable[ListPaymentLinksPreviousTypedDict]]
+    previous: Nullable[ListPaymentLinksPreviousTypedDict]
     r"""The previous set of items, if available."""
-    next: NotRequired[Nullable[ListPaymentLinksNextTypedDict]]
+    next: Nullable[ListPaymentLinksNextTypedDict]
     r"""The next set of items, if available."""
-    documentation: NotRequired[ListPaymentLinksDocumentationTypedDict]
+    documentation: ListPaymentLinksDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListPaymentLinksLinks(BaseModel):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[ListPaymentLinksSelf], pydantic.Field(alias="self")] = (
-        None
-    )
+    self_: Annotated[ListPaymentLinksSelf, pydantic.Field(alias="self")]
     r"""The URL to the current set of items."""
 
-    previous: OptionalNullable[ListPaymentLinksPrevious] = UNSET
+    previous: Nullable[ListPaymentLinksPrevious]
     r"""The previous set of items, if available."""
 
-    next: OptionalNullable[ListPaymentLinksNext] = UNSET
+    next: Nullable[ListPaymentLinksNext]
     r"""The next set of items, if available."""
 
-    documentation: Optional[ListPaymentLinksDocumentation] = None
+    documentation: ListPaymentLinksDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "previous", "next", "documentation"]
+        optional_fields = []
         nullable_fields = ["previous", "next"]
         null_default_fields = []
 

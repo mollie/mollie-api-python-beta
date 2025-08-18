@@ -873,36 +873,34 @@ class ListAllSubscriptionsDocumentation(BaseModel):
 class ListAllSubscriptionsLinksTypedDict(TypedDict):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListAllSubscriptionsSelfTypedDict]
+    self_: ListAllSubscriptionsSelfTypedDict
     r"""The URL to the current set of items."""
-    previous: NotRequired[Nullable[ListAllSubscriptionsPreviousTypedDict]]
+    previous: Nullable[ListAllSubscriptionsPreviousTypedDict]
     r"""The previous set of items, if available."""
-    next: NotRequired[Nullable[ListAllSubscriptionsNextTypedDict]]
+    next: Nullable[ListAllSubscriptionsNextTypedDict]
     r"""The next set of items, if available."""
-    documentation: NotRequired[ListAllSubscriptionsDocumentationTypedDict]
+    documentation: ListAllSubscriptionsDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListAllSubscriptionsLinks(BaseModel):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[
-        Optional[ListAllSubscriptionsSelf], pydantic.Field(alias="self")
-    ] = None
+    self_: Annotated[ListAllSubscriptionsSelf, pydantic.Field(alias="self")]
     r"""The URL to the current set of items."""
 
-    previous: OptionalNullable[ListAllSubscriptionsPrevious] = UNSET
+    previous: Nullable[ListAllSubscriptionsPrevious]
     r"""The previous set of items, if available."""
 
-    next: OptionalNullable[ListAllSubscriptionsNext] = UNSET
+    next: Nullable[ListAllSubscriptionsNext]
     r"""The next set of items, if available."""
 
-    documentation: Optional[ListAllSubscriptionsDocumentation] = None
+    documentation: ListAllSubscriptionsDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "previous", "next", "documentation"]
+        optional_fields = []
         nullable_fields = ["previous", "next"]
         null_default_fields = []
 

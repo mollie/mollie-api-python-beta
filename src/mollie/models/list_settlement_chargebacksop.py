@@ -666,36 +666,34 @@ class ListSettlementChargebacksDocumentation(BaseModel):
 class ListSettlementChargebacksLinksTypedDict(TypedDict):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListSettlementChargebacksSelfTypedDict]
+    self_: ListSettlementChargebacksSelfTypedDict
     r"""The URL to the current set of items."""
-    previous: NotRequired[Nullable[ListSettlementChargebacksPreviousTypedDict]]
+    previous: Nullable[ListSettlementChargebacksPreviousTypedDict]
     r"""The previous set of items, if available."""
-    next: NotRequired[Nullable[ListSettlementChargebacksNextTypedDict]]
+    next: Nullable[ListSettlementChargebacksNextTypedDict]
     r"""The next set of items, if available."""
-    documentation: NotRequired[ListSettlementChargebacksDocumentationTypedDict]
+    documentation: ListSettlementChargebacksDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListSettlementChargebacksLinks(BaseModel):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[
-        Optional[ListSettlementChargebacksSelf], pydantic.Field(alias="self")
-    ] = None
+    self_: Annotated[ListSettlementChargebacksSelf, pydantic.Field(alias="self")]
     r"""The URL to the current set of items."""
 
-    previous: OptionalNullable[ListSettlementChargebacksPrevious] = UNSET
+    previous: Nullable[ListSettlementChargebacksPrevious]
     r"""The previous set of items, if available."""
 
-    next: OptionalNullable[ListSettlementChargebacksNext] = UNSET
+    next: Nullable[ListSettlementChargebacksNext]
     r"""The next set of items, if available."""
 
-    documentation: Optional[ListSettlementChargebacksDocumentation] = None
+    documentation: ListSettlementChargebacksDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "previous", "next", "documentation"]
+        optional_fields = []
         nullable_fields = ["previous", "next"]
         null_default_fields = []
 

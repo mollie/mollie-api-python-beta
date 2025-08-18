@@ -525,7 +525,7 @@ class ListAllMethodsMethodLinks(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class ListAllMethodsFixedTypedDict(TypedDict):
+class FixedTypedDict(TypedDict):
     r"""The fixed price charged per payment."""
 
     currency: str
@@ -534,7 +534,7 @@ class ListAllMethodsFixedTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListAllMethodsFixed(BaseModel):
+class Fixed(BaseModel):
     r"""The fixed price charged per payment."""
 
     currency: str
@@ -549,7 +549,7 @@ class PricingTypedDict(TypedDict):
     r"""A description of what the pricing applies to. For example, a specific country (`The Netherlands`) or a
     category of cards (`American Express`). If a `locale` is provided, the description may be translated.
     """
-    fixed: ListAllMethodsFixedTypedDict
+    fixed: FixedTypedDict
     r"""The fixed price charged per payment."""
     variable: str
     r"""The variable price charged per payment, as a percentage string."""
@@ -565,7 +565,7 @@ class Pricing(BaseModel):
     category of cards (`American Express`). If a `locale` is provided, the description may be translated.
     """
 
-    fixed: ListAllMethodsFixed
+    fixed: Fixed
     r"""The fixed price charged per payment."""
 
     variable: str

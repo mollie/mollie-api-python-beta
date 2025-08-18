@@ -124,6 +124,7 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 
 ```python
 # Synchronous Example
+from datetime import date
 import mollie
 from mollie import ClientSDK
 import os
@@ -357,6 +358,18 @@ with ClientSDK(
         "profile_id": "pfl_5B8cwPMGnU",
         "due_date": "2025-01-01",
         "testmode": False,
+        "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
+        "company": {
+            "registration_number": "12345678",
+            "vat_number": "NL123456789B01",
+        },
+        "card_token": "tkn_12345",
+        "voucher_number": "1234567890",
+        "voucher_pin": "1234",
+        "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
+        "digital_goods": True,
+        "customer_reference": "1234567890",
+        "terminal_id": "term_1234567890",
     })
 
     # Handle response
@@ -369,6 +382,7 @@ The same SDK client can also be used to make asynchronous requests by importing 
 ```python
 # Asynchronous Example
 import asyncio
+from datetime import date
 import mollie
 from mollie import ClientSDK
 import os
@@ -603,6 +617,18 @@ async def main():
             "profile_id": "pfl_5B8cwPMGnU",
             "due_date": "2025-01-01",
             "testmode": False,
+            "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
+            "company": {
+                "registration_number": "12345678",
+                "vat_number": "NL123456789B01",
+            },
+            "card_token": "tkn_12345",
+            "voucher_number": "1234567890",
+            "voucher_pin": "1234",
+            "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
+            "digital_goods": True,
+            "customer_reference": "1234567890",
+            "terminal_id": "term_1234567890",
         })
 
         # Handle response
@@ -626,6 +652,7 @@ This SDK supports the following security schemes globally:
 
 You can set the security parameters through the `security` optional parameter when initializing the SDK client instance. The selected scheme will be used by default to authenticate with the API for all operations that support it. For example:
 ```python
+from datetime import date
 import mollie
 from mollie import ClientSDK
 import os
@@ -859,6 +886,18 @@ with ClientSDK(
         "profile_id": "pfl_5B8cwPMGnU",
         "due_date": "2025-01-01",
         "testmode": False,
+        "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
+        "company": {
+            "registration_number": "12345678",
+            "vat_number": "NL123456789B01",
+        },
+        "card_token": "tkn_12345",
+        "voucher_number": "1234567890",
+        "voucher_pin": "1234",
+        "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
+        "digital_goods": True,
+        "customer_reference": "1234567890",
+        "terminal_id": "term_1234567890",
     })
 
     # Handle response
@@ -1052,6 +1091,7 @@ Some of the endpoints in this SDK support retries. If you use the SDK without an
 
 To change the default retry strategy for a single API call, simply provide a `RetryConfig` object to the call:
 ```python
+from datetime import date
 import mollie
 from mollie import ClientSDK
 from mollie.utils import BackoffStrategy, RetryConfig
@@ -1286,6 +1326,18 @@ with ClientSDK(
         "profile_id": "pfl_5B8cwPMGnU",
         "due_date": "2025-01-01",
         "testmode": False,
+        "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
+        "company": {
+            "registration_number": "12345678",
+            "vat_number": "NL123456789B01",
+        },
+        "card_token": "tkn_12345",
+        "voucher_number": "1234567890",
+        "voucher_pin": "1234",
+        "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
+        "digital_goods": True,
+        "customer_reference": "1234567890",
+        "terminal_id": "term_1234567890",
     },
         RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
 
@@ -1296,6 +1348,7 @@ with ClientSDK(
 
 If you'd like to override the default retry strategy for all operations that support retries, you can use the `retry_config` optional parameter when initializing the SDK:
 ```python
+from datetime import date
 import mollie
 from mollie import ClientSDK
 from mollie.utils import BackoffStrategy, RetryConfig
@@ -1531,6 +1584,18 @@ with ClientSDK(
         "profile_id": "pfl_5B8cwPMGnU",
         "due_date": "2025-01-01",
         "testmode": False,
+        "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
+        "company": {
+            "registration_number": "12345678",
+            "vat_number": "NL123456789B01",
+        },
+        "card_token": "tkn_12345",
+        "voucher_number": "1234567890",
+        "voucher_pin": "1234",
+        "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
+        "digital_goods": True,
+        "customer_reference": "1234567890",
+        "terminal_id": "term_1234567890",
     })
 
     # Handle response
@@ -1555,6 +1620,7 @@ with ClientSDK(
 
 ### Example
 ```python
+from datetime import date
 import mollie
 from mollie import ClientSDK, models
 import os
@@ -1790,6 +1856,18 @@ with ClientSDK(
             "profile_id": "pfl_5B8cwPMGnU",
             "due_date": "2025-01-01",
             "testmode": False,
+            "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
+            "company": {
+                "registration_number": "12345678",
+                "vat_number": "NL123456789B01",
+            },
+            "card_token": "tkn_12345",
+            "voucher_number": "1234567890",
+            "voucher_pin": "1234",
+            "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
+            "digital_goods": True,
+            "customer_reference": "1234567890",
+            "terminal_id": "term_1234567890",
         })
 
         # Handle response
@@ -1968,6 +2046,7 @@ with ClientSDK(
 
 The default server can be overridden globally by passing a URL to the `server_url: str` optional parameter when initializing the SDK client instance. For example:
 ```python
+from datetime import date
 import mollie
 from mollie import ClientSDK
 import os
@@ -2202,6 +2281,18 @@ with ClientSDK(
         "profile_id": "pfl_5B8cwPMGnU",
         "due_date": "2025-01-01",
         "testmode": False,
+        "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
+        "company": {
+            "registration_number": "12345678",
+            "vat_number": "NL123456789B01",
+        },
+        "card_token": "tkn_12345",
+        "voucher_number": "1234567890",
+        "voucher_pin": "1234",
+        "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
+        "digital_goods": True,
+        "customer_reference": "1234567890",
+        "terminal_id": "term_1234567890",
     })
 
     # Handle response

@@ -731,36 +731,34 @@ class ListSettlementCapturesDocumentation(BaseModel):
 class ListSettlementCapturesLinksTypedDict(TypedDict):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListSettlementCapturesSelfTypedDict]
+    self_: ListSettlementCapturesSelfTypedDict
     r"""The URL to the current set of items."""
-    previous: NotRequired[Nullable[ListSettlementCapturesPreviousTypedDict]]
+    previous: Nullable[ListSettlementCapturesPreviousTypedDict]
     r"""The previous set of items, if available."""
-    next: NotRequired[Nullable[ListSettlementCapturesNextTypedDict]]
+    next: Nullable[ListSettlementCapturesNextTypedDict]
     r"""The next set of items, if available."""
-    documentation: NotRequired[ListSettlementCapturesDocumentationTypedDict]
+    documentation: ListSettlementCapturesDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListSettlementCapturesLinks(BaseModel):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[
-        Optional[ListSettlementCapturesSelf], pydantic.Field(alias="self")
-    ] = None
+    self_: Annotated[ListSettlementCapturesSelf, pydantic.Field(alias="self")]
     r"""The URL to the current set of items."""
 
-    previous: OptionalNullable[ListSettlementCapturesPrevious] = UNSET
+    previous: Nullable[ListSettlementCapturesPrevious]
     r"""The previous set of items, if available."""
 
-    next: OptionalNullable[ListSettlementCapturesNext] = UNSET
+    next: Nullable[ListSettlementCapturesNext]
     r"""The next set of items, if available."""
 
-    documentation: Optional[ListSettlementCapturesDocumentation] = None
+    documentation: ListSettlementCapturesDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "previous", "next", "documentation"]
+        optional_fields = []
         nullable_fields = ["previous", "next"]
         null_default_fields = []
 

@@ -725,34 +725,34 @@ class ListCapturesDocumentation(BaseModel):
 class ListCapturesLinksTypedDict(TypedDict):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListCapturesSelfTypedDict]
+    self_: ListCapturesSelfTypedDict
     r"""The URL to the current set of items."""
-    previous: NotRequired[Nullable[ListCapturesPreviousTypedDict]]
+    previous: Nullable[ListCapturesPreviousTypedDict]
     r"""The previous set of items, if available."""
-    next: NotRequired[Nullable[ListCapturesNextTypedDict]]
+    next: Nullable[ListCapturesNextTypedDict]
     r"""The next set of items, if available."""
-    documentation: NotRequired[ListCapturesDocumentationTypedDict]
+    documentation: ListCapturesDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListCapturesLinks(BaseModel):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[ListCapturesSelf], pydantic.Field(alias="self")] = None
+    self_: Annotated[ListCapturesSelf, pydantic.Field(alias="self")]
     r"""The URL to the current set of items."""
 
-    previous: OptionalNullable[ListCapturesPrevious] = UNSET
+    previous: Nullable[ListCapturesPrevious]
     r"""The previous set of items, if available."""
 
-    next: OptionalNullable[ListCapturesNext] = UNSET
+    next: Nullable[ListCapturesNext]
     r"""The next set of items, if available."""
 
-    documentation: Optional[ListCapturesDocumentation] = None
+    documentation: ListCapturesDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "previous", "next", "documentation"]
+        optional_fields = []
         nullable_fields = ["previous", "next"]
         null_default_fields = []
 

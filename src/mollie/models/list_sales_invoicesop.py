@@ -1296,36 +1296,34 @@ class ListSalesInvoicesDocumentation(BaseModel):
 class ListSalesInvoicesLinksTypedDict(TypedDict):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListSalesInvoicesSelfTypedDict]
+    self_: ListSalesInvoicesSelfTypedDict
     r"""The URL to the current set of items."""
-    previous: NotRequired[Nullable[ListSalesInvoicesPreviousTypedDict]]
+    previous: Nullable[ListSalesInvoicesPreviousTypedDict]
     r"""The previous set of items, if available."""
-    next: NotRequired[Nullable[ListSalesInvoicesNextTypedDict]]
+    next: Nullable[ListSalesInvoicesNextTypedDict]
     r"""The next set of items, if available."""
-    documentation: NotRequired[ListSalesInvoicesDocumentationTypedDict]
+    documentation: ListSalesInvoicesDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListSalesInvoicesLinks(BaseModel):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[ListSalesInvoicesSelf], pydantic.Field(alias="self")] = (
-        None
-    )
+    self_: Annotated[ListSalesInvoicesSelf, pydantic.Field(alias="self")]
     r"""The URL to the current set of items."""
 
-    previous: OptionalNullable[ListSalesInvoicesPrevious] = UNSET
+    previous: Nullable[ListSalesInvoicesPrevious]
     r"""The previous set of items, if available."""
 
-    next: OptionalNullable[ListSalesInvoicesNext] = UNSET
+    next: Nullable[ListSalesInvoicesNext]
     r"""The next set of items, if available."""
 
-    documentation: Optional[ListSalesInvoicesDocumentation] = None
+    documentation: ListSalesInvoicesDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "previous", "next", "documentation"]
+        optional_fields = []
         nullable_fields = ["previous", "next"]
         null_default_fields = []
 

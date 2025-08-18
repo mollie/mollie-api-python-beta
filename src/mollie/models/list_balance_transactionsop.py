@@ -1603,36 +1603,34 @@ class ListBalanceTransactionsDocumentation(BaseModel):
 class ListBalanceTransactionsLinksTypedDict(TypedDict):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListBalanceTransactionsSelfTypedDict]
+    self_: ListBalanceTransactionsSelfTypedDict
     r"""The URL to the current set of items."""
-    previous: NotRequired[Nullable[ListBalanceTransactionsPreviousTypedDict]]
+    previous: Nullable[ListBalanceTransactionsPreviousTypedDict]
     r"""The previous set of items, if available."""
-    next: NotRequired[Nullable[ListBalanceTransactionsNextTypedDict]]
+    next: Nullable[ListBalanceTransactionsNextTypedDict]
     r"""The next set of items, if available."""
-    documentation: NotRequired[ListBalanceTransactionsDocumentationTypedDict]
+    documentation: ListBalanceTransactionsDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListBalanceTransactionsLinks(BaseModel):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[
-        Optional[ListBalanceTransactionsSelf], pydantic.Field(alias="self")
-    ] = None
+    self_: Annotated[ListBalanceTransactionsSelf, pydantic.Field(alias="self")]
     r"""The URL to the current set of items."""
 
-    previous: OptionalNullable[ListBalanceTransactionsPrevious] = UNSET
+    previous: Nullable[ListBalanceTransactionsPrevious]
     r"""The previous set of items, if available."""
 
-    next: OptionalNullable[ListBalanceTransactionsNext] = UNSET
+    next: Nullable[ListBalanceTransactionsNext]
     r"""The next set of items, if available."""
 
-    documentation: Optional[ListBalanceTransactionsDocumentation] = None
+    documentation: ListBalanceTransactionsDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "previous", "next", "documentation"]
+        optional_fields = []
         nullable_fields = ["previous", "next"]
         null_default_fields = []
 

@@ -1162,34 +1162,34 @@ class ListClientsDocumentation(BaseModel):
 class ListClientsLinksTypedDict(TypedDict):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[ListClientsSelfTypedDict]
+    self_: ListClientsSelfTypedDict
     r"""The URL to the current set of items."""
-    previous: NotRequired[Nullable[ListClientsPreviousTypedDict]]
+    previous: Nullable[ListClientsPreviousTypedDict]
     r"""The previous set of items, if available."""
-    next: NotRequired[Nullable[ListClientsNextTypedDict]]
+    next: Nullable[ListClientsNextTypedDict]
     r"""The next set of items, if available."""
-    documentation: NotRequired[ListClientsDocumentationTypedDict]
+    documentation: ListClientsDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListClientsLinks(BaseModel):
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[ListClientsSelf], pydantic.Field(alias="self")] = None
+    self_: Annotated[ListClientsSelf, pydantic.Field(alias="self")]
     r"""The URL to the current set of items."""
 
-    previous: OptionalNullable[ListClientsPrevious] = UNSET
+    previous: Nullable[ListClientsPrevious]
     r"""The previous set of items, if available."""
 
-    next: OptionalNullable[ListClientsNext] = UNSET
+    next: Nullable[ListClientsNext]
     r"""The next set of items, if available."""
 
-    documentation: Optional[ListClientsDocumentation] = None
+    documentation: ListClientsDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["self", "previous", "next", "documentation"]
+        optional_fields = []
         nullable_fields = ["previous", "next"]
         null_default_fields = []
 
