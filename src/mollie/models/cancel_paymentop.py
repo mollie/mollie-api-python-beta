@@ -1098,25 +1098,16 @@ class CancelPaymentMethod(str, Enum):
     VOUCHER = "voucher"
 
 
-class CancelPaymentMetadataTypedDict(TypedDict):
-    pass
-
-
-class CancelPaymentMetadata(BaseModel):
-    pass
-
-
-CancelPaymentMetadataUnionTypedDict = TypeAliasType(
-    "CancelPaymentMetadataUnionTypedDict",
-    Union[CancelPaymentMetadataTypedDict, str, List[str]],
+CancelPaymentMetadataTypedDict = TypeAliasType(
+    "CancelPaymentMetadataTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-CancelPaymentMetadataUnion = TypeAliasType(
-    "CancelPaymentMetadataUnion", Union[CancelPaymentMetadata, str, List[str]]
+CancelPaymentMetadata = TypeAliasType(
+    "CancelPaymentMetadata", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -2081,7 +2072,7 @@ class CancelPaymentResponseTypedDict(TypedDict):
 
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
-    metadata: NotRequired[Nullable[CancelPaymentMetadataUnionTypedDict]]
+    metadata: NotRequired[Nullable[CancelPaymentMetadataTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -2418,7 +2409,7 @@ class CancelPaymentResponse(BaseModel):
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
 
-    metadata: OptionalNullable[CancelPaymentMetadataUnion] = UNSET
+    metadata: OptionalNullable[CancelPaymentMetadata] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """

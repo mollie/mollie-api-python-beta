@@ -14,19 +14,12 @@ class CapturesSDK(BaseSDK):
         self,
         *,
         payment_id: str,
-        description: Optional[str] = None,
-        amount: OptionalNullable[
+        request_body: Optional[
             Union[
-                models.CreateCaptureAmountRequest,
-                models.CreateCaptureAmountRequestTypedDict,
+                models.CreateCaptureRequestBody,
+                models.CreateCaptureRequestBodyTypedDict,
             ]
-        ] = UNSET,
-        metadata: OptionalNullable[
-            Union[
-                models.CreateCaptureMetadataRequestUnion,
-                models.CreateCaptureMetadataRequestUnionTypedDict,
-            ]
-        ] = UNSET,
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -44,9 +37,7 @@ class CapturesSDK(BaseSDK):
         having collected the customer's authorization.
 
         :param payment_id: Provide the ID of the related payment.
-        :param description: The description of the capture.
-        :param amount: The amount captured. If no amount is provided, the full authorized amount is captured.
-        :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -64,14 +55,8 @@ class CapturesSDK(BaseSDK):
 
         request = models.CreateCaptureRequest(
             payment_id=payment_id,
-            request_body=models.CreateCaptureRequestBody(
-                description=description,
-                amount=utils.get_pydantic_model(
-                    amount, OptionalNullable[models.CreateCaptureAmountRequest]
-                ),
-                metadata=utils.get_pydantic_model(
-                    metadata, OptionalNullable[models.CreateCaptureMetadataRequestUnion]
-                ),
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.CreateCaptureRequestBody]
             ),
         )
 
@@ -153,19 +138,12 @@ class CapturesSDK(BaseSDK):
         self,
         *,
         payment_id: str,
-        description: Optional[str] = None,
-        amount: OptionalNullable[
+        request_body: Optional[
             Union[
-                models.CreateCaptureAmountRequest,
-                models.CreateCaptureAmountRequestTypedDict,
+                models.CreateCaptureRequestBody,
+                models.CreateCaptureRequestBodyTypedDict,
             ]
-        ] = UNSET,
-        metadata: OptionalNullable[
-            Union[
-                models.CreateCaptureMetadataRequestUnion,
-                models.CreateCaptureMetadataRequestUnionTypedDict,
-            ]
-        ] = UNSET,
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -183,9 +161,7 @@ class CapturesSDK(BaseSDK):
         having collected the customer's authorization.
 
         :param payment_id: Provide the ID of the related payment.
-        :param description: The description of the capture.
-        :param amount: The amount captured. If no amount is provided, the full authorized amount is captured.
-        :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -203,14 +179,8 @@ class CapturesSDK(BaseSDK):
 
         request = models.CreateCaptureRequest(
             payment_id=payment_id,
-            request_body=models.CreateCaptureRequestBody(
-                description=description,
-                amount=utils.get_pydantic_model(
-                    amount, OptionalNullable[models.CreateCaptureAmountRequest]
-                ),
-                metadata=utils.get_pydantic_model(
-                    metadata, OptionalNullable[models.CreateCaptureMetadataRequestUnion]
-                ),
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.CreateCaptureRequestBody]
             ),
         )
 

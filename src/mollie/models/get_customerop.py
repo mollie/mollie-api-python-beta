@@ -8,7 +8,7 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -183,25 +183,16 @@ class GetCustomerLocale(str, Enum):
     LT_LT = "lt_LT"
 
 
-class GetCustomerMetadataTypedDict(TypedDict):
-    pass
-
-
-class GetCustomerMetadata(BaseModel):
-    pass
-
-
-GetCustomerMetadataUnionTypedDict = TypeAliasType(
-    "GetCustomerMetadataUnionTypedDict",
-    Union[GetCustomerMetadataTypedDict, str, List[str]],
+GetCustomerMetadataTypedDict = TypeAliasType(
+    "GetCustomerMetadataTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-GetCustomerMetadataUnion = TypeAliasType(
-    "GetCustomerMetadataUnion", Union[GetCustomerMetadata, str, List[str]]
+GetCustomerMetadata = TypeAliasType(
+    "GetCustomerMetadata", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -489,7 +480,7 @@ class GetCustomerResponseTypedDict(TypedDict):
     r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if
     absolutely necessary. If not provided, the browser language will be used which is typically highly accurate.
     """
-    metadata: Nullable[GetCustomerMetadataUnionTypedDict]
+    metadata: Nullable[GetCustomerMetadataTypedDict]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -523,7 +514,7 @@ class GetCustomerResponse(BaseModel):
     absolutely necessary. If not provided, the browser language will be used which is typically highly accurate.
     """
 
-    metadata: Nullable[GetCustomerMetadataUnion]
+    metadata: Nullable[GetCustomerMetadata]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """

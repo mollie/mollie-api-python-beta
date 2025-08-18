@@ -6,7 +6,7 @@ from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
 from mollie.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional
+from typing import Any, Mapping, Optional, Union
 
 
 class MandatesSDK(BaseSDK):
@@ -14,17 +14,12 @@ class MandatesSDK(BaseSDK):
         self,
         *,
         customer_id: str,
-        method: models.CreateMandateMethodRequest,
-        consumer_name: str,
-        id: Optional[str] = None,
-        consumer_account: OptionalNullable[str] = UNSET,
-        consumer_bic: OptionalNullable[str] = UNSET,
-        consumer_email: OptionalNullable[str] = UNSET,
-        signature_date: OptionalNullable[str] = UNSET,
-        mandate_reference: OptionalNullable[str] = UNSET,
-        paypal_billing_agreement_id: OptionalNullable[str] = UNSET,
-        pay_pal_vault_id: OptionalNullable[str] = UNSET,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.CreateMandateRequestBody,
+                models.CreateMandateRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -39,17 +34,7 @@ class MandatesSDK(BaseSDK):
         mandates for cards, your customers need to perform a 'first payment' with their card.
 
         :param customer_id: Provide the ID of the related customer.
-        :param method: Payment method of the mandate.  SEPA Direct Debit and PayPal mandates can be created directly.
-        :param consumer_name: The customer's name.
-        :param id: The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`.
-        :param consumer_account: The customer's IBAN. Required for SEPA Direct Debit mandates.
-        :param consumer_bic: The BIC of the customer's bank.
-        :param consumer_email: The customer's email address. Required for PayPal mandates.
-        :param signature_date: The date when the mandate was signed in `YYYY-MM-DD` format.
-        :param mandate_reference: A custom mandate reference. For SEPA Direct Debit, it is vital to provide a unique reference. Some banks will decline Direct Debit payments if the mandate reference is not unique.
-        :param paypal_billing_agreement_id: The billing agreement ID given by PayPal. For example: `B-12A34567B8901234CD`. Required for PayPal mandates. Must provide either this field or `payPalVaultId`, but not both.
-        :param pay_pal_vault_id: The Vault ID given by PayPal. For example: `8kk8451t`. Required for PayPal mandates. Must provide either this field or `paypalBillingAgreementId`, but not both.
-        :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -67,18 +52,8 @@ class MandatesSDK(BaseSDK):
 
         request = models.CreateMandateRequest(
             customer_id=customer_id,
-            request_body=models.CreateMandateRequestBody(
-                id=id,
-                method=method,
-                consumer_name=consumer_name,
-                consumer_account=consumer_account,
-                consumer_bic=consumer_bic,
-                consumer_email=consumer_email,
-                signature_date=signature_date,
-                mandate_reference=mandate_reference,
-                paypal_billing_agreement_id=paypal_billing_agreement_id,
-                pay_pal_vault_id=pay_pal_vault_id,
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.CreateMandateRequestBody]
             ),
         )
 
@@ -153,17 +128,12 @@ class MandatesSDK(BaseSDK):
         self,
         *,
         customer_id: str,
-        method: models.CreateMandateMethodRequest,
-        consumer_name: str,
-        id: Optional[str] = None,
-        consumer_account: OptionalNullable[str] = UNSET,
-        consumer_bic: OptionalNullable[str] = UNSET,
-        consumer_email: OptionalNullable[str] = UNSET,
-        signature_date: OptionalNullable[str] = UNSET,
-        mandate_reference: OptionalNullable[str] = UNSET,
-        paypal_billing_agreement_id: OptionalNullable[str] = UNSET,
-        pay_pal_vault_id: OptionalNullable[str] = UNSET,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.CreateMandateRequestBody,
+                models.CreateMandateRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -178,17 +148,7 @@ class MandatesSDK(BaseSDK):
         mandates for cards, your customers need to perform a 'first payment' with their card.
 
         :param customer_id: Provide the ID of the related customer.
-        :param method: Payment method of the mandate.  SEPA Direct Debit and PayPal mandates can be created directly.
-        :param consumer_name: The customer's name.
-        :param id: The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`.
-        :param consumer_account: The customer's IBAN. Required for SEPA Direct Debit mandates.
-        :param consumer_bic: The BIC of the customer's bank.
-        :param consumer_email: The customer's email address. Required for PayPal mandates.
-        :param signature_date: The date when the mandate was signed in `YYYY-MM-DD` format.
-        :param mandate_reference: A custom mandate reference. For SEPA Direct Debit, it is vital to provide a unique reference. Some banks will decline Direct Debit payments if the mandate reference is not unique.
-        :param paypal_billing_agreement_id: The billing agreement ID given by PayPal. For example: `B-12A34567B8901234CD`. Required for PayPal mandates. Must provide either this field or `payPalVaultId`, but not both.
-        :param pay_pal_vault_id: The Vault ID given by PayPal. For example: `8kk8451t`. Required for PayPal mandates. Must provide either this field or `paypalBillingAgreementId`, but not both.
-        :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -206,18 +166,8 @@ class MandatesSDK(BaseSDK):
 
         request = models.CreateMandateRequest(
             customer_id=customer_id,
-            request_body=models.CreateMandateRequestBody(
-                id=id,
-                method=method,
-                consumer_name=consumer_name,
-                consumer_account=consumer_account,
-                consumer_bic=consumer_bic,
-                consumer_email=consumer_email,
-                signature_date=signature_date,
-                mandate_reference=mandate_reference,
-                paypal_billing_agreement_id=paypal_billing_agreement_id,
-                pay_pal_vault_id=pay_pal_vault_id,
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.CreateMandateRequestBody]
             ),
         )
 
@@ -717,7 +667,12 @@ class MandatesSDK(BaseSDK):
         *,
         customer_id: str,
         mandate_id: str,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.RevokeMandateRequestBody,
+                models.RevokeMandateRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -730,7 +685,7 @@ class MandatesSDK(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param mandate_id: Provide the ID of the related mandate.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -749,8 +704,8 @@ class MandatesSDK(BaseSDK):
         request = models.RevokeMandateRequest(
             customer_id=customer_id,
             mandate_id=mandate_id,
-            request_body=models.RevokeMandateRequestBody(
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.RevokeMandateRequestBody]
             ),
         )
 
@@ -826,7 +781,12 @@ class MandatesSDK(BaseSDK):
         *,
         customer_id: str,
         mandate_id: str,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.RevokeMandateRequestBody,
+                models.RevokeMandateRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -839,7 +799,7 @@ class MandatesSDK(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param mandate_id: Provide the ID of the related mandate.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -858,8 +818,8 @@ class MandatesSDK(BaseSDK):
         request = models.RevokeMandateRequest(
             customer_id=customer_id,
             mandate_id=mandate_id,
-            request_body=models.RevokeMandateRequestBody(
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.RevokeMandateRequestBody]
             ),
         )
 

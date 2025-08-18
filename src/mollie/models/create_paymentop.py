@@ -794,26 +794,16 @@ class CreatePaymentMethodRequest(str, Enum):
     VOUCHER = "voucher"
 
 
-class CreatePaymentMetadataRequestTypedDict(TypedDict):
-    pass
-
-
-class CreatePaymentMetadataRequest(BaseModel):
-    pass
-
-
-CreatePaymentMetadataRequestUnionTypedDict = TypeAliasType(
-    "CreatePaymentMetadataRequestUnionTypedDict",
-    Union[CreatePaymentMetadataRequestTypedDict, str, List[str]],
+CreatePaymentMetadataRequestTypedDict = TypeAliasType(
+    "CreatePaymentMetadataRequestTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-CreatePaymentMetadataRequestUnion = TypeAliasType(
-    "CreatePaymentMetadataRequestUnion",
-    Union[CreatePaymentMetadataRequest, str, List[str]],
+CreatePaymentMetadataRequest = TypeAliasType(
+    "CreatePaymentMetadataRequest", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -1217,7 +1207,7 @@ class CreatePaymentRequestBodyTypedDict(TypedDict):
 
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
-    metadata: NotRequired[Nullable[CreatePaymentMetadataRequestUnionTypedDict]]
+    metadata: NotRequired[Nullable[CreatePaymentMetadataRequestTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -1461,7 +1451,7 @@ class CreatePaymentRequestBody(BaseModel):
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
 
-    metadata: OptionalNullable[CreatePaymentMetadataRequestUnion] = UNSET
+    metadata: OptionalNullable[CreatePaymentMetadataRequest] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -2728,26 +2718,16 @@ class CreatePaymentMethodResponse(str, Enum):
     VOUCHER = "voucher"
 
 
-class CreatePaymentMetadataResponseTypedDict(TypedDict):
-    pass
-
-
-class CreatePaymentMetadataResponse(BaseModel):
-    pass
-
-
-CreatePaymentMetadataResponseUnionTypedDict = TypeAliasType(
-    "CreatePaymentMetadataResponseUnionTypedDict",
-    Union[CreatePaymentMetadataResponseTypedDict, str, List[str]],
+CreatePaymentMetadataResponseTypedDict = TypeAliasType(
+    "CreatePaymentMetadataResponseTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-CreatePaymentMetadataResponseUnion = TypeAliasType(
-    "CreatePaymentMetadataResponseUnion",
-    Union[CreatePaymentMetadataResponse, str, List[str]],
+CreatePaymentMetadataResponse = TypeAliasType(
+    "CreatePaymentMetadataResponse", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -3712,7 +3692,7 @@ class CreatePaymentResponseTypedDict(TypedDict):
 
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
-    metadata: NotRequired[Nullable[CreatePaymentMetadataResponseUnionTypedDict]]
+    metadata: NotRequired[Nullable[CreatePaymentMetadataResponseTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -4052,7 +4032,7 @@ class CreatePaymentResponse(BaseModel):
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
 
-    metadata: OptionalNullable[CreatePaymentMetadataResponseUnion] = UNSET
+    metadata: OptionalNullable[CreatePaymentMetadataResponse] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """

@@ -14,20 +14,12 @@ class DelayedRouting(BaseSDK):
         self,
         *,
         payment_id: str,
-        amount: Optional[
+        request_body: Optional[
             Union[
-                models.PaymentCreateRouteAmountRequest,
-                models.PaymentCreateRouteAmountRequestTypedDict,
+                models.PaymentCreateRouteRequestBody,
+                models.PaymentCreateRouteRequestBodyTypedDict,
             ]
         ] = None,
-        description: Optional[str] = None,
-        destination: Optional[
-            Union[
-                models.PaymentCreateRouteDestinationRequest,
-                models.PaymentCreateRouteDestinationRequestTypedDict,
-            ]
-        ] = None,
-        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -39,10 +31,7 @@ class DelayedRouting(BaseSDK):
         The routed amount is credited to the account of your customer.
 
         :param payment_id: Provide the ID of the related payment.
-        :param amount: The amount of the route. That amount that will be routed to the specified destination.
-        :param description: The description of the route. This description is shown in the reports.
-        :param destination: The destination of the route.
-        :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -60,15 +49,8 @@ class DelayedRouting(BaseSDK):
 
         request = models.PaymentCreateRouteRequest(
             payment_id=payment_id,
-            request_body=models.PaymentCreateRouteRequestBody(
-                amount=utils.get_pydantic_model(
-                    amount, Optional[models.PaymentCreateRouteAmountRequest]
-                ),
-                description=description,
-                destination=utils.get_pydantic_model(
-                    destination, Optional[models.PaymentCreateRouteDestinationRequest]
-                ),
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.PaymentCreateRouteRequestBody]
             ),
         )
 
@@ -143,20 +125,12 @@ class DelayedRouting(BaseSDK):
         self,
         *,
         payment_id: str,
-        amount: Optional[
+        request_body: Optional[
             Union[
-                models.PaymentCreateRouteAmountRequest,
-                models.PaymentCreateRouteAmountRequestTypedDict,
+                models.PaymentCreateRouteRequestBody,
+                models.PaymentCreateRouteRequestBodyTypedDict,
             ]
         ] = None,
-        description: Optional[str] = None,
-        destination: Optional[
-            Union[
-                models.PaymentCreateRouteDestinationRequest,
-                models.PaymentCreateRouteDestinationRequestTypedDict,
-            ]
-        ] = None,
-        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -168,10 +142,7 @@ class DelayedRouting(BaseSDK):
         The routed amount is credited to the account of your customer.
 
         :param payment_id: Provide the ID of the related payment.
-        :param amount: The amount of the route. That amount that will be routed to the specified destination.
-        :param description: The description of the route. This description is shown in the reports.
-        :param destination: The destination of the route.
-        :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -189,15 +160,8 @@ class DelayedRouting(BaseSDK):
 
         request = models.PaymentCreateRouteRequest(
             payment_id=payment_id,
-            request_body=models.PaymentCreateRouteRequestBody(
-                amount=utils.get_pydantic_model(
-                    amount, Optional[models.PaymentCreateRouteAmountRequest]
-                ),
-                description=description,
-                destination=utils.get_pydantic_model(
-                    destination, Optional[models.PaymentCreateRouteDestinationRequest]
-                ),
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.PaymentCreateRouteRequestBody]
             ),
         )
 

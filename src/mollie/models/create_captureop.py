@@ -8,7 +8,7 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -31,26 +31,16 @@ class CreateCaptureAmountRequest(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreateCaptureMetadataRequestTypedDict(TypedDict):
-    pass
-
-
-class CreateCaptureMetadataRequest(BaseModel):
-    pass
-
-
-CreateCaptureMetadataRequestUnionTypedDict = TypeAliasType(
-    "CreateCaptureMetadataRequestUnionTypedDict",
-    Union[CreateCaptureMetadataRequestTypedDict, str, List[str]],
+CreateCaptureMetadataRequestTypedDict = TypeAliasType(
+    "CreateCaptureMetadataRequestTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-CreateCaptureMetadataRequestUnion = TypeAliasType(
-    "CreateCaptureMetadataRequestUnion",
-    Union[CreateCaptureMetadataRequest, str, List[str]],
+CreateCaptureMetadataRequest = TypeAliasType(
+    "CreateCaptureMetadataRequest", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -62,7 +52,7 @@ class CreateCaptureRequestBodyTypedDict(TypedDict):
     r"""The description of the capture."""
     amount: NotRequired[Nullable[CreateCaptureAmountRequestTypedDict]]
     r"""The amount captured. If no amount is provided, the full authorized amount is captured."""
-    metadata: NotRequired[Nullable[CreateCaptureMetadataRequestUnionTypedDict]]
+    metadata: NotRequired[Nullable[CreateCaptureMetadataRequestTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -75,7 +65,7 @@ class CreateCaptureRequestBody(BaseModel):
     amount: OptionalNullable[CreateCaptureAmountRequest] = UNSET
     r"""The amount captured. If no amount is provided, the full authorized amount is captured."""
 
-    metadata: OptionalNullable[CreateCaptureMetadataRequestUnion] = UNSET
+    metadata: OptionalNullable[CreateCaptureMetadataRequest] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -316,26 +306,16 @@ class CreateCaptureStatus(str, Enum):
     FAILED = "failed"
 
 
-class CreateCaptureMetadataResponseTypedDict(TypedDict):
-    pass
-
-
-class CreateCaptureMetadataResponse(BaseModel):
-    pass
-
-
-CreateCaptureMetadataResponseUnionTypedDict = TypeAliasType(
-    "CreateCaptureMetadataResponseUnionTypedDict",
-    Union[CreateCaptureMetadataResponseTypedDict, str, List[str]],
+CreateCaptureMetadataResponseTypedDict = TypeAliasType(
+    "CreateCaptureMetadataResponseTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-CreateCaptureMetadataResponseUnion = TypeAliasType(
-    "CreateCaptureMetadataResponseUnion",
-    Union[CreateCaptureMetadataResponse, str, List[str]],
+CreateCaptureMetadataResponse = TypeAliasType(
+    "CreateCaptureMetadataResponse", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -550,7 +530,7 @@ class CreateCaptureResponseTypedDict(TypedDict):
     accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
     instead.
     """
-    metadata: NotRequired[Nullable[CreateCaptureMetadataResponseUnionTypedDict]]
+    metadata: NotRequired[Nullable[CreateCaptureMetadataResponseTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -610,7 +590,7 @@ class CreateCaptureResponse(BaseModel):
     instead.
     """
 
-    metadata: OptionalNullable[CreateCaptureMetadataResponseUnion] = UNSET
+    metadata: OptionalNullable[CreateCaptureMetadataResponse] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """

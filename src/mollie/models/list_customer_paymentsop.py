@@ -1095,26 +1095,16 @@ class ListCustomerPaymentsMethod(str, Enum):
     VOUCHER = "voucher"
 
 
-class ListCustomerPaymentsMetadataTypedDict(TypedDict):
-    pass
-
-
-class ListCustomerPaymentsMetadata(BaseModel):
-    pass
-
-
-ListCustomerPaymentsMetadataUnionTypedDict = TypeAliasType(
-    "ListCustomerPaymentsMetadataUnionTypedDict",
-    Union[ListCustomerPaymentsMetadataTypedDict, str, List[str]],
+ListCustomerPaymentsMetadataTypedDict = TypeAliasType(
+    "ListCustomerPaymentsMetadataTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-ListCustomerPaymentsMetadataUnion = TypeAliasType(
-    "ListCustomerPaymentsMetadataUnion",
-    Union[ListCustomerPaymentsMetadata, str, List[str]],
+ListCustomerPaymentsMetadata = TypeAliasType(
+    "ListCustomerPaymentsMetadata", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -2077,7 +2067,7 @@ class ListCustomerPaymentsPaymentOutputTypedDict(TypedDict):
 
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
-    metadata: NotRequired[Nullable[ListCustomerPaymentsMetadataUnionTypedDict]]
+    metadata: NotRequired[Nullable[ListCustomerPaymentsMetadataTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -2417,7 +2407,7 @@ class ListCustomerPaymentsPaymentOutput(BaseModel):
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
 
-    metadata: OptionalNullable[ListCustomerPaymentsMetadataUnion] = UNSET
+    metadata: OptionalNullable[ListCustomerPaymentsMetadata] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """

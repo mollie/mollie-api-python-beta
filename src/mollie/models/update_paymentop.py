@@ -12,26 +12,16 @@ from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class UpdatePaymentMetadataRequestTypedDict(TypedDict):
-    pass
-
-
-class UpdatePaymentMetadataRequest(BaseModel):
-    pass
-
-
-UpdatePaymentMetadataRequestUnionTypedDict = TypeAliasType(
-    "UpdatePaymentMetadataRequestUnionTypedDict",
-    Union[UpdatePaymentMetadataRequestTypedDict, str, List[str]],
+UpdatePaymentMetadataRequestTypedDict = TypeAliasType(
+    "UpdatePaymentMetadataRequestTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-UpdatePaymentMetadataRequestUnion = TypeAliasType(
-    "UpdatePaymentMetadataRequestUnion",
-    Union[UpdatePaymentMetadataRequest, str, List[str]],
+UpdatePaymentMetadataRequest = TypeAliasType(
+    "UpdatePaymentMetadataRequest", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -397,7 +387,7 @@ class UpdatePaymentRequestBodyTypedDict(TypedDict):
     webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your
     local machine.
     """
-    metadata: NotRequired[Nullable[UpdatePaymentMetadataRequestUnionTypedDict]]
+    metadata: NotRequired[Nullable[UpdatePaymentMetadataRequestTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -501,7 +491,7 @@ class UpdatePaymentRequestBody(BaseModel):
     local machine.
     """
 
-    metadata: OptionalNullable[UpdatePaymentMetadataRequestUnion] = UNSET
+    metadata: OptionalNullable[UpdatePaymentMetadataRequest] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -1664,26 +1654,16 @@ class UpdatePaymentMethodResponse(str, Enum):
     VOUCHER = "voucher"
 
 
-class UpdatePaymentMetadataResponseTypedDict(TypedDict):
-    pass
-
-
-class UpdatePaymentMetadataResponse(BaseModel):
-    pass
-
-
-UpdatePaymentMetadataResponseUnionTypedDict = TypeAliasType(
-    "UpdatePaymentMetadataResponseUnionTypedDict",
-    Union[UpdatePaymentMetadataResponseTypedDict, str, List[str]],
+UpdatePaymentMetadataResponseTypedDict = TypeAliasType(
+    "UpdatePaymentMetadataResponseTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-UpdatePaymentMetadataResponseUnion = TypeAliasType(
-    "UpdatePaymentMetadataResponseUnion",
-    Union[UpdatePaymentMetadataResponse, str, List[str]],
+UpdatePaymentMetadataResponse = TypeAliasType(
+    "UpdatePaymentMetadataResponse", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -2648,7 +2628,7 @@ class UpdatePaymentResponseTypedDict(TypedDict):
 
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
-    metadata: NotRequired[Nullable[UpdatePaymentMetadataResponseUnionTypedDict]]
+    metadata: NotRequired[Nullable[UpdatePaymentMetadataResponseTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -2987,7 +2967,7 @@ class UpdatePaymentResponse(BaseModel):
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
 
-    metadata: OptionalNullable[UpdatePaymentMetadataResponseUnion] = UNSET
+    metadata: OptionalNullable[UpdatePaymentMetadataResponse] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """

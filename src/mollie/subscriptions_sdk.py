@@ -14,30 +14,12 @@ class SubscriptionsSDK(BaseSDK):
         self,
         *,
         customer_id: str,
-        amount: Union[
-            models.CreateSubscriptionAmountRequest,
-            models.CreateSubscriptionAmountRequestTypedDict,
-        ],
-        interval: models.CreateSubscriptionIntervalRequest,
-        description: str,
-        times: OptionalNullable[int] = UNSET,
-        start_date: Optional[str] = None,
-        method: OptionalNullable[models.CreateSubscriptionMethodRequest] = UNSET,
-        application_fee: Optional[
+        request_body: Optional[
             Union[
-                models.CreateSubscriptionApplicationFeeRequest,
-                models.CreateSubscriptionApplicationFeeRequestTypedDict,
+                models.CreateSubscriptionRequestBody,
+                models.CreateSubscriptionRequestBodyTypedDict,
             ]
         ] = None,
-        metadata: OptionalNullable[
-            Union[
-                models.CreateSubscriptionMetadataRequestUnion,
-                models.CreateSubscriptionMetadataRequestUnionTypedDict,
-            ]
-        ] = UNSET,
-        webhook_url: Optional[str] = None,
-        mandate_id: OptionalNullable[str] = UNSET,
-        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -66,17 +48,7 @@ class SubscriptionsSDK(BaseSDK):
         Your customer will be charged €10 on the last day of each month, starting in April 2018.
 
         :param customer_id: Provide the ID of the related customer.
-        :param amount: The amount for each individual payment that is charged with this subscription. For example, for a monthly subscription of €10, the subscription amount should be set to €10.
-        :param interval: Interval to wait between payments, for example `1 month` or `14 days`.  The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
-        :param description: The subscription's description will be used as the description of the resulting individual payments and so showing up on the bank statement of the consumer.  **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
-        :param times: Total number of payments for the subscription. Once this number of payments is reached, the subscription is considered completed.  Test mode subscriptions will get canceled automatically after 10 payments.
-        :param start_date: The start date of the subscription in `YYYY-MM-DD` format.
-        :param method: The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used.
-        :param application_fee: With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.  Setting an application fee on the subscription will ensure this fee is charged on each individual payment.  Refer to the `applicationFee` parameter on the [Get payment endpoint](get-payment) documentation for more information.
-        :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.  Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
-        :param webhook_url: We will call this URL for any payment status changes of payments resulting from this subscription.  This webhook will receive **all** events for the subscription's payments. This may include payment failures as well. Be sure to verify the payment's subscription ID and its status.
-        :param mandate_id: The mandate used for this subscription, if any.
-        :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -94,26 +66,8 @@ class SubscriptionsSDK(BaseSDK):
 
         request = models.CreateSubscriptionRequest(
             customer_id=customer_id,
-            request_body=models.CreateSubscriptionRequestBody(
-                amount=utils.get_pydantic_model(
-                    amount, models.CreateSubscriptionAmountRequest
-                ),
-                times=times,
-                interval=interval,
-                start_date=start_date,
-                description=description,
-                method=method,
-                application_fee=utils.get_pydantic_model(
-                    application_fee,
-                    Optional[models.CreateSubscriptionApplicationFeeRequest],
-                ),
-                metadata=utils.get_pydantic_model(
-                    metadata,
-                    OptionalNullable[models.CreateSubscriptionMetadataRequestUnion],
-                ),
-                webhook_url=webhook_url,
-                mandate_id=mandate_id,
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.CreateSubscriptionRequestBody]
             ),
         )
 
@@ -188,30 +142,12 @@ class SubscriptionsSDK(BaseSDK):
         self,
         *,
         customer_id: str,
-        amount: Union[
-            models.CreateSubscriptionAmountRequest,
-            models.CreateSubscriptionAmountRequestTypedDict,
-        ],
-        interval: models.CreateSubscriptionIntervalRequest,
-        description: str,
-        times: OptionalNullable[int] = UNSET,
-        start_date: Optional[str] = None,
-        method: OptionalNullable[models.CreateSubscriptionMethodRequest] = UNSET,
-        application_fee: Optional[
+        request_body: Optional[
             Union[
-                models.CreateSubscriptionApplicationFeeRequest,
-                models.CreateSubscriptionApplicationFeeRequestTypedDict,
+                models.CreateSubscriptionRequestBody,
+                models.CreateSubscriptionRequestBodyTypedDict,
             ]
         ] = None,
-        metadata: OptionalNullable[
-            Union[
-                models.CreateSubscriptionMetadataRequestUnion,
-                models.CreateSubscriptionMetadataRequestUnionTypedDict,
-            ]
-        ] = UNSET,
-        webhook_url: Optional[str] = None,
-        mandate_id: OptionalNullable[str] = UNSET,
-        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -240,17 +176,7 @@ class SubscriptionsSDK(BaseSDK):
         Your customer will be charged €10 on the last day of each month, starting in April 2018.
 
         :param customer_id: Provide the ID of the related customer.
-        :param amount: The amount for each individual payment that is charged with this subscription. For example, for a monthly subscription of €10, the subscription amount should be set to €10.
-        :param interval: Interval to wait between payments, for example `1 month` or `14 days`.  The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
-        :param description: The subscription's description will be used as the description of the resulting individual payments and so showing up on the bank statement of the consumer.  **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
-        :param times: Total number of payments for the subscription. Once this number of payments is reached, the subscription is considered completed.  Test mode subscriptions will get canceled automatically after 10 payments.
-        :param start_date: The start date of the subscription in `YYYY-MM-DD` format.
-        :param method: The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used.
-        :param application_fee: With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants.  Setting an application fee on the subscription will ensure this fee is charged on each individual payment.  Refer to the `applicationFee` parameter on the [Get payment endpoint](get-payment) documentation for more information.
-        :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.  Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
-        :param webhook_url: We will call this URL for any payment status changes of payments resulting from this subscription.  This webhook will receive **all** events for the subscription's payments. This may include payment failures as well. Be sure to verify the payment's subscription ID and its status.
-        :param mandate_id: The mandate used for this subscription, if any.
-        :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -268,26 +194,8 @@ class SubscriptionsSDK(BaseSDK):
 
         request = models.CreateSubscriptionRequest(
             customer_id=customer_id,
-            request_body=models.CreateSubscriptionRequestBody(
-                amount=utils.get_pydantic_model(
-                    amount, models.CreateSubscriptionAmountRequest
-                ),
-                times=times,
-                interval=interval,
-                start_date=start_date,
-                description=description,
-                method=method,
-                application_fee=utils.get_pydantic_model(
-                    application_fee,
-                    Optional[models.CreateSubscriptionApplicationFeeRequest],
-                ),
-                metadata=utils.get_pydantic_model(
-                    metadata,
-                    OptionalNullable[models.CreateSubscriptionMetadataRequestUnion],
-                ),
-                webhook_url=webhook_url,
-                mandate_id=mandate_id,
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.CreateSubscriptionRequestBody]
             ),
         )
 
@@ -789,25 +697,12 @@ class SubscriptionsSDK(BaseSDK):
         *,
         customer_id: str,
         subscription_id: str,
-        amount: Optional[
+        request_body: Optional[
             Union[
-                models.UpdateSubscriptionAmountRequest,
-                models.UpdateSubscriptionAmountRequestTypedDict,
+                models.UpdateSubscriptionRequestBody,
+                models.UpdateSubscriptionRequestBodyTypedDict,
             ]
         ] = None,
-        description: Optional[str] = None,
-        interval: Optional[models.UpdateSubscriptionIntervalRequest] = None,
-        start_date: Optional[str] = None,
-        times: Optional[int] = None,
-        metadata: OptionalNullable[
-            Union[
-                models.UpdateSubscriptionMetadataRequestUnion,
-                models.UpdateSubscriptionMetadataRequestUnionTypedDict,
-            ]
-        ] = UNSET,
-        webhook_url: Optional[str] = None,
-        mandate_id: Optional[str] = None,
-        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -823,15 +718,7 @@ class SubscriptionsSDK(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param subscription_id: Provide the ID of the related subscription.
-        :param amount: Update the amount for future payments of this subscription.
-        :param description: The subscription's description will be used as the description of the resulting individual payments and so showing up on the bank statement of the consumer.  **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
-        :param interval: Interval to wait between payments, for example `1 month` or `14 days`.  The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
-        :param start_date: The start date of the subscription in `YYYY-MM-DD` format.
-        :param times: Total number of payments for the subscription. Once this number of payments is reached, the subscription is considered completed.  Test mode subscriptions will get canceled automatically after 10 payments.
-        :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.  Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
-        :param webhook_url: We will call this URL for any payment status changes of payments resulting from this subscription.  This webhook will receive **all** events for the subscription's payments. This may include payment failures as well. Be sure to verify the payment's subscription ID and its status.
-        :param mandate_id: The mandate used for this subscription, if any.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -850,21 +737,8 @@ class SubscriptionsSDK(BaseSDK):
         request = models.UpdateSubscriptionRequest(
             customer_id=customer_id,
             subscription_id=subscription_id,
-            request_body=models.UpdateSubscriptionRequestBody(
-                amount=utils.get_pydantic_model(
-                    amount, Optional[models.UpdateSubscriptionAmountRequest]
-                ),
-                description=description,
-                interval=interval,
-                start_date=start_date,
-                times=times,
-                metadata=utils.get_pydantic_model(
-                    metadata,
-                    OptionalNullable[models.UpdateSubscriptionMetadataRequestUnion],
-                ),
-                webhook_url=webhook_url,
-                mandate_id=mandate_id,
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.UpdateSubscriptionRequestBody]
             ),
         )
 
@@ -940,25 +814,12 @@ class SubscriptionsSDK(BaseSDK):
         *,
         customer_id: str,
         subscription_id: str,
-        amount: Optional[
+        request_body: Optional[
             Union[
-                models.UpdateSubscriptionAmountRequest,
-                models.UpdateSubscriptionAmountRequestTypedDict,
+                models.UpdateSubscriptionRequestBody,
+                models.UpdateSubscriptionRequestBodyTypedDict,
             ]
         ] = None,
-        description: Optional[str] = None,
-        interval: Optional[models.UpdateSubscriptionIntervalRequest] = None,
-        start_date: Optional[str] = None,
-        times: Optional[int] = None,
-        metadata: OptionalNullable[
-            Union[
-                models.UpdateSubscriptionMetadataRequestUnion,
-                models.UpdateSubscriptionMetadataRequestUnionTypedDict,
-            ]
-        ] = UNSET,
-        webhook_url: Optional[str] = None,
-        mandate_id: Optional[str] = None,
-        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -974,15 +835,7 @@ class SubscriptionsSDK(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param subscription_id: Provide the ID of the related subscription.
-        :param amount: Update the amount for future payments of this subscription.
-        :param description: The subscription's description will be used as the description of the resulting individual payments and so showing up on the bank statement of the consumer.  **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
-        :param interval: Interval to wait between payments, for example `1 month` or `14 days`.  The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
-        :param start_date: The start date of the subscription in `YYYY-MM-DD` format.
-        :param times: Total number of payments for the subscription. Once this number of payments is reached, the subscription is considered completed.  Test mode subscriptions will get canceled automatically after 10 payments.
-        :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.  Any metadata added to the subscription will be automatically forwarded to the payments generated for it.
-        :param webhook_url: We will call this URL for any payment status changes of payments resulting from this subscription.  This webhook will receive **all** events for the subscription's payments. This may include payment failures as well. Be sure to verify the payment's subscription ID and its status.
-        :param mandate_id: The mandate used for this subscription, if any.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1001,21 +854,8 @@ class SubscriptionsSDK(BaseSDK):
         request = models.UpdateSubscriptionRequest(
             customer_id=customer_id,
             subscription_id=subscription_id,
-            request_body=models.UpdateSubscriptionRequestBody(
-                amount=utils.get_pydantic_model(
-                    amount, Optional[models.UpdateSubscriptionAmountRequest]
-                ),
-                description=description,
-                interval=interval,
-                start_date=start_date,
-                times=times,
-                metadata=utils.get_pydantic_model(
-                    metadata,
-                    OptionalNullable[models.UpdateSubscriptionMetadataRequestUnion],
-                ),
-                webhook_url=webhook_url,
-                mandate_id=mandate_id,
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.UpdateSubscriptionRequestBody]
             ),
         )
 
@@ -1091,7 +931,12 @@ class SubscriptionsSDK(BaseSDK):
         *,
         customer_id: str,
         subscription_id: str,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.CancelSubscriptionRequestBody,
+                models.CancelSubscriptionRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1103,7 +948,7 @@ class SubscriptionsSDK(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param subscription_id: Provide the ID of the related subscription.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1122,8 +967,8 @@ class SubscriptionsSDK(BaseSDK):
         request = models.CancelSubscriptionRequest(
             customer_id=customer_id,
             subscription_id=subscription_id,
-            request_body=models.CancelSubscriptionRequestBody(
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.CancelSubscriptionRequestBody]
             ),
         )
 
@@ -1199,7 +1044,12 @@ class SubscriptionsSDK(BaseSDK):
         *,
         customer_id: str,
         subscription_id: str,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.CancelSubscriptionRequestBody,
+                models.CancelSubscriptionRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1211,7 +1061,7 @@ class SubscriptionsSDK(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param subscription_id: Provide the ID of the related subscription.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1230,8 +1080,8 @@ class SubscriptionsSDK(BaseSDK):
         request = models.CancelSubscriptionRequest(
             customer_id=customer_id,
             subscription_id=subscription_id,
-            request_body=models.CancelSubscriptionRequestBody(
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.CancelSubscriptionRequestBody]
             ),
         )
 

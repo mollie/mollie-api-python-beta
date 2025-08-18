@@ -6,7 +6,7 @@ from mollie._hooks import HookContext
 from mollie.types import BaseModel, OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
 from mollie.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional, Union, cast
+from typing import Any, Mapping, Optional, Union, cast
 
 
 class PaymentLinks(BaseSDK):
@@ -632,34 +632,12 @@ class PaymentLinks(BaseSDK):
         self,
         *,
         payment_link_id: str,
-        description: Optional[str] = None,
-        minimum_amount: Optional[
+        request_body: Optional[
             Union[
-                models.UpdatePaymentLinkMinimumAmountRequest,
-                models.UpdatePaymentLinkMinimumAmountRequestTypedDict,
+                models.UpdatePaymentLinkRequestBody,
+                models.UpdatePaymentLinkRequestBodyTypedDict,
             ]
         ] = None,
-        archived: Optional[bool] = None,
-        allowed_methods: OptionalNullable[List[str]] = UNSET,
-        lines: OptionalNullable[
-            Union[
-                List[models.UpdatePaymentLinkLineRequest],
-                List[models.UpdatePaymentLinkLineRequestTypedDict],
-            ]
-        ] = UNSET,
-        billing_address: Optional[
-            Union[
-                models.UpdatePaymentLinkBillingAddressRequest,
-                models.UpdatePaymentLinkBillingAddressRequestTypedDict,
-            ]
-        ] = None,
-        shipping_address: Optional[
-            Union[
-                models.UpdatePaymentLinkShippingAddressRequest,
-                models.UpdatePaymentLinkShippingAddressRequestTypedDict,
-            ]
-        ] = None,
-        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -670,14 +648,7 @@ class PaymentLinks(BaseSDK):
         Certain details of an existing payment link can be updated.
 
         :param payment_link_id: Provide the ID of the related payment link.
-        :param description: A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible.  Updating the description does not affect any previously existing payments created for this payment link.
-        :param minimum_amount: The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount.
-        :param archived: Whether the payment link is archived. Customers will not be able to complete payments on archived payment links.
-        :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.  Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint', 'in3', 'riverty', 'klarna', 'billie'.
-        :param lines: Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.  All lines must have the same currency as the payment.  Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
-        :param billing_address: The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.  Required for payment method `in3`, `klarna`, `billie` and `riverty`.
-        :param shipping_address: The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -695,26 +666,8 @@ class PaymentLinks(BaseSDK):
 
         request = models.UpdatePaymentLinkRequest(
             payment_link_id=payment_link_id,
-            request_body=models.UpdatePaymentLinkRequestBody(
-                description=description,
-                minimum_amount=utils.get_pydantic_model(
-                    minimum_amount,
-                    Optional[models.UpdatePaymentLinkMinimumAmountRequest],
-                ),
-                archived=archived,
-                allowed_methods=allowed_methods,
-                lines=utils.get_pydantic_model(
-                    lines, OptionalNullable[List[models.UpdatePaymentLinkLineRequest]]
-                ),
-                billing_address=utils.get_pydantic_model(
-                    billing_address,
-                    Optional[models.UpdatePaymentLinkBillingAddressRequest],
-                ),
-                shipping_address=utils.get_pydantic_model(
-                    shipping_address,
-                    Optional[models.UpdatePaymentLinkShippingAddressRequest],
-                ),
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.UpdatePaymentLinkRequestBody]
             ),
         )
 
@@ -796,34 +749,12 @@ class PaymentLinks(BaseSDK):
         self,
         *,
         payment_link_id: str,
-        description: Optional[str] = None,
-        minimum_amount: Optional[
+        request_body: Optional[
             Union[
-                models.UpdatePaymentLinkMinimumAmountRequest,
-                models.UpdatePaymentLinkMinimumAmountRequestTypedDict,
+                models.UpdatePaymentLinkRequestBody,
+                models.UpdatePaymentLinkRequestBodyTypedDict,
             ]
         ] = None,
-        archived: Optional[bool] = None,
-        allowed_methods: OptionalNullable[List[str]] = UNSET,
-        lines: OptionalNullable[
-            Union[
-                List[models.UpdatePaymentLinkLineRequest],
-                List[models.UpdatePaymentLinkLineRequestTypedDict],
-            ]
-        ] = UNSET,
-        billing_address: Optional[
-            Union[
-                models.UpdatePaymentLinkBillingAddressRequest,
-                models.UpdatePaymentLinkBillingAddressRequestTypedDict,
-            ]
-        ] = None,
-        shipping_address: Optional[
-            Union[
-                models.UpdatePaymentLinkShippingAddressRequest,
-                models.UpdatePaymentLinkShippingAddressRequestTypedDict,
-            ]
-        ] = None,
-        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -834,14 +765,7 @@ class PaymentLinks(BaseSDK):
         Certain details of an existing payment link can be updated.
 
         :param payment_link_id: Provide the ID of the related payment link.
-        :param description: A short description of the payment link. The description is visible in the Dashboard and will be shown on the customer's bank or card statement when possible.  Updating the description does not affect any previously existing payments created for this payment link.
-        :param minimum_amount: The minimum amount of the payment link. This property is only allowed when there is no amount provided. The customer will be prompted to enter a value greater than or equal to the minimum amount.
-        :param archived: Whether the payment link is archived. Customers will not be able to complete payments on archived payment links.
-        :param allowed_methods: An array of payment methods that are allowed to be used for this payment link. When this parameter is not provided or is an empty array, all enabled payment methods will be available.  Enum: 'applepay', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'blik', 'creditcard', 'eps', 'giftcard', 'ideal', 'kbc', 'mybank', 'paybybank', 'paypal', 'paysafecard', 'pointofsale', 'przelewy24', 'satispay', 'trustly', 'twint', 'in3', 'riverty', 'klarna', 'billie'.
-        :param lines: Optionally provide the order lines for the payment. Each line contains details such as a description of the item ordered and its price.  All lines must have the same currency as the payment.  Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
-        :param billing_address: The customer's billing address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.  Required for payment method `in3`, `klarna`, `billie` and `riverty`.
-        :param shipping_address: The customer's shipping address details. We advise to provide these details to improve fraud protection and conversion.  Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and `country`.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -859,26 +783,8 @@ class PaymentLinks(BaseSDK):
 
         request = models.UpdatePaymentLinkRequest(
             payment_link_id=payment_link_id,
-            request_body=models.UpdatePaymentLinkRequestBody(
-                description=description,
-                minimum_amount=utils.get_pydantic_model(
-                    minimum_amount,
-                    Optional[models.UpdatePaymentLinkMinimumAmountRequest],
-                ),
-                archived=archived,
-                allowed_methods=allowed_methods,
-                lines=utils.get_pydantic_model(
-                    lines, OptionalNullable[List[models.UpdatePaymentLinkLineRequest]]
-                ),
-                billing_address=utils.get_pydantic_model(
-                    billing_address,
-                    Optional[models.UpdatePaymentLinkBillingAddressRequest],
-                ),
-                shipping_address=utils.get_pydantic_model(
-                    shipping_address,
-                    Optional[models.UpdatePaymentLinkShippingAddressRequest],
-                ),
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.UpdatePaymentLinkRequestBody]
             ),
         )
 
@@ -960,7 +866,12 @@ class PaymentLinks(BaseSDK):
         self,
         *,
         payment_link_id: str,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.DeletePaymentLinkRequestBody,
+                models.DeletePaymentLinkRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -977,7 +888,7 @@ class PaymentLinks(BaseSDK):
         [Update payment link](update-payment-link) endpoint instead.
 
         :param payment_link_id: Provide the ID of the related payment link.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -995,8 +906,8 @@ class PaymentLinks(BaseSDK):
 
         request = models.DeletePaymentLinkRequest(
             payment_link_id=payment_link_id,
-            request_body=models.DeletePaymentLinkRequestBody(
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.DeletePaymentLinkRequestBody]
             ),
         )
 
@@ -1078,7 +989,12 @@ class PaymentLinks(BaseSDK):
         self,
         *,
         payment_link_id: str,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.DeletePaymentLinkRequestBody,
+                models.DeletePaymentLinkRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1095,7 +1011,7 @@ class PaymentLinks(BaseSDK):
         [Update payment link](update-payment-link) endpoint instead.
 
         :param payment_link_id: Provide the ID of the related payment link.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1113,8 +1029,8 @@ class PaymentLinks(BaseSDK):
 
         request = models.DeletePaymentLinkRequest(
             payment_link_id=payment_link_id,
-            request_body=models.DeletePaymentLinkRequestBody(
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.DeletePaymentLinkRequestBody]
             ),
         )
 

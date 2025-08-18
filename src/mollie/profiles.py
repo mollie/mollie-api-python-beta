@@ -3,23 +3,19 @@
 from .basesdk import BaseSDK
 from mollie import models, utils
 from mollie._hooks import HookContext
-from mollie.types import OptionalNullable, UNSET
+from mollie.types import BaseModel, OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
 from mollie.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional
+from typing import Any, Mapping, Optional, Union, cast
 
 
 class Profiles(BaseSDK):
     def create(
         self,
         *,
-        name: str,
-        website: str,
-        email: str,
-        phone: str,
-        description: Optional[str] = None,
-        countries_of_activity: Optional[List[str]] = None,
-        business_category: Optional[str] = None,
+        request: Union[
+            models.CreateProfileRequest, models.CreateProfileRequestTypedDict
+        ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -32,13 +28,7 @@ class Profiles(BaseSDK):
         Profiles are required for payment processing. Normally they are created via the Mollie dashboard. Alternatively, you
         can use this endpoint to automate profile creation.
 
-        :param name: The profile's name, this will usually reflect the trade name or brand name of the profile's website or application.
-        :param website: The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are allowed.
-        :param email: The email address associated with the profile's trade name or brand.
-        :param phone: The phone number associated with the profile's trade name or brand.
-        :param description: The products or services offered by the profile's website or application.
-        :param countries_of_activity: A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
-        :param business_category: The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types#business-category) for all possible options.
+        :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -54,15 +44,9 @@ class Profiles(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.CreateProfileRequest(
-            name=name,
-            website=website,
-            email=email,
-            phone=phone,
-            description=description,
-            countries_of_activity=countries_of_activity,
-            business_category=business_category,
-        )
+        if not isinstance(request, BaseModel):
+            request = utils.unmarshal(request, models.CreateProfileRequest)
+        request = cast(models.CreateProfileRequest, request)
 
         req = self._build_request(
             method="POST",
@@ -130,13 +114,9 @@ class Profiles(BaseSDK):
     async def create_async(
         self,
         *,
-        name: str,
-        website: str,
-        email: str,
-        phone: str,
-        description: Optional[str] = None,
-        countries_of_activity: Optional[List[str]] = None,
-        business_category: Optional[str] = None,
+        request: Union[
+            models.CreateProfileRequest, models.CreateProfileRequestTypedDict
+        ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -149,13 +129,7 @@ class Profiles(BaseSDK):
         Profiles are required for payment processing. Normally they are created via the Mollie dashboard. Alternatively, you
         can use this endpoint to automate profile creation.
 
-        :param name: The profile's name, this will usually reflect the trade name or brand name of the profile's website or application.
-        :param website: The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are allowed.
-        :param email: The email address associated with the profile's trade name or brand.
-        :param phone: The phone number associated with the profile's trade name or brand.
-        :param description: The products or services offered by the profile's website or application.
-        :param countries_of_activity: A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
-        :param business_category: The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types#business-category) for all possible options.
+        :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -171,15 +145,9 @@ class Profiles(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.CreateProfileRequest(
-            name=name,
-            website=website,
-            email=email,
-            phone=phone,
-            description=description,
-            countries_of_activity=countries_of_activity,
-            business_category=business_category,
-        )
+        if not isinstance(request, BaseModel):
+            request = utils.unmarshal(request, models.CreateProfileRequest)
+        request = cast(models.CreateProfileRequest, request)
 
         req = self._build_request_async(
             method="POST",
@@ -646,14 +614,9 @@ class Profiles(BaseSDK):
         self,
         *,
         id: str,
-        name: OptionalNullable[str] = UNSET,
-        website: OptionalNullable[str] = UNSET,
-        email: OptionalNullable[str] = UNSET,
-        phone: OptionalNullable[str] = UNSET,
-        description: OptionalNullable[str] = UNSET,
-        countries_of_activity: OptionalNullable[List[str]] = UNSET,
-        business_category: OptionalNullable[str] = UNSET,
-        mode: OptionalNullable[models.ModeRequest] = UNSET,
+        request_body: Union[
+            models.UpdateProfileRequestBody, models.UpdateProfileRequestBodyTypedDict
+        ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -667,14 +630,7 @@ class Profiles(BaseSDK):
         Alternatively, you can use this endpoint to automate profile management.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param name: The profile's name, this will usually reflect the trade name or brand name of the profile's website or application.
-        :param website: The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are allowed.
-        :param email: The email address associated with the profile's trade name or brand.
-        :param phone: The phone number associated with the profile's trade name or brand.
-        :param description: The products or services offered by the profile's website or application.
-        :param countries_of_activity: A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
-        :param business_category: The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types) for all possible options.
-        :param mode: Updating a profile from `test` mode to `live` mode will trigger a verification process, where we review the profile before it can start accepting payments.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -692,15 +648,8 @@ class Profiles(BaseSDK):
 
         request = models.UpdateProfileRequest(
             id=id,
-            request_body=models.UpdateProfileRequestBody(
-                name=name,
-                website=website,
-                email=email,
-                phone=phone,
-                description=description,
-                countries_of_activity=countries_of_activity,
-                business_category=business_category,
-                mode=mode,
+            request_body=utils.get_pydantic_model(
+                request_body, models.UpdateProfileRequestBody
             ),
         )
 
@@ -787,14 +736,9 @@ class Profiles(BaseSDK):
         self,
         *,
         id: str,
-        name: OptionalNullable[str] = UNSET,
-        website: OptionalNullable[str] = UNSET,
-        email: OptionalNullable[str] = UNSET,
-        phone: OptionalNullable[str] = UNSET,
-        description: OptionalNullable[str] = UNSET,
-        countries_of_activity: OptionalNullable[List[str]] = UNSET,
-        business_category: OptionalNullable[str] = UNSET,
-        mode: OptionalNullable[models.ModeRequest] = UNSET,
+        request_body: Union[
+            models.UpdateProfileRequestBody, models.UpdateProfileRequestBodyTypedDict
+        ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -808,14 +752,7 @@ class Profiles(BaseSDK):
         Alternatively, you can use this endpoint to automate profile management.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param name: The profile's name, this will usually reflect the trade name or brand name of the profile's website or application.
-        :param website: The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are allowed.
-        :param email: The email address associated with the profile's trade name or brand.
-        :param phone: The phone number associated with the profile's trade name or brand.
-        :param description: The products or services offered by the profile's website or application.
-        :param countries_of_activity: A list of countries where you expect that the majority of the profile's customers reside, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
-        :param business_category: The industry associated with the profile's trade name or brand. Please refer to the [business category list](common-data-types) for all possible options.
-        :param mode: Updating a profile from `test` mode to `live` mode will trigger a verification process, where we review the profile before it can start accepting payments.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -833,15 +770,8 @@ class Profiles(BaseSDK):
 
         request = models.UpdateProfileRequest(
             id=id,
-            request_body=models.UpdateProfileRequestBody(
-                name=name,
-                website=website,
-                email=email,
-                phone=phone,
-                description=description,
-                countries_of_activity=countries_of_activity,
-                business_category=business_category,
-                mode=mode,
+            request_body=utils.get_pydantic_model(
+                request_body, models.UpdateProfileRequestBody
             ),
         )
 

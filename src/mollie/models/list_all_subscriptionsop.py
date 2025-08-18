@@ -8,7 +8,7 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -338,17 +338,8 @@ class ListAllSubscriptionsApplicationFee(BaseModel):
     description: str
 
 
-class ListAllSubscriptionsMetadataTypedDict(TypedDict):
-    pass
-
-
-class ListAllSubscriptionsMetadata(BaseModel):
-    pass
-
-
-ListAllSubscriptionsMetadataUnionTypedDict = TypeAliasType(
-    "ListAllSubscriptionsMetadataUnionTypedDict",
-    Union[ListAllSubscriptionsMetadataTypedDict, str, List[str]],
+ListAllSubscriptionsMetadataTypedDict = TypeAliasType(
+    "ListAllSubscriptionsMetadataTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity.
 Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately
@@ -358,9 +349,8 @@ Any metadata added to the subscription will be automatically forwarded to the pa
 """
 
 
-ListAllSubscriptionsMetadataUnion = TypeAliasType(
-    "ListAllSubscriptionsMetadataUnion",
-    Union[ListAllSubscriptionsMetadata, str, List[str]],
+ListAllSubscriptionsMetadata = TypeAliasType(
+    "ListAllSubscriptionsMetadata", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity.
 Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately
@@ -601,7 +591,7 @@ class ListAllSubscriptionsSubscriptionTypedDict(TypedDict):
     """
     method: Nullable[ListAllSubscriptionsMethod]
     r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
-    metadata: Nullable[ListAllSubscriptionsMetadataUnionTypedDict]
+    metadata: Nullable[ListAllSubscriptionsMetadataTypedDict]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity.
     Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately
     1kB.
@@ -692,7 +682,7 @@ class ListAllSubscriptionsSubscription(BaseModel):
     method: Nullable[ListAllSubscriptionsMethod]
     r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
 
-    metadata: Nullable[ListAllSubscriptionsMetadataUnion]
+    metadata: Nullable[ListAllSubscriptionsMetadata]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity.
     Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately
     1kB.

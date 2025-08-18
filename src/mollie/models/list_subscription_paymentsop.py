@@ -1104,26 +1104,16 @@ class ListSubscriptionPaymentsMethod(str, Enum):
     VOUCHER = "voucher"
 
 
-class ListSubscriptionPaymentsMetadataTypedDict(TypedDict):
-    pass
-
-
-class ListSubscriptionPaymentsMetadata(BaseModel):
-    pass
-
-
-ListSubscriptionPaymentsMetadataUnionTypedDict = TypeAliasType(
-    "ListSubscriptionPaymentsMetadataUnionTypedDict",
-    Union[ListSubscriptionPaymentsMetadataTypedDict, str, List[str]],
+ListSubscriptionPaymentsMetadataTypedDict = TypeAliasType(
+    "ListSubscriptionPaymentsMetadataTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-ListSubscriptionPaymentsMetadataUnion = TypeAliasType(
-    "ListSubscriptionPaymentsMetadataUnion",
-    Union[ListSubscriptionPaymentsMetadata, str, List[str]],
+ListSubscriptionPaymentsMetadata = TypeAliasType(
+    "ListSubscriptionPaymentsMetadata", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -2090,7 +2080,7 @@ class ListSubscriptionPaymentsPaymentOutputTypedDict(TypedDict):
 
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
-    metadata: NotRequired[Nullable[ListSubscriptionPaymentsMetadataUnionTypedDict]]
+    metadata: NotRequired[Nullable[ListSubscriptionPaymentsMetadataTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -2435,7 +2425,7 @@ class ListSubscriptionPaymentsPaymentOutput(BaseModel):
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
 
-    metadata: OptionalNullable[ListSubscriptionPaymentsMetadataUnion] = UNSET
+    metadata: OptionalNullable[ListSubscriptionPaymentsMetadata] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """

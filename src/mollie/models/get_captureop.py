@@ -8,7 +8,7 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -227,25 +227,16 @@ class GetCaptureStatus(str, Enum):
     FAILED = "failed"
 
 
-class GetCaptureMetadataTypedDict(TypedDict):
-    pass
-
-
-class GetCaptureMetadata(BaseModel):
-    pass
-
-
-GetCaptureMetadataUnionTypedDict = TypeAliasType(
-    "GetCaptureMetadataUnionTypedDict",
-    Union[GetCaptureMetadataTypedDict, str, List[str]],
+GetCaptureMetadataTypedDict = TypeAliasType(
+    "GetCaptureMetadataTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-GetCaptureMetadataUnion = TypeAliasType(
-    "GetCaptureMetadataUnion", Union[GetCaptureMetadata, str, List[str]]
+GetCaptureMetadata = TypeAliasType(
+    "GetCaptureMetadata", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -458,7 +449,7 @@ class GetCaptureResponseTypedDict(TypedDict):
     accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
     instead.
     """
-    metadata: NotRequired[Nullable[GetCaptureMetadataUnionTypedDict]]
+    metadata: NotRequired[Nullable[GetCaptureMetadataTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -516,7 +507,7 @@ class GetCaptureResponse(BaseModel):
     instead.
     """
 
-    metadata: OptionalNullable[GetCaptureMetadataUnion] = UNSET
+    metadata: OptionalNullable[GetCaptureMetadata] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """

@@ -8,7 +8,7 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -35,26 +35,16 @@ class CreateRefundAmountRequest(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreateRefundMetadataRequestTypedDict(TypedDict):
-    pass
-
-
-class CreateRefundMetadataRequest(BaseModel):
-    pass
-
-
-CreateRefundMetadataRequestUnionTypedDict = TypeAliasType(
-    "CreateRefundMetadataRequestUnionTypedDict",
-    Union[CreateRefundMetadataRequestTypedDict, str, List[str]],
+CreateRefundMetadataRequestTypedDict = TypeAliasType(
+    "CreateRefundMetadataRequestTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-CreateRefundMetadataRequestUnion = TypeAliasType(
-    "CreateRefundMetadataRequestUnion",
-    Union[CreateRefundMetadataRequest, str, List[str]],
+CreateRefundMetadataRequest = TypeAliasType(
+    "CreateRefundMetadataRequest", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -154,7 +144,7 @@ class CreateRefundRequestBodyTypedDict(TypedDict):
     """
     description: NotRequired[str]
     r"""The description of the refund that may be shown to your customer, depending on the payment method used."""
-    metadata: NotRequired[Nullable[CreateRefundMetadataRequestUnionTypedDict]]
+    metadata: NotRequired[Nullable[CreateRefundMetadataRequestTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -200,7 +190,7 @@ class CreateRefundRequestBody(BaseModel):
     description: Optional[str] = None
     r"""The description of the refund that may be shown to your customer, depending on the payment method used."""
 
-    metadata: OptionalNullable[CreateRefundMetadataRequestUnion] = UNSET
+    metadata: OptionalNullable[CreateRefundMetadataRequest] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -559,26 +549,16 @@ class CreateRefundSettlementAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreateRefundMetadataResponseTypedDict(TypedDict):
-    pass
-
-
-class CreateRefundMetadataResponse(BaseModel):
-    pass
-
-
-CreateRefundMetadataResponseUnionTypedDict = TypeAliasType(
-    "CreateRefundMetadataResponseUnionTypedDict",
-    Union[CreateRefundMetadataResponseTypedDict, str, List[str]],
+CreateRefundMetadataResponseTypedDict = TypeAliasType(
+    "CreateRefundMetadataResponseTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-CreateRefundMetadataResponseUnion = TypeAliasType(
-    "CreateRefundMetadataResponseUnion",
-    Union[CreateRefundMetadataResponse, str, List[str]],
+CreateRefundMetadataResponse = TypeAliasType(
+    "CreateRefundMetadataResponse", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -846,7 +826,7 @@ class CreateRefundResponseTypedDict(TypedDict):
     To retrieve accurate settlement amounts we recommend using the
     [List balance transactions endpoint](list-balance-transactions) instead.
     """
-    metadata: NotRequired[Nullable[CreateRefundMetadataResponseUnionTypedDict]]
+    metadata: NotRequired[Nullable[CreateRefundMetadataResponseTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -918,7 +898,7 @@ class CreateRefundResponse(BaseModel):
     [List balance transactions endpoint](list-balance-transactions) instead.
     """
 
-    metadata: OptionalNullable[CreateRefundMetadataResponseUnion] = UNSET
+    metadata: OptionalNullable[CreateRefundMetadataResponse] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """

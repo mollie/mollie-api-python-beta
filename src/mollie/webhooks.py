@@ -420,10 +420,12 @@ class Webhooks(BaseSDK):
         self,
         *,
         id: str,
-        name: Optional[str] = None,
-        url: Optional[str] = None,
-        event_types: Optional[models.UpdateWebhookEventTypes] = None,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.UpdateWebhookRequestBody,
+                models.UpdateWebhookRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -434,10 +436,7 @@ class Webhooks(BaseSDK):
         Updates the webhook. You may edit the name, url and the list of subscribed event types.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param name: A name that identifies the webhook.
-        :param url: The URL Mollie will send the events to. This URL must be publicly accessible.
-        :param event_types: The list of events to enable for this webhook. You may specify `'*'` to add all events, except those that require explicit selection. Separate multiple event types with a comma.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -455,11 +454,8 @@ class Webhooks(BaseSDK):
 
         request = models.UpdateWebhookRequest(
             id=id,
-            request_body=models.UpdateWebhookRequestBody(
-                name=name,
-                url=url,
-                event_types=event_types,
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.UpdateWebhookRequestBody]
             ),
         )
 
@@ -541,10 +537,12 @@ class Webhooks(BaseSDK):
         self,
         *,
         id: str,
-        name: Optional[str] = None,
-        url: Optional[str] = None,
-        event_types: Optional[models.UpdateWebhookEventTypes] = None,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.UpdateWebhookRequestBody,
+                models.UpdateWebhookRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -555,10 +553,7 @@ class Webhooks(BaseSDK):
         Updates the webhook. You may edit the name, url and the list of subscribed event types.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param name: A name that identifies the webhook.
-        :param url: The URL Mollie will send the events to. This URL must be publicly accessible.
-        :param event_types: The list of events to enable for this webhook. You may specify `'*'` to add all events, except those that require explicit selection. Separate multiple event types with a comma.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -576,11 +571,8 @@ class Webhooks(BaseSDK):
 
         request = models.UpdateWebhookRequest(
             id=id,
-            request_body=models.UpdateWebhookRequestBody(
-                name=name,
-                url=url,
-                event_types=event_types,
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.UpdateWebhookRequestBody]
             ),
         )
 
@@ -868,7 +860,12 @@ class Webhooks(BaseSDK):
         self,
         *,
         id: str,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.DeleteWebhookRequestBody,
+                models.DeleteWebhookRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -879,7 +876,7 @@ class Webhooks(BaseSDK):
         Delete a single webhook object by its webhook ID.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -897,8 +894,8 @@ class Webhooks(BaseSDK):
 
         request = models.DeleteWebhookRequest(
             id=id,
-            request_body=models.DeleteWebhookRequestBody(
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.DeleteWebhookRequestBody]
             ),
         )
 
@@ -980,7 +977,12 @@ class Webhooks(BaseSDK):
         self,
         *,
         id: str,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.DeleteWebhookRequestBody,
+                models.DeleteWebhookRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -991,7 +993,7 @@ class Webhooks(BaseSDK):
         Delete a single webhook object by its webhook ID.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1009,8 +1011,8 @@ class Webhooks(BaseSDK):
 
         request = models.DeleteWebhookRequest(
             id=id,
-            request_body=models.DeleteWebhookRequestBody(
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.DeleteWebhookRequestBody]
             ),
         )
 
@@ -1092,7 +1094,9 @@ class Webhooks(BaseSDK):
         self,
         *,
         id: str,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[models.TestWebhookRequestBody, models.TestWebhookRequestBodyTypedDict]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1103,7 +1107,7 @@ class Webhooks(BaseSDK):
         Sends a test event to the webhook to verify the endpoint is working as expected.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1121,8 +1125,8 @@ class Webhooks(BaseSDK):
 
         request = models.TestWebhookRequest(
             id=id,
-            request_body=models.TestWebhookRequestBody(
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.TestWebhookRequestBody]
             ),
         )
 
@@ -1204,7 +1208,9 @@ class Webhooks(BaseSDK):
         self,
         *,
         id: str,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[models.TestWebhookRequestBody, models.TestWebhookRequestBodyTypedDict]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1215,7 +1221,7 @@ class Webhooks(BaseSDK):
         Sends a test event to the webhook to verify the endpoint is working as expected.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1233,8 +1239,8 @@ class Webhooks(BaseSDK):
 
         request = models.TestWebhookRequest(
             id=id,
-            request_body=models.TestWebhookRequestBody(
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.TestWebhookRequestBody]
             ),
         )
 

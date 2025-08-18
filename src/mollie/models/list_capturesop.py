@@ -8,7 +8,7 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -298,25 +298,16 @@ class ListCapturesStatus(str, Enum):
     FAILED = "failed"
 
 
-class ListCapturesMetadataTypedDict(TypedDict):
-    pass
-
-
-class ListCapturesMetadata(BaseModel):
-    pass
-
-
-ListCapturesMetadataUnionTypedDict = TypeAliasType(
-    "ListCapturesMetadataUnionTypedDict",
-    Union[ListCapturesMetadataTypedDict, str, List[str]],
+ListCapturesMetadataTypedDict = TypeAliasType(
+    "ListCapturesMetadataTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-ListCapturesMetadataUnion = TypeAliasType(
-    "ListCapturesMetadataUnion", Union[ListCapturesMetadata, str, List[str]]
+ListCapturesMetadata = TypeAliasType(
+    "ListCapturesMetadata", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -527,7 +518,7 @@ class ListCapturesCaptureTypedDict(TypedDict):
     accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
     instead.
     """
-    metadata: NotRequired[Nullable[ListCapturesMetadataUnionTypedDict]]
+    metadata: NotRequired[Nullable[ListCapturesMetadataTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -583,7 +574,7 @@ class ListCapturesCapture(BaseModel):
     instead.
     """
 
-    metadata: OptionalNullable[ListCapturesMetadataUnion] = UNSET
+    metadata: OptionalNullable[ListCapturesMetadata] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """

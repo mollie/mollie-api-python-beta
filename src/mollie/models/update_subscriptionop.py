@@ -8,7 +8,7 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -42,17 +42,8 @@ class UpdateSubscriptionIntervalRequest(str, Enum):
     DOT_DOT_DOT_MONTHS = "... months"
 
 
-class UpdateSubscriptionMetadataRequestTypedDict(TypedDict):
-    pass
-
-
-class UpdateSubscriptionMetadataRequest(BaseModel):
-    pass
-
-
-UpdateSubscriptionMetadataRequestUnionTypedDict = TypeAliasType(
-    "UpdateSubscriptionMetadataRequestUnionTypedDict",
-    Union[UpdateSubscriptionMetadataRequestTypedDict, str, List[str]],
+UpdateSubscriptionMetadataRequestTypedDict = TypeAliasType(
+    "UpdateSubscriptionMetadataRequestTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the
 entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to
@@ -62,9 +53,8 @@ Any metadata added to the subscription will be automatically forwarded to the pa
 """
 
 
-UpdateSubscriptionMetadataRequestUnion = TypeAliasType(
-    "UpdateSubscriptionMetadataRequestUnion",
-    Union[UpdateSubscriptionMetadataRequest, str, List[str]],
+UpdateSubscriptionMetadataRequest = TypeAliasType(
+    "UpdateSubscriptionMetadataRequest", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the
 entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to
@@ -96,7 +86,7 @@ class UpdateSubscriptionRequestBodyTypedDict(TypedDict):
 
     Test mode subscriptions will get canceled automatically after 10 payments.
     """
-    metadata: NotRequired[Nullable[UpdateSubscriptionMetadataRequestUnionTypedDict]]
+    metadata: NotRequired[Nullable[UpdateSubscriptionMetadataRequestTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the
     entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to
     approximately 1kB.
@@ -146,7 +136,7 @@ class UpdateSubscriptionRequestBody(BaseModel):
     Test mode subscriptions will get canceled automatically after 10 payments.
     """
 
-    metadata: OptionalNullable[UpdateSubscriptionMetadataRequestUnion] = UNSET
+    metadata: OptionalNullable[UpdateSubscriptionMetadataRequest] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the
     entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to
     approximately 1kB.
@@ -411,17 +401,8 @@ class UpdateSubscriptionApplicationFee(BaseModel):
     description: str
 
 
-class UpdateSubscriptionMetadataResponseTypedDict(TypedDict):
-    pass
-
-
-class UpdateSubscriptionMetadataResponse(BaseModel):
-    pass
-
-
-UpdateSubscriptionMetadataResponseUnionTypedDict = TypeAliasType(
-    "UpdateSubscriptionMetadataResponseUnionTypedDict",
-    Union[UpdateSubscriptionMetadataResponseTypedDict, str, List[str]],
+UpdateSubscriptionMetadataResponseTypedDict = TypeAliasType(
+    "UpdateSubscriptionMetadataResponseTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity.
 Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately
@@ -431,9 +412,8 @@ Any metadata added to the subscription will be automatically forwarded to the pa
 """
 
 
-UpdateSubscriptionMetadataResponseUnion = TypeAliasType(
-    "UpdateSubscriptionMetadataResponseUnion",
-    Union[UpdateSubscriptionMetadataResponse, str, List[str]],
+UpdateSubscriptionMetadataResponse = TypeAliasType(
+    "UpdateSubscriptionMetadataResponse", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity.
 Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately
@@ -676,7 +656,7 @@ class UpdateSubscriptionResponseTypedDict(TypedDict):
     """
     method: Nullable[UpdateSubscriptionMethod]
     r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
-    metadata: Nullable[UpdateSubscriptionMetadataResponseUnionTypedDict]
+    metadata: Nullable[UpdateSubscriptionMetadataResponseTypedDict]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity.
     Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately
     1kB.
@@ -769,7 +749,7 @@ class UpdateSubscriptionResponse(BaseModel):
     method: Nullable[UpdateSubscriptionMethod]
     r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
 
-    metadata: Nullable[UpdateSubscriptionMetadataResponseUnion]
+    metadata: Nullable[UpdateSubscriptionMetadataResponse]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity.
     Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately
     1kB.

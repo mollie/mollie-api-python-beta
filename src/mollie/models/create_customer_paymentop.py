@@ -789,26 +789,17 @@ class CreateCustomerPaymentMethodRequest(str, Enum):
     VOUCHER = "voucher"
 
 
-class CreateCustomerPaymentMetadataRequestTypedDict(TypedDict):
-    pass
-
-
-class CreateCustomerPaymentMetadataRequest(BaseModel):
-    pass
-
-
-CreateCustomerPaymentMetadataRequestUnionTypedDict = TypeAliasType(
-    "CreateCustomerPaymentMetadataRequestUnionTypedDict",
-    Union[CreateCustomerPaymentMetadataRequestTypedDict, str, List[str]],
+CreateCustomerPaymentMetadataRequestTypedDict = TypeAliasType(
+    "CreateCustomerPaymentMetadataRequestTypedDict",
+    Union[str, Dict[str, Any], List[str]],
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-CreateCustomerPaymentMetadataRequestUnion = TypeAliasType(
-    "CreateCustomerPaymentMetadataRequestUnion",
-    Union[CreateCustomerPaymentMetadataRequest, str, List[str]],
+CreateCustomerPaymentMetadataRequest = TypeAliasType(
+    "CreateCustomerPaymentMetadataRequest", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -1212,7 +1203,7 @@ class CreateCustomerPaymentRequestBodyTypedDict(TypedDict):
 
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
-    metadata: NotRequired[Nullable[CreateCustomerPaymentMetadataRequestUnionTypedDict]]
+    metadata: NotRequired[Nullable[CreateCustomerPaymentMetadataRequestTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -1458,7 +1449,7 @@ class CreateCustomerPaymentRequestBody(BaseModel):
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
 
-    metadata: OptionalNullable[CreateCustomerPaymentMetadataRequestUnion] = UNSET
+    metadata: OptionalNullable[CreateCustomerPaymentMetadataRequest] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -1656,13 +1647,13 @@ class CreateCustomerPaymentRequestBody(BaseModel):
 
 
 class CreateCustomerPaymentRequestTypedDict(TypedDict):
-    customer_id_param: str
+    customer_id: str
     r"""Provide the ID of the related customer."""
     request_body: NotRequired[CreateCustomerPaymentRequestBodyTypedDict]
 
 
 class CreateCustomerPaymentRequest(BaseModel):
-    customer_id_param: Annotated[
+    customer_id: Annotated[
         str,
         pydantic.Field(alias="customerId"),
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
@@ -2697,26 +2688,17 @@ class CreateCustomerPaymentMethodResponse(str, Enum):
     VOUCHER = "voucher"
 
 
-class CreateCustomerPaymentMetadataResponseTypedDict(TypedDict):
-    pass
-
-
-class CreateCustomerPaymentMetadataResponse(BaseModel):
-    pass
-
-
-CreateCustomerPaymentMetadataResponseUnionTypedDict = TypeAliasType(
-    "CreateCustomerPaymentMetadataResponseUnionTypedDict",
-    Union[CreateCustomerPaymentMetadataResponseTypedDict, str, List[str]],
+CreateCustomerPaymentMetadataResponseTypedDict = TypeAliasType(
+    "CreateCustomerPaymentMetadataResponseTypedDict",
+    Union[str, Dict[str, Any], List[str]],
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-CreateCustomerPaymentMetadataResponseUnion = TypeAliasType(
-    "CreateCustomerPaymentMetadataResponseUnion",
-    Union[CreateCustomerPaymentMetadataResponse, str, List[str]],
+CreateCustomerPaymentMetadataResponse = TypeAliasType(
+    "CreateCustomerPaymentMetadataResponse", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -3685,7 +3667,7 @@ class CreateCustomerPaymentResponseTypedDict(TypedDict):
 
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
-    metadata: NotRequired[Nullable[CreateCustomerPaymentMetadataResponseUnionTypedDict]]
+    metadata: NotRequired[Nullable[CreateCustomerPaymentMetadataResponseTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -4030,7 +4012,7 @@ class CreateCustomerPaymentResponse(BaseModel):
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
 
-    metadata: OptionalNullable[CreateCustomerPaymentMetadataResponseUnion] = UNSET
+    metadata: OptionalNullable[CreateCustomerPaymentMetadataResponse] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """

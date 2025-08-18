@@ -1076,26 +1076,16 @@ class GetPaymentLinkPaymentsMethod(str, Enum):
     VOUCHER = "voucher"
 
 
-class GetPaymentLinkPaymentsMetadataTypedDict(TypedDict):
-    pass
-
-
-class GetPaymentLinkPaymentsMetadata(BaseModel):
-    pass
-
-
-GetPaymentLinkPaymentsMetadataUnionTypedDict = TypeAliasType(
-    "GetPaymentLinkPaymentsMetadataUnionTypedDict",
-    Union[GetPaymentLinkPaymentsMetadataTypedDict, str, List[str]],
+GetPaymentLinkPaymentsMetadataTypedDict = TypeAliasType(
+    "GetPaymentLinkPaymentsMetadataTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-GetPaymentLinkPaymentsMetadataUnion = TypeAliasType(
-    "GetPaymentLinkPaymentsMetadataUnion",
-    Union[GetPaymentLinkPaymentsMetadata, str, List[str]],
+GetPaymentLinkPaymentsMetadata = TypeAliasType(
+    "GetPaymentLinkPaymentsMetadata", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -2058,7 +2048,7 @@ class GetPaymentLinkPaymentsPaymentOutputTypedDict(TypedDict):
 
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
-    metadata: NotRequired[Nullable[GetPaymentLinkPaymentsMetadataUnionTypedDict]]
+    metadata: NotRequired[Nullable[GetPaymentLinkPaymentsMetadataTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -2401,7 +2391,7 @@ class GetPaymentLinkPaymentsPaymentOutput(BaseModel):
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
 
-    metadata: OptionalNullable[GetPaymentLinkPaymentsMetadataUnion] = UNSET
+    metadata: OptionalNullable[GetPaymentLinkPaymentsMetadata] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """

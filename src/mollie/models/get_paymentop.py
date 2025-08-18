@@ -1064,25 +1064,16 @@ class GetPaymentMethod(str, Enum):
     VOUCHER = "voucher"
 
 
-class GetPaymentMetadataTypedDict(TypedDict):
-    pass
-
-
-class GetPaymentMetadata(BaseModel):
-    pass
-
-
-GetPaymentMetadataUnionTypedDict = TypeAliasType(
-    "GetPaymentMetadataUnionTypedDict",
-    Union[GetPaymentMetadataTypedDict, str, List[str]],
+GetPaymentMetadataTypedDict = TypeAliasType(
+    "GetPaymentMetadataTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-GetPaymentMetadataUnion = TypeAliasType(
-    "GetPaymentMetadataUnion", Union[GetPaymentMetadata, str, List[str]]
+GetPaymentMetadata = TypeAliasType(
+    "GetPaymentMetadata", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -2046,7 +2037,7 @@ class GetPaymentResponseTypedDict(TypedDict):
 
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
-    metadata: NotRequired[Nullable[GetPaymentMetadataUnionTypedDict]]
+    metadata: NotRequired[Nullable[GetPaymentMetadataTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -2381,7 +2372,7 @@ class GetPaymentResponse(BaseModel):
     The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
     """
 
-    metadata: OptionalNullable[GetPaymentMetadataUnion] = UNSET
+    metadata: OptionalNullable[GetPaymentMetadata] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """

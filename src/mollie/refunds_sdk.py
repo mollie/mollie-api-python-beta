@@ -6,7 +6,7 @@ from mollie._hooks import HookContext
 from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
 from mollie.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional, Union
+from typing import Any, Mapping, Optional, Union
 
 
 class RefundsSDK(BaseSDK):
@@ -14,30 +14,11 @@ class RefundsSDK(BaseSDK):
         self,
         *,
         payment_id: str,
-        amount: Union[
-            models.CreateRefundAmountRequest, models.CreateRefundAmountRequestTypedDict
-        ],
-        description: Optional[str] = None,
-        metadata: OptionalNullable[
+        request_body: Optional[
             Union[
-                models.CreateRefundMetadataRequestUnion,
-                models.CreateRefundMetadataRequestUnionTypedDict,
-            ]
-        ] = UNSET,
-        external_reference: Optional[
-            Union[
-                models.ExternalReferenceRequest,
-                models.ExternalReferenceRequestTypedDict,
+                models.CreateRefundRequestBody, models.CreateRefundRequestBodyTypedDict
             ]
         ] = None,
-        reverse_routing: OptionalNullable[bool] = UNSET,
-        routing_reversals: OptionalNullable[
-            Union[
-                List[models.RoutingReversalRequest],
-                List[models.RoutingReversalRequestTypedDict],
-            ]
-        ] = UNSET,
-        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -49,13 +30,7 @@ class RefundsSDK(BaseSDK):
         transfer or by refunding the amount to your customer's credit card.
 
         :param payment_id: Provide the ID of the related payment.
-        :param amount: The amount refunded to your customer with this refund. The amount is allowed to be lower than the original payment amount.
-        :param description: The description of the refund that may be shown to your customer, depending on the payment method used.
-        :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
-        :param external_reference:
-        :param reverse_routing: *This feature is only available to marketplace operators.*  With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants, by providing the `routing` object during [payment creation](create-payment).  When creating refunds for these *routed* payments, by default the full amount is deducted from your balance.  If you want to pull back the funds that were routed to the connected merchant(s), you can set this parameter to `true` when issuing a full refund.  For more fine-grained control and for partial refunds, use the `routingReversals` parameter instead.
-        :param routing_reversals: *This feature is only available to marketplace operators.*  When creating refunds for *routed* payments, by default the full amount is deducted from your balance.  If you want to pull back funds from the connected merchant(s), you can use this parameter to specify what amount needs to be reversed from which merchant(s).  If you simply want to fully reverse the routed funds, you can also use the `reverseRouting` parameter instead.
-        :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -73,23 +48,8 @@ class RefundsSDK(BaseSDK):
 
         request = models.CreateRefundRequest(
             payment_id=payment_id,
-            request_body=models.CreateRefundRequestBody(
-                description=description,
-                amount=utils.get_pydantic_model(
-                    amount, models.CreateRefundAmountRequest
-                ),
-                metadata=utils.get_pydantic_model(
-                    metadata, OptionalNullable[models.CreateRefundMetadataRequestUnion]
-                ),
-                external_reference=utils.get_pydantic_model(
-                    external_reference, Optional[models.ExternalReferenceRequest]
-                ),
-                reverse_routing=reverse_routing,
-                routing_reversals=utils.get_pydantic_model(
-                    routing_reversals,
-                    OptionalNullable[List[models.RoutingReversalRequest]],
-                ),
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.CreateRefundRequestBody]
             ),
         )
 
@@ -176,30 +136,11 @@ class RefundsSDK(BaseSDK):
         self,
         *,
         payment_id: str,
-        amount: Union[
-            models.CreateRefundAmountRequest, models.CreateRefundAmountRequestTypedDict
-        ],
-        description: Optional[str] = None,
-        metadata: OptionalNullable[
+        request_body: Optional[
             Union[
-                models.CreateRefundMetadataRequestUnion,
-                models.CreateRefundMetadataRequestUnionTypedDict,
-            ]
-        ] = UNSET,
-        external_reference: Optional[
-            Union[
-                models.ExternalReferenceRequest,
-                models.ExternalReferenceRequestTypedDict,
+                models.CreateRefundRequestBody, models.CreateRefundRequestBodyTypedDict
             ]
         ] = None,
-        reverse_routing: OptionalNullable[bool] = UNSET,
-        routing_reversals: OptionalNullable[
-            Union[
-                List[models.RoutingReversalRequest],
-                List[models.RoutingReversalRequestTypedDict],
-            ]
-        ] = UNSET,
-        testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -211,13 +152,7 @@ class RefundsSDK(BaseSDK):
         transfer or by refunding the amount to your customer's credit card.
 
         :param payment_id: Provide the ID of the related payment.
-        :param amount: The amount refunded to your customer with this refund. The amount is allowed to be lower than the original payment amount.
-        :param description: The description of the refund that may be shown to your customer, depending on the payment method used.
-        :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
-        :param external_reference:
-        :param reverse_routing: *This feature is only available to marketplace operators.*  With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie merchants, by providing the `routing` object during [payment creation](create-payment).  When creating refunds for these *routed* payments, by default the full amount is deducted from your balance.  If you want to pull back the funds that were routed to the connected merchant(s), you can set this parameter to `true` when issuing a full refund.  For more fine-grained control and for partial refunds, use the `routingReversals` parameter instead.
-        :param routing_reversals: *This feature is only available to marketplace operators.*  When creating refunds for *routed* payments, by default the full amount is deducted from your balance.  If you want to pull back funds from the connected merchant(s), you can use this parameter to specify what amount needs to be reversed from which merchant(s).  If you simply want to fully reverse the routed funds, you can also use the `reverseRouting` parameter instead.
-        :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -235,23 +170,8 @@ class RefundsSDK(BaseSDK):
 
         request = models.CreateRefundRequest(
             payment_id=payment_id,
-            request_body=models.CreateRefundRequestBody(
-                description=description,
-                amount=utils.get_pydantic_model(
-                    amount, models.CreateRefundAmountRequest
-                ),
-                metadata=utils.get_pydantic_model(
-                    metadata, OptionalNullable[models.CreateRefundMetadataRequestUnion]
-                ),
-                external_reference=utils.get_pydantic_model(
-                    external_reference, Optional[models.ExternalReferenceRequest]
-                ),
-                reverse_routing=reverse_routing,
-                routing_reversals=utils.get_pydantic_model(
-                    routing_reversals,
-                    OptionalNullable[List[models.RoutingReversalRequest]],
-                ),
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.CreateRefundRequestBody]
             ),
         )
 

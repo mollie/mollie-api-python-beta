@@ -6,7 +6,7 @@ from mollie._hooks import HookContext
 from mollie.types import BaseModel, OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
 from mollie.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional, Union, cast
+from typing import Any, Mapping, Optional, Union, cast
 
 
 class SalesInvoices(BaseSDK):
@@ -652,43 +652,12 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         id: str,
-        testmode: OptionalNullable[bool] = UNSET,
-        status: Optional[models.UpdateSalesInvoiceStatusRequest] = None,
-        memo: OptionalNullable[str] = UNSET,
-        payment_term: OptionalNullable[
-            models.UpdateSalesInvoicePaymentTermRequest
-        ] = UNSET,
-        payment_details: OptionalNullable[
+        request_body: Optional[
             Union[
-                models.UpdateSalesInvoicePaymentDetailsRequest,
-                models.UpdateSalesInvoicePaymentDetailsRequestTypedDict,
+                models.UpdateSalesInvoiceRequestBody,
+                models.UpdateSalesInvoiceRequestBodyTypedDict,
             ]
-        ] = UNSET,
-        email_details: OptionalNullable[
-            Union[
-                models.UpdateSalesInvoiceEmailDetailsRequest,
-                models.UpdateSalesInvoiceEmailDetailsRequestTypedDict,
-            ]
-        ] = UNSET,
-        recipient_identifier: Optional[str] = None,
-        recipient: OptionalNullable[
-            Union[
-                models.UpdateSalesInvoiceRecipientRequest,
-                models.UpdateSalesInvoiceRecipientRequestTypedDict,
-            ]
-        ] = UNSET,
-        lines: OptionalNullable[
-            Union[
-                List[models.UpdateSalesInvoiceLineRequest],
-                List[models.UpdateSalesInvoiceLineRequestTypedDict],
-            ]
-        ] = UNSET,
-        discount: OptionalNullable[
-            Union[
-                models.UpdateSalesInvoiceDiscountRequest,
-                models.UpdateSalesInvoiceDiscountRequestTypedDict,
-            ]
-        ] = UNSET,
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -705,16 +674,7 @@ class SalesInvoices(BaseSDK):
         respectively).
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
-        :param status: The status for the invoice to end up in.  Dependent parameters: `paymentDetails` for `paid`, `emailDetails` for `issued` and `paid`.
-        :param memo: A free-form memo you can set on the invoice, and will be shown on the invoice PDF.
-        :param payment_term: The payment term to be set on the invoice.
-        :param payment_details: Used when setting an invoice to status of `paid`, and will store a payment that fully pays the invoice with the provided details. Required for `paid` status.
-        :param email_details: Used when setting an invoice to status of either `issued` or `paid`. Will be used to issue the invoice to the recipient with the provided `subject` and `body`. Required for `issued` status.
-        :param recipient_identifier: An identifier tied to the recipient data. This should be a unique value based on data your system contains, so that both you and us know who we're referring to. It is a value you provide to us so that recipient management is not required to send a first invoice to a recipient.
-        :param recipient: The recipient object should contain all the information relevant to create an invoice for an intended recipient. This data will be stored, updated, and re-used as appropriate, based on the `recipientIdentifier`.
-        :param lines: Provide the line items for the invoice. Each line contains details such as a description of the item ordered and its price.  All lines must have the same currency as the invoice.
-        :param discount: The discount to be applied to the entire invoice, possibly on top of the line item discounts.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -732,30 +692,8 @@ class SalesInvoices(BaseSDK):
 
         request = models.UpdateSalesInvoiceRequest(
             id=id,
-            request_body=models.UpdateSalesInvoiceRequestBody(
-                testmode=testmode,
-                status=status,
-                memo=memo,
-                payment_term=payment_term,
-                payment_details=utils.get_pydantic_model(
-                    payment_details,
-                    OptionalNullable[models.UpdateSalesInvoicePaymentDetailsRequest],
-                ),
-                email_details=utils.get_pydantic_model(
-                    email_details,
-                    OptionalNullable[models.UpdateSalesInvoiceEmailDetailsRequest],
-                ),
-                recipient_identifier=recipient_identifier,
-                recipient=utils.get_pydantic_model(
-                    recipient,
-                    OptionalNullable[models.UpdateSalesInvoiceRecipientRequest],
-                ),
-                lines=utils.get_pydantic_model(
-                    lines, OptionalNullable[List[models.UpdateSalesInvoiceLineRequest]]
-                ),
-                discount=utils.get_pydantic_model(
-                    discount, OptionalNullable[models.UpdateSalesInvoiceDiscountRequest]
-                ),
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.UpdateSalesInvoiceRequestBody]
             ),
         )
 
@@ -837,43 +775,12 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         id: str,
-        testmode: OptionalNullable[bool] = UNSET,
-        status: Optional[models.UpdateSalesInvoiceStatusRequest] = None,
-        memo: OptionalNullable[str] = UNSET,
-        payment_term: OptionalNullable[
-            models.UpdateSalesInvoicePaymentTermRequest
-        ] = UNSET,
-        payment_details: OptionalNullable[
+        request_body: Optional[
             Union[
-                models.UpdateSalesInvoicePaymentDetailsRequest,
-                models.UpdateSalesInvoicePaymentDetailsRequestTypedDict,
+                models.UpdateSalesInvoiceRequestBody,
+                models.UpdateSalesInvoiceRequestBodyTypedDict,
             ]
-        ] = UNSET,
-        email_details: OptionalNullable[
-            Union[
-                models.UpdateSalesInvoiceEmailDetailsRequest,
-                models.UpdateSalesInvoiceEmailDetailsRequestTypedDict,
-            ]
-        ] = UNSET,
-        recipient_identifier: Optional[str] = None,
-        recipient: OptionalNullable[
-            Union[
-                models.UpdateSalesInvoiceRecipientRequest,
-                models.UpdateSalesInvoiceRecipientRequestTypedDict,
-            ]
-        ] = UNSET,
-        lines: OptionalNullable[
-            Union[
-                List[models.UpdateSalesInvoiceLineRequest],
-                List[models.UpdateSalesInvoiceLineRequestTypedDict],
-            ]
-        ] = UNSET,
-        discount: OptionalNullable[
-            Union[
-                models.UpdateSalesInvoiceDiscountRequest,
-                models.UpdateSalesInvoiceDiscountRequestTypedDict,
-            ]
-        ] = UNSET,
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -890,16 +797,7 @@ class SalesInvoices(BaseSDK):
         respectively).
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
-        :param status: The status for the invoice to end up in.  Dependent parameters: `paymentDetails` for `paid`, `emailDetails` for `issued` and `paid`.
-        :param memo: A free-form memo you can set on the invoice, and will be shown on the invoice PDF.
-        :param payment_term: The payment term to be set on the invoice.
-        :param payment_details: Used when setting an invoice to status of `paid`, and will store a payment that fully pays the invoice with the provided details. Required for `paid` status.
-        :param email_details: Used when setting an invoice to status of either `issued` or `paid`. Will be used to issue the invoice to the recipient with the provided `subject` and `body`. Required for `issued` status.
-        :param recipient_identifier: An identifier tied to the recipient data. This should be a unique value based on data your system contains, so that both you and us know who we're referring to. It is a value you provide to us so that recipient management is not required to send a first invoice to a recipient.
-        :param recipient: The recipient object should contain all the information relevant to create an invoice for an intended recipient. This data will be stored, updated, and re-used as appropriate, based on the `recipientIdentifier`.
-        :param lines: Provide the line items for the invoice. Each line contains details such as a description of the item ordered and its price.  All lines must have the same currency as the invoice.
-        :param discount: The discount to be applied to the entire invoice, possibly on top of the line item discounts.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -917,30 +815,8 @@ class SalesInvoices(BaseSDK):
 
         request = models.UpdateSalesInvoiceRequest(
             id=id,
-            request_body=models.UpdateSalesInvoiceRequestBody(
-                testmode=testmode,
-                status=status,
-                memo=memo,
-                payment_term=payment_term,
-                payment_details=utils.get_pydantic_model(
-                    payment_details,
-                    OptionalNullable[models.UpdateSalesInvoicePaymentDetailsRequest],
-                ),
-                email_details=utils.get_pydantic_model(
-                    email_details,
-                    OptionalNullable[models.UpdateSalesInvoiceEmailDetailsRequest],
-                ),
-                recipient_identifier=recipient_identifier,
-                recipient=utils.get_pydantic_model(
-                    recipient,
-                    OptionalNullable[models.UpdateSalesInvoiceRecipientRequest],
-                ),
-                lines=utils.get_pydantic_model(
-                    lines, OptionalNullable[List[models.UpdateSalesInvoiceLineRequest]]
-                ),
-                discount=utils.get_pydantic_model(
-                    discount, OptionalNullable[models.UpdateSalesInvoiceDiscountRequest]
-                ),
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.UpdateSalesInvoiceRequestBody]
             ),
         )
 
@@ -1022,7 +898,12 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         id: str,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.DeleteSalesInvoiceRequestBody,
+                models.DeleteSalesInvoiceRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1038,7 +919,7 @@ class SalesInvoices(BaseSDK):
         [Update sales invoice](update-sales-invoice) endpoint instead.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1056,8 +937,8 @@ class SalesInvoices(BaseSDK):
 
         request = models.DeleteSalesInvoiceRequest(
             id=id,
-            request_body=models.DeleteSalesInvoiceRequestBody(
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.DeleteSalesInvoiceRequestBody]
             ),
         )
 
@@ -1139,7 +1020,12 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         id: str,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.DeleteSalesInvoiceRequestBody,
+                models.DeleteSalesInvoiceRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1155,7 +1041,7 @@ class SalesInvoices(BaseSDK):
         [Update sales invoice](update-sales-invoice) endpoint instead.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1173,8 +1059,8 @@ class SalesInvoices(BaseSDK):
 
         request = models.DeleteSalesInvoiceRequest(
             id=id,
-            request_body=models.DeleteSalesInvoiceRequestBody(
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.DeleteSalesInvoiceRequestBody]
             ),
         )
 

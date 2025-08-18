@@ -8,7 +8,7 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -237,24 +237,16 @@ class GetRefundSettlementAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class GetRefundMetadataTypedDict(TypedDict):
-    pass
-
-
-class GetRefundMetadata(BaseModel):
-    pass
-
-
-GetRefundMetadataUnionTypedDict = TypeAliasType(
-    "GetRefundMetadataUnionTypedDict", Union[GetRefundMetadataTypedDict, str, List[str]]
+GetRefundMetadataTypedDict = TypeAliasType(
+    "GetRefundMetadataTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
 """
 
 
-GetRefundMetadataUnion = TypeAliasType(
-    "GetRefundMetadataUnion", Union[GetRefundMetadata, str, List[str]]
+GetRefundMetadata = TypeAliasType(
+    "GetRefundMetadata", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
 you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
@@ -522,7 +514,7 @@ class GetRefundResponseTypedDict(TypedDict):
     To retrieve accurate settlement amounts we recommend using the
     [List balance transactions endpoint](list-balance-transactions) instead.
     """
-    metadata: NotRequired[Nullable[GetRefundMetadataUnionTypedDict]]
+    metadata: NotRequired[Nullable[GetRefundMetadataTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -592,7 +584,7 @@ class GetRefundResponse(BaseModel):
     [List balance transactions endpoint](list-balance-transactions) instead.
     """
 
-    metadata: OptionalNullable[GetRefundMetadataUnion] = UNSET
+    metadata: OptionalNullable[GetRefundMetadata] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """

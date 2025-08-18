@@ -8,7 +8,7 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -104,17 +104,8 @@ class CreateSubscriptionApplicationFeeRequest(BaseModel):
     description: str
 
 
-class CreateSubscriptionMetadataRequestTypedDict(TypedDict):
-    pass
-
-
-class CreateSubscriptionMetadataRequest(BaseModel):
-    pass
-
-
-CreateSubscriptionMetadataRequestUnionTypedDict = TypeAliasType(
-    "CreateSubscriptionMetadataRequestUnionTypedDict",
-    Union[CreateSubscriptionMetadataRequestTypedDict, str, List[str]],
+CreateSubscriptionMetadataRequestTypedDict = TypeAliasType(
+    "CreateSubscriptionMetadataRequestTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity.
 Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately
@@ -124,9 +115,8 @@ Any metadata added to the subscription will be automatically forwarded to the pa
 """
 
 
-CreateSubscriptionMetadataRequestUnion = TypeAliasType(
-    "CreateSubscriptionMetadataRequestUnion",
-    Union[CreateSubscriptionMetadataRequest, str, List[str]],
+CreateSubscriptionMetadataRequest = TypeAliasType(
+    "CreateSubscriptionMetadataRequest", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity.
 Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately
@@ -171,7 +161,7 @@ class CreateSubscriptionRequestBodyTypedDict(TypedDict):
     Refer to the `applicationFee` parameter on the [Get payment endpoint](get-payment) documentation for more
     information.
     """
-    metadata: NotRequired[Nullable[CreateSubscriptionMetadataRequestUnionTypedDict]]
+    metadata: NotRequired[Nullable[CreateSubscriptionMetadataRequestTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity.
     Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately
     1kB.
@@ -240,7 +230,7 @@ class CreateSubscriptionRequestBody(BaseModel):
     information.
     """
 
-    metadata: OptionalNullable[CreateSubscriptionMetadataRequestUnion] = UNSET
+    metadata: OptionalNullable[CreateSubscriptionMetadataRequest] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity.
     Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately
     1kB.
@@ -498,17 +488,8 @@ class CreateSubscriptionApplicationFeeResponse(BaseModel):
     description: str
 
 
-class CreateSubscriptionMetadataResponseTypedDict(TypedDict):
-    pass
-
-
-class CreateSubscriptionMetadataResponse(BaseModel):
-    pass
-
-
-CreateSubscriptionMetadataResponseUnionTypedDict = TypeAliasType(
-    "CreateSubscriptionMetadataResponseUnionTypedDict",
-    Union[CreateSubscriptionMetadataResponseTypedDict, str, List[str]],
+CreateSubscriptionMetadataResponseTypedDict = TypeAliasType(
+    "CreateSubscriptionMetadataResponseTypedDict", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity.
 Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately
@@ -518,9 +499,8 @@ Any metadata added to the subscription will be automatically forwarded to the pa
 """
 
 
-CreateSubscriptionMetadataResponseUnion = TypeAliasType(
-    "CreateSubscriptionMetadataResponseUnion",
-    Union[CreateSubscriptionMetadataResponse, str, List[str]],
+CreateSubscriptionMetadataResponse = TypeAliasType(
+    "CreateSubscriptionMetadataResponse", Union[str, Dict[str, Any], List[str]]
 )
 r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity.
 Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately
@@ -763,7 +743,7 @@ class CreateSubscriptionResponseTypedDict(TypedDict):
     """
     method: Nullable[CreateSubscriptionMethodResponse]
     r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
-    metadata: Nullable[CreateSubscriptionMetadataResponseUnionTypedDict]
+    metadata: Nullable[CreateSubscriptionMetadataResponseTypedDict]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity.
     Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately
     1kB.
@@ -856,7 +836,7 @@ class CreateSubscriptionResponse(BaseModel):
     method: Nullable[CreateSubscriptionMethodResponse]
     r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
 
-    metadata: Nullable[CreateSubscriptionMetadataResponseUnion]
+    metadata: Nullable[CreateSubscriptionMetadataResponse]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity.
     Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately
     1kB.

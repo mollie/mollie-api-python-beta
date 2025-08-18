@@ -692,35 +692,12 @@ class PaymentsSDK(BaseSDK):
         self,
         *,
         payment_id: str,
-        description: Optional[str] = None,
-        redirect_url: OptionalNullable[str] = UNSET,
-        cancel_url: OptionalNullable[str] = UNSET,
-        webhook_url: OptionalNullable[str] = UNSET,
-        metadata: OptionalNullable[
+        request_body: Optional[
             Union[
-                models.UpdatePaymentMetadataRequestUnion,
-                models.UpdatePaymentMetadataRequestUnionTypedDict,
-            ]
-        ] = UNSET,
-        method: OptionalNullable[models.UpdatePaymentMethodRequest] = UNSET,
-        locale: Optional[models.UpdatePaymentLocaleRequest] = None,
-        due_date: Optional[str] = None,
-        restrict_payment_methods_to_country: OptionalNullable[str] = UNSET,
-        testmode: OptionalNullable[bool] = UNSET,
-        issuer: OptionalNullable[str] = UNSET,
-        billing_address: Optional[
-            Union[
-                models.UpdatePaymentBillingAddressRequest,
-                models.UpdatePaymentBillingAddressRequestTypedDict,
+                models.UpdatePaymentRequestBody,
+                models.UpdatePaymentRequestBodyTypedDict,
             ]
         ] = None,
-        shipping_address: Optional[
-            Union[
-                models.UpdatePaymentShippingAddressRequest,
-                models.UpdatePaymentShippingAddressRequestTypedDict,
-            ]
-        ] = None,
-        billing_email: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -733,20 +710,7 @@ class PaymentsSDK(BaseSDK):
         Updating the payment details will not result in a webhook call.
 
         :param payment_id: Provide the ID of the related payment.
-        :param description: The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.  We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.  The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
-        :param redirect_url: The URL your customer will be redirected to after the payment process.  It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.  The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for Apple Pay payments with an `applePayPaymentToken`.
-        :param cancel_url: The URL your customer will be redirected to when the customer explicitly cancels the payment. If this URL is not provided, the customer will be redirected to the `redirectUrl` instead — see above.  Mollie will always give you status updates via webhooks, including for the canceled status. This parameter is therefore entirely optional, but can be useful when implementing a dedicated customer-facing flow to handle payment cancellations.
-        :param webhook_url: The webhook URL where we will send payment status updates to.  The webhookUrl is optional, but without a webhook you will miss out on important status changes to your payment.  The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
-        :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
-        :param method: Normally, a payment method screen is shown. However, when using this parameter, you can choose a specific payment method and your customer will skip the selection screen and is sent directly to the chosen payment method. The parameter enables you to fully integrate the payment method selection into your website.  You can also specify the methods in an array. By doing so we will still show the payment method selection screen but will only show the methods specified in the array. For example, you can use this functionality to only show payment methods from a specific country to your customer `['bancontact', 'belfius']`.
-        :param locale: Allows you to preset the language to be used.
-        :param due_date: The date by which the payment should be completed in `YYYY-MM-DD` format
-        :param restrict_payment_methods_to_country: For digital goods in most jurisdictions, you must apply the VAT rate from your customer's country. Choose the VAT rates you have used for the order to ensure your customer's country matches the VAT country.  Use this parameter to restrict the payment methods available to your customer to those from a single country.  If available, the credit card method will still be offered, but only cards from the allowed country are accepted.  The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
-        :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
-        :param issuer: **Only relevant for iDEAL, KBC/CBC, gift card, and voucher payments.**  **⚠️ With the introduction of iDEAL 2 in 2025, this field will be ignored for iDEAL payments. For more information on the migration, refer to our [help center](https://help.mollie.com/hc/articles/19100313768338-iDEAL-2-0).**  Some payment methods are a network of connected banks or card issuers. In these cases, after selecting the payment method, the customer may still need to select the appropriate issuer before the payment can proceed.  We provide hosted issuer selection screens, but these screens can be skipped by providing the `issuer` via the API up front.  The full list of issuers for a specific method can be retrieved via the Methods API by using the optional `issuers` include.  A valid issuer for iDEAL is for example `ideal_INGBNL2A` (for ING Bank).
-        :param billing_address:
-        :param shipping_address:
-        :param billing_email:
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -764,28 +728,8 @@ class PaymentsSDK(BaseSDK):
 
         request = models.UpdatePaymentRequest(
             payment_id=payment_id,
-            request_body=models.UpdatePaymentRequestBody(
-                description=description,
-                redirect_url=redirect_url,
-                cancel_url=cancel_url,
-                webhook_url=webhook_url,
-                metadata=utils.get_pydantic_model(
-                    metadata, OptionalNullable[models.UpdatePaymentMetadataRequestUnion]
-                ),
-                method=method,
-                locale=locale,
-                due_date=due_date,
-                restrict_payment_methods_to_country=restrict_payment_methods_to_country,
-                testmode=testmode,
-                issuer=issuer,
-                billing_address=utils.get_pydantic_model(
-                    billing_address, Optional[models.UpdatePaymentBillingAddressRequest]
-                ),
-                shipping_address=utils.get_pydantic_model(
-                    shipping_address,
-                    Optional[models.UpdatePaymentShippingAddressRequest],
-                ),
-                billing_email=billing_email,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.UpdatePaymentRequestBody]
             ),
         )
 
@@ -867,35 +811,12 @@ class PaymentsSDK(BaseSDK):
         self,
         *,
         payment_id: str,
-        description: Optional[str] = None,
-        redirect_url: OptionalNullable[str] = UNSET,
-        cancel_url: OptionalNullable[str] = UNSET,
-        webhook_url: OptionalNullable[str] = UNSET,
-        metadata: OptionalNullable[
+        request_body: Optional[
             Union[
-                models.UpdatePaymentMetadataRequestUnion,
-                models.UpdatePaymentMetadataRequestUnionTypedDict,
-            ]
-        ] = UNSET,
-        method: OptionalNullable[models.UpdatePaymentMethodRequest] = UNSET,
-        locale: Optional[models.UpdatePaymentLocaleRequest] = None,
-        due_date: Optional[str] = None,
-        restrict_payment_methods_to_country: OptionalNullable[str] = UNSET,
-        testmode: OptionalNullable[bool] = UNSET,
-        issuer: OptionalNullable[str] = UNSET,
-        billing_address: Optional[
-            Union[
-                models.UpdatePaymentBillingAddressRequest,
-                models.UpdatePaymentBillingAddressRequestTypedDict,
+                models.UpdatePaymentRequestBody,
+                models.UpdatePaymentRequestBodyTypedDict,
             ]
         ] = None,
-        shipping_address: Optional[
-            Union[
-                models.UpdatePaymentShippingAddressRequest,
-                models.UpdatePaymentShippingAddressRequestTypedDict,
-            ]
-        ] = None,
-        billing_email: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -908,20 +829,7 @@ class PaymentsSDK(BaseSDK):
         Updating the payment details will not result in a webhook call.
 
         :param payment_id: Provide the ID of the related payment.
-        :param description: The description of the payment. This will be shown to your customer on their card or bank statement when possible. We truncate the description automatically according to the limits of the used payment method. The description is also visible in any exports you generate.  We recommend you use a unique identifier so that you can always link the payment to the order in your back office. This is particularly useful for bookkeeping.  The maximum length of the description field differs per payment method, with the absolute maximum being 255 characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
-        :param redirect_url: The URL your customer will be redirected to after the payment process.  It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the right page referencing the order when your customer returns.  The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for Apple Pay payments with an `applePayPaymentToken`.
-        :param cancel_url: The URL your customer will be redirected to when the customer explicitly cancels the payment. If this URL is not provided, the customer will be redirected to the `redirectUrl` instead — see above.  Mollie will always give you status updates via webhooks, including for the canceled status. This parameter is therefore entirely optional, but can be useful when implementing a dedicated customer-facing flow to handle payment cancellations.
-        :param webhook_url: The webhook URL where we will send payment status updates to.  The webhookUrl is optional, but without a webhook you will miss out on important status changes to your payment.  The webhookUrl must be reachable from Mollie's point of view, so you cannot use `localhost`. If you want to use webhook during development on `localhost`, you must use a tool like ngrok to have the webhooks delivered to your local machine.
-        :param metadata: Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
-        :param method: Normally, a payment method screen is shown. However, when using this parameter, you can choose a specific payment method and your customer will skip the selection screen and is sent directly to the chosen payment method. The parameter enables you to fully integrate the payment method selection into your website.  You can also specify the methods in an array. By doing so we will still show the payment method selection screen but will only show the methods specified in the array. For example, you can use this functionality to only show payment methods from a specific country to your customer `['bancontact', 'belfius']`.
-        :param locale: Allows you to preset the language to be used.
-        :param due_date: The date by which the payment should be completed in `YYYY-MM-DD` format
-        :param restrict_payment_methods_to_country: For digital goods in most jurisdictions, you must apply the VAT rate from your customer's country. Choose the VAT rates you have used for the order to ensure your customer's country matches the VAT country.  Use this parameter to restrict the payment methods available to your customer to those from a single country.  If available, the credit card method will still be offered, but only cards from the allowed country are accepted.  The field expects a country code in ISO 3166-1 alpha-2 format, for example `NL`.
-        :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
-        :param issuer: **Only relevant for iDEAL, KBC/CBC, gift card, and voucher payments.**  **⚠️ With the introduction of iDEAL 2 in 2025, this field will be ignored for iDEAL payments. For more information on the migration, refer to our [help center](https://help.mollie.com/hc/articles/19100313768338-iDEAL-2-0).**  Some payment methods are a network of connected banks or card issuers. In these cases, after selecting the payment method, the customer may still need to select the appropriate issuer before the payment can proceed.  We provide hosted issuer selection screens, but these screens can be skipped by providing the `issuer` via the API up front.  The full list of issuers for a specific method can be retrieved via the Methods API by using the optional `issuers` include.  A valid issuer for iDEAL is for example `ideal_INGBNL2A` (for ING Bank).
-        :param billing_address:
-        :param shipping_address:
-        :param billing_email:
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -939,28 +847,8 @@ class PaymentsSDK(BaseSDK):
 
         request = models.UpdatePaymentRequest(
             payment_id=payment_id,
-            request_body=models.UpdatePaymentRequestBody(
-                description=description,
-                redirect_url=redirect_url,
-                cancel_url=cancel_url,
-                webhook_url=webhook_url,
-                metadata=utils.get_pydantic_model(
-                    metadata, OptionalNullable[models.UpdatePaymentMetadataRequestUnion]
-                ),
-                method=method,
-                locale=locale,
-                due_date=due_date,
-                restrict_payment_methods_to_country=restrict_payment_methods_to_country,
-                testmode=testmode,
-                issuer=issuer,
-                billing_address=utils.get_pydantic_model(
-                    billing_address, Optional[models.UpdatePaymentBillingAddressRequest]
-                ),
-                shipping_address=utils.get_pydantic_model(
-                    shipping_address,
-                    Optional[models.UpdatePaymentShippingAddressRequest],
-                ),
-                billing_email=billing_email,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.UpdatePaymentRequestBody]
             ),
         )
 
@@ -1042,7 +930,12 @@ class PaymentsSDK(BaseSDK):
         self,
         *,
         payment_id: str,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.CancelPaymentRequestBody,
+                models.CancelPaymentRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1058,7 +951,7 @@ class PaymentsSDK(BaseSDK):
         The `isCancelable` property on the [Payment object](get-payment) will indicate if the payment can be canceled.
 
         :param payment_id: Provide the ID of the related payment.
-        :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1076,8 +969,8 @@ class PaymentsSDK(BaseSDK):
 
         request = models.CancelPaymentRequest(
             payment_id=payment_id,
-            request_body=models.CancelPaymentRequestBody(
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.CancelPaymentRequestBody]
             ),
         )
 
@@ -1159,7 +1052,12 @@ class PaymentsSDK(BaseSDK):
         self,
         *,
         payment_id: str,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.CancelPaymentRequestBody,
+                models.CancelPaymentRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1175,7 +1073,7 @@ class PaymentsSDK(BaseSDK):
         The `isCancelable` property on the [Payment object](get-payment) will indicate if the payment can be canceled.
 
         :param payment_id: Provide the ID of the related payment.
-        :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1193,8 +1091,8 @@ class PaymentsSDK(BaseSDK):
 
         request = models.CancelPaymentRequest(
             payment_id=payment_id,
-            request_body=models.CancelPaymentRequestBody(
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.CancelPaymentRequestBody]
             ),
         )
 
@@ -1276,8 +1174,12 @@ class PaymentsSDK(BaseSDK):
         self,
         *,
         payment_id: str,
-        profile_id: Optional[str] = None,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.ReleaseAuthorizationRequestBody,
+                models.ReleaseAuthorizationRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1295,8 +1197,7 @@ class PaymentsSDK(BaseSDK):
         If there is a successful capture, the payment will transition to `paid`.
 
         :param payment_id: Provide the ID of the related payment.
-        :param profile_id: The identifier referring to the [profile](get-profile) this entity belongs to.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
-        :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1314,9 +1215,8 @@ class PaymentsSDK(BaseSDK):
 
         request = models.ReleaseAuthorizationRequest(
             payment_id=payment_id,
-            request_body=models.ReleaseAuthorizationRequestBody(
-                profile_id=profile_id,
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.ReleaseAuthorizationRequestBody]
             ),
         )
 
@@ -1400,8 +1300,12 @@ class PaymentsSDK(BaseSDK):
         self,
         *,
         payment_id: str,
-        profile_id: Optional[str] = None,
-        testmode: OptionalNullable[bool] = UNSET,
+        request_body: Optional[
+            Union[
+                models.ReleaseAuthorizationRequestBody,
+                models.ReleaseAuthorizationRequestBodyTypedDict,
+            ]
+        ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1419,8 +1323,7 @@ class PaymentsSDK(BaseSDK):
         If there is a successful capture, the payment will transition to `paid`.
 
         :param payment_id: Provide the ID of the related payment.
-        :param profile_id: The identifier referring to the [profile](get-profile) this entity belongs to.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
-        :param testmode: Whether to create the entity in test mode or live mode.  Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1438,9 +1341,8 @@ class PaymentsSDK(BaseSDK):
 
         request = models.ReleaseAuthorizationRequest(
             payment_id=payment_id,
-            request_body=models.ReleaseAuthorizationRequestBody(
-                profile_id=profile_id,
-                testmode=testmode,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.ReleaseAuthorizationRequestBody]
             ),
         )
 
