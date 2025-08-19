@@ -499,14 +499,6 @@ class ListSettlementPaymentsCategory(str, Enum):
     SPORT_CULTURE = "sport_culture"
 
 
-class ListSettlementPaymentsInterval(str, Enum):
-    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`."""
-
-    DOT_DOT_DOT_MONTHS = "... months"
-    DOT_DOT_DOT_WEEKS = "... weeks"
-    DOT_DOT_DOT_DAYS = "... days"
-
-
 class ListSettlementPaymentsRecurringAmountTypedDict(TypedDict):
     r"""Total amount and currency of the recurring item."""
 
@@ -531,8 +523,11 @@ class ListSettlementPaymentsRecurringTypedDict(TypedDict):
     to inform the shopper of the details for recurring products in the payments.
     """
 
-    interval: ListSettlementPaymentsInterval
-    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`."""
+    interval: str
+    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`.
+
+    Possible values: `... days`, `... weeks`, `... months`.
+    """
     description: NotRequired[str]
     r"""A description of the recurring item. If not present, the main description of the item will be used."""
     amount: NotRequired[ListSettlementPaymentsRecurringAmountTypedDict]
@@ -548,8 +543,11 @@ class ListSettlementPaymentsRecurring(BaseModel):
     to inform the shopper of the details for recurring products in the payments.
     """
 
-    interval: ListSettlementPaymentsInterval
-    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`."""
+    interval: str
+    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`.
+
+    Possible values: `... days`, `... weeks`, `... months`.
+    """
 
     description: Optional[str] = None
     r"""A description of the recurring item. If not present, the main description of the item will be used."""

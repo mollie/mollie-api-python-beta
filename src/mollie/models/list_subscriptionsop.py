@@ -276,17 +276,6 @@ class ListSubscriptionsAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListSubscriptionsInterval(str, Enum):
-    r"""Interval to wait between payments, for example `1 month` or `14 days`.
-
-    The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
-    """
-
-    DOT_DOT_DOT_DAYS = "... days"
-    DOT_DOT_DOT_WEEKS = "... weeks"
-    DOT_DOT_DOT_MONTHS = "... months"
-
-
 class ListSubscriptionsMethod(str, Enum):
     r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
 
@@ -581,12 +570,14 @@ class ListSubscriptionsSubscriptionTypedDict(TypedDict):
 
     Test mode subscriptions will get canceled automatically after 10 payments.
     """
-    times_remaining: int
+    times_remaining: Nullable[int]
     r"""Number of payments left for the subscription."""
-    interval: ListSubscriptionsInterval
+    interval: str
     r"""Interval to wait between payments, for example `1 month` or `14 days`.
 
     The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
+
+    Possible values: `... days`, `... weeks`, `... months`.
     """
     start_date: str
     r"""The start date of the subscription in `YYYY-MM-DD` format."""
@@ -615,6 +606,8 @@ class ListSubscriptionsSubscriptionTypedDict(TypedDict):
     r"""The customer this subscription belongs to."""
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    links: ListSubscriptionsSubscriptionLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     next_payment_date: NotRequired[Nullable[str]]
     r"""The date of the next scheduled payment in `YYYY-MM-DD` format. If the subscription has been completed or canceled,
     this parameter will not be returned.
@@ -634,8 +627,6 @@ class ListSubscriptionsSubscriptionTypedDict(TypedDict):
     r"""The subscription's date and time of cancellation, in ISO 8601 format. This parameter is omitted if the
     subscription is not canceled (yet).
     """
-    links: NotRequired[ListSubscriptionsSubscriptionLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class ListSubscriptionsSubscription(BaseModel):
@@ -667,13 +658,15 @@ class ListSubscriptionsSubscription(BaseModel):
     Test mode subscriptions will get canceled automatically after 10 payments.
     """
 
-    times_remaining: Annotated[int, pydantic.Field(alias="timesRemaining")]
+    times_remaining: Annotated[Nullable[int], pydantic.Field(alias="timesRemaining")]
     r"""Number of payments left for the subscription."""
 
-    interval: ListSubscriptionsInterval
+    interval: str
     r"""Interval to wait between payments, for example `1 month` or `14 days`.
 
     The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
+
+    Possible values: `... days`, `... weeks`, `... months`.
     """
 
     start_date: Annotated[str, pydantic.Field(alias="startDate")]
@@ -710,6 +703,9 @@ class ListSubscriptionsSubscription(BaseModel):
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
+    links: Annotated[ListSubscriptionsSubscriptionLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
     next_payment_date: Annotated[
         OptionalNullable[str], pydantic.Field(alias="nextPaymentDate")
     ] = UNSET
@@ -742,11 +738,6 @@ class ListSubscriptionsSubscription(BaseModel):
     subscription is not canceled (yet).
     """
 
-    links: Annotated[
-        Optional[ListSubscriptionsSubscriptionLinks], pydantic.Field(alias="_links")
-    ] = None
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
@@ -754,10 +745,10 @@ class ListSubscriptionsSubscription(BaseModel):
             "applicationFee",
             "mandateId",
             "canceledAt",
-            "_links",
         ]
         nullable_fields = [
             "times",
+            "timesRemaining",
             "nextPaymentDate",
             "method",
             "metadata",
@@ -939,22 +930,22 @@ class ListSubscriptionsLinks(BaseModel):
 class ListSubscriptionsResponseTypedDict(TypedDict):
     r"""A list of subscription objects."""
 
-    count: NotRequired[int]
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
     The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
     limit is 50 items.
     """
-    embedded: NotRequired[ListSubscriptionsEmbeddedTypedDict]
-    links: NotRequired[ListSubscriptionsLinksTypedDict]
+    embedded: ListSubscriptionsEmbeddedTypedDict
+    links: ListSubscriptionsLinksTypedDict
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
 
 class ListSubscriptionsResponse(BaseModel):
     r"""A list of subscription objects."""
 
-    count: Optional[int] = None
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
@@ -962,11 +953,7 @@ class ListSubscriptionsResponse(BaseModel):
     limit is 50 items.
     """
 
-    embedded: Annotated[
-        Optional[ListSubscriptionsEmbedded], pydantic.Field(alias="_embedded")
-    ] = None
+    embedded: Annotated[ListSubscriptionsEmbedded, pydantic.Field(alias="_embedded")]
 
-    links: Annotated[
-        Optional[ListSubscriptionsLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[ListSubscriptionsLinks, pydantic.Field(alias="_links")]
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""

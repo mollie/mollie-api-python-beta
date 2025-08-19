@@ -184,17 +184,6 @@ class GetSubscriptionAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class GetSubscriptionInterval(str, Enum):
-    r"""Interval to wait between payments, for example `1 month` or `14 days`.
-
-    The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
-    """
-
-    DOT_DOT_DOT_DAYS = "... days"
-    DOT_DOT_DOT_WEEKS = "... weeks"
-    DOT_DOT_DOT_MONTHS = "... months"
-
-
 class GetSubscriptionMethod(str, Enum):
     r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
 
@@ -491,12 +480,14 @@ class GetSubscriptionResponseTypedDict(TypedDict):
 
     Test mode subscriptions will get canceled automatically after 10 payments.
     """
-    times_remaining: int
+    times_remaining: Nullable[int]
     r"""Number of payments left for the subscription."""
-    interval: GetSubscriptionInterval
+    interval: str
     r"""Interval to wait between payments, for example `1 month` or `14 days`.
 
     The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
+
+    Possible values: `... days`, `... weeks`, `... months`.
     """
     start_date: str
     r"""The start date of the subscription in `YYYY-MM-DD` format."""
@@ -525,6 +516,8 @@ class GetSubscriptionResponseTypedDict(TypedDict):
     r"""The customer this subscription belongs to."""
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    links: GetSubscriptionLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     next_payment_date: NotRequired[Nullable[str]]
     r"""The date of the next scheduled payment in `YYYY-MM-DD` format. If the subscription has been completed or canceled,
     this parameter will not be returned.
@@ -544,8 +537,6 @@ class GetSubscriptionResponseTypedDict(TypedDict):
     r"""The subscription's date and time of cancellation, in ISO 8601 format. This parameter is omitted if the
     subscription is not canceled (yet).
     """
-    links: NotRequired[GetSubscriptionLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class GetSubscriptionResponse(BaseModel):
@@ -579,13 +570,15 @@ class GetSubscriptionResponse(BaseModel):
     Test mode subscriptions will get canceled automatically after 10 payments.
     """
 
-    times_remaining: Annotated[int, pydantic.Field(alias="timesRemaining")]
+    times_remaining: Annotated[Nullable[int], pydantic.Field(alias="timesRemaining")]
     r"""Number of payments left for the subscription."""
 
-    interval: GetSubscriptionInterval
+    interval: str
     r"""Interval to wait between payments, for example `1 month` or `14 days`.
 
     The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
+
+    Possible values: `... days`, `... weeks`, `... months`.
     """
 
     start_date: Annotated[str, pydantic.Field(alias="startDate")]
@@ -622,6 +615,9 @@ class GetSubscriptionResponse(BaseModel):
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
+    links: Annotated[GetSubscriptionLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
     next_payment_date: Annotated[
         OptionalNullable[str], pydantic.Field(alias="nextPaymentDate")
     ] = UNSET
@@ -653,11 +649,6 @@ class GetSubscriptionResponse(BaseModel):
     subscription is not canceled (yet).
     """
 
-    links: Annotated[Optional[GetSubscriptionLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
@@ -665,10 +656,10 @@ class GetSubscriptionResponse(BaseModel):
             "applicationFee",
             "mandateId",
             "canceledAt",
-            "_links",
         ]
         nullable_fields = [
             "times",
+            "timesRemaining",
             "nextPaymentDate",
             "method",
             "metadata",

@@ -331,7 +331,7 @@ with ClientSDK(
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": mollie.CreateCustomerPaymentIntervalRequest.DOT_DOT_DOT_MONTHS,
+                    "interval": "... months",
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",

@@ -31,17 +31,6 @@ class UpdateSubscriptionAmountRequest(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class UpdateSubscriptionIntervalRequest(str, Enum):
-    r"""Interval to wait between payments, for example `1 month` or `14 days`.
-
-    The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
-    """
-
-    DOT_DOT_DOT_DAYS = "... days"
-    DOT_DOT_DOT_WEEKS = "... weeks"
-    DOT_DOT_DOT_MONTHS = "... months"
-
-
 UpdateSubscriptionMetadataRequestTypedDict = TypeAliasType(
     "UpdateSubscriptionMetadataRequestTypedDict", Union[str, Dict[str, Any], List[str]]
 )
@@ -73,10 +62,12 @@ class UpdateSubscriptionRequestBodyTypedDict(TypedDict):
 
     **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
     """
-    interval: NotRequired[UpdateSubscriptionIntervalRequest]
+    interval: NotRequired[str]
     r"""Interval to wait between payments, for example `1 month` or `14 days`.
 
     The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
+
+    Possible values: `... days`, `... weeks`, `... months`.
     """
     start_date: NotRequired[str]
     r"""The start date of the subscription in `YYYY-MM-DD` format."""
@@ -120,10 +111,12 @@ class UpdateSubscriptionRequestBody(BaseModel):
     **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
     """
 
-    interval: Optional[UpdateSubscriptionIntervalRequest] = None
+    interval: Optional[str] = None
     r"""Interval to wait between payments, for example `1 month` or `14 days`.
 
     The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
+
+    Possible values: `... days`, `... weeks`, `... months`.
     """
 
     start_date: Annotated[Optional[str], pydantic.Field(alias="startDate")] = None
@@ -330,17 +323,6 @@ class UpdateSubscriptionAmountResponse(BaseModel):
 
     value: str
     r"""A string containing an exact monetary amount in the given currency."""
-
-
-class UpdateSubscriptionIntervalResponse(str, Enum):
-    r"""Interval to wait between payments, for example `1 month` or `14 days`.
-
-    The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
-    """
-
-    DOT_DOT_DOT_DAYS = "... days"
-    DOT_DOT_DOT_WEEKS = "... weeks"
-    DOT_DOT_DOT_MONTHS = "... months"
 
 
 class UpdateSubscriptionMethod(str, Enum):
@@ -639,12 +621,14 @@ class UpdateSubscriptionResponseTypedDict(TypedDict):
 
     Test mode subscriptions will get canceled automatically after 10 payments.
     """
-    times_remaining: int
+    times_remaining: Nullable[int]
     r"""Number of payments left for the subscription."""
-    interval: UpdateSubscriptionIntervalResponse
+    interval: str
     r"""Interval to wait between payments, for example `1 month` or `14 days`.
 
     The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
+
+    Possible values: `... days`, `... weeks`, `... months`.
     """
     start_date: str
     r"""The start date of the subscription in `YYYY-MM-DD` format."""
@@ -673,6 +657,8 @@ class UpdateSubscriptionResponseTypedDict(TypedDict):
     r"""The customer this subscription belongs to."""
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    links: UpdateSubscriptionLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     next_payment_date: NotRequired[Nullable[str]]
     r"""The date of the next scheduled payment in `YYYY-MM-DD` format. If the subscription has been completed or canceled,
     this parameter will not be returned.
@@ -692,8 +678,6 @@ class UpdateSubscriptionResponseTypedDict(TypedDict):
     r"""The subscription's date and time of cancellation, in ISO 8601 format. This parameter is omitted if the
     subscription is not canceled (yet).
     """
-    links: NotRequired[UpdateSubscriptionLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class UpdateSubscriptionResponse(BaseModel):
@@ -727,13 +711,15 @@ class UpdateSubscriptionResponse(BaseModel):
     Test mode subscriptions will get canceled automatically after 10 payments.
     """
 
-    times_remaining: Annotated[int, pydantic.Field(alias="timesRemaining")]
+    times_remaining: Annotated[Nullable[int], pydantic.Field(alias="timesRemaining")]
     r"""Number of payments left for the subscription."""
 
-    interval: UpdateSubscriptionIntervalResponse
+    interval: str
     r"""Interval to wait between payments, for example `1 month` or `14 days`.
 
     The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
+
+    Possible values: `... days`, `... weeks`, `... months`.
     """
 
     start_date: Annotated[str, pydantic.Field(alias="startDate")]
@@ -770,6 +756,9 @@ class UpdateSubscriptionResponse(BaseModel):
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
+    links: Annotated[UpdateSubscriptionLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
     next_payment_date: Annotated[
         OptionalNullable[str], pydantic.Field(alias="nextPaymentDate")
     ] = UNSET
@@ -802,11 +791,6 @@ class UpdateSubscriptionResponse(BaseModel):
     subscription is not canceled (yet).
     """
 
-    links: Annotated[
-        Optional[UpdateSubscriptionLinks], pydantic.Field(alias="_links")
-    ] = None
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
@@ -814,10 +798,10 @@ class UpdateSubscriptionResponse(BaseModel):
             "applicationFee",
             "mandateId",
             "canceledAt",
-            "_links",
         ]
         nullable_fields = [
             "times",
+            "timesRemaining",
             "nextPaymentDate",
             "method",
             "metadata",

@@ -193,14 +193,6 @@ class CreatePaymentCategoryRequest(str, Enum):
     SPORT_CULTURE = "sport_culture"
 
 
-class CreatePaymentIntervalRequest(str, Enum):
-    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`."""
-
-    DOT_DOT_DOT_MONTHS = "... months"
-    DOT_DOT_DOT_WEEKS = "... weeks"
-    DOT_DOT_DOT_DAYS = "... days"
-
-
 class CreatePaymentRecurringAmountRequestTypedDict(TypedDict):
     r"""Total amount and currency of the recurring item."""
 
@@ -225,8 +217,11 @@ class CreatePaymentRecurringRequestTypedDict(TypedDict):
     to inform the shopper of the details for recurring products in the payments.
     """
 
-    interval: CreatePaymentIntervalRequest
-    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`."""
+    interval: str
+    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`.
+
+    Possible values: `... days`, `... weeks`, `... months`.
+    """
     description: NotRequired[str]
     r"""A description of the recurring item. If not present, the main description of the item will be used."""
     amount: NotRequired[CreatePaymentRecurringAmountRequestTypedDict]
@@ -242,8 +237,11 @@ class CreatePaymentRecurringRequest(BaseModel):
     to inform the shopper of the details for recurring products in the payments.
     """
 
-    interval: CreatePaymentIntervalRequest
-    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`."""
+    interval: str
+    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`.
+
+    Possible values: `... days`, `... weeks`, `... months`.
+    """
 
     description: Optional[str] = None
     r"""A description of the recurring item. If not present, the main description of the item will be used."""
@@ -2280,14 +2278,6 @@ class CreatePaymentCategoryResponse(str, Enum):
     SPORT_CULTURE = "sport_culture"
 
 
-class CreatePaymentIntervalResponse(str, Enum):
-    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`."""
-
-    DOT_DOT_DOT_MONTHS = "... months"
-    DOT_DOT_DOT_WEEKS = "... weeks"
-    DOT_DOT_DOT_DAYS = "... days"
-
-
 class CreatePaymentRecurringAmountResponseTypedDict(TypedDict):
     r"""Total amount and currency of the recurring item."""
 
@@ -2312,8 +2302,11 @@ class CreatePaymentRecurringResponseTypedDict(TypedDict):
     to inform the shopper of the details for recurring products in the payments.
     """
 
-    interval: CreatePaymentIntervalResponse
-    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`."""
+    interval: str
+    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`.
+
+    Possible values: `... days`, `... weeks`, `... months`.
+    """
     description: NotRequired[str]
     r"""A description of the recurring item. If not present, the main description of the item will be used."""
     amount: NotRequired[CreatePaymentRecurringAmountResponseTypedDict]
@@ -2329,8 +2322,11 @@ class CreatePaymentRecurringResponse(BaseModel):
     to inform the shopper of the details for recurring products in the payments.
     """
 
-    interval: CreatePaymentIntervalResponse
-    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`."""
+    interval: str
+    r"""Cadence unit of the recurring item. For example: `12 months`, `52 weeks` or `365 days`.
+
+    Possible values: `... days`, `... weeks`, `... months`.
+    """
 
     description: Optional[str] = None
     r"""A description of the recurring item. If not present, the main description of the item will be used."""

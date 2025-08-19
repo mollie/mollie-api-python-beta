@@ -54,7 +54,7 @@ with ClientSDK(
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
+                    "interval": "... days",
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -94,7 +94,7 @@ with ClientSDK(
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_WEEKS,
+                    "interval": "... weeks",
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -134,7 +134,7 @@ with ClientSDK(
                 "product_url": "https://...",
                 "recurring": {
                     "description": "Gym subscription",
-                    "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
+                    "interval": "... days",
                     "amount": {
                         "currency": "EUR",
                         "value": "10.00",
@@ -313,7 +313,7 @@ async def main():
                     "product_url": "https://...",
                     "recurring": {
                         "description": "Gym subscription",
-                        "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
+                        "interval": "... days",
                         "amount": {
                             "currency": "EUR",
                             "value": "10.00",
@@ -353,7 +353,7 @@ async def main():
                     "product_url": "https://...",
                     "recurring": {
                         "description": "Gym subscription",
-                        "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_WEEKS,
+                        "interval": "... weeks",
                         "amount": {
                             "currency": "EUR",
                             "value": "10.00",
@@ -393,7 +393,7 @@ async def main():
                     "product_url": "https://...",
                     "recurring": {
                         "description": "Gym subscription",
-                        "interval": mollie.CreatePaymentIntervalRequest.DOT_DOT_DOT_DAYS,
+                        "interval": "... days",
                         "amount": {
                             "currency": "EUR",
                             "value": "10.00",
