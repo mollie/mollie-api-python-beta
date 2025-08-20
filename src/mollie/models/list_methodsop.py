@@ -199,7 +199,7 @@ class ListMethodsRequest(BaseModel):
 
     amount: Annotated[
         Optional[ListMethodsAmount],
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+        FieldMetadata(query=QueryParamMetadata(style="deepObject", explode=True)),
     ] = None
     r"""If supplied, only payment methods that support the amount and currency
     are returned.
@@ -656,7 +656,7 @@ class ListMethodsMethodTypedDict(TypedDict):
     """
     image: ListMethodsImageTypedDict
     r"""URLs of images representing the payment method."""
-    status: Nullable[ListMethodsStatus]
+    status: ListMethodsStatus
     r"""The payment method's activation status for this profile."""
     links: ListMethodsMethodLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
@@ -698,7 +698,7 @@ class ListMethodsMethod(BaseModel):
     image: ListMethodsImage
     r"""URLs of images representing the payment method."""
 
-    status: Nullable[ListMethodsStatus]
+    status: ListMethodsStatus
     r"""The payment method's activation status for this profile."""
 
     links: Annotated[ListMethodsMethodLinks, pydantic.Field(alias="_links")]
@@ -712,7 +712,7 @@ class ListMethodsMethod(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = ["issuers"]
-        nullable_fields = ["maximumAmount", "status"]
+        nullable_fields = ["maximumAmount"]
         null_default_fields = []
 
         serialized = handler(self)

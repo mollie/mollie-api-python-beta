@@ -591,7 +591,7 @@ class GetMethodResponseTypedDict(TypedDict):
     """
     image: GetMethodImageTypedDict
     r"""URLs of images representing the payment method."""
-    status: Nullable[GetMethodStatus]
+    status: GetMethodStatus
     r"""The payment method's activation status for this profile."""
     links: GetMethodLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
@@ -635,7 +635,7 @@ class GetMethodResponse(BaseModel):
     image: GetMethodImage
     r"""URLs of images representing the payment method."""
 
-    status: Nullable[GetMethodStatus]
+    status: GetMethodStatus
     r"""The payment method's activation status for this profile."""
 
     links: Annotated[GetMethodLinks, pydantic.Field(alias="_links")]
@@ -649,7 +649,7 @@ class GetMethodResponse(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = ["issuers"]
-        nullable_fields = ["maximumAmount", "status"]
+        nullable_fields = ["maximumAmount"]
         null_default_fields = []
 
         serialized = handler(self)
