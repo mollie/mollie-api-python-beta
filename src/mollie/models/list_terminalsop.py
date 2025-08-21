@@ -185,6 +185,7 @@ class ListTerminalsBrand(str, Enum):
     r"""The brand of the terminal."""
 
     PAX = "PAX"
+    TAP = "Tap"
 
 
 class ListTerminalsModel(str, Enum):
@@ -193,8 +194,9 @@ class ListTerminalsModel(str, Enum):
     A35 = "A35"
     A77 = "A77"
     A920 = "A920"
-    A920_PRO = "A920 Pro"
+    A920_PRO = "A920Pro"
     IM30 = "IM30"
+    TAP = "Tap"
 
 
 class TerminalSelfTypedDict(TypedDict):
@@ -522,22 +524,22 @@ class ListTerminalsLinks(BaseModel):
 class ListTerminalsResponseTypedDict(TypedDict):
     r"""A list of terminal objects."""
 
-    count: NotRequired[int]
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
     The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
     limit is 50 items.
     """
-    embedded: NotRequired[ListTerminalsEmbeddedTypedDict]
-    links: NotRequired[ListTerminalsLinksTypedDict]
+    embedded: ListTerminalsEmbeddedTypedDict
+    links: ListTerminalsLinksTypedDict
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
 
 class ListTerminalsResponse(BaseModel):
     r"""A list of terminal objects."""
 
-    count: Optional[int] = None
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
@@ -545,11 +547,7 @@ class ListTerminalsResponse(BaseModel):
     limit is 50 items.
     """
 
-    embedded: Annotated[
-        Optional[ListTerminalsEmbedded], pydantic.Field(alias="_embedded")
-    ] = None
+    embedded: Annotated[ListTerminalsEmbedded, pydantic.Field(alias="_embedded")]
 
-    links: Annotated[Optional[ListTerminalsLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
+    links: Annotated[ListTerminalsLinks, pydantic.Field(alias="_links")]
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""

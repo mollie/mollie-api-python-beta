@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: 8acf17d3241327b1beafce478d9bc643
+  docChecksum: 48456f665cac7aa7053a6d2f11db0ec7
   docVersion: 1.0.0
   speakeasyVersion: 1.606.0
   generationVersion: 2.686.7
-  releaseVersion: 0.8.3
-  configChecksum: 217ec07955b3453f549052047a13a663
+  releaseVersion: 0.8.4
+  configChecksum: 3279a14185495ef25420ce759f43fabf
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -7301,4 +7301,6 @@ examples:
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "The resource does not exist", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
 examplesVersion: 1.0.2
 generatedTests: {}
-releaseNotes: "## SDK Changes Detected:\n* `client.methods.list()`: \n  *  `request.amount` **Changed**\n  *  `response._embedded.methods.[].status` **Changed** **Breaking** :warning:\n* `client.methods.all()`: \n  *  `request.amount` **Changed**\n  *  `response._embedded.methods.[].status` **Changed** **Breaking** :warning:\n* `client.methods.get()`:  `response.status` **Changed** **Breaking** :warning:\n"
+releaseNotes: |
+  ## SDK Changes Detected:
+  * `client.terminals.list()`:  `response` **Changed**

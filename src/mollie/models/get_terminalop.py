@@ -152,6 +152,7 @@ class GetTerminalBrand(str, Enum):
     r"""The brand of the terminal."""
 
     PAX = "PAX"
+    TAP = "Tap"
 
 
 class GetTerminalModel(str, Enum):
@@ -160,8 +161,9 @@ class GetTerminalModel(str, Enum):
     A35 = "A35"
     A77 = "A77"
     A920 = "A920"
-    A920_PRO = "A920 Pro"
+    A920_PRO = "A920Pro"
     IM30 = "IM30"
+    TAP = "Tap"
 
 
 class GetTerminalSelfTypedDict(TypedDict):
