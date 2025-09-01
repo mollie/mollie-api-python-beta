@@ -1631,7 +1631,7 @@ class GetPaymentLinkPaymentsFeeRegion(str, Enum):
     MAESTRO = "maestro"
     OTHER = "other"
     INTER = "inter"
-    INTRA_EEA = "intra-eea"
+    INTRA_EEA = "intra_eea"
 
 
 class GetPaymentLinkPaymentsFailureReason(str, Enum):

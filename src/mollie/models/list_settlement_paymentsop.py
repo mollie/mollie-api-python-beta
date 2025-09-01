@@ -1650,7 +1650,7 @@ class ListSettlementPaymentsFeeRegion(str, Enum):
     MAESTRO = "maestro"
     OTHER = "other"
     INTER = "inter"
-    INTRA_EEA = "intra-eea"
+    INTRA_EEA = "intra_eea"
 
 
 class ListSettlementPaymentsFailureReason(str, Enum):

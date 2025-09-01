@@ -3404,7 +3404,7 @@ class CreateCustomerPaymentFeeRegion(str, Enum):
     MAESTRO = "maestro"
     OTHER = "other"
     INTER = "inter"
-    INTRA_EEA = "intra-eea"
+    INTRA_EEA = "intra_eea"
 
 
 class CreateCustomerPaymentFailureReason(str, Enum):
