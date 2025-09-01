@@ -2,20 +2,23 @@
 
 from __future__ import annotations
 from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel
+from mollie.utils import validate_open_enum
 import pydantic
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class GetCurrentProfileMode(str, Enum):
+class GetCurrentProfileMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
 
 
-class GetCurrentProfileStatus(str, Enum):
+class GetCurrentProfileStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The profile status determines whether the profile is able to receive live payments.
 
     * `unverified`: The profile has not been verified yet and can only be used to create test payments.
@@ -28,7 +31,7 @@ class GetCurrentProfileStatus(str, Enum):
     BLOCKED = "blocked"
 
 
-class GetCurrentProfileReviewStatus(str, Enum):
+class GetCurrentProfileReviewStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The status of the requested changes."""
 
     PENDING = "pending"
@@ -51,7 +54,10 @@ class GetCurrentProfileReview(BaseModel):
     `null` in test mode.
     """
 
-    status: Optional[GetCurrentProfileReviewStatus] = None
+    status: Annotated[
+        Optional[GetCurrentProfileReviewStatus],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
     r"""The status of the requested changes."""
 
 
@@ -323,7 +329,9 @@ class GetCurrentProfileResponse(BaseModel):
     id: Optional[str] = None
     r"""The identifier uniquely referring to this profile. Example: `pfl_v9hTwCvYqw`."""
 
-    mode: Optional[GetCurrentProfileMode] = None
+    mode: Annotated[
+        Optional[GetCurrentProfileMode], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""Whether this entity was created in live mode or in test mode."""
 
     name: Optional[str] = None
@@ -359,7 +367,9 @@ class GetCurrentProfileResponse(BaseModel):
     [business category list](common-data-types#business-category) for all possible options.
     """
 
-    status: Optional[GetCurrentProfileStatus] = None
+    status: Annotated[
+        Optional[GetCurrentProfileStatus], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The profile status determines whether the profile is able to receive live payments.
 
     * `unverified`: The profile has not been verified yet and can only be used to create test payments.

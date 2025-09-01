@@ -3,10 +3,13 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -863,7 +866,7 @@ class CreateSalesInvoiceNotFoundHalJSONError(ClientError):
         self.data = data
 
 
-class CreateSalesInvoiceStatusResponse(str, Enum):
+class CreateSalesInvoiceStatusResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The status for the invoice to end up in.
 
     A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
@@ -884,14 +887,14 @@ class CreateSalesInvoiceStatusResponse(str, Enum):
     PAID = "paid"
 
 
-class CreateSalesInvoiceVatSchemeResponse(str, Enum):
+class CreateSalesInvoiceVatSchemeResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
 
     STANDARD = "standard"
     ONE_STOP_SHOP = "one-stop-shop"
 
 
-class CreateSalesInvoiceVatModeResponse(str, Enum):
+class CreateSalesInvoiceVatModeResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
     price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
     """
@@ -912,7 +915,7 @@ class CreateSalesInvoiceMetadataResponse(BaseModel):
     """
 
 
-class CreateSalesInvoicePaymentTermResponse(str, Enum):
+class CreateSalesInvoicePaymentTermResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The payment term to be set on the invoice."""
 
     SEVENDAYS = "7 days"
@@ -924,7 +927,7 @@ class CreateSalesInvoicePaymentTermResponse(str, Enum):
     ONE_HUNDRED_AND_TWENTYDAYS = "120 days"
 
 
-class CreateSalesInvoiceSourceResponse(str, Enum):
+class CreateSalesInvoiceSourceResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The way through which the invoice is to be set to paid."""
 
     MANUAL = "manual"
@@ -950,7 +953,9 @@ class CreateSalesInvoicePaymentDetailsResponse(BaseModel):
     provided details. Required for `paid` status.
     """
 
-    source: CreateSalesInvoiceSourceResponse
+    source: Annotated[
+        CreateSalesInvoiceSourceResponse, PlainValidator(validate_open_enum(False))
+    ]
     r"""The way through which the invoice is to be set to paid."""
 
     source_reference: Annotated[
@@ -1014,7 +1019,7 @@ class CreateSalesInvoiceEmailDetailsResponse(BaseModel):
     r"""The body of the email to be sent. To add newline characters, you can use `\n`."""
 
 
-class CreateSalesInvoiceRecipientTypeResponse(str, Enum):
+class CreateSalesInvoiceRecipientTypeResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The type of recipient, either `consumer` or `business`. This will determine what further fields are
     required on the `recipient` object.
     """
@@ -1023,7 +1028,7 @@ class CreateSalesInvoiceRecipientTypeResponse(str, Enum):
     BUSINESS = "business"
 
 
-class CreateSalesInvoiceLocaleResponse(str, Enum):
+class CreateSalesInvoiceLocaleResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The locale for the recipient, to be used for translations in PDF generation and payment pages."""
 
     EN_US = "en_US"
@@ -1083,7 +1088,10 @@ class CreateSalesInvoiceRecipientResponseTypedDict(TypedDict):
 
 
 class CreateSalesInvoiceRecipientResponse(BaseModel):
-    type: CreateSalesInvoiceRecipientTypeResponse
+    type: Annotated[
+        CreateSalesInvoiceRecipientTypeResponse,
+        PlainValidator(validate_open_enum(False)),
+    ]
     r"""The type of recipient, either `consumer` or `business`. This will determine what further fields are
     required on the `recipient` object.
     """
@@ -1103,7 +1111,9 @@ class CreateSalesInvoiceRecipientResponse(BaseModel):
     country: str
     r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""
 
-    locale: CreateSalesInvoiceLocaleResponse
+    locale: Annotated[
+        CreateSalesInvoiceLocaleResponse, PlainValidator(validate_open_enum(False))
+    ]
     r"""The locale for the recipient, to be used for translations in PDF generation and payment pages."""
 
     title: OptionalNullable[str] = UNSET
@@ -1233,7 +1243,7 @@ class CreateSalesInvoiceUnitPriceResponse(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreateSalesInvoiceLineTypeResponse(str, Enum):
+class CreateSalesInvoiceLineTypeResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The type of discount."""
 
     AMOUNT = "amount"
@@ -1252,7 +1262,9 @@ class CreateSalesInvoiceLineDiscountResponseTypedDict(TypedDict):
 class CreateSalesInvoiceLineDiscountResponse(BaseModel):
     r"""The discount to be applied to the line item."""
 
-    type: CreateSalesInvoiceLineTypeResponse
+    type: Annotated[
+        CreateSalesInvoiceLineTypeResponse, PlainValidator(validate_open_enum(False))
+    ]
     r"""The type of discount."""
 
     value: str
@@ -1331,7 +1343,7 @@ class CreateSalesInvoiceLineResponse(BaseModel):
         return m
 
 
-class CreateSalesInvoiceDiscountTypeResponse(str, Enum):
+class CreateSalesInvoiceDiscountTypeResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The type of discount."""
 
     AMOUNT = "amount"
@@ -1350,7 +1362,10 @@ class CreateSalesInvoiceDiscountResponseTypedDict(TypedDict):
 class CreateSalesInvoiceDiscountResponse(BaseModel):
     r"""The discount to be applied to the entire invoice, applied on top of any line item discounts."""
 
-    type: CreateSalesInvoiceDiscountTypeResponse
+    type: Annotated[
+        CreateSalesInvoiceDiscountTypeResponse,
+        PlainValidator(validate_open_enum(False)),
+    ]
     r"""The type of discount."""
 
     value: str
@@ -1726,7 +1741,10 @@ class CreateSalesInvoiceResponse(BaseModel):
     ] = UNSET
     r"""When issued, an invoice number will be set for the sales invoice."""
 
-    status: Optional[CreateSalesInvoiceStatusResponse] = None
+    status: Annotated[
+        Optional[CreateSalesInvoiceStatusResponse],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
     r"""The status for the invoice to end up in.
 
     A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
@@ -1743,12 +1761,20 @@ class CreateSalesInvoiceResponse(BaseModel):
     """
 
     vat_scheme: Annotated[
-        Optional[CreateSalesInvoiceVatSchemeResponse], pydantic.Field(alias="vatScheme")
+        Annotated[
+            Optional[CreateSalesInvoiceVatSchemeResponse],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="vatScheme"),
     ] = None
     r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
 
     vat_mode: Annotated[
-        Optional[CreateSalesInvoiceVatModeResponse], pydantic.Field(alias="vatMode")
+        Annotated[
+            Optional[CreateSalesInvoiceVatModeResponse],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="vatMode"),
     ] = None
     r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
     price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
@@ -1763,7 +1789,10 @@ class CreateSalesInvoiceResponse(BaseModel):
     """
 
     payment_term: Annotated[
-        OptionalNullable[CreateSalesInvoicePaymentTermResponse],
+        Annotated[
+            OptionalNullable[CreateSalesInvoicePaymentTermResponse],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="paymentTerm"),
     ] = UNSET
     r"""The payment term to be set on the invoice."""

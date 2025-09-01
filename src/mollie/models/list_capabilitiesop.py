@@ -2,26 +2,29 @@
 
 from __future__ import annotations
 from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class ListCapabilitiesStatus(str, Enum):
+class ListCapabilitiesStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     UNREQUESTED = "unrequested"
     ENABLED = "enabled"
     DISABLED = "disabled"
     PENDING = "pending"
 
 
-class ListCapabilitiesStatusReason(str, Enum):
+class ListCapabilitiesStatusReason(str, Enum, metaclass=utils.OpenEnumMeta):
     REQUIREMENT_PAST_DUE = "requirement-past-due"
     ONBOARDING_INFORMATION_NEEDED = "onboarding-information-needed"
 
 
-class ListCapabilitiesRequirementStatus(str, Enum):
+class ListCapabilitiesRequirementStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The status of the requirement depends on its due date.
     If no due date is given, the status will be `requested`.
     """
@@ -90,7 +93,10 @@ class ListCapabilitiesRequirement(BaseModel):
     of the same capability.
     """
 
-    status: Optional[ListCapabilitiesRequirementStatus] = None
+    status: Annotated[
+        Optional[ListCapabilitiesRequirementStatus],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
     r"""The status of the requirement depends on its due date.
     If no due date is given, the status will be `requested`.
     """
@@ -148,10 +154,15 @@ class Capability(BaseModel):
     name: Optional[str] = None
     r"""A unique name for this capability like `payments` / `settlements`."""
 
-    status: Optional[ListCapabilitiesStatus] = None
+    status: Annotated[
+        Optional[ListCapabilitiesStatus], PlainValidator(validate_open_enum(False))
+    ] = None
 
     status_reason: Annotated[
-        OptionalNullable[ListCapabilitiesStatusReason],
+        Annotated[
+            OptionalNullable[ListCapabilitiesStatusReason],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="statusReason"),
     ] = UNSET
 

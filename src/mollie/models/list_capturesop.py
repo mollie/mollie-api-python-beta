@@ -3,11 +3,18 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
+from mollie.utils import (
+    FieldMetadata,
+    PathParamMetadata,
+    QueryParamMetadata,
+    validate_open_enum,
+)
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -233,7 +240,7 @@ class ListCapturesBadRequestHalJSONError(ClientError):
         self.data = data
 
 
-class ListCapturesMode(str, Enum):
+class ListCapturesMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -290,7 +297,7 @@ class ListCapturesSettlementAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListCapturesStatus(str, Enum):
+class ListCapturesStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The capture's status."""
 
     PENDING = "pending"
@@ -539,13 +546,13 @@ class ListCapturesCapture(BaseModel):
     id: str
     r"""The identifier uniquely referring to this capture. Example: `cpt_mNepDkEtco6ah3QNPUGYH`."""
 
-    mode: ListCapturesMode
+    mode: Annotated[ListCapturesMode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
 
     amount: Nullable[ListCapturesAmount]
     r"""The amount captured. If no amount is provided, the full authorized amount is captured."""
 
-    status: ListCapturesStatus
+    status: Annotated[ListCapturesStatus, PlainValidator(validate_open_enum(False))]
     r"""The capture's status."""
 
     payment_id: Annotated[str, pydantic.Field(alias="paymentId")]

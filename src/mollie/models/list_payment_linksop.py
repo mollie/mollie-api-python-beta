@@ -3,11 +3,13 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, QueryParamMetadata
+from mollie.utils import FieldMetadata, QueryParamMetadata, validate_open_enum
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -145,7 +147,7 @@ class ListPaymentLinksHalJSONError(ClientError):
         self.data = data
 
 
-class ListPaymentLinksMode(str, Enum):
+class ListPaymentLinksMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -198,7 +200,7 @@ class ListPaymentLinksMinimumAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListPaymentLinksType(str, Enum):
+class ListPaymentLinksType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -332,7 +334,7 @@ class ListPaymentLinksVatAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListPaymentLinksCategory(str, Enum):
+class ListPaymentLinksCategory(str, Enum, metaclass=utils.OpenEnumMeta):
     MEAL = "meal"
     ECO = "eco"
     GIFT = "gift"
@@ -423,7 +425,9 @@ class ListPaymentLinksLine(BaseModel):
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
 
-    type: Optional[ListPaymentLinksType] = None
+    type: Annotated[
+        Optional[ListPaymentLinksType], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -459,7 +463,13 @@ class ListPaymentLinksLine(BaseModel):
     sku: Optional[str] = None
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
 
-    categories: Optional[List[ListPaymentLinksCategory]] = None
+    categories: Optional[
+        List[
+            Annotated[
+                ListPaymentLinksCategory, PlainValidator(validate_open_enum(False))
+            ]
+        ]
+    ] = None
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
     [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
@@ -819,7 +829,7 @@ class ListPaymentLinksApplicationFee(BaseModel):
     """
 
 
-class ListPaymentLinksSequenceType(str, Enum):
+class ListPaymentLinksSequenceType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""If set to `first`, a payment mandate is established right after a payment is made by the customer.
 
     Defaults to `oneoff`, which is a regular payment link and will not establish a mandate after payment.
@@ -1017,7 +1027,7 @@ class ListPaymentLinksPaymentLinkOutput(BaseModel):
     id: str
     r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
 
-    mode: ListPaymentLinksMode
+    mode: Annotated[ListPaymentLinksMode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
 
     description: str
@@ -1141,7 +1151,10 @@ class ListPaymentLinksPaymentLinkOutput(BaseModel):
     """
 
     sequence_type: Annotated[
-        OptionalNullable[ListPaymentLinksSequenceType],
+        Annotated[
+            OptionalNullable[ListPaymentLinksSequenceType],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="sequenceType"),
     ] = UNSET
     r"""If set to `first`, a payment mandate is established right after a payment is made by the customer.

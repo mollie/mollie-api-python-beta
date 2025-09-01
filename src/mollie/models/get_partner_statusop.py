@@ -2,14 +2,17 @@
 
 from __future__ import annotations
 from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class PartnerType(str, Enum):
+class PartnerType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Indicates the type of partner. Will be `null` if the currently authenticated organization is not
     enrolled as a partner.
     """
@@ -203,7 +206,10 @@ class GetPartnerStatusResponse(BaseModel):
     this endpoint.
     """
 
-    partner_type: Annotated[Nullable[PartnerType], pydantic.Field(alias="partnerType")]
+    partner_type: Annotated[
+        Annotated[Nullable[PartnerType], PlainValidator(validate_open_enum(False))],
+        pydantic.Field(alias="partnerType"),
+    ]
     r"""Indicates the type of partner. Will be `null` if the currently authenticated organization is not
     enrolled as a partner.
     """

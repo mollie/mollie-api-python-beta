@@ -3,11 +3,18 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
+from mollie.utils import (
+    FieldMetadata,
+    PathParamMetadata,
+    QueryParamMetadata,
+    validate_open_enum,
+)
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -255,7 +262,7 @@ class GetBalanceReportNotFoundHalJSONError(ClientError):
         self.data = data
 
 
-class GroupingResponse(str, Enum):
+class GroupingResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""You can retrieve reports in two different formats. With the `status-balances` format, transactions are grouped by
     status (e.g. `pending`, `available`), then by direction of movement (e.g. moved from pending to available), then
     by transaction type, and then by other sub-groupings where available (e.g. payment method).
@@ -290,7 +297,7 @@ class PendingBalanceOpenAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class PendingBalanceOpenSubTotalMethod1(str, Enum):
+class PendingBalanceOpenSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -337,7 +344,7 @@ class PendingBalanceOpenSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class PendingBalanceOpenSubTotalCardIssuer1(str, Enum):
+class PendingBalanceOpenSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -346,14 +353,14 @@ class PendingBalanceOpenSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class PendingBalanceOpenSubTotalCardAudience1(str, Enum):
+class PendingBalanceOpenSubTotalCardAudience1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class PendingBalanceOpenSubTotalCardRegion1(str, Enum):
+class PendingBalanceOpenSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -362,7 +369,7 @@ class PendingBalanceOpenSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class PendingBalanceOpenSubTotalFeeType1(str, Enum):
+class PendingBalanceOpenSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -402,7 +409,9 @@ class PendingBalanceOpenSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class PendingBalanceOpenSubTotalPrepaymentPartType1(str, Enum):
+class PendingBalanceOpenSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -412,7 +421,9 @@ class PendingBalanceOpenSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class PendingBalanceOpenSubTotalTransactionType1(str, Enum):
+class PendingBalanceOpenSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -481,41 +492,62 @@ class PendingBalanceOpenSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[PendingBalanceOpenSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[PendingBalanceOpenSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[PendingBalanceOpenSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[PendingBalanceOpenSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[PendingBalanceOpenSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[PendingBalanceOpenSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[PendingBalanceOpenSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[PendingBalanceOpenSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[PendingBalanceOpenSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[PendingBalanceOpenSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[PendingBalanceOpenSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[PendingBalanceOpenSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[PendingBalanceOpenSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[PendingBalanceOpenSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -568,7 +600,7 @@ class PendingBalanceOpenSubTotal1(BaseModel):
         return m
 
 
-class PendingBalanceOpenSubtotalMethod2(str, Enum):
+class PendingBalanceOpenSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -615,7 +647,7 @@ class PendingBalanceOpenSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class PendingBalanceOpenSubtotalCardIssuer2(str, Enum):
+class PendingBalanceOpenSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -624,14 +656,14 @@ class PendingBalanceOpenSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class PendingBalanceOpenSubtotalCardAudience2(str, Enum):
+class PendingBalanceOpenSubtotalCardAudience2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class PendingBalanceOpenSubtotalCardRegion2(str, Enum):
+class PendingBalanceOpenSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -640,7 +672,7 @@ class PendingBalanceOpenSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class PendingBalanceOpenSubtotalFeeType2(str, Enum):
+class PendingBalanceOpenSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -680,7 +712,9 @@ class PendingBalanceOpenSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class PendingBalanceOpenSubtotalPrepaymentPartType2(str, Enum):
+class PendingBalanceOpenSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -690,7 +724,9 @@ class PendingBalanceOpenSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class PendingBalanceOpenSubtotalTransactionType2(str, Enum):
+class PendingBalanceOpenSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -765,41 +801,62 @@ class PendingBalanceOpenSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[PendingBalanceOpenSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[PendingBalanceOpenSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[PendingBalanceOpenSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[PendingBalanceOpenSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[PendingBalanceOpenSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[PendingBalanceOpenSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[PendingBalanceOpenSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[PendingBalanceOpenSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[PendingBalanceOpenSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[PendingBalanceOpenSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[PendingBalanceOpenSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[PendingBalanceOpenSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[PendingBalanceOpenSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[PendingBalanceOpenSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -916,7 +973,7 @@ class PendingBalanceCloseAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class PendingBalanceCloseSubTotalMethod1(str, Enum):
+class PendingBalanceCloseSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -963,7 +1020,7 @@ class PendingBalanceCloseSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class PendingBalanceCloseSubTotalCardIssuer1(str, Enum):
+class PendingBalanceCloseSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -972,14 +1029,14 @@ class PendingBalanceCloseSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class PendingBalanceCloseSubTotalCardAudience1(str, Enum):
+class PendingBalanceCloseSubTotalCardAudience1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class PendingBalanceCloseSubTotalCardRegion1(str, Enum):
+class PendingBalanceCloseSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -988,7 +1045,7 @@ class PendingBalanceCloseSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class PendingBalanceCloseSubTotalFeeType1(str, Enum):
+class PendingBalanceCloseSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -1028,7 +1085,9 @@ class PendingBalanceCloseSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class PendingBalanceCloseSubTotalPrepaymentPartType1(str, Enum):
+class PendingBalanceCloseSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -1038,7 +1097,9 @@ class PendingBalanceCloseSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class PendingBalanceCloseSubTotalTransactionType1(str, Enum):
+class PendingBalanceCloseSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -1107,41 +1168,62 @@ class PendingBalanceCloseSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[PendingBalanceCloseSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[PendingBalanceCloseSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[PendingBalanceCloseSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[PendingBalanceCloseSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[PendingBalanceCloseSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[PendingBalanceCloseSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[PendingBalanceCloseSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[PendingBalanceCloseSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[PendingBalanceCloseSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[PendingBalanceCloseSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[PendingBalanceCloseSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[PendingBalanceCloseSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[PendingBalanceCloseSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[PendingBalanceCloseSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -1194,7 +1276,7 @@ class PendingBalanceCloseSubTotal1(BaseModel):
         return m
 
 
-class PendingBalanceCloseSubtotalMethod2(str, Enum):
+class PendingBalanceCloseSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -1241,7 +1323,7 @@ class PendingBalanceCloseSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class PendingBalanceCloseSubtotalCardIssuer2(str, Enum):
+class PendingBalanceCloseSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -1250,14 +1332,14 @@ class PendingBalanceCloseSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class PendingBalanceCloseSubtotalCardAudience2(str, Enum):
+class PendingBalanceCloseSubtotalCardAudience2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class PendingBalanceCloseSubtotalCardRegion2(str, Enum):
+class PendingBalanceCloseSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -1266,7 +1348,7 @@ class PendingBalanceCloseSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class PendingBalanceCloseSubtotalFeeType2(str, Enum):
+class PendingBalanceCloseSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -1306,7 +1388,9 @@ class PendingBalanceCloseSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class PendingBalanceCloseSubtotalPrepaymentPartType2(str, Enum):
+class PendingBalanceCloseSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -1316,7 +1400,9 @@ class PendingBalanceCloseSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class PendingBalanceCloseSubtotalTransactionType2(str, Enum):
+class PendingBalanceCloseSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -1391,41 +1477,62 @@ class PendingBalanceCloseSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[PendingBalanceCloseSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[PendingBalanceCloseSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[PendingBalanceCloseSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[PendingBalanceCloseSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[PendingBalanceCloseSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[PendingBalanceCloseSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[PendingBalanceCloseSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[PendingBalanceCloseSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[PendingBalanceCloseSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[PendingBalanceCloseSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[PendingBalanceCloseSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[PendingBalanceCloseSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[PendingBalanceCloseSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[PendingBalanceCloseSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -1542,7 +1649,7 @@ class PendingBalancePendingAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class PendingBalancePendingSubTotalMethod1(str, Enum):
+class PendingBalancePendingSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -1589,7 +1696,7 @@ class PendingBalancePendingSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class PendingBalancePendingSubTotalCardIssuer1(str, Enum):
+class PendingBalancePendingSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -1598,14 +1705,16 @@ class PendingBalancePendingSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class PendingBalancePendingSubTotalCardAudience1(str, Enum):
+class PendingBalancePendingSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class PendingBalancePendingSubTotalCardRegion1(str, Enum):
+class PendingBalancePendingSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -1614,7 +1723,7 @@ class PendingBalancePendingSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class PendingBalancePendingSubTotalFeeType1(str, Enum):
+class PendingBalancePendingSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -1654,7 +1763,9 @@ class PendingBalancePendingSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class PendingBalancePendingSubTotalPrepaymentPartType1(str, Enum):
+class PendingBalancePendingSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -1664,7 +1775,9 @@ class PendingBalancePendingSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class PendingBalancePendingSubTotalTransactionType1(str, Enum):
+class PendingBalancePendingSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -1735,41 +1848,62 @@ class PendingBalancePendingSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[PendingBalancePendingSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[PendingBalancePendingSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[PendingBalancePendingSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[PendingBalancePendingSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[PendingBalancePendingSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[PendingBalancePendingSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[PendingBalancePendingSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[PendingBalancePendingSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[PendingBalancePendingSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[PendingBalancePendingSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[PendingBalancePendingSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[PendingBalancePendingSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[PendingBalancePendingSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[PendingBalancePendingSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -1822,7 +1956,7 @@ class PendingBalancePendingSubTotal1(BaseModel):
         return m
 
 
-class PendingBalancePendingSubtotalMethod2(str, Enum):
+class PendingBalancePendingSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -1869,7 +2003,7 @@ class PendingBalancePendingSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class PendingBalancePendingSubtotalCardIssuer2(str, Enum):
+class PendingBalancePendingSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -1878,14 +2012,16 @@ class PendingBalancePendingSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class PendingBalancePendingSubtotalCardAudience2(str, Enum):
+class PendingBalancePendingSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class PendingBalancePendingSubtotalCardRegion2(str, Enum):
+class PendingBalancePendingSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -1894,7 +2030,7 @@ class PendingBalancePendingSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class PendingBalancePendingSubtotalFeeType2(str, Enum):
+class PendingBalancePendingSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -1934,7 +2070,9 @@ class PendingBalancePendingSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class PendingBalancePendingSubtotalPrepaymentPartType2(str, Enum):
+class PendingBalancePendingSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -1944,7 +2082,9 @@ class PendingBalancePendingSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class PendingBalancePendingSubtotalTransactionType2(str, Enum):
+class PendingBalancePendingSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -2021,41 +2161,62 @@ class PendingBalancePendingSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[PendingBalancePendingSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[PendingBalancePendingSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[PendingBalancePendingSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[PendingBalancePendingSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[PendingBalancePendingSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[PendingBalancePendingSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[PendingBalancePendingSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[PendingBalancePendingSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[PendingBalancePendingSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[PendingBalancePendingSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[PendingBalancePendingSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[PendingBalancePendingSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[PendingBalancePendingSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[PendingBalancePendingSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -2172,7 +2333,9 @@ class PendingBalanceMovedToAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class PendingBalanceMovedToAvailableSubTotalMethod1(str, Enum):
+class PendingBalanceMovedToAvailableSubTotalMethod1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -2219,7 +2382,9 @@ class PendingBalanceMovedToAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class PendingBalanceMovedToAvailableSubTotalCardIssuer1(str, Enum):
+class PendingBalanceMovedToAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -2228,14 +2393,18 @@ class PendingBalanceMovedToAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class PendingBalanceMovedToAvailableSubTotalCardAudience1(str, Enum):
+class PendingBalanceMovedToAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class PendingBalanceMovedToAvailableSubTotalCardRegion1(str, Enum):
+class PendingBalanceMovedToAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -2244,7 +2413,9 @@ class PendingBalanceMovedToAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class PendingBalanceMovedToAvailableSubTotalFeeType1(str, Enum):
+class PendingBalanceMovedToAvailableSubTotalFeeType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -2284,7 +2455,9 @@ class PendingBalanceMovedToAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class PendingBalanceMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
+class PendingBalanceMovedToAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -2294,7 +2467,9 @@ class PendingBalanceMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class PendingBalanceMovedToAvailableSubTotalTransactionType1(str, Enum):
+class PendingBalanceMovedToAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -2371,41 +2546,62 @@ class PendingBalanceMovedToAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[PendingBalanceMovedToAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[PendingBalanceMovedToAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[PendingBalanceMovedToAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[PendingBalanceMovedToAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[PendingBalanceMovedToAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[PendingBalanceMovedToAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[PendingBalanceMovedToAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[PendingBalanceMovedToAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[PendingBalanceMovedToAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[PendingBalanceMovedToAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[PendingBalanceMovedToAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[PendingBalanceMovedToAvailableSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[PendingBalanceMovedToAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[PendingBalanceMovedToAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -2458,7 +2654,9 @@ class PendingBalanceMovedToAvailableSubTotal1(BaseModel):
         return m
 
 
-class PendingBalanceMovedToAvailableSubtotalMethod2(str, Enum):
+class PendingBalanceMovedToAvailableSubtotalMethod2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -2505,7 +2703,9 @@ class PendingBalanceMovedToAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class PendingBalanceMovedToAvailableSubtotalCardIssuer2(str, Enum):
+class PendingBalanceMovedToAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -2514,14 +2714,18 @@ class PendingBalanceMovedToAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class PendingBalanceMovedToAvailableSubtotalCardAudience2(str, Enum):
+class PendingBalanceMovedToAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class PendingBalanceMovedToAvailableSubtotalCardRegion2(str, Enum):
+class PendingBalanceMovedToAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -2530,7 +2734,9 @@ class PendingBalanceMovedToAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class PendingBalanceMovedToAvailableSubtotalFeeType2(str, Enum):
+class PendingBalanceMovedToAvailableSubtotalFeeType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -2570,7 +2776,9 @@ class PendingBalanceMovedToAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class PendingBalanceMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
+class PendingBalanceMovedToAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -2580,7 +2788,9 @@ class PendingBalanceMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class PendingBalanceMovedToAvailableSubtotalTransactionType2(str, Enum):
+class PendingBalanceMovedToAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -2665,41 +2875,62 @@ class PendingBalanceMovedToAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[PendingBalanceMovedToAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[PendingBalanceMovedToAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[PendingBalanceMovedToAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[PendingBalanceMovedToAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[PendingBalanceMovedToAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[PendingBalanceMovedToAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[PendingBalanceMovedToAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[PendingBalanceMovedToAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[PendingBalanceMovedToAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[PendingBalanceMovedToAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[PendingBalanceMovedToAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[PendingBalanceMovedToAvailableSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[PendingBalanceMovedToAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[PendingBalanceMovedToAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -2842,7 +3073,7 @@ class AvailableBalanceOpenAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class AvailableBalanceOpenSubTotalMethod1(str, Enum):
+class AvailableBalanceOpenSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -2889,7 +3120,7 @@ class AvailableBalanceOpenSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class AvailableBalanceOpenSubTotalCardIssuer1(str, Enum):
+class AvailableBalanceOpenSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -2898,14 +3129,16 @@ class AvailableBalanceOpenSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class AvailableBalanceOpenSubTotalCardAudience1(str, Enum):
+class AvailableBalanceOpenSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class AvailableBalanceOpenSubTotalCardRegion1(str, Enum):
+class AvailableBalanceOpenSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -2914,7 +3147,7 @@ class AvailableBalanceOpenSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class AvailableBalanceOpenSubTotalFeeType1(str, Enum):
+class AvailableBalanceOpenSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -2954,7 +3187,9 @@ class AvailableBalanceOpenSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class AvailableBalanceOpenSubTotalPrepaymentPartType1(str, Enum):
+class AvailableBalanceOpenSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -2964,7 +3199,9 @@ class AvailableBalanceOpenSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class AvailableBalanceOpenSubTotalTransactionType1(str, Enum):
+class AvailableBalanceOpenSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -3035,41 +3272,62 @@ class AvailableBalanceOpenSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[AvailableBalanceOpenSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[AvailableBalanceOpenSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[AvailableBalanceOpenSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[AvailableBalanceOpenSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[AvailableBalanceOpenSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[AvailableBalanceOpenSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[AvailableBalanceOpenSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[AvailableBalanceOpenSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[AvailableBalanceOpenSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[AvailableBalanceOpenSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[AvailableBalanceOpenSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[AvailableBalanceOpenSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[AvailableBalanceOpenSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[AvailableBalanceOpenSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -3122,7 +3380,7 @@ class AvailableBalanceOpenSubTotal1(BaseModel):
         return m
 
 
-class AvailableBalanceOpenSubtotalMethod2(str, Enum):
+class AvailableBalanceOpenSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -3169,7 +3427,7 @@ class AvailableBalanceOpenSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class AvailableBalanceOpenSubtotalCardIssuer2(str, Enum):
+class AvailableBalanceOpenSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -3178,14 +3436,16 @@ class AvailableBalanceOpenSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class AvailableBalanceOpenSubtotalCardAudience2(str, Enum):
+class AvailableBalanceOpenSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class AvailableBalanceOpenSubtotalCardRegion2(str, Enum):
+class AvailableBalanceOpenSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -3194,7 +3454,7 @@ class AvailableBalanceOpenSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class AvailableBalanceOpenSubtotalFeeType2(str, Enum):
+class AvailableBalanceOpenSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -3234,7 +3494,9 @@ class AvailableBalanceOpenSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class AvailableBalanceOpenSubtotalPrepaymentPartType2(str, Enum):
+class AvailableBalanceOpenSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -3244,7 +3506,9 @@ class AvailableBalanceOpenSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class AvailableBalanceOpenSubtotalTransactionType2(str, Enum):
+class AvailableBalanceOpenSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -3321,41 +3585,62 @@ class AvailableBalanceOpenSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[AvailableBalanceOpenSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[AvailableBalanceOpenSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[AvailableBalanceOpenSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[AvailableBalanceOpenSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[AvailableBalanceOpenSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[AvailableBalanceOpenSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[AvailableBalanceOpenSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[AvailableBalanceOpenSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[AvailableBalanceOpenSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[AvailableBalanceOpenSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[AvailableBalanceOpenSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[AvailableBalanceOpenSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[AvailableBalanceOpenSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[AvailableBalanceOpenSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -3472,7 +3757,7 @@ class MovedFromPendingAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class MovedFromPendingSubTotalMethod1(str, Enum):
+class MovedFromPendingSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -3519,7 +3804,7 @@ class MovedFromPendingSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class MovedFromPendingSubTotalCardIssuer1(str, Enum):
+class MovedFromPendingSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -3528,14 +3813,14 @@ class MovedFromPendingSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class MovedFromPendingSubTotalCardAudience1(str, Enum):
+class MovedFromPendingSubTotalCardAudience1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class MovedFromPendingSubTotalCardRegion1(str, Enum):
+class MovedFromPendingSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -3544,7 +3829,7 @@ class MovedFromPendingSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class MovedFromPendingSubTotalFeeType1(str, Enum):
+class MovedFromPendingSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -3584,7 +3869,9 @@ class MovedFromPendingSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class MovedFromPendingSubTotalPrepaymentPartType1(str, Enum):
+class MovedFromPendingSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -3594,7 +3881,7 @@ class MovedFromPendingSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class MovedFromPendingSubTotalTransactionType1(str, Enum):
+class MovedFromPendingSubTotalTransactionType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -3663,41 +3950,62 @@ class MovedFromPendingSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[MovedFromPendingSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[MovedFromPendingSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[MovedFromPendingSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[MovedFromPendingSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[MovedFromPendingSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[MovedFromPendingSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[MovedFromPendingSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[MovedFromPendingSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[MovedFromPendingSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[MovedFromPendingSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[MovedFromPendingSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[MovedFromPendingSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[MovedFromPendingSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[MovedFromPendingSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -3750,7 +4058,7 @@ class MovedFromPendingSubTotal1(BaseModel):
         return m
 
 
-class MovedFromPendingSubtotalMethod2(str, Enum):
+class MovedFromPendingSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -3797,7 +4105,7 @@ class MovedFromPendingSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class MovedFromPendingSubtotalCardIssuer2(str, Enum):
+class MovedFromPendingSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -3806,14 +4114,14 @@ class MovedFromPendingSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class MovedFromPendingSubtotalCardAudience2(str, Enum):
+class MovedFromPendingSubtotalCardAudience2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class MovedFromPendingSubtotalCardRegion2(str, Enum):
+class MovedFromPendingSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -3822,7 +4130,7 @@ class MovedFromPendingSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class MovedFromPendingSubtotalFeeType2(str, Enum):
+class MovedFromPendingSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -3862,7 +4170,9 @@ class MovedFromPendingSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class MovedFromPendingSubtotalPrepaymentPartType2(str, Enum):
+class MovedFromPendingSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -3872,7 +4182,7 @@ class MovedFromPendingSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class MovedFromPendingSubtotalTransactionType2(str, Enum):
+class MovedFromPendingSubtotalTransactionType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -3947,41 +4257,62 @@ class MovedFromPendingSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[MovedFromPendingSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[MovedFromPendingSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[MovedFromPendingSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[MovedFromPendingSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[MovedFromPendingSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[MovedFromPendingSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[MovedFromPendingSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[MovedFromPendingSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[MovedFromPendingSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[MovedFromPendingSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[MovedFromPendingSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[MovedFromPendingSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[MovedFromPendingSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[MovedFromPendingSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -4098,7 +4429,9 @@ class AvailableBalanceImmediatelyAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class AvailableBalanceImmediatelyAvailableSubTotalMethod1(str, Enum):
+class AvailableBalanceImmediatelyAvailableSubTotalMethod1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -4145,7 +4478,9 @@ class AvailableBalanceImmediatelyAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class AvailableBalanceImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
+class AvailableBalanceImmediatelyAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -4154,14 +4489,18 @@ class AvailableBalanceImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class AvailableBalanceImmediatelyAvailableSubTotalCardAudience1(str, Enum):
+class AvailableBalanceImmediatelyAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class AvailableBalanceImmediatelyAvailableSubTotalCardRegion1(str, Enum):
+class AvailableBalanceImmediatelyAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -4170,7 +4509,9 @@ class AvailableBalanceImmediatelyAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class AvailableBalanceImmediatelyAvailableSubTotalFeeType1(str, Enum):
+class AvailableBalanceImmediatelyAvailableSubTotalFeeType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -4210,7 +4551,9 @@ class AvailableBalanceImmediatelyAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class AvailableBalanceImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
+class AvailableBalanceImmediatelyAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -4220,7 +4563,9 @@ class AvailableBalanceImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum)
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class AvailableBalanceImmediatelyAvailableSubTotalTransactionType1(str, Enum):
+class AvailableBalanceImmediatelyAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -4299,45 +4644,66 @@ class AvailableBalanceImmediatelyAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[AvailableBalanceImmediatelyAvailableSubTotalMethod1] = (
-        UNSET
-    )
+    method: Annotated[
+        OptionalNullable[AvailableBalanceImmediatelyAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[AvailableBalanceImmediatelyAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[AvailableBalanceImmediatelyAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[AvailableBalanceImmediatelyAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[AvailableBalanceImmediatelyAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[AvailableBalanceImmediatelyAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[AvailableBalanceImmediatelyAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[AvailableBalanceImmediatelyAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[AvailableBalanceImmediatelyAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[
-            AvailableBalanceImmediatelyAvailableSubTotalPrepaymentPartType1
+        Annotated[
+            OptionalNullable[
+                AvailableBalanceImmediatelyAvailableSubTotalPrepaymentPartType1
+            ],
+            PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[AvailableBalanceImmediatelyAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[
+                AvailableBalanceImmediatelyAvailableSubTotalTransactionType1
+            ],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -4390,7 +4756,9 @@ class AvailableBalanceImmediatelyAvailableSubTotal1(BaseModel):
         return m
 
 
-class AvailableBalanceImmediatelyAvailableSubtotalMethod2(str, Enum):
+class AvailableBalanceImmediatelyAvailableSubtotalMethod2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -4437,7 +4805,9 @@ class AvailableBalanceImmediatelyAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class AvailableBalanceImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
+class AvailableBalanceImmediatelyAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -4446,14 +4816,18 @@ class AvailableBalanceImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class AvailableBalanceImmediatelyAvailableSubtotalCardAudience2(str, Enum):
+class AvailableBalanceImmediatelyAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class AvailableBalanceImmediatelyAvailableSubtotalCardRegion2(str, Enum):
+class AvailableBalanceImmediatelyAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -4462,7 +4836,9 @@ class AvailableBalanceImmediatelyAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class AvailableBalanceImmediatelyAvailableSubtotalFeeType2(str, Enum):
+class AvailableBalanceImmediatelyAvailableSubtotalFeeType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -4502,7 +4878,9 @@ class AvailableBalanceImmediatelyAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class AvailableBalanceImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
+class AvailableBalanceImmediatelyAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -4512,7 +4890,9 @@ class AvailableBalanceImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum)
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class AvailableBalanceImmediatelyAvailableSubtotalTransactionType2(str, Enum):
+class AvailableBalanceImmediatelyAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -4599,45 +4979,66 @@ class AvailableBalanceImmediatelyAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[AvailableBalanceImmediatelyAvailableSubtotalMethod2] = (
-        UNSET
-    )
+    method: Annotated[
+        OptionalNullable[AvailableBalanceImmediatelyAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[AvailableBalanceImmediatelyAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[AvailableBalanceImmediatelyAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[AvailableBalanceImmediatelyAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[AvailableBalanceImmediatelyAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[AvailableBalanceImmediatelyAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[AvailableBalanceImmediatelyAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[AvailableBalanceImmediatelyAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[AvailableBalanceImmediatelyAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[
-            AvailableBalanceImmediatelyAvailableSubtotalPrepaymentPartType2
+        Annotated[
+            OptionalNullable[
+                AvailableBalanceImmediatelyAvailableSubtotalPrepaymentPartType2
+            ],
+            PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[AvailableBalanceImmediatelyAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[
+                AvailableBalanceImmediatelyAvailableSubtotalTransactionType2
+            ],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -4758,7 +5159,7 @@ class AvailableBalanceCloseAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class AvailableBalanceCloseSubTotalMethod1(str, Enum):
+class AvailableBalanceCloseSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -4805,7 +5206,7 @@ class AvailableBalanceCloseSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class AvailableBalanceCloseSubTotalCardIssuer1(str, Enum):
+class AvailableBalanceCloseSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -4814,14 +5215,16 @@ class AvailableBalanceCloseSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class AvailableBalanceCloseSubTotalCardAudience1(str, Enum):
+class AvailableBalanceCloseSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class AvailableBalanceCloseSubTotalCardRegion1(str, Enum):
+class AvailableBalanceCloseSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -4830,7 +5233,7 @@ class AvailableBalanceCloseSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class AvailableBalanceCloseSubTotalFeeType1(str, Enum):
+class AvailableBalanceCloseSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -4870,7 +5273,9 @@ class AvailableBalanceCloseSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class AvailableBalanceCloseSubTotalPrepaymentPartType1(str, Enum):
+class AvailableBalanceCloseSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -4880,7 +5285,9 @@ class AvailableBalanceCloseSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class AvailableBalanceCloseSubTotalTransactionType1(str, Enum):
+class AvailableBalanceCloseSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -4951,41 +5358,62 @@ class AvailableBalanceCloseSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[AvailableBalanceCloseSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[AvailableBalanceCloseSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[AvailableBalanceCloseSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[AvailableBalanceCloseSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[AvailableBalanceCloseSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[AvailableBalanceCloseSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[AvailableBalanceCloseSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[AvailableBalanceCloseSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[AvailableBalanceCloseSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[AvailableBalanceCloseSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[AvailableBalanceCloseSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[AvailableBalanceCloseSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[AvailableBalanceCloseSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[AvailableBalanceCloseSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -5038,7 +5466,7 @@ class AvailableBalanceCloseSubTotal1(BaseModel):
         return m
 
 
-class AvailableBalanceCloseSubtotalMethod2(str, Enum):
+class AvailableBalanceCloseSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -5085,7 +5513,7 @@ class AvailableBalanceCloseSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class AvailableBalanceCloseSubtotalCardIssuer2(str, Enum):
+class AvailableBalanceCloseSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -5094,14 +5522,16 @@ class AvailableBalanceCloseSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class AvailableBalanceCloseSubtotalCardAudience2(str, Enum):
+class AvailableBalanceCloseSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class AvailableBalanceCloseSubtotalCardRegion2(str, Enum):
+class AvailableBalanceCloseSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -5110,7 +5540,7 @@ class AvailableBalanceCloseSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class AvailableBalanceCloseSubtotalFeeType2(str, Enum):
+class AvailableBalanceCloseSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -5150,7 +5580,9 @@ class AvailableBalanceCloseSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class AvailableBalanceCloseSubtotalPrepaymentPartType2(str, Enum):
+class AvailableBalanceCloseSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -5160,7 +5592,9 @@ class AvailableBalanceCloseSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class AvailableBalanceCloseSubtotalTransactionType2(str, Enum):
+class AvailableBalanceCloseSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -5237,41 +5671,62 @@ class AvailableBalanceCloseSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[AvailableBalanceCloseSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[AvailableBalanceCloseSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[AvailableBalanceCloseSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[AvailableBalanceCloseSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[AvailableBalanceCloseSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[AvailableBalanceCloseSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[AvailableBalanceCloseSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[AvailableBalanceCloseSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[AvailableBalanceCloseSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[AvailableBalanceCloseSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[AvailableBalanceCloseSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[AvailableBalanceCloseSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[AvailableBalanceCloseSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[AvailableBalanceCloseSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -5414,7 +5869,7 @@ class OpenPendingAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class OpenPendingSubTotalMethod1(str, Enum):
+class OpenPendingSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -5461,7 +5916,7 @@ class OpenPendingSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class OpenPendingSubTotalCardIssuer1(str, Enum):
+class OpenPendingSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -5470,14 +5925,14 @@ class OpenPendingSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class OpenPendingSubTotalCardAudience1(str, Enum):
+class OpenPendingSubTotalCardAudience1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class OpenPendingSubTotalCardRegion1(str, Enum):
+class OpenPendingSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -5486,7 +5941,7 @@ class OpenPendingSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class OpenPendingSubTotalFeeType1(str, Enum):
+class OpenPendingSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -5526,7 +5981,7 @@ class OpenPendingSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class OpenPendingSubTotalPrepaymentPartType1(str, Enum):
+class OpenPendingSubTotalPrepaymentPartType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -5536,7 +5991,7 @@ class OpenPendingSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class OpenPendingSubTotalTransactionType1(str, Enum):
+class OpenPendingSubTotalTransactionType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -5603,40 +6058,62 @@ class OpenPendingSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[OpenPendingSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[OpenPendingSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[OpenPendingSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[OpenPendingSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[OpenPendingSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[OpenPendingSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[OpenPendingSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[OpenPendingSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[OpenPendingSubTotalFeeType1], pydantic.Field(alias="feeType")
+        Annotated[
+            OptionalNullable[OpenPendingSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[OpenPendingSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[OpenPendingSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[OpenPendingSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[OpenPendingSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -5689,7 +6166,7 @@ class OpenPendingSubTotal1(BaseModel):
         return m
 
 
-class OpenPendingSubtotalMethod2(str, Enum):
+class OpenPendingSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -5736,7 +6213,7 @@ class OpenPendingSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class OpenPendingSubtotalCardIssuer2(str, Enum):
+class OpenPendingSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -5745,14 +6222,14 @@ class OpenPendingSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class OpenPendingSubtotalCardAudience2(str, Enum):
+class OpenPendingSubtotalCardAudience2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class OpenPendingSubtotalCardRegion2(str, Enum):
+class OpenPendingSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -5761,7 +6238,7 @@ class OpenPendingSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class OpenPendingSubtotalFeeType2(str, Enum):
+class OpenPendingSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -5801,7 +6278,7 @@ class OpenPendingSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class OpenPendingSubtotalPrepaymentPartType2(str, Enum):
+class OpenPendingSubtotalPrepaymentPartType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -5811,7 +6288,7 @@ class OpenPendingSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class OpenPendingSubtotalTransactionType2(str, Enum):
+class OpenPendingSubtotalTransactionType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -5883,40 +6360,62 @@ class OpenPendingSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[OpenPendingSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[OpenPendingSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[OpenPendingSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[OpenPendingSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[OpenPendingSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[OpenPendingSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[OpenPendingSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[OpenPendingSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[OpenPendingSubtotalFeeType2], pydantic.Field(alias="feeType")
+        Annotated[
+            OptionalNullable[OpenPendingSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[OpenPendingSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[OpenPendingSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[OpenPendingSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[OpenPendingSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -6033,7 +6532,7 @@ class OpenAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class OpenAvailableSubTotalMethod1(str, Enum):
+class OpenAvailableSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -6080,7 +6579,7 @@ class OpenAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class OpenAvailableSubTotalCardIssuer1(str, Enum):
+class OpenAvailableSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -6089,14 +6588,14 @@ class OpenAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class OpenAvailableSubTotalCardAudience1(str, Enum):
+class OpenAvailableSubTotalCardAudience1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class OpenAvailableSubTotalCardRegion1(str, Enum):
+class OpenAvailableSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -6105,7 +6604,7 @@ class OpenAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class OpenAvailableSubTotalFeeType1(str, Enum):
+class OpenAvailableSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -6145,7 +6644,7 @@ class OpenAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class OpenAvailableSubTotalPrepaymentPartType1(str, Enum):
+class OpenAvailableSubTotalPrepaymentPartType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -6155,7 +6654,7 @@ class OpenAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class OpenAvailableSubTotalTransactionType1(str, Enum):
+class OpenAvailableSubTotalTransactionType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -6224,40 +6723,62 @@ class OpenAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[OpenAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[OpenAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[OpenAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[OpenAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[OpenAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[OpenAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[OpenAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[OpenAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[OpenAvailableSubTotalFeeType1], pydantic.Field(alias="feeType")
+        Annotated[
+            OptionalNullable[OpenAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[OpenAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[OpenAvailableSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[OpenAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[OpenAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -6310,7 +6831,7 @@ class OpenAvailableSubTotal1(BaseModel):
         return m
 
 
-class OpenAvailableSubtotalMethod2(str, Enum):
+class OpenAvailableSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -6357,7 +6878,7 @@ class OpenAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class OpenAvailableSubtotalCardIssuer2(str, Enum):
+class OpenAvailableSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -6366,14 +6887,14 @@ class OpenAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class OpenAvailableSubtotalCardAudience2(str, Enum):
+class OpenAvailableSubtotalCardAudience2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class OpenAvailableSubtotalCardRegion2(str, Enum):
+class OpenAvailableSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -6382,7 +6903,7 @@ class OpenAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class OpenAvailableSubtotalFeeType2(str, Enum):
+class OpenAvailableSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -6422,7 +6943,7 @@ class OpenAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class OpenAvailableSubtotalPrepaymentPartType2(str, Enum):
+class OpenAvailableSubtotalPrepaymentPartType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -6432,7 +6953,7 @@ class OpenAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class OpenAvailableSubtotalTransactionType2(str, Enum):
+class OpenAvailableSubtotalTransactionType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -6507,40 +7028,62 @@ class OpenAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[OpenAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[OpenAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[OpenAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[OpenAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[OpenAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[OpenAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[OpenAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[OpenAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[OpenAvailableSubtotalFeeType2], pydantic.Field(alias="feeType")
+        Annotated[
+            OptionalNullable[OpenAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[OpenAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[OpenAvailableSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[OpenAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[OpenAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -6672,7 +7215,7 @@ class ClosePendingAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ClosePendingSubTotalMethod1(str, Enum):
+class ClosePendingSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -6719,7 +7262,7 @@ class ClosePendingSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class ClosePendingSubTotalCardIssuer1(str, Enum):
+class ClosePendingSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -6728,14 +7271,14 @@ class ClosePendingSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class ClosePendingSubTotalCardAudience1(str, Enum):
+class ClosePendingSubTotalCardAudience1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class ClosePendingSubTotalCardRegion1(str, Enum):
+class ClosePendingSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -6744,7 +7287,7 @@ class ClosePendingSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class ClosePendingSubTotalFeeType1(str, Enum):
+class ClosePendingSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -6784,7 +7327,7 @@ class ClosePendingSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class ClosePendingSubTotalPrepaymentPartType1(str, Enum):
+class ClosePendingSubTotalPrepaymentPartType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -6794,7 +7337,7 @@ class ClosePendingSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class ClosePendingSubTotalTransactionType1(str, Enum):
+class ClosePendingSubTotalTransactionType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -6861,40 +7404,62 @@ class ClosePendingSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[ClosePendingSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[ClosePendingSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[ClosePendingSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[ClosePendingSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[ClosePendingSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[ClosePendingSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[ClosePendingSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[ClosePendingSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[ClosePendingSubTotalFeeType1], pydantic.Field(alias="feeType")
+        Annotated[
+            OptionalNullable[ClosePendingSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[ClosePendingSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[ClosePendingSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[ClosePendingSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[ClosePendingSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -6947,7 +7512,7 @@ class ClosePendingSubTotal1(BaseModel):
         return m
 
 
-class ClosePendingSubtotalMethod2(str, Enum):
+class ClosePendingSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -6994,7 +7559,7 @@ class ClosePendingSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class ClosePendingSubtotalCardIssuer2(str, Enum):
+class ClosePendingSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -7003,14 +7568,14 @@ class ClosePendingSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class ClosePendingSubtotalCardAudience2(str, Enum):
+class ClosePendingSubtotalCardAudience2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class ClosePendingSubtotalCardRegion2(str, Enum):
+class ClosePendingSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -7019,7 +7584,7 @@ class ClosePendingSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class ClosePendingSubtotalFeeType2(str, Enum):
+class ClosePendingSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -7059,7 +7624,7 @@ class ClosePendingSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class ClosePendingSubtotalPrepaymentPartType2(str, Enum):
+class ClosePendingSubtotalPrepaymentPartType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -7069,7 +7634,7 @@ class ClosePendingSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class ClosePendingSubtotalTransactionType2(str, Enum):
+class ClosePendingSubtotalTransactionType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -7142,40 +7707,62 @@ class ClosePendingSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[ClosePendingSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[ClosePendingSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[ClosePendingSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[ClosePendingSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[ClosePendingSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[ClosePendingSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[ClosePendingSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[ClosePendingSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[ClosePendingSubtotalFeeType2], pydantic.Field(alias="feeType")
+        Annotated[
+            OptionalNullable[ClosePendingSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[ClosePendingSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[ClosePendingSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[ClosePendingSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[ClosePendingSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -7292,7 +7879,7 @@ class CloseAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CloseAvailableSubTotalMethod1(str, Enum):
+class CloseAvailableSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -7339,7 +7926,7 @@ class CloseAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class CloseAvailableSubTotalCardIssuer1(str, Enum):
+class CloseAvailableSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -7348,14 +7935,14 @@ class CloseAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class CloseAvailableSubTotalCardAudience1(str, Enum):
+class CloseAvailableSubTotalCardAudience1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class CloseAvailableSubTotalCardRegion1(str, Enum):
+class CloseAvailableSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -7364,7 +7951,7 @@ class CloseAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class CloseAvailableSubTotalFeeType1(str, Enum):
+class CloseAvailableSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -7404,7 +7991,9 @@ class CloseAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class CloseAvailableSubTotalPrepaymentPartType1(str, Enum):
+class CloseAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -7414,7 +8003,7 @@ class CloseAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class CloseAvailableSubTotalTransactionType1(str, Enum):
+class CloseAvailableSubTotalTransactionType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -7483,41 +8072,62 @@ class CloseAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[CloseAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[CloseAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[CloseAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[CloseAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[CloseAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[CloseAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[CloseAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[CloseAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[CloseAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[CloseAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[CloseAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[CloseAvailableSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[CloseAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[CloseAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -7570,7 +8180,7 @@ class CloseAvailableSubTotal1(BaseModel):
         return m
 
 
-class CloseAvailableSubtotalMethod2(str, Enum):
+class CloseAvailableSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -7617,7 +8227,7 @@ class CloseAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class CloseAvailableSubtotalCardIssuer2(str, Enum):
+class CloseAvailableSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -7626,14 +8236,14 @@ class CloseAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class CloseAvailableSubtotalCardAudience2(str, Enum):
+class CloseAvailableSubtotalCardAudience2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class CloseAvailableSubtotalCardRegion2(str, Enum):
+class CloseAvailableSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -7642,7 +8252,7 @@ class CloseAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class CloseAvailableSubtotalFeeType2(str, Enum):
+class CloseAvailableSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -7682,7 +8292,9 @@ class CloseAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class CloseAvailableSubtotalPrepaymentPartType2(str, Enum):
+class CloseAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -7692,7 +8304,7 @@ class CloseAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class CloseAvailableSubtotalTransactionType2(str, Enum):
+class CloseAvailableSubtotalTransactionType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -7767,41 +8379,62 @@ class CloseAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[CloseAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[CloseAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[CloseAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[CloseAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[CloseAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[CloseAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[CloseAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[CloseAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[CloseAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[CloseAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[CloseAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[CloseAvailableSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[CloseAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[CloseAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -7933,7 +8566,7 @@ class PaymentsPendingAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class PaymentsPendingSubTotalMethod1(str, Enum):
+class PaymentsPendingSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -7980,7 +8613,7 @@ class PaymentsPendingSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class PaymentsPendingSubTotalCardIssuer1(str, Enum):
+class PaymentsPendingSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -7989,14 +8622,14 @@ class PaymentsPendingSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class PaymentsPendingSubTotalCardAudience1(str, Enum):
+class PaymentsPendingSubTotalCardAudience1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class PaymentsPendingSubTotalCardRegion1(str, Enum):
+class PaymentsPendingSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -8005,7 +8638,7 @@ class PaymentsPendingSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class PaymentsPendingSubTotalFeeType1(str, Enum):
+class PaymentsPendingSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -8045,7 +8678,9 @@ class PaymentsPendingSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class PaymentsPendingSubTotalPrepaymentPartType1(str, Enum):
+class PaymentsPendingSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -8055,7 +8690,7 @@ class PaymentsPendingSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class PaymentsPendingSubTotalTransactionType1(str, Enum):
+class PaymentsPendingSubTotalTransactionType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -8124,41 +8759,62 @@ class PaymentsPendingSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[PaymentsPendingSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[PaymentsPendingSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[PaymentsPendingSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[PaymentsPendingSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[PaymentsPendingSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[PaymentsPendingSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[PaymentsPendingSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[PaymentsPendingSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[PaymentsPendingSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[PaymentsPendingSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[PaymentsPendingSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[PaymentsPendingSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[PaymentsPendingSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[PaymentsPendingSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -8211,7 +8867,7 @@ class PaymentsPendingSubTotal1(BaseModel):
         return m
 
 
-class PaymentsPendingSubtotalMethod2(str, Enum):
+class PaymentsPendingSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -8258,7 +8914,7 @@ class PaymentsPendingSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class PaymentsPendingSubtotalCardIssuer2(str, Enum):
+class PaymentsPendingSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -8267,14 +8923,14 @@ class PaymentsPendingSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class PaymentsPendingSubtotalCardAudience2(str, Enum):
+class PaymentsPendingSubtotalCardAudience2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class PaymentsPendingSubtotalCardRegion2(str, Enum):
+class PaymentsPendingSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -8283,7 +8939,7 @@ class PaymentsPendingSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class PaymentsPendingSubtotalFeeType2(str, Enum):
+class PaymentsPendingSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -8323,7 +8979,9 @@ class PaymentsPendingSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class PaymentsPendingSubtotalPrepaymentPartType2(str, Enum):
+class PaymentsPendingSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -8333,7 +8991,7 @@ class PaymentsPendingSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class PaymentsPendingSubtotalTransactionType2(str, Enum):
+class PaymentsPendingSubtotalTransactionType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -8408,41 +9066,62 @@ class PaymentsPendingSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[PaymentsPendingSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[PaymentsPendingSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[PaymentsPendingSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[PaymentsPendingSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[PaymentsPendingSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[PaymentsPendingSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[PaymentsPendingSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[PaymentsPendingSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[PaymentsPendingSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[PaymentsPendingSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[PaymentsPendingSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[PaymentsPendingSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[PaymentsPendingSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[PaymentsPendingSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -8559,7 +9238,7 @@ class PaymentsMovedToAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class PaymentsMovedToAvailableSubTotalMethod1(str, Enum):
+class PaymentsMovedToAvailableSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -8606,7 +9285,9 @@ class PaymentsMovedToAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class PaymentsMovedToAvailableSubTotalCardIssuer1(str, Enum):
+class PaymentsMovedToAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -8615,14 +9296,18 @@ class PaymentsMovedToAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class PaymentsMovedToAvailableSubTotalCardAudience1(str, Enum):
+class PaymentsMovedToAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class PaymentsMovedToAvailableSubTotalCardRegion1(str, Enum):
+class PaymentsMovedToAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -8631,7 +9316,7 @@ class PaymentsMovedToAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class PaymentsMovedToAvailableSubTotalFeeType1(str, Enum):
+class PaymentsMovedToAvailableSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -8671,7 +9356,9 @@ class PaymentsMovedToAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class PaymentsMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
+class PaymentsMovedToAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -8681,7 +9368,9 @@ class PaymentsMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class PaymentsMovedToAvailableSubTotalTransactionType1(str, Enum):
+class PaymentsMovedToAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -8752,41 +9441,62 @@ class PaymentsMovedToAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[PaymentsMovedToAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[PaymentsMovedToAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[PaymentsMovedToAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[PaymentsMovedToAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[PaymentsMovedToAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[PaymentsMovedToAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[PaymentsMovedToAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[PaymentsMovedToAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[PaymentsMovedToAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[PaymentsMovedToAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[PaymentsMovedToAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[PaymentsMovedToAvailableSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[PaymentsMovedToAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[PaymentsMovedToAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -8839,7 +9549,7 @@ class PaymentsMovedToAvailableSubTotal1(BaseModel):
         return m
 
 
-class PaymentsMovedToAvailableSubtotalMethod2(str, Enum):
+class PaymentsMovedToAvailableSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -8886,7 +9596,9 @@ class PaymentsMovedToAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class PaymentsMovedToAvailableSubtotalCardIssuer2(str, Enum):
+class PaymentsMovedToAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -8895,14 +9607,18 @@ class PaymentsMovedToAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class PaymentsMovedToAvailableSubtotalCardAudience2(str, Enum):
+class PaymentsMovedToAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class PaymentsMovedToAvailableSubtotalCardRegion2(str, Enum):
+class PaymentsMovedToAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -8911,7 +9627,7 @@ class PaymentsMovedToAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class PaymentsMovedToAvailableSubtotalFeeType2(str, Enum):
+class PaymentsMovedToAvailableSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -8951,7 +9667,9 @@ class PaymentsMovedToAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class PaymentsMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
+class PaymentsMovedToAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -8961,7 +9679,9 @@ class PaymentsMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class PaymentsMovedToAvailableSubtotalTransactionType2(str, Enum):
+class PaymentsMovedToAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -9038,41 +9758,62 @@ class PaymentsMovedToAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[PaymentsMovedToAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[PaymentsMovedToAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[PaymentsMovedToAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[PaymentsMovedToAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[PaymentsMovedToAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[PaymentsMovedToAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[PaymentsMovedToAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[PaymentsMovedToAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[PaymentsMovedToAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[PaymentsMovedToAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[PaymentsMovedToAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[PaymentsMovedToAvailableSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[PaymentsMovedToAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[PaymentsMovedToAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -9189,7 +9930,9 @@ class PaymentsImmediatelyAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class PaymentsImmediatelyAvailableSubTotalMethod1(str, Enum):
+class PaymentsImmediatelyAvailableSubTotalMethod1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -9236,7 +9979,9 @@ class PaymentsImmediatelyAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class PaymentsImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
+class PaymentsImmediatelyAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -9245,14 +9990,18 @@ class PaymentsImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class PaymentsImmediatelyAvailableSubTotalCardAudience1(str, Enum):
+class PaymentsImmediatelyAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class PaymentsImmediatelyAvailableSubTotalCardRegion1(str, Enum):
+class PaymentsImmediatelyAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -9261,7 +10010,9 @@ class PaymentsImmediatelyAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class PaymentsImmediatelyAvailableSubTotalFeeType1(str, Enum):
+class PaymentsImmediatelyAvailableSubTotalFeeType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -9301,7 +10052,9 @@ class PaymentsImmediatelyAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class PaymentsImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
+class PaymentsImmediatelyAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -9311,7 +10064,9 @@ class PaymentsImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class PaymentsImmediatelyAvailableSubTotalTransactionType1(str, Enum):
+class PaymentsImmediatelyAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -9384,41 +10139,62 @@ class PaymentsImmediatelyAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[PaymentsImmediatelyAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[PaymentsImmediatelyAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[PaymentsImmediatelyAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[PaymentsImmediatelyAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[PaymentsImmediatelyAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[PaymentsImmediatelyAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[PaymentsImmediatelyAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[PaymentsImmediatelyAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[PaymentsImmediatelyAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[PaymentsImmediatelyAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[PaymentsImmediatelyAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[PaymentsImmediatelyAvailableSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[PaymentsImmediatelyAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[PaymentsImmediatelyAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -9471,7 +10247,9 @@ class PaymentsImmediatelyAvailableSubTotal1(BaseModel):
         return m
 
 
-class PaymentsImmediatelyAvailableSubtotalMethod2(str, Enum):
+class PaymentsImmediatelyAvailableSubtotalMethod2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -9518,7 +10296,9 @@ class PaymentsImmediatelyAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class PaymentsImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
+class PaymentsImmediatelyAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -9527,14 +10307,18 @@ class PaymentsImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class PaymentsImmediatelyAvailableSubtotalCardAudience2(str, Enum):
+class PaymentsImmediatelyAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class PaymentsImmediatelyAvailableSubtotalCardRegion2(str, Enum):
+class PaymentsImmediatelyAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -9543,7 +10327,9 @@ class PaymentsImmediatelyAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class PaymentsImmediatelyAvailableSubtotalFeeType2(str, Enum):
+class PaymentsImmediatelyAvailableSubtotalFeeType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -9583,7 +10369,9 @@ class PaymentsImmediatelyAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class PaymentsImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
+class PaymentsImmediatelyAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -9593,7 +10381,9 @@ class PaymentsImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class PaymentsImmediatelyAvailableSubtotalTransactionType2(str, Enum):
+class PaymentsImmediatelyAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -9674,41 +10464,62 @@ class PaymentsImmediatelyAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[PaymentsImmediatelyAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[PaymentsImmediatelyAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[PaymentsImmediatelyAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[PaymentsImmediatelyAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[PaymentsImmediatelyAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[PaymentsImmediatelyAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[PaymentsImmediatelyAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[PaymentsImmediatelyAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[PaymentsImmediatelyAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[PaymentsImmediatelyAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[PaymentsImmediatelyAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[PaymentsImmediatelyAvailableSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[PaymentsImmediatelyAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[PaymentsImmediatelyAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -9850,7 +10661,7 @@ class RefundsPendingAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class RefundsPendingSubTotalMethod1(str, Enum):
+class RefundsPendingSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -9897,7 +10708,7 @@ class RefundsPendingSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class RefundsPendingSubTotalCardIssuer1(str, Enum):
+class RefundsPendingSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -9906,14 +10717,14 @@ class RefundsPendingSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class RefundsPendingSubTotalCardAudience1(str, Enum):
+class RefundsPendingSubTotalCardAudience1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class RefundsPendingSubTotalCardRegion1(str, Enum):
+class RefundsPendingSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -9922,7 +10733,7 @@ class RefundsPendingSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class RefundsPendingSubTotalFeeType1(str, Enum):
+class RefundsPendingSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -9962,7 +10773,9 @@ class RefundsPendingSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class RefundsPendingSubTotalPrepaymentPartType1(str, Enum):
+class RefundsPendingSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -9972,7 +10785,7 @@ class RefundsPendingSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class RefundsPendingSubTotalTransactionType1(str, Enum):
+class RefundsPendingSubTotalTransactionType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -10041,41 +10854,62 @@ class RefundsPendingSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[RefundsPendingSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[RefundsPendingSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[RefundsPendingSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[RefundsPendingSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[RefundsPendingSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[RefundsPendingSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[RefundsPendingSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[RefundsPendingSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[RefundsPendingSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[RefundsPendingSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[RefundsPendingSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[RefundsPendingSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[RefundsPendingSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[RefundsPendingSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -10128,7 +10962,7 @@ class RefundsPendingSubTotal1(BaseModel):
         return m
 
 
-class RefundsPendingSubtotalMethod2(str, Enum):
+class RefundsPendingSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -10175,7 +11009,7 @@ class RefundsPendingSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class RefundsPendingSubtotalCardIssuer2(str, Enum):
+class RefundsPendingSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -10184,14 +11018,14 @@ class RefundsPendingSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class RefundsPendingSubtotalCardAudience2(str, Enum):
+class RefundsPendingSubtotalCardAudience2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class RefundsPendingSubtotalCardRegion2(str, Enum):
+class RefundsPendingSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -10200,7 +11034,7 @@ class RefundsPendingSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class RefundsPendingSubtotalFeeType2(str, Enum):
+class RefundsPendingSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -10240,7 +11074,9 @@ class RefundsPendingSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class RefundsPendingSubtotalPrepaymentPartType2(str, Enum):
+class RefundsPendingSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -10250,7 +11086,7 @@ class RefundsPendingSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class RefundsPendingSubtotalTransactionType2(str, Enum):
+class RefundsPendingSubtotalTransactionType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -10325,41 +11161,62 @@ class RefundsPendingSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[RefundsPendingSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[RefundsPendingSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[RefundsPendingSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[RefundsPendingSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[RefundsPendingSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[RefundsPendingSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[RefundsPendingSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[RefundsPendingSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[RefundsPendingSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[RefundsPendingSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[RefundsPendingSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[RefundsPendingSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[RefundsPendingSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[RefundsPendingSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -10476,7 +11333,7 @@ class RefundsMovedToAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class RefundsMovedToAvailableSubTotalMethod1(str, Enum):
+class RefundsMovedToAvailableSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -10523,7 +11380,9 @@ class RefundsMovedToAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class RefundsMovedToAvailableSubTotalCardIssuer1(str, Enum):
+class RefundsMovedToAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -10532,14 +11391,18 @@ class RefundsMovedToAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class RefundsMovedToAvailableSubTotalCardAudience1(str, Enum):
+class RefundsMovedToAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class RefundsMovedToAvailableSubTotalCardRegion1(str, Enum):
+class RefundsMovedToAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -10548,7 +11411,7 @@ class RefundsMovedToAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class RefundsMovedToAvailableSubTotalFeeType1(str, Enum):
+class RefundsMovedToAvailableSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -10588,7 +11451,9 @@ class RefundsMovedToAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class RefundsMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
+class RefundsMovedToAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -10598,7 +11463,9 @@ class RefundsMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class RefundsMovedToAvailableSubTotalTransactionType1(str, Enum):
+class RefundsMovedToAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -10669,41 +11536,62 @@ class RefundsMovedToAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[RefundsMovedToAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[RefundsMovedToAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[RefundsMovedToAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[RefundsMovedToAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[RefundsMovedToAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[RefundsMovedToAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[RefundsMovedToAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[RefundsMovedToAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[RefundsMovedToAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[RefundsMovedToAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[RefundsMovedToAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[RefundsMovedToAvailableSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[RefundsMovedToAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[RefundsMovedToAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -10756,7 +11644,7 @@ class RefundsMovedToAvailableSubTotal1(BaseModel):
         return m
 
 
-class RefundsMovedToAvailableSubtotalMethod2(str, Enum):
+class RefundsMovedToAvailableSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -10803,7 +11691,9 @@ class RefundsMovedToAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class RefundsMovedToAvailableSubtotalCardIssuer2(str, Enum):
+class RefundsMovedToAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -10812,14 +11702,18 @@ class RefundsMovedToAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class RefundsMovedToAvailableSubtotalCardAudience2(str, Enum):
+class RefundsMovedToAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class RefundsMovedToAvailableSubtotalCardRegion2(str, Enum):
+class RefundsMovedToAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -10828,7 +11722,7 @@ class RefundsMovedToAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class RefundsMovedToAvailableSubtotalFeeType2(str, Enum):
+class RefundsMovedToAvailableSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -10868,7 +11762,9 @@ class RefundsMovedToAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class RefundsMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
+class RefundsMovedToAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -10878,7 +11774,9 @@ class RefundsMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class RefundsMovedToAvailableSubtotalTransactionType2(str, Enum):
+class RefundsMovedToAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -10955,41 +11853,62 @@ class RefundsMovedToAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[RefundsMovedToAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[RefundsMovedToAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[RefundsMovedToAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[RefundsMovedToAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[RefundsMovedToAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[RefundsMovedToAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[RefundsMovedToAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[RefundsMovedToAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[RefundsMovedToAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[RefundsMovedToAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[RefundsMovedToAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[RefundsMovedToAvailableSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[RefundsMovedToAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[RefundsMovedToAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -11106,7 +12025,9 @@ class RefundsImmediatelyAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class RefundsImmediatelyAvailableSubTotalMethod1(str, Enum):
+class RefundsImmediatelyAvailableSubTotalMethod1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -11153,7 +12074,9 @@ class RefundsImmediatelyAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class RefundsImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
+class RefundsImmediatelyAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -11162,14 +12085,18 @@ class RefundsImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class RefundsImmediatelyAvailableSubTotalCardAudience1(str, Enum):
+class RefundsImmediatelyAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class RefundsImmediatelyAvailableSubTotalCardRegion1(str, Enum):
+class RefundsImmediatelyAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -11178,7 +12105,9 @@ class RefundsImmediatelyAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class RefundsImmediatelyAvailableSubTotalFeeType1(str, Enum):
+class RefundsImmediatelyAvailableSubTotalFeeType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -11218,7 +12147,9 @@ class RefundsImmediatelyAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class RefundsImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
+class RefundsImmediatelyAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -11228,7 +12159,9 @@ class RefundsImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class RefundsImmediatelyAvailableSubTotalTransactionType1(str, Enum):
+class RefundsImmediatelyAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -11301,41 +12234,62 @@ class RefundsImmediatelyAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[RefundsImmediatelyAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[RefundsImmediatelyAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[RefundsImmediatelyAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[RefundsImmediatelyAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[RefundsImmediatelyAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[RefundsImmediatelyAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[RefundsImmediatelyAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[RefundsImmediatelyAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[RefundsImmediatelyAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[RefundsImmediatelyAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[RefundsImmediatelyAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[RefundsImmediatelyAvailableSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[RefundsImmediatelyAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[RefundsImmediatelyAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -11388,7 +12342,9 @@ class RefundsImmediatelyAvailableSubTotal1(BaseModel):
         return m
 
 
-class RefundsImmediatelyAvailableSubtotalMethod2(str, Enum):
+class RefundsImmediatelyAvailableSubtotalMethod2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -11435,7 +12391,9 @@ class RefundsImmediatelyAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class RefundsImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
+class RefundsImmediatelyAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -11444,14 +12402,18 @@ class RefundsImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class RefundsImmediatelyAvailableSubtotalCardAudience2(str, Enum):
+class RefundsImmediatelyAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class RefundsImmediatelyAvailableSubtotalCardRegion2(str, Enum):
+class RefundsImmediatelyAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -11460,7 +12422,9 @@ class RefundsImmediatelyAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class RefundsImmediatelyAvailableSubtotalFeeType2(str, Enum):
+class RefundsImmediatelyAvailableSubtotalFeeType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -11500,7 +12464,9 @@ class RefundsImmediatelyAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class RefundsImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
+class RefundsImmediatelyAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -11510,7 +12476,9 @@ class RefundsImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class RefundsImmediatelyAvailableSubtotalTransactionType2(str, Enum):
+class RefundsImmediatelyAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -11591,41 +12559,62 @@ class RefundsImmediatelyAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[RefundsImmediatelyAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[RefundsImmediatelyAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[RefundsImmediatelyAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[RefundsImmediatelyAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[RefundsImmediatelyAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[RefundsImmediatelyAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[RefundsImmediatelyAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[RefundsImmediatelyAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[RefundsImmediatelyAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[RefundsImmediatelyAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[RefundsImmediatelyAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[RefundsImmediatelyAvailableSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[RefundsImmediatelyAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[RefundsImmediatelyAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -11767,7 +12756,7 @@ class ChargebacksPendingAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ChargebacksPendingSubTotalMethod1(str, Enum):
+class ChargebacksPendingSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -11814,7 +12803,7 @@ class ChargebacksPendingSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class ChargebacksPendingSubTotalCardIssuer1(str, Enum):
+class ChargebacksPendingSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -11823,14 +12812,14 @@ class ChargebacksPendingSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class ChargebacksPendingSubTotalCardAudience1(str, Enum):
+class ChargebacksPendingSubTotalCardAudience1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class ChargebacksPendingSubTotalCardRegion1(str, Enum):
+class ChargebacksPendingSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -11839,7 +12828,7 @@ class ChargebacksPendingSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class ChargebacksPendingSubTotalFeeType1(str, Enum):
+class ChargebacksPendingSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -11879,7 +12868,9 @@ class ChargebacksPendingSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class ChargebacksPendingSubTotalPrepaymentPartType1(str, Enum):
+class ChargebacksPendingSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -11889,7 +12880,9 @@ class ChargebacksPendingSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class ChargebacksPendingSubTotalTransactionType1(str, Enum):
+class ChargebacksPendingSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -11958,41 +12951,62 @@ class ChargebacksPendingSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[ChargebacksPendingSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[ChargebacksPendingSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[ChargebacksPendingSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[ChargebacksPendingSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[ChargebacksPendingSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[ChargebacksPendingSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[ChargebacksPendingSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[ChargebacksPendingSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[ChargebacksPendingSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[ChargebacksPendingSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[ChargebacksPendingSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[ChargebacksPendingSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[ChargebacksPendingSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[ChargebacksPendingSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -12045,7 +13059,7 @@ class ChargebacksPendingSubTotal1(BaseModel):
         return m
 
 
-class ChargebacksPendingSubtotalMethod2(str, Enum):
+class ChargebacksPendingSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -12092,7 +13106,7 @@ class ChargebacksPendingSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class ChargebacksPendingSubtotalCardIssuer2(str, Enum):
+class ChargebacksPendingSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -12101,14 +13115,14 @@ class ChargebacksPendingSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class ChargebacksPendingSubtotalCardAudience2(str, Enum):
+class ChargebacksPendingSubtotalCardAudience2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class ChargebacksPendingSubtotalCardRegion2(str, Enum):
+class ChargebacksPendingSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -12117,7 +13131,7 @@ class ChargebacksPendingSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class ChargebacksPendingSubtotalFeeType2(str, Enum):
+class ChargebacksPendingSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -12157,7 +13171,9 @@ class ChargebacksPendingSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class ChargebacksPendingSubtotalPrepaymentPartType2(str, Enum):
+class ChargebacksPendingSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -12167,7 +13183,9 @@ class ChargebacksPendingSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class ChargebacksPendingSubtotalTransactionType2(str, Enum):
+class ChargebacksPendingSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -12242,41 +13260,62 @@ class ChargebacksPendingSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[ChargebacksPendingSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[ChargebacksPendingSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[ChargebacksPendingSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[ChargebacksPendingSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[ChargebacksPendingSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[ChargebacksPendingSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[ChargebacksPendingSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[ChargebacksPendingSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[ChargebacksPendingSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[ChargebacksPendingSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[ChargebacksPendingSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[ChargebacksPendingSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[ChargebacksPendingSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[ChargebacksPendingSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -12393,7 +13432,9 @@ class ChargebacksMovedToAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ChargebacksMovedToAvailableSubTotalMethod1(str, Enum):
+class ChargebacksMovedToAvailableSubTotalMethod1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -12440,7 +13481,9 @@ class ChargebacksMovedToAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class ChargebacksMovedToAvailableSubTotalCardIssuer1(str, Enum):
+class ChargebacksMovedToAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -12449,14 +13492,18 @@ class ChargebacksMovedToAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class ChargebacksMovedToAvailableSubTotalCardAudience1(str, Enum):
+class ChargebacksMovedToAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class ChargebacksMovedToAvailableSubTotalCardRegion1(str, Enum):
+class ChargebacksMovedToAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -12465,7 +13512,9 @@ class ChargebacksMovedToAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class ChargebacksMovedToAvailableSubTotalFeeType1(str, Enum):
+class ChargebacksMovedToAvailableSubTotalFeeType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -12505,7 +13554,9 @@ class ChargebacksMovedToAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class ChargebacksMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
+class ChargebacksMovedToAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -12515,7 +13566,9 @@ class ChargebacksMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class ChargebacksMovedToAvailableSubTotalTransactionType1(str, Enum):
+class ChargebacksMovedToAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -12588,41 +13641,62 @@ class ChargebacksMovedToAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[ChargebacksMovedToAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[ChargebacksMovedToAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[ChargebacksMovedToAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[ChargebacksMovedToAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[ChargebacksMovedToAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[ChargebacksMovedToAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[ChargebacksMovedToAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[ChargebacksMovedToAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[ChargebacksMovedToAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[ChargebacksMovedToAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[ChargebacksMovedToAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[ChargebacksMovedToAvailableSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[ChargebacksMovedToAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[ChargebacksMovedToAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -12675,7 +13749,9 @@ class ChargebacksMovedToAvailableSubTotal1(BaseModel):
         return m
 
 
-class ChargebacksMovedToAvailableSubtotalMethod2(str, Enum):
+class ChargebacksMovedToAvailableSubtotalMethod2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -12722,7 +13798,9 @@ class ChargebacksMovedToAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class ChargebacksMovedToAvailableSubtotalCardIssuer2(str, Enum):
+class ChargebacksMovedToAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -12731,14 +13809,18 @@ class ChargebacksMovedToAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class ChargebacksMovedToAvailableSubtotalCardAudience2(str, Enum):
+class ChargebacksMovedToAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class ChargebacksMovedToAvailableSubtotalCardRegion2(str, Enum):
+class ChargebacksMovedToAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -12747,7 +13829,9 @@ class ChargebacksMovedToAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class ChargebacksMovedToAvailableSubtotalFeeType2(str, Enum):
+class ChargebacksMovedToAvailableSubtotalFeeType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -12787,7 +13871,9 @@ class ChargebacksMovedToAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class ChargebacksMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
+class ChargebacksMovedToAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -12797,7 +13883,9 @@ class ChargebacksMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class ChargebacksMovedToAvailableSubtotalTransactionType2(str, Enum):
+class ChargebacksMovedToAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -12878,41 +13966,62 @@ class ChargebacksMovedToAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[ChargebacksMovedToAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[ChargebacksMovedToAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[ChargebacksMovedToAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[ChargebacksMovedToAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[ChargebacksMovedToAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[ChargebacksMovedToAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[ChargebacksMovedToAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[ChargebacksMovedToAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[ChargebacksMovedToAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[ChargebacksMovedToAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[ChargebacksMovedToAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[ChargebacksMovedToAvailableSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[ChargebacksMovedToAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[ChargebacksMovedToAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -13031,7 +14140,9 @@ class ChargebacksImmediatelyAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ChargebacksImmediatelyAvailableSubTotalMethod1(str, Enum):
+class ChargebacksImmediatelyAvailableSubTotalMethod1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -13078,7 +14189,9 @@ class ChargebacksImmediatelyAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class ChargebacksImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
+class ChargebacksImmediatelyAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -13087,14 +14200,18 @@ class ChargebacksImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class ChargebacksImmediatelyAvailableSubTotalCardAudience1(str, Enum):
+class ChargebacksImmediatelyAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class ChargebacksImmediatelyAvailableSubTotalCardRegion1(str, Enum):
+class ChargebacksImmediatelyAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -13103,7 +14220,9 @@ class ChargebacksImmediatelyAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class ChargebacksImmediatelyAvailableSubTotalFeeType1(str, Enum):
+class ChargebacksImmediatelyAvailableSubTotalFeeType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -13143,7 +14262,9 @@ class ChargebacksImmediatelyAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class ChargebacksImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
+class ChargebacksImmediatelyAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -13153,7 +14274,9 @@ class ChargebacksImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class ChargebacksImmediatelyAvailableSubTotalTransactionType1(str, Enum):
+class ChargebacksImmediatelyAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -13230,41 +14353,64 @@ class ChargebacksImmediatelyAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[ChargebacksImmediatelyAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[ChargebacksImmediatelyAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[ChargebacksImmediatelyAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[ChargebacksImmediatelyAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[ChargebacksImmediatelyAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[ChargebacksImmediatelyAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[ChargebacksImmediatelyAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[ChargebacksImmediatelyAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[ChargebacksImmediatelyAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[ChargebacksImmediatelyAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[ChargebacksImmediatelyAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[
+                ChargebacksImmediatelyAvailableSubTotalPrepaymentPartType1
+            ],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[ChargebacksImmediatelyAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[ChargebacksImmediatelyAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -13317,7 +14463,9 @@ class ChargebacksImmediatelyAvailableSubTotal1(BaseModel):
         return m
 
 
-class ChargebacksImmediatelyAvailableSubtotalMethod2(str, Enum):
+class ChargebacksImmediatelyAvailableSubtotalMethod2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -13364,7 +14512,9 @@ class ChargebacksImmediatelyAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class ChargebacksImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
+class ChargebacksImmediatelyAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -13373,14 +14523,18 @@ class ChargebacksImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class ChargebacksImmediatelyAvailableSubtotalCardAudience2(str, Enum):
+class ChargebacksImmediatelyAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class ChargebacksImmediatelyAvailableSubtotalCardRegion2(str, Enum):
+class ChargebacksImmediatelyAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -13389,7 +14543,9 @@ class ChargebacksImmediatelyAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class ChargebacksImmediatelyAvailableSubtotalFeeType2(str, Enum):
+class ChargebacksImmediatelyAvailableSubtotalFeeType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -13429,7 +14585,9 @@ class ChargebacksImmediatelyAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class ChargebacksImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
+class ChargebacksImmediatelyAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -13439,7 +14597,9 @@ class ChargebacksImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class ChargebacksImmediatelyAvailableSubtotalTransactionType2(str, Enum):
+class ChargebacksImmediatelyAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -13524,41 +14684,64 @@ class ChargebacksImmediatelyAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[ChargebacksImmediatelyAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[ChargebacksImmediatelyAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[ChargebacksImmediatelyAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[ChargebacksImmediatelyAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[ChargebacksImmediatelyAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[ChargebacksImmediatelyAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[ChargebacksImmediatelyAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[ChargebacksImmediatelyAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[ChargebacksImmediatelyAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[ChargebacksImmediatelyAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[ChargebacksImmediatelyAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[
+                ChargebacksImmediatelyAvailableSubtotalPrepaymentPartType2
+            ],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[ChargebacksImmediatelyAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[ChargebacksImmediatelyAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -13700,7 +14883,7 @@ class CapitalPendingAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CapitalPendingSubTotalMethod1(str, Enum):
+class CapitalPendingSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -13747,7 +14930,7 @@ class CapitalPendingSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class CapitalPendingSubTotalCardIssuer1(str, Enum):
+class CapitalPendingSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -13756,14 +14939,14 @@ class CapitalPendingSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class CapitalPendingSubTotalCardAudience1(str, Enum):
+class CapitalPendingSubTotalCardAudience1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class CapitalPendingSubTotalCardRegion1(str, Enum):
+class CapitalPendingSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -13772,7 +14955,7 @@ class CapitalPendingSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class CapitalPendingSubTotalFeeType1(str, Enum):
+class CapitalPendingSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -13812,7 +14995,9 @@ class CapitalPendingSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class CapitalPendingSubTotalPrepaymentPartType1(str, Enum):
+class CapitalPendingSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -13822,7 +15007,7 @@ class CapitalPendingSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class CapitalPendingSubTotalTransactionType1(str, Enum):
+class CapitalPendingSubTotalTransactionType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -13891,41 +15076,62 @@ class CapitalPendingSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[CapitalPendingSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[CapitalPendingSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[CapitalPendingSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[CapitalPendingSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[CapitalPendingSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[CapitalPendingSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[CapitalPendingSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[CapitalPendingSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[CapitalPendingSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[CapitalPendingSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[CapitalPendingSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[CapitalPendingSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[CapitalPendingSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[CapitalPendingSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -13978,7 +15184,7 @@ class CapitalPendingSubTotal1(BaseModel):
         return m
 
 
-class CapitalPendingSubtotalMethod2(str, Enum):
+class CapitalPendingSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -14025,7 +15231,7 @@ class CapitalPendingSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class CapitalPendingSubtotalCardIssuer2(str, Enum):
+class CapitalPendingSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -14034,14 +15240,14 @@ class CapitalPendingSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class CapitalPendingSubtotalCardAudience2(str, Enum):
+class CapitalPendingSubtotalCardAudience2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class CapitalPendingSubtotalCardRegion2(str, Enum):
+class CapitalPendingSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -14050,7 +15256,7 @@ class CapitalPendingSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class CapitalPendingSubtotalFeeType2(str, Enum):
+class CapitalPendingSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -14090,7 +15296,9 @@ class CapitalPendingSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class CapitalPendingSubtotalPrepaymentPartType2(str, Enum):
+class CapitalPendingSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -14100,7 +15308,7 @@ class CapitalPendingSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class CapitalPendingSubtotalTransactionType2(str, Enum):
+class CapitalPendingSubtotalTransactionType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -14175,41 +15383,62 @@ class CapitalPendingSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[CapitalPendingSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[CapitalPendingSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[CapitalPendingSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[CapitalPendingSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[CapitalPendingSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[CapitalPendingSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[CapitalPendingSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[CapitalPendingSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[CapitalPendingSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[CapitalPendingSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[CapitalPendingSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[CapitalPendingSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[CapitalPendingSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[CapitalPendingSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -14326,7 +15555,7 @@ class CapitalMovedToAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CapitalMovedToAvailableSubTotalMethod1(str, Enum):
+class CapitalMovedToAvailableSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -14373,7 +15602,9 @@ class CapitalMovedToAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class CapitalMovedToAvailableSubTotalCardIssuer1(str, Enum):
+class CapitalMovedToAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -14382,14 +15613,18 @@ class CapitalMovedToAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class CapitalMovedToAvailableSubTotalCardAudience1(str, Enum):
+class CapitalMovedToAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class CapitalMovedToAvailableSubTotalCardRegion1(str, Enum):
+class CapitalMovedToAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -14398,7 +15633,7 @@ class CapitalMovedToAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class CapitalMovedToAvailableSubTotalFeeType1(str, Enum):
+class CapitalMovedToAvailableSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -14438,7 +15673,9 @@ class CapitalMovedToAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class CapitalMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
+class CapitalMovedToAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -14448,7 +15685,9 @@ class CapitalMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class CapitalMovedToAvailableSubTotalTransactionType1(str, Enum):
+class CapitalMovedToAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -14519,41 +15758,62 @@ class CapitalMovedToAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[CapitalMovedToAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[CapitalMovedToAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[CapitalMovedToAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[CapitalMovedToAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[CapitalMovedToAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[CapitalMovedToAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[CapitalMovedToAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[CapitalMovedToAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[CapitalMovedToAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[CapitalMovedToAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[CapitalMovedToAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[CapitalMovedToAvailableSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[CapitalMovedToAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[CapitalMovedToAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -14606,7 +15866,7 @@ class CapitalMovedToAvailableSubTotal1(BaseModel):
         return m
 
 
-class CapitalMovedToAvailableSubtotalMethod2(str, Enum):
+class CapitalMovedToAvailableSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -14653,7 +15913,9 @@ class CapitalMovedToAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class CapitalMovedToAvailableSubtotalCardIssuer2(str, Enum):
+class CapitalMovedToAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -14662,14 +15924,18 @@ class CapitalMovedToAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class CapitalMovedToAvailableSubtotalCardAudience2(str, Enum):
+class CapitalMovedToAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class CapitalMovedToAvailableSubtotalCardRegion2(str, Enum):
+class CapitalMovedToAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -14678,7 +15944,7 @@ class CapitalMovedToAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class CapitalMovedToAvailableSubtotalFeeType2(str, Enum):
+class CapitalMovedToAvailableSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -14718,7 +15984,9 @@ class CapitalMovedToAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class CapitalMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
+class CapitalMovedToAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -14728,7 +15996,9 @@ class CapitalMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class CapitalMovedToAvailableSubtotalTransactionType2(str, Enum):
+class CapitalMovedToAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -14805,41 +16075,62 @@ class CapitalMovedToAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[CapitalMovedToAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[CapitalMovedToAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[CapitalMovedToAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[CapitalMovedToAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[CapitalMovedToAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[CapitalMovedToAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[CapitalMovedToAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[CapitalMovedToAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[CapitalMovedToAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[CapitalMovedToAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[CapitalMovedToAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[CapitalMovedToAvailableSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[CapitalMovedToAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[CapitalMovedToAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -14956,7 +16247,9 @@ class CapitalImmediatelyAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CapitalImmediatelyAvailableSubTotalMethod1(str, Enum):
+class CapitalImmediatelyAvailableSubTotalMethod1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -15003,7 +16296,9 @@ class CapitalImmediatelyAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class CapitalImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
+class CapitalImmediatelyAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -15012,14 +16307,18 @@ class CapitalImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class CapitalImmediatelyAvailableSubTotalCardAudience1(str, Enum):
+class CapitalImmediatelyAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class CapitalImmediatelyAvailableSubTotalCardRegion1(str, Enum):
+class CapitalImmediatelyAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -15028,7 +16327,9 @@ class CapitalImmediatelyAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class CapitalImmediatelyAvailableSubTotalFeeType1(str, Enum):
+class CapitalImmediatelyAvailableSubTotalFeeType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -15068,7 +16369,9 @@ class CapitalImmediatelyAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class CapitalImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
+class CapitalImmediatelyAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -15078,7 +16381,9 @@ class CapitalImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class CapitalImmediatelyAvailableSubTotalTransactionType1(str, Enum):
+class CapitalImmediatelyAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -15151,41 +16456,62 @@ class CapitalImmediatelyAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[CapitalImmediatelyAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[CapitalImmediatelyAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[CapitalImmediatelyAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[CapitalImmediatelyAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[CapitalImmediatelyAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[CapitalImmediatelyAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[CapitalImmediatelyAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[CapitalImmediatelyAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[CapitalImmediatelyAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[CapitalImmediatelyAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[CapitalImmediatelyAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[CapitalImmediatelyAvailableSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[CapitalImmediatelyAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[CapitalImmediatelyAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -15238,7 +16564,9 @@ class CapitalImmediatelyAvailableSubTotal1(BaseModel):
         return m
 
 
-class CapitalImmediatelyAvailableSubtotalMethod2(str, Enum):
+class CapitalImmediatelyAvailableSubtotalMethod2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -15285,7 +16613,9 @@ class CapitalImmediatelyAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class CapitalImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
+class CapitalImmediatelyAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -15294,14 +16624,18 @@ class CapitalImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class CapitalImmediatelyAvailableSubtotalCardAudience2(str, Enum):
+class CapitalImmediatelyAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class CapitalImmediatelyAvailableSubtotalCardRegion2(str, Enum):
+class CapitalImmediatelyAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -15310,7 +16644,9 @@ class CapitalImmediatelyAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class CapitalImmediatelyAvailableSubtotalFeeType2(str, Enum):
+class CapitalImmediatelyAvailableSubtotalFeeType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -15350,7 +16686,9 @@ class CapitalImmediatelyAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class CapitalImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
+class CapitalImmediatelyAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -15360,7 +16698,9 @@ class CapitalImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class CapitalImmediatelyAvailableSubtotalTransactionType2(str, Enum):
+class CapitalImmediatelyAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -15441,41 +16781,62 @@ class CapitalImmediatelyAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[CapitalImmediatelyAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[CapitalImmediatelyAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[CapitalImmediatelyAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[CapitalImmediatelyAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[CapitalImmediatelyAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[CapitalImmediatelyAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[CapitalImmediatelyAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[CapitalImmediatelyAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[CapitalImmediatelyAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[CapitalImmediatelyAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[CapitalImmediatelyAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[CapitalImmediatelyAvailableSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[CapitalImmediatelyAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[CapitalImmediatelyAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -15617,7 +16978,7 @@ class TransfersPendingAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class TransfersPendingSubTotalMethod1(str, Enum):
+class TransfersPendingSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -15664,7 +17025,7 @@ class TransfersPendingSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class TransfersPendingSubTotalCardIssuer1(str, Enum):
+class TransfersPendingSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -15673,14 +17034,14 @@ class TransfersPendingSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class TransfersPendingSubTotalCardAudience1(str, Enum):
+class TransfersPendingSubTotalCardAudience1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class TransfersPendingSubTotalCardRegion1(str, Enum):
+class TransfersPendingSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -15689,7 +17050,7 @@ class TransfersPendingSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class TransfersPendingSubTotalFeeType1(str, Enum):
+class TransfersPendingSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -15729,7 +17090,9 @@ class TransfersPendingSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class TransfersPendingSubTotalPrepaymentPartType1(str, Enum):
+class TransfersPendingSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -15739,7 +17102,7 @@ class TransfersPendingSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class TransfersPendingSubTotalTransactionType1(str, Enum):
+class TransfersPendingSubTotalTransactionType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -15808,41 +17171,62 @@ class TransfersPendingSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[TransfersPendingSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[TransfersPendingSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[TransfersPendingSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[TransfersPendingSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[TransfersPendingSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[TransfersPendingSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[TransfersPendingSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[TransfersPendingSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[TransfersPendingSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[TransfersPendingSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[TransfersPendingSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[TransfersPendingSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[TransfersPendingSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[TransfersPendingSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -15895,7 +17279,7 @@ class TransfersPendingSubTotal1(BaseModel):
         return m
 
 
-class TransfersPendingSubtotalMethod2(str, Enum):
+class TransfersPendingSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -15942,7 +17326,7 @@ class TransfersPendingSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class TransfersPendingSubtotalCardIssuer2(str, Enum):
+class TransfersPendingSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -15951,14 +17335,14 @@ class TransfersPendingSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class TransfersPendingSubtotalCardAudience2(str, Enum):
+class TransfersPendingSubtotalCardAudience2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class TransfersPendingSubtotalCardRegion2(str, Enum):
+class TransfersPendingSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -15967,7 +17351,7 @@ class TransfersPendingSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class TransfersPendingSubtotalFeeType2(str, Enum):
+class TransfersPendingSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -16007,7 +17391,9 @@ class TransfersPendingSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class TransfersPendingSubtotalPrepaymentPartType2(str, Enum):
+class TransfersPendingSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -16017,7 +17403,7 @@ class TransfersPendingSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class TransfersPendingSubtotalTransactionType2(str, Enum):
+class TransfersPendingSubtotalTransactionType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -16092,41 +17478,62 @@ class TransfersPendingSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[TransfersPendingSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[TransfersPendingSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[TransfersPendingSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[TransfersPendingSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[TransfersPendingSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[TransfersPendingSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[TransfersPendingSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[TransfersPendingSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[TransfersPendingSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[TransfersPendingSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[TransfersPendingSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[TransfersPendingSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[TransfersPendingSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[TransfersPendingSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -16243,7 +17650,7 @@ class TransfersMovedToAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class TransfersMovedToAvailableSubTotalMethod1(str, Enum):
+class TransfersMovedToAvailableSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -16290,7 +17697,9 @@ class TransfersMovedToAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class TransfersMovedToAvailableSubTotalCardIssuer1(str, Enum):
+class TransfersMovedToAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -16299,14 +17708,18 @@ class TransfersMovedToAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class TransfersMovedToAvailableSubTotalCardAudience1(str, Enum):
+class TransfersMovedToAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class TransfersMovedToAvailableSubTotalCardRegion1(str, Enum):
+class TransfersMovedToAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -16315,7 +17728,9 @@ class TransfersMovedToAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class TransfersMovedToAvailableSubTotalFeeType1(str, Enum):
+class TransfersMovedToAvailableSubTotalFeeType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -16355,7 +17770,9 @@ class TransfersMovedToAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class TransfersMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
+class TransfersMovedToAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -16365,7 +17782,9 @@ class TransfersMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class TransfersMovedToAvailableSubTotalTransactionType1(str, Enum):
+class TransfersMovedToAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -16436,41 +17855,62 @@ class TransfersMovedToAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[TransfersMovedToAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[TransfersMovedToAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[TransfersMovedToAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[TransfersMovedToAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[TransfersMovedToAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[TransfersMovedToAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[TransfersMovedToAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[TransfersMovedToAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[TransfersMovedToAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[TransfersMovedToAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[TransfersMovedToAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[TransfersMovedToAvailableSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[TransfersMovedToAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[TransfersMovedToAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -16523,7 +17963,7 @@ class TransfersMovedToAvailableSubTotal1(BaseModel):
         return m
 
 
-class TransfersMovedToAvailableSubtotalMethod2(str, Enum):
+class TransfersMovedToAvailableSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -16570,7 +18010,9 @@ class TransfersMovedToAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class TransfersMovedToAvailableSubtotalCardIssuer2(str, Enum):
+class TransfersMovedToAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -16579,14 +18021,18 @@ class TransfersMovedToAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class TransfersMovedToAvailableSubtotalCardAudience2(str, Enum):
+class TransfersMovedToAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class TransfersMovedToAvailableSubtotalCardRegion2(str, Enum):
+class TransfersMovedToAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -16595,7 +18041,9 @@ class TransfersMovedToAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class TransfersMovedToAvailableSubtotalFeeType2(str, Enum):
+class TransfersMovedToAvailableSubtotalFeeType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -16635,7 +18083,9 @@ class TransfersMovedToAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class TransfersMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
+class TransfersMovedToAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -16645,7 +18095,9 @@ class TransfersMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class TransfersMovedToAvailableSubtotalTransactionType2(str, Enum):
+class TransfersMovedToAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -16722,41 +18174,62 @@ class TransfersMovedToAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[TransfersMovedToAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[TransfersMovedToAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[TransfersMovedToAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[TransfersMovedToAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[TransfersMovedToAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[TransfersMovedToAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[TransfersMovedToAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[TransfersMovedToAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[TransfersMovedToAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[TransfersMovedToAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[TransfersMovedToAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[TransfersMovedToAvailableSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[TransfersMovedToAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[TransfersMovedToAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -16873,7 +18346,9 @@ class TransfersImmediatelyAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class TransfersImmediatelyAvailableSubTotalMethod1(str, Enum):
+class TransfersImmediatelyAvailableSubTotalMethod1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -16920,7 +18395,9 @@ class TransfersImmediatelyAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class TransfersImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
+class TransfersImmediatelyAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -16929,14 +18406,18 @@ class TransfersImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class TransfersImmediatelyAvailableSubTotalCardAudience1(str, Enum):
+class TransfersImmediatelyAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class TransfersImmediatelyAvailableSubTotalCardRegion1(str, Enum):
+class TransfersImmediatelyAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -16945,7 +18426,9 @@ class TransfersImmediatelyAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class TransfersImmediatelyAvailableSubTotalFeeType1(str, Enum):
+class TransfersImmediatelyAvailableSubTotalFeeType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -16985,7 +18468,9 @@ class TransfersImmediatelyAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class TransfersImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
+class TransfersImmediatelyAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -16995,7 +18480,9 @@ class TransfersImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class TransfersImmediatelyAvailableSubTotalTransactionType1(str, Enum):
+class TransfersImmediatelyAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -17068,41 +18555,62 @@ class TransfersImmediatelyAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[TransfersImmediatelyAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[TransfersImmediatelyAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[TransfersImmediatelyAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[TransfersImmediatelyAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[TransfersImmediatelyAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[TransfersImmediatelyAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[TransfersImmediatelyAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[TransfersImmediatelyAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[TransfersImmediatelyAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[TransfersImmediatelyAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[TransfersImmediatelyAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[TransfersImmediatelyAvailableSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[TransfersImmediatelyAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[TransfersImmediatelyAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -17155,7 +18663,9 @@ class TransfersImmediatelyAvailableSubTotal1(BaseModel):
         return m
 
 
-class TransfersImmediatelyAvailableSubtotalMethod2(str, Enum):
+class TransfersImmediatelyAvailableSubtotalMethod2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -17202,7 +18712,9 @@ class TransfersImmediatelyAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class TransfersImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
+class TransfersImmediatelyAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -17211,14 +18723,18 @@ class TransfersImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class TransfersImmediatelyAvailableSubtotalCardAudience2(str, Enum):
+class TransfersImmediatelyAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class TransfersImmediatelyAvailableSubtotalCardRegion2(str, Enum):
+class TransfersImmediatelyAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -17227,7 +18743,9 @@ class TransfersImmediatelyAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class TransfersImmediatelyAvailableSubtotalFeeType2(str, Enum):
+class TransfersImmediatelyAvailableSubtotalFeeType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -17267,7 +18785,9 @@ class TransfersImmediatelyAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class TransfersImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
+class TransfersImmediatelyAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -17277,7 +18797,9 @@ class TransfersImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class TransfersImmediatelyAvailableSubtotalTransactionType2(str, Enum):
+class TransfersImmediatelyAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -17358,41 +18880,62 @@ class TransfersImmediatelyAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[TransfersImmediatelyAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[TransfersImmediatelyAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[TransfersImmediatelyAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[TransfersImmediatelyAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[TransfersImmediatelyAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[TransfersImmediatelyAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[TransfersImmediatelyAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[TransfersImmediatelyAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[TransfersImmediatelyAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[TransfersImmediatelyAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[TransfersImmediatelyAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[TransfersImmediatelyAvailableSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[TransfersImmediatelyAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[TransfersImmediatelyAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -17534,7 +19077,7 @@ class FeePrepaymentsPendingAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class FeePrepaymentsPendingSubTotalMethod1(str, Enum):
+class FeePrepaymentsPendingSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -17581,7 +19124,7 @@ class FeePrepaymentsPendingSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class FeePrepaymentsPendingSubTotalCardIssuer1(str, Enum):
+class FeePrepaymentsPendingSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -17590,14 +19133,16 @@ class FeePrepaymentsPendingSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class FeePrepaymentsPendingSubTotalCardAudience1(str, Enum):
+class FeePrepaymentsPendingSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class FeePrepaymentsPendingSubTotalCardRegion1(str, Enum):
+class FeePrepaymentsPendingSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -17606,7 +19151,7 @@ class FeePrepaymentsPendingSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class FeePrepaymentsPendingSubTotalFeeType1(str, Enum):
+class FeePrepaymentsPendingSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -17646,7 +19191,9 @@ class FeePrepaymentsPendingSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class FeePrepaymentsPendingSubTotalPrepaymentPartType1(str, Enum):
+class FeePrepaymentsPendingSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -17656,7 +19203,9 @@ class FeePrepaymentsPendingSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class FeePrepaymentsPendingSubTotalTransactionType1(str, Enum):
+class FeePrepaymentsPendingSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -17727,41 +19276,62 @@ class FeePrepaymentsPendingSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[FeePrepaymentsPendingSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[FeePrepaymentsPendingSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[FeePrepaymentsPendingSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[FeePrepaymentsPendingSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[FeePrepaymentsPendingSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[FeePrepaymentsPendingSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[FeePrepaymentsPendingSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[FeePrepaymentsPendingSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[FeePrepaymentsPendingSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[FeePrepaymentsPendingSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[FeePrepaymentsPendingSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[FeePrepaymentsPendingSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[FeePrepaymentsPendingSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[FeePrepaymentsPendingSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -17814,7 +19384,7 @@ class FeePrepaymentsPendingSubTotal1(BaseModel):
         return m
 
 
-class FeePrepaymentsPendingSubtotalMethod2(str, Enum):
+class FeePrepaymentsPendingSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -17861,7 +19431,7 @@ class FeePrepaymentsPendingSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class FeePrepaymentsPendingSubtotalCardIssuer2(str, Enum):
+class FeePrepaymentsPendingSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -17870,14 +19440,16 @@ class FeePrepaymentsPendingSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class FeePrepaymentsPendingSubtotalCardAudience2(str, Enum):
+class FeePrepaymentsPendingSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class FeePrepaymentsPendingSubtotalCardRegion2(str, Enum):
+class FeePrepaymentsPendingSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -17886,7 +19458,7 @@ class FeePrepaymentsPendingSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class FeePrepaymentsPendingSubtotalFeeType2(str, Enum):
+class FeePrepaymentsPendingSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -17926,7 +19498,9 @@ class FeePrepaymentsPendingSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class FeePrepaymentsPendingSubtotalPrepaymentPartType2(str, Enum):
+class FeePrepaymentsPendingSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -17936,7 +19510,9 @@ class FeePrepaymentsPendingSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class FeePrepaymentsPendingSubtotalTransactionType2(str, Enum):
+class FeePrepaymentsPendingSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -18013,41 +19589,62 @@ class FeePrepaymentsPendingSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[FeePrepaymentsPendingSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[FeePrepaymentsPendingSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[FeePrepaymentsPendingSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[FeePrepaymentsPendingSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[FeePrepaymentsPendingSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[FeePrepaymentsPendingSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[FeePrepaymentsPendingSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[FeePrepaymentsPendingSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[FeePrepaymentsPendingSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[FeePrepaymentsPendingSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[FeePrepaymentsPendingSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[FeePrepaymentsPendingSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[FeePrepaymentsPendingSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[FeePrepaymentsPendingSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -18164,7 +19761,9 @@ class FeePrepaymentsMovedToAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class FeePrepaymentsMovedToAvailableSubTotalMethod1(str, Enum):
+class FeePrepaymentsMovedToAvailableSubTotalMethod1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -18211,7 +19810,9 @@ class FeePrepaymentsMovedToAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class FeePrepaymentsMovedToAvailableSubTotalCardIssuer1(str, Enum):
+class FeePrepaymentsMovedToAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -18220,14 +19821,18 @@ class FeePrepaymentsMovedToAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class FeePrepaymentsMovedToAvailableSubTotalCardAudience1(str, Enum):
+class FeePrepaymentsMovedToAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class FeePrepaymentsMovedToAvailableSubTotalCardRegion1(str, Enum):
+class FeePrepaymentsMovedToAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -18236,7 +19841,9 @@ class FeePrepaymentsMovedToAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class FeePrepaymentsMovedToAvailableSubTotalFeeType1(str, Enum):
+class FeePrepaymentsMovedToAvailableSubTotalFeeType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -18276,7 +19883,9 @@ class FeePrepaymentsMovedToAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class FeePrepaymentsMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
+class FeePrepaymentsMovedToAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -18286,7 +19895,9 @@ class FeePrepaymentsMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class FeePrepaymentsMovedToAvailableSubTotalTransactionType1(str, Enum):
+class FeePrepaymentsMovedToAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -18363,41 +19974,62 @@ class FeePrepaymentsMovedToAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[FeePrepaymentsMovedToAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[FeePrepaymentsMovedToAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[FeePrepaymentsMovedToAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[FeePrepaymentsMovedToAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[FeePrepaymentsMovedToAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[FeePrepaymentsMovedToAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[FeePrepaymentsMovedToAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[FeePrepaymentsMovedToAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[FeePrepaymentsMovedToAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[FeePrepaymentsMovedToAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[FeePrepaymentsMovedToAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[FeePrepaymentsMovedToAvailableSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[FeePrepaymentsMovedToAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[FeePrepaymentsMovedToAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -18450,7 +20082,9 @@ class FeePrepaymentsMovedToAvailableSubTotal1(BaseModel):
         return m
 
 
-class FeePrepaymentsMovedToAvailableSubtotalMethod2(str, Enum):
+class FeePrepaymentsMovedToAvailableSubtotalMethod2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -18497,7 +20131,9 @@ class FeePrepaymentsMovedToAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class FeePrepaymentsMovedToAvailableSubtotalCardIssuer2(str, Enum):
+class FeePrepaymentsMovedToAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -18506,14 +20142,18 @@ class FeePrepaymentsMovedToAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class FeePrepaymentsMovedToAvailableSubtotalCardAudience2(str, Enum):
+class FeePrepaymentsMovedToAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class FeePrepaymentsMovedToAvailableSubtotalCardRegion2(str, Enum):
+class FeePrepaymentsMovedToAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -18522,7 +20162,9 @@ class FeePrepaymentsMovedToAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class FeePrepaymentsMovedToAvailableSubtotalFeeType2(str, Enum):
+class FeePrepaymentsMovedToAvailableSubtotalFeeType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -18562,7 +20204,9 @@ class FeePrepaymentsMovedToAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class FeePrepaymentsMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
+class FeePrepaymentsMovedToAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -18572,7 +20216,9 @@ class FeePrepaymentsMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class FeePrepaymentsMovedToAvailableSubtotalTransactionType2(str, Enum):
+class FeePrepaymentsMovedToAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -18657,41 +20303,62 @@ class FeePrepaymentsMovedToAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[FeePrepaymentsMovedToAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[FeePrepaymentsMovedToAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[FeePrepaymentsMovedToAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[FeePrepaymentsMovedToAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[FeePrepaymentsMovedToAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[FeePrepaymentsMovedToAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[FeePrepaymentsMovedToAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[FeePrepaymentsMovedToAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[FeePrepaymentsMovedToAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[FeePrepaymentsMovedToAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[FeePrepaymentsMovedToAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[FeePrepaymentsMovedToAvailableSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[FeePrepaymentsMovedToAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[FeePrepaymentsMovedToAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -18810,7 +20477,9 @@ class FeePrepaymentsImmediatelyAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class FeePrepaymentsImmediatelyAvailableSubTotalMethod1(str, Enum):
+class FeePrepaymentsImmediatelyAvailableSubTotalMethod1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -18857,7 +20526,9 @@ class FeePrepaymentsImmediatelyAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class FeePrepaymentsImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
+class FeePrepaymentsImmediatelyAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -18866,14 +20537,18 @@ class FeePrepaymentsImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class FeePrepaymentsImmediatelyAvailableSubTotalCardAudience1(str, Enum):
+class FeePrepaymentsImmediatelyAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class FeePrepaymentsImmediatelyAvailableSubTotalCardRegion1(str, Enum):
+class FeePrepaymentsImmediatelyAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -18882,7 +20557,9 @@ class FeePrepaymentsImmediatelyAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class FeePrepaymentsImmediatelyAvailableSubTotalFeeType1(str, Enum):
+class FeePrepaymentsImmediatelyAvailableSubTotalFeeType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -18922,7 +20599,9 @@ class FeePrepaymentsImmediatelyAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class FeePrepaymentsImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
+class FeePrepaymentsImmediatelyAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -18932,7 +20611,9 @@ class FeePrepaymentsImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class FeePrepaymentsImmediatelyAvailableSubTotalTransactionType1(str, Enum):
+class FeePrepaymentsImmediatelyAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -19009,41 +20690,66 @@ class FeePrepaymentsImmediatelyAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[FeePrepaymentsImmediatelyAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[FeePrepaymentsImmediatelyAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[FeePrepaymentsImmediatelyAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[FeePrepaymentsImmediatelyAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[FeePrepaymentsImmediatelyAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[FeePrepaymentsImmediatelyAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[FeePrepaymentsImmediatelyAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[FeePrepaymentsImmediatelyAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[FeePrepaymentsImmediatelyAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[FeePrepaymentsImmediatelyAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[FeePrepaymentsImmediatelyAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[
+                FeePrepaymentsImmediatelyAvailableSubTotalPrepaymentPartType1
+            ],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[FeePrepaymentsImmediatelyAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[
+                FeePrepaymentsImmediatelyAvailableSubTotalTransactionType1
+            ],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -19096,7 +20802,9 @@ class FeePrepaymentsImmediatelyAvailableSubTotal1(BaseModel):
         return m
 
 
-class FeePrepaymentsImmediatelyAvailableSubtotalMethod2(str, Enum):
+class FeePrepaymentsImmediatelyAvailableSubtotalMethod2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -19143,7 +20851,9 @@ class FeePrepaymentsImmediatelyAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class FeePrepaymentsImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
+class FeePrepaymentsImmediatelyAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -19152,14 +20862,18 @@ class FeePrepaymentsImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class FeePrepaymentsImmediatelyAvailableSubtotalCardAudience2(str, Enum):
+class FeePrepaymentsImmediatelyAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class FeePrepaymentsImmediatelyAvailableSubtotalCardRegion2(str, Enum):
+class FeePrepaymentsImmediatelyAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -19168,7 +20882,9 @@ class FeePrepaymentsImmediatelyAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class FeePrepaymentsImmediatelyAvailableSubtotalFeeType2(str, Enum):
+class FeePrepaymentsImmediatelyAvailableSubtotalFeeType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -19208,7 +20924,9 @@ class FeePrepaymentsImmediatelyAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class FeePrepaymentsImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
+class FeePrepaymentsImmediatelyAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -19218,7 +20936,9 @@ class FeePrepaymentsImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class FeePrepaymentsImmediatelyAvailableSubtotalTransactionType2(str, Enum):
+class FeePrepaymentsImmediatelyAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -19303,41 +21023,66 @@ class FeePrepaymentsImmediatelyAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[FeePrepaymentsImmediatelyAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[FeePrepaymentsImmediatelyAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[FeePrepaymentsImmediatelyAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[FeePrepaymentsImmediatelyAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[FeePrepaymentsImmediatelyAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[FeePrepaymentsImmediatelyAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[FeePrepaymentsImmediatelyAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[FeePrepaymentsImmediatelyAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[FeePrepaymentsImmediatelyAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[FeePrepaymentsImmediatelyAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[FeePrepaymentsImmediatelyAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[
+                FeePrepaymentsImmediatelyAvailableSubtotalPrepaymentPartType2
+            ],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[FeePrepaymentsImmediatelyAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[
+                FeePrepaymentsImmediatelyAvailableSubtotalTransactionType2
+            ],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -19482,7 +21227,7 @@ class CorrectionsPendingAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CorrectionsPendingSubTotalMethod1(str, Enum):
+class CorrectionsPendingSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -19529,7 +21274,7 @@ class CorrectionsPendingSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class CorrectionsPendingSubTotalCardIssuer1(str, Enum):
+class CorrectionsPendingSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -19538,14 +21283,14 @@ class CorrectionsPendingSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class CorrectionsPendingSubTotalCardAudience1(str, Enum):
+class CorrectionsPendingSubTotalCardAudience1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class CorrectionsPendingSubTotalCardRegion1(str, Enum):
+class CorrectionsPendingSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -19554,7 +21299,7 @@ class CorrectionsPendingSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class CorrectionsPendingSubTotalFeeType1(str, Enum):
+class CorrectionsPendingSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -19594,7 +21339,9 @@ class CorrectionsPendingSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class CorrectionsPendingSubTotalPrepaymentPartType1(str, Enum):
+class CorrectionsPendingSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -19604,7 +21351,9 @@ class CorrectionsPendingSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class CorrectionsPendingSubTotalTransactionType1(str, Enum):
+class CorrectionsPendingSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -19673,41 +21422,62 @@ class CorrectionsPendingSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[CorrectionsPendingSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[CorrectionsPendingSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[CorrectionsPendingSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[CorrectionsPendingSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[CorrectionsPendingSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[CorrectionsPendingSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[CorrectionsPendingSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[CorrectionsPendingSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[CorrectionsPendingSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[CorrectionsPendingSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[CorrectionsPendingSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[CorrectionsPendingSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[CorrectionsPendingSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[CorrectionsPendingSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -19760,7 +21530,7 @@ class CorrectionsPendingSubTotal1(BaseModel):
         return m
 
 
-class CorrectionsPendingSubtotalMethod2(str, Enum):
+class CorrectionsPendingSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -19807,7 +21577,7 @@ class CorrectionsPendingSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class CorrectionsPendingSubtotalCardIssuer2(str, Enum):
+class CorrectionsPendingSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -19816,14 +21586,14 @@ class CorrectionsPendingSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class CorrectionsPendingSubtotalCardAudience2(str, Enum):
+class CorrectionsPendingSubtotalCardAudience2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class CorrectionsPendingSubtotalCardRegion2(str, Enum):
+class CorrectionsPendingSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -19832,7 +21602,7 @@ class CorrectionsPendingSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class CorrectionsPendingSubtotalFeeType2(str, Enum):
+class CorrectionsPendingSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -19872,7 +21642,9 @@ class CorrectionsPendingSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class CorrectionsPendingSubtotalPrepaymentPartType2(str, Enum):
+class CorrectionsPendingSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -19882,7 +21654,9 @@ class CorrectionsPendingSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class CorrectionsPendingSubtotalTransactionType2(str, Enum):
+class CorrectionsPendingSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -19957,41 +21731,62 @@ class CorrectionsPendingSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[CorrectionsPendingSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[CorrectionsPendingSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[CorrectionsPendingSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[CorrectionsPendingSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[CorrectionsPendingSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[CorrectionsPendingSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[CorrectionsPendingSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[CorrectionsPendingSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[CorrectionsPendingSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[CorrectionsPendingSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[CorrectionsPendingSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[CorrectionsPendingSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[CorrectionsPendingSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[CorrectionsPendingSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -20108,7 +21903,9 @@ class CorrectionsMovedToAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CorrectionsMovedToAvailableSubTotalMethod1(str, Enum):
+class CorrectionsMovedToAvailableSubTotalMethod1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -20155,7 +21952,9 @@ class CorrectionsMovedToAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class CorrectionsMovedToAvailableSubTotalCardIssuer1(str, Enum):
+class CorrectionsMovedToAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -20164,14 +21963,18 @@ class CorrectionsMovedToAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class CorrectionsMovedToAvailableSubTotalCardAudience1(str, Enum):
+class CorrectionsMovedToAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class CorrectionsMovedToAvailableSubTotalCardRegion1(str, Enum):
+class CorrectionsMovedToAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -20180,7 +21983,9 @@ class CorrectionsMovedToAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class CorrectionsMovedToAvailableSubTotalFeeType1(str, Enum):
+class CorrectionsMovedToAvailableSubTotalFeeType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -20220,7 +22025,9 @@ class CorrectionsMovedToAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class CorrectionsMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
+class CorrectionsMovedToAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -20230,7 +22037,9 @@ class CorrectionsMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class CorrectionsMovedToAvailableSubTotalTransactionType1(str, Enum):
+class CorrectionsMovedToAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -20303,41 +22112,62 @@ class CorrectionsMovedToAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[CorrectionsMovedToAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[CorrectionsMovedToAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[CorrectionsMovedToAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[CorrectionsMovedToAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[CorrectionsMovedToAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[CorrectionsMovedToAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[CorrectionsMovedToAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[CorrectionsMovedToAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[CorrectionsMovedToAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[CorrectionsMovedToAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[CorrectionsMovedToAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[CorrectionsMovedToAvailableSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[CorrectionsMovedToAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[CorrectionsMovedToAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -20390,7 +22220,9 @@ class CorrectionsMovedToAvailableSubTotal1(BaseModel):
         return m
 
 
-class CorrectionsMovedToAvailableSubtotalMethod2(str, Enum):
+class CorrectionsMovedToAvailableSubtotalMethod2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -20437,7 +22269,9 @@ class CorrectionsMovedToAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class CorrectionsMovedToAvailableSubtotalCardIssuer2(str, Enum):
+class CorrectionsMovedToAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -20446,14 +22280,18 @@ class CorrectionsMovedToAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class CorrectionsMovedToAvailableSubtotalCardAudience2(str, Enum):
+class CorrectionsMovedToAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class CorrectionsMovedToAvailableSubtotalCardRegion2(str, Enum):
+class CorrectionsMovedToAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -20462,7 +22300,9 @@ class CorrectionsMovedToAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class CorrectionsMovedToAvailableSubtotalFeeType2(str, Enum):
+class CorrectionsMovedToAvailableSubtotalFeeType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -20502,7 +22342,9 @@ class CorrectionsMovedToAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class CorrectionsMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
+class CorrectionsMovedToAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -20512,7 +22354,9 @@ class CorrectionsMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class CorrectionsMovedToAvailableSubtotalTransactionType2(str, Enum):
+class CorrectionsMovedToAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -20593,41 +22437,62 @@ class CorrectionsMovedToAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[CorrectionsMovedToAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[CorrectionsMovedToAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[CorrectionsMovedToAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[CorrectionsMovedToAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[CorrectionsMovedToAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[CorrectionsMovedToAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[CorrectionsMovedToAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[CorrectionsMovedToAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[CorrectionsMovedToAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[CorrectionsMovedToAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[CorrectionsMovedToAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[CorrectionsMovedToAvailableSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[CorrectionsMovedToAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[CorrectionsMovedToAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -20746,7 +22611,9 @@ class CorrectionsImmediatelyAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CorrectionsImmediatelyAvailableSubTotalMethod1(str, Enum):
+class CorrectionsImmediatelyAvailableSubTotalMethod1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -20793,7 +22660,9 @@ class CorrectionsImmediatelyAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class CorrectionsImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
+class CorrectionsImmediatelyAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -20802,14 +22671,18 @@ class CorrectionsImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class CorrectionsImmediatelyAvailableSubTotalCardAudience1(str, Enum):
+class CorrectionsImmediatelyAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class CorrectionsImmediatelyAvailableSubTotalCardRegion1(str, Enum):
+class CorrectionsImmediatelyAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -20818,7 +22691,9 @@ class CorrectionsImmediatelyAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class CorrectionsImmediatelyAvailableSubTotalFeeType1(str, Enum):
+class CorrectionsImmediatelyAvailableSubTotalFeeType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -20858,7 +22733,9 @@ class CorrectionsImmediatelyAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class CorrectionsImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
+class CorrectionsImmediatelyAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -20868,7 +22745,9 @@ class CorrectionsImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class CorrectionsImmediatelyAvailableSubTotalTransactionType1(str, Enum):
+class CorrectionsImmediatelyAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -20945,41 +22824,64 @@ class CorrectionsImmediatelyAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[CorrectionsImmediatelyAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[CorrectionsImmediatelyAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[CorrectionsImmediatelyAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[CorrectionsImmediatelyAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[CorrectionsImmediatelyAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[CorrectionsImmediatelyAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[CorrectionsImmediatelyAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[CorrectionsImmediatelyAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[CorrectionsImmediatelyAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[CorrectionsImmediatelyAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[CorrectionsImmediatelyAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[
+                CorrectionsImmediatelyAvailableSubTotalPrepaymentPartType1
+            ],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[CorrectionsImmediatelyAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[CorrectionsImmediatelyAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -21032,7 +22934,9 @@ class CorrectionsImmediatelyAvailableSubTotal1(BaseModel):
         return m
 
 
-class CorrectionsImmediatelyAvailableSubtotalMethod2(str, Enum):
+class CorrectionsImmediatelyAvailableSubtotalMethod2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -21079,7 +22983,9 @@ class CorrectionsImmediatelyAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class CorrectionsImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
+class CorrectionsImmediatelyAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -21088,14 +22994,18 @@ class CorrectionsImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class CorrectionsImmediatelyAvailableSubtotalCardAudience2(str, Enum):
+class CorrectionsImmediatelyAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class CorrectionsImmediatelyAvailableSubtotalCardRegion2(str, Enum):
+class CorrectionsImmediatelyAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -21104,7 +23014,9 @@ class CorrectionsImmediatelyAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class CorrectionsImmediatelyAvailableSubtotalFeeType2(str, Enum):
+class CorrectionsImmediatelyAvailableSubtotalFeeType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -21144,7 +23056,9 @@ class CorrectionsImmediatelyAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class CorrectionsImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
+class CorrectionsImmediatelyAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -21154,7 +23068,9 @@ class CorrectionsImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class CorrectionsImmediatelyAvailableSubtotalTransactionType2(str, Enum):
+class CorrectionsImmediatelyAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -21239,41 +23155,64 @@ class CorrectionsImmediatelyAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[CorrectionsImmediatelyAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[CorrectionsImmediatelyAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[CorrectionsImmediatelyAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[CorrectionsImmediatelyAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[CorrectionsImmediatelyAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[CorrectionsImmediatelyAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[CorrectionsImmediatelyAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[CorrectionsImmediatelyAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[CorrectionsImmediatelyAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[CorrectionsImmediatelyAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[CorrectionsImmediatelyAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[
+                CorrectionsImmediatelyAvailableSubtotalPrepaymentPartType2
+            ],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[CorrectionsImmediatelyAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[CorrectionsImmediatelyAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -21415,7 +23354,7 @@ class TopupsPendingAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class TopupsPendingSubTotalMethod1(str, Enum):
+class TopupsPendingSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -21462,7 +23401,7 @@ class TopupsPendingSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class TopupsPendingSubTotalCardIssuer1(str, Enum):
+class TopupsPendingSubTotalCardIssuer1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -21471,14 +23410,14 @@ class TopupsPendingSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class TopupsPendingSubTotalCardAudience1(str, Enum):
+class TopupsPendingSubTotalCardAudience1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class TopupsPendingSubTotalCardRegion1(str, Enum):
+class TopupsPendingSubTotalCardRegion1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -21487,7 +23426,7 @@ class TopupsPendingSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class TopupsPendingSubTotalFeeType1(str, Enum):
+class TopupsPendingSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -21527,7 +23466,7 @@ class TopupsPendingSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class TopupsPendingSubTotalPrepaymentPartType1(str, Enum):
+class TopupsPendingSubTotalPrepaymentPartType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -21537,7 +23476,7 @@ class TopupsPendingSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class TopupsPendingSubTotalTransactionType1(str, Enum):
+class TopupsPendingSubTotalTransactionType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -21606,40 +23545,62 @@ class TopupsPendingSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[TopupsPendingSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[TopupsPendingSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[TopupsPendingSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[TopupsPendingSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[TopupsPendingSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[TopupsPendingSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[TopupsPendingSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[TopupsPendingSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[TopupsPendingSubTotalFeeType1], pydantic.Field(alias="feeType")
+        Annotated[
+            OptionalNullable[TopupsPendingSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[TopupsPendingSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[TopupsPendingSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[TopupsPendingSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[TopupsPendingSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -21692,7 +23653,7 @@ class TopupsPendingSubTotal1(BaseModel):
         return m
 
 
-class TopupsPendingSubtotalMethod2(str, Enum):
+class TopupsPendingSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -21739,7 +23700,7 @@ class TopupsPendingSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class TopupsPendingSubtotalCardIssuer2(str, Enum):
+class TopupsPendingSubtotalCardIssuer2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -21748,14 +23709,14 @@ class TopupsPendingSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class TopupsPendingSubtotalCardAudience2(str, Enum):
+class TopupsPendingSubtotalCardAudience2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class TopupsPendingSubtotalCardRegion2(str, Enum):
+class TopupsPendingSubtotalCardRegion2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -21764,7 +23725,7 @@ class TopupsPendingSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class TopupsPendingSubtotalFeeType2(str, Enum):
+class TopupsPendingSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -21804,7 +23765,7 @@ class TopupsPendingSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class TopupsPendingSubtotalPrepaymentPartType2(str, Enum):
+class TopupsPendingSubtotalPrepaymentPartType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -21814,7 +23775,7 @@ class TopupsPendingSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class TopupsPendingSubtotalTransactionType2(str, Enum):
+class TopupsPendingSubtotalTransactionType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -21889,40 +23850,62 @@ class TopupsPendingSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[TopupsPendingSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[TopupsPendingSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[TopupsPendingSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[TopupsPendingSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[TopupsPendingSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[TopupsPendingSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[TopupsPendingSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[TopupsPendingSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[TopupsPendingSubtotalFeeType2], pydantic.Field(alias="feeType")
+        Annotated[
+            OptionalNullable[TopupsPendingSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[TopupsPendingSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[TopupsPendingSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[TopupsPendingSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[TopupsPendingSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -22039,7 +24022,7 @@ class TopupsMovedToAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class TopupsMovedToAvailableSubTotalMethod1(str, Enum):
+class TopupsMovedToAvailableSubTotalMethod1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -22086,7 +24069,9 @@ class TopupsMovedToAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class TopupsMovedToAvailableSubTotalCardIssuer1(str, Enum):
+class TopupsMovedToAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -22095,14 +24080,18 @@ class TopupsMovedToAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class TopupsMovedToAvailableSubTotalCardAudience1(str, Enum):
+class TopupsMovedToAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class TopupsMovedToAvailableSubTotalCardRegion1(str, Enum):
+class TopupsMovedToAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -22111,7 +24100,7 @@ class TopupsMovedToAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class TopupsMovedToAvailableSubTotalFeeType1(str, Enum):
+class TopupsMovedToAvailableSubTotalFeeType1(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -22151,7 +24140,9 @@ class TopupsMovedToAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class TopupsMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
+class TopupsMovedToAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -22161,7 +24152,9 @@ class TopupsMovedToAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class TopupsMovedToAvailableSubTotalTransactionType1(str, Enum):
+class TopupsMovedToAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -22232,41 +24225,62 @@ class TopupsMovedToAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[TopupsMovedToAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[TopupsMovedToAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[TopupsMovedToAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[TopupsMovedToAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[TopupsMovedToAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[TopupsMovedToAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[TopupsMovedToAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[TopupsMovedToAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[TopupsMovedToAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[TopupsMovedToAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[TopupsMovedToAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[TopupsMovedToAvailableSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[TopupsMovedToAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[TopupsMovedToAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -22319,7 +24333,7 @@ class TopupsMovedToAvailableSubTotal1(BaseModel):
         return m
 
 
-class TopupsMovedToAvailableSubtotalMethod2(str, Enum):
+class TopupsMovedToAvailableSubtotalMethod2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -22366,7 +24380,9 @@ class TopupsMovedToAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class TopupsMovedToAvailableSubtotalCardIssuer2(str, Enum):
+class TopupsMovedToAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -22375,14 +24391,18 @@ class TopupsMovedToAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class TopupsMovedToAvailableSubtotalCardAudience2(str, Enum):
+class TopupsMovedToAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class TopupsMovedToAvailableSubtotalCardRegion2(str, Enum):
+class TopupsMovedToAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -22391,7 +24411,7 @@ class TopupsMovedToAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class TopupsMovedToAvailableSubtotalFeeType2(str, Enum):
+class TopupsMovedToAvailableSubtotalFeeType2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -22431,7 +24451,9 @@ class TopupsMovedToAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class TopupsMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
+class TopupsMovedToAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -22441,7 +24463,9 @@ class TopupsMovedToAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class TopupsMovedToAvailableSubtotalTransactionType2(str, Enum):
+class TopupsMovedToAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -22518,41 +24542,62 @@ class TopupsMovedToAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[TopupsMovedToAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[TopupsMovedToAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[TopupsMovedToAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[TopupsMovedToAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[TopupsMovedToAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[TopupsMovedToAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[TopupsMovedToAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[TopupsMovedToAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[TopupsMovedToAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[TopupsMovedToAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[TopupsMovedToAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[TopupsMovedToAvailableSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[TopupsMovedToAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[TopupsMovedToAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -22669,7 +24714,9 @@ class TopupsImmediatelyAvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class TopupsImmediatelyAvailableSubTotalMethod1(str, Enum):
+class TopupsImmediatelyAvailableSubTotalMethod1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -22716,7 +24763,9 @@ class TopupsImmediatelyAvailableSubTotalMethod1(str, Enum):
     VOUCHER = "voucher"
 
 
-class TopupsImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
+class TopupsImmediatelyAvailableSubTotalCardIssuer1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -22725,14 +24774,18 @@ class TopupsImmediatelyAvailableSubTotalCardIssuer1(str, Enum):
     OTHER = "other"
 
 
-class TopupsImmediatelyAvailableSubTotalCardAudience1(str, Enum):
+class TopupsImmediatelyAvailableSubTotalCardAudience1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class TopupsImmediatelyAvailableSubTotalCardRegion1(str, Enum):
+class TopupsImmediatelyAvailableSubTotalCardRegion1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -22741,7 +24794,9 @@ class TopupsImmediatelyAvailableSubTotalCardRegion1(str, Enum):
     OTHER = "other"
 
 
-class TopupsImmediatelyAvailableSubTotalFeeType1(str, Enum):
+class TopupsImmediatelyAvailableSubTotalFeeType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -22781,7 +24836,9 @@ class TopupsImmediatelyAvailableSubTotalFeeType1(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class TopupsImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
+class TopupsImmediatelyAvailableSubTotalPrepaymentPartType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -22791,7 +24848,9 @@ class TopupsImmediatelyAvailableSubTotalPrepaymentPartType1(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class TopupsImmediatelyAvailableSubTotalTransactionType1(str, Enum):
+class TopupsImmediatelyAvailableSubTotalTransactionType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -22864,41 +24923,62 @@ class TopupsImmediatelyAvailableSubTotal1(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[TopupsImmediatelyAvailableSubTotalMethod1] = UNSET
+    method: Annotated[
+        OptionalNullable[TopupsImmediatelyAvailableSubTotalMethod1],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[TopupsImmediatelyAvailableSubTotalCardIssuer1],
+        Annotated[
+            OptionalNullable[TopupsImmediatelyAvailableSubTotalCardIssuer1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[TopupsImmediatelyAvailableSubTotalCardAudience1],
+        Annotated[
+            OptionalNullable[TopupsImmediatelyAvailableSubTotalCardAudience1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[TopupsImmediatelyAvailableSubTotalCardRegion1],
+        Annotated[
+            OptionalNullable[TopupsImmediatelyAvailableSubTotalCardRegion1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[TopupsImmediatelyAvailableSubTotalFeeType1],
+        Annotated[
+            OptionalNullable[TopupsImmediatelyAvailableSubTotalFeeType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[TopupsImmediatelyAvailableSubTotalPrepaymentPartType1],
+        Annotated[
+            OptionalNullable[TopupsImmediatelyAvailableSubTotalPrepaymentPartType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[TopupsImmediatelyAvailableSubTotalTransactionType1],
+        Annotated[
+            OptionalNullable[TopupsImmediatelyAvailableSubTotalTransactionType1],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -22951,7 +25031,9 @@ class TopupsImmediatelyAvailableSubTotal1(BaseModel):
         return m
 
 
-class TopupsImmediatelyAvailableSubtotalMethod2(str, Enum):
+class TopupsImmediatelyAvailableSubtotalMethod2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Payment type of the transactions"""
 
     ALMA = "alma"
@@ -22998,7 +25080,9 @@ class TopupsImmediatelyAvailableSubtotalMethod2(str, Enum):
     VOUCHER = "voucher"
 
 
-class TopupsImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
+class TopupsImmediatelyAvailableSubtotalCardIssuer2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     AMEX = "amex"
@@ -23007,14 +25091,18 @@ class TopupsImmediatelyAvailableSubtotalCardIssuer2(str, Enum):
     OTHER = "other"
 
 
-class TopupsImmediatelyAvailableSubtotalCardAudience2(str, Enum):
+class TopupsImmediatelyAvailableSubtotalCardAudience2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     CORPORATE = "corporate"
     OTHER = "other"
 
 
-class TopupsImmediatelyAvailableSubtotalCardRegion2(str, Enum):
+class TopupsImmediatelyAvailableSubtotalCardRegion2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""In case of payments transactions with card, the card region will be available."""
 
     INTRA_EEA = "intra-eea"
@@ -23023,7 +25111,9 @@ class TopupsImmediatelyAvailableSubtotalCardRegion2(str, Enum):
     OTHER = "other"
 
 
-class TopupsImmediatelyAvailableSubtotalFeeType2(str, Enum):
+class TopupsImmediatelyAvailableSubtotalFeeType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Present when the transaction represents a fee."""
 
     PAYMENT_FEE = "payment-fee"
@@ -23063,7 +25153,9 @@ class TopupsImmediatelyAvailableSubtotalFeeType2(str, Enum):
     MINIMUM_INVOICE_AMOUNT_FEE = "minimum-invoice-amount-fee"
 
 
-class TopupsImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
+class TopupsImmediatelyAvailableSubtotalPrepaymentPartType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     FEE = "fee"
@@ -23073,7 +25165,9 @@ class TopupsImmediatelyAvailableSubtotalPrepaymentPartType2(str, Enum):
     FEE_ROUNDING_COMPENSATION = "fee-rounding-compensation"
 
 
-class TopupsImmediatelyAvailableSubtotalTransactionType2(str, Enum):
+class TopupsImmediatelyAvailableSubtotalTransactionType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Represents the transaction type"""
 
     PAYMENT = "payment"
@@ -23154,41 +25248,62 @@ class TopupsImmediatelyAvailableSubtotal2(BaseModel):
     count: Optional[int] = None
     r"""Number of transactions of this type"""
 
-    method: OptionalNullable[TopupsImmediatelyAvailableSubtotalMethod2] = UNSET
+    method: Annotated[
+        OptionalNullable[TopupsImmediatelyAvailableSubtotalMethod2],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""Payment type of the transactions"""
 
     card_issuer: Annotated[
-        OptionalNullable[TopupsImmediatelyAvailableSubtotalCardIssuer2],
+        Annotated[
+            OptionalNullable[TopupsImmediatelyAvailableSubtotalCardIssuer2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardIssuer"),
     ] = UNSET
     r"""In case of payments transactions with card, the card issuer will be available"""
 
     card_audience: Annotated[
-        OptionalNullable[TopupsImmediatelyAvailableSubtotalCardAudience2],
+        Annotated[
+            OptionalNullable[TopupsImmediatelyAvailableSubtotalCardAudience2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudience"),
     ] = UNSET
     r"""In case of payments trnsactions with card, the card audience will be available."""
 
     card_region: Annotated[
-        OptionalNullable[TopupsImmediatelyAvailableSubtotalCardRegion2],
+        Annotated[
+            OptionalNullable[TopupsImmediatelyAvailableSubtotalCardRegion2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardRegion"),
     ] = UNSET
     r"""In case of payments transactions with card, the card region will be available."""
 
     fee_type: Annotated[
-        OptionalNullable[TopupsImmediatelyAvailableSubtotalFeeType2],
+        Annotated[
+            OptionalNullable[TopupsImmediatelyAvailableSubtotalFeeType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="feeType"),
     ] = UNSET
     r"""Present when the transaction represents a fee."""
 
     prepayment_part_type: Annotated[
-        OptionalNullable[TopupsImmediatelyAvailableSubtotalPrepaymentPartType2],
+        Annotated[
+            OptionalNullable[TopupsImmediatelyAvailableSubtotalPrepaymentPartType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="prepaymentPartType"),
     ] = UNSET
     r"""Prepayment part: fee itself, reimbursement, discount, VAT or rounding compensation."""
 
     transaction_type: Annotated[
-        OptionalNullable[TopupsImmediatelyAvailableSubtotalTransactionType2],
+        Annotated[
+            OptionalNullable[TopupsImmediatelyAvailableSubtotalTransactionType2],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transactionType"),
     ] = UNSET
     r"""Represents the transaction type"""
@@ -23608,7 +25723,9 @@ class GetBalanceReportResponse(BaseModel):
     This means a report with for example `until=2024-02-01` will include movements up until 2024-01-31 23:59:59 CET.
     """
 
-    grouping: Optional[GroupingResponse] = None
+    grouping: Annotated[
+        Optional[GroupingResponse], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""You can retrieve reports in two different formats. With the `status-balances` format, transactions are grouped by
     status (e.g. `pending`, `available`), then by direction of movement (e.g. moved from pending to available), then
     by transaction type, and then by other sub-groupings where available (e.g. payment method).

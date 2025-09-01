@@ -2,21 +2,24 @@
 
 from __future__ import annotations
 from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class GetPrimaryBalanceMode(str, Enum):
+class GetPrimaryBalanceMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
 
 
-class GetPrimaryBalanceCurrency(str, Enum):
+class GetPrimaryBalanceCurrency(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The balance's ISO 4217 currency code."""
 
     EUR = "EUR"
@@ -33,14 +36,14 @@ class GetPrimaryBalanceCurrency(str, Enum):
     CAD = "CAD"
 
 
-class GetPrimaryBalanceStatus(str, Enum):
+class GetPrimaryBalanceStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The status of the balance."""
 
     ACTIVE = "active"
     INACTIVE = "inactive"
 
 
-class GetPrimaryBalanceTransferFrequency(str, Enum):
+class GetPrimaryBalanceTransferFrequency(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The frequency with which the available amount on the balance will be settled to the configured transfer
     destination.
 
@@ -82,7 +85,7 @@ class GetPrimaryBalanceTransferThreshold(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class GetPrimaryBalanceType(str, Enum):
+class GetPrimaryBalanceType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The default destination of automatic scheduled transfers. Currently only `bank-account` is supported.
 
     * `bank-account` — Transfer the balance amount to an external bank account
@@ -112,7 +115,9 @@ class GetPrimaryBalanceTransferDestination(BaseModel):
     transfer frequency.
     """
 
-    type: Optional[GetPrimaryBalanceType] = None
+    type: Annotated[
+        Optional[GetPrimaryBalanceType], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The default destination of automatic scheduled transfers. Currently only `bank-account` is supported.
 
     * `bank-account` — Transfer the balance amount to an external bank account
@@ -283,23 +288,32 @@ class GetPrimaryBalanceResponse(BaseModel):
     id: Optional[str] = None
     r"""The identifier uniquely referring to this balance."""
 
-    mode: Optional[GetPrimaryBalanceMode] = None
+    mode: Annotated[
+        Optional[GetPrimaryBalanceMode], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""Whether this entity was created in live mode or in test mode."""
 
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    currency: Optional[GetPrimaryBalanceCurrency] = None
+    currency: Annotated[
+        Optional[GetPrimaryBalanceCurrency], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The balance's ISO 4217 currency code."""
 
     description: Optional[str] = None
     r"""The description or name of the balance. Can be used to denote the purpose of the balance."""
 
-    status: Optional[GetPrimaryBalanceStatus] = None
+    status: Annotated[
+        Optional[GetPrimaryBalanceStatus], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The status of the balance."""
 
     transfer_frequency: Annotated[
-        Optional[GetPrimaryBalanceTransferFrequency],
+        Annotated[
+            Optional[GetPrimaryBalanceTransferFrequency],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="transferFrequency"),
     ] = None
     r"""The frequency with which the available amount on the balance will be settled to the configured transfer

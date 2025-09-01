@@ -3,11 +3,18 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
+from mollie.utils import (
+    FieldMetadata,
+    PathParamMetadata,
+    QueryParamMetadata,
+    validate_open_enum,
+)
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -131,14 +138,14 @@ class GetBalanceHalJSONError(ClientError):
         self.data = data
 
 
-class GetBalanceMode(str, Enum):
+class GetBalanceMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
 
 
-class GetBalanceCurrency(str, Enum):
+class GetBalanceCurrency(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The balance's ISO 4217 currency code."""
 
     EUR = "EUR"
@@ -155,14 +162,14 @@ class GetBalanceCurrency(str, Enum):
     CAD = "CAD"
 
 
-class GetBalanceStatus(str, Enum):
+class GetBalanceStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The status of the balance."""
 
     ACTIVE = "active"
     INACTIVE = "inactive"
 
 
-class GetBalanceTransferFrequency(str, Enum):
+class GetBalanceTransferFrequency(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The frequency with which the available amount on the balance will be settled to the configured transfer
     destination.
 
@@ -204,7 +211,7 @@ class GetBalanceTransferThreshold(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class GetBalanceType(str, Enum):
+class GetBalanceType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The default destination of automatic scheduled transfers. Currently only `bank-account` is supported.
 
     * `bank-account` — Transfer the balance amount to an external bank account
@@ -234,7 +241,9 @@ class GetBalanceTransferDestination(BaseModel):
     transfer frequency.
     """
 
-    type: Optional[GetBalanceType] = None
+    type: Annotated[
+        Optional[GetBalanceType], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The default destination of automatic scheduled transfers. Currently only `bank-account` is supported.
 
     * `bank-account` — Transfer the balance amount to an external bank account
@@ -401,23 +410,33 @@ class GetBalanceResponse(BaseModel):
     id: Optional[str] = None
     r"""The identifier uniquely referring to this balance."""
 
-    mode: Optional[GetBalanceMode] = None
+    mode: Annotated[
+        Optional[GetBalanceMode], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""Whether this entity was created in live mode or in test mode."""
 
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    currency: Optional[GetBalanceCurrency] = None
+    currency: Annotated[
+        Optional[GetBalanceCurrency], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The balance's ISO 4217 currency code."""
 
     description: Optional[str] = None
     r"""The description or name of the balance. Can be used to denote the purpose of the balance."""
 
-    status: Optional[GetBalanceStatus] = None
+    status: Annotated[
+        Optional[GetBalanceStatus], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The status of the balance."""
 
     transfer_frequency: Annotated[
-        Optional[GetBalanceTransferFrequency], pydantic.Field(alias="transferFrequency")
+        Annotated[
+            Optional[GetBalanceTransferFrequency],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="transferFrequency"),
     ] = None
     r"""The frequency with which the available amount on the balance will be settled to the configured transfer
     destination.

@@ -3,11 +3,13 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, QueryParamMetadata
+from mollie.utils import FieldMetadata, QueryParamMetadata, validate_open_enum
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -225,14 +227,14 @@ class ListCustomersBadRequestHalJSONError(ClientError):
         self.data = data
 
 
-class ListCustomersMode(str, Enum):
+class ListCustomersMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
 
 
-class ListCustomersLocale(str, Enum):
+class ListCustomersLocale(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if
     absolutely necessary. If not provided, the browser language will be used which is typically highly accurate.
     """
@@ -516,7 +518,7 @@ class ListCustomersCustomer(BaseModel):
     id: str
     r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
 
-    mode: ListCustomersMode
+    mode: Annotated[ListCustomersMode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
 
     name: Nullable[str]
@@ -525,7 +527,9 @@ class ListCustomersCustomer(BaseModel):
     email: Nullable[str]
     r"""The email address of the customer."""
 
-    locale: Nullable[ListCustomersLocale]
+    locale: Annotated[
+        Nullable[ListCustomersLocale], PlainValidator(validate_open_enum(False))
+    ]
     r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if
     absolutely necessary. If not provided, the browser language will be used which is typically highly accurate.
     """

@@ -3,11 +3,18 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
+from mollie.utils import (
+    FieldMetadata,
+    PathParamMetadata,
+    QueryParamMetadata,
+    validate_open_enum,
+)
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -156,7 +163,7 @@ class PaymentListRoutesAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class PaymentListRoutesType(str, Enum):
+class PaymentListRoutesType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The type of destination. Currently only the destination type `organization` is supported."""
 
     ORGANIZATION = "organization"
@@ -176,7 +183,7 @@ class PaymentListRoutesDestinationTypedDict(TypedDict):
 class PaymentListRoutesDestination(BaseModel):
     r"""The destination of the route."""
 
-    type: PaymentListRoutesType
+    type: Annotated[PaymentListRoutesType, PlainValidator(validate_open_enum(False))]
     r"""The type of destination. Currently only the destination type `organization` is supported."""
 
     organization_id: Annotated[str, pydantic.Field(alias="organizationId")]

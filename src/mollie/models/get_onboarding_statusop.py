@@ -2,13 +2,16 @@
 
 from __future__ import annotations
 from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel
+from mollie.utils import validate_open_enum
 import pydantic
+from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class GetOnboardingStatusStatus(str, Enum):
+class GetOnboardingStatusStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The current status of the organization's onboarding process.
 
     * `needs-data` — The merchant needs to provide additional information
@@ -173,7 +176,9 @@ class GetOnboardingStatusResponse(BaseModel):
     name: Optional[str] = None
     r"""The name of the organization."""
 
-    status: Optional[GetOnboardingStatusStatus] = None
+    status: Annotated[
+        Optional[GetOnboardingStatusStatus], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The current status of the organization's onboarding process.
 
     * `needs-data` — The merchant needs to provide additional information

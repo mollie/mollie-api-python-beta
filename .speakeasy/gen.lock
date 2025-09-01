@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: 2e188bbc6e98a12bd1b21fc2641a9361
+  docChecksum: 8775b58eb25bdd828491af04b29ee197
   docVersion: 1.0.0
-  speakeasyVersion: 1.606.9
+  speakeasyVersion: 1.606.10
   generationVersion: 2.687.13
-  releaseVersion: 0.9.0
-  configChecksum: 66faea6b21f2cb4868d076b8b0bb38f8
+  releaseVersion: 0.10.0
+  configChecksum: d0cbfda781c3b2c3fea489366e8118cd
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -28,6 +28,7 @@ features:
     methodArguments: 1.0.2
     nameOverrides: 3.0.1
     nullables: 1.0.1
+    openEnums: 1.0.1
     responseFormat: 1.0.1
     retries: 3.0.2
     sdkHooks: 1.1.0
@@ -124,6 +125,7 @@ generatedFiles:
   - docs/models/cancelpaymentcustomer.md
   - docs/models/cancelpaymentdashboard.md
   - docs/models/cancelpaymentdestination.md
+  - docs/models/cancelpaymentdestinationtype.md
   - docs/models/cancelpaymentdetails.md
   - docs/models/cancelpaymentdiscountamount.md
   - docs/models/cancelpaymentdocumentation.md
@@ -160,7 +162,6 @@ generatedFiles:
   - docs/models/cancelpaymentroutinglinks.md
   - docs/models/cancelpaymentroutingmode.md
   - docs/models/cancelpaymentroutingself.md
-  - docs/models/cancelpaymentroutingtype.md
   - docs/models/cancelpaymentself.md
   - docs/models/cancelpaymentsellerprotection.md
   - docs/models/cancelpaymentsequencetype.md
@@ -503,6 +504,7 @@ generatedFiles:
   - docs/models/createcustomerpaymentdashboard.md
   - docs/models/createcustomerpaymentdestinationrequest.md
   - docs/models/createcustomerpaymentdestinationresponse.md
+  - docs/models/createcustomerpaymentdestinationtype.md
   - docs/models/createcustomerpaymentdetails.md
   - docs/models/createcustomerpaymentdiscountamountrequest.md
   - docs/models/createcustomerpaymentdiscountamountresponse.md
@@ -548,8 +550,6 @@ generatedFiles:
   - docs/models/createcustomerpaymentroutingrequest.md
   - docs/models/createcustomerpaymentroutingresponse.md
   - docs/models/createcustomerpaymentroutingselfresponse.md
-  - docs/models/createcustomerpaymentroutingtyperequest.md
-  - docs/models/createcustomerpaymentroutingtyperesponse.md
   - docs/models/createcustomerpayments.md
   - docs/models/createcustomerpaymentselfrequest.md
   - docs/models/createcustomerpaymentselfresponse.md
@@ -569,6 +569,7 @@ generatedFiles:
   - docs/models/createcustomerpaymentterminal.md
   - docs/models/createcustomerpaymenttotalamountrequest.md
   - docs/models/createcustomerpaymenttotalamountresponse.md
+  - docs/models/createcustomerpaymenttypeorganization.md
   - docs/models/createcustomerpaymentunitpricerequest.md
   - docs/models/createcustomerpaymentunitpriceresponse.md
   - docs/models/createcustomerpaymentunprocessableentitydocumentation.md
@@ -629,6 +630,7 @@ generatedFiles:
   - docs/models/createpaymentdashboard.md
   - docs/models/createpaymentdestinationrequest.md
   - docs/models/createpaymentdestinationresponse.md
+  - docs/models/createpaymentdestinationtype.md
   - docs/models/createpaymentdetails.md
   - docs/models/createpaymentdiscountamountrequest.md
   - docs/models/createpaymentdiscountamountresponse.md
@@ -715,8 +717,6 @@ generatedFiles:
   - docs/models/createpaymentroutingrequest.md
   - docs/models/createpaymentroutingresponse.md
   - docs/models/createpaymentroutingselfresponse.md
-  - docs/models/createpaymentroutingtyperequest.md
-  - docs/models/createpaymentroutingtyperesponse.md
   - docs/models/createpaymentselfrequest.md
   - docs/models/createpaymentselfresponse.md
   - docs/models/createpaymentsellerprotection.md
@@ -735,6 +735,7 @@ generatedFiles:
   - docs/models/createpaymentterminal.md
   - docs/models/createpaymenttotalamountrequest.md
   - docs/models/createpaymenttotalamountresponse.md
+  - docs/models/createpaymenttypeorganization.md
   - docs/models/createpaymentunitpricerequest.md
   - docs/models/createpaymentunitpriceresponse.md
   - docs/models/createpaymentunprocessableentitydocumentation.md
@@ -765,6 +766,7 @@ generatedFiles:
   - docs/models/createrefundamountresponse.md
   - docs/models/createrefunddocumentation.md
   - docs/models/createrefundexternalreferenceresponse.md
+  - docs/models/createrefundexternalreferencetype.md
   - docs/models/createrefundlinks.md
   - docs/models/createrefundmetadatarequest.md
   - docs/models/createrefundmetadataresponse.md
@@ -782,9 +784,7 @@ generatedFiles:
   - docs/models/createrefundsettlement.md
   - docs/models/createrefundsettlementamount.md
   - docs/models/createrefundsourceoutput.md
-  - docs/models/createrefundsourcerequest.md
   - docs/models/createrefundstatus.md
-  - docs/models/createrefundtyperesponse.md
   - docs/models/createrefundunprocessableentitydocumentation.md
   - docs/models/createrefundunprocessableentityhaljsonerror.md
   - docs/models/createrefundunprocessableentitylinks.md
@@ -1231,6 +1231,7 @@ generatedFiles:
   - docs/models/getpaymentcustomer.md
   - docs/models/getpaymentdashboard.md
   - docs/models/getpaymentdestination.md
+  - docs/models/getpaymentdestinationtype.md
   - docs/models/getpaymentdetails.md
   - docs/models/getpaymentdiscountamount.md
   - docs/models/getpaymentdocumentation.md
@@ -1281,6 +1282,7 @@ generatedFiles:
   - docs/models/getpaymentlinkpaymentscustomer.md
   - docs/models/getpaymentlinkpaymentsdashboard.md
   - docs/models/getpaymentlinkpaymentsdestination.md
+  - docs/models/getpaymentlinkpaymentsdestinationtype.md
   - docs/models/getpaymentlinkpaymentsdetails.md
   - docs/models/getpaymentlinkpaymentsdiscountamount.md
   - docs/models/getpaymentlinkpaymentsdocumentation.md
@@ -1321,7 +1323,6 @@ generatedFiles:
   - docs/models/getpaymentlinkpaymentsroutingmode.md
   - docs/models/getpaymentlinkpaymentsroutingpayment.md
   - docs/models/getpaymentlinkpaymentsroutingself.md
-  - docs/models/getpaymentlinkpaymentsroutingtype.md
   - docs/models/getpaymentlinkpaymentsself.md
   - docs/models/getpaymentlinkpaymentssellerprotection.md
   - docs/models/getpaymentlinkpaymentssequencetype.md
@@ -1373,7 +1374,6 @@ generatedFiles:
   - docs/models/getpaymentroutinglinks.md
   - docs/models/getpaymentroutingmode.md
   - docs/models/getpaymentroutingself.md
-  - docs/models/getpaymentroutingtype.md
   - docs/models/getpaymentself.md
   - docs/models/getpaymentsellerprotection.md
   - docs/models/getpaymentsequencetype.md
@@ -1852,6 +1852,7 @@ generatedFiles:
   - docs/models/listcustomerpaymentscustomer.md
   - docs/models/listcustomerpaymentsdashboard.md
   - docs/models/listcustomerpaymentsdestination.md
+  - docs/models/listcustomerpaymentsdestinationtype.md
   - docs/models/listcustomerpaymentsdetails.md
   - docs/models/listcustomerpaymentsdiscountamount.md
   - docs/models/listcustomerpaymentsdocumentation.md
@@ -1892,7 +1893,6 @@ generatedFiles:
   - docs/models/listcustomerpaymentsroutingmode.md
   - docs/models/listcustomerpaymentsroutingpayment.md
   - docs/models/listcustomerpaymentsroutingself.md
-  - docs/models/listcustomerpaymentsroutingtype.md
   - docs/models/listcustomerpaymentsself.md
   - docs/models/listcustomerpaymentssellerprotection.md
   - docs/models/listcustomerpaymentssequencetype.md
@@ -2047,6 +2047,7 @@ generatedFiles:
   - docs/models/listpaymentscustomer.md
   - docs/models/listpaymentsdashboard.md
   - docs/models/listpaymentsdestination.md
+  - docs/models/listpaymentsdestinationtype.md
   - docs/models/listpaymentsdetails.md
   - docs/models/listpaymentsdiscountamount.md
   - docs/models/listpaymentsdocumentation.md
@@ -2087,7 +2088,6 @@ generatedFiles:
   - docs/models/listpaymentsroutingmode.md
   - docs/models/listpaymentsroutingpayment.md
   - docs/models/listpaymentsroutingself.md
-  - docs/models/listpaymentsroutingtype.md
   - docs/models/listpaymentsself.md
   - docs/models/listpaymentssellerprotection.md
   - docs/models/listpaymentssequencetype.md
@@ -2276,6 +2276,7 @@ generatedFiles:
   - docs/models/listsettlementpaymentscustomer.md
   - docs/models/listsettlementpaymentsdashboard.md
   - docs/models/listsettlementpaymentsdestination.md
+  - docs/models/listsettlementpaymentsdestinationtype.md
   - docs/models/listsettlementpaymentsdetails.md
   - docs/models/listsettlementpaymentsdiscountamount.md
   - docs/models/listsettlementpaymentsdocumentation.md
@@ -2316,7 +2317,6 @@ generatedFiles:
   - docs/models/listsettlementpaymentsroutingmode.md
   - docs/models/listsettlementpaymentsroutingpayment.md
   - docs/models/listsettlementpaymentsroutingself.md
-  - docs/models/listsettlementpaymentsroutingtype.md
   - docs/models/listsettlementpaymentsself.md
   - docs/models/listsettlementpaymentssellerprotection.md
   - docs/models/listsettlementpaymentssequencetype.md
@@ -2411,6 +2411,7 @@ generatedFiles:
   - docs/models/listsubscriptionpaymentscustomer.md
   - docs/models/listsubscriptionpaymentsdashboard.md
   - docs/models/listsubscriptionpaymentsdestination.md
+  - docs/models/listsubscriptionpaymentsdestinationtype.md
   - docs/models/listsubscriptionpaymentsdetails.md
   - docs/models/listsubscriptionpaymentsdiscountamount.md
   - docs/models/listsubscriptionpaymentsdocumentation.md
@@ -2451,7 +2452,6 @@ generatedFiles:
   - docs/models/listsubscriptionpaymentsroutingmode.md
   - docs/models/listsubscriptionpaymentsroutingpayment.md
   - docs/models/listsubscriptionpaymentsroutingself.md
-  - docs/models/listsubscriptionpaymentsroutingtype.md
   - docs/models/listsubscriptionpaymentsself.md
   - docs/models/listsubscriptionpaymentssellerprotection.md
   - docs/models/listsubscriptionpaymentssequencetype.md
@@ -2599,6 +2599,7 @@ generatedFiles:
   - docs/models/paymentcreaterouteamountresponse.md
   - docs/models/paymentcreateroutedestinationrequest.md
   - docs/models/paymentcreateroutedestinationresponse.md
+  - docs/models/paymentcreateroutedestinationtype.md
   - docs/models/paymentcreateroutedocumentation.md
   - docs/models/paymentcreateroutehaljsonerror.md
   - docs/models/paymentcreateroutelinks.md
@@ -2608,8 +2609,7 @@ generatedFiles:
   - docs/models/paymentcreaterouterequestbody.md
   - docs/models/paymentcreaterouteresponse.md
   - docs/models/paymentcreaterouteself.md
-  - docs/models/paymentcreateroutetyperequest.md
-  - docs/models/paymentcreateroutetyperesponse.md
+  - docs/models/paymentcreateroutetypeorganization.md
   - docs/models/paymentfee.md
   - docs/models/paymentlinklinks.md
   - docs/models/paymentlinkself.md
@@ -2863,6 +2863,7 @@ generatedFiles:
   - docs/models/settlementlinks.md
   - docs/models/settlementself.md
   - docs/models/signuplink.md
+  - docs/models/sourceorganization.md
   - docs/models/splitpayment.md
   - docs/models/submitonboardingdataaddress.md
   - docs/models/submitonboardingdataorganization.md
@@ -2994,7 +2995,7 @@ generatedFiles:
   - docs/models/transferspendingsubtotalprepaymentparttype2.md
   - docs/models/transferspendingsubtotaltransactiontype1.md
   - docs/models/transferspendingsubtotaltransactiontype2.md
-  - docs/models/typeacquirerreferencerequest.md
+  - docs/models/typeacquirerreference.md
   - docs/models/unauthorizeddirectdebit.md
   - docs/models/updatecustomerdashboard.md
   - docs/models/updatecustomerdocumentation.md
@@ -3039,6 +3040,7 @@ generatedFiles:
   - docs/models/updatepaymentcustomer.md
   - docs/models/updatepaymentdashboard.md
   - docs/models/updatepaymentdestination.md
+  - docs/models/updatepaymentdestinationtype.md
   - docs/models/updatepaymentdetails.md
   - docs/models/updatepaymentdiscountamount.md
   - docs/models/updatepaymentdocumentation.md
@@ -3115,7 +3117,6 @@ generatedFiles:
   - docs/models/updatepaymentroutinglinks.md
   - docs/models/updatepaymentroutingmode.md
   - docs/models/updatepaymentroutingself.md
-  - docs/models/updatepaymentroutingtype.md
   - docs/models/updatepaymentself.md
   - docs/models/updatepaymentsellerprotection.md
   - docs/models/updatepaymentsequencetype.md

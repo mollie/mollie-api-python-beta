@@ -3,11 +3,18 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
+from mollie.utils import (
+    FieldMetadata,
+    PathParamMetadata,
+    RequestMetadata,
+    validate_open_enum,
+)
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -35,7 +42,7 @@ class PaymentCreateRouteAmountRequest(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class PaymentCreateRouteTypeRequest(str, Enum):
+class PaymentCreateRouteTypeOrganization(str, Enum):
     r"""The type of destination. Currently only the destination type `organization` is supported."""
 
     ORGANIZATION = "organization"
@@ -44,7 +51,7 @@ class PaymentCreateRouteTypeRequest(str, Enum):
 class PaymentCreateRouteDestinationRequestTypedDict(TypedDict):
     r"""The destination of the route."""
 
-    type: PaymentCreateRouteTypeRequest
+    type: PaymentCreateRouteTypeOrganization
     r"""The type of destination. Currently only the destination type `organization` is supported."""
     organization_id: str
     r"""Required for destination type `organization`. The ID of the connected organization the funds should be
@@ -55,7 +62,7 @@ class PaymentCreateRouteDestinationRequestTypedDict(TypedDict):
 class PaymentCreateRouteDestinationRequest(BaseModel):
     r"""The destination of the route."""
 
-    type: PaymentCreateRouteTypeRequest
+    type: PaymentCreateRouteTypeOrganization
     r"""The type of destination. Currently only the destination type `organization` is supported."""
 
     organization_id: Annotated[str, pydantic.Field(alias="organizationId")]
@@ -235,7 +242,7 @@ class PaymentCreateRouteAmountResponse(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class PaymentCreateRouteTypeResponse(str, Enum):
+class PaymentCreateRouteDestinationType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The type of destination. Currently only the destination type `organization` is supported."""
 
     ORGANIZATION = "organization"
@@ -244,7 +251,7 @@ class PaymentCreateRouteTypeResponse(str, Enum):
 class PaymentCreateRouteDestinationResponseTypedDict(TypedDict):
     r"""The destination of the route."""
 
-    type: PaymentCreateRouteTypeResponse
+    type: PaymentCreateRouteDestinationType
     r"""The type of destination. Currently only the destination type `organization` is supported."""
     organization_id: str
     r"""Required for destination type `organization`. The ID of the connected organization the funds should be
@@ -255,7 +262,9 @@ class PaymentCreateRouteDestinationResponseTypedDict(TypedDict):
 class PaymentCreateRouteDestinationResponse(BaseModel):
     r"""The destination of the route."""
 
-    type: PaymentCreateRouteTypeResponse
+    type: Annotated[
+        PaymentCreateRouteDestinationType, PlainValidator(validate_open_enum(False))
+    ]
     r"""The type of destination. Currently only the destination type `organization` is supported."""
 
     organization_id: Annotated[str, pydantic.Field(alias="organizationId")]

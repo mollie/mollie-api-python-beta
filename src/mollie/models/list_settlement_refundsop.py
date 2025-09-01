@@ -3,11 +3,18 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
+from mollie.utils import (
+    FieldMetadata,
+    PathParamMetadata,
+    QueryParamMetadata,
+    validate_open_enum,
+)
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -235,7 +242,7 @@ class ListSettlementRefundsBadRequestHalJSONError(ClientError):
         self.data = data
 
 
-class ListSettlementRefundsMode(str, Enum):
+class ListSettlementRefundsMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -326,7 +333,7 @@ you fetch the entity with our API, we will also include the metadata. You can us
 """
 
 
-class ListSettlementRefundsStatus(str, Enum):
+class ListSettlementRefundsStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Refunds may take some time to get confirmed."""
 
     QUEUED = "queued"
@@ -337,7 +344,7 @@ class ListSettlementRefundsStatus(str, Enum):
     CANCELED = "canceled"
 
 
-class ListSettlementRefundsType(str, Enum):
+class ListSettlementRefundsType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Specifies the reference type"""
 
     ACQUIRER_REFERENCE = "acquirer-reference"
@@ -351,7 +358,9 @@ class ListSettlementRefundsExternalReferenceTypedDict(TypedDict):
 
 
 class ListSettlementRefundsExternalReference(BaseModel):
-    type: Optional[ListSettlementRefundsType] = None
+    type: Annotated[
+        Optional[ListSettlementRefundsType], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""Specifies the reference type"""
 
     id: Optional[str] = None
@@ -627,7 +636,9 @@ class ListSettlementRefundsRefund(BaseModel):
     will always refer to the refund by this ID. Example: `re_4qqhO89gsT`.
     """
 
-    mode: Optional[ListSettlementRefundsMode] = None
+    mode: Annotated[
+        Optional[ListSettlementRefundsMode], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""Whether this entity was created in live mode or in test mode."""
 
     description: Optional[str] = None
@@ -672,7 +683,9 @@ class ListSettlementRefundsRefund(BaseModel):
     ] = UNSET
     r"""The identifier referring to the settlement this refund was settled with. This field is omitted if the refund is not settled (yet)."""
 
-    status: Optional[ListSettlementRefundsStatus] = None
+    status: Annotated[
+        Optional[ListSettlementRefundsStatus], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""Refunds may take some time to get confirmed."""
 
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None

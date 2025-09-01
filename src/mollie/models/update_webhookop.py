@@ -3,11 +3,18 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
+from mollie.utils import (
+    FieldMetadata,
+    PathParamMetadata,
+    RequestMetadata,
+    validate_open_enum,
+)
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -226,7 +233,7 @@ class UpdateWebhookNotFoundHalJSONError(ClientError):
         self.data = data
 
 
-class UpdateWebhookStatus(str, Enum):
+class UpdateWebhookStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The subscription's current status."""
 
     ENABLED = "enabled"
@@ -235,7 +242,7 @@ class UpdateWebhookStatus(str, Enum):
     DELETED = "deleted"
 
 
-class UpdateWebhookMode(str, Enum):
+class UpdateWebhookMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The subscription's mode."""
 
     LIVE = "live"
@@ -295,8 +302,12 @@ class UpdateWebhookResponse(BaseModel):
     )
     r"""The events types that are subscribed."""
 
-    status: Optional[UpdateWebhookStatus] = None
+    status: Annotated[
+        Optional[UpdateWebhookStatus], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The subscription's current status."""
 
-    mode: Optional[UpdateWebhookMode] = None
+    mode: Annotated[
+        Optional[UpdateWebhookMode], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The subscription's mode."""

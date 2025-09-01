@@ -2,14 +2,17 @@
 
 from __future__ import annotations
 from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class GetOpenSettlementStatus(str, Enum):
+class GetOpenSettlementStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The status of the settlement."""
 
     OPEN = "open"
@@ -327,7 +330,9 @@ class GetOpenSettlementResponse(BaseModel):
     date is available.
     """
 
-    status: Optional[GetOpenSettlementStatus] = None
+    status: Annotated[
+        Optional[GetOpenSettlementStatus], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The status of the settlement."""
 
     amount: Optional[GetOpenSettlementAmount] = None

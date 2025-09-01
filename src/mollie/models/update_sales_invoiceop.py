@@ -3,11 +3,18 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
+from mollie.utils import (
+    FieldMetadata,
+    PathParamMetadata,
+    RequestMetadata,
+    validate_open_enum,
+)
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -772,7 +779,7 @@ class UpdateSalesInvoiceNotFoundHalJSONError(ClientError):
         self.data = data
 
 
-class UpdateSalesInvoiceStatusResponse(str, Enum):
+class UpdateSalesInvoiceStatusResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The status for the invoice to end up in.
 
     A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
@@ -793,14 +800,14 @@ class UpdateSalesInvoiceStatusResponse(str, Enum):
     PAID = "paid"
 
 
-class UpdateSalesInvoiceVatScheme(str, Enum):
+class UpdateSalesInvoiceVatScheme(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
 
     STANDARD = "standard"
     ONE_STOP_SHOP = "one-stop-shop"
 
 
-class UpdateSalesInvoiceVatMode(str, Enum):
+class UpdateSalesInvoiceVatMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
     price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
     """
@@ -821,7 +828,7 @@ class UpdateSalesInvoiceMetadata(BaseModel):
     """
 
 
-class UpdateSalesInvoicePaymentTermResponse(str, Enum):
+class UpdateSalesInvoicePaymentTermResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The payment term to be set on the invoice."""
 
     SEVENDAYS = "7 days"
@@ -833,7 +840,7 @@ class UpdateSalesInvoicePaymentTermResponse(str, Enum):
     ONE_HUNDRED_AND_TWENTYDAYS = "120 days"
 
 
-class UpdateSalesInvoiceSourceResponse(str, Enum):
+class UpdateSalesInvoiceSourceResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The way through which the invoice is to be set to paid."""
 
     MANUAL = "manual"
@@ -859,7 +866,9 @@ class UpdateSalesInvoicePaymentDetailsResponse(BaseModel):
     provided details. Required for `paid` status.
     """
 
-    source: UpdateSalesInvoiceSourceResponse
+    source: Annotated[
+        UpdateSalesInvoiceSourceResponse, PlainValidator(validate_open_enum(False))
+    ]
     r"""The way through which the invoice is to be set to paid."""
 
     source_reference: Annotated[
@@ -923,7 +932,7 @@ class UpdateSalesInvoiceEmailDetailsResponse(BaseModel):
     r"""The body of the email to be sent. To add newline characters, you can use `\n`."""
 
 
-class UpdateSalesInvoiceRecipientTypeResponse(str, Enum):
+class UpdateSalesInvoiceRecipientTypeResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The type of recipient, either `consumer` or `business`. This will determine what further fields are
     required on the `recipient` object.
     """
@@ -932,7 +941,7 @@ class UpdateSalesInvoiceRecipientTypeResponse(str, Enum):
     BUSINESS = "business"
 
 
-class UpdateSalesInvoiceLocaleResponse(str, Enum):
+class UpdateSalesInvoiceLocaleResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The locale for the recipient, to be used for translations in PDF generation and payment pages."""
 
     EN_US = "en_US"
@@ -992,7 +1001,10 @@ class UpdateSalesInvoiceRecipientResponseTypedDict(TypedDict):
 
 
 class UpdateSalesInvoiceRecipientResponse(BaseModel):
-    type: UpdateSalesInvoiceRecipientTypeResponse
+    type: Annotated[
+        UpdateSalesInvoiceRecipientTypeResponse,
+        PlainValidator(validate_open_enum(False)),
+    ]
     r"""The type of recipient, either `consumer` or `business`. This will determine what further fields are
     required on the `recipient` object.
     """
@@ -1012,7 +1024,9 @@ class UpdateSalesInvoiceRecipientResponse(BaseModel):
     country: str
     r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""
 
-    locale: UpdateSalesInvoiceLocaleResponse
+    locale: Annotated[
+        UpdateSalesInvoiceLocaleResponse, PlainValidator(validate_open_enum(False))
+    ]
     r"""The locale for the recipient, to be used for translations in PDF generation and payment pages."""
 
     title: OptionalNullable[str] = UNSET
@@ -1142,7 +1156,7 @@ class UpdateSalesInvoiceUnitPriceResponse(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class UpdateSalesInvoiceLineTypeResponse(str, Enum):
+class UpdateSalesInvoiceLineTypeResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The type of discount."""
 
     AMOUNT = "amount"
@@ -1161,7 +1175,9 @@ class UpdateSalesInvoiceLineDiscountResponseTypedDict(TypedDict):
 class UpdateSalesInvoiceLineDiscountResponse(BaseModel):
     r"""The discount to be applied to the line item."""
 
-    type: UpdateSalesInvoiceLineTypeResponse
+    type: Annotated[
+        UpdateSalesInvoiceLineTypeResponse, PlainValidator(validate_open_enum(False))
+    ]
     r"""The type of discount."""
 
     value: str
@@ -1240,7 +1256,7 @@ class UpdateSalesInvoiceLineResponse(BaseModel):
         return m
 
 
-class UpdateSalesInvoiceDiscountTypeResponse(str, Enum):
+class UpdateSalesInvoiceDiscountTypeResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The type of discount."""
 
     AMOUNT = "amount"
@@ -1259,7 +1275,10 @@ class UpdateSalesInvoiceDiscountResponseTypedDict(TypedDict):
 class UpdateSalesInvoiceDiscountResponse(BaseModel):
     r"""The discount to be applied to the entire invoice, applied on top of any line item discounts."""
 
-    type: UpdateSalesInvoiceDiscountTypeResponse
+    type: Annotated[
+        UpdateSalesInvoiceDiscountTypeResponse,
+        PlainValidator(validate_open_enum(False)),
+    ]
     r"""The type of discount."""
 
     value: str
@@ -1631,7 +1650,10 @@ class UpdateSalesInvoiceResponse(BaseModel):
     ] = UNSET
     r"""When issued, an invoice number will be set for the sales invoice."""
 
-    status: Optional[UpdateSalesInvoiceStatusResponse] = None
+    status: Annotated[
+        Optional[UpdateSalesInvoiceStatusResponse],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
     r"""The status for the invoice to end up in.
 
     A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
@@ -1648,12 +1670,20 @@ class UpdateSalesInvoiceResponse(BaseModel):
     """
 
     vat_scheme: Annotated[
-        Optional[UpdateSalesInvoiceVatScheme], pydantic.Field(alias="vatScheme")
+        Annotated[
+            Optional[UpdateSalesInvoiceVatScheme],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="vatScheme"),
     ] = None
     r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
 
     vat_mode: Annotated[
-        Optional[UpdateSalesInvoiceVatMode], pydantic.Field(alias="vatMode")
+        Annotated[
+            Optional[UpdateSalesInvoiceVatMode],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="vatMode"),
     ] = None
     r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
     price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
@@ -1668,7 +1698,10 @@ class UpdateSalesInvoiceResponse(BaseModel):
     """
 
     payment_term: Annotated[
-        OptionalNullable[UpdateSalesInvoicePaymentTermResponse],
+        Annotated[
+            OptionalNullable[UpdateSalesInvoicePaymentTermResponse],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="paymentTerm"),
     ] = UNSET
     r"""The payment term to be set on the invoice."""

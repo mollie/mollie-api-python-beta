@@ -43,6 +43,18 @@ if TYPE_CHECKING:
 
 
 class ClientSDK(BaseSDK):
+    balances: "Balances"
+    settlements: "Settlements"
+    invoices: "Invoices"
+    permissions: "Permissions"
+    organizations: "Organizations"
+    profiles: "Profiles"
+    onboarding: "OnboardingSDK"
+    capabilities: "CapabilitiesSDK"
+    clients: "Clients"
+    client_links: "ClientLinksSDK"
+    webhooks: "Webhooks"
+    webhook_events: "WebhookEvents"
     payments: "PaymentsSDK"
     methods: "MethodsSDK"
     refunds: "RefundsSDK"
@@ -55,20 +67,20 @@ class ClientSDK(BaseSDK):
     customers: "Customers"
     mandates: "MandatesSDK"
     subscriptions: "SubscriptionsSDK"
-    permissions: "Permissions"
-    organizations: "Organizations"
-    profiles: "Profiles"
-    onboarding: "OnboardingSDK"
-    capabilities: "CapabilitiesSDK"
-    clients: "Clients"
-    client_links: "ClientLinksSDK"
-    webhooks: "Webhooks"
-    webhook_events: "WebhookEvents"
-    balances: "Balances"
-    settlements: "Settlements"
-    invoices: "Invoices"
     sales_invoices: "SalesInvoices"
     _sub_sdk_map = {
+        "balances": ("mollie.balances", "Balances"),
+        "settlements": ("mollie.settlements", "Settlements"),
+        "invoices": ("mollie.invoices", "Invoices"),
+        "permissions": ("mollie.permissions", "Permissions"),
+        "organizations": ("mollie.organizations", "Organizations"),
+        "profiles": ("mollie.profiles", "Profiles"),
+        "onboarding": ("mollie.onboarding_sdk", "OnboardingSDK"),
+        "capabilities": ("mollie.capabilities_sdk", "CapabilitiesSDK"),
+        "clients": ("mollie.clients", "Clients"),
+        "client_links": ("mollie.client_links_sdk", "ClientLinksSDK"),
+        "webhooks": ("mollie.webhooks", "Webhooks"),
+        "webhook_events": ("mollie.webhook_events", "WebhookEvents"),
         "payments": ("mollie.payments_sdk", "PaymentsSDK"),
         "methods": ("mollie.methods_sdk", "MethodsSDK"),
         "refunds": ("mollie.refunds_sdk", "RefundsSDK"),
@@ -81,18 +93,6 @@ class ClientSDK(BaseSDK):
         "customers": ("mollie.customers", "Customers"),
         "mandates": ("mollie.mandates_sdk", "MandatesSDK"),
         "subscriptions": ("mollie.subscriptions_sdk", "SubscriptionsSDK"),
-        "permissions": ("mollie.permissions", "Permissions"),
-        "organizations": ("mollie.organizations", "Organizations"),
-        "profiles": ("mollie.profiles", "Profiles"),
-        "onboarding": ("mollie.onboarding_sdk", "OnboardingSDK"),
-        "capabilities": ("mollie.capabilities_sdk", "CapabilitiesSDK"),
-        "clients": ("mollie.clients", "Clients"),
-        "client_links": ("mollie.client_links_sdk", "ClientLinksSDK"),
-        "webhooks": ("mollie.webhooks", "Webhooks"),
-        "webhook_events": ("mollie.webhook_events", "WebhookEvents"),
-        "balances": ("mollie.balances", "Balances"),
-        "settlements": ("mollie.settlements", "Settlements"),
-        "invoices": ("mollie.invoices", "Invoices"),
         "sales_invoices": ("mollie.sales_invoices", "SalesInvoices"),
     }
 

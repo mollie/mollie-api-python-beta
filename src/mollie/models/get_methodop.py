@@ -3,11 +3,18 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
+from mollie.utils import (
+    FieldMetadata,
+    PathParamMetadata,
+    QueryParamMetadata,
+    validate_open_enum,
+)
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -318,7 +325,7 @@ class GetMethodBadRequestHalJSONError(ClientError):
         self.data = data
 
 
-class GetMethodID(str, Enum):
+class GetMethodID(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment
     method selection screen will be skipped.
     """
@@ -431,7 +438,7 @@ class GetMethodImage(BaseModel):
     """
 
 
-class GetMethodStatus(str, Enum):
+class GetMethodStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The payment method's activation status for this profile."""
 
     ACTIVATED = "activated"
@@ -609,7 +616,7 @@ class GetMethodResponse(BaseModel):
     endpoint.
     """
 
-    id: GetMethodID
+    id: Annotated[GetMethodID, PlainValidator(validate_open_enum(False))]
     r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment
     method selection screen will be skipped.
     """
@@ -635,7 +642,7 @@ class GetMethodResponse(BaseModel):
     image: GetMethodImage
     r"""URLs of images representing the payment method."""
 
-    status: GetMethodStatus
+    status: Annotated[GetMethodStatus, PlainValidator(validate_open_enum(False))]
     r"""The payment method's activation status for this profile."""
 
     links: Annotated[GetMethodLinks, pydantic.Field(alias="_links")]

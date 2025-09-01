@@ -38,7 +38,7 @@ with ClientSDK(
             "value": "10.00",
         },
         "external_reference": {
-            "type": mollie.TypeAcquirerReferenceRequest.ACQUIRER_REFERENCE,
+            "type": mollie.TypeAcquirerReference.ACQUIRER_REFERENCE,
             "id": "123456789012345",
         },
         "reverse_routing": False,

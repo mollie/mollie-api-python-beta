@@ -3,11 +3,13 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, QueryParamMetadata
+from mollie.utils import FieldMetadata, QueryParamMetadata, validate_open_enum
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -166,14 +168,14 @@ class ListTerminalsHalJSONError(ClientError):
         self.data = data
 
 
-class ListTerminalsMode(str, Enum):
+class ListTerminalsMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
 
 
-class ListTerminalsStatus(str, Enum):
+class ListTerminalsStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The status of the terminal."""
 
     PENDING = "pending"
@@ -181,14 +183,14 @@ class ListTerminalsStatus(str, Enum):
     INACTIVE = "inactive"
 
 
-class ListTerminalsBrand(str, Enum):
+class ListTerminalsBrand(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The brand of the terminal."""
 
     PAX = "PAX"
     TAP = "Tap"
 
 
-class ListTerminalsModel(str, Enum):
+class ListTerminalsModel(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The model of the terminal. For example for a PAX A920, this field's value will be `A920`."""
 
     A35 = "A35"
@@ -302,7 +304,7 @@ class ListTerminalsTerminal(BaseModel):
     id: str
     r"""The identifier uniquely referring to this terminal. Example: `term_7MgL4wea46qkRcoTZjWEH`."""
 
-    mode: ListTerminalsMode
+    mode: Annotated[ListTerminalsMode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
 
     description: str
@@ -311,13 +313,17 @@ class ListTerminalsTerminal(BaseModel):
     may be visible on the device itself depending on the device.
     """
 
-    status: ListTerminalsStatus
+    status: Annotated[ListTerminalsStatus, PlainValidator(validate_open_enum(False))]
     r"""The status of the terminal."""
 
-    brand: Nullable[ListTerminalsBrand]
+    brand: Annotated[
+        Nullable[ListTerminalsBrand], PlainValidator(validate_open_enum(False))
+    ]
     r"""The brand of the terminal."""
 
-    model: Nullable[ListTerminalsModel]
+    model: Annotated[
+        Nullable[ListTerminalsModel], PlainValidator(validate_open_enum(False))
+    ]
     r"""The model of the terminal. For example for a PAX A920, this field's value will be `A920`."""
 
     serial_number: Annotated[Nullable[str], pydantic.Field(alias="serialNumber")]

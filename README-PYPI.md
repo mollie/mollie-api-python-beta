@@ -124,7 +124,6 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 
 ```python
 # Synchronous Example
-from datetime import date
 import mollie
 from mollie import ClientSDK
 import os
@@ -136,241 +135,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.payments.create(include=mollie.CreatePaymentInclude.DETAILS_QR_CODE, request_body={
-        "description": "Chess Board",
-        "amount": {
-            "currency": "EUR",
-            "value": "10.00",
-        },
-        "redirect_url": "https://example.org/redirect",
-        "cancel_url": "https://example.org/cancel",
-        "webhook_url": "https://example.org/webhooks",
-        "lines": [
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
-                ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... days",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
-                ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... weeks",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
-                ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... days",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-        ],
-        "billing_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "shipping_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "locale": mollie.CreatePaymentLocaleRequest.EN_US,
-        "method": mollie.CreatePaymentMethodRequest.IDEAL,
-        "issuer": "ideal_INGBNL2A",
-        "restrict_payment_methods_to_country": "NL",
-        "capture_mode": mollie.CreatePaymentCaptureModeRequest.MANUAL,
-        "capture_delay": "8 hours",
-        "application_fee": {
-            "amount": {
-                "currency": "EUR",
-                "value": "10.00",
-            },
-            "description": "10",
-        },
-        "routing": [
-            {
-                "amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "destination": {
-                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
-                    "organization_id": "org_1234567",
-                },
-                "release_date": "2024-12-12",
-                "links": {
-                    "self_": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                    "payment": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                },
-            },
-            {
-                "amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "destination": {
-                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
-                    "organization_id": "org_1234567",
-                },
-                "release_date": "2024-12-12",
-                "links": {
-                    "self_": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                    "payment": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                },
-            },
-        ],
-        "sequence_type": mollie.CreatePaymentSequenceTypeRequest.ONEOFF,
-        "mandate_id": "mdt_5B8cwPMGnU",
-        "customer_id": "cst_5B8cwPMGnU",
-        "profile_id": "pfl_5B8cwPMGnU",
-        "due_date": "2025-01-01",
-        "testmode": False,
-        "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
-        "company": {
-            "registration_number": "12345678",
-            "vat_number": "NL123456789B01",
-        },
-        "card_token": "tkn_12345",
-        "voucher_number": "1234567890",
-        "voucher_pin": "1234",
-        "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
-        "digital_goods": True,
-        "customer_reference": "1234567890",
-        "terminal_id": "term_1234567890",
-    })
+    res = client_sdk.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH", limit=50, testmode=False)
 
     # Handle response
     print(res)
@@ -382,7 +147,6 @@ The same SDK client can also be used to make asynchronous requests by importing 
 ```python
 # Asynchronous Example
 import asyncio
-from datetime import date
 import mollie
 from mollie import ClientSDK
 import os
@@ -395,241 +159,7 @@ async def main():
         ),
     ) as client_sdk:
 
-        res = await client_sdk.payments.create_async(include=mollie.CreatePaymentInclude.DETAILS_QR_CODE, request_body={
-            "description": "Chess Board",
-            "amount": {
-                "currency": "EUR",
-                "value": "10.00",
-            },
-            "redirect_url": "https://example.org/redirect",
-            "cancel_url": "https://example.org/cancel",
-            "webhook_url": "https://example.org/webhooks",
-            "lines": [
-                {
-                    "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                    "description": "LEGO 4440 Forest Police Station",
-                    "quantity": 1,
-                    "quantity_unit": "pcs",
-                    "unit_price": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "discount_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "total_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "vat_rate": "21.00",
-                    "vat_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "sku": "9780241661628",
-                    "categories": [
-                        mollie.CreatePaymentCategoryRequest.MEAL,
-                        mollie.CreatePaymentCategoryRequest.ECO,
-                    ],
-                    "image_url": "https://...",
-                    "product_url": "https://...",
-                    "recurring": {
-                        "description": "Gym subscription",
-                        "interval": "... days",
-                        "amount": {
-                            "currency": "EUR",
-                            "value": "10.00",
-                        },
-                        "times": 1,
-                        "start_date": "2024-12-12",
-                    },
-                },
-                {
-                    "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                    "description": "LEGO 4440 Forest Police Station",
-                    "quantity": 1,
-                    "quantity_unit": "pcs",
-                    "unit_price": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "discount_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "total_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "vat_rate": "21.00",
-                    "vat_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "sku": "9780241661628",
-                    "categories": [
-                        mollie.CreatePaymentCategoryRequest.MEAL,
-                        mollie.CreatePaymentCategoryRequest.ECO,
-                    ],
-                    "image_url": "https://...",
-                    "product_url": "https://...",
-                    "recurring": {
-                        "description": "Gym subscription",
-                        "interval": "... weeks",
-                        "amount": {
-                            "currency": "EUR",
-                            "value": "10.00",
-                        },
-                        "times": 1,
-                        "start_date": "2024-12-12",
-                    },
-                },
-                {
-                    "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                    "description": "LEGO 4440 Forest Police Station",
-                    "quantity": 1,
-                    "quantity_unit": "pcs",
-                    "unit_price": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "discount_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "total_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "vat_rate": "21.00",
-                    "vat_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "sku": "9780241661628",
-                    "categories": [
-                        mollie.CreatePaymentCategoryRequest.MEAL,
-                        mollie.CreatePaymentCategoryRequest.ECO,
-                    ],
-                    "image_url": "https://...",
-                    "product_url": "https://...",
-                    "recurring": {
-                        "description": "Gym subscription",
-                        "interval": "... days",
-                        "amount": {
-                            "currency": "EUR",
-                            "value": "10.00",
-                        },
-                        "times": 1,
-                        "start_date": "2024-12-12",
-                    },
-                },
-            ],
-            "billing_address": {
-                "title": "Mr.",
-                "given_name": "Piet",
-                "family_name": "Mondriaan",
-                "organization_name": "Mollie B.V.",
-                "street_and_number": "Keizersgracht 126",
-                "street_additional": "Apt. 1",
-                "postal_code": "1234AB",
-                "email": "piet@example.org",
-                "phone": "31208202070",
-                "city": "Amsterdam",
-                "region": "Noord-Holland",
-                "country": "NL",
-            },
-            "shipping_address": {
-                "title": "Mr.",
-                "given_name": "Piet",
-                "family_name": "Mondriaan",
-                "organization_name": "Mollie B.V.",
-                "street_and_number": "Keizersgracht 126",
-                "street_additional": "Apt. 1",
-                "postal_code": "1234AB",
-                "email": "piet@example.org",
-                "phone": "31208202070",
-                "city": "Amsterdam",
-                "region": "Noord-Holland",
-                "country": "NL",
-            },
-            "locale": mollie.CreatePaymentLocaleRequest.EN_US,
-            "method": mollie.CreatePaymentMethodRequest.IDEAL,
-            "issuer": "ideal_INGBNL2A",
-            "restrict_payment_methods_to_country": "NL",
-            "capture_mode": mollie.CreatePaymentCaptureModeRequest.MANUAL,
-            "capture_delay": "8 hours",
-            "application_fee": {
-                "amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "description": "10",
-            },
-            "routing": [
-                {
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "destination": {
-                        "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
-                        "organization_id": "org_1234567",
-                    },
-                    "release_date": "2024-12-12",
-                    "links": {
-                        "self_": {
-                            "href": "https://...",
-                            "type": "application/hal+json",
-                        },
-                        "payment": {
-                            "href": "https://...",
-                            "type": "application/hal+json",
-                        },
-                    },
-                },
-                {
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "destination": {
-                        "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
-                        "organization_id": "org_1234567",
-                    },
-                    "release_date": "2024-12-12",
-                    "links": {
-                        "self_": {
-                            "href": "https://...",
-                            "type": "application/hal+json",
-                        },
-                        "payment": {
-                            "href": "https://...",
-                            "type": "application/hal+json",
-                        },
-                    },
-                },
-            ],
-            "sequence_type": mollie.CreatePaymentSequenceTypeRequest.ONEOFF,
-            "mandate_id": "mdt_5B8cwPMGnU",
-            "customer_id": "cst_5B8cwPMGnU",
-            "profile_id": "pfl_5B8cwPMGnU",
-            "due_date": "2025-01-01",
-            "testmode": False,
-            "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
-            "company": {
-                "registration_number": "12345678",
-                "vat_number": "NL123456789B01",
-            },
-            "card_token": "tkn_12345",
-            "voucher_number": "1234567890",
-            "voucher_pin": "1234",
-            "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
-            "digital_goods": True,
-            "customer_reference": "1234567890",
-            "terminal_id": "term_1234567890",
-        })
+        res = await client_sdk.balances.list_async(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH", limit=50, testmode=False)
 
         # Handle response
         print(res)
@@ -652,7 +182,6 @@ This SDK supports the following security schemes globally:
 
 You can set the security parameters through the `security` optional parameter when initializing the SDK client instance. The selected scheme will be used by default to authenticate with the API for all operations that support it. For example:
 ```python
-from datetime import date
 import mollie
 from mollie import ClientSDK
 import os
@@ -664,241 +193,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.payments.create(include=mollie.CreatePaymentInclude.DETAILS_QR_CODE, request_body={
-        "description": "Chess Board",
-        "amount": {
-            "currency": "EUR",
-            "value": "10.00",
-        },
-        "redirect_url": "https://example.org/redirect",
-        "cancel_url": "https://example.org/cancel",
-        "webhook_url": "https://example.org/webhooks",
-        "lines": [
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
-                ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... days",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
-                ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... weeks",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
-                ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... days",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-        ],
-        "billing_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "shipping_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "locale": mollie.CreatePaymentLocaleRequest.EN_US,
-        "method": mollie.CreatePaymentMethodRequest.IDEAL,
-        "issuer": "ideal_INGBNL2A",
-        "restrict_payment_methods_to_country": "NL",
-        "capture_mode": mollie.CreatePaymentCaptureModeRequest.MANUAL,
-        "capture_delay": "8 hours",
-        "application_fee": {
-            "amount": {
-                "currency": "EUR",
-                "value": "10.00",
-            },
-            "description": "10",
-        },
-        "routing": [
-            {
-                "amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "destination": {
-                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
-                    "organization_id": "org_1234567",
-                },
-                "release_date": "2024-12-12",
-                "links": {
-                    "self_": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                    "payment": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                },
-            },
-            {
-                "amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "destination": {
-                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
-                    "organization_id": "org_1234567",
-                },
-                "release_date": "2024-12-12",
-                "links": {
-                    "self_": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                    "payment": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                },
-            },
-        ],
-        "sequence_type": mollie.CreatePaymentSequenceTypeRequest.ONEOFF,
-        "mandate_id": "mdt_5B8cwPMGnU",
-        "customer_id": "cst_5B8cwPMGnU",
-        "profile_id": "pfl_5B8cwPMGnU",
-        "due_date": "2025-01-01",
-        "testmode": False,
-        "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
-        "company": {
-            "registration_number": "12345678",
-            "vat_number": "NL123456789B01",
-        },
-        "card_token": "tkn_12345",
-        "voucher_number": "1234567890",
-        "voucher_pin": "1234",
-        "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
-        "digital_goods": True,
-        "customer_reference": "1234567890",
-        "terminal_id": "term_1234567890",
-    })
+    res = client_sdk.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH", limit=50, testmode=False)
 
     # Handle response
     print(res)
@@ -1091,7 +386,6 @@ Some of the endpoints in this SDK support retries. If you use the SDK without an
 
 To change the default retry strategy for a single API call, simply provide a `RetryConfig` object to the call:
 ```python
-from datetime import date
 import mollie
 from mollie import ClientSDK
 from mollie.utils import BackoffStrategy, RetryConfig
@@ -1104,241 +398,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.payments.create(include=mollie.CreatePaymentInclude.DETAILS_QR_CODE, request_body={
-        "description": "Chess Board",
-        "amount": {
-            "currency": "EUR",
-            "value": "10.00",
-        },
-        "redirect_url": "https://example.org/redirect",
-        "cancel_url": "https://example.org/cancel",
-        "webhook_url": "https://example.org/webhooks",
-        "lines": [
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
-                ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... days",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
-                ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... weeks",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
-                ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... days",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-        ],
-        "billing_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "shipping_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "locale": mollie.CreatePaymentLocaleRequest.EN_US,
-        "method": mollie.CreatePaymentMethodRequest.IDEAL,
-        "issuer": "ideal_INGBNL2A",
-        "restrict_payment_methods_to_country": "NL",
-        "capture_mode": mollie.CreatePaymentCaptureModeRequest.MANUAL,
-        "capture_delay": "8 hours",
-        "application_fee": {
-            "amount": {
-                "currency": "EUR",
-                "value": "10.00",
-            },
-            "description": "10",
-        },
-        "routing": [
-            {
-                "amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "destination": {
-                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
-                    "organization_id": "org_1234567",
-                },
-                "release_date": "2024-12-12",
-                "links": {
-                    "self_": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                    "payment": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                },
-            },
-            {
-                "amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "destination": {
-                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
-                    "organization_id": "org_1234567",
-                },
-                "release_date": "2024-12-12",
-                "links": {
-                    "self_": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                    "payment": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                },
-            },
-        ],
-        "sequence_type": mollie.CreatePaymentSequenceTypeRequest.ONEOFF,
-        "mandate_id": "mdt_5B8cwPMGnU",
-        "customer_id": "cst_5B8cwPMGnU",
-        "profile_id": "pfl_5B8cwPMGnU",
-        "due_date": "2025-01-01",
-        "testmode": False,
-        "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
-        "company": {
-            "registration_number": "12345678",
-            "vat_number": "NL123456789B01",
-        },
-        "card_token": "tkn_12345",
-        "voucher_number": "1234567890",
-        "voucher_pin": "1234",
-        "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
-        "digital_goods": True,
-        "customer_reference": "1234567890",
-        "terminal_id": "term_1234567890",
-    },
+    res = client_sdk.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH", limit=50, testmode=False,
         RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
 
     # Handle response
@@ -1348,7 +408,6 @@ with ClientSDK(
 
 If you'd like to override the default retry strategy for all operations that support retries, you can use the `retry_config` optional parameter when initializing the SDK:
 ```python
-from datetime import date
 import mollie
 from mollie import ClientSDK
 from mollie.utils import BackoffStrategy, RetryConfig
@@ -1362,241 +421,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.payments.create(include=mollie.CreatePaymentInclude.DETAILS_QR_CODE, request_body={
-        "description": "Chess Board",
-        "amount": {
-            "currency": "EUR",
-            "value": "10.00",
-        },
-        "redirect_url": "https://example.org/redirect",
-        "cancel_url": "https://example.org/cancel",
-        "webhook_url": "https://example.org/webhooks",
-        "lines": [
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
-                ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... days",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
-                ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... weeks",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
-                ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... days",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-        ],
-        "billing_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "shipping_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "locale": mollie.CreatePaymentLocaleRequest.EN_US,
-        "method": mollie.CreatePaymentMethodRequest.IDEAL,
-        "issuer": "ideal_INGBNL2A",
-        "restrict_payment_methods_to_country": "NL",
-        "capture_mode": mollie.CreatePaymentCaptureModeRequest.MANUAL,
-        "capture_delay": "8 hours",
-        "application_fee": {
-            "amount": {
-                "currency": "EUR",
-                "value": "10.00",
-            },
-            "description": "10",
-        },
-        "routing": [
-            {
-                "amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "destination": {
-                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
-                    "organization_id": "org_1234567",
-                },
-                "release_date": "2024-12-12",
-                "links": {
-                    "self_": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                    "payment": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                },
-            },
-            {
-                "amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "destination": {
-                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
-                    "organization_id": "org_1234567",
-                },
-                "release_date": "2024-12-12",
-                "links": {
-                    "self_": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                    "payment": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                },
-            },
-        ],
-        "sequence_type": mollie.CreatePaymentSequenceTypeRequest.ONEOFF,
-        "mandate_id": "mdt_5B8cwPMGnU",
-        "customer_id": "cst_5B8cwPMGnU",
-        "profile_id": "pfl_5B8cwPMGnU",
-        "due_date": "2025-01-01",
-        "testmode": False,
-        "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
-        "company": {
-            "registration_number": "12345678",
-            "vat_number": "NL123456789B01",
-        },
-        "card_token": "tkn_12345",
-        "voucher_number": "1234567890",
-        "voucher_pin": "1234",
-        "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
-        "digital_goods": True,
-        "customer_reference": "1234567890",
-        "terminal_id": "term_1234567890",
-    })
+    res = client_sdk.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH", limit=50, testmode=False)
 
     # Handle response
     print(res)
@@ -1620,7 +445,6 @@ with ClientSDK(
 
 ### Example
 ```python
-from datetime import date
 import mollie
 from mollie import ClientSDK, models
 import os
@@ -1634,241 +458,7 @@ with ClientSDK(
     res = None
     try:
 
-        res = client_sdk.payments.create(include=mollie.CreatePaymentInclude.DETAILS_QR_CODE, request_body={
-            "description": "Chess Board",
-            "amount": {
-                "currency": "EUR",
-                "value": "10.00",
-            },
-            "redirect_url": "https://example.org/redirect",
-            "cancel_url": "https://example.org/cancel",
-            "webhook_url": "https://example.org/webhooks",
-            "lines": [
-                {
-                    "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                    "description": "LEGO 4440 Forest Police Station",
-                    "quantity": 1,
-                    "quantity_unit": "pcs",
-                    "unit_price": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "discount_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "total_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "vat_rate": "21.00",
-                    "vat_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "sku": "9780241661628",
-                    "categories": [
-                        mollie.CreatePaymentCategoryRequest.MEAL,
-                        mollie.CreatePaymentCategoryRequest.ECO,
-                    ],
-                    "image_url": "https://...",
-                    "product_url": "https://...",
-                    "recurring": {
-                        "description": "Gym subscription",
-                        "interval": "... days",
-                        "amount": {
-                            "currency": "EUR",
-                            "value": "10.00",
-                        },
-                        "times": 1,
-                        "start_date": "2024-12-12",
-                    },
-                },
-                {
-                    "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                    "description": "LEGO 4440 Forest Police Station",
-                    "quantity": 1,
-                    "quantity_unit": "pcs",
-                    "unit_price": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "discount_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "total_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "vat_rate": "21.00",
-                    "vat_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "sku": "9780241661628",
-                    "categories": [
-                        mollie.CreatePaymentCategoryRequest.MEAL,
-                        mollie.CreatePaymentCategoryRequest.ECO,
-                    ],
-                    "image_url": "https://...",
-                    "product_url": "https://...",
-                    "recurring": {
-                        "description": "Gym subscription",
-                        "interval": "... weeks",
-                        "amount": {
-                            "currency": "EUR",
-                            "value": "10.00",
-                        },
-                        "times": 1,
-                        "start_date": "2024-12-12",
-                    },
-                },
-                {
-                    "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                    "description": "LEGO 4440 Forest Police Station",
-                    "quantity": 1,
-                    "quantity_unit": "pcs",
-                    "unit_price": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "discount_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "total_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "vat_rate": "21.00",
-                    "vat_amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "sku": "9780241661628",
-                    "categories": [
-                        mollie.CreatePaymentCategoryRequest.MEAL,
-                        mollie.CreatePaymentCategoryRequest.ECO,
-                    ],
-                    "image_url": "https://...",
-                    "product_url": "https://...",
-                    "recurring": {
-                        "description": "Gym subscription",
-                        "interval": "... days",
-                        "amount": {
-                            "currency": "EUR",
-                            "value": "10.00",
-                        },
-                        "times": 1,
-                        "start_date": "2024-12-12",
-                    },
-                },
-            ],
-            "billing_address": {
-                "title": "Mr.",
-                "given_name": "Piet",
-                "family_name": "Mondriaan",
-                "organization_name": "Mollie B.V.",
-                "street_and_number": "Keizersgracht 126",
-                "street_additional": "Apt. 1",
-                "postal_code": "1234AB",
-                "email": "piet@example.org",
-                "phone": "31208202070",
-                "city": "Amsterdam",
-                "region": "Noord-Holland",
-                "country": "NL",
-            },
-            "shipping_address": {
-                "title": "Mr.",
-                "given_name": "Piet",
-                "family_name": "Mondriaan",
-                "organization_name": "Mollie B.V.",
-                "street_and_number": "Keizersgracht 126",
-                "street_additional": "Apt. 1",
-                "postal_code": "1234AB",
-                "email": "piet@example.org",
-                "phone": "31208202070",
-                "city": "Amsterdam",
-                "region": "Noord-Holland",
-                "country": "NL",
-            },
-            "locale": mollie.CreatePaymentLocaleRequest.EN_US,
-            "method": mollie.CreatePaymentMethodRequest.IDEAL,
-            "issuer": "ideal_INGBNL2A",
-            "restrict_payment_methods_to_country": "NL",
-            "capture_mode": mollie.CreatePaymentCaptureModeRequest.MANUAL,
-            "capture_delay": "8 hours",
-            "application_fee": {
-                "amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "description": "10",
-            },
-            "routing": [
-                {
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "destination": {
-                        "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
-                        "organization_id": "org_1234567",
-                    },
-                    "release_date": "2024-12-12",
-                    "links": {
-                        "self_": {
-                            "href": "https://...",
-                            "type": "application/hal+json",
-                        },
-                        "payment": {
-                            "href": "https://...",
-                            "type": "application/hal+json",
-                        },
-                    },
-                },
-                {
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "destination": {
-                        "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
-                        "organization_id": "org_1234567",
-                    },
-                    "release_date": "2024-12-12",
-                    "links": {
-                        "self_": {
-                            "href": "https://...",
-                            "type": "application/hal+json",
-                        },
-                        "payment": {
-                            "href": "https://...",
-                            "type": "application/hal+json",
-                        },
-                    },
-                },
-            ],
-            "sequence_type": mollie.CreatePaymentSequenceTypeRequest.ONEOFF,
-            "mandate_id": "mdt_5B8cwPMGnU",
-            "customer_id": "cst_5B8cwPMGnU",
-            "profile_id": "pfl_5B8cwPMGnU",
-            "due_date": "2025-01-01",
-            "testmode": False,
-            "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
-            "company": {
-                "registration_number": "12345678",
-                "vat_number": "NL123456789B01",
-            },
-            "card_token": "tkn_12345",
-            "voucher_number": "1234567890",
-            "voucher_pin": "1234",
-            "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
-            "digital_goods": True,
-            "customer_reference": "1234567890",
-            "terminal_id": "term_1234567890",
-        })
+        res = client_sdk.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH", limit=50, testmode=False)
 
         # Handle response
         print(res)
@@ -1883,12 +473,12 @@ with ClientSDK(
         print(e.raw_response)
 
         # Depending on the method different errors may be thrown
-        if isinstance(e, models.CreatePaymentUnprocessableEntityHalJSONError):
+        if isinstance(e, models.ListBalancesBadRequestHalJSONError):
             print(e.data.status)  # int
             print(e.data.title)  # str
             print(e.data.detail)  # str
             print(e.data.field)  # Optional[str]
-            print(e.data.links)  # mollie.CreatePaymentUnprocessableEntityLinks
+            print(e.data.links)  # mollie.ListBalancesBadRequestLinks
 ```
 
 ### Error Classes
@@ -1906,6 +496,18 @@ with ClientSDK(
 
 
 **Inherit from [`ClientError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/clienterror.py)**:
+* [`ListBalancesBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listbalancesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListBalanceTransactionsBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listbalancetransactionsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSettlementsBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSettlementPaymentsHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementpaymentshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSettlementCapturesBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementcapturesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSettlementRefundsBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementrefundsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListSettlementChargebacksBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementchargebacksbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListInvoicesBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listinvoicesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListPermissionsHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listpermissionshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListProfilesHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listprofileshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListClientsBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listclientsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListWebhooksHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listwebhookshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
 * [`ListPaymentsHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listpaymentshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
 * [`ListMethodsHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listmethodshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
 * [`ListAllMethodsHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listallmethodshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
@@ -1924,19 +526,31 @@ with ClientSDK(
 * [`ListSubscriptionsBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsubscriptionsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
 * [`ListAllSubscriptionsBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listallsubscriptionsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
 * [`ListSubscriptionPaymentsHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsubscriptionpaymentshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListPermissionsHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listpermissionshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListProfilesHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listprofileshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListClientsBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listclientsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListWebhooksHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listwebhookshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListBalancesBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listbalancesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListBalanceTransactionsBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listbalancetransactionsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSettlementsBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSettlementPaymentsHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementpaymentshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSettlementCapturesBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementcapturesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSettlementRefundsBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementrefundsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSettlementChargebacksBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementchargebacksbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListInvoicesBadRequestHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listinvoicesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
 * [`ListSalesInvoicesHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsalesinvoiceshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
+* [`ListBalancesNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listbalancesnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetBalanceHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getbalancehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetBalanceReportNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getbalancereportnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListBalanceTransactionsNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listbalancetransactionsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListSettlementsNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetSettlementHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getsettlementhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListSettlementCapturesNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementcapturesnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListSettlementRefundsNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementrefundsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListSettlementChargebacksNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementchargebacksnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListInvoicesNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listinvoicesnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetInvoiceHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getinvoicehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetPermissionHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getpermissionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetOrganizationHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getorganizationhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetProfileNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getprofilenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`UpdateProfileNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/updateprofilenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`DeleteProfileNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/deleteprofilenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`ListClientsNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listclientsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetClientHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getclienthaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`CreateClientLinkNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/createclientlinknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`UpdateWebhookNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/updatewebhooknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetWebhookNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getwebhooknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`DeleteWebhookNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/deletewebhooknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`TestWebhookNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/testwebhooknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
+* [`GetWebhookEventHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getwebhookeventhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
 * [`GetPaymentHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getpaymenthaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
 * [`UpdatePaymentNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/updatepaymentnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
 * [`CancelPaymentNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/cancelpaymentnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
@@ -1974,30 +588,6 @@ with ClientSDK(
 * [`UpdateSubscriptionHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/updatesubscriptionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
 * [`CancelSubscriptionHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/cancelsubscriptionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
 * [`ListAllSubscriptionsNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listallsubscriptionsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetPermissionHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getpermissionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetOrganizationHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getorganizationhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetProfileNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getprofilenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`UpdateProfileNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/updateprofilenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`DeleteProfileNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/deleteprofilenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListClientsNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listclientsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetClientHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getclienthaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreateClientLinkNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/createclientlinknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`UpdateWebhookNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/updatewebhooknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetWebhookNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getwebhooknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`DeleteWebhookNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/deletewebhooknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`TestWebhookNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/testwebhooknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetWebhookEventHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getwebhookeventhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListBalancesNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listbalancesnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetBalanceHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getbalancehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetBalanceReportNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getbalancereportnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListBalanceTransactionsNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listbalancetransactionsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListSettlementsNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetSettlementHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getsettlementhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListSettlementCapturesNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementcapturesnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListSettlementRefundsNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementrefundsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListSettlementChargebacksNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listsettlementchargebacksnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListInvoicesNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/listinvoicesnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetInvoiceHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getinvoicehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
 * [`CreateSalesInvoiceNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/createsalesinvoicenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
 * [`GetSalesInvoiceHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getsalesinvoicehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
 * [`UpdateSalesInvoiceNotFoundHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/updatesalesinvoicenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
@@ -2006,6 +596,15 @@ with ClientSDK(
 * [`GetProfileGoneHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getprofilegonehaljsonerror.py): An error response object. Status code `410`. Applicable to 1 of 93 methods.*
 * [`UpdateProfileGoneHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/updateprofilegonehaljsonerror.py): An error response object. Status code `410`. Applicable to 1 of 93 methods.*
 * [`DeleteProfileGoneHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/deleteprofilegonehaljsonerror.py): An error response object. Status code `410`. Applicable to 1 of 93 methods.*
+* [`GetBalanceReportUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getbalancereportunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateProfileHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/createprofilehaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`UpdateProfileUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/updateprofileunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateClientLinkUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/createclientlinkunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`CreateWebhookHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/createwebhookhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`UpdateWebhookUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/updatewebhookunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`GetWebhookUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getwebhookunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`DeleteWebhookUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/deletewebhookunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
+* [`TestWebhookUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/testwebhookunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
 * [`CreatePaymentUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/createpaymentunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
 * [`UpdatePaymentUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/updatepaymentunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
 * [`CancelPaymentUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/cancelpaymentunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
@@ -2017,15 +616,6 @@ with ClientSDK(
 * [`UpdatePaymentLinkUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/updatepaymentlinkunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
 * [`DeletePaymentLinkUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/deletepaymentlinkunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
 * [`CreateCustomerPaymentUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/createcustomerpaymentunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateProfileHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/createprofilehaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`UpdateProfileUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/updateprofileunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateClientLinkUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/createclientlinkunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateWebhookHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/createwebhookhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`UpdateWebhookUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/updatewebhookunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`GetWebhookUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getwebhookunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`DeleteWebhookUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/deletewebhookunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`TestWebhookUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/testwebhookunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`GetBalanceReportUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/getbalancereportunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
 * [`CreateSalesInvoiceUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/createsalesinvoiceunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
 * [`UpdateSalesInvoiceUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/updatesalesinvoiceunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
 * [`DeleteSalesInvoiceUnprocessableEntityHalJSONError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/deletesalesinvoiceunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
@@ -2046,7 +636,6 @@ with ClientSDK(
 
 The default server can be overridden globally by passing a URL to the `server_url: str` optional parameter when initializing the SDK client instance. For example:
 ```python
-from datetime import date
 import mollie
 from mollie import ClientSDK
 import os
@@ -2059,241 +648,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.payments.create(include=mollie.CreatePaymentInclude.DETAILS_QR_CODE, request_body={
-        "description": "Chess Board",
-        "amount": {
-            "currency": "EUR",
-            "value": "10.00",
-        },
-        "redirect_url": "https://example.org/redirect",
-        "cancel_url": "https://example.org/cancel",
-        "webhook_url": "https://example.org/webhooks",
-        "lines": [
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
-                ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... days",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
-                ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... weeks",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
-                ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... days",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-        ],
-        "billing_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "shipping_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "locale": mollie.CreatePaymentLocaleRequest.EN_US,
-        "method": mollie.CreatePaymentMethodRequest.IDEAL,
-        "issuer": "ideal_INGBNL2A",
-        "restrict_payment_methods_to_country": "NL",
-        "capture_mode": mollie.CreatePaymentCaptureModeRequest.MANUAL,
-        "capture_delay": "8 hours",
-        "application_fee": {
-            "amount": {
-                "currency": "EUR",
-                "value": "10.00",
-            },
-            "description": "10",
-        },
-        "routing": [
-            {
-                "amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "destination": {
-                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
-                    "organization_id": "org_1234567",
-                },
-                "release_date": "2024-12-12",
-                "links": {
-                    "self_": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                    "payment": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                },
-            },
-            {
-                "amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "destination": {
-                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
-                    "organization_id": "org_1234567",
-                },
-                "release_date": "2024-12-12",
-                "links": {
-                    "self_": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                    "payment": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                },
-            },
-        ],
-        "sequence_type": mollie.CreatePaymentSequenceTypeRequest.ONEOFF,
-        "mandate_id": "mdt_5B8cwPMGnU",
-        "customer_id": "cst_5B8cwPMGnU",
-        "profile_id": "pfl_5B8cwPMGnU",
-        "due_date": "2025-01-01",
-        "testmode": False,
-        "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
-        "company": {
-            "registration_number": "12345678",
-            "vat_number": "NL123456789B01",
-        },
-        "card_token": "tkn_12345",
-        "voucher_number": "1234567890",
-        "voucher_pin": "1234",
-        "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
-        "digital_goods": True,
-        "customer_reference": "1234567890",
-        "terminal_id": "term_1234567890",
-    })
+    res = client_sdk.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH", limit=50, testmode=False)
 
     # Handle response
     print(res)

@@ -3,11 +3,18 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
+from mollie.utils import (
+    FieldMetadata,
+    PathParamMetadata,
+    RequestMetadata,
+    validate_open_enum,
+)
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -241,7 +248,7 @@ class CreateCaptureNotFoundHalJSONError(ClientError):
         self.data = data
 
 
-class CreateCaptureMode(str, Enum):
+class CreateCaptureMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -298,7 +305,7 @@ class CreateCaptureSettlementAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreateCaptureStatus(str, Enum):
+class CreateCaptureStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The capture's status."""
 
     PENDING = "pending"
@@ -555,13 +562,13 @@ class CreateCaptureResponse(BaseModel):
     id: str
     r"""The identifier uniquely referring to this capture. Example: `cpt_mNepDkEtco6ah3QNPUGYH`."""
 
-    mode: CreateCaptureMode
+    mode: Annotated[CreateCaptureMode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
 
     amount: Nullable[CreateCaptureAmountResponse]
     r"""The amount captured. If no amount is provided, the full authorized amount is captured."""
 
-    status: CreateCaptureStatus
+    status: Annotated[CreateCaptureStatus, PlainValidator(validate_open_enum(False))]
     r"""The capture's status."""
 
     payment_id: Annotated[str, pydantic.Field(alias="paymentId")]

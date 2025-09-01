@@ -3,11 +3,18 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
+from mollie.utils import (
+    FieldMetadata,
+    PathParamMetadata,
+    RequestMetadata,
+    validate_open_enum,
+)
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -51,21 +58,21 @@ you fetch the entity with our API, we will also include the metadata. You can us
 """
 
 
-class TypeAcquirerReferenceRequest(str, Enum):
+class TypeAcquirerReference(str, Enum):
     r"""Specifies the reference type"""
 
     ACQUIRER_REFERENCE = "acquirer-reference"
 
 
 class ExternalReferenceRequestTypedDict(TypedDict):
-    type: NotRequired[TypeAcquirerReferenceRequest]
+    type: NotRequired[TypeAcquirerReference]
     r"""Specifies the reference type"""
     id: NotRequired[str]
     r"""Unique reference from the payment provider"""
 
 
 class ExternalReferenceRequest(BaseModel):
-    type: Optional[TypeAcquirerReferenceRequest] = None
+    type: Optional[TypeAcquirerReference] = None
     r"""Specifies the reference type"""
 
     id: Optional[str] = None
@@ -97,7 +104,7 @@ class RoutingReversalType(str, Enum):
     ORGANIZATION = "organization"
 
 
-class CreateRefundSourceRequestTypedDict(TypedDict):
+class SourceOrganizationTypedDict(TypedDict):
     r"""Where the funds will be pulled back from."""
 
     type: NotRequired[RoutingReversalType]
@@ -108,7 +115,7 @@ class CreateRefundSourceRequestTypedDict(TypedDict):
     """
 
 
-class CreateRefundSourceRequest(BaseModel):
+class SourceOrganization(BaseModel):
     r"""Where the funds will be pulled back from."""
 
     type: Optional[RoutingReversalType] = None
@@ -125,7 +132,7 @@ class CreateRefundSourceRequest(BaseModel):
 class RoutingReversalRequestTypedDict(TypedDict):
     amount: NotRequired[RoutingReversalAmountRequestTypedDict]
     r"""The amount that will be pulled back."""
-    source: NotRequired[CreateRefundSourceRequestTypedDict]
+    source: NotRequired[SourceOrganizationTypedDict]
     r"""Where the funds will be pulled back from."""
 
 
@@ -133,7 +140,7 @@ class RoutingReversalRequest(BaseModel):
     amount: Optional[RoutingReversalAmountRequest] = None
     r"""The amount that will be pulled back."""
 
-    source: Optional[CreateRefundSourceRequest] = None
+    source: Optional[SourceOrganization] = None
     r"""Where the funds will be pulled back from."""
 
 
@@ -474,7 +481,7 @@ class CreateRefundNotFoundHalJSONError(ClientError):
         self.data = data
 
 
-class CreateRefundMode(str, Enum):
+class CreateRefundMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -565,7 +572,7 @@ you fetch the entity with our API, we will also include the metadata. You can us
 """
 
 
-class CreateRefundStatus(str, Enum):
+class CreateRefundStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Refunds may take some time to get confirmed."""
 
     QUEUED = "queued"
@@ -576,21 +583,24 @@ class CreateRefundStatus(str, Enum):
     CANCELED = "canceled"
 
 
-class CreateRefundTypeResponse(str, Enum):
+class CreateRefundExternalReferenceType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Specifies the reference type"""
 
     ACQUIRER_REFERENCE = "acquirer-reference"
 
 
 class CreateRefundExternalReferenceResponseTypedDict(TypedDict):
-    type: NotRequired[CreateRefundTypeResponse]
+    type: NotRequired[CreateRefundExternalReferenceType]
     r"""Specifies the reference type"""
     id: NotRequired[str]
     r"""Unique reference from the payment provider"""
 
 
 class CreateRefundExternalReferenceResponse(BaseModel):
-    type: Optional[CreateRefundTypeResponse] = None
+    type: Annotated[
+        Optional[CreateRefundExternalReferenceType],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
     r"""Specifies the reference type"""
 
     id: Optional[str] = None
@@ -868,7 +878,9 @@ class CreateRefundResponse(BaseModel):
     will always refer to the refund by this ID. Example: `re_4qqhO89gsT`.
     """
 
-    mode: Optional[CreateRefundMode] = None
+    mode: Annotated[
+        Optional[CreateRefundMode], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""Whether this entity was created in live mode or in test mode."""
 
     description: Optional[str] = None
@@ -913,7 +925,9 @@ class CreateRefundResponse(BaseModel):
     ] = UNSET
     r"""The identifier referring to the settlement this refund was settled with. This field is omitted if the refund is not settled (yet)."""
 
-    status: Optional[CreateRefundStatus] = None
+    status: Annotated[
+        Optional[CreateRefundStatus], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""Refunds may take some time to get confirmed."""
 
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None

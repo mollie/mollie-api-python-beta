@@ -4,11 +4,18 @@ from __future__ import annotations
 from datetime import date
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
+from mollie.utils import (
+    FieldMetadata,
+    PathParamMetadata,
+    RequestMetadata,
+    validate_open_enum,
+)
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -203,7 +210,7 @@ class CancelPaymentNotFoundHalJSONError(ClientError):
         self.data = data
 
 
-class CancelPaymentMode(str, Enum):
+class CancelPaymentMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -364,7 +371,7 @@ class CancelPaymentSettlementAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CancelPaymentLineType(str, Enum):
+class CancelPaymentLineType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -498,7 +505,7 @@ class CancelPaymentVatAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CancelPaymentCategory(str, Enum):
+class CancelPaymentCategory(str, Enum, metaclass=utils.OpenEnumMeta):
     MEAL = "meal"
     ECO = "eco"
     GIFT = "gift"
@@ -688,7 +695,9 @@ class CancelPaymentLine(BaseModel):
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
 
-    type: Optional[CancelPaymentLineType] = None
+    type: Annotated[
+        Optional[CancelPaymentLineType], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -724,7 +733,11 @@ class CancelPaymentLine(BaseModel):
     sku: Optional[str] = None
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
 
-    categories: Optional[List[CancelPaymentCategory]] = None
+    categories: Optional[
+        List[
+            Annotated[CancelPaymentCategory, PlainValidator(validate_open_enum(False))]
+        ]
+    ] = None
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
     [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
@@ -1019,7 +1032,7 @@ class CancelPaymentShippingAddress(BaseModel):
     """
 
 
-class CancelPaymentLocale(str, Enum):
+class CancelPaymentLocale(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Allows you to preset the language to be used in the hosted payment pages shown to the customer. Setting a locale
     is highly recommended and will greatly improve your conversion rate. When this parameter is omitted the browser
     language will be used instead if supported by the payment method. You can provide any `xx_XX` format ISO 15897
@@ -1054,7 +1067,7 @@ class CancelPaymentLocale(str, Enum):
     LT_LT = "lt_LT"
 
 
-class CancelPaymentMethod(str, Enum):
+class CancelPaymentMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The payment method used for this transaction. If a specific method was selected during payment initialization,
     this field reflects that choice.
     """
@@ -1113,7 +1126,7 @@ you fetch the entity with our API, we will also include the metadata. You can us
 """
 
 
-class CancelPaymentCaptureMode(str, Enum):
+class CancelPaymentCaptureMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/)
     and capture at a later time.
 
@@ -1200,7 +1213,7 @@ class CancelPaymentApplicationFee(BaseModel):
     """
 
 
-class CancelPaymentRoutingMode(str, Enum):
+class CancelPaymentRoutingMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -1226,7 +1239,7 @@ class CancelPaymentRoutingAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CancelPaymentRoutingType(str, Enum):
+class CancelPaymentDestinationType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The type of destination. Currently only the destination type `organization` is supported."""
 
     ORGANIZATION = "organization"
@@ -1235,7 +1248,7 @@ class CancelPaymentRoutingType(str, Enum):
 class CancelPaymentDestinationTypedDict(TypedDict):
     r"""The destination of this portion of the payment."""
 
-    type: CancelPaymentRoutingType
+    type: CancelPaymentDestinationType
     r"""The type of destination. Currently only the destination type `organization` is supported."""
     organization_id: str
     r"""Required for destination type `organization`. The ID of the connected organization the funds should be
@@ -1246,7 +1259,9 @@ class CancelPaymentDestinationTypedDict(TypedDict):
 class CancelPaymentDestination(BaseModel):
     r"""The destination of this portion of the payment."""
 
-    type: CancelPaymentRoutingType
+    type: Annotated[
+        CancelPaymentDestinationType, PlainValidator(validate_open_enum(False))
+    ]
     r"""The type of destination. Currently only the destination type `organization` is supported."""
 
     organization_id: Annotated[str, pydantic.Field(alias="organizationId")]
@@ -1346,7 +1361,7 @@ class CancelPaymentRouting(BaseModel):
     Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`.
     """
 
-    mode: CancelPaymentRoutingMode
+    mode: Annotated[CancelPaymentRoutingMode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
 
     amount: CancelPaymentRoutingAmount
@@ -1401,7 +1416,7 @@ class CancelPaymentRouting(BaseModel):
         return m
 
 
-class CancelPaymentSequenceType(str, Enum):
+class CancelPaymentSequenceType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""**Only relevant for recurring payments.**
 
     Indicate which part of a recurring sequence this payment is for.
@@ -1424,7 +1439,7 @@ class CancelPaymentSequenceType(str, Enum):
     RECURRING = "recurring"
 
 
-class CancelPaymentStatusEnum(str, Enum):
+class CancelPaymentStatusEnum(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
     statuses occur at what point.
     """
@@ -1438,7 +1453,7 @@ class CancelPaymentStatusEnum(str, Enum):
     FAILED = "failed"
 
 
-class CancelPaymentCode(str, Enum):
+class CancelPaymentCode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""A machine-readable code that indicates the reason for the payment's status."""
 
     APPROVED_OR_COMPLETED_SUCCESSFULLY = "approved_or_completed_successfully"
@@ -1594,20 +1609,20 @@ class CancelPaymentStatusReason(BaseModel):
     [this page](status-reasons).**
     """
 
-    code: CancelPaymentCode
+    code: Annotated[CancelPaymentCode, PlainValidator(validate_open_enum(False))]
 
     message: str
     r"""A description of the status reason, localized according to the payment `locale`."""
 
 
-class CancelPaymentCardAudition(str, Enum):
+class CancelPaymentCardAudition(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The card's target audience, if known."""
 
     CONSUMER = "consumer"
     BUSINESS = "business"
 
 
-class CancelPaymentCardLabel(str, Enum):
+class CancelPaymentCardLabel(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The card's label, if known."""
 
     AMERICAN_EXPRESS = "American Express"
@@ -1625,7 +1640,7 @@ class CancelPaymentCardLabel(str, Enum):
     VPAY = "Vpay"
 
 
-class CancelPaymentCardFunding(str, Enum):
+class CancelPaymentCardFunding(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The card type."""
 
     DEBIT = "debit"
@@ -1634,14 +1649,14 @@ class CancelPaymentCardFunding(str, Enum):
     DEFERRED_DEBIT = "deferred-debit"
 
 
-class CancelPaymentCardSecurity(str, Enum):
+class CancelPaymentCardSecurity(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The level of security applied during card processing."""
 
     NORMAL = "normal"
     THREEDSECURE = "3dsecure"
 
 
-class CancelPaymentFeeRegion(str, Enum):
+class CancelPaymentFeeRegion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The applicable card fee region."""
 
     AMERICAN_EXPRESS = "american-express"
@@ -1656,7 +1671,7 @@ class CancelPaymentFeeRegion(str, Enum):
     INTRA_EEA = "intra_eea"
 
 
-class CancelPaymentFailureReason(str, Enum):
+class CancelPaymentFailureReason(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""A failure code to help understand why the payment failed."""
 
     AUTHENTICATION_ABANDONED = "authentication_abandoned"
@@ -1676,13 +1691,13 @@ class CancelPaymentFailureReason(str, Enum):
     UNKNOWN_REASON = "unknown_reason"
 
 
-class CancelPaymentWallet(str, Enum):
+class CancelPaymentWallet(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The wallet used when creating the payment."""
 
     APPLEPAY = "applepay"
 
 
-class CancelPaymentSellerProtection(str, Enum):
+class CancelPaymentSellerProtection(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Indicates to what extent the payment is eligible for PayPal's Seller Protection. Only available for PayPal
     payments, and if the information is made available by PayPal.
     """
@@ -1720,7 +1735,7 @@ class CancelPaymentPaypalFee(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CancelPaymentCardReadMethod(str, Enum):
+class CancelPaymentCardReadMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The method by which the card was read by the terminal."""
 
     CHIP = "chip"
@@ -1730,7 +1745,7 @@ class CancelPaymentCardReadMethod(str, Enum):
     MOTO = "moto"
 
 
-class CancelPaymentCardVerificationMethod(str, Enum):
+class CancelPaymentCardVerificationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The method used to verify the cardholder's identity."""
 
     NO_CVM_REQUIRED = "no-cvm-required"
@@ -1771,13 +1786,19 @@ class CancelPaymentReceipt(BaseModel):
     r"""The unique number that identifies a specific payment application on a chip card."""
 
     card_read_method: Annotated[
-        OptionalNullable[CancelPaymentCardReadMethod],
+        Annotated[
+            OptionalNullable[CancelPaymentCardReadMethod],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardReadMethod"),
     ] = UNSET
     r"""The method by which the card was read by the terminal."""
 
     card_verification_method: Annotated[
-        OptionalNullable[CancelPaymentCardVerificationMethod],
+        Annotated[
+            OptionalNullable[CancelPaymentCardVerificationMethod],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardVerificationMethod"),
     ] = UNSET
     r"""The method used to verify the cardholder's identity."""
@@ -2099,13 +2120,20 @@ class CancelPaymentDetails(BaseModel):
     r"""The customer's name as shown on their card."""
 
     card_audition: Annotated[
-        OptionalNullable[CancelPaymentCardAudition],
+        Annotated[
+            OptionalNullable[CancelPaymentCardAudition],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardAudition"),
     ] = UNSET
     r"""The card's target audience, if known."""
 
     card_label: Annotated[
-        OptionalNullable[CancelPaymentCardLabel], pydantic.Field(alias="cardLabel")
+        Annotated[
+            OptionalNullable[CancelPaymentCardLabel],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="cardLabel"),
     ] = UNSET
     r"""The card's label, if known."""
 
@@ -2120,18 +2148,29 @@ class CancelPaymentDetails(BaseModel):
     r"""The expiry date (MM/YY) of the card as displayed on the card."""
 
     card_funding: Annotated[
-        OptionalNullable[CancelPaymentCardFunding], pydantic.Field(alias="cardFunding")
+        Annotated[
+            OptionalNullable[CancelPaymentCardFunding],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="cardFunding"),
     ] = UNSET
     r"""The card type."""
 
     card_security: Annotated[
-        OptionalNullable[CancelPaymentCardSecurity],
+        Annotated[
+            OptionalNullable[CancelPaymentCardSecurity],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardSecurity"),
     ] = UNSET
     r"""The level of security applied during card processing."""
 
     fee_region: Annotated[
-        OptionalNullable[CancelPaymentFeeRegion], pydantic.Field(alias="feeRegion")
+        Annotated[
+            OptionalNullable[CancelPaymentFeeRegion],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="feeRegion"),
     ] = UNSET
     r"""The applicable card fee region."""
 
@@ -2154,7 +2193,10 @@ class CancelPaymentDetails(BaseModel):
     r"""The issuer of the Card."""
 
     failure_reason: Annotated[
-        OptionalNullable[CancelPaymentFailureReason],
+        Annotated[
+            OptionalNullable[CancelPaymentFailureReason],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="failureReason"),
     ] = UNSET
     r"""A failure code to help understand why the payment failed."""
@@ -2166,7 +2208,9 @@ class CancelPaymentDetails(BaseModel):
     with the payment's locale setting.
     """
 
-    wallet: OptionalNullable[CancelPaymentWallet] = UNSET
+    wallet: Annotated[
+        OptionalNullable[CancelPaymentWallet], PlainValidator(validate_open_enum(False))
+    ] = UNSET
     r"""The wallet used when creating the payment."""
 
     paypal_reference: Annotated[
@@ -2180,7 +2224,10 @@ class CancelPaymentDetails(BaseModel):
     r"""ID of the customer's PayPal account."""
 
     seller_protection: Annotated[
-        OptionalNullable[CancelPaymentSellerProtection],
+        Annotated[
+            OptionalNullable[CancelPaymentSellerProtection],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="sellerProtection"),
     ] = UNSET
     r"""Indicates to what extent the payment is eligible for PayPal's Seller Protection. Only available for PayPal
@@ -3217,7 +3264,7 @@ class CancelPaymentResponse(BaseModel):
     will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
     """
 
-    mode: CancelPaymentMode
+    mode: Annotated[CancelPaymentMode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
 
     description: str
@@ -3243,7 +3290,11 @@ class CancelPaymentResponse(BaseModel):
     """
 
     sequence_type: Annotated[
-        Nullable[CancelPaymentSequenceType], pydantic.Field(alias="sequenceType")
+        Annotated[
+            Nullable[CancelPaymentSequenceType],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="sequenceType"),
     ]
     r"""**Only relevant for recurring payments.**
 
@@ -3271,7 +3322,9 @@ class CancelPaymentResponse(BaseModel):
     For more information, see [Authentication](authentication).
     """
 
-    status: CancelPaymentStatusEnum
+    status: Annotated[
+        CancelPaymentStatusEnum, PlainValidator(validate_open_enum(False))
+    ]
     r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
     statuses occur at what point.
     """
@@ -3388,7 +3441,9 @@ class CancelPaymentResponse(BaseModel):
     `country`.
     """
 
-    locale: OptionalNullable[CancelPaymentLocale] = UNSET
+    locale: Annotated[
+        OptionalNullable[CancelPaymentLocale], PlainValidator(validate_open_enum(False))
+    ] = UNSET
     r"""Allows you to preset the language to be used in the hosted payment pages shown to the customer. Setting a locale
     is highly recommended and will greatly improve your conversion rate. When this parameter is omitted the browser
     language will be used instead if supported by the payment method. You can provide any `xx_XX` format ISO 15897
@@ -3406,7 +3461,9 @@ class CancelPaymentResponse(BaseModel):
     field is omitted if the country code was not detected.
     """
 
-    method: OptionalNullable[CancelPaymentMethod] = UNSET
+    method: Annotated[
+        OptionalNullable[CancelPaymentMethod], PlainValidator(validate_open_enum(False))
+    ] = UNSET
     r"""The payment method used for this transaction. If a specific method was selected during payment initialization,
     this field reflects that choice.
     """
@@ -3430,7 +3487,11 @@ class CancelPaymentResponse(BaseModel):
     """
 
     capture_mode: Annotated[
-        OptionalNullable[CancelPaymentCaptureMode], pydantic.Field(alias="captureMode")
+        Annotated[
+            OptionalNullable[CancelPaymentCaptureMode],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="captureMode"),
     ] = UNSET
     r"""Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/)
     and capture at a later time.

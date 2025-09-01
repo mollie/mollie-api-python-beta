@@ -3,11 +3,13 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
+from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata
+from mollie.utils import FieldMetadata, PathParamMetadata, validate_open_enum
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -83,7 +85,7 @@ class GetSettlementHalJSONError(ClientError):
         self.data = data
 
 
-class GetSettlementStatus(str, Enum):
+class GetSettlementStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The status of the settlement."""
 
     OPEN = "open"
@@ -395,7 +397,9 @@ class GetSettlementResponse(BaseModel):
     date is available.
     """
 
-    status: Optional[GetSettlementStatus] = None
+    status: Annotated[
+        Optional[GetSettlementStatus], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The status of the settlement."""
 
     amount: Optional[GetSettlementAmount] = None
