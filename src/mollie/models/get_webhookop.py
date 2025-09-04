@@ -197,6 +197,18 @@ class GetWebhookNotFoundHalJSONError(ClientError):
         self.data = data
 
 
+class GetWebhookWebhookEventTypes(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The event's type"""
+
+    PAYMENT_LINK_PAID = "payment-link.paid"
+    BALANCE_TRANSACTION_CREATED = "balance-transaction.created"
+    SALES_INVOICE_CREATED = "sales-invoice.created"
+    SALES_INVOICE_ISSUED = "sales-invoice.issued"
+    SALES_INVOICE_CANCELED = "sales-invoice.canceled"
+    SALES_INVOICE_PAID = "sales-invoice.paid"
+    WILDCARD_ = "*"
+
+
 class GetWebhookStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The subscription's current status."""
 
@@ -207,71 +219,140 @@ class GetWebhookStatus(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class GetWebhookMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The subscription's mode."""
+    r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
 
 
+class GetWebhookDocumentationTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: str
+    r"""The actual URL string."""
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class GetWebhookDocumentation(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: str
+    r"""The actual URL string."""
+
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class GetWebhookLinksTypedDict(TypedDict):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    documentation: GetWebhookDocumentationTypedDict
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
+class GetWebhookLinks(BaseModel):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    documentation: GetWebhookDocumentation
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
 class GetWebhookResponseTypedDict(TypedDict):
     r"""The webhook object."""
 
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a webhook subscription object.
     Will always contain the string `webhook` for this endpoint.
     """
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this subscription."""
-    url: NotRequired[str]
+    url: str
     r"""The subscription's events destination."""
-    profile_id: NotRequired[str]
+    profile_id: Nullable[str]
     r"""The identifier uniquely referring to the profile that created the subscription."""
-    created_at: NotRequired[str]
+    created_at: str
     r"""The subscription's date time of creation."""
-    name: NotRequired[str]
+    name: str
     r"""The subscription's name."""
-    event_types: NotRequired[List[str]]
+    event_types: List[GetWebhookWebhookEventTypes]
     r"""The events types that are subscribed."""
-    status: NotRequired[GetWebhookStatus]
+    status: GetWebhookStatus
     r"""The subscription's current status."""
-    mode: NotRequired[GetWebhookMode]
-    r"""The subscription's mode."""
+    mode: GetWebhookMode
+    r"""Whether this entity was created in live mode or in test mode."""
+    links: GetWebhookLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class GetWebhookResponse(BaseModel):
     r"""The webhook object."""
 
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a webhook subscription object.
     Will always contain the string `webhook` for this endpoint.
     """
 
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this subscription."""
 
-    url: Optional[str] = None
+    url: str
     r"""The subscription's events destination."""
 
-    profile_id: Annotated[Optional[str], pydantic.Field(alias="profileId")] = None
+    profile_id: Annotated[Nullable[str], pydantic.Field(alias="profileId")]
     r"""The identifier uniquely referring to the profile that created the subscription."""
 
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The subscription's date time of creation."""
 
-    name: Optional[str] = None
+    name: str
     r"""The subscription's name."""
 
-    event_types: Annotated[Optional[List[str]], pydantic.Field(alias="eventTypes")] = (
-        None
-    )
+    event_types: Annotated[
+        List[
+            Annotated[
+                GetWebhookWebhookEventTypes, PlainValidator(validate_open_enum(False))
+            ]
+        ],
+        pydantic.Field(alias="eventTypes"),
+    ]
     r"""The events types that are subscribed."""
 
-    status: Annotated[
-        Optional[GetWebhookStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Annotated[GetWebhookStatus, PlainValidator(validate_open_enum(False))]
     r"""The subscription's current status."""
 
-    mode: Annotated[
-        Optional[GetWebhookMode], PlainValidator(validate_open_enum(False))
-    ] = None
-    r"""The subscription's mode."""
+    mode: Annotated[GetWebhookMode, PlainValidator(validate_open_enum(False))]
+    r"""Whether this entity was created in live mode or in test mode."""
+
+    links: Annotated[GetWebhookLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = []
+        nullable_fields = ["profileId"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m

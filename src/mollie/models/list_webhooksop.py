@@ -23,8 +23,8 @@ class ListWebhooksSort(str, Enum):
     DESC = "desc"
 
 
-class ListWebhooksEventTypes(str, Enum):
-    r"""Used to filter out only the webhooks that are subscribed to certain types of events."""
+class EventTypesWebhookEventTypes(str, Enum):
+    r"""The event's type"""
 
     PAYMENT_LINK_PAID = "payment-link.paid"
     BALANCE_TRANSACTION_CREATED = "balance-transaction.created"
@@ -32,6 +32,7 @@ class ListWebhooksEventTypes(str, Enum):
     SALES_INVOICE_ISSUED = "sales-invoice.issued"
     SALES_INVOICE_CANCELED = "sales-invoice.canceled"
     SALES_INVOICE_PAID = "sales-invoice.paid"
+    WILDCARD_ = "*"
 
 
 class ListWebhooksRequestTypedDict(TypedDict):
@@ -45,7 +46,7 @@ class ListWebhooksRequestTypedDict(TypedDict):
     r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
     newest to oldest.
     """
-    event_types: NotRequired[ListWebhooksEventTypes]
+    event_types: NotRequired[EventTypesWebhookEventTypes]
     r"""Used to filter out only the webhooks that are subscribed to certain types of events."""
     testmode: NotRequired[Nullable[bool]]
     r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
@@ -81,7 +82,7 @@ class ListWebhooksRequest(BaseModel):
     """
 
     event_types: Annotated[
-        Optional[ListWebhooksEventTypes],
+        Optional[EventTypesWebhookEventTypes],
         pydantic.Field(alias="eventTypes"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
@@ -188,6 +189,18 @@ class ListWebhooksHalJSONError(ClientError):
         self.data = data
 
 
+class WebhookWebhookEventTypes(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The event's type"""
+
+    PAYMENT_LINK_PAID = "payment-link.paid"
+    BALANCE_TRANSACTION_CREATED = "balance-transaction.created"
+    SALES_INVOICE_CREATED = "sales-invoice.created"
+    SALES_INVOICE_ISSUED = "sales-invoice.issued"
+    SALES_INVOICE_CANCELED = "sales-invoice.canceled"
+    SALES_INVOICE_PAID = "sales-invoice.paid"
+    WILDCARD_ = "*"
+
+
 class ListWebhooksStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The subscription's current status."""
 
@@ -198,79 +211,148 @@ class ListWebhooksStatus(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class ListWebhooksMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The subscription's mode."""
+    r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
 
 
+class WebhookDocumentationTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: str
+    r"""The actual URL string."""
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class WebhookDocumentation(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: str
+    r"""The actual URL string."""
+
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class WebhookLinksTypedDict(TypedDict):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    documentation: WebhookDocumentationTypedDict
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
+class WebhookLinks(BaseModel):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    documentation: WebhookDocumentation
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
 class WebhookTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a webhook subscription object.
     Will always contain the string `webhook` for this endpoint.
     """
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this subscription."""
-    url: NotRequired[str]
+    url: str
     r"""The subscription's events destination."""
-    profile_id: NotRequired[str]
+    profile_id: Nullable[str]
     r"""The identifier uniquely referring to the profile that created the subscription."""
-    created_at: NotRequired[str]
+    created_at: str
     r"""The subscription's date time of creation."""
-    name: NotRequired[str]
+    name: str
     r"""The subscription's name."""
-    event_types: NotRequired[List[str]]
+    event_types: List[WebhookWebhookEventTypes]
     r"""The events types that are subscribed."""
-    status: NotRequired[ListWebhooksStatus]
+    status: ListWebhooksStatus
     r"""The subscription's current status."""
-    mode: NotRequired[ListWebhooksMode]
-    r"""The subscription's mode."""
+    mode: ListWebhooksMode
+    r"""Whether this entity was created in live mode or in test mode."""
+    links: WebhookLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class Webhook(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a webhook subscription object.
     Will always contain the string `webhook` for this endpoint.
     """
 
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this subscription."""
 
-    url: Optional[str] = None
+    url: str
     r"""The subscription's events destination."""
 
-    profile_id: Annotated[Optional[str], pydantic.Field(alias="profileId")] = None
+    profile_id: Annotated[Nullable[str], pydantic.Field(alias="profileId")]
     r"""The identifier uniquely referring to the profile that created the subscription."""
 
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The subscription's date time of creation."""
 
-    name: Optional[str] = None
+    name: str
     r"""The subscription's name."""
 
-    event_types: Annotated[Optional[List[str]], pydantic.Field(alias="eventTypes")] = (
-        None
-    )
+    event_types: Annotated[
+        List[
+            Annotated[
+                WebhookWebhookEventTypes, PlainValidator(validate_open_enum(False))
+            ]
+        ],
+        pydantic.Field(alias="eventTypes"),
+    ]
     r"""The events types that are subscribed."""
 
-    status: Annotated[
-        Optional[ListWebhooksStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Annotated[ListWebhooksStatus, PlainValidator(validate_open_enum(False))]
     r"""The subscription's current status."""
 
-    mode: Annotated[
-        Optional[ListWebhooksMode], PlainValidator(validate_open_enum(False))
-    ] = None
-    r"""The subscription's mode."""
+    mode: Annotated[ListWebhooksMode, PlainValidator(validate_open_enum(False))]
+    r"""Whether this entity was created in live mode or in test mode."""
+
+    links: Annotated[WebhookLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = []
+        nullable_fields = ["profileId"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class ListWebhooksEmbeddedTypedDict(TypedDict):
-    webhooks: NotRequired[List[WebhookTypedDict]]
+    webhooks: List[WebhookTypedDict]
     r"""A list of webhooks."""
 
 
 class ListWebhooksEmbedded(BaseModel):
-    webhooks: Optional[List[Webhook]] = None
+    webhooks: List[Webhook]
     r"""A list of webhooks."""
 
 
@@ -414,15 +496,15 @@ class ListWebhooksResponseTypedDict(TypedDict):
     object, refer to the [Get hook endpoint](get-webhook) documentation.
     """
 
-    count: NotRequired[int]
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
     The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
     limit is 50 items.
     """
-    embedded: NotRequired[ListWebhooksEmbeddedTypedDict]
-    links: NotRequired[ListWebhooksLinksTypedDict]
+    embedded: ListWebhooksEmbeddedTypedDict
+    links: ListWebhooksLinksTypedDict
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
 
@@ -431,7 +513,7 @@ class ListWebhooksResponse(BaseModel):
     object, refer to the [Get hook endpoint](get-webhook) documentation.
     """
 
-    count: Optional[int] = None
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
@@ -439,9 +521,7 @@ class ListWebhooksResponse(BaseModel):
     limit is 50 items.
     """
 
-    embedded: Annotated[
-        Optional[ListWebhooksEmbedded], pydantic.Field(alias="_embedded")
-    ] = None
+    embedded: Annotated[ListWebhooksEmbedded, pydantic.Field(alias="_embedded")]
 
-    links: Annotated[Optional[ListWebhooksLinks], pydantic.Field(alias="_links")] = None
+    links: Annotated[ListWebhooksLinks, pydantic.Field(alias="_links")]
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""

@@ -19,8 +19,10 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class UpdateWebhookEventTypes(str, Enum):
-    r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those that require explicit selection. Separate multiple event types with a comma."""
+class UpdateWebhookWebhookEventTypesRequest(str, Enum):
+    r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those
+    that require explicit selection. Separate multiple event types with a comma.
+    """
 
     PAYMENT_LINK_PAID = "payment-link.paid"
     BALANCE_TRANSACTION_CREATED = "balance-transaction.created"
@@ -28,6 +30,7 @@ class UpdateWebhookEventTypes(str, Enum):
     SALES_INVOICE_ISSUED = "sales-invoice.issued"
     SALES_INVOICE_CANCELED = "sales-invoice.canceled"
     SALES_INVOICE_PAID = "sales-invoice.paid"
+    WILDCARD_ = "*"
 
 
 class UpdateWebhookRequestBodyTypedDict(TypedDict):
@@ -35,8 +38,10 @@ class UpdateWebhookRequestBodyTypedDict(TypedDict):
     r"""A name that identifies the webhook."""
     url: NotRequired[str]
     r"""The URL Mollie will send the events to. This URL must be publicly accessible."""
-    event_types: NotRequired[UpdateWebhookEventTypes]
-    r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those that require explicit selection. Separate multiple event types with a comma."""
+    webhook_event_types: NotRequired[UpdateWebhookWebhookEventTypesRequest]
+    r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those
+    that require explicit selection. Separate multiple event types with a comma.
+    """
     testmode: NotRequired[Nullable[bool]]
     r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
     such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
@@ -52,10 +57,13 @@ class UpdateWebhookRequestBody(BaseModel):
     url: Optional[str] = None
     r"""The URL Mollie will send the events to. This URL must be publicly accessible."""
 
-    event_types: Annotated[
-        Optional[UpdateWebhookEventTypes], pydantic.Field(alias="eventTypes")
+    webhook_event_types: Annotated[
+        Optional[UpdateWebhookWebhookEventTypesRequest],
+        pydantic.Field(alias="eventTypes"),
     ] = None
-    r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those that require explicit selection. Separate multiple event types with a comma."""
+    r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those
+    that require explicit selection. Separate multiple event types with a comma.
+    """
 
     testmode: OptionalNullable[bool] = UNSET
     r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
@@ -66,7 +74,7 @@ class UpdateWebhookRequestBody(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["name", "url", "eventTypes", "testmode"]
+        optional_fields = ["name", "url", "webhook-event-types", "testmode"]
         nullable_fields = ["testmode"]
         null_default_fields = []
 
@@ -233,6 +241,18 @@ class UpdateWebhookNotFoundHalJSONError(ClientError):
         self.data = data
 
 
+class UpdateWebhookEventTypeWebhookEventTypes(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The event's type"""
+
+    PAYMENT_LINK_PAID = "payment-link.paid"
+    BALANCE_TRANSACTION_CREATED = "balance-transaction.created"
+    SALES_INVOICE_CREATED = "sales-invoice.created"
+    SALES_INVOICE_ISSUED = "sales-invoice.issued"
+    SALES_INVOICE_CANCELED = "sales-invoice.canceled"
+    SALES_INVOICE_PAID = "sales-invoice.paid"
+    WILDCARD_ = "*"
+
+
 class UpdateWebhookStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The subscription's current status."""
 
@@ -243,71 +263,141 @@ class UpdateWebhookStatus(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class UpdateWebhookMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The subscription's mode."""
+    r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
 
 
+class UpdateWebhookDocumentationTypedDict(TypedDict):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: str
+    r"""The actual URL string."""
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateWebhookDocumentation(BaseModel):
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+    href: str
+    r"""The actual URL string."""
+
+    type: str
+    r"""The content type of the page or endpoint the URL points to."""
+
+
+class UpdateWebhookLinksTypedDict(TypedDict):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    documentation: UpdateWebhookDocumentationTypedDict
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
+class UpdateWebhookLinks(BaseModel):
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    documentation: UpdateWebhookDocumentation
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
+
+
 class UpdateWebhookResponseTypedDict(TypedDict):
     r"""The webhook object."""
 
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a webhook subscription object.
     Will always contain the string `webhook` for this endpoint.
     """
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this subscription."""
-    url: NotRequired[str]
+    url: str
     r"""The subscription's events destination."""
-    profile_id: NotRequired[str]
+    profile_id: Nullable[str]
     r"""The identifier uniquely referring to the profile that created the subscription."""
-    created_at: NotRequired[str]
+    created_at: str
     r"""The subscription's date time of creation."""
-    name: NotRequired[str]
+    name: str
     r"""The subscription's name."""
-    event_types: NotRequired[List[str]]
+    event_types: List[UpdateWebhookEventTypeWebhookEventTypes]
     r"""The events types that are subscribed."""
-    status: NotRequired[UpdateWebhookStatus]
+    status: UpdateWebhookStatus
     r"""The subscription's current status."""
-    mode: NotRequired[UpdateWebhookMode]
-    r"""The subscription's mode."""
+    mode: UpdateWebhookMode
+    r"""Whether this entity was created in live mode or in test mode."""
+    links: UpdateWebhookLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class UpdateWebhookResponse(BaseModel):
     r"""The webhook object."""
 
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a webhook subscription object.
     Will always contain the string `webhook` for this endpoint.
     """
 
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this subscription."""
 
-    url: Optional[str] = None
+    url: str
     r"""The subscription's events destination."""
 
-    profile_id: Annotated[Optional[str], pydantic.Field(alias="profileId")] = None
+    profile_id: Annotated[Nullable[str], pydantic.Field(alias="profileId")]
     r"""The identifier uniquely referring to the profile that created the subscription."""
 
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The subscription's date time of creation."""
 
-    name: Optional[str] = None
+    name: str
     r"""The subscription's name."""
 
-    event_types: Annotated[Optional[List[str]], pydantic.Field(alias="eventTypes")] = (
-        None
-    )
+    event_types: Annotated[
+        List[
+            Annotated[
+                UpdateWebhookEventTypeWebhookEventTypes,
+                PlainValidator(validate_open_enum(False)),
+            ]
+        ],
+        pydantic.Field(alias="eventTypes"),
+    ]
     r"""The events types that are subscribed."""
 
-    status: Annotated[
-        Optional[UpdateWebhookStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Annotated[UpdateWebhookStatus, PlainValidator(validate_open_enum(False))]
     r"""The subscription's current status."""
 
-    mode: Annotated[
-        Optional[UpdateWebhookMode], PlainValidator(validate_open_enum(False))
-    ] = None
-    r"""The subscription's mode."""
+    mode: Annotated[UpdateWebhookMode, PlainValidator(validate_open_enum(False))]
+    r"""Whether this entity was created in live mode or in test mode."""
+
+    links: Annotated[UpdateWebhookLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = []
+        nullable_fields = ["profileId"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m

@@ -138,6 +138,18 @@ class GetWebhookEventHalJSONError(ClientError):
         self.data = data
 
 
+class GetWebhookEventWebhookEventTypes(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The event's type"""
+
+    PAYMENT_LINK_PAID = "payment-link.paid"
+    BALANCE_TRANSACTION_CREATED = "balance-transaction.created"
+    SALES_INVOICE_CREATED = "sales-invoice.created"
+    SALES_INVOICE_ISSUED = "sales-invoice.issued"
+    SALES_INVOICE_CANCELED = "sales-invoice.canceled"
+    SALES_INVOICE_PAID = "sales-invoice.paid"
+    WILDCARD_ = "*"
+
+
 class GetWebhookEventMode2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Whether this entity was created in live mode or in test mode."""
 
@@ -1669,9 +1681,9 @@ class LinksEntity(BaseModel):
 class GetWebhookEventLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[GetWebhookEventSelfTypedDict]
+    self_: GetWebhookEventSelfTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    documentation: NotRequired[GetWebhookEventDocumentationTypedDict]
+    documentation: GetWebhookEventDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     entity: NotRequired[LinksEntityTypedDict]
     r"""The API resource URL of the entity that this event belongs to."""
@@ -1680,10 +1692,10 @@ class GetWebhookEventLinksTypedDict(TypedDict):
 class GetWebhookEventLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[GetWebhookEventSelf], pydantic.Field(alias="self")] = None
+    self_: Annotated[GetWebhookEventSelf, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
-    documentation: Optional[GetWebhookEventDocumentation] = None
+    documentation: GetWebhookEventDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     entity: Optional[LinksEntity] = None
@@ -1693,61 +1705,56 @@ class GetWebhookEventLinks(BaseModel):
 class GetWebhookEventResponseTypedDict(TypedDict):
     r"""The webhook event object."""
 
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a webhook event object. Will always contain the string `event` for this endpoint."""
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this event."""
-    type: NotRequired[str]
-    r"""The event's type."""
-    entity_id: NotRequired[str]
+    webhook_event_types: GetWebhookEventWebhookEventTypes
+    r"""The event's type"""
+    entity_id: str
     r"""The entity token that triggered the event"""
-    created_at: NotRequired[str]
+    created_at: str
     r"""The event's date time of creation."""
+    links: GetWebhookEventLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     embedded: NotRequired[Nullable[GetWebhookEventEmbeddedTypedDict]]
     r"""Full payload of the event."""
-    links: NotRequired[GetWebhookEventLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class GetWebhookEventResponse(BaseModel):
     r"""The webhook event object."""
 
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a webhook event object. Will always contain the string `event` for this endpoint."""
 
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this event."""
 
-    type: Optional[str] = None
-    r"""The event's type."""
+    webhook_event_types: Annotated[
+        Annotated[
+            GetWebhookEventWebhookEventTypes, PlainValidator(validate_open_enum(False))
+        ],
+        pydantic.Field(alias="type"),
+    ]
+    r"""The event's type"""
 
-    entity_id: Annotated[Optional[str], pydantic.Field(alias="entityId")] = None
+    entity_id: Annotated[str, pydantic.Field(alias="entityId")]
     r"""The entity token that triggered the event"""
 
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The event's date time of creation."""
+
+    links: Annotated[GetWebhookEventLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     embedded: Annotated[
         OptionalNullable[GetWebhookEventEmbedded], pydantic.Field(alias="_embedded")
     ] = UNSET
     r"""Full payload of the event."""
 
-    links: Annotated[Optional[GetWebhookEventLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "resource",
-            "id",
-            "type",
-            "entityId",
-            "createdAt",
-            "_embedded",
-            "_links",
-        ]
+        optional_fields = ["_embedded"]
         nullable_fields = ["_embedded"]
         null_default_fields = []
 

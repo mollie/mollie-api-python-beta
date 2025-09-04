@@ -14,8 +14,10 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class CreateWebhookEventTypes(str, Enum):
-    r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those that require explicit selection. Separate multiple event types with a comma."""
+class CreateWebhookWebhookEventTypesRequest(str, Enum):
+    r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those
+    that require explicit selection. Separate multiple event types with a comma.
+    """
 
     PAYMENT_LINK_PAID = "payment-link.paid"
     BALANCE_TRANSACTION_CREATED = "balance-transaction.created"
@@ -23,6 +25,7 @@ class CreateWebhookEventTypes(str, Enum):
     SALES_INVOICE_ISSUED = "sales-invoice.issued"
     SALES_INVOICE_CANCELED = "sales-invoice.canceled"
     SALES_INVOICE_PAID = "sales-invoice.paid"
+    WILDCARD_ = "*"
 
 
 class CreateWebhookRequestTypedDict(TypedDict):
@@ -30,8 +33,10 @@ class CreateWebhookRequestTypedDict(TypedDict):
     r"""A name that identifies the webhook."""
     url: str
     r"""The URL Mollie will send the events to. This URL must be publicly accessible."""
-    event_types: CreateWebhookEventTypes
-    r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those that require explicit selection. Separate multiple event types with a comma."""
+    webhook_event_types: CreateWebhookWebhookEventTypesRequest
+    r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those
+    that require explicit selection. Separate multiple event types with a comma.
+    """
     testmode: NotRequired[Nullable[bool]]
     r"""Whether to create the entity in test mode or live mode.
 
@@ -48,8 +53,12 @@ class CreateWebhookRequest(BaseModel):
     url: str
     r"""The URL Mollie will send the events to. This URL must be publicly accessible."""
 
-    event_types: Annotated[CreateWebhookEventTypes, pydantic.Field(alias="eventTypes")]
-    r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those that require explicit selection. Separate multiple event types with a comma."""
+    webhook_event_types: Annotated[
+        CreateWebhookWebhookEventTypesRequest, pydantic.Field(alias="eventTypes")
+    ]
+    r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those
+    that require explicit selection. Separate multiple event types with a comma.
+    """
 
     testmode: OptionalNullable[bool] = UNSET
     r"""Whether to create the entity in test mode or live mode.
@@ -151,6 +160,18 @@ class CreateWebhookHalJSONError(ClientError):
         self.data = data
 
 
+class CreateWebhookEventTypeWebhookEventTypes(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The event's type"""
+
+    PAYMENT_LINK_PAID = "payment-link.paid"
+    BALANCE_TRANSACTION_CREATED = "balance-transaction.created"
+    SALES_INVOICE_CREATED = "sales-invoice.created"
+    SALES_INVOICE_ISSUED = "sales-invoice.issued"
+    SALES_INVOICE_CANCELED = "sales-invoice.canceled"
+    SALES_INVOICE_PAID = "sales-invoice.paid"
+    WILDCARD_ = "*"
+
+
 class CreateWebhookStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The subscription's current status."""
 
@@ -160,7 +181,7 @@ class CreateWebhookStatus(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class CreateWebhookMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The subscription's mode."""
+    r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
@@ -188,86 +209,84 @@ class CreateWebhookDocumentation(BaseModel):
 class CreateWebhookLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    documentation: NotRequired[CreateWebhookDocumentationTypedDict]
+    documentation: CreateWebhookDocumentationTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class CreateWebhookLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    documentation: Optional[CreateWebhookDocumentation] = None
+    documentation: CreateWebhookDocumentation
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class CreateWebhookResponseTypedDict(TypedDict):
     r"""The webhook object."""
 
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a webhook subscription object. Will always contain the string `webhook` for this endpoint."""
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this subscription."""
-    url: NotRequired[str]
+    url: str
     r"""The subscription's events destination."""
-    profile_id: NotRequired[str]
+    profile_id: str
     r"""The identifier uniquely referring to the profile that created the subscription."""
-    created_at: NotRequired[str]
+    created_at: str
     r"""The subscription's date time of creation."""
-    name: NotRequired[str]
+    name: str
     r"""The subscription's name."""
-    event_types: NotRequired[List[str]]
+    event_types: List[CreateWebhookEventTypeWebhookEventTypes]
     r"""The events types that are subscribed."""
-    status: NotRequired[CreateWebhookStatus]
+    status: CreateWebhookStatus
     r"""The subscription's current status."""
-    mode: NotRequired[CreateWebhookMode]
-    r"""The subscription's mode."""
-    webhook_secret: NotRequired[str]
+    mode: CreateWebhookMode
+    r"""Whether this entity was created in live mode or in test mode."""
+    webhook_secret: str
     r"""The subscription's secret."""
-    links: NotRequired[CreateWebhookLinksTypedDict]
+    links: CreateWebhookLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class CreateWebhookResponse(BaseModel):
     r"""The webhook object."""
 
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a webhook subscription object. Will always contain the string `webhook` for this endpoint."""
 
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this subscription."""
 
-    url: Optional[str] = None
+    url: str
     r"""The subscription's events destination."""
 
-    profile_id: Annotated[Optional[str], pydantic.Field(alias="profileId")] = None
+    profile_id: Annotated[str, pydantic.Field(alias="profileId")]
     r"""The identifier uniquely referring to the profile that created the subscription."""
 
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The subscription's date time of creation."""
 
-    name: Optional[str] = None
+    name: str
     r"""The subscription's name."""
 
-    event_types: Annotated[Optional[List[str]], pydantic.Field(alias="eventTypes")] = (
-        None
-    )
+    event_types: Annotated[
+        List[
+            Annotated[
+                CreateWebhookEventTypeWebhookEventTypes,
+                PlainValidator(validate_open_enum(False)),
+            ]
+        ],
+        pydantic.Field(alias="eventTypes"),
+    ]
     r"""The events types that are subscribed."""
 
-    status: Annotated[
-        Optional[CreateWebhookStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Annotated[CreateWebhookStatus, PlainValidator(validate_open_enum(False))]
     r"""The subscription's current status."""
 
-    mode: Annotated[
-        Optional[CreateWebhookMode], PlainValidator(validate_open_enum(False))
-    ] = None
-    r"""The subscription's mode."""
+    mode: Annotated[CreateWebhookMode, PlainValidator(validate_open_enum(False))]
+    r"""Whether this entity was created in live mode or in test mode."""
 
-    webhook_secret: Annotated[Optional[str], pydantic.Field(alias="webhookSecret")] = (
-        None
-    )
+    webhook_secret: Annotated[str, pydantic.Field(alias="webhookSecret")]
     r"""The subscription's secret."""
 
-    links: Annotated[Optional[CreateWebhookLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
+    links: Annotated[CreateWebhookLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
