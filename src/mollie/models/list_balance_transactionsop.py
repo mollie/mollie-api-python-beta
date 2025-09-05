@@ -3,18 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-    validate_open_enum,
-)
+from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -283,7 +276,7 @@ class ListBalanceTransactionsBadRequestHalJSONError(ClientError):
         self.data = data
 
 
-class ListBalanceTransactionsType(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListBalanceTransactionsType(str, Enum):
     r"""The type of transaction, for example `payment` or `refund`. Values include the below examples, although this list
     is not definitive.
 
@@ -1396,9 +1389,7 @@ class BalanceTransaction(BaseModel):
     id: Optional[str] = None
     r"""The identifier uniquely referring to this balance transaction."""
 
-    type: Annotated[
-        Optional[ListBalanceTransactionsType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[ListBalanceTransactionsType] = None
     r"""The type of transaction, for example `payment` or `refund`. Values include the below examples, although this list
     is not definitive.
 

@@ -3,18 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-    validate_open_enum,
-)
+from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -140,14 +133,14 @@ class GetTerminalHalJSONError(ClientError):
         self.data = data
 
 
-class GetTerminalMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetTerminalMode(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
 
 
-class GetTerminalStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetTerminalStatus(str, Enum):
     r"""The status of the terminal."""
 
     PENDING = "pending"
@@ -155,14 +148,14 @@ class GetTerminalStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     INACTIVE = "inactive"
 
 
-class GetTerminalBrand(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetTerminalBrand(str, Enum):
     r"""The brand of the terminal."""
 
     PAX = "PAX"
     TAP = "Tap"
 
 
-class GetTerminalModel(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetTerminalModel(str, Enum):
     r"""The model of the terminal. For example for a PAX A920, this field's value will be `A920`."""
 
     A35 = "A35"
@@ -280,7 +273,7 @@ class GetTerminalResponse(BaseModel):
     id: str
     r"""The identifier uniquely referring to this terminal. Example: `term_7MgL4wea46qkRcoTZjWEH`."""
 
-    mode: Annotated[GetTerminalMode, PlainValidator(validate_open_enum(False))]
+    mode: GetTerminalMode
     r"""Whether this entity was created in live mode or in test mode."""
 
     description: str
@@ -289,17 +282,13 @@ class GetTerminalResponse(BaseModel):
     may be visible on the device itself depending on the device.
     """
 
-    status: Annotated[GetTerminalStatus, PlainValidator(validate_open_enum(False))]
+    status: GetTerminalStatus
     r"""The status of the terminal."""
 
-    brand: Annotated[
-        Nullable[GetTerminalBrand], PlainValidator(validate_open_enum(False))
-    ]
+    brand: Nullable[GetTerminalBrand]
     r"""The brand of the terminal."""
 
-    model: Annotated[
-        Nullable[GetTerminalModel], PlainValidator(validate_open_enum(False))
-    ]
+    model: Nullable[GetTerminalModel]
     r"""The model of the terminal. For example for a PAX A920, this field's value will be `A920`."""
 
     serial_number: Annotated[Nullable[str], pydantic.Field(alias="serialNumber")]

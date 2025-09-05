@@ -3,13 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, validate_open_enum
+from mollie.utils import FieldMetadata, PathParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -85,7 +83,7 @@ class GetInvoiceHalJSONError(ClientError):
         self.data = data
 
 
-class GetInvoiceStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetInvoiceStatus(str, Enum):
     r"""Status of the invoice.
 
     * `open` — The invoice is not paid yet.
@@ -353,9 +351,7 @@ class GetInvoiceResponse(BaseModel):
     )
     r"""The VAT number to which the invoice was issued to, if applicable."""
 
-    status: Annotated[
-        Optional[GetInvoiceStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Optional[GetInvoiceStatus] = None
     r"""Status of the invoice.
 
     * `open` — The invoice is not paid yet.

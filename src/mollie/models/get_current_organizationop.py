@@ -2,17 +2,14 @@
 
 from __future__ import annotations
 from enum import Enum
-from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class GetCurrentOrganizationLocale(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetCurrentOrganizationLocale(str, Enum):
     r"""The preferred locale of the merchant, as set in their Mollie dashboard."""
 
     EN_US = "en_US"
@@ -68,7 +65,7 @@ class GetCurrentOrganizationAddress(BaseModel):
     r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""
 
 
-class GetCurrentOrganizationVatRegulation(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetCurrentOrganizationVatRegulation(str, Enum):
     r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in The United
     Kingdom, and shifted VAT for merchants in the European Union.
 
@@ -215,10 +212,7 @@ class GetCurrentOrganizationResponse(BaseModel):
     email: Optional[str] = None
     r"""The email address associated with the organization."""
 
-    locale: Annotated[
-        Optional[GetCurrentOrganizationLocale],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    locale: Optional[GetCurrentOrganizationLocale] = None
     r"""The preferred locale of the merchant, as set in their Mollie dashboard."""
 
     address: Optional[GetCurrentOrganizationAddress] = None
@@ -239,10 +233,7 @@ class GetCurrentOrganizationResponse(BaseModel):
     """
 
     vat_regulation: Annotated[
-        Annotated[
-            OptionalNullable[GetCurrentOrganizationVatRegulation],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        OptionalNullable[GetCurrentOrganizationVatRegulation],
         pydantic.Field(alias="vatRegulation"),
     ] = UNSET
     r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in The United

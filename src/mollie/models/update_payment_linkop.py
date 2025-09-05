@@ -3,18 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    RequestMetadata,
-    validate_open_enum,
-)
+from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -903,7 +896,7 @@ class UpdatePaymentLinkNotFoundHalJSONError(ClientError):
         self.data = data
 
 
-class UpdatePaymentLinkMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class UpdatePaymentLinkMode(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -956,7 +949,7 @@ class UpdatePaymentLinkMinimumAmountResponse(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class UpdatePaymentLinkTypeResponse(str, Enum, metaclass=utils.OpenEnumMeta):
+class UpdatePaymentLinkTypeResponse(str, Enum):
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -1090,7 +1083,7 @@ class UpdatePaymentLinkVatAmountResponse(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class UpdatePaymentLinkCategoryResponse(str, Enum, metaclass=utils.OpenEnumMeta):
+class UpdatePaymentLinkCategoryResponse(str, Enum):
     MEAL = "meal"
     ECO = "eco"
     GIFT = "gift"
@@ -1183,10 +1176,7 @@ class UpdatePaymentLinkLineResponse(BaseModel):
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
 
-    type: Annotated[
-        Optional[UpdatePaymentLinkTypeResponse],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[UpdatePaymentLinkTypeResponse] = None
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -1223,14 +1213,7 @@ class UpdatePaymentLinkLineResponse(BaseModel):
     sku: Optional[str] = None
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
 
-    categories: Optional[
-        List[
-            Annotated[
-                UpdatePaymentLinkCategoryResponse,
-                PlainValidator(validate_open_enum(False)),
-            ]
-        ]
-    ] = None
+    categories: Optional[List[UpdatePaymentLinkCategoryResponse]] = None
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
     [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
@@ -1590,7 +1573,7 @@ class UpdatePaymentLinkApplicationFee(BaseModel):
     """
 
 
-class UpdatePaymentLinkSequenceType(str, Enum, metaclass=utils.OpenEnumMeta):
+class UpdatePaymentLinkSequenceType(str, Enum):
     r"""If set to `first`, a payment mandate is established right after a payment is made by the customer.
 
     Defaults to `oneoff`, which is a regular payment link and will not establish a mandate after payment.
@@ -1794,7 +1777,7 @@ class UpdatePaymentLinkResponse(BaseModel):
     id: str
     r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
 
-    mode: Annotated[UpdatePaymentLinkMode, PlainValidator(validate_open_enum(False))]
+    mode: UpdatePaymentLinkMode
     r"""Whether this entity was created in live mode or in test mode."""
 
     description: str
@@ -1920,10 +1903,7 @@ class UpdatePaymentLinkResponse(BaseModel):
     """
 
     sequence_type: Annotated[
-        Annotated[
-            OptionalNullable[UpdatePaymentLinkSequenceType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        OptionalNullable[UpdatePaymentLinkSequenceType],
         pydantic.Field(alias="sequenceType"),
     ] = UNSET
     r"""If set to `first`, a payment mandate is established right after a payment is made by the customer.

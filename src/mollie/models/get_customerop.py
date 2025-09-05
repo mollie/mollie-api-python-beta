@@ -3,18 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-    validate_open_enum,
-)
+from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -154,14 +147,14 @@ class GetCustomerHalJSONError(ClientError):
         self.data = data
 
 
-class GetCustomerMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetCustomerMode(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
 
 
-class GetCustomerLocale(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetCustomerLocale(str, Enum):
     r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if
     absolutely necessary. If not provided, the browser language will be used which is typically highly accurate.
     """
@@ -507,7 +500,7 @@ class GetCustomerResponse(BaseModel):
     id: str
     r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
 
-    mode: Annotated[GetCustomerMode, PlainValidator(validate_open_enum(False))]
+    mode: GetCustomerMode
     r"""Whether this entity was created in live mode or in test mode."""
 
     name: Nullable[str]
@@ -516,9 +509,7 @@ class GetCustomerResponse(BaseModel):
     email: Nullable[str]
     r"""The email address of the customer."""
 
-    locale: Annotated[
-        Nullable[GetCustomerLocale], PlainValidator(validate_open_enum(False))
-    ]
+    locale: Nullable[GetCustomerLocale]
     r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if
     absolutely necessary. If not provided, the browser language will be used which is typically highly accurate.
     """

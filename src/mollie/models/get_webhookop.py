@@ -3,18 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-    validate_open_enum,
-)
+from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -197,7 +190,7 @@ class GetWebhookNotFoundHalJSONError(ClientError):
         self.data = data
 
 
-class GetWebhookWebhookEventTypes(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetWebhookWebhookEventTypes(str, Enum):
     r"""The event's type"""
 
     PAYMENT_LINK_PAID = "payment-link.paid"
@@ -209,7 +202,7 @@ class GetWebhookWebhookEventTypes(str, Enum, metaclass=utils.OpenEnumMeta):
     WILDCARD_ = "*"
 
 
-class GetWebhookStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetWebhookStatus(str, Enum):
     r"""The subscription's current status."""
 
     ENABLED = "enabled"
@@ -218,7 +211,7 @@ class GetWebhookStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     DELETED = "deleted"
 
 
-class GetWebhookMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetWebhookMode(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -309,19 +302,14 @@ class GetWebhookResponse(BaseModel):
     r"""The subscription's name."""
 
     event_types: Annotated[
-        List[
-            Annotated[
-                GetWebhookWebhookEventTypes, PlainValidator(validate_open_enum(False))
-            ]
-        ],
-        pydantic.Field(alias="eventTypes"),
+        List[GetWebhookWebhookEventTypes], pydantic.Field(alias="eventTypes")
     ]
     r"""The events types that are subscribed."""
 
-    status: Annotated[GetWebhookStatus, PlainValidator(validate_open_enum(False))]
+    status: GetWebhookStatus
     r"""The subscription's current status."""
 
-    mode: Annotated[GetWebhookMode, PlainValidator(validate_open_enum(False))]
+    mode: GetWebhookMode
     r"""Whether this entity was created in live mode or in test mode."""
 
     links: Annotated[GetWebhookLinks, pydantic.Field(alias="_links")]

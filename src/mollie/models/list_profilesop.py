@@ -3,13 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, QueryParamMetadata, validate_open_enum
+from mollie.utils import FieldMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -129,14 +127,14 @@ class ListProfilesHalJSONError(ClientError):
         self.data = data
 
 
-class ListProfilesMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListProfilesMode(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
 
 
-class ListProfilesStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListProfilesStatus(str, Enum):
     r"""The profile status determines whether the profile is able to receive live payments.
 
     * `unverified`: The profile has not been verified yet and can only be used to create test payments.
@@ -149,7 +147,7 @@ class ListProfilesStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     BLOCKED = "blocked"
 
 
-class ListProfilesReviewStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListProfilesReviewStatus(str, Enum):
     r"""The status of the requested changes."""
 
     PENDING = "pending"
@@ -172,9 +170,7 @@ class ListProfilesReview(BaseModel):
     `null` in test mode.
     """
 
-    status: Annotated[
-        Optional[ListProfilesReviewStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Optional[ListProfilesReviewStatus] = None
     r"""The status of the requested changes."""
 
 
@@ -436,9 +432,7 @@ class ListProfilesProfile(BaseModel):
     id: Optional[str] = None
     r"""The identifier uniquely referring to this profile. Example: `pfl_v9hTwCvYqw`."""
 
-    mode: Annotated[
-        Optional[ListProfilesMode], PlainValidator(validate_open_enum(False))
-    ] = None
+    mode: Optional[ListProfilesMode] = None
     r"""Whether this entity was created in live mode or in test mode."""
 
     name: Optional[str] = None
@@ -474,9 +468,7 @@ class ListProfilesProfile(BaseModel):
     [business category list](common-data-types#business-category) for all possible options.
     """
 
-    status: Annotated[
-        Optional[ListProfilesStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Optional[ListProfilesStatus] = None
     r"""The profile status determines whether the profile is able to receive live payments.
 
     * `unverified`: The profile has not been verified yet and can only be used to create test payments.

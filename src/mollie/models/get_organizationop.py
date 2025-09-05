@@ -3,18 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-    validate_open_enum,
-)
+from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -138,7 +131,7 @@ class GetOrganizationHalJSONError(ClientError):
         self.data = data
 
 
-class GetOrganizationLocale(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetOrganizationLocale(str, Enum):
     r"""The preferred locale of the merchant, as set in their Mollie dashboard."""
 
     EN_US = "en_US"
@@ -194,7 +187,7 @@ class GetOrganizationAddress(BaseModel):
     r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""
 
 
-class GetOrganizationVatRegulation(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetOrganizationVatRegulation(str, Enum):
     r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in The United
     Kingdom, and shifted VAT for merchants in the European Union.
 
@@ -339,9 +332,7 @@ class GetOrganizationResponse(BaseModel):
     email: Optional[str] = None
     r"""The email address associated with the organization."""
 
-    locale: Annotated[
-        Optional[GetOrganizationLocale], PlainValidator(validate_open_enum(False))
-    ] = None
+    locale: Optional[GetOrganizationLocale] = None
     r"""The preferred locale of the merchant, as set in their Mollie dashboard."""
 
     address: Optional[GetOrganizationAddress] = None
@@ -362,10 +353,7 @@ class GetOrganizationResponse(BaseModel):
     """
 
     vat_regulation: Annotated[
-        Annotated[
-            OptionalNullable[GetOrganizationVatRegulation],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        OptionalNullable[GetOrganizationVatRegulation],
         pydantic.Field(alias="vatRegulation"),
     ] = UNSET
     r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in The United

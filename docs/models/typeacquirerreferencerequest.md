@@ -1,4 +1,4 @@
-# CreateRefundExternalReferenceType
+# TypeAcquirerReferenceRequest
 
 Specifies the reference type
 

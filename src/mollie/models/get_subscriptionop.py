@@ -3,18 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-    validate_open_enum,
-)
+from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -149,14 +142,14 @@ class GetSubscriptionHalJSONError(ClientError):
         self.data = data
 
 
-class GetSubscriptionMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetSubscriptionMode(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
 
 
-class GetSubscriptionStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetSubscriptionStatus(str, Enum):
     r"""The subscription's current status is directly related to the status of the underlying customer or mandate that is
     enabling the subscription.
     """
@@ -191,7 +184,7 @@ class GetSubscriptionAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class GetSubscriptionMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetSubscriptionMethod(str, Enum):
     r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
 
     CREDITCARD = "creditcard"
@@ -557,10 +550,10 @@ class GetSubscriptionResponse(BaseModel):
     id: str
     r"""The identifier uniquely referring to this subscription. Example: `sub_rVKGtNd6s3`."""
 
-    mode: Annotated[GetSubscriptionMode, PlainValidator(validate_open_enum(False))]
+    mode: GetSubscriptionMode
     r"""Whether this entity was created in live mode or in test mode."""
 
-    status: Annotated[GetSubscriptionStatus, PlainValidator(validate_open_enum(False))]
+    status: GetSubscriptionStatus
     r"""The subscription's current status is directly related to the status of the underlying customer or mandate that is
     enabling the subscription.
     """
@@ -598,9 +591,7 @@ class GetSubscriptionResponse(BaseModel):
     **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
     """
 
-    method: Annotated[
-        Nullable[GetSubscriptionMethod], PlainValidator(validate_open_enum(False))
-    ]
+    method: Nullable[GetSubscriptionMethod]
     r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
 
     metadata: Nullable[GetSubscriptionMetadata]

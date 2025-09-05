@@ -3,13 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, QueryParamMetadata, validate_open_enum
+from mollie.utils import FieldMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -278,7 +276,7 @@ class ListAllMethodsHalJSONError(ClientError):
         self.data = data
 
 
-class ListAllMethodsID(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListAllMethodsID(str, Enum):
     r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment
     method selection screen will be skipped.
     """
@@ -391,7 +389,7 @@ class ListAllMethodsImage(BaseModel):
     """
 
 
-class ListAllMethodsStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListAllMethodsStatus(str, Enum):
     r"""The payment method's activation status for this profile."""
 
     ACTIVATED = "activated"
@@ -653,7 +651,7 @@ class ListAllMethodsMethod(BaseModel):
     endpoint.
     """
 
-    id: Annotated[ListAllMethodsID, PlainValidator(validate_open_enum(False))]
+    id: ListAllMethodsID
     r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment
     method selection screen will be skipped.
     """
@@ -679,7 +677,7 @@ class ListAllMethodsMethod(BaseModel):
     image: ListAllMethodsImage
     r"""URLs of images representing the payment method."""
 
-    status: Annotated[ListAllMethodsStatus, PlainValidator(validate_open_enum(False))]
+    status: ListAllMethodsStatus
     r"""The payment method's activation status for this profile."""
 
     links: Annotated[ListAllMethodsMethodLinks, pydantic.Field(alias="_links")]

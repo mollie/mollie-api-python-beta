@@ -3,13 +3,10 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -1136,7 +1133,7 @@ class CreatePaymentLinkNotFoundHalJSONError(ClientError):
         self.data = data
 
 
-class CreatePaymentLinkMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreatePaymentLinkMode(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -1189,7 +1186,7 @@ class CreatePaymentLinkMinimumAmountResponse(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkTypeResponse(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreatePaymentLinkTypeResponse(str, Enum):
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -1323,7 +1320,7 @@ class CreatePaymentLinkVatAmountResponse(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class CreatePaymentLinkCategoryResponse(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreatePaymentLinkCategoryResponse(str, Enum):
     MEAL = "meal"
     ECO = "eco"
     GIFT = "gift"
@@ -1416,10 +1413,7 @@ class CreatePaymentLinkLineResponse(BaseModel):
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
 
-    type: Annotated[
-        Optional[CreatePaymentLinkTypeResponse],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    type: Optional[CreatePaymentLinkTypeResponse] = None
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -1456,14 +1450,7 @@ class CreatePaymentLinkLineResponse(BaseModel):
     sku: Optional[str] = None
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
 
-    categories: Optional[
-        List[
-            Annotated[
-                CreatePaymentLinkCategoryResponse,
-                PlainValidator(validate_open_enum(False)),
-            ]
-        ]
-    ] = None
+    categories: Optional[List[CreatePaymentLinkCategoryResponse]] = None
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
     [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
@@ -1823,7 +1810,7 @@ class CreatePaymentLinkApplicationFeeResponse(BaseModel):
     """
 
 
-class CreatePaymentLinkSequenceTypeResponse(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreatePaymentLinkSequenceTypeResponse(str, Enum):
     r"""If set to `first`, a payment mandate is established right after a payment is made by the customer.
 
     Defaults to `oneoff`, which is a regular payment link and will not establish a mandate after payment.
@@ -2027,7 +2014,7 @@ class CreatePaymentLinkResponse(BaseModel):
     id: str
     r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
 
-    mode: Annotated[CreatePaymentLinkMode, PlainValidator(validate_open_enum(False))]
+    mode: CreatePaymentLinkMode
     r"""Whether this entity was created in live mode or in test mode."""
 
     description: str
@@ -2153,10 +2140,7 @@ class CreatePaymentLinkResponse(BaseModel):
     """
 
     sequence_type: Annotated[
-        Annotated[
-            OptionalNullable[CreatePaymentLinkSequenceTypeResponse],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        OptionalNullable[CreatePaymentLinkSequenceTypeResponse],
         pydantic.Field(alias="sequenceType"),
     ] = UNSET
     r"""If set to `first`, a payment mandate is established right after a payment is made by the customer.

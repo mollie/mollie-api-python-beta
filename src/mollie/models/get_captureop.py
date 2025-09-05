@@ -3,18 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-    validate_open_enum,
-)
+from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -169,7 +162,7 @@ class GetCaptureHalJSONError(ClientError):
         self.data = data
 
 
-class GetCaptureMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetCaptureMode(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -226,7 +219,7 @@ class GetCaptureSettlementAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class GetCaptureStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetCaptureStatus(str, Enum):
     r"""The capture's status."""
 
     PENDING = "pending"
@@ -479,13 +472,13 @@ class GetCaptureResponse(BaseModel):
     id: str
     r"""The identifier uniquely referring to this capture. Example: `cpt_mNepDkEtco6ah3QNPUGYH`."""
 
-    mode: Annotated[GetCaptureMode, PlainValidator(validate_open_enum(False))]
+    mode: GetCaptureMode
     r"""Whether this entity was created in live mode or in test mode."""
 
     amount: Nullable[GetCaptureAmount]
     r"""The amount captured. If no amount is provided, the full authorized amount is captured."""
 
-    status: Annotated[GetCaptureStatus, PlainValidator(validate_open_enum(False))]
+    status: GetCaptureStatus
     r"""The capture's status."""
 
     payment_id: Annotated[str, pydantic.Field(alias="paymentId")]

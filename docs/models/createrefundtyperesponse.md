@@ -1,4 +1,4 @@
-# TypeAcquirerReference
+# CreateRefundTypeResponse
 
 Specifies the reference type
 

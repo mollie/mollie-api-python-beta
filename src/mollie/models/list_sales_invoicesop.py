@@ -3,13 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, QueryParamMetadata, validate_open_enum
+from mollie.utils import FieldMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -147,7 +145,7 @@ class ListSalesInvoicesHalJSONError(ClientError):
         self.data = data
 
 
-class ListSalesInvoicesStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListSalesInvoicesStatus(str, Enum):
     r"""The status for the invoice to end up in.
 
     A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
@@ -168,14 +166,14 @@ class ListSalesInvoicesStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     PAID = "paid"
 
 
-class ListSalesInvoicesVatScheme(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListSalesInvoicesVatScheme(str, Enum):
     r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
 
     STANDARD = "standard"
     ONE_STOP_SHOP = "one-stop-shop"
 
 
-class ListSalesInvoicesVatMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListSalesInvoicesVatMode(str, Enum):
     r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
     price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
     """
@@ -196,7 +194,7 @@ class ListSalesInvoicesMetadata(BaseModel):
     """
 
 
-class ListSalesInvoicesPaymentTerm(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListSalesInvoicesPaymentTerm(str, Enum):
     r"""The payment term to be set on the invoice."""
 
     SEVENDAYS = "7 days"
@@ -208,7 +206,7 @@ class ListSalesInvoicesPaymentTerm(str, Enum, metaclass=utils.OpenEnumMeta):
     ONE_HUNDRED_AND_TWENTYDAYS = "120 days"
 
 
-class ListSalesInvoicesSource(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListSalesInvoicesSource(str, Enum):
     r"""The way through which the invoice is to be set to paid."""
 
     MANUAL = "manual"
@@ -234,9 +232,7 @@ class ListSalesInvoicesPaymentDetails(BaseModel):
     provided details. Required for `paid` status.
     """
 
-    source: Annotated[
-        ListSalesInvoicesSource, PlainValidator(validate_open_enum(False))
-    ]
+    source: ListSalesInvoicesSource
     r"""The way through which the invoice is to be set to paid."""
 
     source_reference: Annotated[
@@ -300,7 +296,7 @@ class ListSalesInvoicesEmailDetails(BaseModel):
     r"""The body of the email to be sent. To add newline characters, you can use `\n`."""
 
 
-class ListSalesInvoicesRecipientType(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListSalesInvoicesRecipientType(str, Enum):
     r"""The type of recipient, either `consumer` or `business`. This will determine what further fields are
     required on the `recipient` object.
     """
@@ -309,7 +305,7 @@ class ListSalesInvoicesRecipientType(str, Enum, metaclass=utils.OpenEnumMeta):
     BUSINESS = "business"
 
 
-class ListSalesInvoicesLocale(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListSalesInvoicesLocale(str, Enum):
     r"""The locale for the recipient, to be used for translations in PDF generation and payment pages."""
 
     EN_US = "en_US"
@@ -369,9 +365,7 @@ class ListSalesInvoicesRecipientTypedDict(TypedDict):
 
 
 class ListSalesInvoicesRecipient(BaseModel):
-    type: Annotated[
-        ListSalesInvoicesRecipientType, PlainValidator(validate_open_enum(False))
-    ]
+    type: ListSalesInvoicesRecipientType
     r"""The type of recipient, either `consumer` or `business`. This will determine what further fields are
     required on the `recipient` object.
     """
@@ -391,9 +385,7 @@ class ListSalesInvoicesRecipient(BaseModel):
     country: str
     r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""
 
-    locale: Annotated[
-        ListSalesInvoicesLocale, PlainValidator(validate_open_enum(False))
-    ]
+    locale: ListSalesInvoicesLocale
     r"""The locale for the recipient, to be used for translations in PDF generation and payment pages."""
 
     title: OptionalNullable[str] = UNSET
@@ -523,7 +515,7 @@ class ListSalesInvoicesUnitPrice(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListSalesInvoicesLineType(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListSalesInvoicesLineType(str, Enum):
     r"""The type of discount."""
 
     AMOUNT = "amount"
@@ -542,9 +534,7 @@ class ListSalesInvoicesLineDiscountTypedDict(TypedDict):
 class ListSalesInvoicesLineDiscount(BaseModel):
     r"""The discount to be applied to the line item."""
 
-    type: Annotated[
-        ListSalesInvoicesLineType, PlainValidator(validate_open_enum(False))
-    ]
+    type: ListSalesInvoicesLineType
     r"""The type of discount."""
 
     value: str
@@ -621,7 +611,7 @@ class ListSalesInvoicesLine(BaseModel):
         return m
 
 
-class ListSalesInvoicesDiscountType(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListSalesInvoicesDiscountType(str, Enum):
     r"""The type of discount."""
 
     AMOUNT = "amount"
@@ -640,9 +630,7 @@ class ListSalesInvoicesDiscountTypedDict(TypedDict):
 class ListSalesInvoicesDiscount(BaseModel):
     r"""The discount to be applied to the entire invoice, applied on top of any line item discounts."""
 
-    type: Annotated[
-        ListSalesInvoicesDiscountType, PlainValidator(validate_open_enum(False))
-    ]
+    type: ListSalesInvoicesDiscountType
     r"""The type of discount."""
 
     value: str
@@ -1004,9 +992,7 @@ class SalesInvoice(BaseModel):
     ] = UNSET
     r"""When issued, an invoice number will be set for the sales invoice."""
 
-    status: Annotated[
-        Optional[ListSalesInvoicesStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Optional[ListSalesInvoicesStatus] = None
     r"""The status for the invoice to end up in.
 
     A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
@@ -1023,20 +1009,12 @@ class SalesInvoice(BaseModel):
     """
 
     vat_scheme: Annotated[
-        Annotated[
-            Optional[ListSalesInvoicesVatScheme],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="vatScheme"),
+        Optional[ListSalesInvoicesVatScheme], pydantic.Field(alias="vatScheme")
     ] = None
     r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
 
     vat_mode: Annotated[
-        Annotated[
-            Optional[ListSalesInvoicesVatMode],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="vatMode"),
+        Optional[ListSalesInvoicesVatMode], pydantic.Field(alias="vatMode")
     ] = None
     r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
     price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
@@ -1051,10 +1029,7 @@ class SalesInvoice(BaseModel):
     """
 
     payment_term: Annotated[
-        Annotated[
-            OptionalNullable[ListSalesInvoicesPaymentTerm],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        OptionalNullable[ListSalesInvoicesPaymentTerm],
         pydantic.Field(alias="paymentTerm"),
     ] = UNSET
     r"""The payment term to be set on the invoice."""

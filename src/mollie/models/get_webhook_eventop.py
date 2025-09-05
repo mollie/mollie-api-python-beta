@@ -3,18 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-    validate_open_enum,
-)
+from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -138,7 +131,7 @@ class GetWebhookEventHalJSONError(ClientError):
         self.data = data
 
 
-class GetWebhookEventWebhookEventTypes(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetWebhookEventWebhookEventTypes(str, Enum):
     r"""The event's type"""
 
     PAYMENT_LINK_PAID = "payment-link.paid"
@@ -150,14 +143,14 @@ class GetWebhookEventWebhookEventTypes(str, Enum, metaclass=utils.OpenEnumMeta):
     WILDCARD_ = "*"
 
 
-class GetWebhookEventMode2(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetWebhookEventMode2(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
 
 
-class GetWebhookEventStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetWebhookEventStatus(str, Enum):
     r"""The profile status determines whether the profile is able to receive live payments.
 
     * `unverified`: The profile has not been verified yet and can only be used to create test payments.
@@ -170,7 +163,7 @@ class GetWebhookEventStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     BLOCKED = "blocked"
 
 
-class GetWebhookEventReviewStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetWebhookEventReviewStatus(str, Enum):
     r"""The status of the requested changes."""
 
     PENDING = "pending"
@@ -193,9 +186,7 @@ class GetWebhookEventReview(BaseModel):
     `null` in test mode.
     """
 
-    status: Annotated[
-        Optional[GetWebhookEventReviewStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Optional[GetWebhookEventReviewStatus] = None
     r"""The status of the requested changes."""
 
 
@@ -457,9 +448,7 @@ class GetWebhookEventProfile(BaseModel):
     id: Optional[str] = None
     r"""The identifier uniquely referring to this profile. Example: `pfl_v9hTwCvYqw`."""
 
-    mode: Annotated[
-        Optional[GetWebhookEventMode2], PlainValidator(validate_open_enum(False))
-    ] = None
+    mode: Optional[GetWebhookEventMode2] = None
     r"""Whether this entity was created in live mode or in test mode."""
 
     name: Optional[str] = None
@@ -495,9 +484,7 @@ class GetWebhookEventProfile(BaseModel):
     [business category list](common-data-types#business-category) for all possible options.
     """
 
-    status: Annotated[
-        Optional[GetWebhookEventStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Optional[GetWebhookEventStatus] = None
     r"""The profile status determines whether the profile is able to receive live payments.
 
     * `unverified`: The profile has not been verified yet and can only be used to create test payments.
@@ -518,7 +505,7 @@ class GetWebhookEventProfile(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class GetWebhookEventMode1(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetWebhookEventMode1(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -571,7 +558,7 @@ class GetWebhookEventMinimumAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class GetWebhookEventType(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetWebhookEventType(str, Enum):
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -705,7 +692,7 @@ class GetWebhookEventVatAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class GetWebhookEventCategory(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetWebhookEventCategory(str, Enum):
     MEAL = "meal"
     ECO = "eco"
     GIFT = "gift"
@@ -796,9 +783,7 @@ class GetWebhookEventLine(BaseModel):
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
 
-    type: Annotated[
-        Optional[GetWebhookEventType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[GetWebhookEventType] = None
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -834,13 +819,7 @@ class GetWebhookEventLine(BaseModel):
     sku: Optional[str] = None
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
 
-    categories: Optional[
-        List[
-            Annotated[
-                GetWebhookEventCategory, PlainValidator(validate_open_enum(False))
-            ]
-        ]
-    ] = None
+    categories: Optional[List[GetWebhookEventCategory]] = None
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
     [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
@@ -1200,7 +1179,7 @@ class GetWebhookEventApplicationFee(BaseModel):
     """
 
 
-class GetWebhookEventSequenceType(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetWebhookEventSequenceType(str, Enum):
     r"""If set to `first`, a payment mandate is established right after a payment is made by the customer.
 
     Defaults to `oneoff`, which is a regular payment link and will not establish a mandate after payment.
@@ -1398,7 +1377,7 @@ class GetWebhookEventPaymentLinkOutput(BaseModel):
     id: str
     r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
 
-    mode: Annotated[GetWebhookEventMode1, PlainValidator(validate_open_enum(False))]
+    mode: GetWebhookEventMode1
     r"""Whether this entity was created in live mode or in test mode."""
 
     description: str
@@ -1522,10 +1501,7 @@ class GetWebhookEventPaymentLinkOutput(BaseModel):
     """
 
     sequence_type: Annotated[
-        Annotated[
-            OptionalNullable[GetWebhookEventSequenceType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        OptionalNullable[GetWebhookEventSequenceType],
         pydantic.Field(alias="sequenceType"),
     ] = UNSET
     r"""If set to `first`, a payment mandate is established right after a payment is made by the customer.
@@ -1731,10 +1707,7 @@ class GetWebhookEventResponse(BaseModel):
     r"""The identifier uniquely referring to this event."""
 
     webhook_event_types: Annotated[
-        Annotated[
-            GetWebhookEventWebhookEventTypes, PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="type"),
+        GetWebhookEventWebhookEventTypes, pydantic.Field(alias="type")
     ]
     r"""The event's type"""
 

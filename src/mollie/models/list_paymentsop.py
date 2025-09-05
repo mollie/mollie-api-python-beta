@@ -4,13 +4,11 @@ from __future__ import annotations
 from datetime import date
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, QueryParamMetadata, validate_open_enum
+from mollie.utils import FieldMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -188,7 +186,7 @@ class ListPaymentsHalJSONError(ClientError):
         self.data = data
 
 
-class ListPaymentsMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsMode(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -349,7 +347,7 @@ class ListPaymentsSettlementAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListPaymentsLineType(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsLineType(str, Enum):
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -483,7 +481,7 @@ class ListPaymentsVatAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListPaymentsCategory(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsCategory(str, Enum):
     MEAL = "meal"
     ECO = "eco"
     GIFT = "gift"
@@ -673,9 +671,7 @@ class ListPaymentsLine(BaseModel):
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
 
-    type: Annotated[
-        Optional[ListPaymentsLineType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[ListPaymentsLineType] = None
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -711,9 +707,7 @@ class ListPaymentsLine(BaseModel):
     sku: Optional[str] = None
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
 
-    categories: Optional[
-        List[Annotated[ListPaymentsCategory, PlainValidator(validate_open_enum(False))]]
-    ] = None
+    categories: Optional[List[ListPaymentsCategory]] = None
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
     [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
@@ -1008,7 +1002,7 @@ class ListPaymentsShippingAddress(BaseModel):
     """
 
 
-class ListPaymentsLocale(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsLocale(str, Enum):
     r"""Allows you to preset the language to be used in the hosted payment pages shown to the customer. Setting a locale
     is highly recommended and will greatly improve your conversion rate. When this parameter is omitted the browser
     language will be used instead if supported by the payment method. You can provide any `xx_XX` format ISO 15897
@@ -1043,7 +1037,7 @@ class ListPaymentsLocale(str, Enum, metaclass=utils.OpenEnumMeta):
     LT_LT = "lt_LT"
 
 
-class ListPaymentsMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsMethod(str, Enum):
     r"""The payment method used for this transaction. If a specific method was selected during payment initialization,
     this field reflects that choice.
     """
@@ -1102,7 +1096,7 @@ you fetch the entity with our API, we will also include the metadata. You can us
 """
 
 
-class ListPaymentsCaptureMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsCaptureMode(str, Enum):
     r"""Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/)
     and capture at a later time.
 
@@ -1189,7 +1183,7 @@ class ListPaymentsApplicationFee(BaseModel):
     """
 
 
-class ListPaymentsRoutingMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsRoutingMode(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -1215,7 +1209,7 @@ class ListPaymentsRoutingAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListPaymentsDestinationType(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsRoutingType(str, Enum):
     r"""The type of destination. Currently only the destination type `organization` is supported."""
 
     ORGANIZATION = "organization"
@@ -1224,7 +1218,7 @@ class ListPaymentsDestinationType(str, Enum, metaclass=utils.OpenEnumMeta):
 class ListPaymentsDestinationTypedDict(TypedDict):
     r"""The destination of this portion of the payment."""
 
-    type: ListPaymentsDestinationType
+    type: ListPaymentsRoutingType
     r"""The type of destination. Currently only the destination type `organization` is supported."""
     organization_id: str
     r"""Required for destination type `organization`. The ID of the connected organization the funds should be
@@ -1235,9 +1229,7 @@ class ListPaymentsDestinationTypedDict(TypedDict):
 class ListPaymentsDestination(BaseModel):
     r"""The destination of this portion of the payment."""
 
-    type: Annotated[
-        ListPaymentsDestinationType, PlainValidator(validate_open_enum(False))
-    ]
+    type: ListPaymentsRoutingType
     r"""The type of destination. Currently only the destination type `organization` is supported."""
 
     organization_id: Annotated[str, pydantic.Field(alias="organizationId")]
@@ -1337,7 +1329,7 @@ class ListPaymentsRouting(BaseModel):
     Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`.
     """
 
-    mode: Annotated[ListPaymentsRoutingMode, PlainValidator(validate_open_enum(False))]
+    mode: ListPaymentsRoutingMode
     r"""Whether this entity was created in live mode or in test mode."""
 
     amount: ListPaymentsRoutingAmount
@@ -1392,7 +1384,7 @@ class ListPaymentsRouting(BaseModel):
         return m
 
 
-class ListPaymentsSequenceType(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsSequenceType(str, Enum):
     r"""**Only relevant for recurring payments.**
 
     Indicate which part of a recurring sequence this payment is for.
@@ -1415,7 +1407,7 @@ class ListPaymentsSequenceType(str, Enum, metaclass=utils.OpenEnumMeta):
     RECURRING = "recurring"
 
 
-class ListPaymentsStatusEnum(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsStatusEnum(str, Enum):
     r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
     statuses occur at what point.
     """
@@ -1429,7 +1421,7 @@ class ListPaymentsStatusEnum(str, Enum, metaclass=utils.OpenEnumMeta):
     FAILED = "failed"
 
 
-class ListPaymentsCode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsCode(str, Enum):
     r"""A machine-readable code that indicates the reason for the payment's status."""
 
     APPROVED_OR_COMPLETED_SUCCESSFULLY = "approved_or_completed_successfully"
@@ -1585,20 +1577,20 @@ class ListPaymentsStatusReason(BaseModel):
     [this page](status-reasons).**
     """
 
-    code: Annotated[ListPaymentsCode, PlainValidator(validate_open_enum(False))]
+    code: ListPaymentsCode
 
     message: str
     r"""A description of the status reason, localized according to the payment `locale`."""
 
 
-class ListPaymentsCardAudition(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsCardAudition(str, Enum):
     r"""The card's target audience, if known."""
 
     CONSUMER = "consumer"
     BUSINESS = "business"
 
 
-class ListPaymentsCardLabel(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsCardLabel(str, Enum):
     r"""The card's label, if known."""
 
     AMERICAN_EXPRESS = "American Express"
@@ -1616,7 +1608,7 @@ class ListPaymentsCardLabel(str, Enum, metaclass=utils.OpenEnumMeta):
     VPAY = "Vpay"
 
 
-class ListPaymentsCardFunding(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsCardFunding(str, Enum):
     r"""The card type."""
 
     DEBIT = "debit"
@@ -1625,14 +1617,14 @@ class ListPaymentsCardFunding(str, Enum, metaclass=utils.OpenEnumMeta):
     DEFERRED_DEBIT = "deferred-debit"
 
 
-class ListPaymentsCardSecurity(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsCardSecurity(str, Enum):
     r"""The level of security applied during card processing."""
 
     NORMAL = "normal"
     THREEDSECURE = "3dsecure"
 
 
-class ListPaymentsFeeRegion(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsFeeRegion(str, Enum):
     r"""The applicable card fee region."""
 
     AMERICAN_EXPRESS = "american-express"
@@ -1647,7 +1639,7 @@ class ListPaymentsFeeRegion(str, Enum, metaclass=utils.OpenEnumMeta):
     INTRA_EEA = "intra_eea"
 
 
-class ListPaymentsFailureReason(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsFailureReason(str, Enum):
     r"""A failure code to help understand why the payment failed."""
 
     AUTHENTICATION_ABANDONED = "authentication_abandoned"
@@ -1667,13 +1659,13 @@ class ListPaymentsFailureReason(str, Enum, metaclass=utils.OpenEnumMeta):
     UNKNOWN_REASON = "unknown_reason"
 
 
-class ListPaymentsWallet(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsWallet(str, Enum):
     r"""The wallet used when creating the payment."""
 
     APPLEPAY = "applepay"
 
 
-class ListPaymentsSellerProtection(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsSellerProtection(str, Enum):
     r"""Indicates to what extent the payment is eligible for PayPal's Seller Protection. Only available for PayPal
     payments, and if the information is made available by PayPal.
     """
@@ -1711,7 +1703,7 @@ class ListPaymentsPaypalFee(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListPaymentsCardReadMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsCardReadMethod(str, Enum):
     r"""The method by which the card was read by the terminal."""
 
     CHIP = "chip"
@@ -1721,7 +1713,7 @@ class ListPaymentsCardReadMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     MOTO = "moto"
 
 
-class ListPaymentsCardVerificationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListPaymentsCardVerificationMethod(str, Enum):
     r"""The method used to verify the cardholder's identity."""
 
     NO_CVM_REQUIRED = "no-cvm-required"
@@ -1762,19 +1754,13 @@ class ListPaymentsReceipt(BaseModel):
     r"""The unique number that identifies a specific payment application on a chip card."""
 
     card_read_method: Annotated[
-        Annotated[
-            OptionalNullable[ListPaymentsCardReadMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        OptionalNullable[ListPaymentsCardReadMethod],
         pydantic.Field(alias="cardReadMethod"),
     ] = UNSET
     r"""The method by which the card was read by the terminal."""
 
     card_verification_method: Annotated[
-        Annotated[
-            OptionalNullable[ListPaymentsCardVerificationMethod],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        OptionalNullable[ListPaymentsCardVerificationMethod],
         pydantic.Field(alias="cardVerificationMethod"),
     ] = UNSET
     r"""The method used to verify the cardholder's identity."""
@@ -2096,20 +2082,12 @@ class ListPaymentsDetails(BaseModel):
     r"""The customer's name as shown on their card."""
 
     card_audition: Annotated[
-        Annotated[
-            OptionalNullable[ListPaymentsCardAudition],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="cardAudition"),
+        OptionalNullable[ListPaymentsCardAudition], pydantic.Field(alias="cardAudition")
     ] = UNSET
     r"""The card's target audience, if known."""
 
     card_label: Annotated[
-        Annotated[
-            OptionalNullable[ListPaymentsCardLabel],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="cardLabel"),
+        OptionalNullable[ListPaymentsCardLabel], pydantic.Field(alias="cardLabel")
     ] = UNSET
     r"""The card's label, if known."""
 
@@ -2124,29 +2102,17 @@ class ListPaymentsDetails(BaseModel):
     r"""The expiry date (MM/YY) of the card as displayed on the card."""
 
     card_funding: Annotated[
-        Annotated[
-            OptionalNullable[ListPaymentsCardFunding],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="cardFunding"),
+        OptionalNullable[ListPaymentsCardFunding], pydantic.Field(alias="cardFunding")
     ] = UNSET
     r"""The card type."""
 
     card_security: Annotated[
-        Annotated[
-            OptionalNullable[ListPaymentsCardSecurity],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="cardSecurity"),
+        OptionalNullable[ListPaymentsCardSecurity], pydantic.Field(alias="cardSecurity")
     ] = UNSET
     r"""The level of security applied during card processing."""
 
     fee_region: Annotated[
-        Annotated[
-            OptionalNullable[ListPaymentsFeeRegion],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="feeRegion"),
+        OptionalNullable[ListPaymentsFeeRegion], pydantic.Field(alias="feeRegion")
     ] = UNSET
     r"""The applicable card fee region."""
 
@@ -2169,10 +2135,7 @@ class ListPaymentsDetails(BaseModel):
     r"""The issuer of the Card."""
 
     failure_reason: Annotated[
-        Annotated[
-            OptionalNullable[ListPaymentsFailureReason],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        OptionalNullable[ListPaymentsFailureReason],
         pydantic.Field(alias="failureReason"),
     ] = UNSET
     r"""A failure code to help understand why the payment failed."""
@@ -2184,9 +2147,7 @@ class ListPaymentsDetails(BaseModel):
     with the payment's locale setting.
     """
 
-    wallet: Annotated[
-        OptionalNullable[ListPaymentsWallet], PlainValidator(validate_open_enum(False))
-    ] = UNSET
+    wallet: OptionalNullable[ListPaymentsWallet] = UNSET
     r"""The wallet used when creating the payment."""
 
     paypal_reference: Annotated[
@@ -2200,10 +2161,7 @@ class ListPaymentsDetails(BaseModel):
     r"""ID of the customer's PayPal account."""
 
     seller_protection: Annotated[
-        Annotated[
-            OptionalNullable[ListPaymentsSellerProtection],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        OptionalNullable[ListPaymentsSellerProtection],
         pydantic.Field(alias="sellerProtection"),
     ] = UNSET
     r"""Indicates to what extent the payment is eligible for PayPal's Seller Protection. Only available for PayPal
@@ -3236,7 +3194,7 @@ class ListPaymentsPaymentOutput(BaseModel):
     will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
     """
 
-    mode: Annotated[ListPaymentsMode, PlainValidator(validate_open_enum(False))]
+    mode: ListPaymentsMode
     r"""Whether this entity was created in live mode or in test mode."""
 
     description: str
@@ -3262,11 +3220,7 @@ class ListPaymentsPaymentOutput(BaseModel):
     """
 
     sequence_type: Annotated[
-        Annotated[
-            Nullable[ListPaymentsSequenceType],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="sequenceType"),
+        Nullable[ListPaymentsSequenceType], pydantic.Field(alias="sequenceType")
     ]
     r"""**Only relevant for recurring payments.**
 
@@ -3294,7 +3248,7 @@ class ListPaymentsPaymentOutput(BaseModel):
     For more information, see [Authentication](authentication).
     """
 
-    status: Annotated[ListPaymentsStatusEnum, PlainValidator(validate_open_enum(False))]
+    status: ListPaymentsStatusEnum
     r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
     statuses occur at what point.
     """
@@ -3410,9 +3364,7 @@ class ListPaymentsPaymentOutput(BaseModel):
     `country`.
     """
 
-    locale: Annotated[
-        OptionalNullable[ListPaymentsLocale], PlainValidator(validate_open_enum(False))
-    ] = UNSET
+    locale: OptionalNullable[ListPaymentsLocale] = UNSET
     r"""Allows you to preset the language to be used in the hosted payment pages shown to the customer. Setting a locale
     is highly recommended and will greatly improve your conversion rate. When this parameter is omitted the browser
     language will be used instead if supported by the payment method. You can provide any `xx_XX` format ISO 15897
@@ -3430,9 +3382,7 @@ class ListPaymentsPaymentOutput(BaseModel):
     field is omitted if the country code was not detected.
     """
 
-    method: Annotated[
-        OptionalNullable[ListPaymentsMethod], PlainValidator(validate_open_enum(False))
-    ] = UNSET
+    method: OptionalNullable[ListPaymentsMethod] = UNSET
     r"""The payment method used for this transaction. If a specific method was selected during payment initialization,
     this field reflects that choice.
     """
@@ -3456,11 +3406,7 @@ class ListPaymentsPaymentOutput(BaseModel):
     """
 
     capture_mode: Annotated[
-        Annotated[
-            OptionalNullable[ListPaymentsCaptureMode],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="captureMode"),
+        OptionalNullable[ListPaymentsCaptureMode], pydantic.Field(alias="captureMode")
     ] = UNSET
     r"""Indicate if the funds should be captured immediately or if you want to [place a hold](https://docs.mollie.com/docs/place-a-hold-for-a-payment#/)
     and capture at a later time.

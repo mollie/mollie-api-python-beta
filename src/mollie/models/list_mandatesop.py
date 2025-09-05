@@ -3,18 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-    validate_open_enum,
-)
+from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -241,14 +234,14 @@ class ListMandatesBadRequestHalJSONError(ClientError):
         self.data = data
 
 
-class ListMandatesMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListMandatesMode(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
 
 
-class ListMandatesMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListMandatesMethod(str, Enum):
     r"""Payment method of the mandate.
 
     SEPA Direct Debit and PayPal mandates can be created directly.
@@ -259,7 +252,7 @@ class ListMandatesMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     PAYPAL = "paypal"
 
 
-class ListMandatesCardLabel(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListMandatesCardLabel(str, Enum):
     r"""The card's label. Available for card mandates, if the card label could be detected."""
 
     AMERICAN_EXPRESS = "American Express"
@@ -329,11 +322,7 @@ class ListMandatesDetails(BaseModel):
     r"""The card's expiry date in `YYYY-MM-DD` format. Available for card mandates."""
 
     card_label: Annotated[
-        Annotated[
-            OptionalNullable[ListMandatesCardLabel],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="cardLabel"),
+        OptionalNullable[ListMandatesCardLabel], pydantic.Field(alias="cardLabel")
     ] = UNSET
     r"""The card's label. Available for card mandates, if the card label could be detected."""
 
@@ -393,7 +382,7 @@ class ListMandatesDetails(BaseModel):
         return m
 
 
-class ListMandatesStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListMandatesStatus(str, Enum):
     r"""The status of the mandate. A status can be `pending` for mandates when the first payment is not yet finalized, or
     when we did not received the IBAN yet from the first payment.
     """
@@ -522,10 +511,10 @@ class ListMandatesMandate(BaseModel):
     id: str
     r"""The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`."""
 
-    mode: Annotated[ListMandatesMode, PlainValidator(validate_open_enum(False))]
+    mode: ListMandatesMode
     r"""Whether this entity was created in live mode or in test mode."""
 
-    method: Annotated[ListMandatesMethod, PlainValidator(validate_open_enum(False))]
+    method: ListMandatesMethod
     r"""Payment method of the mandate.
 
     SEPA Direct Debit and PayPal mandates can be created directly.
@@ -543,7 +532,7 @@ class ListMandatesMandate(BaseModel):
     decline Direct Debit payments if the mandate reference is not unique.
     """
 
-    status: Annotated[ListMandatesStatus, PlainValidator(validate_open_enum(False))]
+    status: ListMandatesStatus
     r"""The status of the mandate. A status can be `pending` for mandates when the first payment is not yet finalized, or
     when we did not received the IBAN yet from the first payment.
     """

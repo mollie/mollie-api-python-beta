@@ -3,18 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-    validate_open_enum,
-)
+from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -265,7 +258,7 @@ class GetClientLinks(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class GetClientLocale(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetClientLocale(str, Enum):
     r"""The preferred locale of the merchant, as set in their Mollie dashboard."""
 
     EN_US = "en_US"
@@ -321,7 +314,7 @@ class GetClientAddress(BaseModel):
     r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""
 
 
-class GetClientVatRegulation(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetClientVatRegulation(str, Enum):
     r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in The United
     Kingdom, and shifted VAT for merchants in the European Union.
 
@@ -464,9 +457,7 @@ class GetClientEmbeddedOrganization(BaseModel):
     email: Optional[str] = None
     r"""The email address associated with the organization."""
 
-    locale: Annotated[
-        Optional[GetClientLocale], PlainValidator(validate_open_enum(False))
-    ] = None
+    locale: Optional[GetClientLocale] = None
     r"""The preferred locale of the merchant, as set in their Mollie dashboard."""
 
     address: Optional[GetClientAddress] = None
@@ -487,11 +478,7 @@ class GetClientEmbeddedOrganization(BaseModel):
     """
 
     vat_regulation: Annotated[
-        Annotated[
-            OptionalNullable[GetClientVatRegulation],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="vatRegulation"),
+        OptionalNullable[GetClientVatRegulation], pydantic.Field(alias="vatRegulation")
     ] = UNSET
     r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in The United
     Kingdom, and shifted VAT for merchants in the European Union.
@@ -546,7 +533,7 @@ class GetClientEmbeddedOrganization(BaseModel):
         return m
 
 
-class GetClientOnboardingStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetClientOnboardingStatus(str, Enum):
     r"""The current status of the organization's onboarding process.
 
     * `needs-data` — The merchant needs to provide additional information
@@ -707,9 +694,7 @@ class GetClientEmbeddedOnboarding(BaseModel):
     name: Optional[str] = None
     r"""The name of the organization."""
 
-    status: Annotated[
-        Optional[GetClientOnboardingStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Optional[GetClientOnboardingStatus] = None
     r"""The current status of the organization's onboarding process.
 
     * `needs-data` — The merchant needs to provide additional information
@@ -736,19 +721,19 @@ class GetClientEmbeddedOnboarding(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class GetClientCapabilitiesStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetClientCapabilitiesStatus(str, Enum):
     UNREQUESTED = "unrequested"
     ENABLED = "enabled"
     DISABLED = "disabled"
     PENDING = "pending"
 
 
-class GetClientStatusReason(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetClientStatusReason(str, Enum):
     REQUIREMENT_PAST_DUE = "requirement-past-due"
     ONBOARDING_INFORMATION_NEEDED = "onboarding-information-needed"
 
 
-class GetClientRequirementStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetClientRequirementStatus(str, Enum):
     r"""The status of the requirement depends on its due date.
     If no due date is given, the status will be `requested`.
     """
@@ -817,9 +802,7 @@ class GetClientRequirement(BaseModel):
     of the same capability.
     """
 
-    status: Annotated[
-        Optional[GetClientRequirementStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Optional[GetClientRequirementStatus] = None
     r"""The status of the requirement depends on its due date.
     If no due date is given, the status will be `requested`.
     """
@@ -879,16 +862,10 @@ class GetClientCapabilities(BaseModel):
     name: Optional[str] = None
     r"""A unique name for this capability like `payments` / `settlements`."""
 
-    status: Annotated[
-        Optional[GetClientCapabilitiesStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Optional[GetClientCapabilitiesStatus] = None
 
     status_reason: Annotated[
-        Annotated[
-            OptionalNullable[GetClientStatusReason],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="statusReason"),
+        OptionalNullable[GetClientStatusReason], pydantic.Field(alias="statusReason")
     ] = UNSET
 
     requirements: Optional[List[GetClientRequirement]] = None

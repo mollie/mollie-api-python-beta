@@ -3,18 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-    validate_open_enum,
-)
+from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -140,7 +133,7 @@ class GetPaymentLinkHalJSONError(ClientError):
         self.data = data
 
 
-class GetPaymentLinkMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetPaymentLinkMode(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -193,7 +186,7 @@ class GetPaymentLinkMinimumAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class GetPaymentLinkType(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetPaymentLinkType(str, Enum):
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -327,7 +320,7 @@ class GetPaymentLinkVatAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class GetPaymentLinkCategory(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetPaymentLinkCategory(str, Enum):
     MEAL = "meal"
     ECO = "eco"
     GIFT = "gift"
@@ -418,9 +411,7 @@ class GetPaymentLinkLine(BaseModel):
     The sum of all `totalAmount` values of all order lines should be equal to the full payment amount.
     """
 
-    type: Annotated[
-        Optional[GetPaymentLinkType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[GetPaymentLinkType] = None
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -456,11 +447,7 @@ class GetPaymentLinkLine(BaseModel):
     sku: Optional[str] = None
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
 
-    categories: Optional[
-        List[
-            Annotated[GetPaymentLinkCategory, PlainValidator(validate_open_enum(False))]
-        ]
-    ] = None
+    categories: Optional[List[GetPaymentLinkCategory]] = None
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
     [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
@@ -820,7 +807,7 @@ class GetPaymentLinkApplicationFee(BaseModel):
     """
 
 
-class GetPaymentLinkSequenceType(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetPaymentLinkSequenceType(str, Enum):
     r"""If set to `first`, a payment mandate is established right after a payment is made by the customer.
 
     Defaults to `oneoff`, which is a regular payment link and will not establish a mandate after payment.
@@ -1022,7 +1009,7 @@ class GetPaymentLinkResponse(BaseModel):
     id: str
     r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
 
-    mode: Annotated[GetPaymentLinkMode, PlainValidator(validate_open_enum(False))]
+    mode: GetPaymentLinkMode
     r"""Whether this entity was created in live mode or in test mode."""
 
     description: str
@@ -1145,10 +1132,7 @@ class GetPaymentLinkResponse(BaseModel):
     """
 
     sequence_type: Annotated[
-        Annotated[
-            OptionalNullable[GetPaymentLinkSequenceType],
-            PlainValidator(validate_open_enum(False)),
-        ],
+        OptionalNullable[GetPaymentLinkSequenceType],
         pydantic.Field(alias="sequenceType"),
     ] = UNSET
     r"""If set to `first`, a payment mandate is established right after a payment is made by the customer.

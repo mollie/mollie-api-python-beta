@@ -3,18 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-    validate_open_enum,
-)
+from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -149,14 +142,14 @@ class GetMandateHalJSONError(ClientError):
         self.data = data
 
 
-class GetMandateMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetMandateMode(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
 
 
-class GetMandateMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetMandateMethod(str, Enum):
     r"""Payment method of the mandate.
 
     SEPA Direct Debit and PayPal mandates can be created directly.
@@ -167,7 +160,7 @@ class GetMandateMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     PAYPAL = "paypal"
 
 
-class GetMandateCardLabel(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetMandateCardLabel(str, Enum):
     r"""The card's label. Available for card mandates, if the card label could be detected."""
 
     AMERICAN_EXPRESS = "American Express"
@@ -237,11 +230,7 @@ class GetMandateDetails(BaseModel):
     r"""The card's expiry date in `YYYY-MM-DD` format. Available for card mandates."""
 
     card_label: Annotated[
-        Annotated[
-            OptionalNullable[GetMandateCardLabel],
-            PlainValidator(validate_open_enum(False)),
-        ],
-        pydantic.Field(alias="cardLabel"),
+        OptionalNullable[GetMandateCardLabel], pydantic.Field(alias="cardLabel")
     ] = UNSET
     r"""The card's label. Available for card mandates, if the card label could be detected."""
 
@@ -301,7 +290,7 @@ class GetMandateDetails(BaseModel):
         return m
 
 
-class GetMandateStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class GetMandateStatus(str, Enum):
     r"""The status of the mandate. A status can be `pending` for mandates when the first payment is not yet finalized, or
     when we did not received the IBAN yet from the first payment.
     """
@@ -434,10 +423,10 @@ class GetMandateResponse(BaseModel):
     id: str
     r"""The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`."""
 
-    mode: Annotated[GetMandateMode, PlainValidator(validate_open_enum(False))]
+    mode: GetMandateMode
     r"""Whether this entity was created in live mode or in test mode."""
 
-    method: Annotated[GetMandateMethod, PlainValidator(validate_open_enum(False))]
+    method: GetMandateMethod
     r"""Payment method of the mandate.
 
     SEPA Direct Debit and PayPal mandates can be created directly.
@@ -455,7 +444,7 @@ class GetMandateResponse(BaseModel):
     decline Direct Debit payments if the mandate reference is not unique.
     """
 
-    status: Annotated[GetMandateStatus, PlainValidator(validate_open_enum(False))]
+    status: GetMandateStatus
     r"""The status of the mandate. A status can be `pending` for mandates when the first payment is not yet finalized, or
     when we did not received the IBAN yet from the first payment.
     """

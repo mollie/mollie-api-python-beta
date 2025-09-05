@@ -3,13 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, QueryParamMetadata, validate_open_enum
+from mollie.utils import FieldMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -207,7 +205,7 @@ class ListAllRefundsHalJSONError(ClientError):
         self.data = data
 
 
-class ListAllRefundsMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListAllRefundsMode(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -298,7 +296,7 @@ you fetch the entity with our API, we will also include the metadata. You can us
 """
 
 
-class ListAllRefundsStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListAllRefundsStatus(str, Enum):
     r"""Refunds may take some time to get confirmed."""
 
     QUEUED = "queued"
@@ -309,7 +307,7 @@ class ListAllRefundsStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     CANCELED = "canceled"
 
 
-class ListAllRefundsType(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListAllRefundsType(str, Enum):
     r"""Specifies the reference type"""
 
     ACQUIRER_REFERENCE = "acquirer-reference"
@@ -323,9 +321,7 @@ class ListAllRefundsExternalReferenceTypedDict(TypedDict):
 
 
 class ListAllRefundsExternalReference(BaseModel):
-    type: Annotated[
-        Optional[ListAllRefundsType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[ListAllRefundsType] = None
     r"""Specifies the reference type"""
 
     id: Optional[str] = None
@@ -599,9 +595,7 @@ class ListAllRefundsRefund(BaseModel):
     will always refer to the refund by this ID. Example: `re_4qqhO89gsT`.
     """
 
-    mode: Annotated[
-        Optional[ListAllRefundsMode], PlainValidator(validate_open_enum(False))
-    ] = None
+    mode: Optional[ListAllRefundsMode] = None
     r"""Whether this entity was created in live mode or in test mode."""
 
     description: Optional[str] = None
@@ -646,9 +640,7 @@ class ListAllRefundsRefund(BaseModel):
     ] = UNSET
     r"""The identifier referring to the settlement this refund was settled with. This field is omitted if the refund is not settled (yet)."""
 
-    status: Annotated[
-        Optional[ListAllRefundsStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Optional[ListAllRefundsStatus] = None
     r"""Refunds may take some time to get confirmed."""
 
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None

@@ -3,13 +3,10 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -196,14 +193,14 @@ class CreateCustomerHalJSONError(ClientError):
         self.data = data
 
 
-class CreateCustomerMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateCustomerMode(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
     TEST = "test"
 
 
-class CreateCustomerLocaleResponse(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateCustomerLocaleResponse(str, Enum):
     r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if
     absolutely necessary. If not provided, the browser language will be used which is typically highly accurate.
     """
@@ -491,7 +488,7 @@ class CreateCustomerResponse(BaseModel):
     id: str
     r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
 
-    mode: Annotated[CreateCustomerMode, PlainValidator(validate_open_enum(False))]
+    mode: CreateCustomerMode
     r"""Whether this entity was created in live mode or in test mode."""
 
     name: Nullable[str]
@@ -500,10 +497,7 @@ class CreateCustomerResponse(BaseModel):
     email: Nullable[str]
     r"""The email address of the customer."""
 
-    locale: Annotated[
-        Nullable[CreateCustomerLocaleResponse],
-        PlainValidator(validate_open_enum(False)),
-    ]
+    locale: Nullable[CreateCustomerLocaleResponse]
     r"""Preconfigure the language to be used in the hosted payment pages shown to the customer. Should only be provided if
     absolutely necessary. If not provided, the browser language will be used which is typically highly accurate.
     """

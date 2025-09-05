@@ -222,7 +222,7 @@ with ClientSDK(
                     "value": "10.00",
                 },
                 "destination": {
-                    "type": mollie.CreatePaymentTypeOrganization.ORGANIZATION,
+                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
                     "organization_id": "org_1234567",
                 },
                 "release_date": "2024-12-12",
@@ -243,7 +243,7 @@ with ClientSDK(
                     "value": "10.00",
                 },
                 "destination": {
-                    "type": mollie.CreatePaymentTypeOrganization.ORGANIZATION,
+                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
                     "organization_id": "org_1234567",
                 },
                 "release_date": "2024-12-12",

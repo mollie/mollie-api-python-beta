@@ -35,7 +35,7 @@ with ClientSDK(
         },
         "description": "Payment for Order #12345",
         "destination": {
-            "type": mollie.PaymentCreateRouteTypeOrganization.ORGANIZATION,
+            "type": mollie.PaymentCreateRouteTypeRequest.ORGANIZATION,
             "organization_id": "org_1234567",
         },
         "testmode": False,

@@ -3,18 +3,11 @@
 from __future__ import annotations
 from enum import Enum
 import httpx
-from mollie import utils
 from mollie.models import ClientError
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-    validate_open_enum,
-)
+from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -244,7 +237,7 @@ class ListSettlementCapturesBadRequestHalJSONError(ClientError):
         self.data = data
 
 
-class ListSettlementCapturesMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListSettlementCapturesMode(str, Enum):
     r"""Whether this entity was created in live mode or in test mode."""
 
     LIVE = "live"
@@ -301,7 +294,7 @@ class ListSettlementCapturesSettlementAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ListSettlementCapturesStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+class ListSettlementCapturesStatus(str, Enum):
     r"""The capture's status."""
 
     PENDING = "pending"
@@ -552,17 +545,13 @@ class ListSettlementCapturesCapture(BaseModel):
     id: str
     r"""The identifier uniquely referring to this capture. Example: `cpt_mNepDkEtco6ah3QNPUGYH`."""
 
-    mode: Annotated[
-        ListSettlementCapturesMode, PlainValidator(validate_open_enum(False))
-    ]
+    mode: ListSettlementCapturesMode
     r"""Whether this entity was created in live mode or in test mode."""
 
     amount: Nullable[ListSettlementCapturesAmount]
     r"""The amount captured. If no amount is provided, the full authorized amount is captured."""
 
-    status: Annotated[
-        ListSettlementCapturesStatus, PlainValidator(validate_open_enum(False))
-    ]
+    status: ListSettlementCapturesStatus
     r"""The capture's status."""
 
     payment_id: Annotated[str, pydantic.Field(alias="paymentId")]
