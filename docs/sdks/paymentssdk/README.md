@@ -43,241 +43,267 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.payments.create(include=mollie.CreatePaymentInclude.DETAILS_QR_CODE, request_body={
-        "description": "Chess Board",
-        "amount": {
-            "currency": "EUR",
-            "value": "10.00",
-        },
-        "redirect_url": "https://example.org/redirect",
-        "cancel_url": "https://example.org/cancel",
-        "webhook_url": "https://example.org/webhooks",
-        "lines": [
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
+    res = client_sdk.payments.create(include="details.qrCode", payment_request=mollie.PaymentRequest(
+        id="tr_5B8cwPMGnU",
+        description="Chess Board",
+        amount=mollie.Amount(
+            currency="EUR",
+            value="10.00",
+        ),
+        amount_refunded=mollie.Amount(
+            currency="EUR",
+            value="10.00",
+        ),
+        amount_remaining=mollie.Amount(
+            currency="EUR",
+            value="10.00",
+        ),
+        amount_captured=mollie.Amount(
+            currency="EUR",
+            value="10.00",
+        ),
+        amount_charged_back=mollie.Amount(
+            currency="EUR",
+            value="10.00",
+        ),
+        settlement_amount=mollie.Amount(
+            currency="EUR",
+            value="10.00",
+        ),
+        redirect_url="https://example.org/redirect",
+        cancel_url="https://example.org/cancel",
+        webhook_url="https://example.org/webhooks",
+        lines=[
+            mollie.PaymentRequestLine(
+                type=mollie.PaymentRequestType.PHYSICAL,
+                description="LEGO 4440 Forest Police Station",
+                quantity=1,
+                quantity_unit="pcs",
+                unit_price=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                discount_amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                total_amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                vat_rate="21.00",
+                vat_amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                sku="9780241661628",
+                categories=[
+                    mollie.PaymentRequestCategory.MEAL,
+                    mollie.PaymentRequestCategory.ECO,
                 ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... days",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
+                image_url="https://...",
+                product_url="https://...",
+                recurring=mollie.RecurringLineItem(
+                    description="Gym subscription",
+                    interval="... days",
+                    amount=mollie.Amount(
+                        currency="EUR",
+                        value="10.00",
+                    ),
+                    times=1,
+                    start_date="2024-12-12",
+                ),
+            ),
+            mollie.PaymentRequestLine(
+                type=mollie.PaymentRequestType.PHYSICAL,
+                description="LEGO 4440 Forest Police Station",
+                quantity=1,
+                quantity_unit="pcs",
+                unit_price=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                discount_amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                total_amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                vat_rate="21.00",
+                vat_amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                sku="9780241661628",
+                categories=[
+                    mollie.PaymentRequestCategory.MEAL,
+                    mollie.PaymentRequestCategory.ECO,
                 ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... weeks",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
-            {
-                "type": mollie.CreatePaymentLineTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentCategoryRequest.MEAL,
-                    mollie.CreatePaymentCategoryRequest.ECO,
+                image_url="https://...",
+                product_url="https://...",
+                recurring=mollie.RecurringLineItem(
+                    description="Gym subscription",
+                    interval="... weeks",
+                    amount=mollie.Amount(
+                        currency="EUR",
+                        value="10.00",
+                    ),
+                    times=1,
+                    start_date="2024-12-12",
+                ),
+            ),
+            mollie.PaymentRequestLine(
+                type=mollie.PaymentRequestType.PHYSICAL,
+                description="LEGO 4440 Forest Police Station",
+                quantity=1,
+                quantity_unit="pcs",
+                unit_price=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                discount_amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                total_amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                vat_rate="21.00",
+                vat_amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                sku="9780241661628",
+                categories=[
+                    mollie.PaymentRequestCategory.MEAL,
+                    mollie.PaymentRequestCategory.ECO,
                 ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-                "recurring": {
-                    "description": "Gym subscription",
-                    "interval": "... days",
-                    "amount": {
-                        "currency": "EUR",
-                        "value": "10.00",
-                    },
-                    "times": 1,
-                    "start_date": "2024-12-12",
-                },
-            },
+                image_url="https://...",
+                product_url="https://...",
+                recurring=mollie.RecurringLineItem(
+                    description="Gym subscription",
+                    interval="... days",
+                    amount=mollie.Amount(
+                        currency="EUR",
+                        value="10.00",
+                    ),
+                    times=1,
+                    start_date="2024-12-12",
+                ),
+            ),
         ],
-        "billing_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "shipping_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "locale": mollie.CreatePaymentLocaleRequest.EN_US,
-        "method": mollie.CreatePaymentMethodRequest.IDEAL,
-        "issuer": "ideal_INGBNL2A",
-        "restrict_payment_methods_to_country": "NL",
-        "capture_mode": mollie.CreatePaymentCaptureModeRequest.MANUAL,
-        "capture_delay": "8 hours",
-        "application_fee": {
-            "amount": {
-                "currency": "EUR",
-                "value": "10.00",
-            },
-            "description": "10",
-        },
-        "routing": [
-            {
-                "amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "destination": {
-                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
-                    "organization_id": "org_1234567",
-                },
-                "release_date": "2024-12-12",
-                "links": {
-                    "self_": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                    "payment": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                },
-            },
-            {
-                "amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "destination": {
-                    "type": mollie.CreatePaymentRoutingTypeRequest.ORGANIZATION,
-                    "organization_id": "org_1234567",
-                },
-                "release_date": "2024-12-12",
-                "links": {
-                    "self_": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                    "payment": {
-                        "href": "https://...",
-                        "type": "application/hal+json",
-                    },
-                },
-            },
+        billing_address=mollie.PaymentAddress(
+            title="Mr.",
+            given_name="Piet",
+            family_name="Mondriaan",
+            organization_name="Mollie B.V.",
+            street_and_number="Keizersgracht 126",
+            street_additional="Apt. 1",
+            postal_code="1234AB",
+            email="piet@example.org",
+            phone="31208202070",
+            city="Amsterdam",
+            region="Noord-Holland",
+            country="NL",
+        ),
+        shipping_address=mollie.PaymentAddress(
+            title="Mr.",
+            given_name="Piet",
+            family_name="Mondriaan",
+            organization_name="Mollie B.V.",
+            street_and_number="Keizersgracht 126",
+            street_additional="Apt. 1",
+            postal_code="1234AB",
+            email="piet@example.org",
+            phone="31208202070",
+            city="Amsterdam",
+            region="Noord-Holland",
+            country="NL",
+        ),
+        locale=mollie.Locale.EN_US,
+        method=mollie.Method.IDEAL,
+        issuer="ideal_INGBNL2A",
+        restrict_payment_methods_to_country="NL",
+        capture_mode=mollie.CaptureMode.MANUAL,
+        capture_delay="8 hours",
+        application_fee=mollie.PaymentRequestApplicationFee(
+            amount=mollie.Amount(
+                currency="EUR",
+                value="10.00",
+            ),
+            description="10",
+        ),
+        routing=[
+            mollie.EntityPaymentRoute(
+                id="rt_5B8cwPMGnU",
+                amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                destination=mollie.EntityPaymentRouteDestination(
+                    type=mollie.EntityPaymentRouteType.ORGANIZATION,
+                    organization_id="org_1234567",
+                ),
+                release_date="2024-12-12",
+                links=mollie.EntityPaymentRouteLinks(
+                    self_=mollie.URL(
+                        href="https://...",
+                        type="application/hal+json",
+                    ),
+                    payment=mollie.URL(
+                        href="https://...",
+                        type="application/hal+json",
+                    ),
+                ),
+            ),
+            mollie.EntityPaymentRoute(
+                id="rt_5B8cwPMGnU",
+                amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                destination=mollie.EntityPaymentRouteDestination(
+                    type=mollie.EntityPaymentRouteType.ORGANIZATION,
+                    organization_id="org_1234567",
+                ),
+                release_date="2024-12-12",
+                links=mollie.EntityPaymentRouteLinks(
+                    self_=mollie.URL(
+                        href="https://...",
+                        type="application/hal+json",
+                    ),
+                    payment=mollie.URL(
+                        href="https://...",
+                        type="application/hal+json",
+                    ),
+                ),
+            ),
         ],
-        "sequence_type": mollie.CreatePaymentSequenceTypeRequest.ONEOFF,
-        "mandate_id": "mdt_5B8cwPMGnU",
-        "customer_id": "cst_5B8cwPMGnU",
-        "profile_id": "pfl_5B8cwPMGnU",
-        "due_date": "2025-01-01",
-        "testmode": False,
-        "apple_pay_payment_token": "{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
-        "company": {
-            "registration_number": "12345678",
-            "vat_number": "NL123456789B01",
-        },
-        "card_token": "tkn_12345",
-        "voucher_number": "1234567890",
-        "voucher_pin": "1234",
-        "consumer_date_of_birth": date.fromisoformat("2000-01-01"),
-        "digital_goods": True,
-        "customer_reference": "1234567890",
-        "terminal_id": "term_1234567890",
-    })
+        sequence_type=mollie.SequenceType.ONEOFF,
+        subscription_id="sub_5B8cwPMGnU",
+        mandate_id="mdt_5B8cwPMGnU",
+        customer_id="cst_5B8cwPMGnU",
+        profile_id="pfl_5B8cwPMGnU",
+        settlement_id="stl_5B8cwPMGnU",
+        order_id="ord_5B8cwPMGnU",
+        due_date="2025-01-01",
+        testmode=False,
+        apple_pay_payment_token="{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",
+        company=mollie.Company(
+            registration_number="12345678",
+            vat_number="NL123456789B01",
+        ),
+        card_token="tkn_12345",
+        voucher_number="1234567890",
+        voucher_pin="1234",
+        consumer_date_of_birth=date.fromisoformat("2000-01-01"),
+        digital_goods=True,
+        customer_reference="1234567890",
+        terminal_id="term_1234567890",
+    ))
 
     # Handle response
     print(res)
@@ -286,23 +312,23 @@ with ClientSDK(
 
 ### Parameters
 
-| Parameter                                                                                            | Type                                                                                                 | Required                                                                                             | Description                                                                                          | Example                                                                                              |
-| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `include`                                                                                            | [OptionalNullable[models.CreatePaymentInclude]](../../models/createpaymentinclude.md)                | :heavy_minus_sign:                                                                                   | This endpoint allows you to include additional information via the `include` query string parameter. | details.qrCode                                                                                       |
-| `request_body`                                                                                       | [Optional[models.CreatePaymentRequestBody]](../../models/createpaymentrequestbody.md)                | :heavy_minus_sign:                                                                                   | N/A                                                                                                  |                                                                                                      |
-| `retries`                                                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                     | :heavy_minus_sign:                                                                                   | Configuration to override the default retry behavior of the client.                                  |                                                                                                      |
+| Parameter                                                                                            | Type                                                                                                 | Required                                                                                             | Description                                                                                          |
+| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `include`                                                                                            | *OptionalNullable[str]*                                                                              | :heavy_minus_sign:                                                                                   | This endpoint allows you to include additional information via the `include` query string parameter. |
+| `payment_request`                                                                                    | [Optional[models.PaymentRequest]](../../models/paymentrequest.md)                                    | :heavy_minus_sign:                                                                                   | N/A                                                                                                  |
+| `retries`                                                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                     | :heavy_minus_sign:                                                                                   | Configuration to override the default retry behavior of the client.                                  |
 
 ### Response
 
-**[models.CreatePaymentResponse](../../models/createpaymentresponse.md)**
+**[models.PaymentResponse](../../models/paymentresponse.md)**
 
 ### Errors
 
-| Error Type                                          | Status Code                                         | Content Type                                        |
-| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
-| models.CreatePaymentUnprocessableEntityHalJSONError | 422                                                 | application/hal+json                                |
-| models.CreatePaymentServiceUnavailableHalJSONError  | 503                                                 | application/hal+json                                |
-| models.APIError                                     | 4XX, 5XX                                            | \*/\*                                               |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 422                  | application/hal+json |
+| models.ErrorResponse | 503                  | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## list
 
@@ -325,7 +351,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.payments.list(from_="tr_5B8cwPMGnU", limit=50, sort=mollie.ListPaymentsSort.DESC, profile_id="pfl_5B8cwPMGnU", testmode=False)
+    res = client_sdk.payments.list(from_="tr_5B8cwPMGnU", limit=50, sort=mollie.ListSort.DESC, profile_id="pfl_5B8cwPMGnU", testmode=False)
 
     # Handle response
     print(res)
@@ -338,7 +364,7 @@ with ClientSDK(
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `from_`                                                                                                                                                                                                                                                                                                                                                                                | *Optional[str]*                                                                                                                                                                                                                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate<br/>the result set.                                                                                                                                                                                                                                                     | tr_5B8cwPMGnU                                                                                                                                                                                                                                                                                                                                                                          |
 | `limit`                                                                                                                                                                                                                                                                                                                                                                                | *OptionalNullable[int]*                                                                                                                                                                                                                                                                                                                                                                | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | The maximum number of items to return. Defaults to 50 items.                                                                                                                                                                                                                                                                                                                           | 50                                                                                                                                                                                                                                                                                                                                                                                     |
-| `sort`                                                                                                                                                                                                                                                                                                                                                                                 | [OptionalNullable[models.ListPaymentsSort]](../../models/listpaymentssort.md)                                                                                                                                                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from<br/>newest to oldest.                                                                                                                                                                                                                                             | desc                                                                                                                                                                                                                                                                                                                                                                                   |
+| `sort`                                                                                                                                                                                                                                                                                                                                                                                 | [OptionalNullable[models.ListSort]](../../models/listsort.md)                                                                                                                                                                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from<br/>newest to oldest.                                                                                                                                                                                                                                             | desc                                                                                                                                                                                                                                                                                                                                                                                   |
 | `profile_id`                                                                                                                                                                                                                                                                                                                                                                           | *Optional[str]*                                                                                                                                                                                                                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | The identifier referring to the [profile](get-profile) you wish to<br/>retrieve the resources for.<br/><br/>Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For<br/>organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.                                                     | pfl_5B8cwPMGnU                                                                                                                                                                                                                                                                                                                                                                         |
 | `testmode`                                                                                                                                                                                                                                                                                                                                                                             | *OptionalNullable[bool]*                                                                                                                                                                                                                                                                                                                                                               | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query<br/>parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by<br/>setting the `testmode` query parameter to `true`.<br/><br/>Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa. | false                                                                                                                                                                                                                                                                                                                                                                                  |
 | `retries`                                                                                                                                                                                                                                                                                                                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                                                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Configuration to override the default retry behavior of the client.                                                                                                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                                                                                                                                                                        |
@@ -349,10 +375,10 @@ with ClientSDK(
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| models.ListPaymentsHalJSONError | 400                             | application/hal+json            |
-| models.APIError                 | 4XX, 5XX                        | \*/\*                           |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 400                  | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## get
 
@@ -373,7 +399,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.payments.get(payment_id="tr_5B8cwPMGnU", include=mollie.GetPaymentInclude.DETAILS_QR_CODE, embed=mollie.GetPaymentEmbed.CAPTURES, testmode=False)
+    res = client_sdk.payments.get(payment_id="tr_5B8cwPMGnU", include="details.qrCode", embed="captures", testmode=False)
 
     # Handle response
     print(res)
@@ -385,21 +411,21 @@ with ClientSDK(
 | Parameter                                                                                                                                                                                                                                                                                                                                                                              | Type                                                                                                                                                                                                                                                                                                                                                                                   | Required                                                                                                                                                                                                                                                                                                                                                                               | Description                                                                                                                                                                                                                                                                                                                                                                            | Example                                                                                                                                                                                                                                                                                                                                                                                |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `payment_id`                                                                                                                                                                                                                                                                                                                                                                           | *str*                                                                                                                                                                                                                                                                                                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                                                                                                                                                                                     | Provide the ID of the related payment.                                                                                                                                                                                                                                                                                                                                                 | tr_5B8cwPMGnU                                                                                                                                                                                                                                                                                                                                                                          |
-| `include`                                                                                                                                                                                                                                                                                                                                                                              | [OptionalNullable[models.GetPaymentInclude]](../../models/getpaymentinclude.md)                                                                                                                                                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | This endpoint allows you to include additional information via the `include` query string parameter.                                                                                                                                                                                                                                                                                   | details.qrCode                                                                                                                                                                                                                                                                                                                                                                         |
-| `embed`                                                                                                                                                                                                                                                                                                                                                                                | [OptionalNullable[models.GetPaymentEmbed]](../../models/getpaymentembed.md)                                                                                                                                                                                                                                                                                                            | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | This endpoint allows embedding related API items by appending the<br/>following values via the `embed` query string parameter.                                                                                                                                                                                                                                                         | captures                                                                                                                                                                                                                                                                                                                                                                               |
+| `include`                                                                                                                                                                                                                                                                                                                                                                              | *OptionalNullable[str]*                                                                                                                                                                                                                                                                                                                                                                | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | This endpoint allows you to include additional information via the `include` query string parameter.                                                                                                                                                                                                                                                                                   |                                                                                                                                                                                                                                                                                                                                                                                        |
+| `embed`                                                                                                                                                                                                                                                                                                                                                                                | *OptionalNullable[str]*                                                                                                                                                                                                                                                                                                                                                                | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | This endpoint allows embedding related API items by appending the following values via the `embed` query string<br/>parameter.                                                                                                                                                                                                                                                         |                                                                                                                                                                                                                                                                                                                                                                                        |
 | `testmode`                                                                                                                                                                                                                                                                                                                                                                             | *OptionalNullable[bool]*                                                                                                                                                                                                                                                                                                                                                               | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query<br/>parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by<br/>setting the `testmode` query parameter to `true`.<br/><br/>Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa. | false                                                                                                                                                                                                                                                                                                                                                                                  |
 | `retries`                                                                                                                                                                                                                                                                                                                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                                                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Configuration to override the default retry behavior of the client.                                                                                                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                                                                                                                                                                        |
 
 ### Response
 
-**[models.GetPaymentResponse](../../models/getpaymentresponse.md)**
+**[models.PaymentResponse](../../models/paymentresponse.md)**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| models.GetPaymentHalJSONError | 404                           | application/hal+json          |
-| models.APIError               | 4XX, 5XX                      | \*/\*                         |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404                  | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## update
 
@@ -422,47 +448,47 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.payments.update(payment_id="tr_5B8cwPMGnU", request_body={
-        "description": "Chess Board",
-        "redirect_url": "https://example.org/redirect",
-        "cancel_url": "https://example.org/cancel",
-        "webhook_url": "https://example.org/webhooks",
-        "method": mollie.UpdatePaymentMethodRequest.IDEAL,
-        "locale": mollie.UpdatePaymentLocaleRequest.EN_US,
-        "due_date": "2025-01-01",
-        "restrict_payment_methods_to_country": "NL",
-        "testmode": False,
-        "issuer": "ideal_INGBNL2A",
-        "billing_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "shipping_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "billing_email": "test@example.com",
-    })
+    res = client_sdk.payments.update(payment_id="tr_5B8cwPMGnU", request_body=mollie.UpdatePaymentRequestBody(
+        description="Chess Board",
+        redirect_url="https://example.org/redirect",
+        cancel_url="https://example.org/cancel",
+        webhook_url="https://example.org/webhooks",
+        method=mollie.Method.IDEAL,
+        locale=mollie.Locale.EN_US,
+        due_date="2025-01-01",
+        restrict_payment_methods_to_country="NL",
+        testmode=False,
+        issuer="ideal_INGBNL2A",
+        billing_address=mollie.PaymentAddress(
+            title="Mr.",
+            given_name="Piet",
+            family_name="Mondriaan",
+            organization_name="Mollie B.V.",
+            street_and_number="Keizersgracht 126",
+            street_additional="Apt. 1",
+            postal_code="1234AB",
+            email="piet@example.org",
+            phone="31208202070",
+            city="Amsterdam",
+            region="Noord-Holland",
+            country="NL",
+        ),
+        shipping_address=mollie.PaymentAddress(
+            title="Mr.",
+            given_name="Piet",
+            family_name="Mondriaan",
+            organization_name="Mollie B.V.",
+            street_and_number="Keizersgracht 126",
+            street_additional="Apt. 1",
+            postal_code="1234AB",
+            email="piet@example.org",
+            phone="31208202070",
+            city="Amsterdam",
+            region="Noord-Holland",
+            country="NL",
+        ),
+        billing_email="test@example.com",
+    ))
 
     # Handle response
     print(res)
@@ -479,15 +505,14 @@ with ClientSDK(
 
 ### Response
 
-**[models.UpdatePaymentResponse](../../models/updatepaymentresponse.md)**
+**[models.PaymentResponse](../../models/paymentresponse.md)**
 
 ### Errors
 
-| Error Type                                          | Status Code                                         | Content Type                                        |
-| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
-| models.UpdatePaymentNotFoundHalJSONError            | 404                                                 | application/hal+json                                |
-| models.UpdatePaymentUnprocessableEntityHalJSONError | 422                                                 | application/hal+json                                |
-| models.APIError                                     | 4XX, 5XX                                            | \*/\*                                               |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404, 422             | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## cancel
 
@@ -532,15 +557,14 @@ with ClientSDK(
 
 ### Response
 
-**[models.CancelPaymentResponse](../../models/cancelpaymentresponse.md)**
+**[models.PaymentResponse](../../models/paymentresponse.md)**
 
 ### Errors
 
-| Error Type                                          | Status Code                                         | Content Type                                        |
-| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
-| models.CancelPaymentNotFoundHalJSONError            | 404                                                 | application/hal+json                                |
-| models.CancelPaymentUnprocessableEntityHalJSONError | 422                                                 | application/hal+json                                |
-| models.APIError                                     | 4XX, 5XX                                            | \*/\*                                               |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404, 422             | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## release_authorization
 
@@ -592,8 +616,7 @@ with ClientSDK(
 
 ### Errors
 
-| Error Type                                                 | Status Code                                                | Content Type                                               |
-| ---------------------------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------- |
-| models.ReleaseAuthorizationNotFoundHalJSONError            | 404                                                        | application/hal+json                                       |
-| models.ReleaseAuthorizationUnprocessableEntityHalJSONError | 422                                                        | application/hal+json                                       |
-| models.APIError                                            | 4XX, 5XX                                                   | \*/\*                                                      |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404, 422             | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |

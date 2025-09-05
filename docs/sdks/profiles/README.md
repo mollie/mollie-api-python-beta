@@ -56,19 +56,19 @@ with ClientSDK(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `request`                                                           | [models.CreateProfileRequest](../../models/createprofilerequest.md) | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `request`                                                           | [models.EntityProfile](../../models/entityprofile.md)               | :heavy_check_mark:                                                  | The request object to use for the request.                          |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CreateProfileResponse](../../models/createprofileresponse.md)**
+**[models.EntityProfileResponse](../../models/entityprofileresponse.md)**
 
 ### Errors
 
-| Error Type                       | Status Code                      | Content Type                     |
-| -------------------------------- | -------------------------------- | -------------------------------- |
-| models.CreateProfileHalJSONError | 422                              | application/hal+json             |
-| models.APIError                  | 4XX, 5XX                         | \*/\*                            |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 422                  | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## list
 
@@ -102,7 +102,7 @@ with ClientSDK(
 
 | Parameter                                                                                                                      | Type                                                                                                                           | Required                                                                                                                       | Description                                                                                                                    | Example                                                                                                                        |
 | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| `from_`                                                                                                                        | *Optional[str]*                                                                                                                | :heavy_minus_sign:                                                                                                             | Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the<br/>result set. | pfl_QkEhN94Ba                                                                                                                  |
+| `from_`                                                                                                                        | *OptionalNullable[str]*                                                                                                        | :heavy_minus_sign:                                                                                                             | Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the<br/>result set. |                                                                                                                                |
 | `limit`                                                                                                                        | *OptionalNullable[int]*                                                                                                        | :heavy_minus_sign:                                                                                                             | The maximum number of items to return. Defaults to 50 items.                                                                   | 50                                                                                                                             |
 | `retries`                                                                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                               | :heavy_minus_sign:                                                                                                             | Configuration to override the default retry behavior of the client.                                                            |                                                                                                                                |
 
@@ -112,10 +112,10 @@ with ClientSDK(
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| models.ListProfilesHalJSONError | 400                             | application/hal+json            |
-| models.APIError                 | 4XX, 5XX                        | \*/\*                           |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 400                  | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## get
 
@@ -147,21 +147,20 @@ with ClientSDK(
 
 | Parameter                                                                                                                                                                                                                                                                                                                                                                              | Type                                                                                                                                                                                                                                                                                                                                                                                   | Required                                                                                                                                                                                                                                                                                                                                                                               | Description                                                                                                                                                                                                                                                                                                                                                                            | Example                                                                                                                                                                                                                                                                                                                                                                                |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                                                                                                                                                                                                                                                                                                                                                                                   | *str*                                                                                                                                                                                                                                                                                                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                                                                                                                                                                                     | Provide the ID of the item you want to perform this operation on.                                                                                                                                                                                                                                                                                                                      | pfl_QkEhN94Ba                                                                                                                                                                                                                                                                                                                                                                          |
+| `id`                                                                                                                                                                                                                                                                                                                                                                                   | *str*                                                                                                                                                                                                                                                                                                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                                                                                                                                                                                     | Provide the ID of the item you want to perform this operation on.                                                                                                                                                                                                                                                                                                                      |                                                                                                                                                                                                                                                                                                                                                                                        |
 | `testmode`                                                                                                                                                                                                                                                                                                                                                                             | *OptionalNullable[bool]*                                                                                                                                                                                                                                                                                                                                                               | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query<br/>parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by<br/>setting the `testmode` query parameter to `true`.<br/><br/>Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa. | false                                                                                                                                                                                                                                                                                                                                                                                  |
 | `retries`                                                                                                                                                                                                                                                                                                                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                                                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Configuration to override the default retry behavior of the client.                                                                                                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                                                                                                                                                                        |
 
 ### Response
 
-**[models.GetProfileResponse](../../models/getprofileresponse.md)**
+**[models.EntityProfileResponse](../../models/entityprofileresponse.md)**
 
 ### Errors
 
-| Error Type                            | Status Code                           | Content Type                          |
-| ------------------------------------- | ------------------------------------- | ------------------------------------- |
-| models.GetProfileNotFoundHalJSONError | 404                                   | application/hal+json                  |
-| models.GetProfileGoneHalJSONError     | 410                                   | application/hal+json                  |
-| models.APIError                       | 4XX, 5XX                              | \*/\*                                 |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404, 410             | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## update
 
@@ -196,7 +195,7 @@ with ClientSDK(
             "GB",
         ],
         "business_category": "OTHER_MERCHANDISE",
-        "mode": mollie.ModeRequest.LIVE,
+        "mode": mollie.UpdateProfileMode.LIVE,
     })
 
     # Handle response
@@ -206,24 +205,22 @@ with ClientSDK(
 
 ### Parameters
 
-| Parameter                                                                   | Type                                                                        | Required                                                                    | Description                                                                 | Example                                                                     |
-| --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `id`                                                                        | *str*                                                                       | :heavy_check_mark:                                                          | Provide the ID of the item you want to perform this operation on.           | pfl_QkEhN94Ba                                                               |
-| `request_body`                                                              | [models.UpdateProfileRequestBody](../../models/updateprofilerequestbody.md) | :heavy_check_mark:                                                          | N/A                                                                         |                                                                             |
-| `retries`                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)            | :heavy_minus_sign:                                                          | Configuration to override the default retry behavior of the client.         |                                                                             |
+| Parameter                                                                   | Type                                                                        | Required                                                                    | Description                                                                 |
+| --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `id`                                                                        | *str*                                                                       | :heavy_check_mark:                                                          | Provide the ID of the item you want to perform this operation on.           |
+| `request_body`                                                              | [models.UpdateProfileRequestBody](../../models/updateprofilerequestbody.md) | :heavy_check_mark:                                                          | N/A                                                                         |
+| `retries`                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)            | :heavy_minus_sign:                                                          | Configuration to override the default retry behavior of the client.         |
 
 ### Response
 
-**[models.UpdateProfileResponse](../../models/updateprofileresponse.md)**
+**[models.EntityProfileResponse](../../models/entityprofileresponse.md)**
 
 ### Errors
 
-| Error Type                                          | Status Code                                         | Content Type                                        |
-| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
-| models.UpdateProfileNotFoundHalJSONError            | 404                                                 | application/hal+json                                |
-| models.UpdateProfileGoneHalJSONError                | 410                                                 | application/hal+json                                |
-| models.UpdateProfileUnprocessableEntityHalJSONError | 422                                                 | application/hal+json                                |
-| models.APIError                                     | 4XX, 5XX                                            | \*/\*                                               |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404, 410, 422        | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## delete
 
@@ -253,10 +250,10 @@ with ClientSDK(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         | Example                                                             |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Provide the ID of the item you want to perform this operation on.   | pfl_QkEhN94Ba                                                       |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |                                                                     |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Provide the ID of the item you want to perform this operation on.   |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -264,11 +261,10 @@ with ClientSDK(
 
 ### Errors
 
-| Error Type                               | Status Code                              | Content Type                             |
-| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| models.DeleteProfileNotFoundHalJSONError | 404                                      | application/hal+json                     |
-| models.DeleteProfileGoneHalJSONError     | 410                                      | application/hal+json                     |
-| models.APIError                          | 4XX, 5XX                                 | \*/\*                                    |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404, 410             | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## get_current
 
@@ -308,7 +304,7 @@ with ClientSDK(
 
 ### Response
 
-**[models.GetCurrentProfileResponse](../../models/getcurrentprofileresponse.md)**
+**[models.EntityProfileResponse](../../models/entityprofileresponse.md)**
 
 ### Errors
 

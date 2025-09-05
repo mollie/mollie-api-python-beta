@@ -13,12 +13,12 @@ class Settlements(BaseSDK):
     def list(
         self,
         *,
-        from_: Optional[str] = None,
+        from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
-        balance_id: OptionalNullable[str] = UNSET,
+        balance_id: Optional[str] = None,
         year: OptionalNullable[str] = UNSET,
         month: OptionalNullable[str] = UNSET,
-        currencies: OptionalNullable[models.Currencies] = UNSET,
+        currencies: Optional[models.Currencies] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -106,16 +106,9 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListSettlementsResponse, http_res)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementsBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementsBadRequestHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementsNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementsNotFoundHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -128,12 +121,12 @@ class Settlements(BaseSDK):
     async def list_async(
         self,
         *,
-        from_: Optional[str] = None,
+        from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
-        balance_id: OptionalNullable[str] = UNSET,
+        balance_id: Optional[str] = None,
         year: OptionalNullable[str] = UNSET,
         month: OptionalNullable[str] = UNSET,
-        currencies: OptionalNullable[models.Currencies] = UNSET,
+        currencies: Optional[models.Currencies] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -221,16 +214,9 @@ class Settlements(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListSettlementsResponse, http_res)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementsBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementsBadRequestHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementsNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementsNotFoundHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -248,7 +234,7 @@ class Settlements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSettlementResponse:
+    ) -> models.EntitySettlement:
         r"""Get settlement
 
         Retrieve a single settlement by its ID.
@@ -329,12 +315,10 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetSettlementResponse, http_res)
+            return unmarshal_json_response(models.EntitySettlement, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetSettlementHalJSONErrorData, http_res
-            )
-            raise models.GetSettlementHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -352,7 +336,7 @@ class Settlements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSettlementResponse:
+    ) -> models.EntitySettlement:
         r"""Get settlement
 
         Retrieve a single settlement by its ID.
@@ -433,12 +417,10 @@ class Settlements(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetSettlementResponse, http_res)
+            return unmarshal_json_response(models.EntitySettlement, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetSettlementHalJSONErrorData, http_res
-            )
-            raise models.GetSettlementHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -455,7 +437,7 @@ class Settlements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetOpenSettlementResponse:
+    ) -> models.EntitySettlement:
         r"""Get open settlement
 
         Retrieve the details of the open balance of the organization. This will return a settlement object representing your
@@ -525,7 +507,7 @@ class Settlements(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetOpenSettlementResponse, http_res)
+            return unmarshal_json_response(models.EntitySettlement, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -542,7 +524,7 @@ class Settlements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetOpenSettlementResponse:
+    ) -> models.EntitySettlement:
         r"""Get open settlement
 
         Retrieve the details of the open balance of the organization. This will return a settlement object representing your
@@ -612,7 +594,7 @@ class Settlements(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetOpenSettlementResponse, http_res)
+            return unmarshal_json_response(models.EntitySettlement, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -629,7 +611,7 @@ class Settlements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetNextSettlementResponse:
+    ) -> models.EntitySettlement:
         r"""Get next settlement
 
         Retrieve the details of the current settlement, that has not yet been paid out.
@@ -698,7 +680,7 @@ class Settlements(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetNextSettlementResponse, http_res)
+            return unmarshal_json_response(models.EntitySettlement, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -715,7 +697,7 @@ class Settlements(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetNextSettlementResponse:
+    ) -> models.EntitySettlement:
         r"""Get next settlement
 
         Retrieve the details of the current settlement, that has not yet been paid out.
@@ -784,7 +766,7 @@ class Settlements(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetNextSettlementResponse, http_res)
+            return unmarshal_json_response(models.EntitySettlement, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -800,7 +782,7 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        sort: OptionalNullable[models.ListSettlementPaymentsSort] = UNSET,
+        sort: OptionalNullable[models.ListSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -896,10 +878,8 @@ class Settlements(BaseSDK):
                 models.ListSettlementPaymentsResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementPaymentsHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementPaymentsHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -915,7 +895,7 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        sort: OptionalNullable[models.ListSettlementPaymentsSort] = UNSET,
+        sort: OptionalNullable[models.ListSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1011,10 +991,8 @@ class Settlements(BaseSDK):
                 models.ListSettlementPaymentsResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementPaymentsHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementPaymentsHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1030,7 +1008,7 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        embed: Optional[models.ListSettlementCapturesEmbed] = None,
+        embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1046,7 +1024,7 @@ class Settlements(BaseSDK):
         :param settlement_id: Provide the ID of the related settlement.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param embed: This endpoint allows you to embed additional resources via the `embed` query string parameter.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1119,20 +1097,9 @@ class Settlements(BaseSDK):
             return unmarshal_json_response(
                 models.ListSettlementCapturesResponse, http_res
             )
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementCapturesBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementCapturesBadRequestHalJSONError(
-                response_data, http_res
-            )
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementCapturesNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementCapturesNotFoundHalJSONError(
-                response_data, http_res
-            )
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1148,7 +1115,7 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        embed: Optional[models.ListSettlementCapturesEmbed] = None,
+        embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1164,7 +1131,7 @@ class Settlements(BaseSDK):
         :param settlement_id: Provide the ID of the related settlement.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param embed: This endpoint allows you to embed additional resources via the `embed` query string parameter.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1237,20 +1204,9 @@ class Settlements(BaseSDK):
             return unmarshal_json_response(
                 models.ListSettlementCapturesResponse, http_res
             )
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementCapturesBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementCapturesBadRequestHalJSONError(
-                response_data, http_res
-            )
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementCapturesNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementCapturesNotFoundHalJSONError(
-                response_data, http_res
-            )
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1266,7 +1222,7 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        embed: Optional[models.ListSettlementRefundsEmbed] = None,
+        embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1355,20 +1311,9 @@ class Settlements(BaseSDK):
             return unmarshal_json_response(
                 models.ListSettlementRefundsResponse, http_res
             )
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementRefundsBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementRefundsBadRequestHalJSONError(
-                response_data, http_res
-            )
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementRefundsNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementRefundsNotFoundHalJSONError(
-                response_data, http_res
-            )
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1384,7 +1329,7 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        embed: Optional[models.ListSettlementRefundsEmbed] = None,
+        embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1473,20 +1418,9 @@ class Settlements(BaseSDK):
             return unmarshal_json_response(
                 models.ListSettlementRefundsResponse, http_res
             )
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementRefundsBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementRefundsBadRequestHalJSONError(
-                response_data, http_res
-            )
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementRefundsNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementRefundsNotFoundHalJSONError(
-                response_data, http_res
-            )
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1502,7 +1436,7 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        embed: Optional[models.ListSettlementChargebacksEmbed] = None,
+        embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1518,7 +1452,7 @@ class Settlements(BaseSDK):
         :param settlement_id: Provide the ID of the related settlement.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param embed: This endpoint allows you to embed additional information via the `embed` query string parameter.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1591,20 +1525,9 @@ class Settlements(BaseSDK):
             return unmarshal_json_response(
                 models.ListSettlementChargebacksResponse, http_res
             )
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementChargebacksBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementChargebacksBadRequestHalJSONError(
-                response_data, http_res
-            )
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementChargebacksNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementChargebacksNotFoundHalJSONError(
-                response_data, http_res
-            )
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1620,7 +1543,7 @@ class Settlements(BaseSDK):
         settlement_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        embed: Optional[models.ListSettlementChargebacksEmbed] = None,
+        embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1636,7 +1559,7 @@ class Settlements(BaseSDK):
         :param settlement_id: Provide the ID of the related settlement.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param embed: This endpoint allows you to embed additional information via the `embed` query string parameter.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1709,20 +1632,9 @@ class Settlements(BaseSDK):
             return unmarshal_json_response(
                 models.ListSettlementChargebacksResponse, http_res
             )
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementChargebacksBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementChargebacksBadRequestHalJSONError(
-                response_data, http_res
-            )
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSettlementChargebacksNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListSettlementChargebacksNotFoundHalJSONError(
-                response_data, http_res
-            )
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

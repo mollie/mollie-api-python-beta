@@ -122,12 +122,8 @@ class Wallets(BaseSDK):
         if utils.match_response(http_res, "201", "application/hal+json"):
             return unmarshal_json_response(Dict[str, Any], http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.RequestApplePayPaymentSessionHalJSONErrorData, http_res
-            )
-            raise models.RequestApplePayPaymentSessionHalJSONError(
-                response_data, http_res
-            )
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -249,12 +245,8 @@ class Wallets(BaseSDK):
         if utils.match_response(http_res, "201", "application/hal+json"):
             return unmarshal_json_response(Dict[str, Any], http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.RequestApplePayPaymentSessionHalJSONErrorData, http_res
-            )
-            raise models.RequestApplePayPaymentSessionHalJSONError(
-                response_data, http_res
-            )
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

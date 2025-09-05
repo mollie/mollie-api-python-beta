@@ -34,49 +34,70 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.sales_invoices.create(request={
-        "testmode": False,
-        "profile_id": "pfl_QkEhN94Ba",
-        "status": mollie.CreateSalesInvoiceStatusRequest.DRAFT,
-        "vat_scheme": mollie.VatSchemeRequest.STANDARD,
-        "vat_mode": mollie.VatModeRequest.EXCLUSIVE,
-        "memo": "This is a memo!",
-        "payment_term": mollie.CreateSalesInvoicePaymentTermRequest.THIRTYDAYS,
-        "payment_details": {
-            "source": mollie.CreateSalesInvoiceSourceRequest.PAYMENT_LINK,
-            "source_reference": "pl_d9fQur83kFdhH8hIhaZfq",
-        },
-        "email_details": {
-            "subject": "Your invoice is available",
-            "body": "Please find your invoice enclosed.",
-        },
-        "customer_id": "cst_8wmqcHMN4U",
-        "mandate_id": "mdt_pWUnw6pkBN",
-        "recipient_identifier": "customer-xyz-0123",
-        "recipient": {
-            "type": mollie.CreateSalesInvoiceRecipientTypeRequest.CONSUMER,
-            "title": "Mrs.",
-            "given_name": "Jane",
-            "family_name": "Doe",
-            "organization_name": "Organization Corp.",
-            "organization_number": "12345678",
-            "vat_number": "NL123456789B01",
-            "email": "example@email.com",
-            "phone": "+0123456789",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "4th floor",
-            "postal_code": "5678AB",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-            "locale": mollie.CreateSalesInvoiceLocaleRequest.NL_NL,
-        },
-        "lines": [],
-        "discount": {
-            "type": mollie.CreateSalesInvoiceDiscountTypeRequest.AMOUNT,
-            "value": "10.00",
-        },
-    })
+    res = client_sdk.sales_invoices.create(request=mollie.EntitySalesInvoice(
+        id="invoice_4Y0eZitmBnQ6IDoMqZQKh",
+        testmode=False,
+        profile_id="pfl_QkEhN94Ba",
+        status=mollie.EntitySalesInvoiceStatus.DRAFT,
+        vat_scheme=mollie.EntitySalesInvoiceVatScheme.STANDARD,
+        vat_mode=mollie.EntitySalesInvoiceVatMode.EXCLUSIVE,
+        memo="This is a memo!",
+        payment_term=mollie.EntitySalesInvoicePaymentTerm.THIRTYDAYS,
+        payment_details=mollie.SalesInvoicePaymentDetails(
+            source=mollie.SalesInvoicePaymentDetailsSource.PAYMENT_LINK,
+            source_reference="pl_d9fQur83kFdhH8hIhaZfq",
+        ),
+        email_details=mollie.SalesInvoiceEmailDetails(
+            subject="Your invoice is available",
+            body="Please find your invoice enclosed.",
+        ),
+        customer_id="cst_8wmqcHMN4U",
+        mandate_id="mdt_pWUnw6pkBN",
+        recipient_identifier="customer-xyz-0123",
+        recipient=mollie.SalesInvoiceRecipient(
+            type=mollie.SalesInvoiceRecipientType.CONSUMER,
+            title="Mrs.",
+            given_name="Jane",
+            family_name="Doe",
+            organization_name="Organization Corp.",
+            organization_number="12345678",
+            vat_number="NL123456789B01",
+            email="example@email.com",
+            phone="+0123456789",
+            street_and_number="Keizersgracht 126",
+            street_additional="4th floor",
+            postal_code="5678AB",
+            city="Amsterdam",
+            region="Noord-Holland",
+            country="NL",
+            locale=mollie.SalesInvoiceRecipientLocale.NL_NL,
+        ),
+        lines=[],
+        discount=mollie.SalesInvoiceDiscount(
+            type=mollie.SalesInvoiceDiscountType.AMOUNT,
+            value="10.00",
+        ),
+        amount_due=mollie.Amount(
+            currency="EUR",
+            value="10.00",
+        ),
+        subtotal_amount=mollie.Amount(
+            currency="EUR",
+            value="10.00",
+        ),
+        total_amount=mollie.Amount(
+            currency="EUR",
+            value="10.00",
+        ),
+        total_vat_amount=mollie.Amount(
+            currency="EUR",
+            value="10.00",
+        ),
+        discounted_subtotal_amount=mollie.Amount(
+            currency="EUR",
+            value="10.00",
+        ),
+    ))
 
     # Handle response
     print(res)
@@ -85,22 +106,21 @@ with ClientSDK(
 
 ### Parameters
 
-| Parameter                                                                     | Type                                                                          | Required                                                                      | Description                                                                   |
-| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `request`                                                                     | [models.CreateSalesInvoiceRequest](../../models/createsalesinvoicerequest.md) | :heavy_check_mark:                                                            | The request object to use for the request.                                    |
-| `retries`                                                                     | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)              | :heavy_minus_sign:                                                            | Configuration to override the default retry behavior of the client.           |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `request`                                                           | [models.EntitySalesInvoice](../../models/entitysalesinvoice.md)     | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CreateSalesInvoiceResponse](../../models/createsalesinvoiceresponse.md)**
+**[models.EntitySalesInvoiceResponse](../../models/entitysalesinvoiceresponse.md)**
 
 ### Errors
 
-| Error Type                                               | Status Code                                              | Content Type                                             |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| models.CreateSalesInvoiceNotFoundHalJSONError            | 404                                                      | application/hal+json                                     |
-| models.CreateSalesInvoiceUnprocessableEntityHalJSONError | 422                                                      | application/hal+json                                     |
-| models.APIError                                          | 4XX, 5XX                                                 | \*/\*                                                    |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404, 422             | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## list
 
@@ -138,7 +158,7 @@ with ClientSDK(
 
 | Parameter                                                                                                                                                                                                                                                                                                                                                                              | Type                                                                                                                                                                                                                                                                                                                                                                                   | Required                                                                                                                                                                                                                                                                                                                                                                               | Description                                                                                                                                                                                                                                                                                                                                                                            | Example                                                                                                                                                                                                                                                                                                                                                                                |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `from_`                                                                                                                                                                                                                                                                                                                                                                                | *Optional[str]*                                                                                                                                                                                                                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the<br/>result set.                                                                                                                                                                                                                                                     | invoice_4Y0eZitmBnQ6IDoMqZQKh                                                                                                                                                                                                                                                                                                                                                          |
+| `from_`                                                                                                                                                                                                                                                                                                                                                                                | *OptionalNullable[str]*                                                                                                                                                                                                                                                                                                                                                                | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the<br/>result set.                                                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                                                                                                                                                        |
 | `limit`                                                                                                                                                                                                                                                                                                                                                                                | *OptionalNullable[int]*                                                                                                                                                                                                                                                                                                                                                                | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | The maximum number of items to return. Defaults to 50 items.                                                                                                                                                                                                                                                                                                                           | 50                                                                                                                                                                                                                                                                                                                                                                                     |
 | `testmode`                                                                                                                                                                                                                                                                                                                                                                             | *OptionalNullable[bool]*                                                                                                                                                                                                                                                                                                                                                               | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query<br/>parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by<br/>setting the `testmode` query parameter to `true`.<br/><br/>Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa. | false                                                                                                                                                                                                                                                                                                                                                                                  |
 | `retries`                                                                                                                                                                                                                                                                                                                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                                                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Configuration to override the default retry behavior of the client.                                                                                                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                                                                                                                                                                        |
@@ -149,10 +169,10 @@ with ClientSDK(
 
 ### Errors
 
-| Error Type                           | Status Code                          | Content Type                         |
-| ------------------------------------ | ------------------------------------ | ------------------------------------ |
-| models.ListSalesInvoicesHalJSONError | 400                                  | application/hal+json                 |
-| models.APIError                      | 4XX, 5XX                             | \*/\*                                |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 400                  | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## get
 
@@ -188,20 +208,20 @@ with ClientSDK(
 
 | Parameter                                                                                                                                                                                                                                                                                                                                                                              | Type                                                                                                                                                                                                                                                                                                                                                                                   | Required                                                                                                                                                                                                                                                                                                                                                                               | Description                                                                                                                                                                                                                                                                                                                                                                            | Example                                                                                                                                                                                                                                                                                                                                                                                |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                                                                                                                                                                                                                                                                                                                                                                                   | *str*                                                                                                                                                                                                                                                                                                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                                                                                                                                                                                     | Provide the ID of the item you want to perform this operation on.                                                                                                                                                                                                                                                                                                                      | invoice_4Y0eZitmBnQ6IDoMqZQKh                                                                                                                                                                                                                                                                                                                                                          |
+| `id`                                                                                                                                                                                                                                                                                                                                                                                   | *str*                                                                                                                                                                                                                                                                                                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                                                                                                                                                                                     | Provide the ID of the item you want to perform this operation on.                                                                                                                                                                                                                                                                                                                      |                                                                                                                                                                                                                                                                                                                                                                                        |
 | `testmode`                                                                                                                                                                                                                                                                                                                                                                             | *OptionalNullable[bool]*                                                                                                                                                                                                                                                                                                                                                               | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query<br/>parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by<br/>setting the `testmode` query parameter to `true`.<br/><br/>Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa. | false                                                                                                                                                                                                                                                                                                                                                                                  |
 | `retries`                                                                                                                                                                                                                                                                                                                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                                                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Configuration to override the default retry behavior of the client.                                                                                                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                                                                                                                                                                        |
 
 ### Response
 
-**[models.GetSalesInvoiceResponse](../../models/getsalesinvoiceresponse.md)**
+**[models.EntitySalesInvoiceResponse](../../models/entitysalesinvoiceresponse.md)**
 
 ### Errors
 
-| Error Type                         | Status Code                        | Content Type                       |
-| ---------------------------------- | ---------------------------------- | ---------------------------------- |
-| models.GetSalesInvoiceHalJSONError | 404                                | application/hal+json               |
-| models.APIError                    | 4XX, 5XX                           | \*/\*                              |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404                  | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## update
 
@@ -228,13 +248,13 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.sales_invoices.update(id="invoice_4Y0eZitmBnQ6IDoMqZQKh", request_body={
+    res = client_sdk.sales_invoices.update(id="invoice_4Y0eZitmBnQ6IDoMqZQKh", update_values_sales_invoice={
         "testmode": False,
-        "status": mollie.UpdateSalesInvoiceStatusRequest.PAID,
+        "status": mollie.UpdateValuesSalesInvoiceStatus.PAID,
         "memo": "An updated memo!",
-        "payment_term": mollie.UpdateSalesInvoicePaymentTermRequest.THIRTYDAYS,
+        "payment_term": mollie.UpdateValuesSalesInvoicePaymentTerm.THIRTYDAYS,
         "payment_details": {
-            "source": mollie.UpdateSalesInvoiceSourceRequest.PAYMENT_LINK,
+            "source": mollie.SalesInvoicePaymentDetailsSource.PAYMENT_LINK,
             "source_reference": "pl_d9fQur83kFdhH8hIhaZfq",
         },
         "email_details": {
@@ -243,7 +263,7 @@ with ClientSDK(
         },
         "recipient_identifier": "customer-xyz-0123",
         "recipient": {
-            "type": mollie.UpdateSalesInvoiceRecipientTypeRequest.CONSUMER,
+            "type": mollie.SalesInvoiceRecipientType.CONSUMER,
             "title": "Mrs.",
             "given_name": "Jane",
             "family_name": "Doe",
@@ -258,7 +278,7 @@ with ClientSDK(
             "city": "Amsterdam",
             "region": "Noord-Holland",
             "country": "NL",
-            "locale": mollie.UpdateSalesInvoiceLocaleRequest.NL_NL,
+            "locale": mollie.SalesInvoiceRecipientLocale.NL_NL,
         },
         "lines": [
             {
@@ -270,13 +290,13 @@ with ClientSDK(
                     "value": "10.00",
                 },
                 "discount": {
-                    "type": mollie.UpdateSalesInvoiceLineTypeRequest.AMOUNT,
+                    "type": mollie.SalesInvoiceDiscountType.AMOUNT,
                     "value": "10.00",
                 },
             },
         ],
         "discount": {
-            "type": mollie.UpdateSalesInvoiceDiscountTypeRequest.AMOUNT,
+            "type": mollie.SalesInvoiceDiscountType.AMOUNT,
             "value": "10.00",
         },
     })
@@ -288,23 +308,22 @@ with ClientSDK(
 
 ### Parameters
 
-| Parameter                                                                                       | Type                                                                                            | Required                                                                                        | Description                                                                                     | Example                                                                                         |
-| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `id`                                                                                            | *str*                                                                                           | :heavy_check_mark:                                                                              | Provide the ID of the item you want to perform this operation on.                               | invoice_4Y0eZitmBnQ6IDoMqZQKh                                                                   |
-| `request_body`                                                                                  | [Optional[models.UpdateSalesInvoiceRequestBody]](../../models/updatesalesinvoicerequestbody.md) | :heavy_minus_sign:                                                                              | N/A                                                                                             |                                                                                                 |
-| `retries`                                                                                       | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                | :heavy_minus_sign:                                                                              | Configuration to override the default retry behavior of the client.                             |                                                                                                 |
+| Parameter                                                                             | Type                                                                                  | Required                                                                              | Description                                                                           |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `id`                                                                                  | *str*                                                                                 | :heavy_check_mark:                                                                    | Provide the ID of the item you want to perform this operation on.                     |
+| `update_values_sales_invoice`                                                         | [Optional[models.UpdateValuesSalesInvoice]](../../models/updatevaluessalesinvoice.md) | :heavy_minus_sign:                                                                    | N/A                                                                                   |
+| `retries`                                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                      | :heavy_minus_sign:                                                                    | Configuration to override the default retry behavior of the client.                   |
 
 ### Response
 
-**[models.UpdateSalesInvoiceResponse](../../models/updatesalesinvoiceresponse.md)**
+**[models.EntitySalesInvoiceResponse](../../models/entitysalesinvoiceresponse.md)**
 
 ### Errors
 
-| Error Type                                               | Status Code                                              | Content Type                                             |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| models.UpdateSalesInvoiceNotFoundHalJSONError            | 404                                                      | application/hal+json                                     |
-| models.UpdateSalesInvoiceUnprocessableEntityHalJSONError | 422                                                      | application/hal+json                                     |
-| models.APIError                                          | 4XX, 5XX                                                 | \*/\*                                                    |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404, 422             | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## delete
 
@@ -330,7 +349,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.sales_invoices.delete(id="invoice_4Y0eZitmBnQ6IDoMqZQKh", request_body={
+    res = client_sdk.sales_invoices.delete(id="invoice_4Y0eZitmBnQ6IDoMqZQKh", delete_values_sales_invoice={
         "testmode": False,
     })
 
@@ -341,11 +360,11 @@ with ClientSDK(
 
 ### Parameters
 
-| Parameter                                                                                       | Type                                                                                            | Required                                                                                        | Description                                                                                     | Example                                                                                         |
-| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `id`                                                                                            | *str*                                                                                           | :heavy_check_mark:                                                                              | Provide the ID of the item you want to perform this operation on.                               | invoice_4Y0eZitmBnQ6IDoMqZQKh                                                                   |
-| `request_body`                                                                                  | [Optional[models.DeleteSalesInvoiceRequestBody]](../../models/deletesalesinvoicerequestbody.md) | :heavy_minus_sign:                                                                              | N/A                                                                                             |                                                                                                 |
-| `retries`                                                                                       | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                | :heavy_minus_sign:                                                                              | Configuration to override the default retry behavior of the client.                             |                                                                                                 |
+| Parameter                                                                             | Type                                                                                  | Required                                                                              | Description                                                                           |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `id`                                                                                  | *str*                                                                                 | :heavy_check_mark:                                                                    | Provide the ID of the item you want to perform this operation on.                     |
+| `delete_values_sales_invoice`                                                         | [Optional[models.DeleteValuesSalesInvoice]](../../models/deletevaluessalesinvoice.md) | :heavy_minus_sign:                                                                    | N/A                                                                                   |
+| `retries`                                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                      | :heavy_minus_sign:                                                                    | Configuration to override the default retry behavior of the client.                   |
 
 ### Response
 
@@ -353,8 +372,7 @@ with ClientSDK(
 
 ### Errors
 
-| Error Type                                               | Status Code                                              | Content Type                                             |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| models.DeleteSalesInvoiceNotFoundHalJSONError            | 404                                                      | application/hal+json                                     |
-| models.DeleteSalesInvoiceUnprocessableEntityHalJSONError | 422                                                      | application/hal+json                                     |
-| models.APIError                                          | 4XX, 5XX                                                 | \*/\*                                                    |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404, 422             | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |

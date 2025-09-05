@@ -23,7 +23,7 @@ class PaymentLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreatePaymentLinkResponse:
+    ) -> models.PaymentLinkResponse:
         r"""Create payment link
 
         With the Payment links API you can generate payment links that by default, unlike regular payments, do not expire.
@@ -100,19 +100,10 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreatePaymentLinkResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreatePaymentLinkNotFoundHalJSONErrorData, http_res
-            )
-            raise models.CreatePaymentLinkNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreatePaymentLinkUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.CreatePaymentLinkUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.PaymentLinkResponse, http_res)
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -135,7 +126,7 @@ class PaymentLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreatePaymentLinkResponse:
+    ) -> models.PaymentLinkResponse:
         r"""Create payment link
 
         With the Payment links API you can generate payment links that by default, unlike regular payments, do not expire.
@@ -212,19 +203,10 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreatePaymentLinkResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreatePaymentLinkNotFoundHalJSONErrorData, http_res
-            )
-            raise models.CreatePaymentLinkNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreatePaymentLinkUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.CreatePaymentLinkUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.PaymentLinkResponse, http_res)
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -322,10 +304,8 @@ class PaymentLinks(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListPaymentLinksResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListPaymentLinksHalJSONErrorData, http_res
-            )
-            raise models.ListPaymentLinksHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -423,10 +403,8 @@ class PaymentLinks(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListPaymentLinksResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListPaymentLinksHalJSONErrorData, http_res
-            )
-            raise models.ListPaymentLinksHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -445,7 +423,7 @@ class PaymentLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPaymentLinkResponse:
+    ) -> models.PaymentLinkResponse:
         r"""Get payment link
 
         Retrieve a single payment link by its ID.
@@ -517,12 +495,10 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetPaymentLinkResponse, http_res)
+            return unmarshal_json_response(models.PaymentLinkResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetPaymentLinkHalJSONErrorData, http_res
-            )
-            raise models.GetPaymentLinkHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -541,7 +517,7 @@ class PaymentLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPaymentLinkResponse:
+    ) -> models.PaymentLinkResponse:
         r"""Get payment link
 
         Retrieve a single payment link by its ID.
@@ -613,12 +589,10 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetPaymentLinkResponse, http_res)
+            return unmarshal_json_response(models.PaymentLinkResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetPaymentLinkHalJSONErrorData, http_res
-            )
-            raise models.GetPaymentLinkHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -642,7 +616,7 @@ class PaymentLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdatePaymentLinkResponse:
+    ) -> models.PaymentLinkResponse:
         r"""Update payment link
 
         Certain details of an existing payment link can be updated.
@@ -723,19 +697,10 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.UpdatePaymentLinkResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdatePaymentLinkNotFoundHalJSONErrorData, http_res
-            )
-            raise models.UpdatePaymentLinkNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdatePaymentLinkUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.UpdatePaymentLinkUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.PaymentLinkResponse, http_res)
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -759,7 +724,7 @@ class PaymentLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdatePaymentLinkResponse:
+    ) -> models.PaymentLinkResponse:
         r"""Update payment link
 
         Certain details of an existing payment link can be updated.
@@ -840,19 +805,10 @@ class PaymentLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.UpdatePaymentLinkResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdatePaymentLinkNotFoundHalJSONErrorData, http_res
-            )
-            raise models.UpdatePaymentLinkNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdatePaymentLinkUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.UpdatePaymentLinkUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.PaymentLinkResponse, http_res)
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -964,18 +920,9 @@ class PaymentLinks(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
             return unmarshal_json_response(Any, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.DeletePaymentLinkNotFoundHalJSONErrorData, http_res
-            )
-            raise models.DeletePaymentLinkNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.DeletePaymentLinkUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.DeletePaymentLinkUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1087,18 +1034,9 @@ class PaymentLinks(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
             return unmarshal_json_response(Any, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.DeletePaymentLinkNotFoundHalJSONErrorData, http_res
-            )
-            raise models.DeletePaymentLinkNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.DeletePaymentLinkUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.DeletePaymentLinkUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1114,7 +1052,7 @@ class PaymentLinks(BaseSDK):
         payment_link_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        sort: OptionalNullable[models.GetPaymentLinkPaymentsSort] = UNSET,
+        sort: OptionalNullable[models.ListSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1204,10 +1142,8 @@ class PaymentLinks(BaseSDK):
                 models.GetPaymentLinkPaymentsResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetPaymentLinkPaymentsHalJSONErrorData, http_res
-            )
-            raise models.GetPaymentLinkPaymentsHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1223,7 +1159,7 @@ class PaymentLinks(BaseSDK):
         payment_link_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        sort: OptionalNullable[models.GetPaymentLinkPaymentsSort] = UNSET,
+        sort: OptionalNullable[models.ListSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1313,10 +1249,8 @@ class PaymentLinks(BaseSDK):
                 models.GetPaymentLinkPaymentsResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetPaymentLinkPaymentsHalJSONErrorData, http_res
-            )
-            raise models.GetPaymentLinkPaymentsHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

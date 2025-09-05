@@ -14,24 +14,21 @@ class DelayedRouting(BaseSDK):
         self,
         *,
         payment_id: str,
-        request_body: Optional[
-            Union[
-                models.PaymentCreateRouteRequestBody,
-                models.PaymentCreateRouteRequestBodyTypedDict,
-            ]
+        route_create_request: Optional[
+            Union[models.RouteCreateRequest, models.RouteCreateRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PaymentCreateRouteResponse:
+    ) -> models.RouteCreateResponse:
         r"""Create a delayed route
 
         Create a route for a specific payment.
         The routed amount is credited to the account of your customer.
 
         :param payment_id: Provide the ID of the related payment.
-        :param request_body:
+        :param route_create_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -49,8 +46,8 @@ class DelayedRouting(BaseSDK):
 
         request = models.PaymentCreateRouteRequest(
             payment_id=payment_id,
-            request_body=utils.get_pydantic_model(
-                request_body, Optional[models.PaymentCreateRouteRequestBody]
+            route_create_request=utils.get_pydantic_model(
+                route_create_request, Optional[models.RouteCreateRequest]
             ),
         )
 
@@ -68,11 +65,11 @@ class DelayedRouting(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body,
+                request.route_create_request,
                 False,
                 True,
                 "json",
-                Optional[models.PaymentCreateRouteRequestBody],
+                Optional[models.RouteCreateRequest],
             ),
             timeout_ms=timeout_ms,
         )
@@ -106,12 +103,10 @@ class DelayedRouting(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.PaymentCreateRouteResponse, http_res)
+            return unmarshal_json_response(models.RouteCreateResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.PaymentCreateRouteHalJSONErrorData, http_res
-            )
-            raise models.PaymentCreateRouteHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -125,24 +120,21 @@ class DelayedRouting(BaseSDK):
         self,
         *,
         payment_id: str,
-        request_body: Optional[
-            Union[
-                models.PaymentCreateRouteRequestBody,
-                models.PaymentCreateRouteRequestBodyTypedDict,
-            ]
+        route_create_request: Optional[
+            Union[models.RouteCreateRequest, models.RouteCreateRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.PaymentCreateRouteResponse:
+    ) -> models.RouteCreateResponse:
         r"""Create a delayed route
 
         Create a route for a specific payment.
         The routed amount is credited to the account of your customer.
 
         :param payment_id: Provide the ID of the related payment.
-        :param request_body:
+        :param route_create_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -160,8 +152,8 @@ class DelayedRouting(BaseSDK):
 
         request = models.PaymentCreateRouteRequest(
             payment_id=payment_id,
-            request_body=utils.get_pydantic_model(
-                request_body, Optional[models.PaymentCreateRouteRequestBody]
+            route_create_request=utils.get_pydantic_model(
+                route_create_request, Optional[models.RouteCreateRequest]
             ),
         )
 
@@ -179,11 +171,11 @@ class DelayedRouting(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body,
+                request.route_create_request,
                 False,
                 True,
                 "json",
-                Optional[models.PaymentCreateRouteRequestBody],
+                Optional[models.RouteCreateRequest],
             ),
             timeout_ms=timeout_ms,
         )
@@ -217,12 +209,10 @@ class DelayedRouting(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.PaymentCreateRouteResponse, http_res)
+            return unmarshal_json_response(models.RouteCreateResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.PaymentCreateRouteHalJSONErrorData, http_res
-            )
-            raise models.PaymentCreateRouteHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -315,10 +305,8 @@ class DelayedRouting(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.PaymentListRoutesResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.PaymentListRoutesHalJSONErrorData, http_res
-            )
-            raise models.PaymentListRoutesHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -411,10 +399,8 @@ class DelayedRouting(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.PaymentListRoutesResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.PaymentListRoutesHalJSONErrorData, http_res
-            )
-            raise models.PaymentListRoutesHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

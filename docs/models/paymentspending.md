@@ -1,9 +1,0 @@
-# PaymentsPending
-
-
-## Fields
-
-| Field                                                                                             | Type                                                                                              | Required                                                                                          | Description                                                                                       |
-| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `amount`                                                                                          | [Optional[models.PaymentsPendingAmount]](../models/paymentspendingamount.md)                      | :heavy_minus_sign:                                                                                | In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field. |
-| `subtotals`                                                                                       | List[[models.PaymentsPendingSubtotal2](../models/paymentspendingsubtotal2.md)]                    | :heavy_minus_sign:                                                                                | N/A                                                                                               |

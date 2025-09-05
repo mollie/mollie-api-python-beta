@@ -48,10 +48,10 @@ with ClientSDK(
 
 ### Errors
 
-| Error Type                         | Status Code                        | Content Type                       |
-| ---------------------------------- | ---------------------------------- | ---------------------------------- |
-| models.ListPermissionsHalJSONError | 400                                | application/hal+json               |
-| models.APIError                    | 4XX, 5XX                           | \*/\*                              |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 400                  | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## get
 
@@ -89,11 +89,11 @@ with ClientSDK(
 
 ### Response
 
-**[models.GetPermissionResponse](../../models/getpermissionresponse.md)**
+**[models.EntityPermission](../../models/entitypermission.md)**
 
 ### Errors
 
-| Error Type                       | Status Code                      | Content Type                     |
-| -------------------------------- | -------------------------------- | -------------------------------- |
-| models.GetPermissionHalJSONError | 404                              | application/hal+json             |
-| models.APIError                  | 4XX, 5XX                         | \*/\*                            |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404                  | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |

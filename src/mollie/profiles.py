@@ -13,14 +13,12 @@ class Profiles(BaseSDK):
     def create(
         self,
         *,
-        request: Union[
-            models.CreateProfileRequest, models.CreateProfileRequestTypedDict
-        ],
+        request: Union[models.EntityProfile, models.EntityProfileTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateProfileResponse:
+    ) -> models.EntityProfileResponse:
         r"""Create profile
 
         Create a profile to process payments on.
@@ -45,8 +43,8 @@ class Profiles(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, models.CreateProfileRequest)
-        request = cast(models.CreateProfileRequest, request)
+            request = utils.unmarshal(request, models.EntityProfile)
+        request = cast(models.EntityProfile, request)
 
         req = self._build_request(
             method="POST",
@@ -62,7 +60,7 @@ class Profiles(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.CreateProfileRequest
+                request, False, False, "json", models.EntityProfile
             ),
             timeout_ms=timeout_ms,
         )
@@ -96,12 +94,10 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreateProfileResponse, http_res)
+            return unmarshal_json_response(models.EntityProfileResponse, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreateProfileHalJSONErrorData, http_res
-            )
-            raise models.CreateProfileHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -114,14 +110,12 @@ class Profiles(BaseSDK):
     async def create_async(
         self,
         *,
-        request: Union[
-            models.CreateProfileRequest, models.CreateProfileRequestTypedDict
-        ],
+        request: Union[models.EntityProfile, models.EntityProfileTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateProfileResponse:
+    ) -> models.EntityProfileResponse:
         r"""Create profile
 
         Create a profile to process payments on.
@@ -146,8 +140,8 @@ class Profiles(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, models.CreateProfileRequest)
-        request = cast(models.CreateProfileRequest, request)
+            request = utils.unmarshal(request, models.EntityProfile)
+        request = cast(models.EntityProfile, request)
 
         req = self._build_request_async(
             method="POST",
@@ -163,7 +157,7 @@ class Profiles(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.CreateProfileRequest
+                request, False, False, "json", models.EntityProfile
             ),
             timeout_ms=timeout_ms,
         )
@@ -197,12 +191,10 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreateProfileResponse, http_res)
+            return unmarshal_json_response(models.EntityProfileResponse, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreateProfileHalJSONErrorData, http_res
-            )
-            raise models.CreateProfileHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -215,7 +207,7 @@ class Profiles(BaseSDK):
     def list(
         self,
         *,
-        from_: Optional[str] = None,
+        from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -297,10 +289,8 @@ class Profiles(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListProfilesResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListProfilesHalJSONErrorData, http_res
-            )
-            raise models.ListProfilesHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -313,7 +303,7 @@ class Profiles(BaseSDK):
     async def list_async(
         self,
         *,
-        from_: Optional[str] = None,
+        from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -395,10 +385,8 @@ class Profiles(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListProfilesResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListProfilesHalJSONErrorData, http_res
-            )
-            raise models.ListProfilesHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -417,7 +405,7 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetProfileResponse:
+    ) -> models.EntityProfileResponse:
         r"""Get profile
 
         Retrieve a single profile by its ID.
@@ -489,17 +477,10 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetProfileResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetProfileNotFoundHalJSONErrorData, http_res
-            )
-            raise models.GetProfileNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetProfileGoneHalJSONErrorData, http_res
-            )
-            raise models.GetProfileGoneHalJSONError(response_data, http_res)
+            return unmarshal_json_response(models.EntityProfileResponse, http_res)
+        if utils.match_response(http_res, ["404", "410"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -518,7 +499,7 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetProfileResponse:
+    ) -> models.EntityProfileResponse:
         r"""Get profile
 
         Retrieve a single profile by its ID.
@@ -590,17 +571,10 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetProfileResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetProfileNotFoundHalJSONErrorData, http_res
-            )
-            raise models.GetProfileNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetProfileGoneHalJSONErrorData, http_res
-            )
-            raise models.GetProfileGoneHalJSONError(response_data, http_res)
+            return unmarshal_json_response(models.EntityProfileResponse, http_res)
+        if utils.match_response(http_res, ["404", "410"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -621,7 +595,7 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateProfileResponse:
+    ) -> models.EntityProfileResponse:
         r"""Update profile
 
         Update an existing profile.
@@ -705,24 +679,12 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.UpdateProfileResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdateProfileNotFoundHalJSONErrorData, http_res
-            )
-            raise models.UpdateProfileNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdateProfileGoneHalJSONErrorData, http_res
-            )
-            raise models.UpdateProfileGoneHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdateProfileUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.UpdateProfileUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.EntityProfileResponse, http_res)
+        if utils.match_response(
+            http_res, ["404", "410", "422"], "application/hal+json"
+        ):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -743,7 +705,7 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateProfileResponse:
+    ) -> models.EntityProfileResponse:
         r"""Update profile
 
         Update an existing profile.
@@ -827,24 +789,12 @@ class Profiles(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.UpdateProfileResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdateProfileNotFoundHalJSONErrorData, http_res
-            )
-            raise models.UpdateProfileNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdateProfileGoneHalJSONErrorData, http_res
-            )
-            raise models.UpdateProfileGoneHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdateProfileUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.UpdateProfileUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.EntityProfileResponse, http_res)
+        if utils.match_response(
+            http_res, ["404", "410", "422"], "application/hal+json"
+        ):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -933,16 +883,9 @@ class Profiles(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
             return unmarshal_json_response(Any, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.DeleteProfileNotFoundHalJSONErrorData, http_res
-            )
-            raise models.DeleteProfileNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.DeleteProfileGoneHalJSONErrorData, http_res
-            )
-            raise models.DeleteProfileGoneHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["404", "410"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1031,16 +974,9 @@ class Profiles(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
             return unmarshal_json_response(Any, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.DeleteProfileNotFoundHalJSONErrorData, http_res
-            )
-            raise models.DeleteProfileNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "410", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.DeleteProfileGoneHalJSONErrorData, http_res
-            )
-            raise models.DeleteProfileGoneHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["404", "410"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1057,7 +993,7 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCurrentProfileResponse:
+    ) -> models.EntityProfileResponse:
         r"""Get current profile
 
         Retrieve the currently authenticated profile. A convenient alias of the [Get profile](get-profile)
@@ -1124,7 +1060,7 @@ class Profiles(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetCurrentProfileResponse, http_res)
+            return unmarshal_json_response(models.EntityProfileResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1141,7 +1077,7 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCurrentProfileResponse:
+    ) -> models.EntityProfileResponse:
         r"""Get current profile
 
         Retrieve the currently authenticated profile. A convenient alias of the [Get profile](get-profile)
@@ -1208,7 +1144,7 @@ class Profiles(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetCurrentProfileResponse, http_res)
+            return unmarshal_json_response(models.EntityProfileResponse, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

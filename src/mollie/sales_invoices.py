@@ -14,16 +14,13 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         request: Optional[
-            Union[
-                models.CreateSalesInvoiceRequest,
-                models.CreateSalesInvoiceRequestTypedDict,
-            ]
+            Union[models.EntitySalesInvoice, models.EntitySalesInvoiceTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateSalesInvoiceResponse:
+    ) -> models.EntitySalesInvoiceResponse:
         r"""Create sales invoice
 
         > 🚧 Beta feature
@@ -49,10 +46,8 @@ class SalesInvoices(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
-            request = utils.unmarshal(
-                request, Optional[models.CreateSalesInvoiceRequest]
-            )
-        request = cast(Optional[models.CreateSalesInvoiceRequest], request)
+            request = utils.unmarshal(request, Optional[models.EntitySalesInvoice])
+        request = cast(Optional[models.EntitySalesInvoice], request)
 
         req = self._build_request(
             method="POST",
@@ -68,7 +63,7 @@ class SalesInvoices(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.CreateSalesInvoiceRequest]
+                request, False, True, "json", Optional[models.EntitySalesInvoice]
             ),
             timeout_ms=timeout_ms,
         )
@@ -102,19 +97,10 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreateSalesInvoiceResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreateSalesInvoiceNotFoundHalJSONErrorData, http_res
-            )
-            raise models.CreateSalesInvoiceNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreateSalesInvoiceUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.CreateSalesInvoiceUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.EntitySalesInvoiceResponse, http_res)
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -128,16 +114,13 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         request: Optional[
-            Union[
-                models.CreateSalesInvoiceRequest,
-                models.CreateSalesInvoiceRequestTypedDict,
-            ]
+            Union[models.EntitySalesInvoice, models.EntitySalesInvoiceTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateSalesInvoiceResponse:
+    ) -> models.EntitySalesInvoiceResponse:
         r"""Create sales invoice
 
         > 🚧 Beta feature
@@ -163,10 +146,8 @@ class SalesInvoices(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
-            request = utils.unmarshal(
-                request, Optional[models.CreateSalesInvoiceRequest]
-            )
-        request = cast(Optional[models.CreateSalesInvoiceRequest], request)
+            request = utils.unmarshal(request, Optional[models.EntitySalesInvoice])
+        request = cast(Optional[models.EntitySalesInvoice], request)
 
         req = self._build_request_async(
             method="POST",
@@ -182,7 +163,7 @@ class SalesInvoices(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.CreateSalesInvoiceRequest]
+                request, False, True, "json", Optional[models.EntitySalesInvoice]
             ),
             timeout_ms=timeout_ms,
         )
@@ -216,19 +197,10 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreateSalesInvoiceResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreateSalesInvoiceNotFoundHalJSONErrorData, http_res
-            )
-            raise models.CreateSalesInvoiceNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreateSalesInvoiceUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.CreateSalesInvoiceUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.EntitySalesInvoiceResponse, http_res)
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -241,7 +213,7 @@ class SalesInvoices(BaseSDK):
     def list(
         self,
         *,
-        from_: Optional[str] = None,
+        from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -330,10 +302,8 @@ class SalesInvoices(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListSalesInvoicesResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSalesInvoicesHalJSONErrorData, http_res
-            )
-            raise models.ListSalesInvoicesHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -346,7 +316,7 @@ class SalesInvoices(BaseSDK):
     async def list_async(
         self,
         *,
-        from_: Optional[str] = None,
+        from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -435,10 +405,8 @@ class SalesInvoices(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListSalesInvoicesResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListSalesInvoicesHalJSONErrorData, http_res
-            )
-            raise models.ListSalesInvoicesHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -457,7 +425,7 @@ class SalesInvoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSalesInvoiceResponse:
+    ) -> models.EntitySalesInvoiceResponse:
         r"""Get sales invoice
 
         > 🚧 Beta feature
@@ -533,12 +501,10 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetSalesInvoiceResponse, http_res)
+            return unmarshal_json_response(models.EntitySalesInvoiceResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetSalesInvoiceHalJSONErrorData, http_res
-            )
-            raise models.GetSalesInvoiceHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -557,7 +523,7 @@ class SalesInvoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSalesInvoiceResponse:
+    ) -> models.EntitySalesInvoiceResponse:
         r"""Get sales invoice
 
         > 🚧 Beta feature
@@ -633,12 +599,10 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetSalesInvoiceResponse, http_res)
+            return unmarshal_json_response(models.EntitySalesInvoiceResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetSalesInvoiceHalJSONErrorData, http_res
-            )
-            raise models.GetSalesInvoiceHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -652,17 +616,17 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         id: str,
-        request_body: Optional[
+        update_values_sales_invoice: Optional[
             Union[
-                models.UpdateSalesInvoiceRequestBody,
-                models.UpdateSalesInvoiceRequestBodyTypedDict,
+                models.UpdateValuesSalesInvoice,
+                models.UpdateValuesSalesInvoiceTypedDict,
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateSalesInvoiceResponse:
+    ) -> models.EntitySalesInvoiceResponse:
         r"""Update sales invoice
 
         > 🚧 Beta feature
@@ -674,7 +638,7 @@ class SalesInvoices(BaseSDK):
         respectively).
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param request_body:
+        :param update_values_sales_invoice:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -692,8 +656,8 @@ class SalesInvoices(BaseSDK):
 
         request = models.UpdateSalesInvoiceRequest(
             id=id,
-            request_body=utils.get_pydantic_model(
-                request_body, Optional[models.UpdateSalesInvoiceRequestBody]
+            update_values_sales_invoice=utils.get_pydantic_model(
+                update_values_sales_invoice, Optional[models.UpdateValuesSalesInvoice]
             ),
         )
 
@@ -711,11 +675,11 @@ class SalesInvoices(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body,
+                request.update_values_sales_invoice,
                 False,
                 True,
                 "json",
-                Optional[models.UpdateSalesInvoiceRequestBody],
+                Optional[models.UpdateValuesSalesInvoice],
             ),
             timeout_ms=timeout_ms,
         )
@@ -749,19 +713,10 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.UpdateSalesInvoiceResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdateSalesInvoiceNotFoundHalJSONErrorData, http_res
-            )
-            raise models.UpdateSalesInvoiceNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdateSalesInvoiceUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.UpdateSalesInvoiceUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.EntitySalesInvoiceResponse, http_res)
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -775,17 +730,17 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         id: str,
-        request_body: Optional[
+        update_values_sales_invoice: Optional[
             Union[
-                models.UpdateSalesInvoiceRequestBody,
-                models.UpdateSalesInvoiceRequestBodyTypedDict,
+                models.UpdateValuesSalesInvoice,
+                models.UpdateValuesSalesInvoiceTypedDict,
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateSalesInvoiceResponse:
+    ) -> models.EntitySalesInvoiceResponse:
         r"""Update sales invoice
 
         > 🚧 Beta feature
@@ -797,7 +752,7 @@ class SalesInvoices(BaseSDK):
         respectively).
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param request_body:
+        :param update_values_sales_invoice:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -815,8 +770,8 @@ class SalesInvoices(BaseSDK):
 
         request = models.UpdateSalesInvoiceRequest(
             id=id,
-            request_body=utils.get_pydantic_model(
-                request_body, Optional[models.UpdateSalesInvoiceRequestBody]
+            update_values_sales_invoice=utils.get_pydantic_model(
+                update_values_sales_invoice, Optional[models.UpdateValuesSalesInvoice]
             ),
         )
 
@@ -834,11 +789,11 @@ class SalesInvoices(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body,
+                request.update_values_sales_invoice,
                 False,
                 True,
                 "json",
-                Optional[models.UpdateSalesInvoiceRequestBody],
+                Optional[models.UpdateValuesSalesInvoice],
             ),
             timeout_ms=timeout_ms,
         )
@@ -872,19 +827,10 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.UpdateSalesInvoiceResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdateSalesInvoiceNotFoundHalJSONErrorData, http_res
-            )
-            raise models.UpdateSalesInvoiceNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdateSalesInvoiceUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.UpdateSalesInvoiceUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.EntitySalesInvoiceResponse, http_res)
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -898,10 +844,10 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         id: str,
-        request_body: Optional[
+        delete_values_sales_invoice: Optional[
             Union[
-                models.DeleteSalesInvoiceRequestBody,
-                models.DeleteSalesInvoiceRequestBodyTypedDict,
+                models.DeleteValuesSalesInvoice,
+                models.DeleteValuesSalesInvoiceTypedDict,
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -919,7 +865,7 @@ class SalesInvoices(BaseSDK):
         [Update sales invoice](update-sales-invoice) endpoint instead.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param request_body:
+        :param delete_values_sales_invoice:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -937,8 +883,8 @@ class SalesInvoices(BaseSDK):
 
         request = models.DeleteSalesInvoiceRequest(
             id=id,
-            request_body=utils.get_pydantic_model(
-                request_body, Optional[models.DeleteSalesInvoiceRequestBody]
+            delete_values_sales_invoice=utils.get_pydantic_model(
+                delete_values_sales_invoice, Optional[models.DeleteValuesSalesInvoice]
             ),
         )
 
@@ -956,11 +902,11 @@ class SalesInvoices(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body,
+                request.delete_values_sales_invoice,
                 False,
                 True,
                 "json",
-                Optional[models.DeleteSalesInvoiceRequestBody],
+                Optional[models.DeleteValuesSalesInvoice],
             ),
             timeout_ms=timeout_ms,
         )
@@ -995,18 +941,9 @@ class SalesInvoices(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
             return unmarshal_json_response(Any, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.DeleteSalesInvoiceNotFoundHalJSONErrorData, http_res
-            )
-            raise models.DeleteSalesInvoiceNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.DeleteSalesInvoiceUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.DeleteSalesInvoiceUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1020,10 +957,10 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         id: str,
-        request_body: Optional[
+        delete_values_sales_invoice: Optional[
             Union[
-                models.DeleteSalesInvoiceRequestBody,
-                models.DeleteSalesInvoiceRequestBodyTypedDict,
+                models.DeleteValuesSalesInvoice,
+                models.DeleteValuesSalesInvoiceTypedDict,
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1041,7 +978,7 @@ class SalesInvoices(BaseSDK):
         [Update sales invoice](update-sales-invoice) endpoint instead.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param request_body:
+        :param delete_values_sales_invoice:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1059,8 +996,8 @@ class SalesInvoices(BaseSDK):
 
         request = models.DeleteSalesInvoiceRequest(
             id=id,
-            request_body=utils.get_pydantic_model(
-                request_body, Optional[models.DeleteSalesInvoiceRequestBody]
+            delete_values_sales_invoice=utils.get_pydantic_model(
+                delete_values_sales_invoice, Optional[models.DeleteValuesSalesInvoice]
             ),
         )
 
@@ -1078,11 +1015,11 @@ class SalesInvoices(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body,
+                request.delete_values_sales_invoice,
                 False,
                 True,
                 "json",
-                Optional[models.DeleteSalesInvoiceRequestBody],
+                Optional[models.DeleteValuesSalesInvoice],
             ),
             timeout_ms=timeout_ms,
         )
@@ -1117,18 +1054,9 @@ class SalesInvoices(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "204", "application/hal+json"):
             return unmarshal_json_response(Any, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.DeleteSalesInvoiceNotFoundHalJSONErrorData, http_res
-            )
-            raise models.DeleteSalesInvoiceNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.DeleteSalesInvoiceUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.DeleteSalesInvoiceUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

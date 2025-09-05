@@ -1,8 +1,0 @@
-# DeleteSalesInvoiceUnprocessableEntityLinks
-
-
-## Fields
-
-| Field                                                                                                                        | Type                                                                                                                         | Required                                                                                                                     | Description                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `documentation`                                                                                                              | [models.DeleteSalesInvoiceUnprocessableEntityDocumentation](../models/deletesalesinvoiceunprocessableentitydocumentation.md) | :heavy_check_mark:                                                                                                           | The URL to the generic Mollie API error handling guide.                                                                      |

@@ -28,14 +28,16 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.delayed_routing.create(payment_id="tr_5B8cwPMGnU", request_body={
+    res = client_sdk.delayed_routing.create(payment_id="tr_5B8cwPMGnU", route_create_request={
+        "id": "crt_dyARQ3JzCgtPDhU2Pbq3J",
+        "payment_id": "tr_5B8cwPMGnU",
         "amount": {
             "currency": "EUR",
             "value": "10.00",
         },
         "description": "Payment for Order #12345",
         "destination": {
-            "type": mollie.PaymentCreateRouteTypeRequest.ORGANIZATION,
+            "type": mollie.RouteCreateRequestType.ORGANIZATION,
             "organization_id": "org_1234567",
         },
         "testmode": False,
@@ -48,22 +50,22 @@ with ClientSDK(
 
 ### Parameters
 
-| Parameter                                                                                       | Type                                                                                            | Required                                                                                        | Description                                                                                     | Example                                                                                         |
-| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `payment_id`                                                                                    | *str*                                                                                           | :heavy_check_mark:                                                                              | Provide the ID of the related payment.                                                          | tr_5B8cwPMGnU                                                                                   |
-| `request_body`                                                                                  | [Optional[models.PaymentCreateRouteRequestBody]](../../models/paymentcreaterouterequestbody.md) | :heavy_minus_sign:                                                                              | N/A                                                                                             |                                                                                                 |
-| `retries`                                                                                       | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                | :heavy_minus_sign:                                                                              | Configuration to override the default retry behavior of the client.                             |                                                                                                 |
+| Parameter                                                                 | Type                                                                      | Required                                                                  | Description                                                               | Example                                                                   |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `payment_id`                                                              | *str*                                                                     | :heavy_check_mark:                                                        | Provide the ID of the related payment.                                    | tr_5B8cwPMGnU                                                             |
+| `route_create_request`                                                    | [Optional[models.RouteCreateRequest]](../../models/routecreaterequest.md) | :heavy_minus_sign:                                                        | N/A                                                                       |                                                                           |
+| `retries`                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)          | :heavy_minus_sign:                                                        | Configuration to override the default retry behavior of the client.       |                                                                           |
 
 ### Response
 
-**[models.PaymentCreateRouteResponse](../../models/paymentcreaterouteresponse.md)**
+**[models.RouteCreateResponse](../../models/routecreateresponse.md)**
 
 ### Errors
 
-| Error Type                            | Status Code                           | Content Type                          |
-| ------------------------------------- | ------------------------------------- | ------------------------------------- |
-| models.PaymentCreateRouteHalJSONError | 404                                   | application/hal+json                  |
-| models.APIError                       | 4XX, 5XX                              | \*/\*                                 |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404                  | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## list
 
@@ -105,7 +107,7 @@ with ClientSDK(
 
 ### Errors
 
-| Error Type                           | Status Code                          | Content Type                         |
-| ------------------------------------ | ------------------------------------ | ------------------------------------ |
-| models.PaymentListRoutesHalJSONError | 404                                  | application/hal+json                 |
-| models.APIError                      | 4XX, 5XX                             | \*/\*                                |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404                  | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |

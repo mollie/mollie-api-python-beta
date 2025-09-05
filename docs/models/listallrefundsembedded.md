@@ -5,4 +5,4 @@
 
 | Field                                                                  | Type                                                                   | Required                                                               | Description                                                            |
 | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `refunds`                                                              | List[[models.ListAllRefundsRefund](../models/listallrefundsrefund.md)] | :heavy_minus_sign:                                                     | An array of refund objects.                                            |
+| `refunds`                                                              | List[[models.EntityRefundResponse](../models/entityrefundresponse.md)] | :heavy_check_mark:                                                     | An array of refund objects.                                            |

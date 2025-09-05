@@ -14,7 +14,7 @@ class Clients(BaseSDK):
         self,
         *,
         embed: OptionalNullable[str] = UNSET,
-        from_: Optional[str] = None,
+        from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -27,7 +27,7 @@ class Clients(BaseSDK):
 
         The results are paginated.
 
-        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.  * `organization`: Include the organization of the client. Available for `signuplink` partners, or for `oauth`   partners with the `organizations.read` scope. * `onboarding`: Include the onboarding status of the client. Available for `signuplink` partners, or for `oauth`   partners with the `onboarding.read` scope. * `capabilities`: Include the [capabilities](list-capabilities) of the client organization.   Available for *oauth* partners with the `onboarding.read` scope.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param retries: Override the default retry configuration for this method
@@ -97,16 +97,9 @@ class Clients(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListClientsResponse, http_res)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListClientsBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListClientsBadRequestHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListClientsNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListClientsNotFoundHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -120,7 +113,7 @@ class Clients(BaseSDK):
         self,
         *,
         embed: OptionalNullable[str] = UNSET,
-        from_: Optional[str] = None,
+        from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -133,7 +126,7 @@ class Clients(BaseSDK):
 
         The results are paginated.
 
-        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.  * `organization`: Include the organization of the client. Available for `signuplink` partners, or for `oauth`   partners with the `organizations.read` scope. * `onboarding`: Include the onboarding status of the client. Available for `signuplink` partners, or for `oauth`   partners with the `onboarding.read` scope. * `capabilities`: Include the [capabilities](list-capabilities) of the client organization.   Available for *oauth* partners with the `onboarding.read` scope.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param retries: Override the default retry configuration for this method
@@ -203,16 +196,9 @@ class Clients(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListClientsResponse, http_res)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListClientsBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListClientsBadRequestHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListClientsNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListClientsNotFoundHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -237,7 +223,7 @@ class Clients(BaseSDK):
         Retrieve a single client by its ID.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.  * `organization`: Include the organization of the client. Available for `signuplink` partners, or for `oauth`   partners with the `organizations.read` scope. * `onboarding`: Include the onboarding status of the client. Available for `signuplink` partners, or for `oauth`   partners with the `onboarding.read` scope. * `capabilities`: Include the [capabilities](list-capabilities) of the client organization.   Available for *oauth* partners with the `onboarding.read` scope.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -305,10 +291,8 @@ class Clients(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.GetClientResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetClientHalJSONErrorData, http_res
-            )
-            raise models.GetClientHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -333,7 +317,7 @@ class Clients(BaseSDK):
         Retrieve a single client by its ID.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.  * `organization`: Include the organization of the client. Available for `signuplink` partners, or for `oauth`   partners with the `organizations.read` scope. * `onboarding`: Include the onboarding status of the client. Available for `signuplink` partners, or for `oauth`   partners with the `onboarding.read` scope. * `capabilities`: Include the [capabilities](list-capabilities) of the client organization.   Available for *oauth* partners with the `onboarding.read` scope.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -401,10 +385,8 @@ class Clients(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.GetClientResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetClientHalJSONErrorData, http_res
-            )
-            raise models.GetClientHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

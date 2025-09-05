@@ -16,17 +16,17 @@ import weakref
 
 if TYPE_CHECKING:
     from mollie.balances import Balances
-    from mollie.capabilities_sdk import CapabilitiesSDK
-    from mollie.captures_sdk import CapturesSDK
+    from mollie.capabilities import Capabilities
+    from mollie.captures import Captures
     from mollie.chargebacks_sdk import ChargebacksSDK
-    from mollie.client_links_sdk import ClientLinksSDK
+    from mollie.client_links import ClientLinks
     from mollie.clients import Clients
     from mollie.customers import Customers
     from mollie.delayed_routing import DelayedRouting
     from mollie.invoices import Invoices
-    from mollie.mandates_sdk import MandatesSDK
-    from mollie.methods_sdk import MethodsSDK
-    from mollie.onboarding_sdk import OnboardingSDK
+    from mollie.mandates import Mandates
+    from mollie.methods import Methods
+    from mollie.onboarding import Onboarding
     from mollie.organizations import Organizations
     from mollie.payment_links import PaymentLinks
     from mollie.payments_sdk import PaymentsSDK
@@ -35,7 +35,7 @@ if TYPE_CHECKING:
     from mollie.refunds_sdk import RefundsSDK
     from mollie.sales_invoices import SalesInvoices
     from mollie.settlements import Settlements
-    from mollie.subscriptions_sdk import SubscriptionsSDK
+    from mollie.subscriptions import Subscriptions
     from mollie.terminals import Terminals
     from mollie.wallets import Wallets
     from mollie.webhook_events import WebhookEvents
@@ -49,24 +49,24 @@ class ClientSDK(BaseSDK):
     permissions: "Permissions"
     organizations: "Organizations"
     profiles: "Profiles"
-    onboarding: "OnboardingSDK"
-    capabilities: "CapabilitiesSDK"
+    onboarding: "Onboarding"
+    capabilities: "Capabilities"
     clients: "Clients"
-    client_links: "ClientLinksSDK"
+    client_links: "ClientLinks"
     webhooks: "Webhooks"
     webhook_events: "WebhookEvents"
     payments: "PaymentsSDK"
-    methods: "MethodsSDK"
+    methods: "Methods"
     refunds: "RefundsSDK"
     chargebacks: "ChargebacksSDK"
-    captures: "CapturesSDK"
+    captures: "Captures"
     wallets: "Wallets"
     payment_links: "PaymentLinks"
     terminals: "Terminals"
     delayed_routing: "DelayedRouting"
     customers: "Customers"
-    mandates: "MandatesSDK"
-    subscriptions: "SubscriptionsSDK"
+    mandates: "Mandates"
+    subscriptions: "Subscriptions"
     sales_invoices: "SalesInvoices"
     _sub_sdk_map = {
         "balances": ("mollie.balances", "Balances"),
@@ -75,24 +75,24 @@ class ClientSDK(BaseSDK):
         "permissions": ("mollie.permissions", "Permissions"),
         "organizations": ("mollie.organizations", "Organizations"),
         "profiles": ("mollie.profiles", "Profiles"),
-        "onboarding": ("mollie.onboarding_sdk", "OnboardingSDK"),
-        "capabilities": ("mollie.capabilities_sdk", "CapabilitiesSDK"),
+        "onboarding": ("mollie.onboarding", "Onboarding"),
+        "capabilities": ("mollie.capabilities", "Capabilities"),
         "clients": ("mollie.clients", "Clients"),
-        "client_links": ("mollie.client_links_sdk", "ClientLinksSDK"),
+        "client_links": ("mollie.client_links", "ClientLinks"),
         "webhooks": ("mollie.webhooks", "Webhooks"),
         "webhook_events": ("mollie.webhook_events", "WebhookEvents"),
         "payments": ("mollie.payments_sdk", "PaymentsSDK"),
-        "methods": ("mollie.methods_sdk", "MethodsSDK"),
+        "methods": ("mollie.methods", "Methods"),
         "refunds": ("mollie.refunds_sdk", "RefundsSDK"),
         "chargebacks": ("mollie.chargebacks_sdk", "ChargebacksSDK"),
-        "captures": ("mollie.captures_sdk", "CapturesSDK"),
+        "captures": ("mollie.captures", "Captures"),
         "wallets": ("mollie.wallets", "Wallets"),
         "payment_links": ("mollie.payment_links", "PaymentLinks"),
         "terminals": ("mollie.terminals", "Terminals"),
         "delayed_routing": ("mollie.delayed_routing", "DelayedRouting"),
         "customers": ("mollie.customers", "Customers"),
-        "mandates": ("mollie.mandates_sdk", "MandatesSDK"),
-        "subscriptions": ("mollie.subscriptions_sdk", "SubscriptionsSDK"),
+        "mandates": ("mollie.mandates", "Mandates"),
+        "subscriptions": ("mollie.subscriptions", "Subscriptions"),
         "sales_invoices": ("mollie.sales_invoices", "SalesInvoices"),
     }
 

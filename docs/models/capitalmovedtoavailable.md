@@ -1,9 +1,0 @@
-# CapitalMovedToAvailable
-
-
-## Fields
-
-| Field                                                                                             | Type                                                                                              | Required                                                                                          | Description                                                                                       |
-| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `amount`                                                                                          | [Optional[models.CapitalMovedToAvailableAmount]](../models/capitalmovedtoavailableamount.md)      | :heavy_minus_sign:                                                                                | In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field. |
-| `subtotals`                                                                                       | List[[models.CapitalMovedToAvailableSubtotal2](../models/capitalmovedtoavailablesubtotal2.md)]    | :heavy_minus_sign:                                                                                | N/A                                                                                               |

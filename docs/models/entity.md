@@ -3,15 +3,15 @@
 
 ## Supported Types
 
-### `models.GetWebhookEventPaymentLinkOutput`
+### `models.PaymentLinkResponse`
 
 ```python
-value: models.GetWebhookEventPaymentLinkOutput = /* values here */
+value: models.PaymentLinkResponse = /* values here */
 ```
 
-### `models.GetWebhookEventProfile`
+### `models.EntityProfileResponse`
 
 ```python
-value: models.GetWebhookEventProfile = /* values here */
+value: models.EntityProfileResponse = /* values here */
 ```
 

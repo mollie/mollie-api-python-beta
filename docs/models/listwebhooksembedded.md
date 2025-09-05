@@ -3,6 +3,6 @@
 
 ## Fields
 
-| Field                                        | Type                                         | Required                                     | Description                                  |
-| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
-| `webhooks`                                   | List[[models.Webhook](../models/webhook.md)] | :heavy_check_mark:                           | A list of webhooks.                          |
+| Field                                                    | Type                                                     | Required                                                 | Description                                              |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `webhooks`                                               | List[[models.EntityWebhook](../models/entitywebhook.md)] | :heavy_check_mark:                                       | A list of webhooks.                                      |

@@ -14,23 +14,21 @@ class RefundsSDK(BaseSDK):
         self,
         *,
         payment_id: str,
-        request_body: Optional[
-            Union[
-                models.CreateRefundRequestBody, models.CreateRefundRequestBodyTypedDict
-            ]
+        entity_refund: Optional[
+            Union[models.EntityRefund, models.EntityRefundTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateRefundResponse:
+    ) -> models.EntityRefundResponse:
         r"""Create payment refund
 
         Creates a refund for a specific payment. The refunded amount is credited to your customer usually either via a bank
         transfer or by refunding the amount to your customer's credit card.
 
         :param payment_id: Provide the ID of the related payment.
-        :param request_body:
+        :param entity_refund:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -48,8 +46,8 @@ class RefundsSDK(BaseSDK):
 
         request = models.CreateRefundRequest(
             payment_id=payment_id,
-            request_body=utils.get_pydantic_model(
-                request_body, Optional[models.CreateRefundRequestBody]
+            entity_refund=utils.get_pydantic_model(
+                entity_refund, Optional[models.EntityRefund]
             ),
         )
 
@@ -67,11 +65,11 @@ class RefundsSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body,
+                request.entity_refund,
                 False,
                 True,
                 "json",
-                Optional[models.CreateRefundRequestBody],
+                Optional[models.EntityRefund],
             ),
             timeout_ms=timeout_ms,
         )
@@ -105,24 +103,12 @@ class RefundsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreateRefundResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreateRefundNotFoundHalJSONErrorData, http_res
-            )
-            raise models.CreateRefundNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "409", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ConflictHalJSONErrorData, http_res
-            )
-            raise models.ConflictHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreateRefundUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.CreateRefundUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.EntityRefundResponse, http_res)
+        if utils.match_response(
+            http_res, ["404", "409", "422"], "application/hal+json"
+        ):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -136,23 +122,21 @@ class RefundsSDK(BaseSDK):
         self,
         *,
         payment_id: str,
-        request_body: Optional[
-            Union[
-                models.CreateRefundRequestBody, models.CreateRefundRequestBodyTypedDict
-            ]
+        entity_refund: Optional[
+            Union[models.EntityRefund, models.EntityRefundTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateRefundResponse:
+    ) -> models.EntityRefundResponse:
         r"""Create payment refund
 
         Creates a refund for a specific payment. The refunded amount is credited to your customer usually either via a bank
         transfer or by refunding the amount to your customer's credit card.
 
         :param payment_id: Provide the ID of the related payment.
-        :param request_body:
+        :param entity_refund:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -170,8 +154,8 @@ class RefundsSDK(BaseSDK):
 
         request = models.CreateRefundRequest(
             payment_id=payment_id,
-            request_body=utils.get_pydantic_model(
-                request_body, Optional[models.CreateRefundRequestBody]
+            entity_refund=utils.get_pydantic_model(
+                entity_refund, Optional[models.EntityRefund]
             ),
         )
 
@@ -189,11 +173,11 @@ class RefundsSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body,
+                request.entity_refund,
                 False,
                 True,
                 "json",
-                Optional[models.CreateRefundRequestBody],
+                Optional[models.EntityRefund],
             ),
             timeout_ms=timeout_ms,
         )
@@ -227,24 +211,12 @@ class RefundsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreateRefundResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreateRefundNotFoundHalJSONErrorData, http_res
-            )
-            raise models.CreateRefundNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "409", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ConflictHalJSONErrorData, http_res
-            )
-            raise models.ConflictHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreateRefundUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.CreateRefundUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.EntityRefundResponse, http_res)
+        if utils.match_response(
+            http_res, ["404", "409", "422"], "application/hal+json"
+        ):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -260,7 +232,7 @@ class RefundsSDK(BaseSDK):
         payment_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        embed: Optional[models.ListRefundsEmbed] = None,
+        embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -347,16 +319,9 @@ class RefundsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListRefundsResponse, http_res)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListRefundsBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListRefundsBadRequestHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListRefundsNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListRefundsNotFoundHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -372,7 +337,7 @@ class RefundsSDK(BaseSDK):
         payment_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        embed: Optional[models.ListRefundsEmbed] = None,
+        embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -459,16 +424,9 @@ class RefundsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListRefundsResponse, http_res)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListRefundsBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListRefundsBadRequestHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListRefundsNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListRefundsNotFoundHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -483,13 +441,13 @@ class RefundsSDK(BaseSDK):
         *,
         payment_id: str,
         refund_id: str,
-        embed: Optional[models.GetRefundEmbed] = None,
+        embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetRefundResponse:
+    ) -> models.EntityRefundResponse:
         r"""Get payment refund
 
         Retrieve a single payment refund by its ID and the ID of its parent payment.
@@ -565,12 +523,10 @@ class RefundsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetRefundResponse, http_res)
+            return unmarshal_json_response(models.EntityRefundResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetRefundHalJSONErrorData, http_res
-            )
-            raise models.GetRefundHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -585,13 +541,13 @@ class RefundsSDK(BaseSDK):
         *,
         payment_id: str,
         refund_id: str,
-        embed: Optional[models.GetRefundEmbed] = None,
+        embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetRefundResponse:
+    ) -> models.EntityRefundResponse:
         r"""Get payment refund
 
         Retrieve a single payment refund by its ID and the ID of its parent payment.
@@ -667,12 +623,10 @@ class RefundsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetRefundResponse, http_res)
+            return unmarshal_json_response(models.EntityRefundResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetRefundHalJSONErrorData, http_res
-            )
-            raise models.GetRefundHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -772,10 +726,8 @@ class RefundsSDK(BaseSDK):
         if utils.match_response(http_res, "204", "application/hal+json"):
             return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CancelRefundHalJSONErrorData, http_res
-            )
-            raise models.CancelRefundHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -875,10 +827,8 @@ class RefundsSDK(BaseSDK):
         if utils.match_response(http_res, "204", "application/hal+json"):
             return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CancelRefundHalJSONErrorData, http_res
-            )
-            raise models.CancelRefundHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -893,8 +843,8 @@ class RefundsSDK(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        sort: OptionalNullable[models.ListAllRefundsSort] = UNSET,
-        embed: Optional[models.ListAllRefundsEmbed] = None,
+        sort: OptionalNullable[models.ListSort] = UNSET,
+        embed: OptionalNullable[str] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -985,10 +935,8 @@ class RefundsSDK(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListAllRefundsResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListAllRefundsHalJSONErrorData, http_res
-            )
-            raise models.ListAllRefundsHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1003,8 +951,8 @@ class RefundsSDK(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        sort: OptionalNullable[models.ListAllRefundsSort] = UNSET,
-        embed: Optional[models.ListAllRefundsEmbed] = None,
+        sort: OptionalNullable[models.ListSort] = UNSET,
+        embed: OptionalNullable[str] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1095,10 +1043,8 @@ class RefundsSDK(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListAllRefundsResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListAllRefundsHalJSONErrorData, http_res
-            )
-            raise models.ListAllRefundsHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

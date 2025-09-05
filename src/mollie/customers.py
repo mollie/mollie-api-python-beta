@@ -14,13 +14,13 @@ class Customers(BaseSDK):
         self,
         *,
         request: Optional[
-            Union[models.CreateCustomerRequest, models.CreateCustomerRequestTypedDict]
+            Union[models.EntityCustomer, models.EntityCustomerTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateCustomerResponse:
+    ) -> models.CustomerResponse:
         r"""Create customer
 
         Creates a simple minimal representation of a customer. Payments, recurring mandates, and subscriptions can be linked
@@ -45,8 +45,8 @@ class Customers(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, Optional[models.CreateCustomerRequest])
-        request = cast(Optional[models.CreateCustomerRequest], request)
+            request = utils.unmarshal(request, Optional[models.EntityCustomer])
+        request = cast(Optional[models.EntityCustomer], request)
 
         req = self._build_request(
             method="POST",
@@ -62,7 +62,7 @@ class Customers(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.CreateCustomerRequest]
+                request, False, True, "json", Optional[models.EntityCustomer]
             ),
             timeout_ms=timeout_ms,
         )
@@ -96,12 +96,10 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreateCustomerResponse, http_res)
+            return unmarshal_json_response(models.CustomerResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreateCustomerHalJSONErrorData, http_res
-            )
-            raise models.CreateCustomerHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -115,13 +113,13 @@ class Customers(BaseSDK):
         self,
         *,
         request: Optional[
-            Union[models.CreateCustomerRequest, models.CreateCustomerRequestTypedDict]
+            Union[models.EntityCustomer, models.EntityCustomerTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateCustomerResponse:
+    ) -> models.CustomerResponse:
         r"""Create customer
 
         Creates a simple minimal representation of a customer. Payments, recurring mandates, and subscriptions can be linked
@@ -146,8 +144,8 @@ class Customers(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, Optional[models.CreateCustomerRequest])
-        request = cast(Optional[models.CreateCustomerRequest], request)
+            request = utils.unmarshal(request, Optional[models.EntityCustomer])
+        request = cast(Optional[models.EntityCustomer], request)
 
         req = self._build_request_async(
             method="POST",
@@ -163,7 +161,7 @@ class Customers(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.CreateCustomerRequest]
+                request, False, True, "json", Optional[models.EntityCustomer]
             ),
             timeout_ms=timeout_ms,
         )
@@ -197,12 +195,10 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreateCustomerResponse, http_res)
+            return unmarshal_json_response(models.CustomerResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreateCustomerHalJSONErrorData, http_res
-            )
-            raise models.CreateCustomerHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -217,7 +213,7 @@ class Customers(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        sort: OptionalNullable[models.ListCustomersSort] = UNSET,
+        sort: OptionalNullable[models.ListSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -302,16 +298,9 @@ class Customers(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListCustomersResponse, http_res)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListCustomersBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListCustomersBadRequestHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListCustomersNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListCustomersNotFoundHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -326,7 +315,7 @@ class Customers(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        sort: OptionalNullable[models.ListCustomersSort] = UNSET,
+        sort: OptionalNullable[models.ListSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -411,16 +400,9 @@ class Customers(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListCustomersResponse, http_res)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListCustomersBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListCustomersBadRequestHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListCustomersNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListCustomersNotFoundHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -434,7 +416,7 @@ class Customers(BaseSDK):
         self,
         *,
         customer_id: str,
-        include: OptionalNullable[models.GetCustomerInclude] = UNSET,
+        include: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -516,10 +498,8 @@ class Customers(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.GetCustomerResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetCustomerHalJSONErrorData, http_res
-            )
-            raise models.GetCustomerHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -533,7 +513,7 @@ class Customers(BaseSDK):
         self,
         *,
         customer_id: str,
-        include: OptionalNullable[models.GetCustomerInclude] = UNSET,
+        include: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -615,10 +595,8 @@ class Customers(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.GetCustomerResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetCustomerHalJSONErrorData, http_res
-            )
-            raise models.GetCustomerHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -632,17 +610,14 @@ class Customers(BaseSDK):
         self,
         *,
         customer_id: str,
-        request_body: Optional[
-            Union[
-                models.UpdateCustomerRequestBody,
-                models.UpdateCustomerRequestBodyTypedDict,
-            ]
+        entity_customer: Optional[
+            Union[models.EntityCustomer, models.EntityCustomerTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateCustomerResponse:
+    ) -> models.CustomerResponse:
         r"""Update customer
 
         Update an existing customer.
@@ -650,7 +625,7 @@ class Customers(BaseSDK):
         For an in-depth explanation of each parameter, refer to the [Create customer](create-customer) endpoint.
 
         :param customer_id: Provide the ID of the related customer.
-        :param request_body:
+        :param entity_customer:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -668,8 +643,8 @@ class Customers(BaseSDK):
 
         request = models.UpdateCustomerRequest(
             customer_id=customer_id,
-            request_body=utils.get_pydantic_model(
-                request_body, Optional[models.UpdateCustomerRequestBody]
+            entity_customer=utils.get_pydantic_model(
+                entity_customer, Optional[models.EntityCustomer]
             ),
         )
 
@@ -687,11 +662,11 @@ class Customers(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body,
+                request.entity_customer,
                 False,
                 True,
                 "json",
-                Optional[models.UpdateCustomerRequestBody],
+                Optional[models.EntityCustomer],
             ),
             timeout_ms=timeout_ms,
         )
@@ -725,12 +700,10 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.UpdateCustomerResponse, http_res)
+            return unmarshal_json_response(models.CustomerResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdateCustomerHalJSONErrorData, http_res
-            )
-            raise models.UpdateCustomerHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -744,17 +717,14 @@ class Customers(BaseSDK):
         self,
         *,
         customer_id: str,
-        request_body: Optional[
-            Union[
-                models.UpdateCustomerRequestBody,
-                models.UpdateCustomerRequestBodyTypedDict,
-            ]
+        entity_customer: Optional[
+            Union[models.EntityCustomer, models.EntityCustomerTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateCustomerResponse:
+    ) -> models.CustomerResponse:
         r"""Update customer
 
         Update an existing customer.
@@ -762,7 +732,7 @@ class Customers(BaseSDK):
         For an in-depth explanation of each parameter, refer to the [Create customer](create-customer) endpoint.
 
         :param customer_id: Provide the ID of the related customer.
-        :param request_body:
+        :param entity_customer:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -780,8 +750,8 @@ class Customers(BaseSDK):
 
         request = models.UpdateCustomerRequest(
             customer_id=customer_id,
-            request_body=utils.get_pydantic_model(
-                request_body, Optional[models.UpdateCustomerRequestBody]
+            entity_customer=utils.get_pydantic_model(
+                entity_customer, Optional[models.EntityCustomer]
             ),
         )
 
@@ -799,11 +769,11 @@ class Customers(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body,
+                request.entity_customer,
                 False,
                 True,
                 "json",
-                Optional[models.UpdateCustomerRequestBody],
+                Optional[models.EntityCustomer],
             ),
             timeout_ms=timeout_ms,
         )
@@ -837,12 +807,10 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.UpdateCustomerResponse, http_res)
+            return unmarshal_json_response(models.CustomerResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdateCustomerHalJSONErrorData, http_res
-            )
-            raise models.UpdateCustomerHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -949,10 +917,8 @@ class Customers(BaseSDK):
         if utils.match_response(http_res, "204", "application/hal+json"):
             return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.DeleteCustomerHalJSONErrorData, http_res
-            )
-            raise models.DeleteCustomerHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1059,10 +1025,8 @@ class Customers(BaseSDK):
         if utils.match_response(http_res, "204", "application/hal+json"):
             return unmarshal_json_response(Any, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.DeleteCustomerHalJSONErrorData, http_res
-            )
-            raise models.DeleteCustomerHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1076,17 +1040,14 @@ class Customers(BaseSDK):
         self,
         *,
         customer_id: str,
-        request_body: Optional[
-            Union[
-                models.CreateCustomerPaymentRequestBody,
-                models.CreateCustomerPaymentRequestBodyTypedDict,
-            ]
+        payment_request: Optional[
+            Union[models.PaymentRequest, models.PaymentRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateCustomerPaymentResponse:
+    ) -> models.PaymentResponse:
         r"""Create customer payment
 
         Creates a payment for the customer.
@@ -1102,7 +1063,7 @@ class Customers(BaseSDK):
         parameter predefined.
 
         :param customer_id: Provide the ID of the related customer.
-        :param request_body:
+        :param payment_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1120,8 +1081,8 @@ class Customers(BaseSDK):
 
         request = models.CreateCustomerPaymentRequest(
             customer_id=customer_id,
-            request_body=utils.get_pydantic_model(
-                request_body, Optional[models.CreateCustomerPaymentRequestBody]
+            payment_request=utils.get_pydantic_model(
+                payment_request, Optional[models.PaymentRequest]
             ),
         )
 
@@ -1139,11 +1100,11 @@ class Customers(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body,
+                request.payment_request,
                 False,
                 True,
                 "json",
-                Optional[models.CreateCustomerPaymentRequestBody],
+                Optional[models.PaymentRequest],
             ),
             timeout_ms=timeout_ms,
         )
@@ -1177,24 +1138,13 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(
-                models.CreateCustomerPaymentResponse, http_res
-            )
+            return unmarshal_json_response(models.PaymentResponse, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreateCustomerPaymentUnprocessableEntityHalJSONErrorData,
-                http_res,
-            )
-            raise models.CreateCustomerPaymentUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "503", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreateCustomerPaymentServiceUnavailableHalJSONErrorData, http_res
-            )
-            raise models.CreateCustomerPaymentServiceUnavailableHalJSONError(
-                response_data, http_res
-            )
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1208,17 +1158,14 @@ class Customers(BaseSDK):
         self,
         *,
         customer_id: str,
-        request_body: Optional[
-            Union[
-                models.CreateCustomerPaymentRequestBody,
-                models.CreateCustomerPaymentRequestBodyTypedDict,
-            ]
+        payment_request: Optional[
+            Union[models.PaymentRequest, models.PaymentRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateCustomerPaymentResponse:
+    ) -> models.PaymentResponse:
         r"""Create customer payment
 
         Creates a payment for the customer.
@@ -1234,7 +1181,7 @@ class Customers(BaseSDK):
         parameter predefined.
 
         :param customer_id: Provide the ID of the related customer.
-        :param request_body:
+        :param payment_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1252,8 +1199,8 @@ class Customers(BaseSDK):
 
         request = models.CreateCustomerPaymentRequest(
             customer_id=customer_id,
-            request_body=utils.get_pydantic_model(
-                request_body, Optional[models.CreateCustomerPaymentRequestBody]
+            payment_request=utils.get_pydantic_model(
+                payment_request, Optional[models.PaymentRequest]
             ),
         )
 
@@ -1271,11 +1218,11 @@ class Customers(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body,
+                request.payment_request,
                 False,
                 True,
                 "json",
-                Optional[models.CreateCustomerPaymentRequestBody],
+                Optional[models.PaymentRequest],
             ),
             timeout_ms=timeout_ms,
         )
@@ -1309,24 +1256,13 @@ class Customers(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(
-                models.CreateCustomerPaymentResponse, http_res
-            )
+            return unmarshal_json_response(models.PaymentResponse, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreateCustomerPaymentUnprocessableEntityHalJSONErrorData,
-                http_res,
-            )
-            raise models.CreateCustomerPaymentUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "503", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreateCustomerPaymentServiceUnavailableHalJSONErrorData, http_res
-            )
-            raise models.CreateCustomerPaymentServiceUnavailableHalJSONError(
-                response_data, http_res
-            )
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1342,7 +1278,7 @@ class Customers(BaseSDK):
         customer_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        sort: OptionalNullable[models.ListCustomerPaymentsSort] = UNSET,
+        sort: OptionalNullable[models.ListSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1433,10 +1369,8 @@ class Customers(BaseSDK):
                 models.ListCustomerPaymentsResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListCustomerPaymentsHalJSONErrorData, http_res
-            )
-            raise models.ListCustomerPaymentsHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1452,7 +1386,7 @@ class Customers(BaseSDK):
         customer_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        sort: OptionalNullable[models.ListCustomerPaymentsSort] = UNSET,
+        sort: OptionalNullable[models.ListSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1543,10 +1477,8 @@ class Customers(BaseSDK):
                 models.ListCustomerPaymentsResponse, http_res
             )
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListCustomerPaymentsHalJSONErrorData, http_res
-            )
-            raise models.ListCustomerPaymentsHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

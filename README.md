@@ -215,15 +215,15 @@ with ClientSDK(
 * [get_report](docs/sdks/balances/README.md#get_report) - Get balance report
 * [list_transactions](docs/sdks/balances/README.md#list_transactions) - List balance transactions
 
-### [capabilities](docs/sdks/capabilitiessdk/README.md)
+### [capabilities](docs/sdks/capabilities/README.md)
 
-* [list](docs/sdks/capabilitiessdk/README.md#list) - List capabilities
+* [list](docs/sdks/capabilities/README.md#list) - List capabilities
 
-### [captures](docs/sdks/capturessdk/README.md)
+### [captures](docs/sdks/captures/README.md)
 
-* [create](docs/sdks/capturessdk/README.md#create) - Create capture
-* [list](docs/sdks/capturessdk/README.md#list) - List captures
-* [get](docs/sdks/capturessdk/README.md#get) - Get capture
+* [create](docs/sdks/captures/README.md#create) - Create capture
+* [list](docs/sdks/captures/README.md#list) - List captures
+* [get](docs/sdks/captures/README.md#get) - Get capture
 
 ### [chargebacks](docs/sdks/chargebackssdk/README.md)
 
@@ -231,9 +231,9 @@ with ClientSDK(
 * [get](docs/sdks/chargebackssdk/README.md#get) - Get payment chargeback
 * [all](docs/sdks/chargebackssdk/README.md#all) - List all chargebacks
 
-### [client_links](docs/sdks/clientlinkssdk/README.md)
+### [client_links](docs/sdks/clientlinks/README.md)
 
-* [create](docs/sdks/clientlinkssdk/README.md#create) - Create client link
+* [create](docs/sdks/clientlinks/README.md#create) - Create client link
 
 ### [clients](docs/sdks/clients/README.md)
 
@@ -261,23 +261,23 @@ with ClientSDK(
 * [list](docs/sdks/invoices/README.md#list) - List invoices
 * [get](docs/sdks/invoices/README.md#get) - Get invoice
 
-### [mandates](docs/sdks/mandatessdk/README.md)
+### [mandates](docs/sdks/mandates/README.md)
 
-* [create](docs/sdks/mandatessdk/README.md#create) - Create mandate
-* [list](docs/sdks/mandatessdk/README.md#list) - List mandates
-* [get](docs/sdks/mandatessdk/README.md#get) - Get mandate
-* [revoke](docs/sdks/mandatessdk/README.md#revoke) - Revoke mandate
+* [create](docs/sdks/mandates/README.md#create) - Create mandate
+* [list](docs/sdks/mandates/README.md#list) - List mandates
+* [get](docs/sdks/mandates/README.md#get) - Get mandate
+* [revoke](docs/sdks/mandates/README.md#revoke) - Revoke mandate
 
-### [methods](docs/sdks/methodssdk/README.md)
+### [methods](docs/sdks/methods/README.md)
 
-* [list](docs/sdks/methodssdk/README.md#list) - List payment methods
-* [all](docs/sdks/methodssdk/README.md#all) - List all payment methods
-* [get](docs/sdks/methodssdk/README.md#get) - Get payment method
+* [list](docs/sdks/methods/README.md#list) - List payment methods
+* [all](docs/sdks/methods/README.md#all) - List all payment methods
+* [get](docs/sdks/methods/README.md#get) - Get payment method
 
-### [onboarding](docs/sdks/onboardingsdk/README.md)
+### [onboarding](docs/sdks/onboarding/README.md)
 
-* [get](docs/sdks/onboardingsdk/README.md#get) - Get onboarding status
-* [submit](docs/sdks/onboardingsdk/README.md#submit) - Submit onboarding data
+* [get](docs/sdks/onboarding/README.md#get) - Get onboarding status
+* [submit](docs/sdks/onboarding/README.md#submit) - Submit onboarding data
 
 ### [organizations](docs/sdks/organizations/README.md)
 
@@ -344,15 +344,15 @@ with ClientSDK(
 * [list_refunds](docs/sdks/settlements/README.md#list_refunds) - List settlement refunds
 * [list_chargebacks](docs/sdks/settlements/README.md#list_chargebacks) - List settlement chargebacks
 
-### [subscriptions](docs/sdks/subscriptionssdk/README.md)
+### [subscriptions](docs/sdks/subscriptions/README.md)
 
-* [create](docs/sdks/subscriptionssdk/README.md#create) - Create subscription
-* [list](docs/sdks/subscriptionssdk/README.md#list) - List customer subscriptions
-* [get](docs/sdks/subscriptionssdk/README.md#get) - Get subscription
-* [update](docs/sdks/subscriptionssdk/README.md#update) - Update subscription
-* [cancel](docs/sdks/subscriptionssdk/README.md#cancel) - Cancel subscription
-* [all](docs/sdks/subscriptionssdk/README.md#all) - List all subscriptions
-* [list_payments](docs/sdks/subscriptionssdk/README.md#list_payments) - List subscription payments
+* [create](docs/sdks/subscriptions/README.md#create) - Create subscription
+* [list](docs/sdks/subscriptions/README.md#list) - List customer subscriptions
+* [get](docs/sdks/subscriptions/README.md#get) - Get subscription
+* [update](docs/sdks/subscriptions/README.md#update) - Update subscription
+* [cancel](docs/sdks/subscriptions/README.md#cancel) - Cancel subscription
+* [all](docs/sdks/subscriptions/README.md#all) - List all subscriptions
+* [list_payments](docs/sdks/subscriptions/README.md#list_payments) - List subscription payments
 
 ### [terminals](docs/sdks/terminals/README.md)
 
@@ -473,19 +473,20 @@ with ClientSDK(
         print(e.raw_response)
 
         # Depending on the method different errors may be thrown
-        if isinstance(e, models.ListBalancesBadRequestHalJSONError):
+        if isinstance(e, models.ErrorResponse):
             print(e.data.status)  # int
             print(e.data.title)  # str
             print(e.data.detail)  # str
             print(e.data.field)  # Optional[str]
-            print(e.data.links)  # mollie.ListBalancesBadRequestLinks
+            print(e.data.links)  # mollie.ErrorsLinks
 ```
 
 ### Error Classes
-**Primary error:**
+**Primary errors:**
 * [`ClientError`](./src/mollie/models/clienterror.py): The base class for HTTP error responses.
+  * [`ErrorResponse`](./src/mollie/models/errorresponse.py): An error response object. *
 
-<details><summary>Less common errors (131)</summary>
+<details><summary>Less common errors (5)</summary>
 
 <br />
 
@@ -496,132 +497,6 @@ with ClientSDK(
 
 
 **Inherit from [`ClientError`](./src/mollie/models/clienterror.py)**:
-* [`ListBalancesBadRequestHalJSONError`](./src/mollie/models/listbalancesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListBalanceTransactionsBadRequestHalJSONError`](./src/mollie/models/listbalancetransactionsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSettlementsBadRequestHalJSONError`](./src/mollie/models/listsettlementsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSettlementPaymentsHalJSONError`](./src/mollie/models/listsettlementpaymentshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSettlementCapturesBadRequestHalJSONError`](./src/mollie/models/listsettlementcapturesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSettlementRefundsBadRequestHalJSONError`](./src/mollie/models/listsettlementrefundsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSettlementChargebacksBadRequestHalJSONError`](./src/mollie/models/listsettlementchargebacksbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListInvoicesBadRequestHalJSONError`](./src/mollie/models/listinvoicesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListPermissionsHalJSONError`](./src/mollie/models/listpermissionshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListProfilesHalJSONError`](./src/mollie/models/listprofileshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListClientsBadRequestHalJSONError`](./src/mollie/models/listclientsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListWebhooksHalJSONError`](./src/mollie/models/listwebhookshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListPaymentsHalJSONError`](./src/mollie/models/listpaymentshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListMethodsHalJSONError`](./src/mollie/models/listmethodshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListAllMethodsHalJSONError`](./src/mollie/models/listallmethodshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`GetMethodBadRequestHalJSONError`](./src/mollie/models/getmethodbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListRefundsBadRequestHalJSONError`](./src/mollie/models/listrefundsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListAllRefundsHalJSONError`](./src/mollie/models/listallrefundshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListChargebacksBadRequestHalJSONError`](./src/mollie/models/listchargebacksbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListAllChargebacksBadRequestHalJSONError`](./src/mollie/models/listallchargebacksbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListCapturesBadRequestHalJSONError`](./src/mollie/models/listcapturesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListPaymentLinksHalJSONError`](./src/mollie/models/listpaymentlinkshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`GetPaymentLinkPaymentsHalJSONError`](./src/mollie/models/getpaymentlinkpaymentshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListTerminalsHalJSONError`](./src/mollie/models/listterminalshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListCustomersBadRequestHalJSONError`](./src/mollie/models/listcustomersbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListCustomerPaymentsHalJSONError`](./src/mollie/models/listcustomerpaymentshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListMandatesBadRequestHalJSONError`](./src/mollie/models/listmandatesbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSubscriptionsBadRequestHalJSONError`](./src/mollie/models/listsubscriptionsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListAllSubscriptionsBadRequestHalJSONError`](./src/mollie/models/listallsubscriptionsbadrequesthaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSubscriptionPaymentsHalJSONError`](./src/mollie/models/listsubscriptionpaymentshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListSalesInvoicesHalJSONError`](./src/mollie/models/listsalesinvoiceshaljsonerror.py): An error response object. Status code `400`. Applicable to 1 of 93 methods.*
-* [`ListBalancesNotFoundHalJSONError`](./src/mollie/models/listbalancesnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetBalanceHalJSONError`](./src/mollie/models/getbalancehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetBalanceReportNotFoundHalJSONError`](./src/mollie/models/getbalancereportnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListBalanceTransactionsNotFoundHalJSONError`](./src/mollie/models/listbalancetransactionsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListSettlementsNotFoundHalJSONError`](./src/mollie/models/listsettlementsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetSettlementHalJSONError`](./src/mollie/models/getsettlementhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListSettlementCapturesNotFoundHalJSONError`](./src/mollie/models/listsettlementcapturesnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListSettlementRefundsNotFoundHalJSONError`](./src/mollie/models/listsettlementrefundsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListSettlementChargebacksNotFoundHalJSONError`](./src/mollie/models/listsettlementchargebacksnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListInvoicesNotFoundHalJSONError`](./src/mollie/models/listinvoicesnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetInvoiceHalJSONError`](./src/mollie/models/getinvoicehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetPermissionHalJSONError`](./src/mollie/models/getpermissionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetOrganizationHalJSONError`](./src/mollie/models/getorganizationhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetProfileNotFoundHalJSONError`](./src/mollie/models/getprofilenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`UpdateProfileNotFoundHalJSONError`](./src/mollie/models/updateprofilenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`DeleteProfileNotFoundHalJSONError`](./src/mollie/models/deleteprofilenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListClientsNotFoundHalJSONError`](./src/mollie/models/listclientsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetClientHalJSONError`](./src/mollie/models/getclienthaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreateClientLinkNotFoundHalJSONError`](./src/mollie/models/createclientlinknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`UpdateWebhookNotFoundHalJSONError`](./src/mollie/models/updatewebhooknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetWebhookNotFoundHalJSONError`](./src/mollie/models/getwebhooknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`DeleteWebhookNotFoundHalJSONError`](./src/mollie/models/deletewebhooknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`TestWebhookNotFoundHalJSONError`](./src/mollie/models/testwebhooknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetWebhookEventHalJSONError`](./src/mollie/models/getwebhookeventhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetPaymentHalJSONError`](./src/mollie/models/getpaymenthaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`UpdatePaymentNotFoundHalJSONError`](./src/mollie/models/updatepaymentnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CancelPaymentNotFoundHalJSONError`](./src/mollie/models/cancelpaymentnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ReleaseAuthorizationNotFoundHalJSONError`](./src/mollie/models/releaseauthorizationnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetMethodNotFoundHalJSONError`](./src/mollie/models/getmethodnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreateRefundNotFoundHalJSONError`](./src/mollie/models/createrefundnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListRefundsNotFoundHalJSONError`](./src/mollie/models/listrefundsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetRefundHalJSONError`](./src/mollie/models/getrefundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CancelRefundHalJSONError`](./src/mollie/models/cancelrefundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListChargebacksNotFoundHalJSONError`](./src/mollie/models/listchargebacksnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetChargebackHalJSONError`](./src/mollie/models/getchargebackhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListAllChargebacksNotFoundHalJSONError`](./src/mollie/models/listallchargebacksnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreateCaptureNotFoundHalJSONError`](./src/mollie/models/createcapturenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListCapturesNotFoundHalJSONError`](./src/mollie/models/listcapturesnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetCaptureHalJSONError`](./src/mollie/models/getcapturehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreatePaymentLinkNotFoundHalJSONError`](./src/mollie/models/createpaymentlinknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetPaymentLinkHalJSONError`](./src/mollie/models/getpaymentlinkhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`UpdatePaymentLinkNotFoundHalJSONError`](./src/mollie/models/updatepaymentlinknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`DeletePaymentLinkNotFoundHalJSONError`](./src/mollie/models/deletepaymentlinknotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetTerminalHalJSONError`](./src/mollie/models/getterminalhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`PaymentCreateRouteHalJSONError`](./src/mollie/models/paymentcreateroutehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`PaymentListRoutesHalJSONError`](./src/mollie/models/paymentlistrouteshaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreateCustomerHalJSONError`](./src/mollie/models/createcustomerhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListCustomersNotFoundHalJSONError`](./src/mollie/models/listcustomersnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetCustomerHalJSONError`](./src/mollie/models/getcustomerhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`UpdateCustomerHalJSONError`](./src/mollie/models/updatecustomerhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`DeleteCustomerHalJSONError`](./src/mollie/models/deletecustomerhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreateMandateHalJSONError`](./src/mollie/models/createmandatehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListMandatesNotFoundHalJSONError`](./src/mollie/models/listmandatesnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetMandateHalJSONError`](./src/mollie/models/getmandatehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`RevokeMandateHalJSONError`](./src/mollie/models/revokemandatehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreateSubscriptionHalJSONError`](./src/mollie/models/createsubscriptionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListSubscriptionsNotFoundHalJSONError`](./src/mollie/models/listsubscriptionsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetSubscriptionHalJSONError`](./src/mollie/models/getsubscriptionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`UpdateSubscriptionHalJSONError`](./src/mollie/models/updatesubscriptionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CancelSubscriptionHalJSONError`](./src/mollie/models/cancelsubscriptionhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ListAllSubscriptionsNotFoundHalJSONError`](./src/mollie/models/listallsubscriptionsnotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`CreateSalesInvoiceNotFoundHalJSONError`](./src/mollie/models/createsalesinvoicenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`GetSalesInvoiceHalJSONError`](./src/mollie/models/getsalesinvoicehaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`UpdateSalesInvoiceNotFoundHalJSONError`](./src/mollie/models/updatesalesinvoicenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`DeleteSalesInvoiceNotFoundHalJSONError`](./src/mollie/models/deletesalesinvoicenotfoundhaljsonerror.py): An error response object. Status code `404`. Applicable to 1 of 93 methods.*
-* [`ConflictHalJSONError`](./src/mollie/models/conflicthaljsonerror.py): An error response object. Status code `409`. Applicable to 1 of 93 methods.*
-* [`GetProfileGoneHalJSONError`](./src/mollie/models/getprofilegonehaljsonerror.py): An error response object. Status code `410`. Applicable to 1 of 93 methods.*
-* [`UpdateProfileGoneHalJSONError`](./src/mollie/models/updateprofilegonehaljsonerror.py): An error response object. Status code `410`. Applicable to 1 of 93 methods.*
-* [`DeleteProfileGoneHalJSONError`](./src/mollie/models/deleteprofilegonehaljsonerror.py): An error response object. Status code `410`. Applicable to 1 of 93 methods.*
-* [`GetBalanceReportUnprocessableEntityHalJSONError`](./src/mollie/models/getbalancereportunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateProfileHalJSONError`](./src/mollie/models/createprofilehaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`UpdateProfileUnprocessableEntityHalJSONError`](./src/mollie/models/updateprofileunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateClientLinkUnprocessableEntityHalJSONError`](./src/mollie/models/createclientlinkunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateWebhookHalJSONError`](./src/mollie/models/createwebhookhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`UpdateWebhookUnprocessableEntityHalJSONError`](./src/mollie/models/updatewebhookunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`GetWebhookUnprocessableEntityHalJSONError`](./src/mollie/models/getwebhookunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`DeleteWebhookUnprocessableEntityHalJSONError`](./src/mollie/models/deletewebhookunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`TestWebhookUnprocessableEntityHalJSONError`](./src/mollie/models/testwebhookunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreatePaymentUnprocessableEntityHalJSONError`](./src/mollie/models/createpaymentunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`UpdatePaymentUnprocessableEntityHalJSONError`](./src/mollie/models/updatepaymentunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CancelPaymentUnprocessableEntityHalJSONError`](./src/mollie/models/cancelpaymentunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`ReleaseAuthorizationUnprocessableEntityHalJSONError`](./src/mollie/models/releaseauthorizationunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateRefundUnprocessableEntityHalJSONError`](./src/mollie/models/createrefundunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateCaptureUnprocessableEntityHalJSONError`](./src/mollie/models/createcaptureunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`RequestApplePayPaymentSessionHalJSONError`](./src/mollie/models/requestapplepaypaymentsessionhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreatePaymentLinkUnprocessableEntityHalJSONError`](./src/mollie/models/createpaymentlinkunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`UpdatePaymentLinkUnprocessableEntityHalJSONError`](./src/mollie/models/updatepaymentlinkunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`DeletePaymentLinkUnprocessableEntityHalJSONError`](./src/mollie/models/deletepaymentlinkunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateCustomerPaymentUnprocessableEntityHalJSONError`](./src/mollie/models/createcustomerpaymentunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`CreateSalesInvoiceUnprocessableEntityHalJSONError`](./src/mollie/models/createsalesinvoiceunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`UpdateSalesInvoiceUnprocessableEntityHalJSONError`](./src/mollie/models/updatesalesinvoiceunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`DeleteSalesInvoiceUnprocessableEntityHalJSONError`](./src/mollie/models/deletesalesinvoiceunprocessableentityhaljsonerror.py): An error response object. Status code `422`. Applicable to 1 of 93 methods.*
-* [`TooManyRequestsHalJSONError`](./src/mollie/models/toomanyrequestshaljsonerror.py): An error response object. Status code `429`. Applicable to 1 of 93 methods.*
-* [`CreatePaymentServiceUnavailableHalJSONError`](./src/mollie/models/createpaymentserviceunavailablehaljsonerror.py): An error response object. Status code `503`. Applicable to 1 of 93 methods.*
-* [`CreateCustomerPaymentServiceUnavailableHalJSONError`](./src/mollie/models/createcustomerpaymentserviceunavailablehaljsonerror.py): An error response object. Status code `503`. Applicable to 1 of 93 methods.*
 * [`ResponseValidationError`](./src/mollie/models/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

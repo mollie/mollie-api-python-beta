@@ -14,7 +14,7 @@ class Balances(BaseSDK):
         self,
         *,
         currency: OptionalNullable[str] = UNSET,
-        from_: Optional[str] = None,
+        from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -100,16 +100,9 @@ class Balances(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListBalancesResponse, http_res)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListBalancesBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListBalancesBadRequestHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListBalancesNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListBalancesNotFoundHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -123,7 +116,7 @@ class Balances(BaseSDK):
         self,
         *,
         currency: OptionalNullable[str] = UNSET,
-        from_: Optional[str] = None,
+        from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -209,16 +202,9 @@ class Balances(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListBalancesResponse, http_res)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListBalancesBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListBalancesBadRequestHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListBalancesNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListBalancesNotFoundHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -237,7 +223,7 @@ class Balances(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetBalanceResponse:
+    ) -> models.EntityBalance:
         r"""Get balance
 
         When processing payments with Mollie, we put all pending funds — usually
@@ -323,12 +309,10 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetBalanceResponse, http_res)
+            return unmarshal_json_response(models.EntityBalance, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetBalanceHalJSONErrorData, http_res
-            )
-            raise models.GetBalanceHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -347,7 +331,7 @@ class Balances(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetBalanceResponse:
+    ) -> models.EntityBalance:
         r"""Get balance
 
         When processing payments with Mollie, we put all pending funds — usually
@@ -433,12 +417,10 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetBalanceResponse, http_res)
+            return unmarshal_json_response(models.EntityBalance, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetBalanceHalJSONErrorData, http_res
-            )
-            raise models.GetBalanceHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -455,7 +437,7 @@ class Balances(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPrimaryBalanceResponse:
+    ) -> models.EntityBalance:
         r"""Get primary balance
 
         Retrieve the primary balance. This is the balance of your account's primary
@@ -522,7 +504,7 @@ class Balances(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetPrimaryBalanceResponse, http_res)
+            return unmarshal_json_response(models.EntityBalance, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -539,7 +521,7 @@ class Balances(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPrimaryBalanceResponse:
+    ) -> models.EntityBalance:
         r"""Get primary balance
 
         Retrieve the primary balance. This is the balance of your account's primary
@@ -606,7 +588,7 @@ class Balances(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetPrimaryBalanceResponse, http_res)
+            return unmarshal_json_response(models.EntityBalance, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -622,13 +604,13 @@ class Balances(BaseSDK):
         balance_id: str,
         from_: str,
         until: str,
-        grouping: OptionalNullable[models.QueryParamGrouping] = UNSET,
+        grouping: OptionalNullable[models.GetBalanceReportGrouping] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetBalanceReportResponse:
+    ) -> models.EntityBalanceReport:
         r"""Get balance report
 
         Retrieve a summarized report for all transactions on a given balance within a given timeframe.
@@ -712,19 +694,10 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetBalanceReportResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetBalanceReportNotFoundHalJSONErrorData, http_res
-            )
-            raise models.GetBalanceReportNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetBalanceReportUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.GetBalanceReportUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.EntityBalanceReport, http_res)
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -740,13 +713,13 @@ class Balances(BaseSDK):
         balance_id: str,
         from_: str,
         until: str,
-        grouping: OptionalNullable[models.QueryParamGrouping] = UNSET,
+        grouping: OptionalNullable[models.GetBalanceReportGrouping] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetBalanceReportResponse:
+    ) -> models.EntityBalanceReport:
         r"""Get balance report
 
         Retrieve a summarized report for all transactions on a given balance within a given timeframe.
@@ -830,19 +803,10 @@ class Balances(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetBalanceReportResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetBalanceReportNotFoundHalJSONErrorData, http_res
-            )
-            raise models.GetBalanceReportNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetBalanceReportUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.GetBalanceReportUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.EntityBalanceReport, http_res)
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -856,7 +820,7 @@ class Balances(BaseSDK):
         self,
         *,
         balance_id: str,
-        from_: Optional[str] = None,
+        from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -951,25 +915,11 @@ class Balances(BaseSDK):
             return unmarshal_json_response(
                 models.ListBalanceTransactionsResponse, http_res
             )
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListBalanceTransactionsBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListBalanceTransactionsBadRequestHalJSONError(
-                response_data, http_res
-            )
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListBalanceTransactionsNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListBalanceTransactionsNotFoundHalJSONError(
-                response_data, http_res
-            )
-        if utils.match_response(http_res, "429", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.TooManyRequestsHalJSONErrorData, http_res
-            )
-            raise models.TooManyRequestsHalJSONError(response_data, http_res)
+        if utils.match_response(
+            http_res, ["400", "404", "429"], "application/hal+json"
+        ):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -983,7 +933,7 @@ class Balances(BaseSDK):
         self,
         *,
         balance_id: str,
-        from_: Optional[str] = None,
+        from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1078,25 +1028,11 @@ class Balances(BaseSDK):
             return unmarshal_json_response(
                 models.ListBalanceTransactionsResponse, http_res
             )
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListBalanceTransactionsBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListBalanceTransactionsBadRequestHalJSONError(
-                response_data, http_res
-            )
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListBalanceTransactionsNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListBalanceTransactionsNotFoundHalJSONError(
-                response_data, http_res
-            )
-        if utils.match_response(http_res, "429", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.TooManyRequestsHalJSONErrorData, http_res
-            )
-            raise models.TooManyRequestsHalJSONError(response_data, http_res)
+        if utils.match_response(
+            http_res, ["400", "404", "429"], "application/hal+json"
+        ):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

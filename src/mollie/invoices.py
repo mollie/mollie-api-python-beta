@@ -18,7 +18,7 @@ class Invoices(BaseSDK):
         month: OptionalNullable[str] = UNSET,
         from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
-        sort: OptionalNullable[models.ListInvoicesSort] = UNSET,
+        sort: OptionalNullable[models.ListSort] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -107,16 +107,9 @@ class Invoices(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListInvoicesResponse, http_res)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListInvoicesBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListInvoicesBadRequestHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListInvoicesNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListInvoicesNotFoundHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -134,7 +127,7 @@ class Invoices(BaseSDK):
         month: OptionalNullable[str] = UNSET,
         from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
-        sort: OptionalNullable[models.ListInvoicesSort] = UNSET,
+        sort: OptionalNullable[models.ListSort] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -223,16 +216,9 @@ class Invoices(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListInvoicesResponse, http_res)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListInvoicesBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListInvoicesBadRequestHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListInvoicesNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListInvoicesNotFoundHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -250,7 +236,7 @@ class Invoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetInvoiceResponse:
+    ) -> models.EntityInvoice:
         r"""Get invoice
 
         Retrieve a single invoice by its ID.
@@ -323,12 +309,10 @@ class Invoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetInvoiceResponse, http_res)
+            return unmarshal_json_response(models.EntityInvoice, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetInvoiceHalJSONErrorData, http_res
-            )
-            raise models.GetInvoiceHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -346,7 +330,7 @@ class Invoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetInvoiceResponse:
+    ) -> models.EntityInvoice:
         r"""Get invoice
 
         Retrieve a single invoice by its ID.
@@ -419,12 +403,10 @@ class Invoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetInvoiceResponse, http_res)
+            return unmarshal_json_response(models.EntityInvoice, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetInvoiceHalJSONErrorData, http_res
-            )
-            raise models.GetInvoiceHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

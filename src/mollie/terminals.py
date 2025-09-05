@@ -15,7 +15,7 @@ class Terminals(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        sort: OptionalNullable[models.ListTerminalsSort] = UNSET,
+        sort: OptionalNullable[models.ListSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -101,10 +101,8 @@ class Terminals(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListTerminalsResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListTerminalsHalJSONErrorData, http_res
-            )
-            raise models.ListTerminalsHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -119,7 +117,7 @@ class Terminals(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        sort: OptionalNullable[models.ListTerminalsSort] = UNSET,
+        sort: OptionalNullable[models.ListSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -205,10 +203,8 @@ class Terminals(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListTerminalsResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListTerminalsHalJSONErrorData, http_res
-            )
-            raise models.ListTerminalsHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -227,7 +223,7 @@ class Terminals(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetTerminalResponse:
+    ) -> models.EntityTerminal:
         r"""Get terminal
 
         Retrieve a single terminal by its ID.
@@ -299,12 +295,10 @@ class Terminals(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetTerminalResponse, http_res)
+            return unmarshal_json_response(models.EntityTerminal, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetTerminalHalJSONErrorData, http_res
-            )
-            raise models.GetTerminalHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -323,7 +317,7 @@ class Terminals(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetTerminalResponse:
+    ) -> models.EntityTerminal:
         r"""Get terminal
 
         Retrieve a single terminal by its ID.
@@ -395,12 +389,10 @@ class Terminals(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetTerminalResponse, http_res)
+            return unmarshal_json_response(models.EntityTerminal, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetTerminalHalJSONErrorData, http_res
-            )
-            raise models.GetTerminalHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

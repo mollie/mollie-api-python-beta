@@ -19,7 +19,7 @@ class Organizations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetOrganizationResponse:
+    ) -> models.EntityOrganization:
         r"""Get organization
 
         Retrieve a single organization by its ID.
@@ -96,12 +96,10 @@ class Organizations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetOrganizationResponse, http_res)
+            return unmarshal_json_response(models.EntityOrganization, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetOrganizationHalJSONErrorData, http_res
-            )
-            raise models.GetOrganizationHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -120,7 +118,7 @@ class Organizations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetOrganizationResponse:
+    ) -> models.EntityOrganization:
         r"""Get organization
 
         Retrieve a single organization by its ID.
@@ -197,12 +195,10 @@ class Organizations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetOrganizationResponse, http_res)
+            return unmarshal_json_response(models.EntityOrganization, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetOrganizationHalJSONErrorData, http_res
-            )
-            raise models.GetOrganizationHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -219,7 +215,7 @@ class Organizations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCurrentOrganizationResponse:
+    ) -> models.EntityOrganization:
         r"""Get current organization
 
         Retrieve the currently authenticated organization. A convenient alias of the [Get organization](get-organization)
@@ -286,9 +282,7 @@ class Organizations(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.GetCurrentOrganizationResponse, http_res
-            )
+            return unmarshal_json_response(models.EntityOrganization, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -305,7 +299,7 @@ class Organizations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCurrentOrganizationResponse:
+    ) -> models.EntityOrganization:
         r"""Get current organization
 
         Retrieve the currently authenticated organization. A convenient alias of the [Get organization](get-organization)
@@ -372,9 +366,7 @@ class Organizations(BaseSDK):
         )
 
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(
-                models.GetCurrentOrganizationResponse, http_res
-            )
+            return unmarshal_json_response(models.EntityOrganization, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

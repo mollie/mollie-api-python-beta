@@ -1,7 +1,5 @@
 # Currencies
 
-Provides the currencies to retrieve the settlements. It accepts multiple currencies in a comma-separated format.
-
 
 ## Values
 

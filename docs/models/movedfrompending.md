@@ -1,9 +1,0 @@
-# MovedFromPending
-
-
-## Fields
-
-| Field                                                                                             | Type                                                                                              | Required                                                                                          | Description                                                                                       |
-| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `amount`                                                                                          | [Optional[models.MovedFromPendingAmount]](../models/movedfrompendingamount.md)                    | :heavy_minus_sign:                                                                                | In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field. |
-| `subtotals`                                                                                       | List[[models.MovedFromPendingSubtotal2](../models/movedfrompendingsubtotal2.md)]                  | :heavy_minus_sign:                                                                                | N/A                                                                                               |

@@ -16,7 +16,7 @@ class ChargebacksSDK(BaseSDK):
         payment_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        embed: Optional[models.ListChargebacksEmbed] = None,
+        embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -32,7 +32,7 @@ class ChargebacksSDK(BaseSDK):
         :param payment_id: Provide the ID of the related payment.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param embed: This endpoint allows you to embed additional information via the `embed` query string parameter.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -103,16 +103,9 @@ class ChargebacksSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListChargebacksResponse, http_res)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListChargebacksBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListChargebacksBadRequestHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListChargebacksNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListChargebacksNotFoundHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -128,7 +121,7 @@ class ChargebacksSDK(BaseSDK):
         payment_id: str,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        embed: Optional[models.ListChargebacksEmbed] = None,
+        embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -144,7 +137,7 @@ class ChargebacksSDK(BaseSDK):
         :param payment_id: Provide the ID of the related payment.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param embed: This endpoint allows you to embed additional information via the `embed` query string parameter.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -215,16 +208,9 @@ class ChargebacksSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListChargebacksResponse, http_res)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListChargebacksBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListChargebacksBadRequestHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListChargebacksNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListChargebacksNotFoundHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -239,20 +225,20 @@ class ChargebacksSDK(BaseSDK):
         *,
         payment_id: str,
         chargeback_id: str,
-        embed: OptionalNullable[models.GetChargebackEmbed] = UNSET,
+        embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetChargebackResponse:
+    ) -> models.EntityChargeback:
         r"""Get payment chargeback
 
         Retrieve a single payment chargeback by its ID and the ID of its parent payment.
 
         :param payment_id: Provide the ID of the related payment.
         :param chargeback_id: Provide the ID of the related chargeback.
-        :param embed: This endpoint allows you to embed additional information via the `embed` query string parameter.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -321,12 +307,10 @@ class ChargebacksSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetChargebackResponse, http_res)
+            return unmarshal_json_response(models.EntityChargeback, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetChargebackHalJSONErrorData, http_res
-            )
-            raise models.GetChargebackHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -341,20 +325,20 @@ class ChargebacksSDK(BaseSDK):
         *,
         payment_id: str,
         chargeback_id: str,
-        embed: OptionalNullable[models.GetChargebackEmbed] = UNSET,
+        embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetChargebackResponse:
+    ) -> models.EntityChargeback:
         r"""Get payment chargeback
 
         Retrieve a single payment chargeback by its ID and the ID of its parent payment.
 
         :param payment_id: Provide the ID of the related payment.
         :param chargeback_id: Provide the ID of the related chargeback.
-        :param embed: This endpoint allows you to embed additional information via the `embed` query string parameter.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -423,12 +407,10 @@ class ChargebacksSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetChargebackResponse, http_res)
+            return unmarshal_json_response(models.EntityChargeback, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetChargebackHalJSONErrorData, http_res
-            )
-            raise models.GetChargebackHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -443,9 +425,9 @@ class ChargebacksSDK(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        embed: Optional[models.ListAllChargebacksEmbed] = None,
-        sort: OptionalNullable[models.ListAllChargebacksSort] = UNSET,
-        profile_id: OptionalNullable[str] = UNSET,
+        embed: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[models.ListSort] = UNSET,
+        profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -460,7 +442,7 @@ class ChargebacksSDK(BaseSDK):
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param embed: This endpoint allows you to embed additional information via the `embed` query string parameter.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve chargebacks for.  Most API credentials are linked to a single profile. In these cases the `profileId` is already implied.  To retrieve all chargebacks across the organization, use an organization-level API credential and omit the `profileId` parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -534,18 +516,9 @@ class ChargebacksSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListAllChargebacksResponse, http_res)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListAllChargebacksBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListAllChargebacksBadRequestHalJSONError(
-                response_data, http_res
-            )
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListAllChargebacksNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListAllChargebacksNotFoundHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -560,9 +533,9 @@ class ChargebacksSDK(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        embed: Optional[models.ListAllChargebacksEmbed] = None,
-        sort: OptionalNullable[models.ListAllChargebacksSort] = UNSET,
-        profile_id: OptionalNullable[str] = UNSET,
+        embed: OptionalNullable[str] = UNSET,
+        sort: OptionalNullable[models.ListSort] = UNSET,
+        profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -577,7 +550,7 @@ class ChargebacksSDK(BaseSDK):
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param embed: This endpoint allows you to embed additional information via the `embed` query string parameter.
+        :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve chargebacks for.  Most API credentials are linked to a single profile. In these cases the `profileId` is already implied.  To retrieve all chargebacks across the organization, use an organization-level API credential and omit the `profileId` parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
@@ -651,18 +624,9 @@ class ChargebacksSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListAllChargebacksResponse, http_res)
-        if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListAllChargebacksBadRequestHalJSONErrorData, http_res
-            )
-            raise models.ListAllChargebacksBadRequestHalJSONError(
-                response_data, http_res
-            )
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListAllChargebacksNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ListAllChargebacksNotFoundHalJSONError(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

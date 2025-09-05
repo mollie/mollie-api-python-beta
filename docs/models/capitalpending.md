@@ -1,9 +1,0 @@
-# CapitalPending
-
-
-## Fields
-
-| Field                                                                                             | Type                                                                                              | Required                                                                                          | Description                                                                                       |
-| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `amount`                                                                                          | [Optional[models.CapitalPendingAmount]](../models/capitalpendingamount.md)                        | :heavy_minus_sign:                                                                                | In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field. |
-| `subtotals`                                                                                       | List[[models.CapitalPendingSubtotal2](../models/capitalpendingsubtotal2.md)]                      | :heavy_minus_sign:                                                                                | N/A                                                                                               |

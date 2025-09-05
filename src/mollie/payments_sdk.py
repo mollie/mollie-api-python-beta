@@ -13,18 +13,15 @@ class PaymentsSDK(BaseSDK):
     def create(
         self,
         *,
-        include: OptionalNullable[models.CreatePaymentInclude] = UNSET,
-        request_body: Optional[
-            Union[
-                models.CreatePaymentRequestBody,
-                models.CreatePaymentRequestBodyTypedDict,
-            ]
+        include: OptionalNullable[str] = UNSET,
+        payment_request: Optional[
+            Union[models.PaymentRequest, models.PaymentRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreatePaymentResponse:
+    ) -> models.PaymentResponse:
         r"""Create payment
 
         Payment creation is elemental to the Mollie API: this is where most payment
@@ -41,7 +38,7 @@ class PaymentsSDK(BaseSDK):
         guide on [method-specific parameters](extra-payment-parameters).
 
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
-        :param request_body:
+        :param payment_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -59,8 +56,8 @@ class PaymentsSDK(BaseSDK):
 
         request = models.CreatePaymentRequest(
             include=include,
-            request_body=utils.get_pydantic_model(
-                request_body, Optional[models.CreatePaymentRequestBody]
+            payment_request=utils.get_pydantic_model(
+                payment_request, Optional[models.PaymentRequest]
             ),
         )
 
@@ -78,11 +75,11 @@ class PaymentsSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body,
+                request.payment_request,
                 False,
                 True,
                 "json",
-                Optional[models.CreatePaymentRequestBody],
+                Optional[models.PaymentRequest],
             ),
             timeout_ms=timeout_ms,
         )
@@ -116,21 +113,13 @@ class PaymentsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreatePaymentResponse, http_res)
+            return unmarshal_json_response(models.PaymentResponse, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreatePaymentUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.CreatePaymentUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "503", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreatePaymentServiceUnavailableHalJSONErrorData, http_res
-            )
-            raise models.CreatePaymentServiceUnavailableHalJSONError(
-                response_data, http_res
-            )
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -143,18 +132,15 @@ class PaymentsSDK(BaseSDK):
     async def create_async(
         self,
         *,
-        include: OptionalNullable[models.CreatePaymentInclude] = UNSET,
-        request_body: Optional[
-            Union[
-                models.CreatePaymentRequestBody,
-                models.CreatePaymentRequestBodyTypedDict,
-            ]
+        include: OptionalNullable[str] = UNSET,
+        payment_request: Optional[
+            Union[models.PaymentRequest, models.PaymentRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreatePaymentResponse:
+    ) -> models.PaymentResponse:
         r"""Create payment
 
         Payment creation is elemental to the Mollie API: this is where most payment
@@ -171,7 +157,7 @@ class PaymentsSDK(BaseSDK):
         guide on [method-specific parameters](extra-payment-parameters).
 
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
-        :param request_body:
+        :param payment_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -189,8 +175,8 @@ class PaymentsSDK(BaseSDK):
 
         request = models.CreatePaymentRequest(
             include=include,
-            request_body=utils.get_pydantic_model(
-                request_body, Optional[models.CreatePaymentRequestBody]
+            payment_request=utils.get_pydantic_model(
+                payment_request, Optional[models.PaymentRequest]
             ),
         )
 
@@ -208,11 +194,11 @@ class PaymentsSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body,
+                request.payment_request,
                 False,
                 True,
                 "json",
-                Optional[models.CreatePaymentRequestBody],
+                Optional[models.PaymentRequest],
             ),
             timeout_ms=timeout_ms,
         )
@@ -246,21 +232,13 @@ class PaymentsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.CreatePaymentResponse, http_res)
+            return unmarshal_json_response(models.PaymentResponse, http_res)
         if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreatePaymentUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.CreatePaymentUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "503", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CreatePaymentServiceUnavailableHalJSONErrorData, http_res
-            )
-            raise models.CreatePaymentServiceUnavailableHalJSONError(
-                response_data, http_res
-            )
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -275,7 +253,7 @@ class PaymentsSDK(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        sort: OptionalNullable[models.ListPaymentsSort] = UNSET,
+        sort: OptionalNullable[models.ListSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -364,10 +342,8 @@ class PaymentsSDK(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListPaymentsResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListPaymentsHalJSONErrorData, http_res
-            )
-            raise models.ListPaymentsHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -382,7 +358,7 @@ class PaymentsSDK(BaseSDK):
         *,
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
-        sort: OptionalNullable[models.ListPaymentsSort] = UNSET,
+        sort: OptionalNullable[models.ListSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -471,10 +447,8 @@ class PaymentsSDK(BaseSDK):
         if utils.match_response(http_res, "200", "application/hal+json"):
             return unmarshal_json_response(models.ListPaymentsResponse, http_res)
         if utils.match_response(http_res, "400", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ListPaymentsHalJSONErrorData, http_res
-            )
-            raise models.ListPaymentsHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -488,14 +462,14 @@ class PaymentsSDK(BaseSDK):
         self,
         *,
         payment_id: str,
-        include: OptionalNullable[models.GetPaymentInclude] = UNSET,
-        embed: OptionalNullable[models.GetPaymentEmbed] = UNSET,
+        include: OptionalNullable[str] = UNSET,
+        embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPaymentResponse:
+    ) -> models.PaymentResponse:
         r"""Get payment
 
         Retrieve a single payment object by its payment ID.
@@ -571,12 +545,10 @@ class PaymentsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetPaymentResponse, http_res)
+            return unmarshal_json_response(models.PaymentResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetPaymentHalJSONErrorData, http_res
-            )
-            raise models.GetPaymentHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -590,14 +562,14 @@ class PaymentsSDK(BaseSDK):
         self,
         *,
         payment_id: str,
-        include: OptionalNullable[models.GetPaymentInclude] = UNSET,
-        embed: OptionalNullable[models.GetPaymentEmbed] = UNSET,
+        include: OptionalNullable[str] = UNSET,
+        embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetPaymentResponse:
+    ) -> models.PaymentResponse:
         r"""Get payment
 
         Retrieve a single payment object by its payment ID.
@@ -673,12 +645,10 @@ class PaymentsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetPaymentResponse, http_res)
+            return unmarshal_json_response(models.PaymentResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetPaymentHalJSONErrorData, http_res
-            )
-            raise models.GetPaymentHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -702,7 +672,7 @@ class PaymentsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdatePaymentResponse:
+    ) -> models.PaymentResponse:
         r"""Update payment
 
         Certain details of an existing payment can be updated.
@@ -785,19 +755,10 @@ class PaymentsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.UpdatePaymentResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdatePaymentNotFoundHalJSONErrorData, http_res
-            )
-            raise models.UpdatePaymentNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdatePaymentUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.UpdatePaymentUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.PaymentResponse, http_res)
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -821,7 +782,7 @@ class PaymentsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdatePaymentResponse:
+    ) -> models.PaymentResponse:
         r"""Update payment
 
         Certain details of an existing payment can be updated.
@@ -904,19 +865,10 @@ class PaymentsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.UpdatePaymentResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdatePaymentNotFoundHalJSONErrorData, http_res
-            )
-            raise models.UpdatePaymentNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.UpdatePaymentUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.UpdatePaymentUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.PaymentResponse, http_res)
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -940,7 +892,7 @@ class PaymentsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CancelPaymentResponse:
+    ) -> models.PaymentResponse:
         r"""Cancel payment
 
         Depending on the payment method, you may be able to cancel a payment for a certain amount of time — usually until
@@ -1026,19 +978,10 @@ class PaymentsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.CancelPaymentResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CancelPaymentNotFoundHalJSONErrorData, http_res
-            )
-            raise models.CancelPaymentNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CancelPaymentUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.CancelPaymentUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.PaymentResponse, http_res)
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1062,7 +1005,7 @@ class PaymentsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CancelPaymentResponse:
+    ) -> models.PaymentResponse:
         r"""Cancel payment
 
         Depending on the payment method, you may be able to cancel a payment for a certain amount of time — usually until
@@ -1148,19 +1091,10 @@ class PaymentsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.CancelPaymentResponse, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CancelPaymentNotFoundHalJSONErrorData, http_res
-            )
-            raise models.CancelPaymentNotFoundHalJSONError(response_data, http_res)
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.CancelPaymentUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.CancelPaymentUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+            return unmarshal_json_response(models.PaymentResponse, http_res)
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1273,20 +1207,9 @@ class PaymentsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "202", "application/hal+json"):
             return unmarshal_json_response(Any, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ReleaseAuthorizationNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ReleaseAuthorizationNotFoundHalJSONError(
-                response_data, http_res
-            )
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ReleaseAuthorizationUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.ReleaseAuthorizationUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -1399,20 +1322,9 @@ class PaymentsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "202", "application/hal+json"):
             return unmarshal_json_response(Any, http_res)
-        if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ReleaseAuthorizationNotFoundHalJSONErrorData, http_res
-            )
-            raise models.ReleaseAuthorizationNotFoundHalJSONError(
-                response_data, http_res
-            )
-        if utils.match_response(http_res, "422", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.ReleaseAuthorizationUnprocessableEntityHalJSONErrorData, http_res
-            )
-            raise models.ReleaseAuthorizationUnprocessableEntityHalJSONError(
-                response_data, http_res
-            )
+        if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

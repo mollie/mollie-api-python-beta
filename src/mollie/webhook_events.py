@@ -19,7 +19,7 @@ class WebhookEvents(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetWebhookEventResponse:
+    ) -> models.EntityWebhookEvent:
         r"""Get a Webhook Event
 
         Retrieve a single webhook event object by its event ID.
@@ -91,12 +91,10 @@ class WebhookEvents(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetWebhookEventResponse, http_res)
+            return unmarshal_json_response(models.EntityWebhookEvent, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetWebhookEventHalJSONErrorData, http_res
-            )
-            raise models.GetWebhookEventHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)
@@ -115,7 +113,7 @@ class WebhookEvents(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetWebhookEventResponse:
+    ) -> models.EntityWebhookEvent:
         r"""Get a Webhook Event
 
         Retrieve a single webhook event object by its event ID.
@@ -187,12 +185,10 @@ class WebhookEvents(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.GetWebhookEventResponse, http_res)
+            return unmarshal_json_response(models.EntityWebhookEvent, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
-            response_data = unmarshal_json_response(
-                models.GetWebhookEventHalJSONErrorData, http_res
-            )
-            raise models.GetWebhookEventHalJSONError(response_data, http_res)
+            response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
+            raise models.ErrorResponse(response_data, http_res)
         if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise models.APIError("API error occurred", http_res, http_res_text)

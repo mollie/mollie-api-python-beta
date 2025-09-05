@@ -33,95 +33,96 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.payment_links.create(request={
-        "description": "Chess Board",
-        "amount": {
-            "currency": "EUR",
-            "value": "10.00",
-        },
-        "minimum_amount": {
-            "currency": "EUR",
-            "value": "10.00",
-        },
-        "redirect_url": "https://webshop.example.org/payment-links/redirect/",
-        "webhook_url": "https://webshop.example.org/payment-links/webhook/",
-        "lines": [
-            {
-                "type": mollie.CreatePaymentLinkTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.CreatePaymentLinkCategoryRequest.MEAL,
-                    mollie.CreatePaymentLinkCategoryRequest.ECO,
+    res = client_sdk.payment_links.create(request=mollie.CreatePaymentLinkRequest(
+        id="pl_d9fQur83kFdhH8hIhaZfq",
+        description="Chess Board",
+        amount=mollie.AmountNullable(
+            currency="EUR",
+            value="10.00",
+        ),
+        minimum_amount=mollie.AmountNullable(
+            currency="EUR",
+            value="10.00",
+        ),
+        redirect_url="https://webshop.example.org/payment-links/redirect/",
+        webhook_url="https://webshop.example.org/payment-links/webhook/",
+        lines=[
+            mollie.PaymentLineItem(
+                type=mollie.PaymentLineItemType.PHYSICAL,
+                description="LEGO 4440 Forest Police Station",
+                quantity=1,
+                quantity_unit="pcs",
+                unit_price=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                discount_amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                total_amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                vat_rate="21.00",
+                vat_amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                sku="9780241661628",
+                categories=[
+                    mollie.PaymentLineItemCategory.MEAL,
+                    mollie.PaymentLineItemCategory.ECO,
                 ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-            },
+                image_url="https://...",
+                product_url="https://...",
+            ),
         ],
-        "billing_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "shipping_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "profile_id": "pfl_QkEhN94Ba",
-        "reusable": False,
-        "expires_at": "2025-12-24T11:00:16+00:00",
-        "allowed_methods": [
+        billing_address=mollie.PaymentAddress(
+            title="Mr.",
+            given_name="Piet",
+            family_name="Mondriaan",
+            organization_name="Mollie B.V.",
+            street_and_number="Keizersgracht 126",
+            street_additional="Apt. 1",
+            postal_code="1234AB",
+            email="piet@example.org",
+            phone="31208202070",
+            city="Amsterdam",
+            region="Noord-Holland",
+            country="NL",
+        ),
+        shipping_address=mollie.PaymentAddress(
+            title="Mr.",
+            given_name="Piet",
+            family_name="Mondriaan",
+            organization_name="Mollie B.V.",
+            street_and_number="Keizersgracht 126",
+            street_additional="Apt. 1",
+            postal_code="1234AB",
+            email="piet@example.org",
+            phone="31208202070",
+            city="Amsterdam",
+            region="Noord-Holland",
+            country="NL",
+        ),
+        profile_id="pfl_QkEhN94Ba",
+        reusable=False,
+        expires_at="2025-12-24T11:00:16+00:00",
+        allowed_methods=[
             "ideal",
         ],
-        "application_fee": {
-            "amount": {
-                "currency": "EUR",
-                "value": "10.00",
-            },
-            "description": "Platform fee",
-        },
-        "sequence_type": mollie.CreatePaymentLinkSequenceTypeRequest.ONEOFF,
-        "customer_id": "cst_XimFHuaEzd",
-        "testmode": False,
-    })
+        application_fee=mollie.CreatePaymentLinkApplicationFee(
+            amount=mollie.Amount(
+                currency="EUR",
+                value="10.00",
+            ),
+            description="Platform fee",
+        ),
+        sequence_type=mollie.PaymentLinkSequenceType.ONEOFF,
+        customer_id="cst_XimFHuaEzd",
+        testmode=False,
+    ))
 
     # Handle response
     print(res)
@@ -137,15 +138,14 @@ with ClientSDK(
 
 ### Response
 
-**[models.CreatePaymentLinkResponse](../../models/createpaymentlinkresponse.md)**
+**[models.PaymentLinkResponse](../../models/paymentlinkresponse.md)**
 
 ### Errors
 
-| Error Type                                              | Status Code                                             | Content Type                                            |
-| ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
-| models.CreatePaymentLinkNotFoundHalJSONError            | 404                                                     | application/hal+json                                    |
-| models.CreatePaymentLinkUnprocessableEntityHalJSONError | 422                                                     | application/hal+json                                    |
-| models.APIError                                         | 4XX, 5XX                                                | \*/\*                                                   |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404, 422             | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## list
 
@@ -190,10 +190,10 @@ with ClientSDK(
 
 ### Errors
 
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| models.ListPaymentLinksHalJSONError | 400                                 | application/hal+json                |
-| models.APIError                     | 4XX, 5XX                            | \*/\*                               |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 400                  | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## get
 
@@ -231,14 +231,14 @@ with ClientSDK(
 
 ### Response
 
-**[models.GetPaymentLinkResponse](../../models/getpaymentlinkresponse.md)**
+**[models.PaymentLinkResponse](../../models/paymentlinkresponse.md)**
 
 ### Errors
 
-| Error Type                        | Status Code                       | Content Type                      |
-| --------------------------------- | --------------------------------- | --------------------------------- |
-| models.GetPaymentLinkHalJSONError | 404                               | application/hal+json              |
-| models.APIError                   | 4XX, 5XX                          | \*/\*                             |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404                  | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## update
 
@@ -259,78 +259,78 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.payment_links.update(payment_link_id="pl_d9fQur83kFdhH8hIhaZfq", request_body={
-        "description": "Chess Board",
-        "minimum_amount": {
-            "currency": "EUR",
-            "value": "10.00",
-        },
-        "archived": False,
-        "allowed_methods": [
+    res = client_sdk.payment_links.update(payment_link_id="pl_d9fQur83kFdhH8hIhaZfq", request_body=mollie.UpdatePaymentLinkRequestBody(
+        description="Chess Board",
+        minimum_amount=mollie.Amount(
+            currency="EUR",
+            value="10.00",
+        ),
+        archived=False,
+        allowed_methods=[
             "ideal",
         ],
-        "lines": [
-            {
-                "type": mollie.UpdatePaymentLinkTypeRequest.PHYSICAL,
-                "description": "LEGO 4440 Forest Police Station",
-                "quantity": 1,
-                "quantity_unit": "pcs",
-                "unit_price": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "discount_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "total_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "vat_rate": "21.00",
-                "vat_amount": {
-                    "currency": "EUR",
-                    "value": "10.00",
-                },
-                "sku": "9780241661628",
-                "categories": [
-                    mollie.UpdatePaymentLinkCategoryRequest.MEAL,
-                    mollie.UpdatePaymentLinkCategoryRequest.ECO,
+        lines=[
+            mollie.PaymentLineItem(
+                type=mollie.PaymentLineItemType.PHYSICAL,
+                description="LEGO 4440 Forest Police Station",
+                quantity=1,
+                quantity_unit="pcs",
+                unit_price=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                discount_amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                total_amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                vat_rate="21.00",
+                vat_amount=mollie.Amount(
+                    currency="EUR",
+                    value="10.00",
+                ),
+                sku="9780241661628",
+                categories=[
+                    mollie.PaymentLineItemCategory.MEAL,
+                    mollie.PaymentLineItemCategory.ECO,
                 ],
-                "image_url": "https://...",
-                "product_url": "https://...",
-            },
+                image_url="https://...",
+                product_url="https://...",
+            ),
         ],
-        "billing_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "shipping_address": {
-            "title": "Mr.",
-            "given_name": "Piet",
-            "family_name": "Mondriaan",
-            "organization_name": "Mollie B.V.",
-            "street_and_number": "Keizersgracht 126",
-            "street_additional": "Apt. 1",
-            "postal_code": "1234AB",
-            "email": "piet@example.org",
-            "phone": "31208202070",
-            "city": "Amsterdam",
-            "region": "Noord-Holland",
-            "country": "NL",
-        },
-        "testmode": False,
-    })
+        billing_address=mollie.PaymentAddress(
+            title="Mr.",
+            given_name="Piet",
+            family_name="Mondriaan",
+            organization_name="Mollie B.V.",
+            street_and_number="Keizersgracht 126",
+            street_additional="Apt. 1",
+            postal_code="1234AB",
+            email="piet@example.org",
+            phone="31208202070",
+            city="Amsterdam",
+            region="Noord-Holland",
+            country="NL",
+        ),
+        shipping_address=mollie.PaymentAddress(
+            title="Mr.",
+            given_name="Piet",
+            family_name="Mondriaan",
+            organization_name="Mollie B.V.",
+            street_and_number="Keizersgracht 126",
+            street_additional="Apt. 1",
+            postal_code="1234AB",
+            email="piet@example.org",
+            phone="31208202070",
+            city="Amsterdam",
+            region="Noord-Holland",
+            country="NL",
+        ),
+        testmode=False,
+    ))
 
     # Handle response
     print(res)
@@ -347,15 +347,14 @@ with ClientSDK(
 
 ### Response
 
-**[models.UpdatePaymentLinkResponse](../../models/updatepaymentlinkresponse.md)**
+**[models.PaymentLinkResponse](../../models/paymentlinkresponse.md)**
 
 ### Errors
 
-| Error Type                                              | Status Code                                             | Content Type                                            |
-| ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
-| models.UpdatePaymentLinkNotFoundHalJSONError            | 404                                                     | application/hal+json                                    |
-| models.UpdatePaymentLinkUnprocessableEntityHalJSONError | 422                                                     | application/hal+json                                    |
-| models.APIError                                         | 4XX, 5XX                                                | \*/\*                                                   |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404, 422             | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## delete
 
@@ -405,11 +404,10 @@ with ClientSDK(
 
 ### Errors
 
-| Error Type                                              | Status Code                                             | Content Type                                            |
-| ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
-| models.DeletePaymentLinkNotFoundHalJSONError            | 404                                                     | application/hal+json                                    |
-| models.DeletePaymentLinkUnprocessableEntityHalJSONError | 422                                                     | application/hal+json                                    |
-| models.APIError                                         | 4XX, 5XX                                                | \*/\*                                                   |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 404, 422             | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## list_payments
 
@@ -432,7 +430,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.payment_links.list_payments(payment_link_id="pl_d9fQur83kFdhH8hIhaZfq", from_="tr_5B8cwPMGnU", limit=50, sort=mollie.GetPaymentLinkPaymentsSort.DESC, testmode=False)
+    res = client_sdk.payment_links.list_payments(payment_link_id="pl_d9fQur83kFdhH8hIhaZfq", from_="tr_5B8cwPMGnU", limit=50, sort=mollie.ListSort.DESC, testmode=False)
 
     # Handle response
     print(res)
@@ -446,7 +444,7 @@ with ClientSDK(
 | `payment_link_id`                                                                                                                                                                                                                                                                                                                                                                      | *str*                                                                                                                                                                                                                                                                                                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                                                                                                                                                                                     | Provide the ID of the related payment link.                                                                                                                                                                                                                                                                                                                                            | pl_d9fQur83kFdhH8hIhaZfq                                                                                                                                                                                                                                                                                                                                                               |
 | `from_`                                                                                                                                                                                                                                                                                                                                                                                | *Optional[str]*                                                                                                                                                                                                                                                                                                                                                                        | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the<br/>result set.                                                                                                                                                                                                                                                     | tr_5B8cwPMGnU                                                                                                                                                                                                                                                                                                                                                                          |
 | `limit`                                                                                                                                                                                                                                                                                                                                                                                | *OptionalNullable[int]*                                                                                                                                                                                                                                                                                                                                                                | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | The maximum number of items to return. Defaults to 50 items.                                                                                                                                                                                                                                                                                                                           | 50                                                                                                                                                                                                                                                                                                                                                                                     |
-| `sort`                                                                                                                                                                                                                                                                                                                                                                                 | [OptionalNullable[models.GetPaymentLinkPaymentsSort]](../../models/getpaymentlinkpaymentssort.md)                                                                                                                                                                                                                                                                                      | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from<br/>newest to oldest.                                                                                                                                                                                                                                             | desc                                                                                                                                                                                                                                                                                                                                                                                   |
+| `sort`                                                                                                                                                                                                                                                                                                                                                                                 | [OptionalNullable[models.ListSort]](../../models/listsort.md)                                                                                                                                                                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from<br/>newest to oldest.                                                                                                                                                                                                                                             | desc                                                                                                                                                                                                                                                                                                                                                                                   |
 | `testmode`                                                                                                                                                                                                                                                                                                                                                                             | *OptionalNullable[bool]*                                                                                                                                                                                                                                                                                                                                                               | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query<br/>parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by<br/>setting the `testmode` query parameter to `true`.<br/><br/>Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa. | false                                                                                                                                                                                                                                                                                                                                                                                  |
 | `retries`                                                                                                                                                                                                                                                                                                                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                                                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                     | Configuration to override the default retry behavior of the client.                                                                                                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                                                                                                                                                                        |
 
@@ -456,7 +454,7 @@ with ClientSDK(
 
 ### Errors
 
-| Error Type                                | Status Code                               | Content Type                              |
-| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
-| models.GetPaymentLinkPaymentsHalJSONError | 400                                       | application/hal+json                      |
-| models.APIError                           | 4XX, 5XX                                  | \*/\*                                     |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| models.ErrorResponse | 400                  | application/hal+json |
+| models.APIError      | 4XX, 5XX             | \*/\*                |
