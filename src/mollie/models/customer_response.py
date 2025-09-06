@@ -94,7 +94,7 @@ class CustomerResponseTypedDict(TypedDict):
     r"""The full name of the customer."""
     email: NotRequired[Nullable[str]]
     r"""The email address of the customer."""
-    locale: NotRequired[LocaleResponse]
+    locale: NotRequired[Nullable[LocaleResponse]]
     r"""Allows you to preset the language to be used."""
     metadata: NotRequired[Nullable[MetadataTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
@@ -122,8 +122,8 @@ class CustomerResponse(BaseModel):
     r"""The email address of the customer."""
 
     locale: Annotated[
-        Optional[LocaleResponse], PlainValidator(validate_open_enum(False))
-    ] = None
+        OptionalNullable[LocaleResponse], PlainValidator(validate_open_enum(False))
+    ] = UNSET
     r"""Allows you to preset the language to be used."""
 
     metadata: OptionalNullable[Metadata] = UNSET
@@ -152,7 +152,7 @@ class CustomerResponse(BaseModel):
             "createdAt",
             "_links",
         ]
-        nullable_fields = ["name", "email", "metadata"]
+        nullable_fields = ["name", "email", "locale", "metadata"]
         null_default_fields = []
 
         serialized = handler(self)

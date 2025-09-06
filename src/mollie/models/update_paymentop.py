@@ -64,7 +64,7 @@ class UpdatePaymentRequestBodyTypedDict(TypedDict):
     but will only show the methods specified in the array. For example, you can use this functionality to only show
     payment methods from a specific country to your customer `['bancontact', 'belfius']`.
     """
-    locale: NotRequired[Locale]
+    locale: NotRequired[Nullable[Locale]]
     r"""Allows you to preset the language to be used."""
     due_date: NotRequired[str]
     r"""The date by which the payment should be completed in `YYYY-MM-DD` format"""
@@ -170,7 +170,7 @@ class UpdatePaymentRequestBody(BaseModel):
     payment methods from a specific country to your customer `['bancontact', 'belfius']`.
     """
 
-    locale: Optional[Locale] = None
+    locale: OptionalNullable[Locale] = UNSET
     r"""Allows you to preset the language to be used."""
 
     due_date: Annotated[Optional[str], pydantic.Field(alias="dueDate")] = None
@@ -249,6 +249,7 @@ class UpdatePaymentRequestBody(BaseModel):
             "webhookUrl",
             "metadata",
             "method",
+            "locale",
             "restrictPaymentMethodsToCountry",
             "testmode",
             "issuer",

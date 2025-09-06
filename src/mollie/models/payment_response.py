@@ -1122,7 +1122,7 @@ class PaymentResponseTypedDict(TypedDict):
     """
     billing_address: NotRequired[PaymentAddressTypedDict]
     shipping_address: NotRequired[PaymentAddressTypedDict]
-    locale: NotRequired[LocaleResponse]
+    locale: NotRequired[Nullable[LocaleResponse]]
     r"""Allows you to preset the language to be used."""
     country_code: NotRequired[Nullable[str]]
     r"""This optional field contains your customer's ISO 3166-1 alpha-2 country code, detected by us during checkout. This
@@ -1369,8 +1369,8 @@ class PaymentResponse(BaseModel):
     ] = None
 
     locale: Annotated[
-        Optional[LocaleResponse], PlainValidator(validate_open_enum(False))
-    ] = None
+        OptionalNullable[LocaleResponse], PlainValidator(validate_open_enum(False))
+    ] = UNSET
     r"""Allows you to preset the language to be used."""
 
     country_code: Annotated[
@@ -1638,6 +1638,7 @@ class PaymentResponse(BaseModel):
             "cancelUrl",
             "webhookUrl",
             "lines",
+            "locale",
             "countryCode",
             "method",
             "restrictPaymentMethodsToCountry",

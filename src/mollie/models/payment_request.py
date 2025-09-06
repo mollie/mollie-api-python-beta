@@ -265,7 +265,7 @@ class PaymentRequestTypedDict(TypedDict):
     """
     billing_address: NotRequired[PaymentAddressTypedDict]
     shipping_address: NotRequired[PaymentAddressTypedDict]
-    locale: NotRequired[Locale]
+    locale: NotRequired[Nullable[Locale]]
     r"""Allows you to preset the language to be used."""
     method: NotRequired[Nullable[Method]]
     r"""Normally, a payment method screen is shown. However, when using this parameter, you can choose a specific payment
@@ -523,7 +523,7 @@ class PaymentRequest(BaseModel):
         Optional[PaymentAddress], pydantic.Field(alias="shippingAddress")
     ] = None
 
-    locale: Optional[Locale] = None
+    locale: OptionalNullable[Locale] = UNSET
     r"""Allows you to preset the language to be used."""
 
     method: OptionalNullable[Method] = UNSET
@@ -790,6 +790,7 @@ class PaymentRequest(BaseModel):
             "cancelUrl",
             "webhookUrl",
             "lines",
+            "locale",
             "method",
             "issuer",
             "restrictPaymentMethodsToCountry",

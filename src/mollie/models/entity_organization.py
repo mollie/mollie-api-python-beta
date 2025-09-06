@@ -61,7 +61,7 @@ class EntityOrganizationTypedDict(TypedDict):
     r"""The name of the organization."""
     email: NotRequired[str]
     r"""The email address associated with the organization."""
-    locale: NotRequired[LocaleResponse]
+    locale: NotRequired[Nullable[LocaleResponse]]
     r"""Allows you to preset the language to be used."""
     address: NotRequired[AddressTypedDict]
     registration_number: NotRequired[str]
@@ -98,8 +98,8 @@ class EntityOrganization(BaseModel):
     r"""The email address associated with the organization."""
 
     locale: Annotated[
-        Optional[LocaleResponse], PlainValidator(validate_open_enum(False))
-    ] = None
+        OptionalNullable[LocaleResponse], PlainValidator(validate_open_enum(False))
+    ] = UNSET
     r"""Allows you to preset the language to be used."""
 
     address: Optional[Address] = None
@@ -146,7 +146,7 @@ class EntityOrganization(BaseModel):
             "vatRegulation",
             "_links",
         ]
-        nullable_fields = ["vatNumber", "vatRegulation"]
+        nullable_fields = ["locale", "vatNumber", "vatRegulation"]
         null_default_fields = []
 
         serialized = handler(self)
