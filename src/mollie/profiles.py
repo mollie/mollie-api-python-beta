@@ -3,17 +3,18 @@
 from .basesdk import BaseSDK
 from mollie import models, utils
 from mollie._hooks import HookContext
-from mollie.types import BaseModel, OptionalNullable, UNSET
+from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
 from mollie.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union, cast
+from typing import Any, Mapping, Optional, Union
 
 
 class Profiles(BaseSDK):
     def create(
         self,
         *,
-        request: Union[models.EntityProfile, models.EntityProfileTypedDict],
+        entity_profile: Union[models.EntityProfile, models.EntityProfileTypedDict],
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -26,7 +27,8 @@ class Profiles(BaseSDK):
         Profiles are required for payment processing. Normally they are created via the Mollie dashboard. Alternatively, you
         can use this endpoint to automate profile creation.
 
-        :param request: The request object to send.
+        :param entity_profile:
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -42,9 +44,12 @@ class Profiles(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, models.EntityProfile)
-        request = cast(models.EntityProfile, request)
+        request = models.CreateProfileRequest(
+            idempotency_key=idempotency_key,
+            entity_profile=utils.get_pydantic_model(
+                entity_profile, models.EntityProfile
+            ),
+        )
 
         req = self._build_request(
             method="POST",
@@ -60,7 +65,7 @@ class Profiles(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.EntityProfile
+                request.entity_profile, False, False, "json", models.EntityProfile
             ),
             timeout_ms=timeout_ms,
         )
@@ -110,7 +115,8 @@ class Profiles(BaseSDK):
     async def create_async(
         self,
         *,
-        request: Union[models.EntityProfile, models.EntityProfileTypedDict],
+        entity_profile: Union[models.EntityProfile, models.EntityProfileTypedDict],
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -123,7 +129,8 @@ class Profiles(BaseSDK):
         Profiles are required for payment processing. Normally they are created via the Mollie dashboard. Alternatively, you
         can use this endpoint to automate profile creation.
 
-        :param request: The request object to send.
+        :param entity_profile:
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -139,9 +146,12 @@ class Profiles(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, models.EntityProfile)
-        request = cast(models.EntityProfile, request)
+        request = models.CreateProfileRequest(
+            idempotency_key=idempotency_key,
+            entity_profile=utils.get_pydantic_model(
+                entity_profile, models.EntityProfile
+            ),
+        )
 
         req = self._build_request_async(
             method="POST",
@@ -157,7 +167,7 @@ class Profiles(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.EntityProfile
+                request.entity_profile, False, False, "json", models.EntityProfile
             ),
             timeout_ms=timeout_ms,
         )
@@ -209,6 +219,7 @@ class Profiles(BaseSDK):
         *,
         from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -222,6 +233,7 @@ class Profiles(BaseSDK):
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -240,6 +252,7 @@ class Profiles(BaseSDK):
         request = models.ListProfilesRequest(
             from_=from_,
             limit=limit,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -305,6 +318,7 @@ class Profiles(BaseSDK):
         *,
         from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -318,6 +332,7 @@ class Profiles(BaseSDK):
 
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -336,6 +351,7 @@ class Profiles(BaseSDK):
         request = models.ListProfilesRequest(
             from_=from_,
             limit=limit,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -401,6 +417,7 @@ class Profiles(BaseSDK):
         *,
         id: str,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -412,6 +429,7 @@ class Profiles(BaseSDK):
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -430,6 +448,7 @@ class Profiles(BaseSDK):
         request = models.GetProfileRequest(
             id=id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -495,6 +514,7 @@ class Profiles(BaseSDK):
         *,
         id: str,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -506,6 +526,7 @@ class Profiles(BaseSDK):
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -524,6 +545,7 @@ class Profiles(BaseSDK):
         request = models.GetProfileRequest(
             id=id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -591,6 +613,7 @@ class Profiles(BaseSDK):
         request_body: Union[
             models.UpdateProfileRequestBody, models.UpdateProfileRequestBodyTypedDict
         ],
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -605,6 +628,7 @@ class Profiles(BaseSDK):
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param request_body:
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -622,6 +646,7 @@ class Profiles(BaseSDK):
 
         request = models.UpdateProfileRequest(
             id=id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, models.UpdateProfileRequestBody
             ),
@@ -701,6 +726,7 @@ class Profiles(BaseSDK):
         request_body: Union[
             models.UpdateProfileRequestBody, models.UpdateProfileRequestBodyTypedDict
         ],
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -715,6 +741,7 @@ class Profiles(BaseSDK):
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param request_body:
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -732,6 +759,7 @@ class Profiles(BaseSDK):
 
         request = models.UpdateProfileRequest(
             id=id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, models.UpdateProfileRequestBody
             ),
@@ -808,6 +836,7 @@ class Profiles(BaseSDK):
         self,
         *,
         id: str,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -818,6 +847,7 @@ class Profiles(BaseSDK):
         Delete a profile. A deleted profile and its related credentials can no longer be used for accepting payments.
 
         :param id: Provide the ID of the item you want to perform this operation on.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -835,6 +865,7 @@ class Profiles(BaseSDK):
 
         request = models.DeleteProfileRequest(
             id=id,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -899,6 +930,7 @@ class Profiles(BaseSDK):
         self,
         *,
         id: str,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -909,6 +941,7 @@ class Profiles(BaseSDK):
         Delete a profile. A deleted profile and its related credentials can no longer be used for accepting payments.
 
         :param id: Provide the ID of the item you want to perform this operation on.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -926,6 +959,7 @@ class Profiles(BaseSDK):
 
         request = models.DeleteProfileRequest(
             id=id,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -989,6 +1023,7 @@ class Profiles(BaseSDK):
     def get_current(
         self,
         *,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1002,6 +1037,7 @@ class Profiles(BaseSDK):
         For a complete reference of the profile object, refer to the [Get profile](get-profile) endpoint
         documentation.
 
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1016,12 +1052,17 @@ class Profiles(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetCurrentProfileRequest(
+            idempotency_key=idempotency_key,
+        )
+
         req = self._build_request(
             method="GET",
             path="/profiles/me",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -1073,6 +1114,7 @@ class Profiles(BaseSDK):
     async def get_current_async(
         self,
         *,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1086,6 +1128,7 @@ class Profiles(BaseSDK):
         For a complete reference of the profile object, refer to the [Get profile](get-profile) endpoint
         documentation.
 
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1100,12 +1143,17 @@ class Profiles(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetCurrentProfileRequest(
+            idempotency_key=idempotency_key,
+        )
+
         req = self._build_request_async(
             method="GET",
             path="/profiles/me",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,

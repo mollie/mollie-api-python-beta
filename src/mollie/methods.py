@@ -23,6 +23,7 @@ class Methods(BaseSDK):
         profile_id: Optional[str] = None,
         include: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -57,6 +58,7 @@ class Methods(BaseSDK):
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -83,6 +85,7 @@ class Methods(BaseSDK):
             profile_id=profile_id,
             include=include,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -156,6 +159,7 @@ class Methods(BaseSDK):
         profile_id: Optional[str] = None,
         include: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -190,6 +194,7 @@ class Methods(BaseSDK):
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -216,6 +221,7 @@ class Methods(BaseSDK):
             profile_id=profile_id,
             include=include,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -285,6 +291,7 @@ class Methods(BaseSDK):
         sequence_type: Optional[models.SequenceType] = None,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -303,6 +310,7 @@ class Methods(BaseSDK):
         :param sequence_type: Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -325,6 +333,7 @@ class Methods(BaseSDK):
             sequence_type=sequence_type,
             profile_id=profile_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -394,6 +403,7 @@ class Methods(BaseSDK):
         sequence_type: Optional[models.SequenceType] = None,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -412,6 +422,7 @@ class Methods(BaseSDK):
         :param sequence_type: Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -434,6 +445,7 @@ class Methods(BaseSDK):
             sequence_type=sequence_type,
             profile_id=profile_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -504,6 +516,7 @@ class Methods(BaseSDK):
         include: OptionalNullable[str] = UNSET,
         sequence_type: Optional[models.SequenceType] = None,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -531,6 +544,7 @@ class Methods(BaseSDK):
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param sequence_type: Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -554,6 +568,7 @@ class Methods(BaseSDK):
             include=include,
             sequence_type=sequence_type,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -624,6 +639,7 @@ class Methods(BaseSDK):
         include: OptionalNullable[str] = UNSET,
         sequence_type: Optional[models.SequenceType] = None,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -651,6 +667,7 @@ class Methods(BaseSDK):
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param sequence_type: Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -674,6 +691,7 @@ class Methods(BaseSDK):
             include=include,
             sequence_type=sequence_type,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(

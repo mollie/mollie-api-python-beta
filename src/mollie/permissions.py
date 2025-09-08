@@ -13,6 +13,7 @@ class Permissions(BaseSDK):
     def list(
         self,
         *,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -24,6 +25,7 @@ class Permissions(BaseSDK):
 
         The results are **not** paginated.
 
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -38,12 +40,17 @@ class Permissions(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.ListPermissionsRequest(
+            idempotency_key=idempotency_key,
+        )
+
         req = self._build_request(
             method="GET",
             path="/permissions",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -99,6 +106,7 @@ class Permissions(BaseSDK):
     async def list_async(
         self,
         *,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -110,6 +118,7 @@ class Permissions(BaseSDK):
 
         The results are **not** paginated.
 
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -124,12 +133,17 @@ class Permissions(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.ListPermissionsRequest(
+            idempotency_key=idempotency_key,
+        )
+
         req = self._build_request_async(
             method="GET",
             path="/permissions",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -187,6 +201,7 @@ class Permissions(BaseSDK):
         *,
         permission_id: str,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -198,6 +213,7 @@ class Permissions(BaseSDK):
 
         :param permission_id: Provide the ID of the related permission.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -216,6 +232,7 @@ class Permissions(BaseSDK):
         request = models.GetPermissionRequest(
             permission_id=permission_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -281,6 +298,7 @@ class Permissions(BaseSDK):
         *,
         permission_id: str,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -292,6 +310,7 @@ class Permissions(BaseSDK):
 
         :param permission_id: Provide the ID of the related permission.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -310,6 +329,7 @@ class Permissions(BaseSDK):
         request = models.GetPermissionRequest(
             permission_id=permission_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(

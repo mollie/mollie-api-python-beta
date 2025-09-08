@@ -4,9 +4,24 @@ from __future__ import annotations
 from .entity_permission import EntityPermission, EntityPermissionTypedDict
 from .url import URL, URLTypedDict
 from mollie.types import BaseModel
+from mollie.utils import FieldMetadata, HeaderMetadata
 import pydantic
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
+
+
+class ListPermissionsRequestTypedDict(TypedDict):
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+
+
+class ListPermissionsRequest(BaseModel):
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
 
 class ListPermissionsEmbeddedTypedDict(TypedDict):

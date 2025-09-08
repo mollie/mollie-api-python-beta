@@ -3,20 +3,21 @@
 from .basesdk import BaseSDK
 from mollie import models, utils
 from mollie._hooks import HookContext
-from mollie.types import BaseModel, OptionalNullable, UNSET
+from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
 from mollie.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Dict, Mapping, Optional, Union, cast
+from typing import Any, Dict, Mapping, Optional, Union
 
 
 class Wallets(BaseSDK):
     def request_apple_pay_session(
         self,
         *,
-        request: Optional[
+        idempotency_key: Optional[str] = None,
+        request_body: Optional[
             Union[
-                models.RequestApplePayPaymentSessionRequest,
-                models.RequestApplePayPaymentSessionRequestTypedDict,
+                models.RequestApplePayPaymentSessionRequestBody,
+                models.RequestApplePayPaymentSessionRequestBodyTypedDict,
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -46,7 +47,8 @@ class Wallets(BaseSDK):
         full documentation, see the official
         [Apple Pay JS API](https://developer.apple.com/documentation/apple_pay_on_the_web/apple_pay_js_api) documentation.
 
-        :param request: The request object to send.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -62,11 +64,12 @@ class Wallets(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(
-                request, Optional[models.RequestApplePayPaymentSessionRequest]
-            )
-        request = cast(Optional[models.RequestApplePayPaymentSessionRequest], request)
+        request = models.RequestApplePayPaymentSessionRequest(
+            idempotency_key=idempotency_key,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.RequestApplePayPaymentSessionRequestBody]
+            ),
+        )
 
         req = self._build_request(
             method="POST",
@@ -82,11 +85,11 @@ class Wallets(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request,
+                request.request_body,
                 False,
                 True,
                 "json",
-                Optional[models.RequestApplePayPaymentSessionRequest],
+                Optional[models.RequestApplePayPaymentSessionRequestBody],
             ),
             timeout_ms=timeout_ms,
         )
@@ -136,10 +139,11 @@ class Wallets(BaseSDK):
     async def request_apple_pay_session_async(
         self,
         *,
-        request: Optional[
+        idempotency_key: Optional[str] = None,
+        request_body: Optional[
             Union[
-                models.RequestApplePayPaymentSessionRequest,
-                models.RequestApplePayPaymentSessionRequestTypedDict,
+                models.RequestApplePayPaymentSessionRequestBody,
+                models.RequestApplePayPaymentSessionRequestBodyTypedDict,
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -169,7 +173,8 @@ class Wallets(BaseSDK):
         full documentation, see the official
         [Apple Pay JS API](https://developer.apple.com/documentation/apple_pay_on_the_web/apple_pay_js_api) documentation.
 
-        :param request: The request object to send.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -185,11 +190,12 @@ class Wallets(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(
-                request, Optional[models.RequestApplePayPaymentSessionRequest]
-            )
-        request = cast(Optional[models.RequestApplePayPaymentSessionRequest], request)
+        request = models.RequestApplePayPaymentSessionRequest(
+            idempotency_key=idempotency_key,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.RequestApplePayPaymentSessionRequestBody]
+            ),
+        )
 
         req = self._build_request_async(
             method="POST",
@@ -205,11 +211,11 @@ class Wallets(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request,
+                request.request_body,
                 False,
                 True,
                 "json",
-                Optional[models.RequestApplePayPaymentSessionRequest],
+                Optional[models.RequestApplePayPaymentSessionRequestBody],
             ),
             timeout_ms=timeout_ms,
         )

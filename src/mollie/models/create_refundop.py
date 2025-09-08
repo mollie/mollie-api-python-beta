@@ -3,7 +3,12 @@
 from __future__ import annotations
 from .entity_refund import EntityRefund, EntityRefundTypedDict
 from mollie.types import BaseModel
-from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
+from mollie.utils import (
+    FieldMetadata,
+    HeaderMetadata,
+    PathParamMetadata,
+    RequestMetadata,
+)
 import pydantic
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
@@ -12,6 +17,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class CreateRefundRequestTypedDict(TypedDict):
     payment_id: str
     r"""Provide the ID of the related payment."""
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
     entity_refund: NotRequired[EntityRefundTypedDict]
 
 
@@ -22,6 +29,13 @@ class CreateRefundRequest(BaseModel):
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
     r"""Provide the ID of the related payment."""
+
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
     entity_refund: Annotated[
         Optional[EntityRefund],

@@ -2,9 +2,15 @@
 
 from __future__ import annotations
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
+from mollie.utils import (
+    FieldMetadata,
+    HeaderMetadata,
+    PathParamMetadata,
+    QueryParamMetadata,
+)
 import pydantic
 from pydantic import model_serializer
+from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -24,6 +30,8 @@ class GetChargebackRequestTypedDict(TypedDict):
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
 
 class GetChargebackRequest(BaseModel):
@@ -60,9 +68,16 @@ class GetChargebackRequest(BaseModel):
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
 
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["embed", "testmode"]
+        optional_fields = ["embed", "testmode", "idempotency-key"]
         nullable_fields = ["embed", "testmode"]
         null_default_fields = []
 

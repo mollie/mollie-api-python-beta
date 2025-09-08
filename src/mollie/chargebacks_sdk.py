@@ -18,6 +18,7 @@ class ChargebacksSDK(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -34,6 +35,7 @@ class ChargebacksSDK(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -55,6 +57,7 @@ class ChargebacksSDK(BaseSDK):
             limit=limit,
             embed=embed,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -123,6 +126,7 @@ class ChargebacksSDK(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -139,6 +143,7 @@ class ChargebacksSDK(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -160,6 +165,7 @@ class ChargebacksSDK(BaseSDK):
             limit=limit,
             embed=embed,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -227,6 +233,7 @@ class ChargebacksSDK(BaseSDK):
         chargeback_id: str,
         embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -240,6 +247,7 @@ class ChargebacksSDK(BaseSDK):
         :param chargeback_id: Provide the ID of the related chargeback.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -260,6 +268,7 @@ class ChargebacksSDK(BaseSDK):
             chargeback_id=chargeback_id,
             embed=embed,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -327,6 +336,7 @@ class ChargebacksSDK(BaseSDK):
         chargeback_id: str,
         embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -340,6 +350,7 @@ class ChargebacksSDK(BaseSDK):
         :param chargeback_id: Provide the ID of the related chargeback.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -360,6 +371,7 @@ class ChargebacksSDK(BaseSDK):
             chargeback_id=chargeback_id,
             embed=embed,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -429,6 +441,7 @@ class ChargebacksSDK(BaseSDK):
         sort: OptionalNullable[models.ListSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -446,6 +459,7 @@ class ChargebacksSDK(BaseSDK):
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve chargebacks for.  Most API credentials are linked to a single profile. In these cases the `profileId` is already implied.  To retrieve all chargebacks across the organization, use an organization-level API credential and omit the `profileId` parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -468,6 +482,7 @@ class ChargebacksSDK(BaseSDK):
             sort=sort,
             profile_id=profile_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -537,6 +552,7 @@ class ChargebacksSDK(BaseSDK):
         sort: OptionalNullable[models.ListSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -554,6 +570,7 @@ class ChargebacksSDK(BaseSDK):
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve chargebacks for.  Most API credentials are linked to a single profile. In these cases the `profileId` is already implied.  To retrieve all chargebacks across the organization, use an organization-level API credential and omit the `profileId` parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -576,6 +593,7 @@ class ChargebacksSDK(BaseSDK):
             sort=sort,
             profile_id=profile_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(

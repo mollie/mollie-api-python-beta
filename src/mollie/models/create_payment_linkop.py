@@ -7,6 +7,7 @@ from .payment_address import PaymentAddress, PaymentAddressTypedDict
 from .payment_line_item import PaymentLineItem, PaymentLineItemTypedDict
 from .payment_link_sequence_type import PaymentLinkSequenceType
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.utils import FieldMetadata, HeaderMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
@@ -48,7 +49,7 @@ class CreatePaymentLinkApplicationFee(BaseModel):
     """
 
 
-class CreatePaymentLinkRequestTypedDict(TypedDict):
+class CreatePaymentLinkRequestBodyTypedDict(TypedDict):
     description: str
     r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the
     customer's bank or card statement when possible.
@@ -132,7 +133,7 @@ class CreatePaymentLinkRequestTypedDict(TypedDict):
     """
 
 
-class CreatePaymentLinkRequest(BaseModel):
+class CreatePaymentLinkRequestBody(BaseModel):
     description: str
     r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the
     customer's bank or card statement when possible.
@@ -312,3 +313,23 @@ class CreatePaymentLinkRequest(BaseModel):
                 m[k] = val
 
         return m
+
+
+class CreatePaymentLinkRequestTypedDict(TypedDict):
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+    request_body: NotRequired[CreatePaymentLinkRequestBodyTypedDict]
+
+
+class CreatePaymentLinkRequest(BaseModel):
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+
+    request_body: Annotated[
+        Optional[CreatePaymentLinkRequestBody],
+        FieldMetadata(request=RequestMetadata(media_type="application/json")),
+    ] = None

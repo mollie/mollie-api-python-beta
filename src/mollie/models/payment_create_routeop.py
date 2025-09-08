@@ -3,7 +3,12 @@
 from __future__ import annotations
 from .route_create_request import RouteCreateRequest, RouteCreateRequestTypedDict
 from mollie.types import BaseModel
-from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
+from mollie.utils import (
+    FieldMetadata,
+    HeaderMetadata,
+    PathParamMetadata,
+    RequestMetadata,
+)
 import pydantic
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
@@ -12,6 +17,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class PaymentCreateRouteRequestTypedDict(TypedDict):
     payment_id: str
     r"""Provide the ID of the related payment."""
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
     route_create_request: NotRequired[RouteCreateRequestTypedDict]
 
 
@@ -22,6 +29,13 @@ class PaymentCreateRouteRequest(BaseModel):
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
     r"""Provide the ID of the related payment."""
+
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
     route_create_request: Annotated[
         Optional[RouteCreateRequest],

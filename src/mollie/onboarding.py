@@ -3,16 +3,17 @@
 from .basesdk import BaseSDK
 from mollie import models, utils
 from mollie._hooks import HookContext
-from mollie.types import BaseModel, OptionalNullable, UNSET
+from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
 from mollie.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union, cast
+from typing import Any, Mapping, Optional, Union
 
 
 class Onboarding(BaseSDK):
     def get(
         self,
         *,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -22,6 +23,7 @@ class Onboarding(BaseSDK):
 
         Retrieve the onboarding status of the currently authenticated organization.
 
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -36,12 +38,17 @@ class Onboarding(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetOnboardingStatusRequest(
+            idempotency_key=idempotency_key,
+        )
+
         req = self._build_request(
             method="GET",
             path="/onboarding/me",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -93,6 +100,7 @@ class Onboarding(BaseSDK):
     async def get_async(
         self,
         *,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -102,6 +110,7 @@ class Onboarding(BaseSDK):
 
         Retrieve the onboarding status of the currently authenticated organization.
 
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -116,12 +125,17 @@ class Onboarding(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetOnboardingStatusRequest(
+            idempotency_key=idempotency_key,
+        )
+
         req = self._build_request_async(
             method="GET",
             path="/onboarding/me",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -173,10 +187,11 @@ class Onboarding(BaseSDK):
     def submit(
         self,
         *,
-        request: Optional[
+        idempotency_key: Optional[str] = None,
+        request_body: Optional[
             Union[
-                models.SubmitOnboardingDataRequest,
-                models.SubmitOnboardingDataRequestTypedDict,
+                models.SubmitOnboardingDataRequestBody,
+                models.SubmitOnboardingDataRequestBodyTypedDict,
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -193,7 +208,8 @@ class Onboarding(BaseSDK):
         onboarding status is `needs-data`.
         Information that the merchant has entered in their dashboard will not be overwritten.
 
-        :param request: The request object to send.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -209,11 +225,12 @@ class Onboarding(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(
-                request, Optional[models.SubmitOnboardingDataRequest]
-            )
-        request = cast(Optional[models.SubmitOnboardingDataRequest], request)
+        request = models.SubmitOnboardingDataRequest(
+            idempotency_key=idempotency_key,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.SubmitOnboardingDataRequestBody]
+            ),
+        )
 
         req = self._build_request(
             method="POST",
@@ -229,11 +246,11 @@ class Onboarding(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request,
+                request.request_body,
                 False,
                 True,
                 "json",
-                Optional[models.SubmitOnboardingDataRequest],
+                Optional[models.SubmitOnboardingDataRequestBody],
             ),
             timeout_ms=timeout_ms,
         )
@@ -279,10 +296,11 @@ class Onboarding(BaseSDK):
     async def submit_async(
         self,
         *,
-        request: Optional[
+        idempotency_key: Optional[str] = None,
+        request_body: Optional[
             Union[
-                models.SubmitOnboardingDataRequest,
-                models.SubmitOnboardingDataRequestTypedDict,
+                models.SubmitOnboardingDataRequestBody,
+                models.SubmitOnboardingDataRequestBodyTypedDict,
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -299,7 +317,8 @@ class Onboarding(BaseSDK):
         onboarding status is `needs-data`.
         Information that the merchant has entered in their dashboard will not be overwritten.
 
-        :param request: The request object to send.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -315,11 +334,12 @@ class Onboarding(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(
-                request, Optional[models.SubmitOnboardingDataRequest]
-            )
-        request = cast(Optional[models.SubmitOnboardingDataRequest], request)
+        request = models.SubmitOnboardingDataRequest(
+            idempotency_key=idempotency_key,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.SubmitOnboardingDataRequestBody]
+            ),
+        )
 
         req = self._build_request_async(
             method="POST",
@@ -335,11 +355,11 @@ class Onboarding(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request,
+                request.request_body,
                 False,
                 True,
                 "json",
-                Optional[models.SubmitOnboardingDataRequest],
+                Optional[models.SubmitOnboardingDataRequestBody],
             ),
             timeout_ms=timeout_ms,
         )

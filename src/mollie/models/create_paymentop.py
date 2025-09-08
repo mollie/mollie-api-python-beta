@@ -3,7 +3,13 @@
 from __future__ import annotations
 from .payment_request import PaymentRequest, PaymentRequestTypedDict
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, QueryParamMetadata, RequestMetadata
+from mollie.utils import (
+    FieldMetadata,
+    HeaderMetadata,
+    QueryParamMetadata,
+    RequestMetadata,
+)
+import pydantic
 from pydantic import model_serializer
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
@@ -12,6 +18,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class CreatePaymentRequestTypedDict(TypedDict):
     include: NotRequired[Nullable[str]]
     r"""This endpoint allows you to include additional information via the `include` query string parameter."""
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
     payment_request: NotRequired[PaymentRequestTypedDict]
 
 
@@ -22,6 +30,13 @@ class CreatePaymentRequest(BaseModel):
     ] = UNSET
     r"""This endpoint allows you to include additional information via the `include` query string parameter."""
 
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+
     payment_request: Annotated[
         Optional[PaymentRequest],
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
@@ -29,7 +44,7 @@ class CreatePaymentRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["include", "payment-request"]
+        optional_fields = ["include", "idempotency-key", "payment-request"]
         nullable_fields = ["include"]
         null_default_fields = []
 

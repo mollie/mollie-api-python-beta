@@ -5,7 +5,12 @@ from .currencies import Currencies
 from .entity_settlement import EntitySettlement, EntitySettlementTypedDict
 from .list_links import ListLinks, ListLinksTypedDict
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, QueryParamMetadata, validate_open_enum
+from mollie.utils import (
+    FieldMetadata,
+    HeaderMetadata,
+    QueryParamMetadata,
+    validate_open_enum,
+)
 import pydantic
 from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
@@ -30,6 +35,8 @@ class ListSettlementsRequestTypedDict(TypedDict):
     r"""Provide the month to query the settlements. Must be used combined with `year` parameter"""
     currencies: NotRequired[Currencies]
     r"""Provides the currencies to retrieve the settlements. It accepts multiple currencies in a comma-separated format."""
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
 
 class ListSettlementsRequest(BaseModel):
@@ -75,9 +82,24 @@ class ListSettlementsRequest(BaseModel):
     ] = None
     r"""Provides the currencies to retrieve the settlements. It accepts multiple currencies in a comma-separated format."""
 
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["from", "limit", "balanceId", "year", "month", "currencies"]
+        optional_fields = [
+            "from",
+            "limit",
+            "balanceId",
+            "year",
+            "month",
+            "currencies",
+            "idempotency-key",
+        ]
         nullable_fields = ["from", "limit", "year", "month"]
         null_default_fields = []
 

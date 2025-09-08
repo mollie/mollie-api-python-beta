@@ -14,6 +14,7 @@ class DelayedRouting(BaseSDK):
         self,
         *,
         payment_id: str,
+        idempotency_key: Optional[str] = None,
         route_create_request: Optional[
             Union[models.RouteCreateRequest, models.RouteCreateRequestTypedDict]
         ] = None,
@@ -28,6 +29,7 @@ class DelayedRouting(BaseSDK):
         The routed amount is credited to the account of your customer.
 
         :param payment_id: Provide the ID of the related payment.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param route_create_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -46,6 +48,7 @@ class DelayedRouting(BaseSDK):
 
         request = models.PaymentCreateRouteRequest(
             payment_id=payment_id,
+            idempotency_key=idempotency_key,
             route_create_request=utils.get_pydantic_model(
                 route_create_request, Optional[models.RouteCreateRequest]
             ),
@@ -120,6 +123,7 @@ class DelayedRouting(BaseSDK):
         self,
         *,
         payment_id: str,
+        idempotency_key: Optional[str] = None,
         route_create_request: Optional[
             Union[models.RouteCreateRequest, models.RouteCreateRequestTypedDict]
         ] = None,
@@ -134,6 +138,7 @@ class DelayedRouting(BaseSDK):
         The routed amount is credited to the account of your customer.
 
         :param payment_id: Provide the ID of the related payment.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param route_create_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -152,6 +157,7 @@ class DelayedRouting(BaseSDK):
 
         request = models.PaymentCreateRouteRequest(
             payment_id=payment_id,
+            idempotency_key=idempotency_key,
             route_create_request=utils.get_pydantic_model(
                 route_create_request, Optional[models.RouteCreateRequest]
             ),
@@ -227,6 +233,7 @@ class DelayedRouting(BaseSDK):
         *,
         payment_id: str,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -238,6 +245,7 @@ class DelayedRouting(BaseSDK):
 
         :param payment_id: Provide the ID of the related payment.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -256,6 +264,7 @@ class DelayedRouting(BaseSDK):
         request = models.PaymentListRoutesRequest(
             payment_id=payment_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -321,6 +330,7 @@ class DelayedRouting(BaseSDK):
         *,
         payment_id: str,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -332,6 +342,7 @@ class DelayedRouting(BaseSDK):
 
         :param payment_id: Provide the ID of the related payment.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -350,6 +361,7 @@ class DelayedRouting(BaseSDK):
         request = models.PaymentListRoutesRequest(
             payment_id=payment_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(

@@ -6,7 +6,12 @@ from .metadata import Metadata, MetadataTypedDict
 from .method import Method
 from .payment_address import PaymentAddress, PaymentAddressTypedDict
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
+from mollie.utils import (
+    FieldMetadata,
+    HeaderMetadata,
+    PathParamMetadata,
+    RequestMetadata,
+)
 import pydantic
 from pydantic import model_serializer
 from typing import Optional
@@ -284,6 +289,8 @@ class UpdatePaymentRequestBody(BaseModel):
 class UpdatePaymentRequestTypedDict(TypedDict):
     payment_id: str
     r"""Provide the ID of the related payment."""
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
     request_body: NotRequired[UpdatePaymentRequestBodyTypedDict]
 
 
@@ -294,6 +301,13 @@ class UpdatePaymentRequest(BaseModel):
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
     r"""Provide the ID of the related payment."""
+
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
     request_body: Annotated[
         Optional[UpdatePaymentRequestBody],

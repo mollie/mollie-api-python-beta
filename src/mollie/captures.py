@@ -14,6 +14,7 @@ class Captures(BaseSDK):
         self,
         *,
         payment_id: str,
+        idempotency_key: Optional[str] = None,
         entity_capture: Optional[
             Union[models.EntityCapture, models.EntityCaptureTypedDict]
         ] = None,
@@ -34,6 +35,7 @@ class Captures(BaseSDK):
         having collected the customer's authorization.
 
         :param payment_id: Provide the ID of the related payment.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param entity_capture:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -52,6 +54,7 @@ class Captures(BaseSDK):
 
         request = models.CreateCaptureRequest(
             payment_id=payment_id,
+            idempotency_key=idempotency_key,
             entity_capture=utils.get_pydantic_model(
                 entity_capture, Optional[models.EntityCapture]
             ),
@@ -126,6 +129,7 @@ class Captures(BaseSDK):
         self,
         *,
         payment_id: str,
+        idempotency_key: Optional[str] = None,
         entity_capture: Optional[
             Union[models.EntityCapture, models.EntityCaptureTypedDict]
         ] = None,
@@ -146,6 +150,7 @@ class Captures(BaseSDK):
         having collected the customer's authorization.
 
         :param payment_id: Provide the ID of the related payment.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param entity_capture:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -164,6 +169,7 @@ class Captures(BaseSDK):
 
         request = models.CreateCaptureRequest(
             payment_id=payment_id,
+            idempotency_key=idempotency_key,
             entity_capture=utils.get_pydantic_model(
                 entity_capture, Optional[models.EntityCapture]
             ),
@@ -242,6 +248,7 @@ class Captures(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -258,6 +265,7 @@ class Captures(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -279,6 +287,7 @@ class Captures(BaseSDK):
             limit=limit,
             embed=embed,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -347,6 +356,7 @@ class Captures(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -363,6 +373,7 @@ class Captures(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -384,6 +395,7 @@ class Captures(BaseSDK):
             limit=limit,
             embed=embed,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -451,6 +463,7 @@ class Captures(BaseSDK):
         capture_id: str,
         embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -465,6 +478,7 @@ class Captures(BaseSDK):
         :param capture_id: Provide the ID of the related capture.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -485,6 +499,7 @@ class Captures(BaseSDK):
             capture_id=capture_id,
             embed=embed,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -552,6 +567,7 @@ class Captures(BaseSDK):
         capture_id: str,
         embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -566,6 +582,7 @@ class Captures(BaseSDK):
         :param capture_id: Provide the ID of the related capture.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -586,6 +603,7 @@ class Captures(BaseSDK):
             capture_id=capture_id,
             embed=embed,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(

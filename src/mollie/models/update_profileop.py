@@ -3,10 +3,15 @@
 from __future__ import annotations
 from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
+from mollie.utils import (
+    FieldMetadata,
+    HeaderMetadata,
+    PathParamMetadata,
+    RequestMetadata,
+)
 import pydantic
 from pydantic import model_serializer
-from typing import List
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -140,6 +145,8 @@ class UpdateProfileRequestTypedDict(TypedDict):
     id: str
     r"""Provide the ID of the item you want to perform this operation on."""
     request_body: UpdateProfileRequestBodyTypedDict
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
 
 class UpdateProfileRequest(BaseModel):
@@ -152,3 +159,10 @@ class UpdateProfileRequest(BaseModel):
         UpdateProfileRequestBody,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
+
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""

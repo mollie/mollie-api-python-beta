@@ -19,6 +19,7 @@ class Settlements(BaseSDK):
         year: OptionalNullable[str] = UNSET,
         month: OptionalNullable[str] = UNSET,
         currencies: Optional[models.Currencies] = None,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -36,6 +37,7 @@ class Settlements(BaseSDK):
         :param year: Provide the year to query the settlements. Must be used combined with `month` parameter
         :param month: Provide the month to query the settlements. Must be used combined with `year` parameter
         :param currencies: Provides the currencies to retrieve the settlements. It accepts multiple currencies in a comma-separated format.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -58,6 +60,7 @@ class Settlements(BaseSDK):
             year=year,
             month=month,
             currencies=currencies,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -127,6 +130,7 @@ class Settlements(BaseSDK):
         year: OptionalNullable[str] = UNSET,
         month: OptionalNullable[str] = UNSET,
         currencies: Optional[models.Currencies] = None,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -144,6 +148,7 @@ class Settlements(BaseSDK):
         :param year: Provide the year to query the settlements. Must be used combined with `month` parameter
         :param month: Provide the month to query the settlements. Must be used combined with `year` parameter
         :param currencies: Provides the currencies to retrieve the settlements. It accepts multiple currencies in a comma-separated format.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -166,6 +171,7 @@ class Settlements(BaseSDK):
             year=year,
             month=month,
             currencies=currencies,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -230,6 +236,7 @@ class Settlements(BaseSDK):
         self,
         *,
         id: str,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -251,6 +258,7 @@ class Settlements(BaseSDK):
         [balance transactions](list-balance-transactions) endpoint.
 
         :param id: Provide the ID of the item you want to perform this operation on.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -268,6 +276,7 @@ class Settlements(BaseSDK):
 
         request = models.GetSettlementRequest(
             id=id,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -332,6 +341,7 @@ class Settlements(BaseSDK):
         self,
         *,
         id: str,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -353,6 +363,7 @@ class Settlements(BaseSDK):
         [balance transactions](list-balance-transactions) endpoint.
 
         :param id: Provide the ID of the item you want to perform this operation on.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -370,6 +381,7 @@ class Settlements(BaseSDK):
 
         request = models.GetSettlementRequest(
             id=id,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -433,6 +445,7 @@ class Settlements(BaseSDK):
     def get_open(
         self,
         *,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -449,6 +462,7 @@ class Settlements(BaseSDK):
         For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the
         [balance transactions](list-balance-transactions) endpoint.
 
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -463,12 +477,17 @@ class Settlements(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetOpenSettlementRequest(
+            idempotency_key=idempotency_key,
+        )
+
         req = self._build_request(
             method="GET",
             path="/settlements/open",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -520,6 +539,7 @@ class Settlements(BaseSDK):
     async def get_open_async(
         self,
         *,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -536,6 +556,7 @@ class Settlements(BaseSDK):
         For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the
         [balance transactions](list-balance-transactions) endpoint.
 
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -550,12 +571,17 @@ class Settlements(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetOpenSettlementRequest(
+            idempotency_key=idempotency_key,
+        )
+
         req = self._build_request_async(
             method="GET",
             path="/settlements/open",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -607,6 +633,7 @@ class Settlements(BaseSDK):
     def get_next(
         self,
         *,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -622,6 +649,7 @@ class Settlements(BaseSDK):
         For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the
         [balance transactions](list-balance-transactions) endpoint.
 
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -636,12 +664,17 @@ class Settlements(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetNextSettlementRequest(
+            idempotency_key=idempotency_key,
+        )
+
         req = self._build_request(
             method="GET",
             path="/settlements/next",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -693,6 +726,7 @@ class Settlements(BaseSDK):
     async def get_next_async(
         self,
         *,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -708,6 +742,7 @@ class Settlements(BaseSDK):
         For more accurate bookkeeping, refer to the [balance report](get-balance-report) endpoint or the
         [balance transactions](list-balance-transactions) endpoint.
 
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -722,12 +757,17 @@ class Settlements(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetNextSettlementRequest(
+            idempotency_key=idempotency_key,
+        )
+
         req = self._build_request_async(
             method="GET",
             path="/settlements/next",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -785,6 +825,7 @@ class Settlements(BaseSDK):
         sort: OptionalNullable[models.ListSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -805,6 +846,7 @@ class Settlements(BaseSDK):
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -827,6 +869,7 @@ class Settlements(BaseSDK):
             sort=sort,
             profile_id=profile_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -898,6 +941,7 @@ class Settlements(BaseSDK):
         sort: OptionalNullable[models.ListSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -918,6 +962,7 @@ class Settlements(BaseSDK):
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -940,6 +985,7 @@ class Settlements(BaseSDK):
             sort=sort,
             profile_id=profile_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -1010,6 +1056,7 @@ class Settlements(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1026,6 +1073,7 @@ class Settlements(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1047,6 +1095,7 @@ class Settlements(BaseSDK):
             limit=limit,
             embed=embed,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -1117,6 +1166,7 @@ class Settlements(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1133,6 +1183,7 @@ class Settlements(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1154,6 +1205,7 @@ class Settlements(BaseSDK):
             limit=limit,
             embed=embed,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -1224,6 +1276,7 @@ class Settlements(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1240,6 +1293,7 @@ class Settlements(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1261,6 +1315,7 @@ class Settlements(BaseSDK):
             limit=limit,
             embed=embed,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -1331,6 +1386,7 @@ class Settlements(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1347,6 +1403,7 @@ class Settlements(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1368,6 +1425,7 @@ class Settlements(BaseSDK):
             limit=limit,
             embed=embed,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -1438,6 +1496,7 @@ class Settlements(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1454,6 +1513,7 @@ class Settlements(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1475,6 +1535,7 @@ class Settlements(BaseSDK):
             limit=limit,
             embed=embed,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -1545,6 +1606,7 @@ class Settlements(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         embed: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1561,6 +1623,7 @@ class Settlements(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1582,6 +1645,7 @@ class Settlements(BaseSDK):
             limit=limit,
             embed=embed,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(

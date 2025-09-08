@@ -14,6 +14,7 @@ class Mandates(BaseSDK):
         self,
         *,
         customer_id: str,
+        idempotency_key: Optional[str] = None,
         entity_mandate: Optional[
             Union[models.EntityMandate, models.EntityMandateTypedDict]
         ] = None,
@@ -31,6 +32,7 @@ class Mandates(BaseSDK):
         mandates for cards, your customers need to perform a 'first payment' with their card.
 
         :param customer_id: Provide the ID of the related customer.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param entity_mandate:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -49,6 +51,7 @@ class Mandates(BaseSDK):
 
         request = models.CreateMandateRequest(
             customer_id=customer_id,
+            idempotency_key=idempotency_key,
             entity_mandate=utils.get_pydantic_model(
                 entity_mandate, Optional[models.EntityMandate]
             ),
@@ -123,6 +126,7 @@ class Mandates(BaseSDK):
         self,
         *,
         customer_id: str,
+        idempotency_key: Optional[str] = None,
         entity_mandate: Optional[
             Union[models.EntityMandate, models.EntityMandateTypedDict]
         ] = None,
@@ -140,6 +144,7 @@ class Mandates(BaseSDK):
         mandates for cards, your customers need to perform a 'first payment' with their card.
 
         :param customer_id: Provide the ID of the related customer.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param entity_mandate:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -158,6 +163,7 @@ class Mandates(BaseSDK):
 
         request = models.CreateMandateRequest(
             customer_id=customer_id,
+            idempotency_key=idempotency_key,
             entity_mandate=utils.get_pydantic_model(
                 entity_mandate, Optional[models.EntityMandate]
             ),
@@ -236,6 +242,7 @@ class Mandates(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         sort: OptionalNullable[models.ListSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -252,6 +259,7 @@ class Mandates(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -273,6 +281,7 @@ class Mandates(BaseSDK):
             limit=limit,
             sort=sort,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -341,6 +350,7 @@ class Mandates(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         sort: OptionalNullable[models.ListSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -357,6 +367,7 @@ class Mandates(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -378,6 +389,7 @@ class Mandates(BaseSDK):
             limit=limit,
             sort=sort,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -444,6 +456,7 @@ class Mandates(BaseSDK):
         customer_id: str,
         mandate_id: str,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -457,6 +470,7 @@ class Mandates(BaseSDK):
         :param customer_id: Provide the ID of the related customer.
         :param mandate_id: Provide the ID of the related mandate.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -476,6 +490,7 @@ class Mandates(BaseSDK):
             customer_id=customer_id,
             mandate_id=mandate_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -542,6 +557,7 @@ class Mandates(BaseSDK):
         customer_id: str,
         mandate_id: str,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -555,6 +571,7 @@ class Mandates(BaseSDK):
         :param customer_id: Provide the ID of the related customer.
         :param mandate_id: Provide the ID of the related mandate.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -574,6 +591,7 @@ class Mandates(BaseSDK):
             customer_id=customer_id,
             mandate_id=mandate_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -639,6 +657,7 @@ class Mandates(BaseSDK):
         *,
         customer_id: str,
         mandate_id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[
                 models.RevokeMandateRequestBody,
@@ -657,6 +676,7 @@ class Mandates(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param mandate_id: Provide the ID of the related mandate.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -676,6 +696,7 @@ class Mandates(BaseSDK):
         request = models.RevokeMandateRequest(
             customer_id=customer_id,
             mandate_id=mandate_id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.RevokeMandateRequestBody]
             ),
@@ -751,6 +772,7 @@ class Mandates(BaseSDK):
         *,
         customer_id: str,
         mandate_id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[
                 models.RevokeMandateRequestBody,
@@ -769,6 +791,7 @@ class Mandates(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param mandate_id: Provide the ID of the related mandate.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -788,6 +811,7 @@ class Mandates(BaseSDK):
         request = models.RevokeMandateRequest(
             customer_id=customer_id,
             mandate_id=mandate_id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.RevokeMandateRequestBody]
             ),

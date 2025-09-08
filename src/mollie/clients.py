@@ -16,6 +16,7 @@ class Clients(BaseSDK):
         embed: OptionalNullable[str] = UNSET,
         from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -30,6 +31,7 @@ class Clients(BaseSDK):
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -49,6 +51,7 @@ class Clients(BaseSDK):
             embed=embed,
             from_=from_,
             limit=limit,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -115,6 +118,7 @@ class Clients(BaseSDK):
         embed: OptionalNullable[str] = UNSET,
         from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -129,6 +133,7 @@ class Clients(BaseSDK):
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -148,6 +153,7 @@ class Clients(BaseSDK):
             embed=embed,
             from_=from_,
             limit=limit,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -213,6 +219,7 @@ class Clients(BaseSDK):
         *,
         id: str,
         embed: OptionalNullable[str] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -224,6 +231,7 @@ class Clients(BaseSDK):
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -242,6 +250,7 @@ class Clients(BaseSDK):
         request = models.GetClientRequest(
             id=id,
             embed=embed,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -307,6 +316,7 @@ class Clients(BaseSDK):
         *,
         id: str,
         embed: OptionalNullable[str] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -318,6 +328,7 @@ class Clients(BaseSDK):
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -336,6 +347,7 @@ class Clients(BaseSDK):
         request = models.GetClientRequest(
             id=id,
             embed=embed,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(

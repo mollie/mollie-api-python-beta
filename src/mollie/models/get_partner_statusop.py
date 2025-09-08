@@ -4,10 +4,25 @@ from __future__ import annotations
 from .url import URL, URLTypedDict
 from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.utils import FieldMetadata, HeaderMetadata
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
+
+
+class GetPartnerStatusRequestTypedDict(TypedDict):
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+
+
+class GetPartnerStatusRequest(BaseModel):
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
 
 class PartnerType(str, Enum):

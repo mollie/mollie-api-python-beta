@@ -3,20 +3,21 @@
 from .basesdk import BaseSDK
 from mollie import models, utils
 from mollie._hooks import HookContext
-from mollie.types import BaseModel, OptionalNullable, UNSET
+from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
 from mollie.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union, cast
+from typing import Any, Mapping, Optional, Union
 
 
 class PaymentLinks(BaseSDK):
     def create(
         self,
         *,
-        request: Optional[
+        idempotency_key: Optional[str] = None,
+        request_body: Optional[
             Union[
-                models.CreatePaymentLinkRequest,
-                models.CreatePaymentLinkRequestTypedDict,
+                models.CreatePaymentLinkRequestBody,
+                models.CreatePaymentLinkRequestBodyTypedDict,
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -30,7 +31,8 @@ class PaymentLinks(BaseSDK):
         The payment link can be shared with your customers and will redirect them to them the payment page where they can
         complete the payment. A [payment](get-payment) will only be created once the customer initiates the payment.
 
-        :param request: The request object to send.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -46,11 +48,12 @@ class PaymentLinks(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(
-                request, Optional[models.CreatePaymentLinkRequest]
-            )
-        request = cast(Optional[models.CreatePaymentLinkRequest], request)
+        request = models.CreatePaymentLinkRequest(
+            idempotency_key=idempotency_key,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.CreatePaymentLinkRequestBody]
+            ),
+        )
 
         req = self._build_request(
             method="POST",
@@ -66,7 +69,11 @@ class PaymentLinks(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.CreatePaymentLinkRequest]
+                request.request_body,
+                False,
+                True,
+                "json",
+                Optional[models.CreatePaymentLinkRequestBody],
             ),
             timeout_ms=timeout_ms,
         )
@@ -116,10 +123,11 @@ class PaymentLinks(BaseSDK):
     async def create_async(
         self,
         *,
-        request: Optional[
+        idempotency_key: Optional[str] = None,
+        request_body: Optional[
             Union[
-                models.CreatePaymentLinkRequest,
-                models.CreatePaymentLinkRequestTypedDict,
+                models.CreatePaymentLinkRequestBody,
+                models.CreatePaymentLinkRequestBodyTypedDict,
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -133,7 +141,8 @@ class PaymentLinks(BaseSDK):
         The payment link can be shared with your customers and will redirect them to them the payment page where they can
         complete the payment. A [payment](get-payment) will only be created once the customer initiates the payment.
 
-        :param request: The request object to send.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -149,11 +158,12 @@ class PaymentLinks(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(
-                request, Optional[models.CreatePaymentLinkRequest]
-            )
-        request = cast(Optional[models.CreatePaymentLinkRequest], request)
+        request = models.CreatePaymentLinkRequest(
+            idempotency_key=idempotency_key,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.CreatePaymentLinkRequestBody]
+            ),
+        )
 
         req = self._build_request_async(
             method="POST",
@@ -169,7 +179,11 @@ class PaymentLinks(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.CreatePaymentLinkRequest]
+                request.request_body,
+                False,
+                True,
+                "json",
+                Optional[models.CreatePaymentLinkRequestBody],
             ),
             timeout_ms=timeout_ms,
         )
@@ -222,6 +236,7 @@ class PaymentLinks(BaseSDK):
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -236,6 +251,7 @@ class PaymentLinks(BaseSDK):
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -255,6 +271,7 @@ class PaymentLinks(BaseSDK):
             from_=from_,
             limit=limit,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -321,6 +338,7 @@ class PaymentLinks(BaseSDK):
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -335,6 +353,7 @@ class PaymentLinks(BaseSDK):
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -354,6 +373,7 @@ class PaymentLinks(BaseSDK):
             from_=from_,
             limit=limit,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -419,6 +439,7 @@ class PaymentLinks(BaseSDK):
         *,
         payment_link_id: str,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -430,6 +451,7 @@ class PaymentLinks(BaseSDK):
 
         :param payment_link_id: Provide the ID of the related payment link.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -448,6 +470,7 @@ class PaymentLinks(BaseSDK):
         request = models.GetPaymentLinkRequest(
             payment_link_id=payment_link_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -513,6 +536,7 @@ class PaymentLinks(BaseSDK):
         *,
         payment_link_id: str,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -524,6 +548,7 @@ class PaymentLinks(BaseSDK):
 
         :param payment_link_id: Provide the ID of the related payment link.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -542,6 +567,7 @@ class PaymentLinks(BaseSDK):
         request = models.GetPaymentLinkRequest(
             payment_link_id=payment_link_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -606,6 +632,7 @@ class PaymentLinks(BaseSDK):
         self,
         *,
         payment_link_id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[
                 models.UpdatePaymentLinkRequestBody,
@@ -622,6 +649,7 @@ class PaymentLinks(BaseSDK):
         Certain details of an existing payment link can be updated.
 
         :param payment_link_id: Provide the ID of the related payment link.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -640,6 +668,7 @@ class PaymentLinks(BaseSDK):
 
         request = models.UpdatePaymentLinkRequest(
             payment_link_id=payment_link_id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.UpdatePaymentLinkRequestBody]
             ),
@@ -714,6 +743,7 @@ class PaymentLinks(BaseSDK):
         self,
         *,
         payment_link_id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[
                 models.UpdatePaymentLinkRequestBody,
@@ -730,6 +760,7 @@ class PaymentLinks(BaseSDK):
         Certain details of an existing payment link can be updated.
 
         :param payment_link_id: Provide the ID of the related payment link.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -748,6 +779,7 @@ class PaymentLinks(BaseSDK):
 
         request = models.UpdatePaymentLinkRequest(
             payment_link_id=payment_link_id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.UpdatePaymentLinkRequestBody]
             ),
@@ -822,6 +854,7 @@ class PaymentLinks(BaseSDK):
         self,
         *,
         payment_link_id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[
                 models.DeletePaymentLinkRequestBody,
@@ -844,6 +877,7 @@ class PaymentLinks(BaseSDK):
         [Update payment link](update-payment-link) endpoint instead.
 
         :param payment_link_id: Provide the ID of the related payment link.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -862,6 +896,7 @@ class PaymentLinks(BaseSDK):
 
         request = models.DeletePaymentLinkRequest(
             payment_link_id=payment_link_id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.DeletePaymentLinkRequestBody]
             ),
@@ -936,6 +971,7 @@ class PaymentLinks(BaseSDK):
         self,
         *,
         payment_link_id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[
                 models.DeletePaymentLinkRequestBody,
@@ -958,6 +994,7 @@ class PaymentLinks(BaseSDK):
         [Update payment link](update-payment-link) endpoint instead.
 
         :param payment_link_id: Provide the ID of the related payment link.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -976,6 +1013,7 @@ class PaymentLinks(BaseSDK):
 
         request = models.DeletePaymentLinkRequest(
             payment_link_id=payment_link_id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.DeletePaymentLinkRequestBody]
             ),
@@ -1054,6 +1092,7 @@ class PaymentLinks(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         sort: OptionalNullable[models.ListSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1070,6 +1109,7 @@ class PaymentLinks(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1091,6 +1131,7 @@ class PaymentLinks(BaseSDK):
             limit=limit,
             sort=sort,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -1161,6 +1202,7 @@ class PaymentLinks(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         sort: OptionalNullable[models.ListSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1177,6 +1219,7 @@ class PaymentLinks(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1198,6 +1241,7 @@ class PaymentLinks(BaseSDK):
             limit=limit,
             sort=sort,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(

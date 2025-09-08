@@ -52,19 +52,31 @@ if TYPE_CHECKING:
         ComponentsSubTotalsTypedDict,
     )
     from .create_captureop import CreateCaptureRequest, CreateCaptureRequestTypedDict
+    from .create_client_linkop import (
+        CreateClientLinkRequest,
+        CreateClientLinkRequestTypedDict,
+    )
     from .create_customer_paymentop import (
         CreateCustomerPaymentRequest,
         CreateCustomerPaymentRequestTypedDict,
     )
+    from .create_customerop import CreateCustomerRequest, CreateCustomerRequestTypedDict
     from .create_mandateop import CreateMandateRequest, CreateMandateRequestTypedDict
     from .create_payment_linkop import (
         CreatePaymentLinkApplicationFee,
         CreatePaymentLinkApplicationFeeTypedDict,
         CreatePaymentLinkRequest,
+        CreatePaymentLinkRequestBody,
+        CreatePaymentLinkRequestBodyTypedDict,
         CreatePaymentLinkRequestTypedDict,
     )
     from .create_paymentop import CreatePaymentRequest, CreatePaymentRequestTypedDict
+    from .create_profileop import CreateProfileRequest, CreateProfileRequestTypedDict
     from .create_refundop import CreateRefundRequest, CreateRefundRequestTypedDict
+    from .create_sales_invoiceop import (
+        CreateSalesInvoiceRequest,
+        CreateSalesInvoiceRequestTypedDict,
+    )
     from .create_subscriptionop import (
         CreateSubscriptionRequest,
         CreateSubscriptionRequestTypedDict,
@@ -75,7 +87,12 @@ if TYPE_CHECKING:
         CreateWebhookLinksTypedDict,
         CreateWebhookTypedDict,
     )
-    from .create_webhookop import CreateWebhookRequest, CreateWebhookRequestTypedDict
+    from .create_webhookop import (
+        CreateWebhookRequest,
+        CreateWebhookRequestBody,
+        CreateWebhookRequestBodyTypedDict,
+        CreateWebhookRequestTypedDict,
+    )
     from .currencies import Currencies
     from .customer_response import (
         CustomerResponse,
@@ -427,6 +444,14 @@ if TYPE_CHECKING:
         GetClientResponse,
         GetClientResponseTypedDict,
     )
+    from .get_current_organizationop import (
+        GetCurrentOrganizationRequest,
+        GetCurrentOrganizationRequestTypedDict,
+    )
+    from .get_current_profileop import (
+        GetCurrentProfileRequest,
+        GetCurrentProfileRequestTypedDict,
+    )
     from .get_customerop import (
         GetCustomerLinks,
         GetCustomerLinksTypedDict,
@@ -438,6 +463,18 @@ if TYPE_CHECKING:
     from .get_invoiceop import GetInvoiceRequest, GetInvoiceRequestTypedDict
     from .get_mandateop import GetMandateRequest, GetMandateRequestTypedDict
     from .get_methodop import GetMethodRequest, GetMethodRequestTypedDict
+    from .get_next_settlementop import (
+        GetNextSettlementRequest,
+        GetNextSettlementRequestTypedDict,
+    )
+    from .get_onboarding_statusop import (
+        GetOnboardingStatusRequest,
+        GetOnboardingStatusRequestTypedDict,
+    )
+    from .get_open_settlementop import (
+        GetOpenSettlementRequest,
+        GetOpenSettlementRequestTypedDict,
+    )
     from .get_organizationop import (
         GetOrganizationRequest,
         GetOrganizationRequestTypedDict,
@@ -445,6 +482,8 @@ if TYPE_CHECKING:
     from .get_partner_statusop import (
         GetPartnerStatusLinks,
         GetPartnerStatusLinksTypedDict,
+        GetPartnerStatusRequest,
+        GetPartnerStatusRequestTypedDict,
         GetPartnerStatusResponse,
         GetPartnerStatusResponseTypedDict,
         PartnerType,
@@ -465,6 +504,10 @@ if TYPE_CHECKING:
     )
     from .get_paymentop import GetPaymentRequest, GetPaymentRequestTypedDict
     from .get_permissionop import GetPermissionRequest, GetPermissionRequestTypedDict
+    from .get_primary_balanceop import (
+        GetPrimaryBalanceRequest,
+        GetPrimaryBalanceRequestTypedDict,
+    )
     from .get_profileop import GetProfileRequest, GetProfileRequestTypedDict
     from .get_refundop import GetRefundRequest, GetRefundRequestTypedDict
     from .get_sales_invoiceop import (
@@ -540,6 +583,8 @@ if TYPE_CHECKING:
         ListCapabilitiesEmbeddedTypedDict,
         ListCapabilitiesLinks,
         ListCapabilitiesLinksTypedDict,
+        ListCapabilitiesRequest,
+        ListCapabilitiesRequestTypedDict,
         ListCapabilitiesResponse,
         ListCapabilitiesResponseTypedDict,
     )
@@ -643,6 +688,8 @@ if TYPE_CHECKING:
         ListPermissionsEmbeddedTypedDict,
         ListPermissionsLinks,
         ListPermissionsLinksTypedDict,
+        ListPermissionsRequest,
+        ListPermissionsRequestTypedDict,
         ListPermissionsResponse,
         ListPermissionsResponseTypedDict,
     )
@@ -873,6 +920,8 @@ if TYPE_CHECKING:
     )
     from .request_apple_pay_payment_sessionop import (
         RequestApplePayPaymentSessionRequest,
+        RequestApplePayPaymentSessionRequestBody,
+        RequestApplePayPaymentSessionRequestBodyTypedDict,
         RequestApplePayPaymentSessionRequestTypedDict,
     )
     from .responsevalidationerror import ResponseValidationError
@@ -984,6 +1033,8 @@ if TYPE_CHECKING:
         Profile,
         ProfileTypedDict,
         SubmitOnboardingDataRequest,
+        SubmitOnboardingDataRequestBody,
+        SubmitOnboardingDataRequestBodyTypedDict,
         SubmitOnboardingDataRequestTypedDict,
         VatRegulation,
     )
@@ -1133,24 +1184,36 @@ __all__ = [
     "CorrectionsTypedDict",
     "CreateCaptureRequest",
     "CreateCaptureRequestTypedDict",
+    "CreateClientLinkRequest",
+    "CreateClientLinkRequestTypedDict",
     "CreateCustomerPaymentRequest",
     "CreateCustomerPaymentRequestTypedDict",
+    "CreateCustomerRequest",
+    "CreateCustomerRequestTypedDict",
     "CreateMandateRequest",
     "CreateMandateRequestTypedDict",
     "CreatePaymentLinkApplicationFee",
     "CreatePaymentLinkApplicationFeeTypedDict",
     "CreatePaymentLinkRequest",
+    "CreatePaymentLinkRequestBody",
+    "CreatePaymentLinkRequestBodyTypedDict",
     "CreatePaymentLinkRequestTypedDict",
     "CreatePaymentRequest",
     "CreatePaymentRequestTypedDict",
+    "CreateProfileRequest",
+    "CreateProfileRequestTypedDict",
     "CreateRefundRequest",
     "CreateRefundRequestTypedDict",
+    "CreateSalesInvoiceRequest",
+    "CreateSalesInvoiceRequestTypedDict",
     "CreateSubscriptionRequest",
     "CreateSubscriptionRequestTypedDict",
     "CreateWebhook",
     "CreateWebhookLinks",
     "CreateWebhookLinksTypedDict",
     "CreateWebhookRequest",
+    "CreateWebhookRequestBody",
+    "CreateWebhookRequestBodyTypedDict",
     "CreateWebhookRequestTypedDict",
     "CreateWebhookTypedDict",
     "Currencies",
@@ -1352,6 +1415,10 @@ __all__ = [
     "GetClientRequestTypedDict",
     "GetClientResponse",
     "GetClientResponseTypedDict",
+    "GetCurrentOrganizationRequest",
+    "GetCurrentOrganizationRequestTypedDict",
+    "GetCurrentProfileRequest",
+    "GetCurrentProfileRequestTypedDict",
     "GetCustomerLinks",
     "GetCustomerLinksTypedDict",
     "GetCustomerRequest",
@@ -1364,10 +1431,18 @@ __all__ = [
     "GetMandateRequestTypedDict",
     "GetMethodRequest",
     "GetMethodRequestTypedDict",
+    "GetNextSettlementRequest",
+    "GetNextSettlementRequestTypedDict",
+    "GetOnboardingStatusRequest",
+    "GetOnboardingStatusRequestTypedDict",
+    "GetOpenSettlementRequest",
+    "GetOpenSettlementRequestTypedDict",
     "GetOrganizationRequest",
     "GetOrganizationRequestTypedDict",
     "GetPartnerStatusLinks",
     "GetPartnerStatusLinksTypedDict",
+    "GetPartnerStatusRequest",
+    "GetPartnerStatusRequestTypedDict",
     "GetPartnerStatusResponse",
     "GetPartnerStatusResponseTypedDict",
     "GetPaymentLinkPaymentsEmbedded",
@@ -1382,6 +1457,8 @@ __all__ = [
     "GetPaymentRequestTypedDict",
     "GetPermissionRequest",
     "GetPermissionRequestTypedDict",
+    "GetPrimaryBalanceRequest",
+    "GetPrimaryBalanceRequestTypedDict",
     "GetProfileRequest",
     "GetProfileRequestTypedDict",
     "GetRefundRequest",
@@ -1449,6 +1526,8 @@ __all__ = [
     "ListCapabilitiesEmbeddedTypedDict",
     "ListCapabilitiesLinks",
     "ListCapabilitiesLinksTypedDict",
+    "ListCapabilitiesRequest",
+    "ListCapabilitiesRequestTypedDict",
     "ListCapabilitiesResponse",
     "ListCapabilitiesResponseTypedDict",
     "ListCapturesEmbedded",
@@ -1525,6 +1604,8 @@ __all__ = [
     "ListPermissionsEmbeddedTypedDict",
     "ListPermissionsLinks",
     "ListPermissionsLinksTypedDict",
+    "ListPermissionsRequest",
+    "ListPermissionsRequestTypedDict",
     "ListPermissionsResponse",
     "ListPermissionsResponseTypedDict",
     "ListProfilesEmbedded",
@@ -1739,6 +1820,8 @@ __all__ = [
     "ReleaseAuthorizationRequestBodyTypedDict",
     "ReleaseAuthorizationRequestTypedDict",
     "RequestApplePayPaymentSessionRequest",
+    "RequestApplePayPaymentSessionRequestBody",
+    "RequestApplePayPaymentSessionRequestBodyTypedDict",
     "RequestApplePayPaymentSessionRequestTypedDict",
     "Resource",
     "ResponseValidationError",
@@ -1834,6 +1917,8 @@ __all__ = [
     "SubTotalsTransactionType",
     "SubTotalsTypedDict",
     "SubmitOnboardingDataRequest",
+    "SubmitOnboardingDataRequestBody",
+    "SubmitOnboardingDataRequestBodyTypedDict",
     "SubmitOnboardingDataRequestTypedDict",
     "SubscriptionMethod",
     "SubscriptionMethodResponse",
@@ -1946,18 +2031,28 @@ _dynamic_imports: dict[str, str] = {
     "ComponentsSubTotalsTypedDict": ".components_sub_totals",
     "CreateCaptureRequest": ".create_captureop",
     "CreateCaptureRequestTypedDict": ".create_captureop",
+    "CreateClientLinkRequest": ".create_client_linkop",
+    "CreateClientLinkRequestTypedDict": ".create_client_linkop",
     "CreateCustomerPaymentRequest": ".create_customer_paymentop",
     "CreateCustomerPaymentRequestTypedDict": ".create_customer_paymentop",
+    "CreateCustomerRequest": ".create_customerop",
+    "CreateCustomerRequestTypedDict": ".create_customerop",
     "CreateMandateRequest": ".create_mandateop",
     "CreateMandateRequestTypedDict": ".create_mandateop",
     "CreatePaymentLinkApplicationFee": ".create_payment_linkop",
     "CreatePaymentLinkApplicationFeeTypedDict": ".create_payment_linkop",
     "CreatePaymentLinkRequest": ".create_payment_linkop",
+    "CreatePaymentLinkRequestBody": ".create_payment_linkop",
+    "CreatePaymentLinkRequestBodyTypedDict": ".create_payment_linkop",
     "CreatePaymentLinkRequestTypedDict": ".create_payment_linkop",
     "CreatePaymentRequest": ".create_paymentop",
     "CreatePaymentRequestTypedDict": ".create_paymentop",
+    "CreateProfileRequest": ".create_profileop",
+    "CreateProfileRequestTypedDict": ".create_profileop",
     "CreateRefundRequest": ".create_refundop",
     "CreateRefundRequestTypedDict": ".create_refundop",
+    "CreateSalesInvoiceRequest": ".create_sales_invoiceop",
+    "CreateSalesInvoiceRequestTypedDict": ".create_sales_invoiceop",
     "CreateSubscriptionRequest": ".create_subscriptionop",
     "CreateSubscriptionRequestTypedDict": ".create_subscriptionop",
     "CreateWebhook": ".create_webhook",
@@ -1965,6 +2060,8 @@ _dynamic_imports: dict[str, str] = {
     "CreateWebhookLinksTypedDict": ".create_webhook",
     "CreateWebhookTypedDict": ".create_webhook",
     "CreateWebhookRequest": ".create_webhookop",
+    "CreateWebhookRequestBody": ".create_webhookop",
+    "CreateWebhookRequestBodyTypedDict": ".create_webhookop",
     "CreateWebhookRequestTypedDict": ".create_webhookop",
     "Currencies": ".currencies",
     "CustomerResponse": ".customer_response",
@@ -2258,6 +2355,10 @@ _dynamic_imports: dict[str, str] = {
     "GetClientRequestTypedDict": ".get_clientop",
     "GetClientResponse": ".get_clientop",
     "GetClientResponseTypedDict": ".get_clientop",
+    "GetCurrentOrganizationRequest": ".get_current_organizationop",
+    "GetCurrentOrganizationRequestTypedDict": ".get_current_organizationop",
+    "GetCurrentProfileRequest": ".get_current_profileop",
+    "GetCurrentProfileRequestTypedDict": ".get_current_profileop",
     "GetCustomerLinks": ".get_customerop",
     "GetCustomerLinksTypedDict": ".get_customerop",
     "GetCustomerRequest": ".get_customerop",
@@ -2270,10 +2371,18 @@ _dynamic_imports: dict[str, str] = {
     "GetMandateRequestTypedDict": ".get_mandateop",
     "GetMethodRequest": ".get_methodop",
     "GetMethodRequestTypedDict": ".get_methodop",
+    "GetNextSettlementRequest": ".get_next_settlementop",
+    "GetNextSettlementRequestTypedDict": ".get_next_settlementop",
+    "GetOnboardingStatusRequest": ".get_onboarding_statusop",
+    "GetOnboardingStatusRequestTypedDict": ".get_onboarding_statusop",
+    "GetOpenSettlementRequest": ".get_open_settlementop",
+    "GetOpenSettlementRequestTypedDict": ".get_open_settlementop",
     "GetOrganizationRequest": ".get_organizationop",
     "GetOrganizationRequestTypedDict": ".get_organizationop",
     "GetPartnerStatusLinks": ".get_partner_statusop",
     "GetPartnerStatusLinksTypedDict": ".get_partner_statusop",
+    "GetPartnerStatusRequest": ".get_partner_statusop",
+    "GetPartnerStatusRequestTypedDict": ".get_partner_statusop",
     "GetPartnerStatusResponse": ".get_partner_statusop",
     "GetPartnerStatusResponseTypedDict": ".get_partner_statusop",
     "PartnerType": ".get_partner_statusop",
@@ -2291,6 +2400,8 @@ _dynamic_imports: dict[str, str] = {
     "GetPaymentRequestTypedDict": ".get_paymentop",
     "GetPermissionRequest": ".get_permissionop",
     "GetPermissionRequestTypedDict": ".get_permissionop",
+    "GetPrimaryBalanceRequest": ".get_primary_balanceop",
+    "GetPrimaryBalanceRequestTypedDict": ".get_primary_balanceop",
     "GetProfileRequest": ".get_profileop",
     "GetProfileRequestTypedDict": ".get_profileop",
     "GetRefundRequest": ".get_refundop",
@@ -2352,6 +2463,8 @@ _dynamic_imports: dict[str, str] = {
     "ListCapabilitiesEmbeddedTypedDict": ".list_capabilitiesop",
     "ListCapabilitiesLinks": ".list_capabilitiesop",
     "ListCapabilitiesLinksTypedDict": ".list_capabilitiesop",
+    "ListCapabilitiesRequest": ".list_capabilitiesop",
+    "ListCapabilitiesRequestTypedDict": ".list_capabilitiesop",
     "ListCapabilitiesResponse": ".list_capabilitiesop",
     "ListCapabilitiesResponseTypedDict": ".list_capabilitiesop",
     "ListCapturesEmbedded": ".list_capturesop",
@@ -2434,6 +2547,8 @@ _dynamic_imports: dict[str, str] = {
     "ListPermissionsEmbeddedTypedDict": ".list_permissionsop",
     "ListPermissionsLinks": ".list_permissionsop",
     "ListPermissionsLinksTypedDict": ".list_permissionsop",
+    "ListPermissionsRequest": ".list_permissionsop",
+    "ListPermissionsRequestTypedDict": ".list_permissionsop",
     "ListPermissionsResponse": ".list_permissionsop",
     "ListPermissionsResponseTypedDict": ".list_permissionsop",
     "ListProfilesEmbedded": ".list_profilesop",
@@ -2609,6 +2724,8 @@ _dynamic_imports: dict[str, str] = {
     "ReleaseAuthorizationRequestBodyTypedDict": ".release_authorizationop",
     "ReleaseAuthorizationRequestTypedDict": ".release_authorizationop",
     "RequestApplePayPaymentSessionRequest": ".request_apple_pay_payment_sessionop",
+    "RequestApplePayPaymentSessionRequestBody": ".request_apple_pay_payment_sessionop",
+    "RequestApplePayPaymentSessionRequestBodyTypedDict": ".request_apple_pay_payment_sessionop",
     "RequestApplePayPaymentSessionRequestTypedDict": ".request_apple_pay_payment_sessionop",
     "ResponseValidationError": ".responsevalidationerror",
     "RevokeMandateRequest": ".revoke_mandateop",
@@ -2690,6 +2807,8 @@ _dynamic_imports: dict[str, str] = {
     "Profile": ".submit_onboarding_dataop",
     "ProfileTypedDict": ".submit_onboarding_dataop",
     "SubmitOnboardingDataRequest": ".submit_onboarding_dataop",
+    "SubmitOnboardingDataRequestBody": ".submit_onboarding_dataop",
+    "SubmitOnboardingDataRequestBodyTypedDict": ".submit_onboarding_dataop",
     "SubmitOnboardingDataRequestTypedDict": ".submit_onboarding_dataop",
     "VatRegulation": ".submit_onboarding_dataop",
     "SubscriptionMethod": ".subscription_method",

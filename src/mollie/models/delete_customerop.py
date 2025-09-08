@@ -2,7 +2,12 @@
 
 from __future__ import annotations
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
+from mollie.utils import (
+    FieldMetadata,
+    HeaderMetadata,
+    PathParamMetadata,
+    RequestMetadata,
+)
 import pydantic
 from pydantic import model_serializer
 from typing import Optional
@@ -60,6 +65,8 @@ class DeleteCustomerRequestBody(BaseModel):
 class DeleteCustomerRequestTypedDict(TypedDict):
     customer_id: str
     r"""Provide the ID of the related customer."""
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
     request_body: NotRequired[DeleteCustomerRequestBodyTypedDict]
 
 
@@ -70,6 +77,13 @@ class DeleteCustomerRequest(BaseModel):
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
     r"""Provide the ID of the related customer."""
+
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
     request_body: Annotated[
         Optional[DeleteCustomerRequestBody],

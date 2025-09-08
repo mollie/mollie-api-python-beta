@@ -3,17 +3,18 @@
 from .basesdk import BaseSDK
 from mollie import models, utils
 from mollie._hooks import HookContext
-from mollie.types import BaseModel, OptionalNullable, UNSET
+from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
 from mollie.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union, cast
+from typing import Any, Mapping, Optional, Union
 
 
 class Customers(BaseSDK):
     def create(
         self,
         *,
-        request: Optional[
+        idempotency_key: Optional[str] = None,
+        entity_customer: Optional[
             Union[models.EntityCustomer, models.EntityCustomerTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -28,7 +29,8 @@ class Customers(BaseSDK):
 
         Once registered, customers will also appear in your Mollie dashboard.
 
-        :param request: The request object to send.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
+        :param entity_customer:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -44,9 +46,12 @@ class Customers(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, Optional[models.EntityCustomer])
-        request = cast(Optional[models.EntityCustomer], request)
+        request = models.CreateCustomerRequest(
+            idempotency_key=idempotency_key,
+            entity_customer=utils.get_pydantic_model(
+                entity_customer, Optional[models.EntityCustomer]
+            ),
+        )
 
         req = self._build_request(
             method="POST",
@@ -62,7 +67,11 @@ class Customers(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.EntityCustomer]
+                request.entity_customer,
+                False,
+                True,
+                "json",
+                Optional[models.EntityCustomer],
             ),
             timeout_ms=timeout_ms,
         )
@@ -112,7 +121,8 @@ class Customers(BaseSDK):
     async def create_async(
         self,
         *,
-        request: Optional[
+        idempotency_key: Optional[str] = None,
+        entity_customer: Optional[
             Union[models.EntityCustomer, models.EntityCustomerTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -127,7 +137,8 @@ class Customers(BaseSDK):
 
         Once registered, customers will also appear in your Mollie dashboard.
 
-        :param request: The request object to send.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
+        :param entity_customer:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -143,9 +154,12 @@ class Customers(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, Optional[models.EntityCustomer])
-        request = cast(Optional[models.EntityCustomer], request)
+        request = models.CreateCustomerRequest(
+            idempotency_key=idempotency_key,
+            entity_customer=utils.get_pydantic_model(
+                entity_customer, Optional[models.EntityCustomer]
+            ),
+        )
 
         req = self._build_request_async(
             method="POST",
@@ -161,7 +175,11 @@ class Customers(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.EntityCustomer]
+                request.entity_customer,
+                False,
+                True,
+                "json",
+                Optional[models.EntityCustomer],
             ),
             timeout_ms=timeout_ms,
         )
@@ -215,6 +233,7 @@ class Customers(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         sort: OptionalNullable[models.ListSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -230,6 +249,7 @@ class Customers(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -250,6 +270,7 @@ class Customers(BaseSDK):
             limit=limit,
             sort=sort,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -317,6 +338,7 @@ class Customers(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         sort: OptionalNullable[models.ListSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -332,6 +354,7 @@ class Customers(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -352,6 +375,7 @@ class Customers(BaseSDK):
             limit=limit,
             sort=sort,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -418,6 +442,7 @@ class Customers(BaseSDK):
         customer_id: str,
         include: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -430,6 +455,7 @@ class Customers(BaseSDK):
         :param customer_id: Provide the ID of the related customer.
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -449,6 +475,7 @@ class Customers(BaseSDK):
             customer_id=customer_id,
             include=include,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -515,6 +542,7 @@ class Customers(BaseSDK):
         customer_id: str,
         include: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -527,6 +555,7 @@ class Customers(BaseSDK):
         :param customer_id: Provide the ID of the related customer.
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -546,6 +575,7 @@ class Customers(BaseSDK):
             customer_id=customer_id,
             include=include,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -610,6 +640,7 @@ class Customers(BaseSDK):
         self,
         *,
         customer_id: str,
+        idempotency_key: Optional[str] = None,
         entity_customer: Optional[
             Union[models.EntityCustomer, models.EntityCustomerTypedDict]
         ] = None,
@@ -625,6 +656,7 @@ class Customers(BaseSDK):
         For an in-depth explanation of each parameter, refer to the [Create customer](create-customer) endpoint.
 
         :param customer_id: Provide the ID of the related customer.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param entity_customer:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -643,6 +675,7 @@ class Customers(BaseSDK):
 
         request = models.UpdateCustomerRequest(
             customer_id=customer_id,
+            idempotency_key=idempotency_key,
             entity_customer=utils.get_pydantic_model(
                 entity_customer, Optional[models.EntityCustomer]
             ),
@@ -717,6 +750,7 @@ class Customers(BaseSDK):
         self,
         *,
         customer_id: str,
+        idempotency_key: Optional[str] = None,
         entity_customer: Optional[
             Union[models.EntityCustomer, models.EntityCustomerTypedDict]
         ] = None,
@@ -732,6 +766,7 @@ class Customers(BaseSDK):
         For an in-depth explanation of each parameter, refer to the [Create customer](create-customer) endpoint.
 
         :param customer_id: Provide the ID of the related customer.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param entity_customer:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -750,6 +785,7 @@ class Customers(BaseSDK):
 
         request = models.UpdateCustomerRequest(
             customer_id=customer_id,
+            idempotency_key=idempotency_key,
             entity_customer=utils.get_pydantic_model(
                 entity_customer, Optional[models.EntityCustomer]
             ),
@@ -824,6 +860,7 @@ class Customers(BaseSDK):
         self,
         *,
         customer_id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[
                 models.DeleteCustomerRequestBody,
@@ -840,6 +877,7 @@ class Customers(BaseSDK):
         Delete a customer. All mandates and subscriptions created for this customer will be canceled as well.
 
         :param customer_id: Provide the ID of the related customer.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -858,6 +896,7 @@ class Customers(BaseSDK):
 
         request = models.DeleteCustomerRequest(
             customer_id=customer_id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.DeleteCustomerRequestBody]
             ),
@@ -932,6 +971,7 @@ class Customers(BaseSDK):
         self,
         *,
         customer_id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[
                 models.DeleteCustomerRequestBody,
@@ -948,6 +988,7 @@ class Customers(BaseSDK):
         Delete a customer. All mandates and subscriptions created for this customer will be canceled as well.
 
         :param customer_id: Provide the ID of the related customer.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -966,6 +1007,7 @@ class Customers(BaseSDK):
 
         request = models.DeleteCustomerRequest(
             customer_id=customer_id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.DeleteCustomerRequestBody]
             ),
@@ -1040,6 +1082,7 @@ class Customers(BaseSDK):
         self,
         *,
         customer_id: str,
+        idempotency_key: Optional[str] = None,
         payment_request: Optional[
             Union[models.PaymentRequest, models.PaymentRequestTypedDict]
         ] = None,
@@ -1063,6 +1106,7 @@ class Customers(BaseSDK):
         parameter predefined.
 
         :param customer_id: Provide the ID of the related customer.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param payment_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1081,6 +1125,7 @@ class Customers(BaseSDK):
 
         request = models.CreateCustomerPaymentRequest(
             customer_id=customer_id,
+            idempotency_key=idempotency_key,
             payment_request=utils.get_pydantic_model(
                 payment_request, Optional[models.PaymentRequest]
             ),
@@ -1158,6 +1203,7 @@ class Customers(BaseSDK):
         self,
         *,
         customer_id: str,
+        idempotency_key: Optional[str] = None,
         payment_request: Optional[
             Union[models.PaymentRequest, models.PaymentRequestTypedDict]
         ] = None,
@@ -1181,6 +1227,7 @@ class Customers(BaseSDK):
         parameter predefined.
 
         :param customer_id: Provide the ID of the related customer.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param payment_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1199,6 +1246,7 @@ class Customers(BaseSDK):
 
         request = models.CreateCustomerPaymentRequest(
             customer_id=customer_id,
+            idempotency_key=idempotency_key,
             payment_request=utils.get_pydantic_model(
                 payment_request, Optional[models.PaymentRequest]
             ),
@@ -1281,6 +1329,7 @@ class Customers(BaseSDK):
         sort: OptionalNullable[models.ListSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1296,6 +1345,7 @@ class Customers(BaseSDK):
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1318,6 +1368,7 @@ class Customers(BaseSDK):
             sort=sort,
             profile_id=profile_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -1389,6 +1440,7 @@ class Customers(BaseSDK):
         sort: OptionalNullable[models.ListSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1404,6 +1456,7 @@ class Customers(BaseSDK):
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1426,6 +1479,7 @@ class Customers(BaseSDK):
             sort=sort,
             profile_id=profile_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(

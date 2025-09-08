@@ -3,12 +3,14 @@
 from __future__ import annotations
 from .webhook_event_types import WebhookEventTypes
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.utils import FieldMetadata, HeaderMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
+from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class CreateWebhookRequestTypedDict(TypedDict):
+class CreateWebhookRequestBodyTypedDict(TypedDict):
     name: str
     r"""A name that identifies the webhook."""
     url: str
@@ -24,7 +26,7 @@ class CreateWebhookRequestTypedDict(TypedDict):
     """
 
 
-class CreateWebhookRequest(BaseModel):
+class CreateWebhookRequestBody(BaseModel):
     name: str
     r"""A name that identifies the webhook."""
 
@@ -73,3 +75,23 @@ class CreateWebhookRequest(BaseModel):
                 m[k] = val
 
         return m
+
+
+class CreateWebhookRequestTypedDict(TypedDict):
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+    request_body: NotRequired[CreateWebhookRequestBodyTypedDict]
+
+
+class CreateWebhookRequest(BaseModel):
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+
+    request_body: Annotated[
+        Optional[CreateWebhookRequestBody],
+        FieldMetadata(request=RequestMetadata(media_type="application/json")),
+    ] = None

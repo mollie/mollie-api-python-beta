@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 from mollie.types import BaseModel
+from mollie.utils import FieldMetadata, HeaderMetadata, RequestMetadata
 import pydantic
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class RequestApplePayPaymentSessionRequestTypedDict(TypedDict):
+class RequestApplePayPaymentSessionRequestBodyTypedDict(TypedDict):
     validation_url: str
     r"""The validationUrl you got from the
     [ApplePayValidateMerchant event](https://developer.apple.com/documentation/apple_pay_on_the_web/applepayvalidatemerchantevent).
@@ -30,7 +31,7 @@ class RequestApplePayPaymentSessionRequestTypedDict(TypedDict):
     """
 
 
-class RequestApplePayPaymentSessionRequest(BaseModel):
+class RequestApplePayPaymentSessionRequestBody(BaseModel):
     validation_url: Annotated[str, pydantic.Field(alias="validationUrl")]
     r"""The validationUrl you got from the
     [ApplePayValidateMerchant event](https://developer.apple.com/documentation/apple_pay_on_the_web/applepayvalidatemerchantevent).
@@ -53,3 +54,23 @@ class RequestApplePayPaymentSessionRequest(BaseModel):
     request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
     required.
     """
+
+
+class RequestApplePayPaymentSessionRequestTypedDict(TypedDict):
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+    request_body: NotRequired[RequestApplePayPaymentSessionRequestBodyTypedDict]
+
+
+class RequestApplePayPaymentSessionRequest(BaseModel):
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+
+    request_body: Annotated[
+        Optional[RequestApplePayPaymentSessionRequestBody],
+        FieldMetadata(request=RequestMetadata(media_type="application/json")),
+    ] = None

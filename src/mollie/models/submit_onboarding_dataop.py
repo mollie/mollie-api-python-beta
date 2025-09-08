@@ -4,6 +4,7 @@ from __future__ import annotations
 from .address import Address, AddressTypedDict
 from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.utils import FieldMetadata, HeaderMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
 from typing import Optional
@@ -194,12 +195,32 @@ class Profile(BaseModel):
         return m
 
 
-class SubmitOnboardingDataRequestTypedDict(TypedDict):
+class SubmitOnboardingDataRequestBodyTypedDict(TypedDict):
     organization: NotRequired[OrganizationTypedDict]
     profile: NotRequired[ProfileTypedDict]
 
 
-class SubmitOnboardingDataRequest(BaseModel):
+class SubmitOnboardingDataRequestBody(BaseModel):
     organization: Optional[Organization] = None
 
     profile: Optional[Profile] = None
+
+
+class SubmitOnboardingDataRequestTypedDict(TypedDict):
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+    request_body: NotRequired[SubmitOnboardingDataRequestBodyTypedDict]
+
+
+class SubmitOnboardingDataRequest(BaseModel):
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+
+    request_body: Annotated[
+        Optional[SubmitOnboardingDataRequestBody],
+        FieldMetadata(request=RequestMetadata(media_type="application/json")),
+    ] = None

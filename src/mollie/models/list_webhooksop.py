@@ -6,7 +6,7 @@ from .list_links import ListLinks, ListLinksTypedDict
 from .list_sort import ListSort
 from .webhook_event_types import WebhookEventTypes
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, QueryParamMetadata
+from mollie.utils import FieldMetadata, HeaderMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
@@ -33,6 +33,8 @@ class ListWebhooksRequestTypedDict(TypedDict):
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
 
 class ListWebhooksRequest(BaseModel):
@@ -77,9 +79,23 @@ class ListWebhooksRequest(BaseModel):
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
 
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["from", "limit", "sort", "eventTypes", "testmode"]
+        optional_fields = [
+            "from",
+            "limit",
+            "sort",
+            "eventTypes",
+            "testmode",
+            "idempotency-key",
+        ]
         nullable_fields = ["from", "limit", "sort", "testmode"]
         null_default_fields = []
 

@@ -12,7 +12,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH", limit=50, testmode=False)
+    res = client_sdk.balances.list(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH", limit=50, testmode=False, idempotency_key="123e4567-e89b-12d3-a456-426")
 
     # Handle response
     print(res)
@@ -36,7 +36,7 @@ async def main():
         ),
     ) as client_sdk:
 
-        res = await client_sdk.balances.list_async(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH", limit=50, testmode=False)
+        res = await client_sdk.balances.list_async(currency="EUR", from_="bal_gVMhHKqSSRYJyPsuoPNFH", limit=50, testmode=False, idempotency_key="123e4567-e89b-12d3-a456-426")
 
         # Handle response
         print(res)

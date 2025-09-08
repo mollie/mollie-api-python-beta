@@ -4,7 +4,7 @@ from __future__ import annotations
 from .list_links import ListLinks, ListLinksTypedDict
 from .list_sort import ListSort
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, QueryParamMetadata
+from mollie.utils import FieldMetadata, HeaderMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
@@ -30,6 +30,8 @@ class ListInvoicesRequestTypedDict(TypedDict):
     r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
     newest to oldest.
     """
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
 
 class ListInvoicesRequest(BaseModel):
@@ -76,9 +78,24 @@ class ListInvoicesRequest(BaseModel):
     newest to oldest.
     """
 
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["reference", "year", "month", "from", "limit", "sort"]
+        optional_fields = [
+            "reference",
+            "year",
+            "month",
+            "from",
+            "limit",
+            "sort",
+            "idempotency-key",
+        ]
         nullable_fields = ["reference", "year", "month", "from", "limit", "sort"]
         null_default_fields = []
 

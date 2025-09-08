@@ -3,17 +3,18 @@
 from .basesdk import BaseSDK
 from mollie import models, utils
 from mollie._hooks import HookContext
-from mollie.types import BaseModel, OptionalNullable, UNSET
+from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
 from mollie.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union, cast
+from typing import Any, Mapping, Optional, Union
 
 
 class ClientLinks(BaseSDK):
     def create(
         self,
         *,
-        request: Optional[
+        idempotency_key: Optional[str] = None,
+        entity_client_link: Optional[
             Union[models.EntityClientLink, models.EntityClientLinkTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -77,7 +78,8 @@ class ClientLinks(BaseSDK):
         >
         > A client link must be used within 30 days of creation. After that period, it will expire and you will need to create a new client link.
 
-        :param request: The request object to send.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
+        :param entity_client_link:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -93,9 +95,12 @@ class ClientLinks(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, Optional[models.EntityClientLink])
-        request = cast(Optional[models.EntityClientLink], request)
+        request = models.CreateClientLinkRequest(
+            idempotency_key=idempotency_key,
+            entity_client_link=utils.get_pydantic_model(
+                entity_client_link, Optional[models.EntityClientLink]
+            ),
+        )
 
         req = self._build_request(
             method="POST",
@@ -111,7 +116,11 @@ class ClientLinks(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.EntityClientLink]
+                request.entity_client_link,
+                False,
+                True,
+                "json",
+                Optional[models.EntityClientLink],
             ),
             timeout_ms=timeout_ms,
         )
@@ -161,7 +170,8 @@ class ClientLinks(BaseSDK):
     async def create_async(
         self,
         *,
-        request: Optional[
+        idempotency_key: Optional[str] = None,
+        entity_client_link: Optional[
             Union[models.EntityClientLink, models.EntityClientLinkTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -225,7 +235,8 @@ class ClientLinks(BaseSDK):
         >
         > A client link must be used within 30 days of creation. After that period, it will expire and you will need to create a new client link.
 
-        :param request: The request object to send.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
+        :param entity_client_link:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -241,9 +252,12 @@ class ClientLinks(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, Optional[models.EntityClientLink])
-        request = cast(Optional[models.EntityClientLink], request)
+        request = models.CreateClientLinkRequest(
+            idempotency_key=idempotency_key,
+            entity_client_link=utils.get_pydantic_model(
+                entity_client_link, Optional[models.EntityClientLink]
+            ),
+        )
 
         req = self._build_request_async(
             method="POST",
@@ -259,7 +273,11 @@ class ClientLinks(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.EntityClientLink]
+                request.entity_client_link,
+                False,
+                True,
+                "json",
+                Optional[models.EntityClientLink],
             ),
             timeout_ms=timeout_ms,
         )

@@ -9,7 +9,7 @@ from .sequence_type import SequenceType
 from .url import URL, URLTypedDict
 from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, QueryParamMetadata
+from mollie.utils import FieldMetadata, HeaderMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
@@ -93,6 +93,8 @@ class ListMethodsRequestTypedDict(TypedDict):
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
 
 class ListMethodsRequest(BaseModel):
@@ -198,6 +200,13 @@ class ListMethodsRequest(BaseModel):
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
 
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
@@ -211,6 +220,7 @@ class ListMethodsRequest(BaseModel):
             "profileId",
             "include",
             "testmode",
+            "idempotency-key",
         ]
         nullable_fields = ["include", "testmode"]
         null_default_fields = []

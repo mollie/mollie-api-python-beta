@@ -78,7 +78,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.client_links.create(request={
+    res = client_sdk.client_links.create(idempotency_key="123e4567-e89b-12d3-a456-426", entity_client_link={
         "owner": {
             "email": "john@example.org",
             "given_name": "John",
@@ -103,10 +103,11 @@ with ClientSDK(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `request`                                                           | [models.EntityClientLink](../../models/entityclientlink.md)         | :heavy_check_mark:                                                  | The request object to use for the request.                          |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                        | Type                                                                             | Required                                                                         | Description                                                                      | Example                                                                          |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `idempotency_key`                                                                | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | A unique key to ensure idempotent requests. This key should be a UUID v4 string. | 123e4567-e89b-12d3-a456-426                                                      |
+| `entity_client_link`                                                             | [Optional[models.EntityClientLink]](../../models/entityclientlink.md)            | :heavy_minus_sign:                                                               | N/A                                                                              |                                                                                  |
+| `retries`                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                 | :heavy_minus_sign:                                                               | Configuration to override the default retry behavior of the client.              |                                                                                  |
 
 ### Response
 

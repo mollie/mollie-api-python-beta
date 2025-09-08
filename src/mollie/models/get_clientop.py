@@ -9,7 +9,12 @@ from .entity_onboarding_status import (
 from .entity_organization import EntityOrganization, EntityOrganizationTypedDict
 from .url import URL, URLTypedDict
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, PathParamMetadata, QueryParamMetadata
+from mollie.utils import (
+    FieldMetadata,
+    HeaderMetadata,
+    PathParamMetadata,
+    QueryParamMetadata,
+)
 import pydantic
 from pydantic import model_serializer
 from typing import Optional
@@ -23,6 +28,8 @@ class GetClientRequestTypedDict(TypedDict):
     r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string
     parameter.
     """
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
 
 class GetClientRequest(BaseModel):
@@ -39,9 +46,16 @@ class GetClientRequest(BaseModel):
     parameter.
     """
 
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["embed"]
+        optional_fields = ["embed", "idempotency-key"]
         nullable_fields = ["embed"]
         null_default_fields = []
 

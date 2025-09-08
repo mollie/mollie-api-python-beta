@@ -30,7 +30,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.invoices.list(reference="2024.10000", year="2024", month="01", from_="inv_xBEbP9rvAq", limit=50, sort=mollie.ListSort.DESC)
+    res = client_sdk.invoices.list(reference="2024.10000", year="2024", month="01", from_="inv_xBEbP9rvAq", limit=50, sort=mollie.ListSort.DESC, idempotency_key="123e4567-e89b-12d3-a456-426")
 
     # Handle response
     print(res)
@@ -47,6 +47,7 @@ with ClientSDK(
 | `from_`                                                                                                                                | *OptionalNullable[str]*                                                                                                                | :heavy_minus_sign:                                                                                                                     | Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the<br/>result set.     |                                                                                                                                        |
 | `limit`                                                                                                                                | *OptionalNullable[int]*                                                                                                                | :heavy_minus_sign:                                                                                                                     | The maximum number of items to return. Defaults to 50 items.                                                                           | 50                                                                                                                                     |
 | `sort`                                                                                                                                 | [OptionalNullable[models.ListSort]](../../models/listsort.md)                                                                          | :heavy_minus_sign:                                                                                                                     | Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from<br/>newest to oldest. | desc                                                                                                                                   |
+| `idempotency_key`                                                                                                                      | *Optional[str]*                                                                                                                        | :heavy_minus_sign:                                                                                                                     | A unique key to ensure idempotent requests. This key should be a UUID v4 string.                                                       | 123e4567-e89b-12d3-a456-426                                                                                                            |
 | `retries`                                                                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                       | :heavy_minus_sign:                                                                                                                     | Configuration to override the default retry behavior of the client.                                                                    |                                                                                                                                        |
 
 ### Response
@@ -82,7 +83,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.invoices.get(id="inv_FrvewDA3Pr")
+    res = client_sdk.invoices.get(id="inv_FrvewDA3Pr", idempotency_key="123e4567-e89b-12d3-a456-426")
 
     # Handle response
     print(res)
@@ -91,10 +92,11 @@ with ClientSDK(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Provide the ID of the item you want to perform this operation on.   |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                        | Type                                                                             | Required                                                                         | Description                                                                      | Example                                                                          |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `id`                                                                             | *str*                                                                            | :heavy_check_mark:                                                               | Provide the ID of the item you want to perform this operation on.                |                                                                                  |
+| `idempotency_key`                                                                | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | A unique key to ensure idempotent requests. This key should be a UUID v4 string. | 123e4567-e89b-12d3-a456-426                                                      |
+| `retries`                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                 | :heavy_minus_sign:                                                               | Configuration to override the default retry behavior of the client.              |                                                                                  |
 
 ### Response
 

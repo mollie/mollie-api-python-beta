@@ -10,7 +10,7 @@ from .entity_organization import EntityOrganization, EntityOrganizationTypedDict
 from .list_links import ListLinks, ListLinksTypedDict
 from .url import URL, URLTypedDict
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import FieldMetadata, QueryParamMetadata
+from mollie.utils import FieldMetadata, HeaderMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
@@ -28,6 +28,8 @@ class ListClientsRequestTypedDict(TypedDict):
     """
     limit: NotRequired[Nullable[int]]
     r"""The maximum number of items to return. Defaults to 50 items."""
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
 
 class ListClientsRequest(BaseModel):
@@ -54,9 +56,16 @@ class ListClientsRequest(BaseModel):
     ] = UNSET
     r"""The maximum number of items to return. Defaults to 50 items."""
 
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["embed", "from", "limit"]
+        optional_fields = ["embed", "from", "limit", "idempotency-key"]
         nullable_fields = ["embed", "from", "limit"]
         null_default_fields = []
 

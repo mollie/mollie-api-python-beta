@@ -3,17 +3,18 @@
 from .basesdk import BaseSDK
 from mollie import models, utils
 from mollie._hooks import HookContext
-from mollie.types import BaseModel, OptionalNullable, UNSET
+from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
 from mollie.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union, cast
+from typing import Any, Mapping, Optional, Union
 
 
 class SalesInvoices(BaseSDK):
     def create(
         self,
         *,
-        request: Optional[
+        idempotency_key: Optional[str] = None,
+        entity_sales_invoice: Optional[
             Union[models.EntitySalesInvoice, models.EntitySalesInvoiceTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -29,7 +30,8 @@ class SalesInvoices(BaseSDK):
 
         With the Sales Invoice API you can generate sales invoices to send to your customers.
 
-        :param request: The request object to send.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
+        :param entity_sales_invoice:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -45,9 +47,12 @@ class SalesInvoices(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, Optional[models.EntitySalesInvoice])
-        request = cast(Optional[models.EntitySalesInvoice], request)
+        request = models.CreateSalesInvoiceRequest(
+            idempotency_key=idempotency_key,
+            entity_sales_invoice=utils.get_pydantic_model(
+                entity_sales_invoice, Optional[models.EntitySalesInvoice]
+            ),
+        )
 
         req = self._build_request(
             method="POST",
@@ -63,7 +68,11 @@ class SalesInvoices(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.EntitySalesInvoice]
+                request.entity_sales_invoice,
+                False,
+                True,
+                "json",
+                Optional[models.EntitySalesInvoice],
             ),
             timeout_ms=timeout_ms,
         )
@@ -113,7 +122,8 @@ class SalesInvoices(BaseSDK):
     async def create_async(
         self,
         *,
-        request: Optional[
+        idempotency_key: Optional[str] = None,
+        entity_sales_invoice: Optional[
             Union[models.EntitySalesInvoice, models.EntitySalesInvoiceTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -129,7 +139,8 @@ class SalesInvoices(BaseSDK):
 
         With the Sales Invoice API you can generate sales invoices to send to your customers.
 
-        :param request: The request object to send.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
+        :param entity_sales_invoice:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -145,9 +156,12 @@ class SalesInvoices(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, Optional[models.EntitySalesInvoice])
-        request = cast(Optional[models.EntitySalesInvoice], request)
+        request = models.CreateSalesInvoiceRequest(
+            idempotency_key=idempotency_key,
+            entity_sales_invoice=utils.get_pydantic_model(
+                entity_sales_invoice, Optional[models.EntitySalesInvoice]
+            ),
+        )
 
         req = self._build_request_async(
             method="POST",
@@ -163,7 +177,11 @@ class SalesInvoices(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.EntitySalesInvoice]
+                request.entity_sales_invoice,
+                False,
+                True,
+                "json",
+                Optional[models.EntitySalesInvoice],
             ),
             timeout_ms=timeout_ms,
         )
@@ -216,6 +234,7 @@ class SalesInvoices(BaseSDK):
         from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -234,6 +253,7 @@ class SalesInvoices(BaseSDK):
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -253,6 +273,7 @@ class SalesInvoices(BaseSDK):
             from_=from_,
             limit=limit,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -319,6 +340,7 @@ class SalesInvoices(BaseSDK):
         from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -337,6 +359,7 @@ class SalesInvoices(BaseSDK):
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -356,6 +379,7 @@ class SalesInvoices(BaseSDK):
             from_=from_,
             limit=limit,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -421,6 +445,7 @@ class SalesInvoices(BaseSDK):
         *,
         id: str,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -436,6 +461,7 @@ class SalesInvoices(BaseSDK):
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -454,6 +480,7 @@ class SalesInvoices(BaseSDK):
         request = models.GetSalesInvoiceRequest(
             id=id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -519,6 +546,7 @@ class SalesInvoices(BaseSDK):
         *,
         id: str,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -534,6 +562,7 @@ class SalesInvoices(BaseSDK):
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -552,6 +581,7 @@ class SalesInvoices(BaseSDK):
         request = models.GetSalesInvoiceRequest(
             id=id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -616,6 +646,7 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         id: str,
+        idempotency_key: Optional[str] = None,
         update_values_sales_invoice: Optional[
             Union[
                 models.UpdateValuesSalesInvoice,
@@ -638,6 +669,7 @@ class SalesInvoices(BaseSDK):
         respectively).
 
         :param id: Provide the ID of the item you want to perform this operation on.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param update_values_sales_invoice:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -656,6 +688,7 @@ class SalesInvoices(BaseSDK):
 
         request = models.UpdateSalesInvoiceRequest(
             id=id,
+            idempotency_key=idempotency_key,
             update_values_sales_invoice=utils.get_pydantic_model(
                 update_values_sales_invoice, Optional[models.UpdateValuesSalesInvoice]
             ),
@@ -730,6 +763,7 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         id: str,
+        idempotency_key: Optional[str] = None,
         update_values_sales_invoice: Optional[
             Union[
                 models.UpdateValuesSalesInvoice,
@@ -752,6 +786,7 @@ class SalesInvoices(BaseSDK):
         respectively).
 
         :param id: Provide the ID of the item you want to perform this operation on.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param update_values_sales_invoice:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -770,6 +805,7 @@ class SalesInvoices(BaseSDK):
 
         request = models.UpdateSalesInvoiceRequest(
             id=id,
+            idempotency_key=idempotency_key,
             update_values_sales_invoice=utils.get_pydantic_model(
                 update_values_sales_invoice, Optional[models.UpdateValuesSalesInvoice]
             ),
@@ -844,6 +880,7 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         id: str,
+        idempotency_key: Optional[str] = None,
         delete_values_sales_invoice: Optional[
             Union[
                 models.DeleteValuesSalesInvoice,
@@ -865,6 +902,7 @@ class SalesInvoices(BaseSDK):
         [Update sales invoice](update-sales-invoice) endpoint instead.
 
         :param id: Provide the ID of the item you want to perform this operation on.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param delete_values_sales_invoice:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -883,6 +921,7 @@ class SalesInvoices(BaseSDK):
 
         request = models.DeleteSalesInvoiceRequest(
             id=id,
+            idempotency_key=idempotency_key,
             delete_values_sales_invoice=utils.get_pydantic_model(
                 delete_values_sales_invoice, Optional[models.DeleteValuesSalesInvoice]
             ),
@@ -957,6 +996,7 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         id: str,
+        idempotency_key: Optional[str] = None,
         delete_values_sales_invoice: Optional[
             Union[
                 models.DeleteValuesSalesInvoice,
@@ -978,6 +1018,7 @@ class SalesInvoices(BaseSDK):
         [Update sales invoice](update-sales-invoice) endpoint instead.
 
         :param id: Provide the ID of the item you want to perform this operation on.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param delete_values_sales_invoice:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -996,6 +1037,7 @@ class SalesInvoices(BaseSDK):
 
         request = models.DeleteSalesInvoiceRequest(
             id=id,
+            idempotency_key=idempotency_key,
             delete_values_sales_invoice=utils.get_pydantic_model(
                 delete_values_sales_invoice, Optional[models.DeleteValuesSalesInvoice]
             ),

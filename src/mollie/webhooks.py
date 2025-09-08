@@ -3,18 +3,22 @@
 from .basesdk import BaseSDK
 from mollie import models, utils
 from mollie._hooks import HookContext
-from mollie.types import BaseModel, OptionalNullable, UNSET
+from mollie.types import OptionalNullable, UNSET
 from mollie.utils import get_security_from_env
 from mollie.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union, cast
+from typing import Any, Mapping, Optional, Union
 
 
 class Webhooks(BaseSDK):
     def create(
         self,
         *,
-        request: Optional[
-            Union[models.CreateWebhookRequest, models.CreateWebhookRequestTypedDict]
+        idempotency_key: Optional[str] = None,
+        request_body: Optional[
+            Union[
+                models.CreateWebhookRequestBody,
+                models.CreateWebhookRequestBodyTypedDict,
+            ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -25,7 +29,8 @@ class Webhooks(BaseSDK):
 
         A webhook must have a name, an url and a list of event types. You can also create webhooks in the webhooks settings section of the Dashboard.
 
-        :param request: The request object to send.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -41,9 +46,12 @@ class Webhooks(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, Optional[models.CreateWebhookRequest])
-        request = cast(Optional[models.CreateWebhookRequest], request)
+        request = models.CreateWebhookRequest(
+            idempotency_key=idempotency_key,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.CreateWebhookRequestBody]
+            ),
+        )
 
         req = self._build_request(
             method="POST",
@@ -59,7 +67,11 @@ class Webhooks(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.CreateWebhookRequest]
+                request.request_body,
+                False,
+                True,
+                "json",
+                Optional[models.CreateWebhookRequestBody],
             ),
             timeout_ms=timeout_ms,
         )
@@ -109,8 +121,12 @@ class Webhooks(BaseSDK):
     async def create_async(
         self,
         *,
-        request: Optional[
-            Union[models.CreateWebhookRequest, models.CreateWebhookRequestTypedDict]
+        idempotency_key: Optional[str] = None,
+        request_body: Optional[
+            Union[
+                models.CreateWebhookRequestBody,
+                models.CreateWebhookRequestBodyTypedDict,
+            ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -121,7 +137,8 @@ class Webhooks(BaseSDK):
 
         A webhook must have a name, an url and a list of event types. You can also create webhooks in the webhooks settings section of the Dashboard.
 
-        :param request: The request object to send.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
+        :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -137,9 +154,12 @@ class Webhooks(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, Optional[models.CreateWebhookRequest])
-        request = cast(Optional[models.CreateWebhookRequest], request)
+        request = models.CreateWebhookRequest(
+            idempotency_key=idempotency_key,
+            request_body=utils.get_pydantic_model(
+                request_body, Optional[models.CreateWebhookRequestBody]
+            ),
+        )
 
         req = self._build_request_async(
             method="POST",
@@ -155,7 +175,11 @@ class Webhooks(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, True, "json", Optional[models.CreateWebhookRequest]
+                request.request_body,
+                False,
+                True,
+                "json",
+                Optional[models.CreateWebhookRequestBody],
             ),
             timeout_ms=timeout_ms,
         )
@@ -210,6 +234,7 @@ class Webhooks(BaseSDK):
         sort: OptionalNullable[models.ListSort] = UNSET,
         event_types: Optional[models.WebhookEventTypes] = None,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -224,6 +249,7 @@ class Webhooks(BaseSDK):
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param event_types: Used to filter out only the webhooks that are subscribed to certain types of events.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -245,6 +271,7 @@ class Webhooks(BaseSDK):
             sort=sort,
             event_types=event_types,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -313,6 +340,7 @@ class Webhooks(BaseSDK):
         sort: OptionalNullable[models.ListSort] = UNSET,
         event_types: Optional[models.WebhookEventTypes] = None,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -327,6 +355,7 @@ class Webhooks(BaseSDK):
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param event_types: Used to filter out only the webhooks that are subscribed to certain types of events.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -348,6 +377,7 @@ class Webhooks(BaseSDK):
             sort=sort,
             event_types=event_types,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -412,6 +442,7 @@ class Webhooks(BaseSDK):
         self,
         *,
         id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[
                 models.UpdateWebhookRequestBody,
@@ -428,6 +459,7 @@ class Webhooks(BaseSDK):
         Updates the webhook. You may edit the name, url and the list of subscribed event types.
 
         :param id: Provide the ID of the item you want to perform this operation on.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -446,6 +478,7 @@ class Webhooks(BaseSDK):
 
         request = models.UpdateWebhookRequest(
             id=id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.UpdateWebhookRequestBody]
             ),
@@ -520,6 +553,7 @@ class Webhooks(BaseSDK):
         self,
         *,
         id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[
                 models.UpdateWebhookRequestBody,
@@ -536,6 +570,7 @@ class Webhooks(BaseSDK):
         Updates the webhook. You may edit the name, url and the list of subscribed event types.
 
         :param id: Provide the ID of the item you want to perform this operation on.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -554,6 +589,7 @@ class Webhooks(BaseSDK):
 
         request = models.UpdateWebhookRequest(
             id=id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.UpdateWebhookRequestBody]
             ),
@@ -629,6 +665,7 @@ class Webhooks(BaseSDK):
         *,
         id: str,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -640,6 +677,7 @@ class Webhooks(BaseSDK):
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -658,6 +696,7 @@ class Webhooks(BaseSDK):
         request = models.GetWebhookRequest(
             id=id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -723,6 +762,7 @@ class Webhooks(BaseSDK):
         *,
         id: str,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -734,6 +774,7 @@ class Webhooks(BaseSDK):
 
         :param id: Provide the ID of the item you want to perform this operation on.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -752,6 +793,7 @@ class Webhooks(BaseSDK):
         request = models.GetWebhookRequest(
             id=id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -816,6 +858,7 @@ class Webhooks(BaseSDK):
         self,
         *,
         id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[
                 models.DeleteWebhookRequestBody,
@@ -832,6 +875,7 @@ class Webhooks(BaseSDK):
         Delete a single webhook object by its webhook ID.
 
         :param id: Provide the ID of the item you want to perform this operation on.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -850,6 +894,7 @@ class Webhooks(BaseSDK):
 
         request = models.DeleteWebhookRequest(
             id=id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.DeleteWebhookRequestBody]
             ),
@@ -924,6 +969,7 @@ class Webhooks(BaseSDK):
         self,
         *,
         id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[
                 models.DeleteWebhookRequestBody,
@@ -940,6 +986,7 @@ class Webhooks(BaseSDK):
         Delete a single webhook object by its webhook ID.
 
         :param id: Provide the ID of the item you want to perform this operation on.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -958,6 +1005,7 @@ class Webhooks(BaseSDK):
 
         request = models.DeleteWebhookRequest(
             id=id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.DeleteWebhookRequestBody]
             ),
@@ -1032,6 +1080,7 @@ class Webhooks(BaseSDK):
         self,
         *,
         id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[models.TestWebhookRequestBody, models.TestWebhookRequestBodyTypedDict]
         ] = None,
@@ -1045,6 +1094,7 @@ class Webhooks(BaseSDK):
         Sends a test event to the webhook to verify the endpoint is working as expected.
 
         :param id: Provide the ID of the item you want to perform this operation on.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1063,6 +1113,7 @@ class Webhooks(BaseSDK):
 
         request = models.TestWebhookRequest(
             id=id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.TestWebhookRequestBody]
             ),
@@ -1137,6 +1188,7 @@ class Webhooks(BaseSDK):
         self,
         *,
         id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[models.TestWebhookRequestBody, models.TestWebhookRequestBodyTypedDict]
         ] = None,
@@ -1150,6 +1202,7 @@ class Webhooks(BaseSDK):
         Sends a test event to the webhook to verify the endpoint is working as expected.
 
         :param id: Provide the ID of the item you want to perform this operation on.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1168,6 +1221,7 @@ class Webhooks(BaseSDK):
 
         request = models.TestWebhookRequest(
             id=id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.TestWebhookRequestBody]
             ),

@@ -14,6 +14,7 @@ class Subscriptions(BaseSDK):
         self,
         *,
         customer_id: str,
+        idempotency_key: Optional[str] = None,
         subscription_request: Optional[
             Union[models.SubscriptionRequest, models.SubscriptionRequestTypedDict]
         ] = None,
@@ -45,6 +46,7 @@ class Subscriptions(BaseSDK):
         Your customer will be charged €10 on the last day of each month, starting in April 2018.
 
         :param customer_id: Provide the ID of the related customer.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param subscription_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -63,6 +65,7 @@ class Subscriptions(BaseSDK):
 
         request = models.CreateSubscriptionRequest(
             customer_id=customer_id,
+            idempotency_key=idempotency_key,
             subscription_request=utils.get_pydantic_model(
                 subscription_request, Optional[models.SubscriptionRequest]
             ),
@@ -137,6 +140,7 @@ class Subscriptions(BaseSDK):
         self,
         *,
         customer_id: str,
+        idempotency_key: Optional[str] = None,
         subscription_request: Optional[
             Union[models.SubscriptionRequest, models.SubscriptionRequestTypedDict]
         ] = None,
@@ -168,6 +172,7 @@ class Subscriptions(BaseSDK):
         Your customer will be charged €10 on the last day of each month, starting in April 2018.
 
         :param customer_id: Provide the ID of the related customer.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param subscription_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -186,6 +191,7 @@ class Subscriptions(BaseSDK):
 
         request = models.CreateSubscriptionRequest(
             customer_id=customer_id,
+            idempotency_key=idempotency_key,
             subscription_request=utils.get_pydantic_model(
                 subscription_request, Optional[models.SubscriptionRequest]
             ),
@@ -264,6 +270,7 @@ class Subscriptions(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         sort: OptionalNullable[models.ListSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -280,6 +287,7 @@ class Subscriptions(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -301,6 +309,7 @@ class Subscriptions(BaseSDK):
             limit=limit,
             sort=sort,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -369,6 +378,7 @@ class Subscriptions(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         sort: OptionalNullable[models.ListSort] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -385,6 +395,7 @@ class Subscriptions(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -406,6 +417,7 @@ class Subscriptions(BaseSDK):
             limit=limit,
             sort=sort,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -472,6 +484,7 @@ class Subscriptions(BaseSDK):
         customer_id: str,
         subscription_id: str,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -484,6 +497,7 @@ class Subscriptions(BaseSDK):
         :param customer_id: Provide the ID of the related customer.
         :param subscription_id: Provide the ID of the related subscription.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -503,6 +517,7 @@ class Subscriptions(BaseSDK):
             customer_id=customer_id,
             subscription_id=subscription_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -569,6 +584,7 @@ class Subscriptions(BaseSDK):
         customer_id: str,
         subscription_id: str,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -581,6 +597,7 @@ class Subscriptions(BaseSDK):
         :param customer_id: Provide the ID of the related customer.
         :param subscription_id: Provide the ID of the related subscription.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -600,6 +617,7 @@ class Subscriptions(BaseSDK):
             customer_id=customer_id,
             subscription_id=subscription_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -665,6 +683,7 @@ class Subscriptions(BaseSDK):
         *,
         customer_id: str,
         subscription_id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[
                 models.UpdateSubscriptionRequestBody,
@@ -686,6 +705,7 @@ class Subscriptions(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param subscription_id: Provide the ID of the related subscription.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -705,6 +725,7 @@ class Subscriptions(BaseSDK):
         request = models.UpdateSubscriptionRequest(
             customer_id=customer_id,
             subscription_id=subscription_id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.UpdateSubscriptionRequestBody]
             ),
@@ -780,6 +801,7 @@ class Subscriptions(BaseSDK):
         *,
         customer_id: str,
         subscription_id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[
                 models.UpdateSubscriptionRequestBody,
@@ -801,6 +823,7 @@ class Subscriptions(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param subscription_id: Provide the ID of the related subscription.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -820,6 +843,7 @@ class Subscriptions(BaseSDK):
         request = models.UpdateSubscriptionRequest(
             customer_id=customer_id,
             subscription_id=subscription_id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.UpdateSubscriptionRequestBody]
             ),
@@ -895,6 +919,7 @@ class Subscriptions(BaseSDK):
         *,
         customer_id: str,
         subscription_id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[
                 models.CancelSubscriptionRequestBody,
@@ -912,6 +937,7 @@ class Subscriptions(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param subscription_id: Provide the ID of the related subscription.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -931,6 +957,7 @@ class Subscriptions(BaseSDK):
         request = models.CancelSubscriptionRequest(
             customer_id=customer_id,
             subscription_id=subscription_id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.CancelSubscriptionRequestBody]
             ),
@@ -1006,6 +1033,7 @@ class Subscriptions(BaseSDK):
         *,
         customer_id: str,
         subscription_id: str,
+        idempotency_key: Optional[str] = None,
         request_body: Optional[
             Union[
                 models.CancelSubscriptionRequestBody,
@@ -1023,6 +1051,7 @@ class Subscriptions(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param subscription_id: Provide the ID of the related subscription.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param request_body:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1042,6 +1071,7 @@ class Subscriptions(BaseSDK):
         request = models.CancelSubscriptionRequest(
             customer_id=customer_id,
             subscription_id=subscription_id,
+            idempotency_key=idempotency_key,
             request_body=utils.get_pydantic_model(
                 request_body, Optional[models.CancelSubscriptionRequestBody]
             ),
@@ -1119,6 +1149,7 @@ class Subscriptions(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         profile_id: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1134,6 +1165,7 @@ class Subscriptions(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve subscriptions for.  Most API credentials are linked to a single profile. In these cases the `profileId` is already implied.  To retrieve all subscriptions across the organization, use an organization-level API credential and omit the `profileId` parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1154,6 +1186,7 @@ class Subscriptions(BaseSDK):
             limit=limit,
             profile_id=profile_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -1223,6 +1256,7 @@ class Subscriptions(BaseSDK):
         limit: OptionalNullable[int] = UNSET,
         profile_id: OptionalNullable[str] = UNSET,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1238,6 +1272,7 @@ class Subscriptions(BaseSDK):
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve subscriptions for.  Most API credentials are linked to a single profile. In these cases the `profileId` is already implied.  To retrieve all subscriptions across the organization, use an organization-level API credential and omit the `profileId` parameter.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1258,6 +1293,7 @@ class Subscriptions(BaseSDK):
             limit=limit,
             profile_id=profile_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(
@@ -1330,6 +1366,7 @@ class Subscriptions(BaseSDK):
         sort: OptionalNullable[models.ListSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1348,6 +1385,7 @@ class Subscriptions(BaseSDK):
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1371,6 +1409,7 @@ class Subscriptions(BaseSDK):
             sort=sort,
             profile_id=profile_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request(
@@ -1443,6 +1482,7 @@ class Subscriptions(BaseSDK):
         sort: OptionalNullable[models.ListSort] = UNSET,
         profile_id: Optional[str] = None,
         testmode: OptionalNullable[bool] = UNSET,
+        idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1461,6 +1501,7 @@ class Subscriptions(BaseSDK):
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
         :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+        :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1484,6 +1525,7 @@ class Subscriptions(BaseSDK):
             sort=sort,
             profile_id=profile_id,
             testmode=testmode,
+            idempotency_key=idempotency_key,
         )
 
         req = self._build_request_async(

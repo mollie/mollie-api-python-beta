@@ -6,7 +6,13 @@ from .delete_values_sales_invoice import (
     DeleteValuesSalesInvoiceTypedDict,
 )
 from mollie.types import BaseModel
-from mollie.utils import FieldMetadata, PathParamMetadata, RequestMetadata
+from mollie.utils import (
+    FieldMetadata,
+    HeaderMetadata,
+    PathParamMetadata,
+    RequestMetadata,
+)
+import pydantic
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -14,6 +20,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class DeleteSalesInvoiceRequestTypedDict(TypedDict):
     id: str
     r"""Provide the ID of the item you want to perform this operation on."""
+    idempotency_key: NotRequired[str]
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
     delete_values_sales_invoice: NotRequired[DeleteValuesSalesInvoiceTypedDict]
 
 
@@ -22,6 +30,13 @@ class DeleteSalesInvoiceRequest(BaseModel):
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
     r"""Provide the ID of the item you want to perform this operation on."""
+
+    idempotency_key: Annotated[
+        Optional[str],
+        pydantic.Field(alias="idempotency-key"),
+        FieldMetadata(header=HeaderMetadata(style="simple", explode=False)),
+    ] = None
+    r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
     delete_values_sales_invoice: Annotated[
         Optional[DeleteValuesSalesInvoice],

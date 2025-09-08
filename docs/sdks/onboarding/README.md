@@ -27,7 +27,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.onboarding.get()
+    res = client_sdk.onboarding.get(idempotency_key="123e4567-e89b-12d3-a456-426")
 
     # Handle response
     print(res)
@@ -36,9 +36,10 @@ with ClientSDK(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                        | Type                                                                             | Required                                                                         | Description                                                                      | Example                                                                          |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `idempotency_key`                                                                | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | A unique key to ensure idempotent requests. This key should be a UUID v4 string. | 123e4567-e89b-12d3-a456-426                                                      |
+| `retries`                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                 | :heavy_minus_sign:                                                               | Configuration to override the default retry behavior of the client.              |                                                                                  |
 
 ### Response
 
@@ -74,7 +75,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.onboarding.submit(request={
+    res = client_sdk.onboarding.submit(idempotency_key="123e4567-e89b-12d3-a456-426", request_body={
         "organization": {
             "name": "Mollie B.V.",
             "registration_number": "30204462",
@@ -98,10 +99,11 @@ with ClientSDK(
 
 ### Parameters
 
-| Parameter                                                                         | Type                                                                              | Required                                                                          | Description                                                                       |
-| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| `request`                                                                         | [models.SubmitOnboardingDataRequest](../../models/submitonboardingdatarequest.md) | :heavy_check_mark:                                                                | The request object to use for the request.                                        |
-| `retries`                                                                         | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                  | :heavy_minus_sign:                                                                | Configuration to override the default retry behavior of the client.               |
+| Parameter                                                                                           | Type                                                                                                | Required                                                                                            | Description                                                                                         | Example                                                                                             |
+| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `idempotency_key`                                                                                   | *Optional[str]*                                                                                     | :heavy_minus_sign:                                                                                  | A unique key to ensure idempotent requests. This key should be a UUID v4 string.                    | 123e4567-e89b-12d3-a456-426                                                                         |
+| `request_body`                                                                                      | [Optional[models.SubmitOnboardingDataRequestBody]](../../models/submitonboardingdatarequestbody.md) | :heavy_minus_sign:                                                                                  | N/A                                                                                                 |                                                                                                     |
+| `retries`                                                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                    | :heavy_minus_sign:                                                                                  | Configuration to override the default retry behavior of the client.                                 |                                                                                                     |
 
 ### Response
 
