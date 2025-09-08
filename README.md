@@ -27,6 +27,7 @@ This documentation is for the new Mollie's SDK. You can find more details on how
   * [IDE Support](#ide-support)
   * [SDK Example Usage](#sdk-example-usage)
   * [Authentication](#authentication)
+  * [Idempotency Key](#idempotency-key)
   * [Available Resources and Operations](#available-resources-and-operations)
   * [Retries](#retries)
   * [Error Handling](#error-handling)
@@ -34,7 +35,6 @@ This documentation is for the new Mollie's SDK. You can find more details on how
   * [Custom HTTP Client](#custom-http-client)
   * [Resource Management](#resource-management)
   * [Debugging](#debugging)
-  * [Idempotency Key](#idempotency-key)
 * [Development](#development)
   * [Maturity](#maturity)
   * [Contributions](#contributions)
@@ -200,6 +200,46 @@ with ClientSDK(
 
 ```
 <!-- End Authentication [security] -->
+
+<!-- Start Idempotency Key -->
+## Idempotency Key
+
+This SDK supports the usage of Idempotency Keys. See our [documentation](https://docs.mollie.com/reference/api-idempotency) on how to use it.
+
+```python
+import os
+from mollie import ClientSDK, Security
+
+client = ClientSDK(
+    security = Security(
+        api_key = os.getenv("CLIENT_API_KEY", "test_..."),
+    )
+)
+
+payload = {
+    "description": "Description",
+    "amount": {
+        "currency": "EUR",
+        "value": "5.00",
+    },
+    "redirect_url": "https://example.org/redirect",
+}
+
+idempotency_key = "<some-idempotency-key>"
+payment1 = client.payments.create(
+    payment_request=payload,
+    idempotency_key=idempotency_key
+)
+
+payment2 = client.payments.create(
+    payment_request=payload,
+    idempotency_key=idempotency_key
+)
+print(f"Payment created with ID: {payment1.id}")
+print(f"Payment created with ID: {payment2.id}")
+print("Payments are the same" if payment1.id == payment2.id else "Payments are different")
+```
+<!-- End Idempotency Key -->
 
 <!-- Start Available Resources and Operations [operations] -->
 ## Available Resources and Operations
@@ -663,48 +703,6 @@ You can also enable a default debug logger by setting an environment variable `C
 <!-- End Debugging [debug] -->
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->
-
-## Idempotency Key
-
-You can setup an Idempotency Key.
-
-```
-import os
-from mollie import ClientSDK, Security
-
-client = ClientSDK(
-    security = Security(
-        api_key = os.getenv("MOLLIE_API_KEY", "test_..."),
-    )
-)
-
-payload = {
-    "description": "Some Description",
-    "amount": {
-        "currency": "EUR",
-        "value": "0.01",
-    },
-    "redirect_url": "https://example.org/redirect",
-}
-
-idempotency_key = "unique-idempotency-key-12345"
-payment1 = client.payments.create(
-    request_body=payload,
-    http_headers={
-        "Idempotency-Key": idempotency_key
-    }
-)
-
-payment2 = client.payments.create(
-    request_body=payload,
-    http_headers={
-        "Idempotency-Key": idempotency_key
-    }
-)
-print(f"Payment created with ID: {payment1.id}")
-print(f"Payment created with ID: {payment2.id}")
-print("Payments are the same" if payment1.id == payment2.id else "Payments are different")
-```
 
 # Development
 
