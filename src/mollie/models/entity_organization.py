@@ -3,8 +3,8 @@
 from __future__ import annotations
 from .address import Address, AddressTypedDict
 from .locale_response import LocaleResponse
+from .organization_vat_regulation import OrganizationVatRegulation
 from .url import URL, URLTypedDict
-from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -12,18 +12,6 @@ from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class VatRegulation(str, Enum):
-    r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in The United
-    Kingdom, and shifted VAT for merchants in the European Union.
-
-    The field is not present for merchants residing in other countries.
-    """
-
-    DUTCH = "dutch"
-    BRITISH = "british"
-    SHIFTED = "shifted"
 
 
 class EntityOrganizationLinksTypedDict(TypedDict):
@@ -72,7 +60,7 @@ class EntityOrganizationTypedDict(TypedDict):
 
     The field is not present for merchants residing in other countries.
     """
-    vat_regulation: NotRequired[Nullable[VatRegulation]]
+    vat_regulation: NotRequired[Nullable[OrganizationVatRegulation]]
     r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in The United
     Kingdom, and shifted VAT for merchants in the European Union.
 
@@ -119,7 +107,11 @@ class EntityOrganization(BaseModel):
     """
 
     vat_regulation: Annotated[
-        OptionalNullable[VatRegulation], pydantic.Field(alias="vatRegulation")
+        Annotated[
+            OptionalNullable[OrganizationVatRegulation],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="vatRegulation"),
     ] = UNSET
     r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in The United
     Kingdom, and shifted VAT for merchants in the European Union.

@@ -18,54 +18,22 @@ from .sales_invoice_payment_details_response import (
     SalesInvoicePaymentDetailsResponse,
     SalesInvoicePaymentDetailsResponseTypedDict,
 )
+from .sales_invoice_payment_term_response import SalesInvoicePaymentTermResponse
 from .sales_invoice_recipient_response import (
     SalesInvoiceRecipientResponse,
     SalesInvoiceRecipientResponseTypedDict,
 )
+from .sales_invoice_status_response import SalesInvoiceStatusResponse
+from .sales_invoice_vat_mode_response import SalesInvoiceVatModeResponse
+from .sales_invoice_vat_scheme_response import SalesInvoiceVatSchemeResponse
 from .url import URL, URLTypedDict
-from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class EntitySalesInvoiceResponseStatus(str, Enum):
-    r"""The status for the invoice to end up in.
-
-    A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
-    the recipient so they may then pay through our payment system. To skip our payment process, set this to `paid` to
-    mark it as paid. It can then subsequently be sent as well, same as with `issued`.
-
-    A status value that cannot be set but can be returned is `canceled`, for invoices which were
-    issued, but then canceled. Currently this can only be done for invoices created in the dashboard.
-
-    Dependent parameters:
-    - `paymentDetails` is required if invoice should be set directly to `paid`
-    - `customerId` and `mandateId` are required if a recurring payment should be used to set the invoice to `paid`
-    - `emailDetails` optional for `issued` and `paid` to send the invoice by email
-    """
-
-    DRAFT = "draft"
-    ISSUED = "issued"
-    PAID = "paid"
-
-
-class EntitySalesInvoiceResponseVatScheme(str, Enum):
-    r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
-
-    STANDARD = "standard"
-    ONE_STOP_SHOP = "one-stop-shop"
-
-
-class EntitySalesInvoiceResponseVatMode(str, Enum):
-    r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
-    price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
-    """
-
-    EXCLUSIVE = "exclusive"
-    INCLUSIVE = "inclusive"
 
 
 class EntitySalesInvoiceResponseMetadataTypedDict(TypedDict):
@@ -78,18 +46,6 @@ class EntitySalesInvoiceResponseMetadata(BaseModel):
     r"""Provide any data you like as a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-
-
-class EntitySalesInvoiceResponsePaymentTerm(str, Enum):
-    r"""The payment term to be set on the invoice."""
-
-    SEVENDAYS = "7 days"
-    FOURTEENDAYS = "14 days"
-    THIRTYDAYS = "30 days"
-    FORTY_FIVEDAYS = "45 days"
-    SIXTYDAYS = "60 days"
-    NINETYDAYS = "90 days"
-    ONE_HUNDRED_AND_TWENTYDAYS = "120 days"
 
 
 class EntitySalesInvoiceResponseLinksTypedDict(TypedDict):
@@ -131,7 +87,7 @@ class EntitySalesInvoiceResponseTypedDict(TypedDict):
     id: NotRequired[str]
     invoice_number: NotRequired[Nullable[str]]
     r"""When issued, an invoice number will be set for the sales invoice."""
-    status: NotRequired[EntitySalesInvoiceResponseStatus]
+    status: NotRequired[SalesInvoiceStatusResponse]
     r"""The status for the invoice to end up in.
 
     A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
@@ -146,9 +102,9 @@ class EntitySalesInvoiceResponseTypedDict(TypedDict):
     - `customerId` and `mandateId` are required if a recurring payment should be used to set the invoice to `paid`
     - `emailDetails` optional for `issued` and `paid` to send the invoice by email
     """
-    vat_scheme: NotRequired[EntitySalesInvoiceResponseVatScheme]
+    vat_scheme: NotRequired[SalesInvoiceVatSchemeResponse]
     r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
-    vat_mode: NotRequired[EntitySalesInvoiceResponseVatMode]
+    vat_mode: NotRequired[SalesInvoiceVatModeResponse]
     r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
     price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
     """
@@ -158,7 +114,7 @@ class EntitySalesInvoiceResponseTypedDict(TypedDict):
     r"""Provide any data you like as a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-    payment_term: NotRequired[Nullable[EntitySalesInvoiceResponsePaymentTerm]]
+    payment_term: NotRequired[Nullable[SalesInvoicePaymentTermResponse]]
     r"""The payment term to be set on the invoice."""
     payment_details: NotRequired[Nullable[SalesInvoicePaymentDetailsResponseTypedDict]]
     email_details: NotRequired[Nullable[SalesInvoiceEmailDetailsTypedDict]]
@@ -224,7 +180,9 @@ class EntitySalesInvoiceResponse(BaseModel):
     ] = UNSET
     r"""When issued, an invoice number will be set for the sales invoice."""
 
-    status: Optional[EntitySalesInvoiceResponseStatus] = None
+    status: Annotated[
+        Optional[SalesInvoiceStatusResponse], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The status for the invoice to end up in.
 
     A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
@@ -241,12 +199,20 @@ class EntitySalesInvoiceResponse(BaseModel):
     """
 
     vat_scheme: Annotated[
-        Optional[EntitySalesInvoiceResponseVatScheme], pydantic.Field(alias="vatScheme")
+        Annotated[
+            Optional[SalesInvoiceVatSchemeResponse],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="vatScheme"),
     ] = None
     r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
 
     vat_mode: Annotated[
-        Optional[EntitySalesInvoiceResponseVatMode], pydantic.Field(alias="vatMode")
+        Annotated[
+            Optional[SalesInvoiceVatModeResponse],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="vatMode"),
     ] = None
     r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
     price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
@@ -261,7 +227,10 @@ class EntitySalesInvoiceResponse(BaseModel):
     """
 
     payment_term: Annotated[
-        OptionalNullable[EntitySalesInvoiceResponsePaymentTerm],
+        Annotated[
+            OptionalNullable[SalesInvoicePaymentTermResponse],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="paymentTerm"),
     ] = UNSET
     r"""The payment term to be set on the invoice."""

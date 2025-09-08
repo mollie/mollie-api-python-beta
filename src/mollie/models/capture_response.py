@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 from .amount_nullable import AmountNullable, AmountNullableTypedDict
+from .capture_status import CaptureStatus
 from .metadata import Metadata, MetadataTypedDict
 from .mode import Mode
 from .url import URL, URLTypedDict
 from .url_nullable import URLNullable, URLNullableTypedDict
-from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -14,14 +14,6 @@ from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class CaptureResponseStatus(str, Enum):
-    r"""The capture's status."""
-
-    PENDING = "pending"
-    SUCCEEDED = "succeeded"
-    FAILED = "failed"
 
 
 class CaptureResponseLinksTypedDict(TypedDict):
@@ -100,7 +92,7 @@ class CaptureResponseTypedDict(TypedDict):
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     settlement_amount: NotRequired[Nullable[AmountNullableTypedDict]]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    status: NotRequired[CaptureResponseStatus]
+    status: NotRequired[CaptureStatus]
     r"""The capture's status."""
     metadata: NotRequired[Nullable[MetadataTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
@@ -135,7 +127,9 @@ class CaptureResponse(BaseModel):
     ] = UNSET
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    status: Optional[CaptureResponseStatus] = None
+    status: Annotated[
+        Optional[CaptureStatus], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The capture's status."""
 
     metadata: OptionalNullable[Metadata] = UNSET

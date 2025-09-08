@@ -46,6 +46,7 @@ with ClientSDK(
             currency="EUR",
             value="10.00",
         ),
+        status=mollie.CaptureStatus.SUCCEEDED,
         payment_id="tr_5B8cwPMGnU",
         shipment_id="shp_5x4xQJDWGNcY3tKGL7X5J",
         settlement_id="stl_5B8cwPMGnU",

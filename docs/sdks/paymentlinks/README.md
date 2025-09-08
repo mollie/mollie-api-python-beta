@@ -48,7 +48,7 @@ with ClientSDK(
         webhook_url="https://webshop.example.org/payment-links/webhook/",
         lines=[
             mollie.PaymentLineItem(
-                type=mollie.PaymentLineItemType.PHYSICAL,
+                type=mollie.PaymentLineType.PHYSICAL,
                 description="LEGO 4440 Forest Police Station",
                 quantity=1,
                 quantity_unit="pcs",
@@ -271,7 +271,7 @@ with ClientSDK(
         ],
         lines=[
             mollie.PaymentLineItem(
-                type=mollie.PaymentLineItemType.PHYSICAL,
+                type=mollie.PaymentLineType.PHYSICAL,
                 description="LEGO 4440 Forest Police Station",
                 quantity=1,
                 quantity_unit="pcs",

@@ -4,21 +4,13 @@ from __future__ import annotations
 from .mode import Mode
 from .url import URL, URLTypedDict
 from .webhook_event_types import WebhookEventTypes
-from enum import Enum
+from .webhook_status import WebhookStatus
 from mollie.types import BaseModel
 from mollie.utils import validate_open_enum
 import pydantic
 from pydantic.functional_validators import PlainValidator
 from typing import List
 from typing_extensions import Annotated, TypedDict
-
-
-class CreateWebhookStatus(str, Enum):
-    r"""The subscription's current status."""
-
-    ENABLED = "enabled"
-    BLOCKED = "blocked"
-    DISABLED = "disabled"
 
 
 class CreateWebhookLinksTypedDict(TypedDict):
@@ -50,7 +42,7 @@ class CreateWebhookTypedDict(TypedDict):
     r"""The subscription's name."""
     event_types: List[WebhookEventTypes]
     r"""The events types that are subscribed."""
-    status: CreateWebhookStatus
+    status: WebhookStatus
     r"""The subscription's current status."""
     mode: Mode
     r"""Whether this entity was created in live mode or in test mode."""
@@ -82,7 +74,7 @@ class CreateWebhook(BaseModel):
     event_types: Annotated[List[WebhookEventTypes], pydantic.Field(alias="eventTypes")]
     r"""The events types that are subscribed."""
 
-    status: CreateWebhookStatus
+    status: Annotated[WebhookStatus, PlainValidator(validate_open_enum(False))]
     r"""The subscription's current status."""
 
     mode: Annotated[Mode, PlainValidator(validate_open_enum(False))]

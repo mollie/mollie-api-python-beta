@@ -13,6 +13,24 @@ from .metadata import Metadata, MetadataTypedDict
 from .method_response import MethodResponse
 from .mode import Mode
 from .payment_address import PaymentAddress, PaymentAddressTypedDict
+from .payment_details_card_audition_response import PaymentDetailsCardAuditionResponse
+from .payment_details_card_funding_response import PaymentDetailsCardFundingResponse
+from .payment_details_card_label_response import PaymentDetailsCardLabelResponse
+from .payment_details_card_security_response import PaymentDetailsCardSecurityResponse
+from .payment_details_failure_reason_response import PaymentDetailsFailureReasonResponse
+from .payment_details_fee_region_response import PaymentDetailsFeeRegionResponse
+from .payment_details_receipt_card_read_method_response import (
+    PaymentDetailsReceiptCardReadMethodResponse,
+)
+from .payment_details_receipt_card_verification_method_response import (
+    PaymentDetailsReceiptCardVerificationMethodResponse,
+)
+from .payment_details_seller_protection_response import (
+    PaymentDetailsSellerProtectionResponse,
+)
+from .payment_details_wallet_response import PaymentDetailsWalletResponse
+from .payment_line_type_response import PaymentLineTypeResponse
+from .payment_status import PaymentStatus
 from .recurring_line_item import RecurringLineItem, RecurringLineItemTypedDict
 from .sequence_type_response import SequenceTypeResponse
 from .status_reason import StatusReason, StatusReasonTypedDict
@@ -26,22 +44,6 @@ from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class PaymentResponseType(str, Enum):
-    r"""The type of product purchased. For example, a physical or a digital product.
-
-    The `tip` payment line type is not available when creating a payment.
-    """
-
-    PHYSICAL = "physical"
-    DIGITAL = "digital"
-    SHIPPING_FEE = "shipping_fee"
-    DISCOUNT = "discount"
-    STORE_CREDIT = "store_credit"
-    GIFT_CARD = "gift_card"
-    SURCHARGE = "surcharge"
-    TIP = "tip"
 
 
 class PaymentResponseCategory(str, Enum):
@@ -60,7 +62,7 @@ class PaymentResponseLineTypedDict(TypedDict):
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     total_amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    type: NotRequired[PaymentResponseType]
+    type: NotRequired[PaymentLineTypeResponse]
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -101,7 +103,9 @@ class PaymentResponseLine(BaseModel):
     total_amount: Annotated[Amount, pydantic.Field(alias="totalAmount")]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    type: Optional[PaymentResponseType] = None
+    type: Annotated[
+        Optional[PaymentLineTypeResponse], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -181,141 +185,6 @@ class PaymentResponseApplicationFee(BaseModel):
     """
 
 
-class PaymentResponseStatus(str, Enum):
-    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
-    statuses occur at what point.
-    """
-
-    OPEN = "open"
-    PENDING = "pending"
-    AUTHORIZED = "authorized"
-    PAID = "paid"
-    CANCELED = "canceled"
-    EXPIRED = "expired"
-    FAILED = "failed"
-
-
-class CardAudition(str, Enum):
-    r"""The card's target audience, if known."""
-
-    CONSUMER = "consumer"
-    BUSINESS = "business"
-
-
-class PaymentResponseCardLabel(str, Enum):
-    r"""The card's label, if known."""
-
-    AMERICAN_EXPRESS = "American Express"
-    CARTA_SI = "Carta Si"
-    CARTE_BLEUE = "Carte Bleue"
-    DANKORT = "Dankort"
-    DINERS_CLUB = "Diners Club"
-    DISCOVER = "Discover"
-    JCB = "JCB"
-    LASER = "Laser"
-    MAESTRO = "Maestro"
-    MASTERCARD = "Mastercard"
-    UNIONPAY = "Unionpay"
-    VISA = "Visa"
-    VPAY = "Vpay"
-
-
-class CardFunding(str, Enum):
-    r"""The card type."""
-
-    DEBIT = "debit"
-    CREDIT = "credit"
-    PREPAID = "prepaid"
-    DEFERRED_DEBIT = "deferred-debit"
-
-
-class CardSecurity(str, Enum):
-    r"""The level of security applied during card processing."""
-
-    NORMAL = "normal"
-    THREEDSECURE = "3dsecure"
-
-
-class FeeRegion(str, Enum):
-    r"""The applicable card fee region."""
-
-    AMERICAN_EXPRESS = "american-express"
-    AMEX_INTRA_EEA = "amex-intra-eea"
-    CARTE_BANCAIRE = "carte-bancaire"
-    INTRA_EU = "intra-eu"
-    INTRA_EU_CORPORATE = "intra-eu-corporate"
-    DOMESTIC = "domestic"
-    MAESTRO = "maestro"
-    OTHER = "other"
-    INTER = "inter"
-    INTRA_EEA = "intra_eea"
-
-
-class FailureReason(str, Enum):
-    r"""A failure code to help understand why the payment failed."""
-
-    AUTHENTICATION_ABANDONED = "authentication_abandoned"
-    AUTHENTICATION_FAILED = "authentication_failed"
-    AUTHENTICATION_REQUIRED = "authentication_required"
-    AUTHENTICATION_UNAVAILABLE_ACS = "authentication_unavailable_acs"
-    CARD_DECLINED = "card_declined"
-    CARD_EXPIRED = "card_expired"
-    INACTIVE_CARD = "inactive_card"
-    INSUFFICIENT_FUNDS = "insufficient_funds"
-    INVALID_CVV = "invalid_cvv"
-    INVALID_CARD_HOLDER_NAME = "invalid_card_holder_name"
-    INVALID_CARD_NUMBER = "invalid_card_number"
-    INVALID_CARD_TYPE = "invalid_card_type"
-    POSSIBLE_FRAUD = "possible_fraud"
-    REFUSED_BY_ISSUER = "refused_by_issuer"
-    UNKNOWN_REASON = "unknown_reason"
-
-
-class Wallet(str, Enum):
-    r"""The wallet used when creating the payment."""
-
-    APPLEPAY = "applepay"
-
-
-class SellerProtection(str, Enum):
-    r"""Indicates to what extent the payment is eligible for PayPal's Seller Protection. Only available for PayPal
-    payments, and if the information is made available by PayPal.
-    """
-
-    ELIGIBLE = "Eligible"
-    INELIGIBLE = "Ineligible"
-    PARTIALLY_ELIGIBLE_INR_ONLY = "Partially Eligible - INR Only"
-    PARTIALLY_ELIGIBLE_UNAUTH_ONLY = "Partially Eligible - Unauth Only"
-    PARTIALLY_ELIGIBLE = "Partially Eligible"
-    NONE = "None"
-    ACTIVE = "Active"
-    FRAUD_CONTROL_UNAUTH_PREMIUM_ELIGIBLE = "Fraud Control - Unauth Premium Eligible"
-
-
-class CardReadMethod(str, Enum):
-    r"""The method by which the card was read by the terminal."""
-
-    CHIP = "chip"
-    MAGNETIC_STRIPE = "magnetic-stripe"
-    NEAR_FIELD_COMMUNICATION = "near-field-communication"
-    CONTACTLESS = "contactless"
-    MOTO = "moto"
-
-
-class CardVerificationMethod(str, Enum):
-    r"""The method used to verify the cardholder's identity."""
-
-    NO_CVM_REQUIRED = "no-cvm-required"
-    ONLINE_PIN = "online-pin"
-    OFFLINE_PIN = "offline-pin"
-    CONSUMER_DEVICE = "consumer-device"
-    SIGNATURE = "signature"
-    SIGNATURE_AND_ONLINE_PIN = "signature-and-online-pin"
-    ONLINE_PIN_AND_SIGNATURE = "online-pin-and-signature"
-    NONE = "none"
-    FAILED = "failed"
-
-
 class ReceiptTypedDict(TypedDict):
     r"""The Point of sale receipt object."""
 
@@ -323,9 +192,11 @@ class ReceiptTypedDict(TypedDict):
     r"""A unique code provided by the cardholder’s bank to confirm that the transaction was successfully approved."""
     application_identifier: NotRequired[Nullable[str]]
     r"""The unique number that identifies a specific payment application on a chip card."""
-    card_read_method: NotRequired[Nullable[CardReadMethod]]
+    card_read_method: NotRequired[Nullable[PaymentDetailsReceiptCardReadMethodResponse]]
     r"""The method by which the card was read by the terminal."""
-    card_verification_method: NotRequired[Nullable[CardVerificationMethod]]
+    card_verification_method: NotRequired[
+        Nullable[PaymentDetailsReceiptCardVerificationMethodResponse]
+    ]
     r"""The method used to verify the cardholder's identity."""
 
 
@@ -343,12 +214,19 @@ class Receipt(BaseModel):
     r"""The unique number that identifies a specific payment application on a chip card."""
 
     card_read_method: Annotated[
-        OptionalNullable[CardReadMethod], pydantic.Field(alias="cardReadMethod")
+        Annotated[
+            OptionalNullable[PaymentDetailsReceiptCardReadMethodResponse],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="cardReadMethod"),
     ] = UNSET
     r"""The method by which the card was read by the terminal."""
 
     card_verification_method: Annotated[
-        OptionalNullable[CardVerificationMethod],
+        Annotated[
+            OptionalNullable[PaymentDetailsReceiptCardVerificationMethodResponse],
+            PlainValidator(validate_open_enum(False)),
+        ],
         pydantic.Field(alias="cardVerificationMethod"),
     ] = UNSET
     r"""The method used to verify the cardholder's identity."""
@@ -479,19 +357,19 @@ class PaymentResponseDetailsTypedDict(TypedDict):
     """
     card_holder: NotRequired[Nullable[str]]
     r"""The customer's name as shown on their card."""
-    card_audition: NotRequired[Nullable[CardAudition]]
+    card_audition: NotRequired[Nullable[PaymentDetailsCardAuditionResponse]]
     r"""The card's target audience, if known."""
-    card_label: NotRequired[Nullable[PaymentResponseCardLabel]]
+    card_label: NotRequired[Nullable[PaymentDetailsCardLabelResponse]]
     r"""The card's label, if known."""
     card_country_code: NotRequired[Nullable[str]]
     r"""The ISO 3166-1 alpha-2 country code of the country the card was issued in."""
     card_expiry_date: NotRequired[Nullable[str]]
     r"""The expiry date (MM/YY) of the card as displayed on the card."""
-    card_funding: NotRequired[Nullable[CardFunding]]
+    card_funding: NotRequired[Nullable[PaymentDetailsCardFundingResponse]]
     r"""The card type."""
-    card_security: NotRequired[Nullable[CardSecurity]]
+    card_security: NotRequired[Nullable[PaymentDetailsCardSecurityResponse]]
     r"""The level of security applied during card processing."""
-    fee_region: NotRequired[Nullable[FeeRegion]]
+    fee_region: NotRequired[Nullable[PaymentDetailsFeeRegionResponse]]
     r"""The applicable card fee region."""
     card_masked_number: NotRequired[Nullable[str]]
     r"""The first 6 and last 4 digits of the card number."""
@@ -501,19 +379,19 @@ class PaymentResponseDetailsTypedDict(TypedDict):
     r"""The first 6 digit of the card bank identification number."""
     card_issuer: NotRequired[Nullable[str]]
     r"""The issuer of the Card."""
-    failure_reason: NotRequired[Nullable[FailureReason]]
+    failure_reason: NotRequired[Nullable[PaymentDetailsFailureReasonResponse]]
     r"""A failure code to help understand why the payment failed."""
     failure_message: NotRequired[Nullable[str]]
     r"""A human-friendly failure message that can be shown to the customer. The message is translated in accordance
     with the payment's locale setting.
     """
-    wallet: NotRequired[Nullable[Wallet]]
+    wallet: NotRequired[Nullable[PaymentDetailsWalletResponse]]
     r"""The wallet used when creating the payment."""
     paypal_reference: NotRequired[Nullable[str]]
     r"""PayPal's reference for the payment."""
     paypal_payer_id: NotRequired[Nullable[str]]
     r"""ID of the customer's PayPal account."""
-    seller_protection: NotRequired[Nullable[SellerProtection]]
+    seller_protection: NotRequired[Nullable[PaymentDetailsSellerProtectionResponse]]
     r"""Indicates to what extent the payment is eligible for PayPal's Seller Protection. Only available for PayPal
     payments, and if the information is made available by PayPal.
     """
@@ -649,12 +527,20 @@ class PaymentResponseDetails(BaseModel):
     r"""The customer's name as shown on their card."""
 
     card_audition: Annotated[
-        OptionalNullable[CardAudition], pydantic.Field(alias="cardAudition")
+        Annotated[
+            OptionalNullable[PaymentDetailsCardAuditionResponse],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="cardAudition"),
     ] = UNSET
     r"""The card's target audience, if known."""
 
     card_label: Annotated[
-        OptionalNullable[PaymentResponseCardLabel], pydantic.Field(alias="cardLabel")
+        Annotated[
+            OptionalNullable[PaymentDetailsCardLabelResponse],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="cardLabel"),
     ] = UNSET
     r"""The card's label, if known."""
 
@@ -669,17 +555,29 @@ class PaymentResponseDetails(BaseModel):
     r"""The expiry date (MM/YY) of the card as displayed on the card."""
 
     card_funding: Annotated[
-        OptionalNullable[CardFunding], pydantic.Field(alias="cardFunding")
+        Annotated[
+            OptionalNullable[PaymentDetailsCardFundingResponse],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="cardFunding"),
     ] = UNSET
     r"""The card type."""
 
     card_security: Annotated[
-        OptionalNullable[CardSecurity], pydantic.Field(alias="cardSecurity")
+        Annotated[
+            OptionalNullable[PaymentDetailsCardSecurityResponse],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="cardSecurity"),
     ] = UNSET
     r"""The level of security applied during card processing."""
 
     fee_region: Annotated[
-        OptionalNullable[FeeRegion], pydantic.Field(alias="feeRegion")
+        Annotated[
+            OptionalNullable[PaymentDetailsFeeRegionResponse],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="feeRegion"),
     ] = UNSET
     r"""The applicable card fee region."""
 
@@ -702,7 +600,11 @@ class PaymentResponseDetails(BaseModel):
     r"""The issuer of the Card."""
 
     failure_reason: Annotated[
-        OptionalNullable[FailureReason], pydantic.Field(alias="failureReason")
+        Annotated[
+            OptionalNullable[PaymentDetailsFailureReasonResponse],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="failureReason"),
     ] = UNSET
     r"""A failure code to help understand why the payment failed."""
 
@@ -713,7 +615,10 @@ class PaymentResponseDetails(BaseModel):
     with the payment's locale setting.
     """
 
-    wallet: OptionalNullable[Wallet] = UNSET
+    wallet: Annotated[
+        OptionalNullable[PaymentDetailsWalletResponse],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""The wallet used when creating the payment."""
 
     paypal_reference: Annotated[
@@ -727,7 +632,11 @@ class PaymentResponseDetails(BaseModel):
     r"""ID of the customer's PayPal account."""
 
     seller_protection: Annotated[
-        OptionalNullable[SellerProtection], pydantic.Field(alias="sellerProtection")
+        Annotated[
+            OptionalNullable[PaymentDetailsSellerProtectionResponse],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="sellerProtection"),
     ] = UNSET
     r"""Indicates to what extent the payment is eligible for PayPal's Seller Protection. Only available for PayPal
     payments, and if the information is made available by PayPal.
@@ -1219,7 +1128,7 @@ class PaymentResponseTypedDict(TypedDict):
     """
     settlement_id: NotRequired[str]
     order_id: NotRequired[str]
-    status: NotRequired[PaymentResponseStatus]
+    status: NotRequired[PaymentStatus]
     r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
     statuses occur at what point.
     """
@@ -1510,7 +1419,9 @@ class PaymentResponse(BaseModel):
 
     order_id: Annotated[Optional[str], pydantic.Field(alias="orderId")] = None
 
-    status: Optional[PaymentResponseStatus] = None
+    status: Annotated[
+        Optional[PaymentStatus], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
     statuses occur at what point.
     """

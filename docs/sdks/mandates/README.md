@@ -35,7 +35,7 @@ with ClientSDK(
 
     res = client_sdk.mandates.create(customer_id="cst_5B8cwPMGnU", entity_mandate={
         "id": "mdt_5B8cwPMGnU",
-        "method": mollie.EntityMandateMethod.DIRECTDEBIT,
+        "method": mollie.MandateMethod.DIRECTDEBIT,
         "consumer_name": "John Doe",
         "consumer_account": "NL55INGB0000000000",
         "consumer_bic": "BANKBIC",
@@ -44,6 +44,7 @@ with ClientSDK(
         "mandate_reference": "ID-1023892",
         "paypal_billing_agreement_id": "B-12A34567B8901234CD",
         "pay_pal_vault_id": "8kk8451t",
+        "status": mollie.MandateStatus.VALID,
         "customer_id": "cst_5B8cwPMGnU",
         "testmode": False,
     })

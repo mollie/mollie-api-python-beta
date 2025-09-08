@@ -4,9 +4,10 @@ from __future__ import annotations
 from .amount import Amount, AmountTypedDict
 from .metadata import Metadata, MetadataTypedDict
 from .mode import Mode
+from .subscription_method_response import SubscriptionMethodResponse
+from .subscription_status import SubscriptionStatus
 from .url import URL, URLTypedDict
 from .url_nullable import URLNullable, URLNullableTypedDict
-from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -14,26 +15,6 @@ from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class SubscriptionResponseStatus(str, Enum):
-    r"""The subscription's current status is directly related to the status of the underlying customer or mandate that is
-    enabling the subscription.
-    """
-
-    PENDING = "pending"
-    ACTIVE = "active"
-    CANCELED = "canceled"
-    SUSPENDED = "suspended"
-    COMPLETED = "completed"
-
-
-class SubscriptionResponseMethod(str, Enum):
-    r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
-
-    CREDITCARD = "creditcard"
-    DIRECTDEBIT = "directdebit"
-    PAYPAL = "paypal"
 
 
 class SubscriptionResponseApplicationFeeTypedDict(TypedDict):
@@ -144,7 +125,7 @@ class SubscriptionResponseTypedDict(TypedDict):
     id: NotRequired[str]
     mode: NotRequired[Mode]
     r"""Whether this entity was created in live mode or in test mode."""
-    status: NotRequired[SubscriptionResponseStatus]
+    status: NotRequired[SubscriptionStatus]
     r"""The subscription's current status is directly related to the status of the underlying customer or mandate that is
     enabling the subscription.
     """
@@ -177,7 +158,7 @@ class SubscriptionResponseTypedDict(TypedDict):
 
     **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
     """
-    method: NotRequired[Nullable[SubscriptionResponseMethod]]
+    method: NotRequired[Nullable[SubscriptionMethodResponse]]
     r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
     application_fee: NotRequired[SubscriptionResponseApplicationFeeTypedDict]
     r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
@@ -221,7 +202,9 @@ class SubscriptionResponse(BaseModel):
     mode: Annotated[Optional[Mode], PlainValidator(validate_open_enum(False))] = None
     r"""Whether this entity was created in live mode or in test mode."""
 
-    status: Optional[SubscriptionResponseStatus] = None
+    status: Annotated[
+        Optional[SubscriptionStatus], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The subscription's current status is directly related to the status of the underlying customer or mandate that is
     enabling the subscription.
     """
@@ -266,7 +249,10 @@ class SubscriptionResponse(BaseModel):
     **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
     """
 
-    method: OptionalNullable[SubscriptionResponseMethod] = UNSET
+    method: Annotated[
+        OptionalNullable[SubscriptionMethodResponse],
+        PlainValidator(validate_open_enum(False)),
+    ] = UNSET
     r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
 
     application_fee: Annotated[

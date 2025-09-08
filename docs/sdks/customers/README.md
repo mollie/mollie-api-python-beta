@@ -323,7 +323,7 @@ with ClientSDK(
         webhook_url="https://example.org/webhooks",
         lines=[
             mollie.PaymentRequestLine(
-                type=mollie.PaymentRequestType.PHYSICAL,
+                type=mollie.PaymentLineType.PHYSICAL,
                 description="LEGO 4440 Forest Police Station",
                 quantity=1,
                 quantity_unit="pcs",
@@ -412,7 +412,7 @@ with ClientSDK(
                     value="10.00",
                 ),
                 destination=mollie.EntityPaymentRouteDestination(
-                    type=mollie.EntityPaymentRouteType.ORGANIZATION,
+                    type=mollie.RouteDestinationType.ORGANIZATION,
                     organization_id="org_1234567",
                 ),
                 release_date="2024-12-12",
@@ -434,7 +434,7 @@ with ClientSDK(
                     value="10.00",
                 ),
                 destination=mollie.EntityPaymentRouteDestination(
-                    type=mollie.EntityPaymentRouteType.ORGANIZATION,
+                    type=mollie.RouteDestinationType.ORGANIZATION,
                     organization_id="org_1234567",
                 ),
                 release_date="2024-12-12",

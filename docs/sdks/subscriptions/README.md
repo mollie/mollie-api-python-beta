@@ -52,6 +52,7 @@ with ClientSDK(
 
     res = client_sdk.subscriptions.create(customer_id="cst_5B8cwPMGnU", subscription_request=mollie.SubscriptionRequest(
         id="sub_5B8cwPMGnU",
+        status=mollie.SubscriptionStatus.ACTIVE,
         amount=mollie.Amount(
             currency="EUR",
             value="10.00",
@@ -60,7 +61,7 @@ with ClientSDK(
         interval="2 days",
         start_date="2025-01-01",
         description="Subscription of streaming channel",
-        method=mollie.SubscriptionRequestMethod.PAYPAL,
+        method=mollie.SubscriptionMethod.PAYPAL,
         application_fee=mollie.SubscriptionRequestApplicationFee(
             amount=mollie.Amount(
                 currency="EUR",

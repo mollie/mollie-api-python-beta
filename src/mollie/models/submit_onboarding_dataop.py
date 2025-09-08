@@ -10,7 +10,7 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class SubmitOnboardingDataVatRegulation(str, Enum):
+class VatRegulation(str, Enum):
     r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in
     The United Kingdom, and shifted VAT for merchants in the European Union.
 
@@ -34,7 +34,7 @@ class OrganizationTypedDict(TypedDict):
 
     The field can be omitted for merchants residing in other countries.
     """
-    vat_regulation: NotRequired[Nullable[SubmitOnboardingDataVatRegulation]]
+    vat_regulation: NotRequired[Nullable[VatRegulation]]
     r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in
     The United Kingdom, and shifted VAT for merchants in the European Union.
 
@@ -63,8 +63,7 @@ class Organization(BaseModel):
     """
 
     vat_regulation: Annotated[
-        OptionalNullable[SubmitOnboardingDataVatRegulation],
-        pydantic.Field(alias="vatRegulation"),
+        OptionalNullable[VatRegulation], pydantic.Field(alias="vatRegulation")
     ] = UNSET
     r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in
     The United Kingdom, and shifted VAT for merchants in the European Union.

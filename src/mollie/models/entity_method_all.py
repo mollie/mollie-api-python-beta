@@ -4,8 +4,8 @@ from __future__ import annotations
 from .amount import Amount, AmountTypedDict
 from .amount_nullable import AmountNullable, AmountNullableTypedDict
 from .method_response import MethodResponse
+from .method_status import MethodStatus
 from .url import URL, URLTypedDict
-from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -41,16 +41,6 @@ class EntityMethodAllImage(BaseModel):
     r"""The URL pointing to a vector version of the icon. Usage of this format is preferred, since the icon can
     scale to any desired size without compromising visual quality.
     """
-
-
-class EntityMethodAllStatus(str, Enum):
-    r"""The payment method's activation status for this profile."""
-
-    ACTIVATED = "activated"
-    PENDING_BOARDING = "pending-boarding"
-    PENDING_REVIEW = "pending-review"
-    PENDING_EXTERNAL = "pending-external"
-    REJECTED = "rejected"
 
 
 class EntityMethodAllIssuerImageTypedDict(TypedDict):
@@ -231,7 +221,7 @@ class EntityMethodAllTypedDict(TypedDict):
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     image: EntityMethodAllImageTypedDict
     r"""URLs of images representing the payment method."""
-    status: EntityMethodAllStatus
+    status: MethodStatus
     r"""The payment method's activation status for this profile."""
     links: EntityMethodAllLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
@@ -278,7 +268,7 @@ class EntityMethodAll(BaseModel):
     image: EntityMethodAllImage
     r"""URLs of images representing the payment method."""
 
-    status: EntityMethodAllStatus
+    status: Annotated[MethodStatus, PlainValidator(validate_open_enum(False))]
     r"""The payment method's activation status for this profile."""
 
     links: Annotated[EntityMethodAllLinks, pydantic.Field(alias="_links")]

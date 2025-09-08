@@ -8,6 +8,7 @@ from .locale import Locale
 from .metadata import Metadata, MetadataTypedDict
 from .method import Method
 from .payment_address import PaymentAddress, PaymentAddressTypedDict
+from .payment_line_type import PaymentLineType
 from .recurring_line_item import RecurringLineItem, RecurringLineItemTypedDict
 from .sequence_type import SequenceType
 from datetime import date
@@ -17,22 +18,6 @@ import pydantic
 from pydantic import model_serializer
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class PaymentRequestType(str, Enum):
-    r"""The type of product purchased. For example, a physical or a digital product.
-
-    The `tip` payment line type is not available when creating a payment.
-    """
-
-    PHYSICAL = "physical"
-    DIGITAL = "digital"
-    SHIPPING_FEE = "shipping_fee"
-    DISCOUNT = "discount"
-    STORE_CREDIT = "store_credit"
-    GIFT_CARD = "gift_card"
-    SURCHARGE = "surcharge"
-    TIP = "tip"
 
 
 class PaymentRequestCategory(str, Enum):
@@ -51,7 +36,7 @@ class PaymentRequestLineTypedDict(TypedDict):
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     total_amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    type: NotRequired[PaymentRequestType]
+    type: NotRequired[PaymentLineType]
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.
@@ -92,7 +77,7 @@ class PaymentRequestLine(BaseModel):
     total_amount: Annotated[Amount, pydantic.Field(alias="totalAmount")]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    type: Optional[PaymentRequestType] = None
+    type: Optional[PaymentLineType] = None
     r"""The type of product purchased. For example, a physical or a digital product.
 
     The `tip` payment line type is not available when creating a payment.

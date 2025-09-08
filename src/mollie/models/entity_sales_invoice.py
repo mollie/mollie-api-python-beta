@@ -12,53 +12,19 @@ from .sales_invoice_payment_details import (
     SalesInvoicePaymentDetails,
     SalesInvoicePaymentDetailsTypedDict,
 )
+from .sales_invoice_payment_term import SalesInvoicePaymentTerm
 from .sales_invoice_recipient import (
     SalesInvoiceRecipient,
     SalesInvoiceRecipientTypedDict,
 )
-from enum import Enum
+from .sales_invoice_status import SalesInvoiceStatus
+from .sales_invoice_vat_mode import SalesInvoiceVatMode
+from .sales_invoice_vat_scheme import SalesInvoiceVatScheme
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class EntitySalesInvoiceStatus(str, Enum):
-    r"""The status for the invoice to end up in.
-
-    A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
-    the recipient so they may then pay through our payment system. To skip our payment process, set this to `paid` to
-    mark it as paid. It can then subsequently be sent as well, same as with `issued`.
-
-    A status value that cannot be set but can be returned is `canceled`, for invoices which were
-    issued, but then canceled. Currently this can only be done for invoices created in the dashboard.
-
-    Dependent parameters:
-    - `paymentDetails` is required if invoice should be set directly to `paid`
-    - `customerId` and `mandateId` are required if a recurring payment should be used to set the invoice to `paid`
-    - `emailDetails` optional for `issued` and `paid` to send the invoice by email
-    """
-
-    DRAFT = "draft"
-    ISSUED = "issued"
-    PAID = "paid"
-
-
-class EntitySalesInvoiceVatScheme(str, Enum):
-    r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
-
-    STANDARD = "standard"
-    ONE_STOP_SHOP = "one-stop-shop"
-
-
-class EntitySalesInvoiceVatMode(str, Enum):
-    r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
-    price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
-    """
-
-    EXCLUSIVE = "exclusive"
-    INCLUSIVE = "inclusive"
 
 
 class EntitySalesInvoiceMetadataTypedDict(TypedDict):
@@ -71,18 +37,6 @@ class EntitySalesInvoiceMetadata(BaseModel):
     r"""Provide any data you like as a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-
-
-class EntitySalesInvoicePaymentTerm(str, Enum):
-    r"""The payment term to be set on the invoice."""
-
-    SEVENDAYS = "7 days"
-    FOURTEENDAYS = "14 days"
-    THIRTYDAYS = "30 days"
-    FORTY_FIVEDAYS = "45 days"
-    SIXTYDAYS = "60 days"
-    NINETYDAYS = "90 days"
-    ONE_HUNDRED_AND_TWENTYDAYS = "120 days"
 
 
 class EntitySalesInvoiceTypedDict(TypedDict):
@@ -101,7 +55,7 @@ class EntitySalesInvoiceTypedDict(TypedDict):
     request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
     required.
     """
-    status: NotRequired[EntitySalesInvoiceStatus]
+    status: NotRequired[SalesInvoiceStatus]
     r"""The status for the invoice to end up in.
 
     A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
@@ -116,9 +70,9 @@ class EntitySalesInvoiceTypedDict(TypedDict):
     - `customerId` and `mandateId` are required if a recurring payment should be used to set the invoice to `paid`
     - `emailDetails` optional for `issued` and `paid` to send the invoice by email
     """
-    vat_scheme: NotRequired[EntitySalesInvoiceVatScheme]
+    vat_scheme: NotRequired[SalesInvoiceVatScheme]
     r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
-    vat_mode: NotRequired[EntitySalesInvoiceVatMode]
+    vat_mode: NotRequired[SalesInvoiceVatMode]
     r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
     price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
     """
@@ -128,7 +82,7 @@ class EntitySalesInvoiceTypedDict(TypedDict):
     r"""Provide any data you like as a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-    payment_term: NotRequired[Nullable[EntitySalesInvoicePaymentTerm]]
+    payment_term: NotRequired[Nullable[SalesInvoicePaymentTerm]]
     r"""The payment term to be set on the invoice."""
     payment_details: NotRequired[Nullable[SalesInvoicePaymentDetailsTypedDict]]
     email_details: NotRequired[Nullable[SalesInvoiceEmailDetailsTypedDict]]
@@ -186,7 +140,7 @@ class EntitySalesInvoice(BaseModel):
     required.
     """
 
-    status: Optional[EntitySalesInvoiceStatus] = None
+    status: Optional[SalesInvoiceStatus] = None
     r"""The status for the invoice to end up in.
 
     A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
@@ -203,12 +157,12 @@ class EntitySalesInvoice(BaseModel):
     """
 
     vat_scheme: Annotated[
-        Optional[EntitySalesInvoiceVatScheme], pydantic.Field(alias="vatScheme")
+        Optional[SalesInvoiceVatScheme], pydantic.Field(alias="vatScheme")
     ] = None
     r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
 
     vat_mode: Annotated[
-        Optional[EntitySalesInvoiceVatMode], pydantic.Field(alias="vatMode")
+        Optional[SalesInvoiceVatMode], pydantic.Field(alias="vatMode")
     ] = None
     r"""The VAT mode to use for VAT calculation. `exclusive` mode means we will apply the relevant VAT on top of the
     price. `inclusive` means the prices you are providing to us already contain the VAT you want to apply.
@@ -223,8 +177,7 @@ class EntitySalesInvoice(BaseModel):
     """
 
     payment_term: Annotated[
-        OptionalNullable[EntitySalesInvoicePaymentTerm],
-        pydantic.Field(alias="paymentTerm"),
+        OptionalNullable[SalesInvoicePaymentTerm], pydantic.Field(alias="paymentTerm")
     ] = UNSET
     r"""The payment term to be set on the invoice."""
 

@@ -2,23 +2,16 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
+from .settlement_status import SettlementStatus
 from .url import URL, URLTypedDict
 from .url_nullable import URLNullable, URLNullableTypedDict
-from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class EntitySettlementStatus(str, Enum):
-    r"""The status of the settlement."""
-
-    OPEN = "open"
-    PENDING = "pending"
-    PAIDOUT = "paidout"
-    FAILED = "failed"
 
 
 class EntitySettlementLinksTypedDict(TypedDict):
@@ -119,7 +112,7 @@ class EntitySettlementTypedDict(TypedDict):
     For an [open settlement](get-open-settlement) or for the [next settlement](get-next-settlement), no settlement
     date is available.
     """
-    status: NotRequired[EntitySettlementStatus]
+    status: NotRequired[SettlementStatus]
     r"""The status of the settlement."""
     amount: NotRequired[AmountTypedDict]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
@@ -164,7 +157,9 @@ class EntitySettlement(BaseModel):
     date is available.
     """
 
-    status: Optional[EntitySettlementStatus] = None
+    status: Annotated[
+        Optional[SettlementStatus], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The status of the settlement."""
 
     amount: Optional[Amount] = None

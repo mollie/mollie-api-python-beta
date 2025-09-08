@@ -5,9 +5,11 @@ from .amount import Amount, AmountTypedDict
 from .amount_nullable import AmountNullable, AmountNullableTypedDict
 from .metadata import Metadata, MetadataTypedDict
 from .mode import Mode
+from .refund_external_reference_type_response import RefundExternalReferenceTypeResponse
+from .refund_routing_reversals_source_type import RefundRoutingReversalsSourceType
+from .refund_status import RefundStatus
 from .url import URL, URLTypedDict
 from .url_nullable import URLNullable, URLNullableTypedDict
-from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -17,32 +19,18 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class EntityRefundResponseStatus(str, Enum):
-    r"""Refunds may take some time to get confirmed."""
-
-    QUEUED = "queued"
-    PENDING = "pending"
-    PROCESSING = "processing"
-    REFUNDED = "refunded"
-    FAILED = "failed"
-    CANCELED = "canceled"
-
-
-class EntityRefundResponseType(str, Enum):
-    r"""Specifies the reference type"""
-
-    ACQUIRER_REFERENCE = "acquirer-reference"
-
-
 class EntityRefundResponseExternalReferenceTypedDict(TypedDict):
-    type: NotRequired[EntityRefundResponseType]
+    type: NotRequired[RefundExternalReferenceTypeResponse]
     r"""Specifies the reference type"""
     id: NotRequired[str]
     r"""Unique reference from the payment provider"""
 
 
 class EntityRefundResponseExternalReference(BaseModel):
-    type: Optional[EntityRefundResponseType] = None
+    type: Annotated[
+        Optional[RefundExternalReferenceTypeResponse],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
     r"""Specifies the reference type"""
 
     id: Optional[str] = None
@@ -52,11 +40,16 @@ class EntityRefundResponseExternalReference(BaseModel):
 class EntityRefundResponseSourceTypedDict(TypedDict):
     r"""Where the funds will be pulled back from."""
 
+    type: NotRequired[RefundRoutingReversalsSourceType]
+    r"""The type of source. Currently only the source type `organization` is supported."""
     organization_id: NotRequired[str]
 
 
 class EntityRefundResponseSource(BaseModel):
     r"""Where the funds will be pulled back from."""
+
+    type: Optional[RefundRoutingReversalsSourceType] = None
+    r"""The type of source. Currently only the source type `organization` is supported."""
 
     organization_id: Annotated[
         Optional[str], pydantic.Field(alias="organizationId")
@@ -151,8 +144,7 @@ class EntityRefundResponseTypedDict(TypedDict):
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-    status: EntityRefundResponseStatus
-    r"""Refunds may take some time to get confirmed."""
+    status: RefundStatus
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: EntityRefundResponseLinksTypedDict
@@ -196,8 +188,7 @@ class EntityRefundResponse(BaseModel):
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
 
-    status: EntityRefundResponseStatus
-    r"""Refunds may take some time to get confirmed."""
+    status: Annotated[RefundStatus, PlainValidator(validate_open_enum(False))]
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""

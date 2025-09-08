@@ -2,26 +2,15 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
+from .invoice_status import InvoiceStatus
 from .url import URL, URLTypedDict
-from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class EntityInvoiceStatus(str, Enum):
-    r"""Status of the invoice.
-
-    * `open` — The invoice is not paid yet.
-    * `paid` — The invoice is paid.
-    * `overdue` — Payment of the invoice is overdue.
-    """
-
-    OPEN = "open"
-    PAID = "paid"
-    OVERDUE = "overdue"
 
 
 class EntityInvoiceLineTypedDict(TypedDict):
@@ -91,13 +80,8 @@ class EntityInvoiceTypedDict(TypedDict):
     r"""The reference number of the invoice. An example value would be: `2024.10000`."""
     vat_number: NotRequired[Nullable[str]]
     r"""The VAT number to which the invoice was issued to, if applicable."""
-    status: NotRequired[EntityInvoiceStatus]
-    r"""Status of the invoice.
-
-    * `open` — The invoice is not paid yet.
-    * `paid` — The invoice is paid.
-    * `overdue` — Payment of the invoice is overdue.
-    """
+    status: NotRequired[InvoiceStatus]
+    r"""Status of the invoice."""
     net_amount: NotRequired[AmountTypedDict]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     vat_amount: NotRequired[AmountTypedDict]
@@ -133,13 +117,10 @@ class EntityInvoice(BaseModel):
     )
     r"""The VAT number to which the invoice was issued to, if applicable."""
 
-    status: Optional[EntityInvoiceStatus] = None
-    r"""Status of the invoice.
-
-    * `open` — The invoice is not paid yet.
-    * `paid` — The invoice is paid.
-    * `overdue` — Payment of the invoice is overdue.
-    """
+    status: Annotated[
+        Optional[InvoiceStatus], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""Status of the invoice."""
 
     net_amount: Annotated[Optional[Amount], pydantic.Field(alias="netAmount")] = None
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""

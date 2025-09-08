@@ -3,8 +3,8 @@
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
 from .mode import Mode
+from .route_destination_type_response import RouteDestinationTypeResponse
 from .url import URL, URLTypedDict
-from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -13,16 +13,10 @@ from pydantic.functional_validators import PlainValidator
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class EntityPaymentRouteResponseType(str, Enum):
-    r"""The type of destination. Currently only the destination type `organization` is supported."""
-
-    ORGANIZATION = "organization"
-
-
 class EntityPaymentRouteResponseDestinationTypedDict(TypedDict):
     r"""The destination of this portion of the payment."""
 
-    type: EntityPaymentRouteResponseType
+    type: RouteDestinationTypeResponse
     r"""The type of destination. Currently only the destination type `organization` is supported."""
     organization_id: str
 
@@ -30,7 +24,9 @@ class EntityPaymentRouteResponseDestinationTypedDict(TypedDict):
 class EntityPaymentRouteResponseDestination(BaseModel):
     r"""The destination of this portion of the payment."""
 
-    type: EntityPaymentRouteResponseType
+    type: Annotated[
+        RouteDestinationTypeResponse, PlainValidator(validate_open_enum(False))
+    ]
     r"""The type of destination. Currently only the destination type `organization` is supported."""
 
     organization_id: Annotated[str, pydantic.Field(alias="organizationId")]

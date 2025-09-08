@@ -38,11 +38,11 @@ with ClientSDK(
         id="invoice_4Y0eZitmBnQ6IDoMqZQKh",
         testmode=False,
         profile_id="pfl_QkEhN94Ba",
-        status=mollie.EntitySalesInvoiceStatus.DRAFT,
-        vat_scheme=mollie.EntitySalesInvoiceVatScheme.STANDARD,
-        vat_mode=mollie.EntitySalesInvoiceVatMode.EXCLUSIVE,
+        status=mollie.SalesInvoiceStatus.DRAFT,
+        vat_scheme=mollie.SalesInvoiceVatScheme.STANDARD,
+        vat_mode=mollie.SalesInvoiceVatMode.EXCLUSIVE,
         memo="This is a memo!",
-        payment_term=mollie.EntitySalesInvoicePaymentTerm.THIRTYDAYS,
+        payment_term=mollie.SalesInvoicePaymentTerm.THIRTYDAYS,
         payment_details=mollie.SalesInvoicePaymentDetails(
             source=mollie.SalesInvoicePaymentDetailsSource.PAYMENT_LINK,
             source_reference="pl_d9fQur83kFdhH8hIhaZfq",
@@ -250,9 +250,9 @@ with ClientSDK(
 
     res = client_sdk.sales_invoices.update(id="invoice_4Y0eZitmBnQ6IDoMqZQKh", update_values_sales_invoice={
         "testmode": False,
-        "status": mollie.UpdateValuesSalesInvoiceStatus.PAID,
+        "status": mollie.SalesInvoiceStatus.DRAFT,
         "memo": "An updated memo!",
-        "payment_term": mollie.UpdateValuesSalesInvoicePaymentTerm.THIRTYDAYS,
+        "payment_term": mollie.SalesInvoicePaymentTerm.THIRTYDAYS,
         "payment_details": {
             "source": mollie.SalesInvoicePaymentDetailsSource.PAYMENT_LINK,
             "source_reference": "pl_d9fQur83kFdhH8hIhaZfq",

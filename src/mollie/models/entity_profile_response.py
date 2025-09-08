@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 from .mode import Mode
+from .profile_review_status_response import ProfileReviewStatusResponse
+from .profile_status import ProfileStatus
 from .url import URL, URLTypedDict
-from enum import Enum
 from mollie.types import BaseModel
 from mollie.utils import validate_open_enum
 import pydantic
@@ -12,33 +13,13 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class EntityProfileResponseStatus(str, Enum):
-    r"""The profile status determines whether the profile is able to receive live payments.
-
-    * `unverified`: The profile has not been verified yet and can only be used to create test payments.
-    * `verified`: The profile has been verified and can be used to create live payments and test payments.
-    * `blocked`: The profile is blocked and can no longer be used or changed.
-    """
-
-    UNVERIFIED = "unverified"
-    VERIFIED = "verified"
-    BLOCKED = "blocked"
-
-
-class ReviewStatus(str, Enum):
-    r"""The status of the requested changes."""
-
-    PENDING = "pending"
-    REJECTED = "rejected"
-
-
 class ReviewTypedDict(TypedDict):
     r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved
     automatically, unless a switch to a live profile has been requested. The review object will therefore usually be
     `null` in test mode.
     """
 
-    status: NotRequired[ReviewStatus]
+    status: NotRequired[ProfileReviewStatusResponse]
     r"""The status of the requested changes."""
 
 
@@ -48,7 +29,9 @@ class Review(BaseModel):
     `null` in test mode.
     """
 
-    status: Optional[ReviewStatus] = None
+    status: Annotated[
+        Optional[ProfileReviewStatusResponse], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The status of the requested changes."""
 
 
@@ -132,7 +115,7 @@ class EntityProfileResponseTypedDict(TypedDict):
     r"""The industry associated with the profile's trade name or brand. Please refer to the
     [business category list](common-data-types#business-category) for all possible options.
     """
-    status: NotRequired[EntityProfileResponseStatus]
+    status: NotRequired[ProfileStatus]
     r"""The profile status determines whether the profile is able to receive live payments.
 
     * `unverified`: The profile has not been verified yet and can only be used to create test payments.
@@ -193,7 +176,9 @@ class EntityProfileResponse(BaseModel):
     [business category list](common-data-types#business-category) for all possible options.
     """
 
-    status: Optional[EntityProfileResponseStatus] = None
+    status: Annotated[
+        Optional[ProfileStatus], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The profile status determines whether the profile is able to receive live payments.
 
     * `unverified`: The profile has not been verified yet and can only be used to create test payments.

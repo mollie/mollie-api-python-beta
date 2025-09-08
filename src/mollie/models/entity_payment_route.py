@@ -2,24 +2,18 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
+from .route_destination_type import RouteDestinationType
 from .url import URL, URLTypedDict
-from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class EntityPaymentRouteType(str, Enum):
-    r"""The type of destination. Currently only the destination type `organization` is supported."""
-
-    ORGANIZATION = "organization"
-
-
 class EntityPaymentRouteDestinationTypedDict(TypedDict):
     r"""The destination of this portion of the payment."""
 
-    type: EntityPaymentRouteType
+    type: RouteDestinationType
     r"""The type of destination. Currently only the destination type `organization` is supported."""
     organization_id: str
 
@@ -27,7 +21,7 @@ class EntityPaymentRouteDestinationTypedDict(TypedDict):
 class EntityPaymentRouteDestination(BaseModel):
     r"""The destination of this portion of the payment."""
 
-    type: EntityPaymentRouteType
+    type: RouteDestinationType
     r"""The type of destination. Currently only the destination type `organization` is supported."""
 
     organization_id: Annotated[str, pydantic.Field(alias="organizationId")]

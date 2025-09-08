@@ -9,7 +9,7 @@ from pydantic import model_serializer
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class GetBalanceReportGrouping(str, Enum):
+class Grouping(str, Enum):
     r"""You can retrieve reports in two different formats. With the `status-balances` format, transactions are grouped
     by status (e.g. `pending`, `available`), then by transaction type, and then by other sub-groupings where
     available (e.g. payment method).
@@ -35,7 +35,7 @@ class GetBalanceReportRequestTypedDict(TypedDict):
     This means a report with for example `until=2024-02-01` will include transactions up until
     2024-01-31 23:59:59 CET.
     """
-    grouping: NotRequired[Nullable[GetBalanceReportGrouping]]
+    grouping: NotRequired[Nullable[Grouping]]
     r"""You can retrieve reports in two different formats. With the `status-balances` format, transactions are grouped
     by status (e.g. `pending`, `available`), then by transaction type, and then by other sub-groupings where
     available (e.g. payment method).
@@ -79,7 +79,7 @@ class GetBalanceReportRequest(BaseModel):
     """
 
     grouping: Annotated[
-        OptionalNullable[GetBalanceReportGrouping],
+        OptionalNullable[Grouping],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
     r"""You can retrieve reports in two different formats. With the `status-balances` format, transactions are grouped

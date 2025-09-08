@@ -3,20 +3,15 @@
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
 from .metadata import Metadata, MetadataTypedDict
-from enum import Enum
+from .subscription_method import SubscriptionMethod
+from .subscription_status import SubscriptionStatus
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class SubscriptionRequestMethod(str, Enum):
-    r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
-
-    CREDITCARD = "creditcard"
-    DIRECTDEBIT = "directdebit"
-    PAYPAL = "paypal"
 
 
 class SubscriptionRequestApplicationFeeTypedDict(TypedDict):
@@ -52,6 +47,10 @@ class SubscriptionRequestApplicationFee(BaseModel):
 
 class SubscriptionRequestTypedDict(TypedDict):
     id: NotRequired[str]
+    status: NotRequired[SubscriptionStatus]
+    r"""The subscription's current status is directly related to the status of the underlying customer or mandate that is
+    enabling the subscription.
+    """
     amount: NotRequired[AmountTypedDict]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     times: NotRequired[Nullable[int]]
@@ -75,7 +74,7 @@ class SubscriptionRequestTypedDict(TypedDict):
 
     **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
     """
-    method: NotRequired[Nullable[SubscriptionRequestMethod]]
+    method: NotRequired[Nullable[SubscriptionMethod]]
     r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
     application_fee: NotRequired[SubscriptionRequestApplicationFeeTypedDict]
     r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
@@ -110,6 +109,13 @@ class SubscriptionRequestTypedDict(TypedDict):
 class SubscriptionRequest(BaseModel):
     id: Optional[str] = None
 
+    status: Annotated[
+        Optional[SubscriptionStatus], PlainValidator(validate_open_enum(False))
+    ] = None
+    r"""The subscription's current status is directly related to the status of the underlying customer or mandate that is
+    enabling the subscription.
+    """
+
     amount: Optional[Amount] = None
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
@@ -138,7 +144,7 @@ class SubscriptionRequest(BaseModel):
     **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
     """
 
-    method: OptionalNullable[SubscriptionRequestMethod] = UNSET
+    method: OptionalNullable[SubscriptionMethod] = UNSET
     r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
 
     application_fee: Annotated[
@@ -182,6 +188,7 @@ class SubscriptionRequest(BaseModel):
     def serialize_model(self, handler):
         optional_fields = [
             "id",
+            "status",
             "amount",
             "times",
             "interval",

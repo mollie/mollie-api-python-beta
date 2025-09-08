@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
-from enum import Enum
+from .route_destination_type import RouteDestinationType
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
@@ -10,16 +10,10 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class RouteCreateRequestType(str, Enum):
-    r"""The type of destination. Currently only the destination type `organization` is supported."""
-
-    ORGANIZATION = "organization"
-
-
 class RouteCreateRequestDestinationTypedDict(TypedDict):
     r"""The destination of the route."""
 
-    type: RouteCreateRequestType
+    type: RouteDestinationType
     r"""The type of destination. Currently only the destination type `organization` is supported."""
     organization_id: str
 
@@ -27,7 +21,7 @@ class RouteCreateRequestDestinationTypedDict(TypedDict):
 class RouteCreateRequestDestination(BaseModel):
     r"""The destination of the route."""
 
-    type: RouteCreateRequestType
+    type: RouteDestinationType
     r"""The type of destination. Currently only the destination type `organization` is supported."""
 
     organization_id: Annotated[str, pydantic.Field(alias="organizationId")]

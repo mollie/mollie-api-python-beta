@@ -79,7 +79,7 @@ with ClientSDK(
             "name": "Mollie B.V.",
             "registration_number": "30204462",
             "vat_number": "NL815839091B01",
-            "vat_regulation": mollie.SubmitOnboardingDataVatRegulation.DUTCH,
+            "vat_regulation": mollie.VatRegulation.DUTCH,
         },
         "profile": {
             "name": "Mollie",

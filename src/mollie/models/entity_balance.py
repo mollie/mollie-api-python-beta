@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
+from .balance_status import BalanceStatus
+from .balance_transfer_destination_type import BalanceTransferDestinationType
+from .balance_transfer_frequency import BalanceTransferFrequency
 from .currencies import Currencies
 from .mode import Mode
 from .url import URL, URLTypedDict
-from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -15,45 +17,12 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class EntityBalanceStatus(str, Enum):
-    r"""The status of the balance."""
-
-    ACTIVE = "active"
-    INACTIVE = "inactive"
-
-
-class TransferFrequency(str, Enum):
-    r"""The frequency with which the available amount on the balance will be settled to the configured transfer
-    destination.
-
-    Settlements created during weekends or on bank holidays will take place on the next business day.
-    """
-
-    DAILY = "daily"
-    EVERY_MONDAY = "every-monday"
-    EVERY_TUESDAY = "every-tuesday"
-    EVERY_WEDNESDAY = "every-wednesday"
-    EVERY_THURSDAY = "every-thursday"
-    EVERY_FRIDAY = "every-friday"
-    MONTHLY = "monthly"
-    NEVER = "never"
-
-
-class EntityBalanceType(str, Enum):
-    r"""The default destination of automatic scheduled transfers. Currently only `bank-account` is supported.
-
-    * `bank-account` — Transfer the balance amount to an external bank account
-    """
-
-    BANK_ACCOUNT = "bank-account"
-
-
 class TransferDestinationTypedDict(TypedDict):
     r"""The destination where the available amount will be automatically transferred to according to the configured
     transfer frequency.
     """
 
-    type: NotRequired[EntityBalanceType]
+    type: NotRequired[BalanceTransferDestinationType]
     r"""The default destination of automatic scheduled transfers. Currently only `bank-account` is supported.
 
     * `bank-account` — Transfer the balance amount to an external bank account
@@ -69,7 +38,10 @@ class TransferDestination(BaseModel):
     transfer frequency.
     """
 
-    type: Optional[EntityBalanceType] = None
+    type: Annotated[
+        Optional[BalanceTransferDestinationType],
+        PlainValidator(validate_open_enum(False)),
+    ] = None
     r"""The default destination of automatic scheduled transfers. Currently only `bank-account` is supported.
 
     * `bank-account` — Transfer the balance amount to an external bank account
@@ -114,9 +86,9 @@ class EntityBalanceTypedDict(TypedDict):
     currency: NotRequired[Currencies]
     description: NotRequired[str]
     r"""The description or name of the balance. Can be used to denote the purpose of the balance."""
-    status: NotRequired[EntityBalanceStatus]
+    status: NotRequired[BalanceStatus]
     r"""The status of the balance."""
-    transfer_frequency: NotRequired[TransferFrequency]
+    transfer_frequency: NotRequired[BalanceTransferFrequency]
     r"""The frequency with which the available amount on the balance will be settled to the configured transfer
     destination.
 
@@ -157,11 +129,17 @@ class EntityBalance(BaseModel):
     description: Optional[str] = None
     r"""The description or name of the balance. Can be used to denote the purpose of the balance."""
 
-    status: Optional[EntityBalanceStatus] = None
+    status: Annotated[
+        Optional[BalanceStatus], PlainValidator(validate_open_enum(False))
+    ] = None
     r"""The status of the balance."""
 
     transfer_frequency: Annotated[
-        Optional[TransferFrequency], pydantic.Field(alias="transferFrequency")
+        Annotated[
+            Optional[BalanceTransferFrequency],
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="transferFrequency"),
     ] = None
     r"""The frequency with which the available amount on the balance will be settled to the configured transfer
     destination.

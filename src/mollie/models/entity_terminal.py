@@ -2,30 +2,16 @@
 
 from __future__ import annotations
 from .mode import Mode
+from .terminal_brand import TerminalBrand
 from .terminal_model import TerminalModel
+from .terminal_status import TerminalStatus
 from .url import URL, URLTypedDict
-from enum import Enum
 from mollie.types import BaseModel, Nullable, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing_extensions import Annotated, TypedDict
-
-
-class EntityTerminalStatus(str, Enum):
-    r"""The status of the terminal."""
-
-    PENDING = "pending"
-    ACTIVE = "active"
-    INACTIVE = "inactive"
-
-
-class Brand(str, Enum):
-    r"""The brand of the terminal."""
-
-    PAX = "PAX"
-    TAP = "Tap"
 
 
 class EntityTerminalLinksTypedDict(TypedDict):
@@ -58,9 +44,9 @@ class EntityTerminalTypedDict(TypedDict):
     description is set when the terminal is initially configured. It will be visible in the Mollie Dashboard, and it
     may be visible on the device itself depending on the device.
     """
-    status: EntityTerminalStatus
+    status: TerminalStatus
     r"""The status of the terminal."""
-    brand: Nullable[Brand]
+    brand: Nullable[TerminalBrand]
     r"""The brand of the terminal."""
     model: Nullable[TerminalModel]
     r"""The model of the terminal. For example for a PAX A920, this field's value will be `A920`."""
@@ -100,10 +86,10 @@ class EntityTerminal(BaseModel):
     may be visible on the device itself depending on the device.
     """
 
-    status: EntityTerminalStatus
+    status: Annotated[TerminalStatus, PlainValidator(validate_open_enum(False))]
     r"""The status of the terminal."""
 
-    brand: Nullable[Brand]
+    brand: Annotated[Nullable[TerminalBrand], PlainValidator(validate_open_enum(False))]
     r"""The brand of the terminal."""
 
     model: Annotated[Nullable[TerminalModel], PlainValidator(validate_open_enum(False))]

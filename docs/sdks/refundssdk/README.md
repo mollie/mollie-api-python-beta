@@ -47,8 +47,9 @@ with ClientSDK(
         },
         "payment_id": "tr_5B8cwPMGnU",
         "settlement_id": "stl_5B8cwPMGnU",
+        "status": mollie.RefundStatus.QUEUED,
         "external_reference": {
-            "type": mollie.EntityRefundTypeAcquirerReference.ACQUIRER_REFERENCE,
+            "type": mollie.RefundExternalReferenceType.ACQUIRER_REFERENCE,
             "id": "123456789012345",
         },
         "reverse_routing": False,
@@ -59,7 +60,7 @@ with ClientSDK(
                     "value": "10.00",
                 },
                 "source": {
-                    "type": mollie.RoutingReversalType.ORGANIZATION,
+                    "type": mollie.RefundRoutingReversalsSourceType.ORGANIZATION,
                     "organization_id": "org_1234567",
                 },
             },

@@ -45,6 +45,7 @@ with ClientSDK(
             "GB",
         ],
         "business_category": "OTHER_MERCHANDISE",
+        "status": mollie.ProfileStatus.UNVERIFIED,
     })
 
     # Handle response

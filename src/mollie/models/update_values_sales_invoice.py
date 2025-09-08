@@ -11,39 +11,17 @@ from .sales_invoice_payment_details import (
     SalesInvoicePaymentDetails,
     SalesInvoicePaymentDetailsTypedDict,
 )
+from .sales_invoice_payment_term import SalesInvoicePaymentTerm
 from .sales_invoice_recipient import (
     SalesInvoiceRecipient,
     SalesInvoiceRecipientTypedDict,
 )
-from enum import Enum
+from .sales_invoice_status import SalesInvoiceStatus
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class UpdateValuesSalesInvoiceStatus(str, Enum):
-    r"""The status for the invoice to end up in.
-
-    Dependent parameters: `paymentDetails` for `paid`, `emailDetails` for `issued` and `paid`.
-    """
-
-    DRAFT = "draft"
-    ISSUED = "issued"
-    PAID = "paid"
-
-
-class UpdateValuesSalesInvoicePaymentTerm(str, Enum):
-    r"""The payment term to be set on the invoice."""
-
-    SEVENDAYS = "7 days"
-    FOURTEENDAYS = "14 days"
-    THIRTYDAYS = "30 days"
-    FORTY_FIVEDAYS = "45 days"
-    SIXTYDAYS = "60 days"
-    NINETYDAYS = "90 days"
-    ONE_HUNDRED_AND_TWENTYDAYS = "120 days"
 
 
 class UpdateValuesSalesInvoiceTypedDict(TypedDict):
@@ -53,14 +31,24 @@ class UpdateValuesSalesInvoiceTypedDict(TypedDict):
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
-    status: NotRequired[UpdateValuesSalesInvoiceStatus]
+    status: NotRequired[SalesInvoiceStatus]
     r"""The status for the invoice to end up in.
 
-    Dependent parameters: `paymentDetails` for `paid`, `emailDetails` for `issued` and `paid`.
+    A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
+    the recipient so they may then pay through our payment system. To skip our payment process, set this to `paid` to
+    mark it as paid. It can then subsequently be sent as well, same as with `issued`.
+
+    A status value that cannot be set but can be returned is `canceled`, for invoices which were
+    issued, but then canceled. Currently this can only be done for invoices created in the dashboard.
+
+    Dependent parameters:
+    - `paymentDetails` is required if invoice should be set directly to `paid`
+    - `customerId` and `mandateId` are required if a recurring payment should be used to set the invoice to `paid`
+    - `emailDetails` optional for `issued` and `paid` to send the invoice by email
     """
     memo: NotRequired[Nullable[str]]
     r"""A free-form memo you can set on the invoice, and will be shown on the invoice PDF."""
-    payment_term: NotRequired[Nullable[UpdateValuesSalesInvoicePaymentTerm]]
+    payment_term: NotRequired[Nullable[SalesInvoicePaymentTerm]]
     r"""The payment term to be set on the invoice."""
     payment_details: NotRequired[Nullable[SalesInvoicePaymentDetailsTypedDict]]
     email_details: NotRequired[Nullable[SalesInvoiceEmailDetailsTypedDict]]
@@ -87,18 +75,27 @@ class UpdateValuesSalesInvoice(BaseModel):
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
 
-    status: Optional[UpdateValuesSalesInvoiceStatus] = None
+    status: Optional[SalesInvoiceStatus] = None
     r"""The status for the invoice to end up in.
 
-    Dependent parameters: `paymentDetails` for `paid`, `emailDetails` for `issued` and `paid`.
+    A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
+    the recipient so they may then pay through our payment system. To skip our payment process, set this to `paid` to
+    mark it as paid. It can then subsequently be sent as well, same as with `issued`.
+
+    A status value that cannot be set but can be returned is `canceled`, for invoices which were
+    issued, but then canceled. Currently this can only be done for invoices created in the dashboard.
+
+    Dependent parameters:
+    - `paymentDetails` is required if invoice should be set directly to `paid`
+    - `customerId` and `mandateId` are required if a recurring payment should be used to set the invoice to `paid`
+    - `emailDetails` optional for `issued` and `paid` to send the invoice by email
     """
 
     memo: OptionalNullable[str] = UNSET
     r"""A free-form memo you can set on the invoice, and will be shown on the invoice PDF."""
 
     payment_term: Annotated[
-        OptionalNullable[UpdateValuesSalesInvoicePaymentTerm],
-        pydantic.Field(alias="paymentTerm"),
+        OptionalNullable[SalesInvoicePaymentTerm], pydantic.Field(alias="paymentTerm")
     ] = UNSET
     r"""The payment term to be set on the invoice."""
 
