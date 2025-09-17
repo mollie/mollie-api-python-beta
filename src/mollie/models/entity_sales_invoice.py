@@ -107,6 +107,12 @@ class EntitySalesInvoiceTypedDict(TypedDict):
     All lines must have the same currency as the invoice.
     """
     discount: NotRequired[Nullable[SalesInvoiceDiscountTypedDict]]
+    is_e_invoice: NotRequired[bool]
+    r"""This indicates whether the invoice is an e-invoice. The default value is `false` and can't be changed
+    after the invoice has been issued.
+
+    When `emailDetails` is provided, an additional email is sent to the recipient.
+    """
     amount_due: NotRequired[AmountTypedDict]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     subtotal_amount: NotRequired[AmountTypedDict]
@@ -219,6 +225,13 @@ class EntitySalesInvoice(BaseModel):
 
     discount: OptionalNullable[SalesInvoiceDiscount] = UNSET
 
+    is_e_invoice: Annotated[Optional[bool], pydantic.Field(alias="isEInvoice")] = None
+    r"""This indicates whether the invoice is an e-invoice. The default value is `false` and can't be changed
+    after the invoice has been issued.
+
+    When `emailDetails` is provided, an additional email is sent to the recipient.
+    """
+
     amount_due: Annotated[Optional[Amount], pydantic.Field(alias="amountDue")] = None
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
@@ -262,6 +275,7 @@ class EntitySalesInvoice(BaseModel):
             "recipient",
             "lines",
             "discount",
+            "isEInvoice",
             "amountDue",
             "subtotalAmount",
             "totalAmount",

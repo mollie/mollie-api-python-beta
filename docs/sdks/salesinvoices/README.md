@@ -77,6 +77,7 @@ with ClientSDK(
             type=mollie.SalesInvoiceDiscountType.AMOUNT,
             value="10.00",
         ),
+        is_e_invoice=False,
         amount_due=mollie.Amount(
             currency="EUR",
             value="10.00",
@@ -302,6 +303,7 @@ with ClientSDK(
             "type": mollie.SalesInvoiceDiscountType.AMOUNT,
             "value": "10.00",
         },
+        "is_e_invoice": False,
     })
 
     # Handle response
