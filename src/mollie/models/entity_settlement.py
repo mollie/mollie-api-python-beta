@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
+from .payment_method import PaymentMethod
 from .settlement_status import SettlementStatus
 from .url import URL, URLTypedDict
 from .url_nullable import URLNullable, URLNullableTypedDict
@@ -10,8 +11,240 @@ from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
-from typing import Any, Dict, Optional
+from typing import Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
+
+
+class RateTypedDict(TypedDict):
+    r"""The service rates, further divided into `fixed` and `percentage` costs."""
+
+    fixed: NotRequired[AmountTypedDict]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    percentage: NotRequired[AmountTypedDict]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+
+class Rate(BaseModel):
+    r"""The service rates, further divided into `fixed` and `percentage` costs."""
+
+    fixed: Optional[Amount] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    percentage: Optional[Amount] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+
+class CostTypedDict(TypedDict):
+    description: NotRequired[str]
+    r"""A description of the cost subtotal"""
+    method: NotRequired[Nullable[PaymentMethod]]
+    r"""The payment method, if applicable"""
+    count: NotRequired[int]
+    r"""The number of fees"""
+    rate: NotRequired[RateTypedDict]
+    r"""The service rates, further divided into `fixed` and `percentage` costs."""
+    amount_net: NotRequired[AmountTypedDict]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    amount_vat: NotRequired[AmountTypedDict]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    amount_gross: NotRequired[AmountTypedDict]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+
+class Cost(BaseModel):
+    description: Optional[str] = None
+    r"""A description of the cost subtotal"""
+
+    method: Annotated[
+        OptionalNullable[PaymentMethod], PlainValidator(validate_open_enum(False))
+    ] = UNSET
+    r"""The payment method, if applicable"""
+
+    count: Optional[int] = None
+    r"""The number of fees"""
+
+    rate: Optional[Rate] = None
+    r"""The service rates, further divided into `fixed` and `percentage` costs."""
+
+    amount_net: Annotated[Optional[Amount], pydantic.Field(alias="amountNet")] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    amount_vat: Annotated[Optional[Amount], pydantic.Field(alias="amountVat")] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    amount_gross: Annotated[Optional[Amount], pydantic.Field(alias="amountGross")] = (
+        None
+    )
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "description",
+            "method",
+            "count",
+            "rate",
+            "amountNet",
+            "amountVat",
+            "amountGross",
+        ]
+        nullable_fields = ["method"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class RevenueTypedDict(TypedDict):
+    description: NotRequired[str]
+    r"""A description of the revenue subtotal"""
+    method: NotRequired[Nullable[PaymentMethod]]
+    r"""The payment method, if applicable"""
+    count: NotRequired[int]
+    r"""The number of payments"""
+    amount_net: NotRequired[AmountTypedDict]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    amount_vat: NotRequired[AmountTypedDict]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    amount_gross: NotRequired[AmountTypedDict]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+
+class Revenue(BaseModel):
+    description: Optional[str] = None
+    r"""A description of the revenue subtotal"""
+
+    method: Annotated[
+        OptionalNullable[PaymentMethod], PlainValidator(validate_open_enum(False))
+    ] = UNSET
+    r"""The payment method, if applicable"""
+
+    count: Optional[int] = None
+    r"""The number of payments"""
+
+    amount_net: Annotated[Optional[Amount], pydantic.Field(alias="amountNet")] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    amount_vat: Annotated[Optional[Amount], pydantic.Field(alias="amountVat")] = None
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    amount_gross: Annotated[Optional[Amount], pydantic.Field(alias="amountGross")] = (
+        None
+    )
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = [
+            "description",
+            "method",
+            "count",
+            "amountNet",
+            "amountVat",
+            "amountGross",
+        ]
+        nullable_fields = ["method"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
+
+
+class PeriodsTypedDict(TypedDict):
+    costs: NotRequired[List[CostTypedDict]]
+    r"""An array of cost objects, describing the fees withheld for each payment method during this period."""
+    revenue: NotRequired[List[RevenueTypedDict]]
+    r"""An array of revenue objects containing the total revenue for each payment method during this period."""
+    invoice_id: NotRequired[str]
+    invoice_reference: NotRequired[Nullable[str]]
+    r"""The invoice reference, if the invoice has been created already."""
+
+
+class Periods(BaseModel):
+    costs: Optional[List[Cost]] = None
+    r"""An array of cost objects, describing the fees withheld for each payment method during this period."""
+
+    revenue: Optional[List[Revenue]] = None
+    r"""An array of revenue objects containing the total revenue for each payment method during this period."""
+
+    invoice_id: Annotated[Optional[str], pydantic.Field(alias="invoiceId")] = None
+
+    invoice_reference: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="invoiceReference")
+    ] = UNSET
+    r"""The invoice reference, if the invoice has been created already."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["costs", "revenue", "invoiceId", "invoiceReference"]
+        nullable_fields = ["invoiceReference"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
 
 
 class EntitySettlementLinksTypedDict(TypedDict):
@@ -118,7 +351,7 @@ class EntitySettlementTypedDict(TypedDict):
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     balance_id: NotRequired[str]
     invoice_id: NotRequired[str]
-    periods: NotRequired[Dict[str, Any]]
+    periods: NotRequired[Dict[str, Dict[str, PeriodsTypedDict]]]
     r"""For bookkeeping purposes, the settlement includes an overview of transactions included in the settlement. These
     transactions are grouped into 'period' objects — one for each calendar month.
 
@@ -169,7 +402,7 @@ class EntitySettlement(BaseModel):
 
     invoice_id: Annotated[Optional[str], pydantic.Field(alias="invoiceId")] = None
 
-    periods: Optional[Dict[str, Any]] = None
+    periods: Optional[Dict[str, Dict[str, Periods]]] = None
     r"""For bookkeeping purposes, the settlement includes an overview of transactions included in the settlement. These
     transactions are grouped into 'period' objects — one for each calendar month.
 
