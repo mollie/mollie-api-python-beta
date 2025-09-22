@@ -44,7 +44,7 @@ class CostTypedDict(TypedDict):
     r"""The service rates, further divided into `fixed` and `percentage` costs."""
     amount_net: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    amount_vat: AmountTypedDict
+    amount_vat: Nullable[AmountNullableTypedDict]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     amount_gross: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
@@ -68,7 +68,7 @@ class Cost(BaseModel):
     amount_net: Annotated[Amount, pydantic.Field(alias="amountNet")]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    amount_vat: Annotated[Amount, pydantic.Field(alias="amountVat")]
+    amount_vat: Annotated[Nullable[AmountNullable], pydantic.Field(alias="amountVat")]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
     amount_gross: Annotated[Amount, pydantic.Field(alias="amountGross")]
@@ -77,7 +77,7 @@ class Cost(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = []
-        nullable_fields = ["method"]
+        nullable_fields = ["method", "amountVat"]
         null_default_fields = []
 
         serialized = handler(self)

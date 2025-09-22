@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: 5f770e879f4e0cd204315098145b861b
+  docChecksum: 843a5fcda17e62c6c7e2027ada861883
   docVersion: 1.0.0
   speakeasyVersion: 1.622.1
   generationVersion: 2.709.0
-  releaseVersion: 0.12.6
-  configChecksum: d1fc17058fd18a6f718408cbbf82c13e
+  releaseVersion: 0.12.7
+  configChecksum: 43d5488f75d0bf45a5bfa35cc1b305d3
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -5247,7 +5247,7 @@ examplesVersion: 1.0.2
 generatedTests: {}
 releaseNotes: |
   ## Python SDK Changes Detected:
-  * `client.settlements.list()`:  `response` **Changed** **Breaking** :warning:
-  * `client.settlements.get()`:  `response` **Changed** **Breaking** :warning:
-  * `client.settlements.get-open()`:  `response` **Changed** **Breaking** :warning:
-  * `client.settlements.get-next()`:  `response` **Changed** **Breaking** :warning:
+  * `client.settlements.list()`:  `response._embedded.settlements.[].periods.{}.{}.costs.[].amount_vat` **Changed** **Breaking** :warning:
+  * `client.settlements.get()`:  `response.periods.{}.{}.costs.[].amount_vat` **Changed** **Breaking** :warning:
+  * `client.settlements.get-open()`:  `response.periods.{}.{}.costs.[].amount_vat` **Changed** **Breaking** :warning:
+  * `client.settlements.get-next()`:  `response.periods.{}.{}.costs.[].amount_vat` **Changed** **Breaking** :warning:
