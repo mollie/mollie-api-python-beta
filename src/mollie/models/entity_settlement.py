@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
+from .amount_nullable import AmountNullable, AmountNullableTypedDict
 from .payment_method import PaymentMethod
 from .settlement_status import SettlementStatus
 from .url import URL, URLTypedDict
@@ -20,8 +21,7 @@ class RateTypedDict(TypedDict):
 
     fixed: NotRequired[AmountTypedDict]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    percentage: NotRequired[AmountTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    percentage: NotRequired[str]
 
 
 class Rate(BaseModel):
@@ -30,64 +30,53 @@ class Rate(BaseModel):
     fixed: Optional[Amount] = None
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    percentage: Optional[Amount] = None
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    percentage: Optional[str] = None
 
 
 class CostTypedDict(TypedDict):
-    description: NotRequired[str]
+    description: str
     r"""A description of the cost subtotal"""
-    method: NotRequired[Nullable[PaymentMethod]]
+    method: Nullable[PaymentMethod]
     r"""The payment method, if applicable"""
-    count: NotRequired[int]
+    count: int
     r"""The number of fees"""
-    rate: NotRequired[RateTypedDict]
+    rate: RateTypedDict
     r"""The service rates, further divided into `fixed` and `percentage` costs."""
-    amount_net: NotRequired[AmountTypedDict]
+    amount_net: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    amount_vat: NotRequired[AmountTypedDict]
+    amount_vat: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    amount_gross: NotRequired[AmountTypedDict]
+    amount_gross: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
 
 class Cost(BaseModel):
-    description: Optional[str] = None
+    description: str
     r"""A description of the cost subtotal"""
 
     method: Annotated[
-        OptionalNullable[PaymentMethod], PlainValidator(validate_open_enum(False))
-    ] = UNSET
+        Nullable[PaymentMethod], PlainValidator(validate_open_enum(False))
+    ]
     r"""The payment method, if applicable"""
 
-    count: Optional[int] = None
+    count: int
     r"""The number of fees"""
 
-    rate: Optional[Rate] = None
+    rate: Rate
     r"""The service rates, further divided into `fixed` and `percentage` costs."""
 
-    amount_net: Annotated[Optional[Amount], pydantic.Field(alias="amountNet")] = None
+    amount_net: Annotated[Amount, pydantic.Field(alias="amountNet")]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    amount_vat: Annotated[Optional[Amount], pydantic.Field(alias="amountVat")] = None
+    amount_vat: Annotated[Amount, pydantic.Field(alias="amountVat")]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    amount_gross: Annotated[Optional[Amount], pydantic.Field(alias="amountGross")] = (
-        None
-    )
+    amount_gross: Annotated[Amount, pydantic.Field(alias="amountGross")]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "description",
-            "method",
-            "count",
-            "rate",
-            "amountNet",
-            "amountVat",
-            "amountGross",
-        ]
+        optional_fields = []
         nullable_fields = ["method"]
         null_default_fields = []
 
@@ -117,54 +106,45 @@ class Cost(BaseModel):
 
 
 class RevenueTypedDict(TypedDict):
-    description: NotRequired[str]
+    description: str
     r"""A description of the revenue subtotal"""
-    method: NotRequired[Nullable[PaymentMethod]]
+    method: Nullable[PaymentMethod]
     r"""The payment method, if applicable"""
-    count: NotRequired[int]
+    count: int
     r"""The number of payments"""
-    amount_net: NotRequired[AmountTypedDict]
+    amount_net: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    amount_vat: NotRequired[AmountTypedDict]
+    amount_vat: Nullable[AmountNullableTypedDict]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    amount_gross: NotRequired[AmountTypedDict]
+    amount_gross: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
 
 class Revenue(BaseModel):
-    description: Optional[str] = None
+    description: str
     r"""A description of the revenue subtotal"""
 
     method: Annotated[
-        OptionalNullable[PaymentMethod], PlainValidator(validate_open_enum(False))
-    ] = UNSET
+        Nullable[PaymentMethod], PlainValidator(validate_open_enum(False))
+    ]
     r"""The payment method, if applicable"""
 
-    count: Optional[int] = None
+    count: int
     r"""The number of payments"""
 
-    amount_net: Annotated[Optional[Amount], pydantic.Field(alias="amountNet")] = None
+    amount_net: Annotated[Amount, pydantic.Field(alias="amountNet")]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    amount_vat: Annotated[Optional[Amount], pydantic.Field(alias="amountVat")] = None
+    amount_vat: Annotated[Nullable[AmountNullable], pydantic.Field(alias="amountVat")]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    amount_gross: Annotated[Optional[Amount], pydantic.Field(alias="amountGross")] = (
-        None
-    )
+    amount_gross: Annotated[Amount, pydantic.Field(alias="amountGross")]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "description",
-            "method",
-            "count",
-            "amountNet",
-            "amountVat",
-            "amountGross",
-        ]
-        nullable_fields = ["method"]
+        optional_fields = []
+        nullable_fields = ["method", "amountVat"]
         null_default_fields = []
 
         serialized = handler(self)
@@ -250,7 +230,7 @@ class Periods(BaseModel):
 class EntitySettlementLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[URLTypedDict]
+    self_: URLTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     payments: NotRequired[URLTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
@@ -269,7 +249,7 @@ class EntitySettlementLinksTypedDict(TypedDict):
 class EntitySettlementLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[URL], pydantic.Field(alias="self")] = None
+    self_: Annotated[URL, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     payments: Optional[URL] = None
@@ -293,7 +273,6 @@ class EntitySettlementLinks(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "self",
             "payments",
             "captures",
             "refunds",
@@ -330,11 +309,18 @@ class EntitySettlementLinks(BaseModel):
 
 
 class EntitySettlementTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a settlement object. Will always contain the string `settlement` for this
     endpoint.
     """
-    id: NotRequired[str]
+    id: str
+    status: SettlementStatus
+    r"""The status of the settlement."""
+    amount: AmountTypedDict
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    balance_id: str
+    links: EntitySettlementLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     created_at: NotRequired[str]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     reference: NotRequired[Nullable[str]]
@@ -345,11 +331,6 @@ class EntitySettlementTypedDict(TypedDict):
     For an [open settlement](get-open-settlement) or for the [next settlement](get-next-settlement), no settlement
     date is available.
     """
-    status: NotRequired[SettlementStatus]
-    r"""The status of the settlement."""
-    amount: NotRequired[AmountTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    balance_id: NotRequired[str]
     invoice_id: NotRequired[str]
     periods: NotRequired[Dict[str, Dict[str, PeriodsTypedDict]]]
     r"""For bookkeeping purposes, the settlement includes an overview of transactions included in the settlement. These
@@ -363,17 +344,26 @@ class EntitySettlementTypedDict(TypedDict):
 
     The example response should give a good idea of what this looks like in practise.
     """
-    links: NotRequired[EntitySettlementLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class EntitySettlement(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a settlement object. Will always contain the string `settlement` for this
     endpoint.
     """
 
-    id: Optional[str] = None
+    id: str
+
+    status: Annotated[SettlementStatus, PlainValidator(validate_open_enum(False))]
+    r"""The status of the settlement."""
+
+    amount: Amount
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    balance_id: Annotated[str, pydantic.Field(alias="balanceId")]
+
+    links: Annotated[EntitySettlementLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
@@ -390,16 +380,6 @@ class EntitySettlement(BaseModel):
     date is available.
     """
 
-    status: Annotated[
-        Optional[SettlementStatus], PlainValidator(validate_open_enum(False))
-    ] = None
-    r"""The status of the settlement."""
-
-    amount: Optional[Amount] = None
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-    balance_id: Annotated[Optional[str], pydantic.Field(alias="balanceId")] = None
-
     invoice_id: Annotated[Optional[str], pydantic.Field(alias="invoiceId")] = None
 
     periods: Optional[Dict[str, Dict[str, Periods]]] = None
@@ -415,25 +395,14 @@ class EntitySettlement(BaseModel):
     The example response should give a good idea of what this looks like in practise.
     """
 
-    links: Annotated[
-        Optional[EntitySettlementLinks], pydantic.Field(alias="_links")
-    ] = None
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "resource",
-            "id",
             "createdAt",
             "reference",
             "settledAt",
-            "status",
-            "amount",
-            "balanceId",
             "invoiceId",
             "periods",
-            "_links",
         ]
         nullable_fields = ["reference", "settledAt"]
         null_default_fields = []

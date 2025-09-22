@@ -129,14 +129,14 @@ class ListSettlementsRequest(BaseModel):
 
 
 class ListSettlementsEmbeddedTypedDict(TypedDict):
-    settlements: NotRequired[List[EntitySettlementTypedDict]]
+    settlements: List[EntitySettlementTypedDict]
     r"""An array of settlement objects. For a complete reference
     of the settlement object, refer to the [Get settlement endpoint](get-settlement) documentation.
     """
 
 
 class ListSettlementsEmbedded(BaseModel):
-    settlements: Optional[List[EntitySettlement]] = None
+    settlements: List[EntitySettlement]
     r"""An array of settlement objects. For a complete reference
     of the settlement object, refer to the [Get settlement endpoint](get-settlement) documentation.
     """
@@ -147,15 +147,15 @@ class ListSettlementsResponseTypedDict(TypedDict):
     object, refer to the [Get settlement endpoint](get-settlement) documentation.
     """
 
-    count: NotRequired[int]
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
     The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
     limit is 50 items.
     """
-    embedded: NotRequired[ListSettlementsEmbeddedTypedDict]
-    links: NotRequired[ListLinksTypedDict]
+    embedded: ListSettlementsEmbeddedTypedDict
+    links: ListLinksTypedDict
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
 
@@ -164,7 +164,7 @@ class ListSettlementsResponse(BaseModel):
     object, refer to the [Get settlement endpoint](get-settlement) documentation.
     """
 
-    count: Optional[int] = None
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
@@ -172,9 +172,7 @@ class ListSettlementsResponse(BaseModel):
     limit is 50 items.
     """
 
-    embedded: Annotated[
-        Optional[ListSettlementsEmbedded], pydantic.Field(alias="_embedded")
-    ] = None
+    embedded: Annotated[ListSettlementsEmbedded, pydantic.Field(alias="_embedded")]
 
-    links: Annotated[Optional[ListLinks], pydantic.Field(alias="_links")] = None
+    links: Annotated[ListLinks, pydantic.Field(alias="_links")]
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
