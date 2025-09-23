@@ -351,8 +351,8 @@ with ClientSDK(
                 ),
                 sku="9780241661628",
                 categories=[
-                    mollie.PaymentRequestCategory.MEAL,
-                    mollie.PaymentRequestCategory.ECO,
+                    mollie.LineCategories.MEAL,
+                    mollie.LineCategories.ECO,
                 ],
                 image_url="https://...",
                 product_url="https://...",

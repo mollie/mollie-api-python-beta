@@ -3,8 +3,8 @@
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
 from .entity_method import EntityMethod, EntityMethodTypedDict
+from .line_categories import LineCategories
 from .locale_parameter import LocaleParameter
-from .order_line_categories import OrderLineCategories
 from .sequence_type import SequenceType
 from .url import URL, URLTypedDict
 from enum import Enum
@@ -72,7 +72,7 @@ class ListMethodsRequestTypedDict(TypedDict):
     r"""A comma-separated list of the wallets you support in your checkout. Wallets often require wallet specific code
     to check if they are available on the shoppers device, hence the need to indicate your support.
     """
-    order_line_categories: NotRequired[OrderLineCategories]
+    order_line_categories: NotRequired[LineCategories]
     r"""A comma-separated list of the line categories you support in your checkout.
 
     Example: `/v2/methods?orderLineCategories=eco,meal`
@@ -162,7 +162,7 @@ class ListMethodsRequest(BaseModel):
     """
 
     order_line_categories: Annotated[
-        Optional[OrderLineCategories],
+        Optional[LineCategories],
         pydantic.Field(alias="orderLineCategories"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None

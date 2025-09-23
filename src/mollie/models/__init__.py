@@ -534,6 +534,8 @@ if TYPE_CHECKING:
     )
     from .get_webhookop import GetWebhookRequest, GetWebhookRequestTypedDict
     from .invoice_status import InvoiceStatus
+    from .line_categories import LineCategories
+    from .line_categories_response import LineCategoriesResponse
     from .list_all_chargebacksop import (
         ListAllChargebacksEmbedded,
         ListAllChargebacksEmbeddedTypedDict,
@@ -820,7 +822,6 @@ if TYPE_CHECKING:
     from .mode import Mode
     from .no_response_error import NoResponseError
     from .onboarding_status import OnboardingStatus
-    from .order_line_categories import OrderLineCategories
     from .organization_vat_regulation import OrganizationVatRegulation
     from .payment_address import PaymentAddress, PaymentAddressTypedDict
     from .payment_create_routeop import (
@@ -849,14 +850,9 @@ if TYPE_CHECKING:
         PaymentDetailsSellerProtectionResponse,
     )
     from .payment_details_wallet_response import PaymentDetailsWalletResponse
-    from .payment_line_item import (
-        PaymentLineItem,
-        PaymentLineItemCategory,
-        PaymentLineItemTypedDict,
-    )
+    from .payment_line_item import PaymentLineItem, PaymentLineItemTypedDict
     from .payment_line_item_response import (
         PaymentLineItemResponse,
-        PaymentLineItemResponseCategory,
         PaymentLineItemResponseTypedDict,
     )
     from .payment_line_type import PaymentLineType
@@ -888,7 +884,6 @@ if TYPE_CHECKING:
         PaymentRequest,
         PaymentRequestApplicationFee,
         PaymentRequestApplicationFeeTypedDict,
-        PaymentRequestCategory,
         PaymentRequestLine,
         PaymentRequestLineTypedDict,
         PaymentRequestTypedDict,
@@ -897,7 +892,6 @@ if TYPE_CHECKING:
         PaymentResponse,
         PaymentResponseApplicationFee,
         PaymentResponseApplicationFeeTypedDict,
-        PaymentResponseCategory,
         PaymentResponseDetails,
         PaymentResponseDetailsTypedDict,
         PaymentResponseLine,
@@ -1492,6 +1486,8 @@ __all__ = [
     "InvoiceCompensationTypedDict",
     "InvoiceStatus",
     "InvoiceTypedDict",
+    "LineCategories",
+    "LineCategoriesResponse",
     "ListAllChargebacksEmbedded",
     "ListAllChargebacksEmbeddedTypedDict",
     "ListAllChargebacksRequest",
@@ -1716,7 +1712,6 @@ __all__ = [
     "OnboardingStatus",
     "Open",
     "OpenTypedDict",
-    "OrderLineCategories",
     "Organization",
     "OrganizationTypedDict",
     "OrganizationVatRegulation",
@@ -1745,9 +1740,7 @@ __all__ = [
     "PaymentFee",
     "PaymentFeeTypedDict",
     "PaymentLineItem",
-    "PaymentLineItemCategory",
     "PaymentLineItemResponse",
-    "PaymentLineItemResponseCategory",
     "PaymentLineItemResponseTypedDict",
     "PaymentLineItemTypedDict",
     "PaymentLineType",
@@ -1772,14 +1765,12 @@ __all__ = [
     "PaymentRequest",
     "PaymentRequestApplicationFee",
     "PaymentRequestApplicationFeeTypedDict",
-    "PaymentRequestCategory",
     "PaymentRequestLine",
     "PaymentRequestLineTypedDict",
     "PaymentRequestTypedDict",
     "PaymentResponse",
     "PaymentResponseApplicationFee",
     "PaymentResponseApplicationFeeTypedDict",
-    "PaymentResponseCategory",
     "PaymentResponseDetails",
     "PaymentResponseDetailsTypedDict",
     "PaymentResponseLine",
@@ -2443,6 +2434,8 @@ _dynamic_imports: dict[str, str] = {
     "GetWebhookRequest": ".get_webhookop",
     "GetWebhookRequestTypedDict": ".get_webhookop",
     "InvoiceStatus": ".invoice_status",
+    "LineCategories": ".line_categories",
+    "LineCategoriesResponse": ".line_categories_response",
     "ListAllChargebacksEmbedded": ".list_all_chargebacksop",
     "ListAllChargebacksEmbeddedTypedDict": ".list_all_chargebacksop",
     "ListAllChargebacksRequest": ".list_all_chargebacksop",
@@ -2669,7 +2662,6 @@ _dynamic_imports: dict[str, str] = {
     "Mode": ".mode",
     "NoResponseError": ".no_response_error",
     "OnboardingStatus": ".onboarding_status",
-    "OrderLineCategories": ".order_line_categories",
     "OrganizationVatRegulation": ".organization_vat_regulation",
     "PaymentAddress": ".payment_address",
     "PaymentAddressTypedDict": ".payment_address",
@@ -2686,10 +2678,8 @@ _dynamic_imports: dict[str, str] = {
     "PaymentDetailsSellerProtectionResponse": ".payment_details_seller_protection_response",
     "PaymentDetailsWalletResponse": ".payment_details_wallet_response",
     "PaymentLineItem": ".payment_line_item",
-    "PaymentLineItemCategory": ".payment_line_item",
     "PaymentLineItemTypedDict": ".payment_line_item",
     "PaymentLineItemResponse": ".payment_line_item_response",
-    "PaymentLineItemResponseCategory": ".payment_line_item_response",
     "PaymentLineItemResponseTypedDict": ".payment_line_item_response",
     "PaymentLineType": ".payment_line_type",
     "PaymentLineTypeResponse": ".payment_line_type_response",
@@ -2715,14 +2705,12 @@ _dynamic_imports: dict[str, str] = {
     "PaymentRequest": ".payment_request",
     "PaymentRequestApplicationFee": ".payment_request",
     "PaymentRequestApplicationFeeTypedDict": ".payment_request",
-    "PaymentRequestCategory": ".payment_request",
     "PaymentRequestLine": ".payment_request",
     "PaymentRequestLineTypedDict": ".payment_request",
     "PaymentRequestTypedDict": ".payment_request",
     "PaymentResponse": ".payment_response",
     "PaymentResponseApplicationFee": ".payment_response",
     "PaymentResponseApplicationFeeTypedDict": ".payment_response",
-    "PaymentResponseCategory": ".payment_response",
     "PaymentResponseDetails": ".payment_response",
     "PaymentResponseDetailsTypedDict": ".payment_response",
     "PaymentResponseLine": ".payment_response",

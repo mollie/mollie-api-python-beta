@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 from enum import Enum
+from mollie import utils
 
 
-class OrderLineCategories(str, Enum):
+class LineCategoriesResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     ECO = "eco"
     GIFT = "gift"
     MEAL = "meal"

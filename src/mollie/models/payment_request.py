@@ -4,6 +4,7 @@ from __future__ import annotations
 from .amount import Amount, AmountTypedDict
 from .capture_mode import CaptureMode
 from .entity_payment_route import EntityPaymentRoute, EntityPaymentRouteTypedDict
+from .line_categories import LineCategories
 from .locale import Locale
 from .metadata import Metadata, MetadataTypedDict
 from .method import Method
@@ -12,19 +13,11 @@ from .payment_line_type import PaymentLineType
 from .recurring_line_item import RecurringLineItem, RecurringLineItemTypedDict
 from .sequence_type import SequenceType
 from datetime import date
-from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class PaymentRequestCategory(str, Enum):
-    MEAL = "meal"
-    ECO = "eco"
-    GIFT = "gift"
-    SPORT_CULTURE = "sport_culture"
 
 
 class PaymentRequestLineTypedDict(TypedDict):
@@ -53,7 +46,7 @@ class PaymentRequestLineTypedDict(TypedDict):
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     sku: NotRequired[str]
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
-    categories: NotRequired[List[PaymentRequestCategory]]
+    categories: NotRequired[List[LineCategories]]
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
     [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
@@ -102,7 +95,7 @@ class PaymentRequestLine(BaseModel):
     sku: Optional[str] = None
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
 
-    categories: Optional[List[PaymentRequestCategory]] = None
+    categories: Optional[List[LineCategories]] = None
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
     [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """

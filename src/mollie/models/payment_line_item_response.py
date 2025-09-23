@@ -2,21 +2,14 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
+from .line_categories_response import LineCategoriesResponse
 from .payment_line_type_response import PaymentLineTypeResponse
-from enum import Enum
 from mollie.types import BaseModel
 from mollie.utils import validate_open_enum
 import pydantic
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class PaymentLineItemResponseCategory(str, Enum):
-    MEAL = "meal"
-    ECO = "eco"
-    GIFT = "gift"
-    SPORT_CULTURE = "sport_culture"
 
 
 class PaymentLineItemResponseTypedDict(TypedDict):
@@ -45,7 +38,7 @@ class PaymentLineItemResponseTypedDict(TypedDict):
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     sku: NotRequired[str]
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
-    categories: NotRequired[List[PaymentLineItemResponseCategory]]
+    categories: NotRequired[List[LineCategoriesResponse]]
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
     [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
@@ -95,7 +88,11 @@ class PaymentLineItemResponse(BaseModel):
     sku: Optional[str] = None
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
 
-    categories: Optional[List[PaymentLineItemResponseCategory]] = None
+    categories: Optional[
+        List[
+            Annotated[LineCategoriesResponse, PlainValidator(validate_open_enum(False))]
+        ]
+    ] = None
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
     [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """

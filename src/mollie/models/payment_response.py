@@ -8,6 +8,7 @@ from .entity_payment_route_response import (
     EntityPaymentRouteResponse,
     EntityPaymentRouteResponseTypedDict,
 )
+from .line_categories_response import LineCategoriesResponse
 from .locale_response import LocaleResponse
 from .metadata import Metadata, MetadataTypedDict
 from .method_response import MethodResponse
@@ -36,7 +37,6 @@ from .sequence_type_response import SequenceTypeResponse
 from .status_reason import StatusReason, StatusReasonTypedDict
 from .url import URL, URLTypedDict
 from datetime import date
-from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -44,13 +44,6 @@ from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class PaymentResponseCategory(str, Enum):
-    MEAL = "meal"
-    ECO = "eco"
-    GIFT = "gift"
-    SPORT_CULTURE = "sport_culture"
 
 
 class PaymentResponseLineTypedDict(TypedDict):
@@ -79,7 +72,7 @@ class PaymentResponseLineTypedDict(TypedDict):
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     sku: NotRequired[str]
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
-    categories: NotRequired[List[PaymentResponseCategory]]
+    categories: NotRequired[List[LineCategoriesResponse]]
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
     [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
@@ -130,7 +123,11 @@ class PaymentResponseLine(BaseModel):
     sku: Optional[str] = None
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
 
-    categories: Optional[List[PaymentResponseCategory]] = None
+    categories: Optional[
+        List[
+            Annotated[LineCategoriesResponse, PlainValidator(validate_open_enum(False))]
+        ]
+    ] = None
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
     [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """

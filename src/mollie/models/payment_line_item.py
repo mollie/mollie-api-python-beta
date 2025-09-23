@@ -2,19 +2,12 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
+from .line_categories import LineCategories
 from .payment_line_type import PaymentLineType
-from enum import Enum
 from mollie.types import BaseModel
 import pydantic
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class PaymentLineItemCategory(str, Enum):
-    MEAL = "meal"
-    ECO = "eco"
-    GIFT = "gift"
-    SPORT_CULTURE = "sport_culture"
 
 
 class PaymentLineItemTypedDict(TypedDict):
@@ -43,7 +36,7 @@ class PaymentLineItemTypedDict(TypedDict):
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     sku: NotRequired[str]
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
-    categories: NotRequired[List[PaymentLineItemCategory]]
+    categories: NotRequired[List[LineCategories]]
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
     [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
@@ -91,7 +84,7 @@ class PaymentLineItem(BaseModel):
     sku: Optional[str] = None
     r"""The SKU, EAN, ISBN or UPC of the product sold."""
 
-    categories: Optional[List[PaymentLineItemCategory]] = None
+    categories: Optional[List[LineCategories]] = None
     r"""An array with the voucher categories, in case of a line eligible for a voucher. See the
     [Integrating Vouchers](https://docs.mollie.com/docs/integrating-vouchers/) guide for more information.
     """
