@@ -109,9 +109,11 @@ class EntitySalesInvoiceTypedDict(TypedDict):
     discount: NotRequired[Nullable[SalesInvoiceDiscountTypedDict]]
     is_e_invoice: NotRequired[bool]
     r"""This indicates whether the invoice is an e-invoice. The default value is `false` and can't be changed
-    after the invoice has been issued.
+    after the invoice has been issued. When `emailDetails` is provided, an additional email is sent to the
+    recipient.
 
-    When `emailDetails` is provided, an additional email is sent to the recipient.
+    E-invoicing is only available for merchants based in Belgium, Germany, and the Netherlands, and only when
+    the recipient is also located in one of these countries.
     """
     amount_due: NotRequired[AmountTypedDict]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
@@ -227,9 +229,11 @@ class EntitySalesInvoice(BaseModel):
 
     is_e_invoice: Annotated[Optional[bool], pydantic.Field(alias="isEInvoice")] = None
     r"""This indicates whether the invoice is an e-invoice. The default value is `false` and can't be changed
-    after the invoice has been issued.
+    after the invoice has been issued. When `emailDetails` is provided, an additional email is sent to the
+    recipient.
 
-    When `emailDetails` is provided, an additional email is sent to the recipient.
+    E-invoicing is only available for merchants based in Belgium, Germany, and the Netherlands, and only when
+    the recipient is also located in one of these countries.
     """
 
     amount_due: Annotated[Optional[Amount], pydantic.Field(alias="amountDue")] = None
