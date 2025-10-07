@@ -248,6 +248,12 @@ print("Payments are the same" if payment1.id == payment2.id else "Payments are d
 <details open>
 <summary>Available methods</summary>
 
+### [balance_transfers](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/balancetransfers/README.md)
+
+* [create](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/balancetransfers/README.md#create) - Create a Connect balance transfer
+* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/balancetransfers/README.md#list) - List all Connect balance transfers
+* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/balancetransfers/README.md#get) - Get a Connect balance transfer
+
 ### [balances](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/balances/README.md)
 
 * [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/balances/README.md#list) - List balances

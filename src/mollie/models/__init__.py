@@ -14,8 +14,16 @@ if TYPE_CHECKING:
     from .balance_report_grouping import BalanceReportGrouping
     from .balance_status import BalanceStatus
     from .balance_transaction_type import BalanceTransactionType
+    from .balance_transfer_category import BalanceTransferCategory
+    from .balance_transfer_category_response import BalanceTransferCategoryResponse
     from .balance_transfer_destination_type import BalanceTransferDestinationType
     from .balance_transfer_frequency import BalanceTransferFrequency
+    from .balance_transfer_party_type import BalanceTransferPartyType
+    from .balance_transfer_party_type_response import BalanceTransferPartyTypeResponse
+    from .balance_transfer_status import BalanceTransferStatus
+    from .balance_transfer_status_reason_response import (
+        BalanceTransferStatusReasonResponse,
+    )
     from .cancel_paymentop import (
         CancelPaymentRequest,
         CancelPaymentRequestBody,
@@ -55,6 +63,10 @@ if TYPE_CHECKING:
     from .create_client_linkop import (
         CreateClientLinkRequest,
         CreateClientLinkRequestTypedDict,
+    )
+    from .create_connect_balance_transferop import (
+        CreateConnectBalanceTransferRequest,
+        CreateConnectBalanceTransferRequestTypedDict,
     )
     from .create_customer_paymentop import (
         CreateCustomerPaymentRequest,
@@ -234,6 +246,24 @@ if TYPE_CHECKING:
         SplitPaymentTypedDict,
         UnauthorizedDirectDebit,
         UnauthorizedDirectDebitTypedDict,
+    )
+    from .entity_balance_transfer import (
+        EntityBalanceTransfer,
+        EntityBalanceTransferTypedDict,
+    )
+    from .entity_balance_transfer_party import (
+        EntityBalanceTransferParty,
+        EntityBalanceTransferPartyTypedDict,
+    )
+    from .entity_balance_transfer_party_response import (
+        EntityBalanceTransferPartyResponse,
+        EntityBalanceTransferPartyResponseTypedDict,
+    )
+    from .entity_balance_transfer_response import (
+        EntityBalanceTransferResponse,
+        EntityBalanceTransferResponseStatusReason,
+        EntityBalanceTransferResponseStatusReasonTypedDict,
+        EntityBalanceTransferResponseTypedDict,
     )
     from .entity_capability import EntityCapability, EntityCapabilityTypedDict
     from .entity_capability_requirement import (
@@ -452,6 +482,10 @@ if TYPE_CHECKING:
         GetClientResponse,
         GetClientResponseTypedDict,
     )
+    from .get_connect_balance_transferop import (
+        GetConnectBalanceTransferRequest,
+        GetConnectBalanceTransferRequestTypedDict,
+    )
     from .get_current_organizationop import (
         GetCurrentOrganizationRequest,
         GetCurrentOrganizationRequestTypedDict,
@@ -629,6 +663,14 @@ if TYPE_CHECKING:
         ListClientsRequestTypedDict,
         ListClientsResponse,
         ListClientsResponseTypedDict,
+    )
+    from .list_connect_balance_transfersop import (
+        ListConnectBalanceTransfersEmbedded,
+        ListConnectBalanceTransfersEmbeddedTypedDict,
+        ListConnectBalanceTransfersRequest,
+        ListConnectBalanceTransfersRequestTypedDict,
+        ListConnectBalanceTransfersResponse,
+        ListConnectBalanceTransfersResponseTypedDict,
     )
     from .list_customer_paymentsop import (
         ListCustomerPaymentsEmbedded,
@@ -1124,8 +1166,14 @@ __all__ = [
     "BalanceReportGrouping",
     "BalanceStatus",
     "BalanceTransactionType",
+    "BalanceTransferCategory",
+    "BalanceTransferCategoryResponse",
     "BalanceTransferDestinationType",
     "BalanceTransferFrequency",
+    "BalanceTransferPartyType",
+    "BalanceTransferPartyTypeResponse",
+    "BalanceTransferStatus",
+    "BalanceTransferStatusReasonResponse",
     "CancelPaymentRequest",
     "CancelPaymentRequestBody",
     "CancelPaymentRequestBodyTypedDict",
@@ -1190,6 +1238,8 @@ __all__ = [
     "CreateCaptureRequestTypedDict",
     "CreateClientLinkRequest",
     "CreateClientLinkRequestTypedDict",
+    "CreateConnectBalanceTransferRequest",
+    "CreateConnectBalanceTransferRequestTypedDict",
     "CreateCustomerPaymentRequest",
     "CreateCustomerPaymentRequestTypedDict",
     "CreateCustomerRequest",
@@ -1259,6 +1309,16 @@ __all__ = [
     "EntityBalanceTransactionApplicationFee",
     "EntityBalanceTransactionApplicationFeeTypedDict",
     "EntityBalanceTransactionTypedDict",
+    "EntityBalanceTransfer",
+    "EntityBalanceTransferParty",
+    "EntityBalanceTransferPartyResponse",
+    "EntityBalanceTransferPartyResponseTypedDict",
+    "EntityBalanceTransferPartyTypedDict",
+    "EntityBalanceTransferResponse",
+    "EntityBalanceTransferResponseStatusReason",
+    "EntityBalanceTransferResponseStatusReasonTypedDict",
+    "EntityBalanceTransferResponseTypedDict",
+    "EntityBalanceTransferTypedDict",
     "EntityBalanceTypedDict",
     "EntityCapability",
     "EntityCapabilityRequirement",
@@ -1419,6 +1479,8 @@ __all__ = [
     "GetClientRequestTypedDict",
     "GetClientResponse",
     "GetClientResponseTypedDict",
+    "GetConnectBalanceTransferRequest",
+    "GetConnectBalanceTransferRequestTypedDict",
     "GetCurrentOrganizationRequest",
     "GetCurrentOrganizationRequestTypedDict",
     "GetCurrentProfileRequest",
@@ -1560,6 +1622,12 @@ __all__ = [
     "ListClientsRequestTypedDict",
     "ListClientsResponse",
     "ListClientsResponseTypedDict",
+    "ListConnectBalanceTransfersEmbedded",
+    "ListConnectBalanceTransfersEmbeddedTypedDict",
+    "ListConnectBalanceTransfersRequest",
+    "ListConnectBalanceTransfersRequestTypedDict",
+    "ListConnectBalanceTransfersResponse",
+    "ListConnectBalanceTransfersResponseTypedDict",
     "ListCustomerPaymentsEmbedded",
     "ListCustomerPaymentsEmbeddedTypedDict",
     "ListCustomerPaymentsRequest",
@@ -2006,8 +2074,14 @@ _dynamic_imports: dict[str, str] = {
     "BalanceReportGrouping": ".balance_report_grouping",
     "BalanceStatus": ".balance_status",
     "BalanceTransactionType": ".balance_transaction_type",
+    "BalanceTransferCategory": ".balance_transfer_category",
+    "BalanceTransferCategoryResponse": ".balance_transfer_category_response",
     "BalanceTransferDestinationType": ".balance_transfer_destination_type",
     "BalanceTransferFrequency": ".balance_transfer_frequency",
+    "BalanceTransferPartyType": ".balance_transfer_party_type",
+    "BalanceTransferPartyTypeResponse": ".balance_transfer_party_type_response",
+    "BalanceTransferStatus": ".balance_transfer_status",
+    "BalanceTransferStatusReasonResponse": ".balance_transfer_status_reason_response",
     "CancelPaymentRequest": ".cancel_paymentop",
     "CancelPaymentRequestBody": ".cancel_paymentop",
     "CancelPaymentRequestBodyTypedDict": ".cancel_paymentop",
@@ -2040,6 +2114,8 @@ _dynamic_imports: dict[str, str] = {
     "CreateCaptureRequestTypedDict": ".create_captureop",
     "CreateClientLinkRequest": ".create_client_linkop",
     "CreateClientLinkRequestTypedDict": ".create_client_linkop",
+    "CreateConnectBalanceTransferRequest": ".create_connect_balance_transferop",
+    "CreateConnectBalanceTransferRequestTypedDict": ".create_connect_balance_transferop",
     "CreateCustomerPaymentRequest": ".create_customer_paymentop",
     "CreateCustomerPaymentRequestTypedDict": ".create_customer_paymentop",
     "CreateCustomerRequest": ".create_customerop",
@@ -2195,6 +2271,16 @@ _dynamic_imports: dict[str, str] = {
     "SplitPaymentTypedDict": ".entity_balance_transaction",
     "UnauthorizedDirectDebit": ".entity_balance_transaction",
     "UnauthorizedDirectDebitTypedDict": ".entity_balance_transaction",
+    "EntityBalanceTransfer": ".entity_balance_transfer",
+    "EntityBalanceTransferTypedDict": ".entity_balance_transfer",
+    "EntityBalanceTransferParty": ".entity_balance_transfer_party",
+    "EntityBalanceTransferPartyTypedDict": ".entity_balance_transfer_party",
+    "EntityBalanceTransferPartyResponse": ".entity_balance_transfer_party_response",
+    "EntityBalanceTransferPartyResponseTypedDict": ".entity_balance_transfer_party_response",
+    "EntityBalanceTransferResponse": ".entity_balance_transfer_response",
+    "EntityBalanceTransferResponseStatusReason": ".entity_balance_transfer_response",
+    "EntityBalanceTransferResponseStatusReasonTypedDict": ".entity_balance_transfer_response",
+    "EntityBalanceTransferResponseTypedDict": ".entity_balance_transfer_response",
     "EntityCapability": ".entity_capability",
     "EntityCapabilityTypedDict": ".entity_capability",
     "Dashboard": ".entity_capability_requirement",
@@ -2370,6 +2456,8 @@ _dynamic_imports: dict[str, str] = {
     "GetClientRequestTypedDict": ".get_clientop",
     "GetClientResponse": ".get_clientop",
     "GetClientResponseTypedDict": ".get_clientop",
+    "GetConnectBalanceTransferRequest": ".get_connect_balance_transferop",
+    "GetConnectBalanceTransferRequestTypedDict": ".get_connect_balance_transferop",
     "GetCurrentOrganizationRequest": ".get_current_organizationop",
     "GetCurrentOrganizationRequestTypedDict": ".get_current_organizationop",
     "GetCurrentProfileRequest": ".get_current_profileop",
@@ -2510,6 +2598,12 @@ _dynamic_imports: dict[str, str] = {
     "ListClientsRequestTypedDict": ".list_clientsop",
     "ListClientsResponse": ".list_clientsop",
     "ListClientsResponseTypedDict": ".list_clientsop",
+    "ListConnectBalanceTransfersEmbedded": ".list_connect_balance_transfersop",
+    "ListConnectBalanceTransfersEmbeddedTypedDict": ".list_connect_balance_transfersop",
+    "ListConnectBalanceTransfersRequest": ".list_connect_balance_transfersop",
+    "ListConnectBalanceTransfersRequestTypedDict": ".list_connect_balance_transfersop",
+    "ListConnectBalanceTransfersResponse": ".list_connect_balance_transfersop",
+    "ListConnectBalanceTransfersResponseTypedDict": ".list_connect_balance_transfersop",
     "ListCustomerPaymentsEmbedded": ".list_customer_paymentsop",
     "ListCustomerPaymentsEmbeddedTypedDict": ".list_customer_paymentsop",
     "ListCustomerPaymentsRequest": ".list_customer_paymentsop",

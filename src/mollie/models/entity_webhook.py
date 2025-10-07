@@ -17,12 +17,17 @@ from typing_extensions import Annotated, TypedDict
 class EntityWebhookLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
+    self_: URLTypedDict
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     documentation: URLTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class EntityWebhookLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    self_: Annotated[URL, pydantic.Field(alias="self")]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     documentation: URL
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""

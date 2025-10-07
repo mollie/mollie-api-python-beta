@@ -15,6 +15,7 @@ from typing import Callable, Dict, Optional, TYPE_CHECKING, Union, cast
 import weakref
 
 if TYPE_CHECKING:
+    from mollie.balance_transfers import BalanceTransfers
     from mollie.balances import Balances
     from mollie.capabilities import Capabilities
     from mollie.captures import Captures
@@ -55,6 +56,7 @@ class ClientSDK(BaseSDK):
     client_links: "ClientLinks"
     webhooks: "Webhooks"
     webhook_events: "WebhookEvents"
+    balance_transfers: "BalanceTransfers"
     payments: "PaymentsSDK"
     methods: "Methods"
     refunds: "RefundsSDK"
@@ -81,6 +83,7 @@ class ClientSDK(BaseSDK):
         "client_links": ("mollie.client_links", "ClientLinks"),
         "webhooks": ("mollie.webhooks", "Webhooks"),
         "webhook_events": ("mollie.webhook_events", "WebhookEvents"),
+        "balance_transfers": ("mollie.balance_transfers", "BalanceTransfers"),
         "payments": ("mollie.payments_sdk", "PaymentsSDK"),
         "methods": ("mollie.methods", "Methods"),
         "refunds": ("mollie.refunds_sdk", "RefundsSDK"),

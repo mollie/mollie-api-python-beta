@@ -248,6 +248,12 @@ print("Payments are the same" if payment1.id == payment2.id else "Payments are d
 <details open>
 <summary>Available methods</summary>
 
+### [balance_transfers](docs/sdks/balancetransfers/README.md)
+
+* [create](docs/sdks/balancetransfers/README.md#create) - Create a Connect balance transfer
+* [list](docs/sdks/balancetransfers/README.md#list) - List all Connect balance transfers
+* [get](docs/sdks/balancetransfers/README.md#get) - Get a Connect balance transfer
+
 ### [balances](docs/sdks/balances/README.md)
 
 * [list](docs/sdks/balances/README.md#list) - List balances
