@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: d4c86af0b942215e7a70f30230ce4fd7
+  docChecksum: 248ec6075df6729e0719102b6630ab61
   docVersion: 1.0.0
   speakeasyVersion: 1.636.0
   generationVersion: 2.723.2
-  releaseVersion: 0.14.1
-  configChecksum: 474dbf5b0158701ff2d951e480982a35
+  releaseVersion: 0.14.2
+  configChecksum: 3fafd8478ea96ad8f813d1667a4cb2e6
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -5342,3 +5342,6 @@ examples:
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "The resource does not exist", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
 examplesVersion: 1.0.2
 generatedTests: {}
+releaseNotes: |
+  ## Python SDK Changes Detected:
+  * `client.webhooks.create()`:  `response.profile_id` **Changed** **Breaking** :warning:

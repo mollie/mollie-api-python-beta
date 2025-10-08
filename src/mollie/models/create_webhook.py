@@ -5,9 +5,10 @@ from .mode import Mode
 from .url import URL, URLTypedDict
 from .webhook_event_types import WebhookEventTypes
 from .webhook_status import WebhookStatus
-from mollie.types import BaseModel
+from mollie.types import BaseModel, Nullable, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
+from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import List
 from typing_extensions import Annotated, TypedDict
@@ -39,7 +40,7 @@ class CreateWebhookTypedDict(TypedDict):
     r"""The identifier uniquely referring to this subscription."""
     url: str
     r"""The subscription's events destination."""
-    profile_id: str
+    profile_id: Nullable[str]
     r"""The identifier uniquely referring to the profile that created the subscription."""
     created_at: str
     r"""The subscription's date time of creation."""
@@ -67,7 +68,7 @@ class CreateWebhook(BaseModel):
     url: str
     r"""The subscription's events destination."""
 
-    profile_id: Annotated[str, pydantic.Field(alias="profileId")]
+    profile_id: Annotated[Nullable[str], pydantic.Field(alias="profileId")]
     r"""The identifier uniquely referring to the profile that created the subscription."""
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
@@ -90,3 +91,33 @@ class CreateWebhook(BaseModel):
 
     links: Annotated[CreateWebhookLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = []
+        nullable_fields = ["profileId"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m
