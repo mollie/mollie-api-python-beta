@@ -287,7 +287,6 @@ print("Payments are the same" if payment1.id == payment2.id else "Payments are d
 * [list](docs/sdks/clients/README.md#list) - List clients
 * [get](docs/sdks/clients/README.md#get) - Get client
 
-
 ### [customers](docs/sdks/customers/README.md)
 
 * [create](docs/sdks/customers/README.md#create) - Create customer

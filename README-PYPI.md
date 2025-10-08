@@ -287,7 +287,6 @@ print("Payments are the same" if payment1.id == payment2.id else "Payments are d
 * [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/clients/README.md#list) - List clients
 * [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/clients/README.md#get) - Get client
 
-
 ### [customers](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/customers/README.md)
 
 * [create](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/customers/README.md#create) - Create customer

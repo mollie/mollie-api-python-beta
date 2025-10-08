@@ -15,4 +15,4 @@ class BalanceTransferCategoryResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     SERVICE_PENALTY = "service_penalty"
     DISCOUNT_COMPENSATION = "discount_compensation"
     MANUAL_CORRECTION = "manual_correction"
-    FEE = "fee"
+    OTHER_FEE = "other_fee"

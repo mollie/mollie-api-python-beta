@@ -1,5 +1,0 @@
-# ClientSDK
-
-## Overview
-
-### Available Operations
