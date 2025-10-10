@@ -36,6 +36,7 @@ class Method(str, Enum):
     KLARNAPAYNOW = "klarnapaynow"
     KLARNASLICEIT = "klarnasliceit"
     MBWAY = "mbway"
+    MOBILEPAY = "mobilepay"
     MULTIBANCO = "multibanco"
     MYBANK = "mybank"
     PAYBYBANK = "paybybank"
@@ -49,4 +50,5 @@ class Method(str, Enum):
     SWISH = "swish"
     TRUSTLY = "trustly"
     TWINT = "twint"
+    VIPPS = "vipps"
     VOUCHER = "voucher"

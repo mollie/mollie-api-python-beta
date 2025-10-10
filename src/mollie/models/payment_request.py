@@ -109,6 +109,153 @@ class PaymentRequestLine(BaseModel):
     recurring: Optional[RecurringLineItem] = None
 
 
+class PaymentRequestBillingAddressTypedDict(TypedDict):
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
+
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
+
+    Required for payment method `in3`, `klarna`, `billie` and `riverty`.
+    """
+
+    title: NotRequired[str]
+    r"""The title of the person, for example *Mr.* or *Mrs.*."""
+    given_name: NotRequired[str]
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    family_name: NotRequired[str]
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    organization_name: NotRequired[Any]
+    r"""The name of the organization, in case the addressee is an organization.
+
+    Required for payment method `billie`.
+    """
+    street_and_number: NotRequired[str]
+    r"""A street and street number.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    street_additional: NotRequired[str]
+    r"""Any additional addressing details, for example an apartment number."""
+    postal_code: NotRequired[str]
+    r"""A postal code. This field may be required if the provided country has a postal code system.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    email: NotRequired[str]
+    r"""A valid e-mail address.
+
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    phone: NotRequired[str]
+    r"""If provided, it must be in the [E.164](https://en.wikipedia.org/wiki/E.164) format. For example: +31208202070."""
+    city: NotRequired[str]
+    r"""A city name.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+    region: NotRequired[str]
+    r"""The top-level administrative subdivision of the country. For example: Noord-Holland."""
+    country: NotRequired[str]
+    r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+
+class PaymentRequestBillingAddress(BaseModel):
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
+
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
+
+    Required for payment method `in3`, `klarna`, `billie` and `riverty`.
+    """
+
+    title: Optional[str] = None
+    r"""The title of the person, for example *Mr.* or *Mrs.*."""
+
+    given_name: Annotated[Optional[str], pydantic.Field(alias="givenName")] = None
+    r"""The given name (first name) of the person should be at least two characters and cannot contain only
+    numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    family_name: Annotated[Optional[str], pydantic.Field(alias="familyName")] = None
+    r"""The given family name (surname) of the person should be at least two characters and cannot contain only
+    numbers.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    organization_name: Annotated[
+        Optional[Any], pydantic.Field(alias="organizationName")
+    ] = None
+    r"""The name of the organization, in case the addressee is an organization.
+
+    Required for payment method `billie`.
+    """
+
+    street_and_number: Annotated[
+        Optional[str], pydantic.Field(alias="streetAndNumber")
+    ] = None
+    r"""A street and street number.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    street_additional: Annotated[
+        Optional[str], pydantic.Field(alias="streetAdditional")
+    ] = None
+    r"""Any additional addressing details, for example an apartment number."""
+
+    postal_code: Annotated[Optional[str], pydantic.Field(alias="postalCode")] = None
+    r"""A postal code. This field may be required if the provided country has a postal code system.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    email: Optional[str] = None
+    r"""A valid e-mail address.
+
+    If you provide the email address for a `banktransfer` payment, we will automatically send the instructions
+    email upon payment creation. The language of the email will follow the locale parameter of the payment.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    phone: Optional[str] = None
+    r"""If provided, it must be in the [E.164](https://en.wikipedia.org/wiki/E.164) format. For example: +31208202070."""
+
+    city: Optional[str] = None
+    r"""A city name.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+    region: Optional[str] = None
+    r"""The top-level administrative subdivision of the country. For example: Noord-Holland."""
+
+    country: Optional[str] = None
+    r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+
+    Required for payment methods `billie`, `in3`, `klarna` and `riverty`.
+    """
+
+
 class PaymentRequestApplicationFeeTypedDict(TypedDict):
     r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
     merchants.
@@ -241,7 +388,15 @@ class PaymentRequestTypedDict(TypedDict):
 
     Required for payment methods `billie`, `in3`, `klarna`, `riverty` and `voucher`.
     """
-    billing_address: NotRequired[PaymentAddressTypedDict]
+    billing_address: NotRequired[PaymentRequestBillingAddressTypedDict]
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
+
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
+
+    Required for payment method `in3`, `klarna`, `billie` and `riverty`.
+    """
     shipping_address: NotRequired[PaymentAddressTypedDict]
     locale: NotRequired[Nullable[Locale]]
     r"""Allows you to preset the language to be used."""
@@ -494,8 +649,16 @@ class PaymentRequest(BaseModel):
     """
 
     billing_address: Annotated[
-        Optional[PaymentAddress], pydantic.Field(alias="billingAddress")
+        Optional[PaymentRequestBillingAddress], pydantic.Field(alias="billingAddress")
     ] = None
+    r"""The customer's billing address details. We advise to provide these details to improve fraud protection and
+    conversion.
+
+    Should include `email` or a valid postal address consisting of `streetAndNumber`, `postalCode`, `city` and
+    `country`.
+
+    Required for payment method `in3`, `klarna`, `billie` and `riverty`.
+    """
 
     shipping_address: Annotated[
         Optional[PaymentAddress], pydantic.Field(alias="shippingAddress")

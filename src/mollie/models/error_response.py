@@ -53,7 +53,7 @@ class ErrorResponseData(BaseModel):
     """
 
 
-@dataclass(frozen=True)
+@dataclass(unsafe_hash=True)
 class ErrorResponse(ClientError):
     r"""An error response object."""
 

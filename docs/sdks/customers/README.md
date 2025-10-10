@@ -368,11 +368,10 @@ with ClientSDK(
                 ),
             ),
         ],
-        billing_address=mollie.PaymentAddress(
+        billing_address=mollie.PaymentRequestBillingAddress(
             title="Mr.",
             given_name="Piet",
             family_name="Mondriaan",
-            organization_name="Mollie B.V.",
             street_and_number="Keizersgracht 126",
             street_additional="Apt. 1",
             postal_code="1234AB",
