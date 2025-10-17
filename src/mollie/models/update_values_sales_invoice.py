@@ -65,12 +65,6 @@ class UpdateValuesSalesInvoiceTypedDict(TypedDict):
     All lines must have the same currency as the invoice.
     """
     discount: NotRequired[Nullable[SalesInvoiceDiscountTypedDict]]
-    is_e_invoice: NotRequired[bool]
-    r"""This indicates whether the invoice is an e-invoice. The default value is `false` and can't be changed
-    after the invoice has been issued.
-
-    When `emailDetails` is provided, an additional email is sent to the recipient.
-    """
 
 
 class UpdateValuesSalesInvoice(BaseModel):
@@ -133,13 +127,6 @@ class UpdateValuesSalesInvoice(BaseModel):
 
     discount: OptionalNullable[SalesInvoiceDiscount] = UNSET
 
-    is_e_invoice: Annotated[Optional[bool], pydantic.Field(alias="isEInvoice")] = None
-    r"""This indicates whether the invoice is an e-invoice. The default value is `false` and can't be changed
-    after the invoice has been issued.
-
-    When `emailDetails` is provided, an additional email is sent to the recipient.
-    """
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
@@ -153,7 +140,6 @@ class UpdateValuesSalesInvoice(BaseModel):
             "recipient",
             "lines",
             "discount",
-            "isEInvoice",
         ]
         nullable_fields = [
             "testmode",
