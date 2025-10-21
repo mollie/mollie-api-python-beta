@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 from .capability_requirement_status import CapabilityRequirementStatus
-from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from .url import URL, URLTypedDict
+from mollie.types import BaseModel, Nullable, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
@@ -11,82 +12,53 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class DashboardTypedDict(TypedDict):
-    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled.
-    For example, where necessary documents are to be uploaded.
-    """
-
-    href: NotRequired[str]
-    r"""The actual URL string."""
-    type: NotRequired[str]
-    r"""The content type of the page or endpoint the URL points to."""
-
-
-class Dashboard(BaseModel):
-    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled.
-    For example, where necessary documents are to be uploaded.
-    """
-
-    href: Optional[str] = None
-    r"""The actual URL string."""
-
-    type: Optional[str] = None
-    r"""The content type of the page or endpoint the URL points to."""
-
-
 class EntityCapabilityRequirementLinksTypedDict(TypedDict):
-    dashboard: NotRequired[DashboardTypedDict]
-    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled.
-    For example, where necessary documents are to be uploaded.
-    """
+    dashboard: NotRequired[URLTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class EntityCapabilityRequirementLinks(BaseModel):
-    dashboard: Optional[Dashboard] = None
-    r"""If known, a deep link to the Mollie dashboard of the client, where the requirement can be fulfilled.
-    For example, where necessary documents are to be uploaded.
-    """
+    dashboard: Optional[URL] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class EntityCapabilityRequirementTypedDict(TypedDict):
-    id: NotRequired[str]
+    id: str
     r"""The name of this requirement, referring to the task to be fulfilled by the organization
     to enable or re-enable the capability. The name is unique among other requirements
     of the same capability.
     """
-    status: NotRequired[CapabilityRequirementStatus]
+    status: CapabilityRequirementStatus
     r"""The status of the requirement depends on its due date.
     If no due date is given, the status will be `requested`.
     """
-    due_date: NotRequired[Nullable[str]]
+    due_date: Nullable[str]
     r"""Due date until the requirement must be fulfilled, if any. The date is shown in ISO-8601 format."""
-    links: NotRequired[EntityCapabilityRequirementLinksTypedDict]
+    links: EntityCapabilityRequirementLinksTypedDict
 
 
 class EntityCapabilityRequirement(BaseModel):
-    id: Optional[str] = None
+    id: str
     r"""The name of this requirement, referring to the task to be fulfilled by the organization
     to enable or re-enable the capability. The name is unique among other requirements
     of the same capability.
     """
 
     status: Annotated[
-        Optional[CapabilityRequirementStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+        CapabilityRequirementStatus, PlainValidator(validate_open_enum(False))
+    ]
     r"""The status of the requirement depends on its due date.
     If no due date is given, the status will be `requested`.
     """
 
-    due_date: Annotated[OptionalNullable[str], pydantic.Field(alias="dueDate")] = UNSET
+    due_date: Annotated[Nullable[str], pydantic.Field(alias="dueDate")]
     r"""Due date until the requirement must be fulfilled, if any. The date is shown in ISO-8601 format."""
 
-    links: Annotated[
-        Optional[EntityCapabilityRequirementLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[EntityCapabilityRequirementLinks, pydantic.Field(alias="_links")]
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["id", "status", "dueDate", "_links"]
+        optional_fields = []
         nullable_fields = ["dueDate"]
         null_default_fields = []
 

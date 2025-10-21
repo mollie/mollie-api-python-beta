@@ -39,21 +39,22 @@ class EntityOrganizationLinks(BaseModel):
 
 
 class EntityOrganizationTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains an organization object. Will always contain the string `organization` for this
     resource type.
     """
-    id: NotRequired[str]
-    r"""The identifier uniquely referring to this organization. Example: `org_12345678`."""
-    name: NotRequired[str]
+    id: str
+    name: str
     r"""The name of the organization."""
-    email: NotRequired[str]
+    email: str
     r"""The email address associated with the organization."""
-    locale: NotRequired[Nullable[LocaleResponse]]
+    locale: Nullable[LocaleResponse]
     r"""Allows you to preset the language to be used."""
-    address: NotRequired[AddressTypedDict]
-    registration_number: NotRequired[str]
+    address: AddressTypedDict
+    registration_number: str
     r"""The registration number of the organization at their local chamber of commerce."""
+    links: EntityOrganizationLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     vat_number: NotRequired[Nullable[str]]
     r"""The VAT number of the organization, if based in the European Union or in The United Kingdom. VAT numbers are
     verified against the international registry *VIES*.
@@ -66,36 +67,34 @@ class EntityOrganizationTypedDict(TypedDict):
 
     The field is not present for merchants residing in other countries.
     """
-    links: NotRequired[EntityOrganizationLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class EntityOrganization(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains an organization object. Will always contain the string `organization` for this
     resource type.
     """
 
-    id: Optional[str] = None
-    r"""The identifier uniquely referring to this organization. Example: `org_12345678`."""
+    id: str
 
-    name: Optional[str] = None
+    name: str
     r"""The name of the organization."""
 
-    email: Optional[str] = None
+    email: str
     r"""The email address associated with the organization."""
 
     locale: Annotated[
-        OptionalNullable[LocaleResponse], PlainValidator(validate_open_enum(False))
-    ] = UNSET
+        Nullable[LocaleResponse], PlainValidator(validate_open_enum(False))
+    ]
     r"""Allows you to preset the language to be used."""
 
-    address: Optional[Address] = None
+    address: Address
 
-    registration_number: Annotated[
-        Optional[str], pydantic.Field(alias="registrationNumber")
-    ] = None
+    registration_number: Annotated[str, pydantic.Field(alias="registrationNumber")]
     r"""The registration number of the organization at their local chamber of commerce."""
+
+    links: Annotated[EntityOrganizationLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     vat_number: Annotated[OptionalNullable[str], pydantic.Field(alias="vatNumber")] = (
         UNSET
@@ -119,25 +118,9 @@ class EntityOrganization(BaseModel):
     The field is not present for merchants residing in other countries.
     """
 
-    links: Annotated[
-        Optional[EntityOrganizationLinks], pydantic.Field(alias="_links")
-    ] = None
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "resource",
-            "id",
-            "name",
-            "email",
-            "locale",
-            "address",
-            "registrationNumber",
-            "vatNumber",
-            "vatRegulation",
-            "_links",
-        ]
+        optional_fields = ["vatNumber", "vatRegulation"]
         nullable_fields = ["locale", "vatNumber", "vatRegulation"]
         null_default_fields = []
 

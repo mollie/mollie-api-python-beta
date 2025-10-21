@@ -2,25 +2,13 @@
 
 from __future__ import annotations
 from .address import Address, AddressTypedDict
-from enum import Enum
+from .onboarding_vat_regulation import OnboardingVatRegulation
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, HeaderMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class VatRegulation(str, Enum):
-    r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in
-    The United Kingdom, and shifted VAT for merchants in the European Union.
-
-    The field can be omitted for merchants residing in other countries.
-    """
-
-    DUTCH = "dutch"
-    BRITISH = "british"
-    SHIFTED = "shifted"
 
 
 class OrganizationTypedDict(TypedDict):
@@ -35,7 +23,7 @@ class OrganizationTypedDict(TypedDict):
 
     The field can be omitted for merchants residing in other countries.
     """
-    vat_regulation: NotRequired[Nullable[VatRegulation]]
+    vat_regulation: NotRequired[Nullable[OnboardingVatRegulation]]
     r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in
     The United Kingdom, and shifted VAT for merchants in the European Union.
 
@@ -64,7 +52,7 @@ class Organization(BaseModel):
     """
 
     vat_regulation: Annotated[
-        OptionalNullable[VatRegulation], pydantic.Field(alias="vatRegulation")
+        OptionalNullable[OnboardingVatRegulation], pydantic.Field(alias="vatRegulation")
     ] = UNSET
     r"""Mollie applies Dutch VAT for merchants based in The Netherlands, British VAT for merchants based in
     The United Kingdom, and shifted VAT for merchants in the European Union.

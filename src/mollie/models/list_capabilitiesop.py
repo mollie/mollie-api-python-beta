@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from .entity_capability import EntityCapability, EntityCapabilityTypedDict
+from .url import URL, URLTypedDict
 from mollie.types import BaseModel
 from mollie.utils import FieldMetadata, HeaderMetadata
 import pydantic
@@ -24,51 +25,38 @@ class ListCapabilitiesRequest(BaseModel):
 
 
 class ListCapabilitiesEmbeddedTypedDict(TypedDict):
-    capabilities: NotRequired[List[EntityCapabilityTypedDict]]
+    capabilities: List[EntityCapabilityTypedDict]
 
 
 class ListCapabilitiesEmbedded(BaseModel):
-    capabilities: Optional[List[EntityCapability]] = None
-
-
-class ListCapabilitiesDocumentationTypedDict(TypedDict):
-    href: NotRequired[str]
-    type: NotRequired[str]
-
-
-class ListCapabilitiesDocumentation(BaseModel):
-    href: Optional[str] = None
-
-    type: Optional[str] = None
+    capabilities: List[EntityCapability]
 
 
 class ListCapabilitiesLinksTypedDict(TypedDict):
-    documentation: NotRequired[ListCapabilitiesDocumentationTypedDict]
+    documentation: NotRequired[URLTypedDict]
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListCapabilitiesLinks(BaseModel):
-    documentation: Optional[ListCapabilitiesDocumentation] = None
+    documentation: Optional[URL] = None
+    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListCapabilitiesResponseTypedDict(TypedDict):
     r"""A list of capabilities."""
 
-    count: NotRequired[int]
+    count: int
     r"""The number of items in this result set."""
-    embedded: NotRequired[ListCapabilitiesEmbeddedTypedDict]
-    links: NotRequired[ListCapabilitiesLinksTypedDict]
+    embedded: ListCapabilitiesEmbeddedTypedDict
+    links: ListCapabilitiesLinksTypedDict
 
 
 class ListCapabilitiesResponse(BaseModel):
     r"""A list of capabilities."""
 
-    count: Optional[int] = None
+    count: int
     r"""The number of items in this result set."""
 
-    embedded: Annotated[
-        Optional[ListCapabilitiesEmbedded], pydantic.Field(alias="_embedded")
-    ] = None
+    embedded: Annotated[ListCapabilitiesEmbedded, pydantic.Field(alias="_embedded")]
 
-    links: Annotated[
-        Optional[ListCapabilitiesLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[ListCapabilitiesLinks, pydantic.Field(alias="_links")]

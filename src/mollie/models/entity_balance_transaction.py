@@ -900,16 +900,18 @@ class Context(BaseModel):
 
 
 class EntityBalanceTransactionTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a balance transaction object. Will always contain the string `balance-transaction`
     for this endpoint.
     """
-    id: NotRequired[str]
-    type: NotRequired[BalanceTransactionType]
-    result_amount: NotRequired[AmountTypedDict]
+    id: str
+    type: BalanceTransactionType
+    result_amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    initial_amount: NotRequired[AmountTypedDict]
+    initial_amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    created_at: str
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     deductions: NotRequired[Nullable[AmountNullableTypedDict]]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     context: NotRequired[ContextTypedDict]
@@ -960,31 +962,26 @@ class EntityBalanceTransactionTypedDict(TypedDict):
     * Type `cash-collateral-issuance`: none
     * Type `cash-collateral-release`: none
     """
-    created_at: NotRequired[str]
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
 
 class EntityBalanceTransaction(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a balance transaction object. Will always contain the string `balance-transaction`
     for this endpoint.
     """
 
-    id: Optional[str] = None
+    id: str
 
-    type: Annotated[
-        Optional[BalanceTransactionType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Annotated[BalanceTransactionType, PlainValidator(validate_open_enum(False))]
 
-    result_amount: Annotated[Optional[Amount], pydantic.Field(alias="resultAmount")] = (
-        None
-    )
+    result_amount: Annotated[Amount, pydantic.Field(alias="resultAmount")]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    initial_amount: Annotated[
-        Optional[Amount], pydantic.Field(alias="initialAmount")
-    ] = None
+    initial_amount: Annotated[Amount, pydantic.Field(alias="initialAmount")]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
     deductions: OptionalNullable[AmountNullable] = UNSET
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
@@ -1038,21 +1035,9 @@ class EntityBalanceTransaction(BaseModel):
     * Type `cash-collateral-release`: none
     """
 
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "resource",
-            "id",
-            "type",
-            "resultAmount",
-            "initialAmount",
-            "deductions",
-            "context",
-            "createdAt",
-        ]
+        optional_fields = ["deductions", "context"]
         nullable_fields = ["deductions"]
         null_default_fields = []
 

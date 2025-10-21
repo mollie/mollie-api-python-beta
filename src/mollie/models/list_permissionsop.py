@@ -25,12 +25,12 @@ class ListPermissionsRequest(BaseModel):
 
 
 class ListPermissionsEmbeddedTypedDict(TypedDict):
-    permissions: NotRequired[List[EntityPermissionTypedDict]]
+    permissions: List[EntityPermissionTypedDict]
     r"""An array of permission objects."""
 
 
 class ListPermissionsEmbedded(BaseModel):
-    permissions: Optional[List[EntityPermission]] = None
+    permissions: List[EntityPermission]
     r"""An array of permission objects."""
 
 
@@ -56,22 +56,22 @@ class ListPermissionsLinks(BaseModel):
 class ListPermissionsResponseTypedDict(TypedDict):
     r"""A list of permission objects."""
 
-    count: NotRequired[int]
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
     The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
     limit is 50 items.
     """
-    embedded: NotRequired[ListPermissionsEmbeddedTypedDict]
-    links: NotRequired[ListPermissionsLinksTypedDict]
+    embedded: ListPermissionsEmbeddedTypedDict
+    links: ListPermissionsLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class ListPermissionsResponse(BaseModel):
     r"""A list of permission objects."""
 
-    count: Optional[int] = None
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
@@ -79,11 +79,7 @@ class ListPermissionsResponse(BaseModel):
     limit is 50 items.
     """
 
-    embedded: Annotated[
-        Optional[ListPermissionsEmbedded], pydantic.Field(alias="_embedded")
-    ] = None
+    embedded: Annotated[ListPermissionsEmbedded, pydantic.Field(alias="_embedded")]
 
-    links: Annotated[Optional[ListPermissionsLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
+    links: Annotated[ListPermissionsLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""

@@ -111,7 +111,7 @@ with ClientSDK(
 
 ### Response
 
-**[models.EntityClientLinkResponse](../../models/entityclientlinkresponse.md)**
+**[models.ClientLinkResponse](../../models/clientlinkresponse.md)**
 
 ### Errors
 

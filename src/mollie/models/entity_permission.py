@@ -28,34 +28,32 @@ class EntityPermissionLinks(BaseModel):
 
 
 class EntityPermissionTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a permission object. Will always contain the string `permission` for this
     endpoint.
     """
-    id: NotRequired[str]
-    description: NotRequired[str]
+    id: str
+    description: str
     r"""A short description of what kind of access the permission enables."""
-    granted: NotRequired[bool]
+    granted: bool
     r"""Whether this permission is granted to the app by the organization."""
-    links: NotRequired[EntityPermissionLinksTypedDict]
+    links: EntityPermissionLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class EntityPermission(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a permission object. Will always contain the string `permission` for this
     endpoint.
     """
 
-    id: Optional[str] = None
+    id: str
 
-    description: Optional[str] = None
+    description: str
     r"""A short description of what kind of access the permission enables."""
 
-    granted: Optional[bool] = None
+    granted: bool
     r"""Whether this permission is granted to the app by the organization."""
 
-    links: Annotated[
-        Optional[EntityPermissionLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[EntityPermissionLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""

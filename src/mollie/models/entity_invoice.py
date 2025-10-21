@@ -14,34 +14,32 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class EntityInvoiceLineTypedDict(TypedDict):
-    period: NotRequired[str]
+    period: str
     r"""The administrative period in `YYYY-MM` on which the line should be booked."""
-    description: NotRequired[str]
+    description: str
     r"""Description of the product."""
-    count: NotRequired[int]
+    count: int
     r"""Number of products invoiced. For example, the number of payments."""
-    vat_percentage: NotRequired[int]
+    vat_percentage: int
     r"""VAT percentage rate that applies to this product."""
-    amount: NotRequired[AmountTypedDict]
+    amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
 
 class EntityInvoiceLine(BaseModel):
-    period: Optional[str] = None
+    period: str
     r"""The administrative period in `YYYY-MM` on which the line should be booked."""
 
-    description: Optional[str] = None
+    description: str
     r"""Description of the product."""
 
-    count: Optional[int] = None
+    count: int
     r"""Number of products invoiced. For example, the number of payments."""
 
-    vat_percentage: Annotated[Optional[int], pydantic.Field(alias="vatPercentage")] = (
-        None
-    )
+    vat_percentage: Annotated[int, pydantic.Field(alias="vatPercentage")]
     r"""VAT percentage rate that applies to this product."""
 
-    amount: Optional[Amount] = None
+    amount: Amount
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
 
@@ -70,74 +68,69 @@ class EntityInvoiceLinks(BaseModel):
 
 
 class EntityInvoiceTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates that the response contains an invoice object.
     Will always contain the string `invoice` for this endpoint.
     """
-    id: NotRequired[str]
-    r"""The identifier uniquely referring to this invoice. Example: `inv_FrvewDA3Pr`."""
-    reference: NotRequired[str]
+    id: str
+    reference: str
     r"""The reference number of the invoice. An example value would be: `2024.10000`."""
-    vat_number: NotRequired[Nullable[str]]
+    vat_number: Nullable[str]
     r"""The VAT number to which the invoice was issued to, if applicable."""
-    status: NotRequired[InvoiceStatus]
+    status: InvoiceStatus
     r"""Status of the invoice."""
-    net_amount: NotRequired[AmountTypedDict]
+    net_amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    vat_amount: NotRequired[AmountTypedDict]
+    vat_amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    gross_amount: NotRequired[AmountTypedDict]
+    gross_amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    lines: NotRequired[List[EntityInvoiceLineTypedDict]]
+    lines: List[EntityInvoiceLineTypedDict]
     r"""The collection of products which make up the invoice."""
-    issued_at: NotRequired[str]
+    issued_at: str
     r"""The invoice date in `YYYY-MM-DD` format."""
+    links: EntityInvoiceLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     paid_at: NotRequired[Nullable[str]]
     r"""The date on which the invoice was paid, if applicable, in `YYYY-MM-DD` format."""
     due_at: NotRequired[Nullable[str]]
     r"""The date on which the invoice is due, if applicable, in `YYYY-MM-DD` format."""
-    links: NotRequired[EntityInvoiceLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class EntityInvoice(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates that the response contains an invoice object.
     Will always contain the string `invoice` for this endpoint.
     """
 
-    id: Optional[str] = None
-    r"""The identifier uniquely referring to this invoice. Example: `inv_FrvewDA3Pr`."""
+    id: str
 
-    reference: Optional[str] = None
+    reference: str
     r"""The reference number of the invoice. An example value would be: `2024.10000`."""
 
-    vat_number: Annotated[OptionalNullable[str], pydantic.Field(alias="vatNumber")] = (
-        UNSET
-    )
+    vat_number: Annotated[Nullable[str], pydantic.Field(alias="vatNumber")]
     r"""The VAT number to which the invoice was issued to, if applicable."""
 
-    status: Annotated[
-        Optional[InvoiceStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Annotated[InvoiceStatus, PlainValidator(validate_open_enum(False))]
     r"""Status of the invoice."""
 
-    net_amount: Annotated[Optional[Amount], pydantic.Field(alias="netAmount")] = None
+    net_amount: Annotated[Amount, pydantic.Field(alias="netAmount")]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    vat_amount: Annotated[Optional[Amount], pydantic.Field(alias="vatAmount")] = None
+    vat_amount: Annotated[Amount, pydantic.Field(alias="vatAmount")]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    gross_amount: Annotated[Optional[Amount], pydantic.Field(alias="grossAmount")] = (
-        None
-    )
+    gross_amount: Annotated[Amount, pydantic.Field(alias="grossAmount")]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    lines: Optional[List[EntityInvoiceLine]] = None
+    lines: List[EntityInvoiceLine]
     r"""The collection of products which make up the invoice."""
 
-    issued_at: Annotated[Optional[str], pydantic.Field(alias="issuedAt")] = None
+    issued_at: Annotated[str, pydantic.Field(alias="issuedAt")]
     r"""The invoice date in `YYYY-MM-DD` format."""
+
+    links: Annotated[EntityInvoiceLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     paid_at: Annotated[OptionalNullable[str], pydantic.Field(alias="paidAt")] = UNSET
     r"""The date on which the invoice was paid, if applicable, in `YYYY-MM-DD` format."""
@@ -145,28 +138,9 @@ class EntityInvoice(BaseModel):
     due_at: Annotated[OptionalNullable[str], pydantic.Field(alias="dueAt")] = UNSET
     r"""The date on which the invoice is due, if applicable, in `YYYY-MM-DD` format."""
 
-    links: Annotated[Optional[EntityInvoiceLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "resource",
-            "id",
-            "reference",
-            "vatNumber",
-            "status",
-            "netAmount",
-            "vatAmount",
-            "grossAmount",
-            "lines",
-            "issuedAt",
-            "paidAt",
-            "dueAt",
-            "_links",
-        ]
+        optional_fields = ["paidAt", "dueAt"]
         nullable_fields = ["vatNumber", "paidAt", "dueAt"]
         null_default_fields = []
 

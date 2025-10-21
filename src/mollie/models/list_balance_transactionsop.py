@@ -112,34 +112,34 @@ class ListBalanceTransactionsRequest(BaseModel):
 
 
 class ListBalanceTransactionsEmbeddedTypedDict(TypedDict):
-    balance_transactions: NotRequired[List[EntityBalanceTransactionTypedDict]]
+    balance_transactions: List[EntityBalanceTransactionTypedDict]
     r"""An array of balance transaction objects."""
 
 
 class ListBalanceTransactionsEmbedded(BaseModel):
-    balance_transactions: Optional[List[EntityBalanceTransaction]] = None
+    balance_transactions: List[EntityBalanceTransaction]
     r"""An array of balance transaction objects."""
 
 
 class ListBalanceTransactionsResponseTypedDict(TypedDict):
     r"""A list of balance transaction objects."""
 
-    count: NotRequired[int]
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
     The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
     limit is 50 items.
     """
-    embedded: NotRequired[ListBalanceTransactionsEmbeddedTypedDict]
-    links: NotRequired[ListLinksTypedDict]
+    embedded: ListBalanceTransactionsEmbeddedTypedDict
+    links: ListLinksTypedDict
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
 
 class ListBalanceTransactionsResponse(BaseModel):
     r"""A list of balance transaction objects."""
 
-    count: Optional[int] = None
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
@@ -148,8 +148,8 @@ class ListBalanceTransactionsResponse(BaseModel):
     """
 
     embedded: Annotated[
-        Optional[ListBalanceTransactionsEmbedded], pydantic.Field(alias="_embedded")
-    ] = None
+        ListBalanceTransactionsEmbedded, pydantic.Field(alias="_embedded")
+    ]
 
-    links: Annotated[Optional[ListLinks], pydantic.Field(alias="_links")] = None
+    links: Annotated[ListLinks, pydantic.Field(alias="_links")]
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""

@@ -28,7 +28,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.delayed_routing.create(payment_id="tr_5B8cwPMGnU", idempotency_key="123e4567-e89b-12d3-a456-426", route_create_request={
+    res = client_sdk.delayed_routing.create(payment_id="tr_5B8cwPMGnU", idempotency_key="123e4567-e89b-12d3-a456-426", entity_route={
         "id": "crt_dyARQ3JzCgtPDhU2Pbq3J",
         "payment_id": "tr_5B8cwPMGnU",
         "amount": {
@@ -37,7 +37,7 @@ with ClientSDK(
         },
         "description": "Payment for Order #12345",
         "destination": {
-            "type": mollie.RouteDestinationType.ORGANIZATION,
+            "type": mollie.RouteDestinationTypeResponse.ORGANIZATION,
             "organization_id": "org_1234567",
         },
         "testmode": False,
@@ -54,7 +54,7 @@ with ClientSDK(
 | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | `payment_id`                                                                     | *str*                                                                            | :heavy_check_mark:                                                               | Provide the ID of the related payment.                                           | tr_5B8cwPMGnU                                                                    |
 | `idempotency_key`                                                                | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | A unique key to ensure idempotent requests. This key should be a UUID v4 string. | 123e4567-e89b-12d3-a456-426                                                      |
-| `route_create_request`                                                           | [Optional[models.RouteCreateRequest]](../../models/routecreaterequest.md)        | :heavy_minus_sign:                                                               | N/A                                                                              |                                                                                  |
+| `entity_route`                                                                   | [Optional[models.EntityRoute]](../../models/entityroute.md)                      | :heavy_minus_sign:                                                               | N/A                                                                              |                                                                                  |
 | `retries`                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                 | :heavy_minus_sign:                                                               | Configuration to override the default retry behavior of the client.              |                                                                                  |
 
 ### Response

@@ -445,24 +445,24 @@ class EntityBalanceReportLinks(BaseModel):
 
 
 class EntityBalanceReportTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a balance report object. Will always contain the string `balance-report` for this
     endpoint.
     """
-    balance_id: NotRequired[str]
-    time_zone: NotRequired[str]
+    balance_id: str
+    time_zone: str
     r"""The time zone used for the from and until parameters. Currently only time zone `Europe/Amsterdam` is supported."""
-    from_: NotRequired[str]
+    from_: str
     r"""The start date of the report, in `YYYY-MM-DD` format. The from date is 'inclusive', and in Central European Time.
     This means a report with for example `from=2024-01-01` will include movements of 2024-01-01 00:00:00 CET and
     onwards.
     """
-    until: NotRequired[str]
+    until: str
     r"""The end date of the report, in `YYYY-MM-DD` format. The until date is 'exclusive', and in Central European Time.
     This means a report with for example `until=2024-02-01` will include movements up until 2024-01-31 23:59:59 CET.
     """
-    grouping: NotRequired[BalanceReportGrouping]
-    totals: NotRequired[TotalsTypedDict]
+    grouping: BalanceReportGrouping
+    totals: TotalsTypedDict
     r"""Totals are grouped according to the chosen grouping rule. The example response should give a good idea of what a
     typical grouping looks like.
 
@@ -484,37 +484,37 @@ class EntityBalanceReportTypedDict(TypedDict):
     * A `count` integer if relevant (for example, counting the number of refunds)
     * A `subtotals` array containing more sub-group objects if applicable
     """
-    links: NotRequired[EntityBalanceReportLinksTypedDict]
+    links: EntityBalanceReportLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class EntityBalanceReport(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a balance report object. Will always contain the string `balance-report` for this
     endpoint.
     """
 
-    balance_id: Annotated[Optional[str], pydantic.Field(alias="balanceId")] = None
+    balance_id: Annotated[str, pydantic.Field(alias="balanceId")]
 
-    time_zone: Annotated[Optional[str], pydantic.Field(alias="timeZone")] = None
+    time_zone: Annotated[str, pydantic.Field(alias="timeZone")]
     r"""The time zone used for the from and until parameters. Currently only time zone `Europe/Amsterdam` is supported."""
 
-    from_: Annotated[Optional[str], pydantic.Field(alias="from")] = None
+    from_: Annotated[str, pydantic.Field(alias="from")]
     r"""The start date of the report, in `YYYY-MM-DD` format. The from date is 'inclusive', and in Central European Time.
     This means a report with for example `from=2024-01-01` will include movements of 2024-01-01 00:00:00 CET and
     onwards.
     """
 
-    until: Optional[str] = None
+    until: str
     r"""The end date of the report, in `YYYY-MM-DD` format. The until date is 'exclusive', and in Central European Time.
     This means a report with for example `until=2024-02-01` will include movements up until 2024-01-31 23:59:59 CET.
     """
 
     grouping: Annotated[
-        Optional[BalanceReportGrouping], PlainValidator(validate_open_enum(False))
-    ] = None
+        BalanceReportGrouping, PlainValidator(validate_open_enum(False))
+    ]
 
-    totals: Optional[Totals] = None
+    totals: Totals
     r"""Totals are grouped according to the chosen grouping rule. The example response should give a good idea of what a
     typical grouping looks like.
 
@@ -537,7 +537,5 @@ class EntityBalanceReport(BaseModel):
     * A `subtotals` array containing more sub-group objects if applicable
     """
 
-    links: Annotated[
-        Optional[EntityBalanceReportLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[EntityBalanceReportLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""

@@ -8,7 +8,7 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class EntityClientLinkResponseLinksTypedDict(TypedDict):
+class ClientLinkResponseLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     self_: NotRequired[URLTypedDict]
@@ -19,7 +19,7 @@ class EntityClientLinkResponseLinksTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class EntityClientLinkResponseLinks(BaseModel):
+class ClientLinkResponseLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     self_: Annotated[Optional[URL], pydantic.Field(alias="self")] = None
@@ -32,18 +32,18 @@ class EntityClientLinkResponseLinks(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class EntityClientLinkResponseTypedDict(TypedDict):
+class ClientLinkResponseTypedDict(TypedDict):
     resource: NotRequired[str]
     r"""Indicates the response contains a client link object. Will always contain the string `client-link` for this
     endpoint.
     """
     id: NotRequired[str]
     r"""The identifier uniquely referring to this client link. Example: `cl_vZCnNQsV2UtfXxYifWKWH`."""
-    links: NotRequired[EntityClientLinkResponseLinksTypedDict]
+    links: NotRequired[ClientLinkResponseLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class EntityClientLinkResponse(BaseModel):
+class ClientLinkResponse(BaseModel):
     resource: Optional[str] = None
     r"""Indicates the response contains a client link object. Will always contain the string `client-link` for this
     endpoint.
@@ -53,6 +53,6 @@ class EntityClientLinkResponse(BaseModel):
     r"""The identifier uniquely referring to this client link. Example: `cl_vZCnNQsV2UtfXxYifWKWH`."""
 
     links: Annotated[
-        Optional[EntityClientLinkResponseLinks], pydantic.Field(alias="_links")
+        Optional[ClientLinkResponseLinks], pydantic.Field(alias="_links")
     ] = None
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""

@@ -2,39 +2,43 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
-from .route_destination_type import RouteDestinationType
+from .route_destination_type_response import RouteDestinationTypeResponse
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class RouteCreateRequestDestinationTypedDict(TypedDict):
+class EntityRouteDestinationTypedDict(TypedDict):
     r"""The destination of the route."""
 
-    type: RouteDestinationType
+    type: RouteDestinationTypeResponse
     r"""The type of destination. Currently only the destination type `organization` is supported."""
     organization_id: str
 
 
-class RouteCreateRequestDestination(BaseModel):
+class EntityRouteDestination(BaseModel):
     r"""The destination of the route."""
 
-    type: RouteDestinationType
+    type: Annotated[
+        RouteDestinationTypeResponse, PlainValidator(validate_open_enum(False))
+    ]
     r"""The type of destination. Currently only the destination type `organization` is supported."""
 
     organization_id: Annotated[str, pydantic.Field(alias="organizationId")]
 
 
-class RouteCreateRequestTypedDict(TypedDict):
+class EntityRouteTypedDict(TypedDict):
     id: NotRequired[str]
     payment_id: NotRequired[str]
     amount: NotRequired[AmountTypedDict]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     description: NotRequired[str]
     r"""The description of the route. This description is shown in the reports."""
-    destination: NotRequired[RouteCreateRequestDestinationTypedDict]
+    destination: NotRequired[EntityRouteDestinationTypedDict]
     r"""The destination of the route."""
     testmode: NotRequired[Nullable[bool]]
     r"""Whether to create the entity in test mode or live mode.
@@ -45,7 +49,7 @@ class RouteCreateRequestTypedDict(TypedDict):
     """
 
 
-class RouteCreateRequest(BaseModel):
+class EntityRoute(BaseModel):
     id: Optional[str] = None
 
     payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
@@ -56,7 +60,7 @@ class RouteCreateRequest(BaseModel):
     description: Optional[str] = None
     r"""The description of the route. This description is shown in the reports."""
 
-    destination: Optional[RouteCreateRequestDestination] = None
+    destination: Optional[EntityRouteDestination] = None
     r"""The destination of the route."""
 
     testmode: OptionalNullable[bool] = UNSET

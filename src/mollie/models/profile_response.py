@@ -35,7 +35,7 @@ class Review(BaseModel):
     r"""The status of the requested changes."""
 
 
-class EntityProfileResponseLinksTypedDict(TypedDict):
+class ProfileResponseLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     self_: NotRequired[URLTypedDict]
@@ -56,7 +56,7 @@ class EntityProfileResponseLinksTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class EntityProfileResponseLinks(BaseModel):
+class ProfileResponseLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     self_: Annotated[Optional[URL], pydantic.Field(alias="self")] = None
@@ -86,7 +86,7 @@ class EntityProfileResponseLinks(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class EntityProfileResponseTypedDict(TypedDict):
+class ProfileResponseTypedDict(TypedDict):
     resource: NotRequired[str]
     r"""Indicates the response contains a profile object. Will always contain the string `profile` for this endpoint."""
     id: NotRequired[str]
@@ -129,11 +129,11 @@ class EntityProfileResponseTypedDict(TypedDict):
     """
     created_at: NotRequired[str]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: NotRequired[EntityProfileResponseLinksTypedDict]
+    links: NotRequired[ProfileResponseLinksTypedDict]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
-class EntityProfileResponse(BaseModel):
+class ProfileResponse(BaseModel):
     resource: Optional[str] = None
     r"""Indicates the response contains a profile object. Will always contain the string `profile` for this endpoint."""
 
@@ -195,7 +195,7 @@ class EntityProfileResponse(BaseModel):
     created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    links: Annotated[
-        Optional[EntityProfileResponseLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[Optional[ProfileResponseLinks], pydantic.Field(alias="_links")] = (
+        None
+    )
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""

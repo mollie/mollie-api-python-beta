@@ -5,37 +5,16 @@ from .amount import Amount, AmountTypedDict
 from .entity_method import EntityMethod, EntityMethodTypedDict
 from .line_categories import LineCategories
 from .locale_parameter import LocaleParameter
+from .method_include_wallets_parameter import MethodIncludeWalletsParameter
+from .method_resource_parameter import MethodResourceParameter
 from .sequence_type import SequenceType
 from .url import URL, URLTypedDict
-from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, HeaderMetadata, QueryParamMetadata
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class Resource(str, Enum):
-    r"""**⚠️ We no longer recommend using the Orders API. Please refer to the [Payments API](payments-api) instead.**
-
-    Indicate if you will use the result for the [Create order](create-order)
-    or the [Create payment](create-payment) endpoint.
-
-    When passing the value `orders`, the result will include payment methods
-    that are only available for payments created via the Orders API.
-    """
-
-    PAYMENTS = "payments"
-    ORDERS = "orders"
-
-
-class IncludeWallets(str, Enum):
-    r"""A comma-separated list of the wallets you support in your checkout. Wallets often require wallet specific code
-    to check if they are available on the shoppers device, hence the need to indicate your support.
-    """
-
-    APPLEPAY = "applepay"
 
 
 class ListMethodsRequestTypedDict(TypedDict):
@@ -53,7 +32,7 @@ class ListMethodsRequestTypedDict(TypedDict):
 
     Example: `/v2/methods?amount[value]=100.00&amount[currency]=USD`
     """
-    resource: NotRequired[Resource]
+    resource: NotRequired[MethodResourceParameter]
     r"""**⚠️ We no longer recommend using the Orders API. Please refer to the [Payments API](payments-api) instead.**
 
     Indicate if you will use the result for the [Create order](create-order)
@@ -68,7 +47,7 @@ class ListMethodsRequestTypedDict(TypedDict):
 
     Example: `/v2/methods?resource=orders&billingCountry=DE`
     """
-    include_wallets: NotRequired[IncludeWallets]
+    include_wallets: NotRequired[MethodIncludeWalletsParameter]
     r"""A comma-separated list of the wallets you support in your checkout. Wallets often require wallet specific code
     to check if they are available on the shoppers device, hence the need to indicate your support.
     """
@@ -126,7 +105,7 @@ class ListMethodsRequest(BaseModel):
     """
 
     resource: Annotated[
-        Optional[Resource],
+        Optional[MethodResourceParameter],
         pydantic.Field(
             deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
         ),
@@ -153,7 +132,7 @@ class ListMethodsRequest(BaseModel):
     """
 
     include_wallets: Annotated[
-        Optional[IncludeWallets],
+        Optional[MethodIncludeWalletsParameter],
         pydantic.Field(alias="includeWallets"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None

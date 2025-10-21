@@ -50,6 +50,12 @@ if TYPE_CHECKING:
         CaptureResponseTypedDict,
     )
     from .capture_status import CaptureStatus
+    from .client_link_response import (
+        ClientLinkResponse,
+        ClientLinkResponseLinks,
+        ClientLinkResponseLinksTypedDict,
+        ClientLinkResponseTypedDict,
+    )
     from .components_sub_totals import (
         ComponentsSubTotals,
         ComponentsSubTotalsCardAudience,
@@ -268,8 +274,6 @@ if TYPE_CHECKING:
     )
     from .entity_capability import EntityCapability, EntityCapabilityTypedDict
     from .entity_capability_requirement import (
-        Dashboard,
-        DashboardTypedDict,
         EntityCapabilityRequirement,
         EntityCapabilityRequirementLinks,
         EntityCapabilityRequirementLinksTypedDict,
@@ -291,12 +295,6 @@ if TYPE_CHECKING:
         EntityClientLinkTypedDict,
         Owner,
         OwnerTypedDict,
-    )
-    from .entity_client_link_response import (
-        EntityClientLinkResponse,
-        EntityClientLinkResponseLinks,
-        EntityClientLinkResponseLinksTypedDict,
-        EntityClientLinkResponseTypedDict,
     )
     from .entity_customer import EntityCustomer, EntityCustomerTypedDict
     from .entity_event import (
@@ -375,14 +373,6 @@ if TYPE_CHECKING:
         EntityPermissionTypedDict,
     )
     from .entity_profile import EntityProfile, EntityProfileTypedDict
-    from .entity_profile_response import (
-        EntityProfileResponse,
-        EntityProfileResponseLinks,
-        EntityProfileResponseLinksTypedDict,
-        EntityProfileResponseTypedDict,
-        Review,
-        ReviewTypedDict,
-    )
     from .entity_refund import (
         EntityRefund,
         EntityRefundExternalReference,
@@ -404,6 +394,12 @@ if TYPE_CHECKING:
         EntityRefundResponseSource,
         EntityRefundResponseSourceTypedDict,
         EntityRefundResponseTypedDict,
+    )
+    from .entity_route import (
+        EntityRoute,
+        EntityRouteDestination,
+        EntityRouteDestinationTypedDict,
+        EntityRouteTypedDict,
     )
     from .entity_sales_invoice import (
         EntitySalesInvoice,
@@ -456,17 +452,16 @@ if TYPE_CHECKING:
         EntityWebhookEventTypedDict,
     )
     from .error_response import (
+        Documentation,
+        DocumentationTypedDict,
         ErrorResponse,
         ErrorResponseData,
-        ErrorsDocumentation,
-        ErrorsDocumentationTypedDict,
         ErrorsLinks,
         ErrorsLinksTypedDict,
     )
     from .get_balance_reportop import (
         GetBalanceReportRequest,
         GetBalanceReportRequestTypedDict,
-        Grouping,
     )
     from .get_balanceop import GetBalanceRequest, GetBalanceRequestTypedDict
     from .get_captureop import GetCaptureRequest, GetCaptureRequestTypedDict
@@ -622,8 +617,6 @@ if TYPE_CHECKING:
         ListBalancesResponseTypedDict,
     )
     from .list_capabilitiesop import (
-        ListCapabilitiesDocumentation,
-        ListCapabilitiesDocumentationTypedDict,
         ListCapabilitiesEmbedded,
         ListCapabilitiesEmbeddedTypedDict,
         ListCapabilitiesLinks,
@@ -709,7 +702,6 @@ if TYPE_CHECKING:
         ListMandatesResponseTypedDict,
     )
     from .list_methodsop import (
-        IncludeWallets,
         ListMethodsEmbedded,
         ListMethodsEmbeddedTypedDict,
         ListMethodsLinks,
@@ -718,7 +710,6 @@ if TYPE_CHECKING:
         ListMethodsRequestTypedDict,
         ListMethodsResponse,
         ListMethodsResponseTypedDict,
-        Resource,
     )
     from .list_payment_linksop import (
         ListPaymentLinksEmbedded,
@@ -860,11 +851,14 @@ if TYPE_CHECKING:
     from .mandate_status import MandateStatus
     from .metadata import Metadata, MetadataTypedDict
     from .method import Method
+    from .method_include_wallets_parameter import MethodIncludeWalletsParameter
+    from .method_resource_parameter import MethodResourceParameter
     from .method_response import MethodResponse
     from .method_status import MethodStatus
     from .mode import Mode
     from .no_response_error import NoResponseError
     from .onboarding_status import OnboardingStatus
+    from .onboarding_vat_regulation import OnboardingVatRegulation
     from .organization_vat_regulation import OrganizationVatRegulation
     from .payment_address import PaymentAddress, PaymentAddressTypedDict
     from .payment_create_routeop import (
@@ -952,6 +946,14 @@ if TYPE_CHECKING:
         ReceiptTypedDict,
     )
     from .payment_status import PaymentStatus
+    from .profile_response import (
+        ProfileResponse,
+        ProfileResponseLinks,
+        ProfileResponseLinksTypedDict,
+        ProfileResponseTypedDict,
+        Review,
+        ReviewTypedDict,
+    )
     from .profile_review_status_response import ProfileReviewStatusResponse
     from .profile_status import ProfileStatus
     from .recurring_line_item import RecurringLineItem, RecurringLineItemTypedDict
@@ -979,12 +981,6 @@ if TYPE_CHECKING:
         RevokeMandateRequestBody,
         RevokeMandateRequestBodyTypedDict,
         RevokeMandateRequestTypedDict,
-    )
-    from .route_create_request import (
-        RouteCreateRequest,
-        RouteCreateRequestDestination,
-        RouteCreateRequestDestinationTypedDict,
-        RouteCreateRequestTypedDict,
     )
     from .route_create_response import (
         RouteCreateResponse,
@@ -1085,7 +1081,6 @@ if TYPE_CHECKING:
         SubmitOnboardingDataRequestBody,
         SubmitOnboardingDataRequestBodyTypedDict,
         SubmitOnboardingDataRequestTypedDict,
-        VatRegulation,
     )
     from .subscription_method import SubscriptionMethod
     from .subscription_method_response import SubscriptionMethodResponse
@@ -1127,7 +1122,6 @@ if TYPE_CHECKING:
         UpdatePaymentRequestTypedDict,
     )
     from .update_profileop import (
-        UpdateProfileMode,
         UpdateProfileRequest,
         UpdateProfileRequestBody,
         UpdateProfileRequestBodyTypedDict,
@@ -1222,6 +1216,10 @@ __all__ = [
     "ClientEmbedded",
     "ClientEmbeddedTypedDict",
     "ClientError",
+    "ClientLinkResponse",
+    "ClientLinkResponseLinks",
+    "ClientLinkResponseLinksTypedDict",
+    "ClientLinkResponseTypedDict",
     "Close",
     "CloseTypedDict",
     "Code",
@@ -1282,8 +1280,6 @@ __all__ = [
     "CustomerResponseLinks",
     "CustomerResponseLinksTypedDict",
     "CustomerResponseTypedDict",
-    "Dashboard",
-    "DashboardTypedDict",
     "DeleteCustomerRequest",
     "DeleteCustomerRequestBody",
     "DeleteCustomerRequestBodyTypedDict",
@@ -1302,6 +1298,8 @@ __all__ = [
     "DeleteWebhookRequestBody",
     "DeleteWebhookRequestBodyTypedDict",
     "DeleteWebhookRequestTypedDict",
+    "Documentation",
+    "DocumentationTypedDict",
     "Embedded",
     "EmbeddedTypedDict",
     "Entity",
@@ -1342,10 +1340,6 @@ __all__ = [
     "EntityClientLink",
     "EntityClientLinkAddress",
     "EntityClientLinkAddressTypedDict",
-    "EntityClientLinkResponse",
-    "EntityClientLinkResponseLinks",
-    "EntityClientLinkResponseLinksTypedDict",
-    "EntityClientLinkResponseTypedDict",
     "EntityClientLinkTypedDict",
     "EntityCustomer",
     "EntityCustomerTypedDict",
@@ -1406,10 +1400,6 @@ __all__ = [
     "EntityPermissionLinksTypedDict",
     "EntityPermissionTypedDict",
     "EntityProfile",
-    "EntityProfileResponse",
-    "EntityProfileResponseLinks",
-    "EntityProfileResponseLinksTypedDict",
-    "EntityProfileResponseTypedDict",
     "EntityProfileTypedDict",
     "EntityRefund",
     "EntityRefundExternalReference",
@@ -1429,6 +1419,10 @@ __all__ = [
     "EntityRefundSource",
     "EntityRefundSourceTypedDict",
     "EntityRefundTypedDict",
+    "EntityRoute",
+    "EntityRouteDestination",
+    "EntityRouteDestinationTypedDict",
+    "EntityRouteTypedDict",
     "EntitySalesInvoice",
     "EntitySalesInvoiceMetadata",
     "EntitySalesInvoiceMetadataTypedDict",
@@ -1458,8 +1452,6 @@ __all__ = [
     "EntityWebhookTypedDict",
     "ErrorResponse",
     "ErrorResponseData",
-    "ErrorsDocumentation",
-    "ErrorsDocumentationTypedDict",
     "ErrorsLinks",
     "ErrorsLinksTypedDict",
     "FailedPayment",
@@ -1548,8 +1540,6 @@ __all__ = [
     "GetWebhookEventRequestTypedDict",
     "GetWebhookRequest",
     "GetWebhookRequestTypedDict",
-    "Grouping",
-    "IncludeWallets",
     "Invoice",
     "InvoiceCompensation",
     "InvoiceCompensationTypedDict",
@@ -1595,8 +1585,6 @@ __all__ = [
     "ListBalancesRequestTypedDict",
     "ListBalancesResponse",
     "ListBalancesResponseTypedDict",
-    "ListCapabilitiesDocumentation",
-    "ListCapabilitiesDocumentationTypedDict",
     "ListCapabilitiesEmbedded",
     "ListCapabilitiesEmbeddedTypedDict",
     "ListCapabilitiesLinks",
@@ -1780,11 +1768,14 @@ __all__ = [
     "Metadata",
     "MetadataTypedDict",
     "Method",
+    "MethodIncludeWalletsParameter",
+    "MethodResourceParameter",
     "MethodResponse",
     "MethodStatus",
     "Mode",
     "NoResponseError",
     "OnboardingStatus",
+    "OnboardingVatRegulation",
     "Open",
     "OpenTypedDict",
     "Organization",
@@ -1874,6 +1865,10 @@ __all__ = [
     "Pricing",
     "PricingTypedDict",
     "Profile",
+    "ProfileResponse",
+    "ProfileResponseLinks",
+    "ProfileResponseLinksTypedDict",
+    "ProfileResponseTypedDict",
     "ProfileReviewStatusResponse",
     "ProfileStatus",
     "ProfileTypedDict",
@@ -1907,7 +1902,6 @@ __all__ = [
     "RequestApplePayPaymentSessionRequestBody",
     "RequestApplePayPaymentSessionRequestBodyTypedDict",
     "RequestApplePayPaymentSessionRequestTypedDict",
-    "Resource",
     "ResponseValidationError",
     "ReturnedManagedFee",
     "ReturnedManagedFeeTypedDict",
@@ -1931,10 +1925,6 @@ __all__ = [
     "RevokeMandateRequestBody",
     "RevokeMandateRequestBodyTypedDict",
     "RevokeMandateRequestTypedDict",
-    "RouteCreateRequest",
-    "RouteCreateRequestDestination",
-    "RouteCreateRequestDestinationTypedDict",
-    "RouteCreateRequestTypedDict",
     "RouteCreateResponse",
     "RouteCreateResponseDestination",
     "RouteCreateResponseDestinationTypedDict",
@@ -2050,7 +2040,6 @@ __all__ = [
     "UpdatePaymentRequestBody",
     "UpdatePaymentRequestBodyTypedDict",
     "UpdatePaymentRequestTypedDict",
-    "UpdateProfileMode",
     "UpdateProfileRequest",
     "UpdateProfileRequestBody",
     "UpdateProfileRequestBodyTypedDict",
@@ -2069,7 +2058,6 @@ __all__ = [
     "UpdateWebhookRequestTypedDict",
     "UserAgentToken",
     "UserAgentTokenTypedDict",
-    "VatRegulation",
     "WebhookEventTypes",
     "WebhookStatus",
 ]
@@ -2115,6 +2103,10 @@ _dynamic_imports: dict[str, str] = {
     "CaptureResponseLinksTypedDict": ".capture_response",
     "CaptureResponseTypedDict": ".capture_response",
     "CaptureStatus": ".capture_status",
+    "ClientLinkResponse": ".client_link_response",
+    "ClientLinkResponseLinks": ".client_link_response",
+    "ClientLinkResponseLinksTypedDict": ".client_link_response",
+    "ClientLinkResponseTypedDict": ".client_link_response",
     "ComponentsSubTotals": ".components_sub_totals",
     "ComponentsSubTotalsCardAudience": ".components_sub_totals",
     "ComponentsSubTotalsCardIssuer": ".components_sub_totals",
@@ -2296,8 +2288,6 @@ _dynamic_imports: dict[str, str] = {
     "EntityBalanceTransferResponseTypedDict": ".entity_balance_transfer_response",
     "EntityCapability": ".entity_capability",
     "EntityCapabilityTypedDict": ".entity_capability",
-    "Dashboard": ".entity_capability_requirement",
-    "DashboardTypedDict": ".entity_capability_requirement",
     "EntityCapabilityRequirement": ".entity_capability_requirement",
     "EntityCapabilityRequirementLinks": ".entity_capability_requirement",
     "EntityCapabilityRequirementLinksTypedDict": ".entity_capability_requirement",
@@ -2316,10 +2306,6 @@ _dynamic_imports: dict[str, str] = {
     "EntityClientLinkTypedDict": ".entity_client_link",
     "Owner": ".entity_client_link",
     "OwnerTypedDict": ".entity_client_link",
-    "EntityClientLinkResponse": ".entity_client_link_response",
-    "EntityClientLinkResponseLinks": ".entity_client_link_response",
-    "EntityClientLinkResponseLinksTypedDict": ".entity_client_link_response",
-    "EntityClientLinkResponseTypedDict": ".entity_client_link_response",
     "EntityCustomer": ".entity_customer",
     "EntityCustomerTypedDict": ".entity_customer",
     "EntityEvent": ".entity_event",
@@ -2382,12 +2368,6 @@ _dynamic_imports: dict[str, str] = {
     "EntityPermissionTypedDict": ".entity_permission",
     "EntityProfile": ".entity_profile",
     "EntityProfileTypedDict": ".entity_profile",
-    "EntityProfileResponse": ".entity_profile_response",
-    "EntityProfileResponseLinks": ".entity_profile_response",
-    "EntityProfileResponseLinksTypedDict": ".entity_profile_response",
-    "EntityProfileResponseTypedDict": ".entity_profile_response",
-    "Review": ".entity_profile_response",
-    "ReviewTypedDict": ".entity_profile_response",
     "EntityRefund": ".entity_refund",
     "EntityRefundExternalReference": ".entity_refund",
     "EntityRefundExternalReferenceTypedDict": ".entity_refund",
@@ -2406,6 +2386,10 @@ _dynamic_imports: dict[str, str] = {
     "EntityRefundResponseSource": ".entity_refund_response",
     "EntityRefundResponseSourceTypedDict": ".entity_refund_response",
     "EntityRefundResponseTypedDict": ".entity_refund_response",
+    "EntityRoute": ".entity_route",
+    "EntityRouteDestination": ".entity_route",
+    "EntityRouteDestinationTypedDict": ".entity_route",
+    "EntityRouteTypedDict": ".entity_route",
     "EntitySalesInvoice": ".entity_sales_invoice",
     "EntitySalesInvoiceMetadata": ".entity_sales_invoice",
     "EntitySalesInvoiceMetadataTypedDict": ".entity_sales_invoice",
@@ -2444,15 +2428,14 @@ _dynamic_imports: dict[str, str] = {
     "EntityWebhookEventLinks": ".entity_webhook_event",
     "EntityWebhookEventLinksTypedDict": ".entity_webhook_event",
     "EntityWebhookEventTypedDict": ".entity_webhook_event",
+    "Documentation": ".error_response",
+    "DocumentationTypedDict": ".error_response",
     "ErrorResponse": ".error_response",
     "ErrorResponseData": ".error_response",
-    "ErrorsDocumentation": ".error_response",
-    "ErrorsDocumentationTypedDict": ".error_response",
     "ErrorsLinks": ".error_response",
     "ErrorsLinksTypedDict": ".error_response",
     "GetBalanceReportRequest": ".get_balance_reportop",
     "GetBalanceReportRequestTypedDict": ".get_balance_reportop",
-    "Grouping": ".get_balance_reportop",
     "GetBalanceRequest": ".get_balanceop",
     "GetBalanceRequestTypedDict": ".get_balanceop",
     "GetCaptureRequest": ".get_captureop",
@@ -2575,8 +2558,6 @@ _dynamic_imports: dict[str, str] = {
     "ListBalancesRequestTypedDict": ".list_balancesop",
     "ListBalancesResponse": ".list_balancesop",
     "ListBalancesResponseTypedDict": ".list_balancesop",
-    "ListCapabilitiesDocumentation": ".list_capabilitiesop",
-    "ListCapabilitiesDocumentationTypedDict": ".list_capabilitiesop",
     "ListCapabilitiesEmbedded": ".list_capabilitiesop",
     "ListCapabilitiesEmbeddedTypedDict": ".list_capabilitiesop",
     "ListCapabilitiesLinks": ".list_capabilitiesop",
@@ -2645,7 +2626,6 @@ _dynamic_imports: dict[str, str] = {
     "ListMandatesRequestTypedDict": ".list_mandatesop",
     "ListMandatesResponse": ".list_mandatesop",
     "ListMandatesResponseTypedDict": ".list_mandatesop",
-    "IncludeWallets": ".list_methodsop",
     "ListMethodsEmbedded": ".list_methodsop",
     "ListMethodsEmbeddedTypedDict": ".list_methodsop",
     "ListMethodsLinks": ".list_methodsop",
@@ -2654,7 +2634,6 @@ _dynamic_imports: dict[str, str] = {
     "ListMethodsRequestTypedDict": ".list_methodsop",
     "ListMethodsResponse": ".list_methodsop",
     "ListMethodsResponseTypedDict": ".list_methodsop",
-    "Resource": ".list_methodsop",
     "ListPaymentLinksEmbedded": ".list_payment_linksop",
     "ListPaymentLinksEmbeddedTypedDict": ".list_payment_linksop",
     "ListPaymentLinksRequest": ".list_payment_linksop",
@@ -2764,11 +2743,14 @@ _dynamic_imports: dict[str, str] = {
     "Metadata": ".metadata",
     "MetadataTypedDict": ".metadata",
     "Method": ".method",
+    "MethodIncludeWalletsParameter": ".method_include_wallets_parameter",
+    "MethodResourceParameter": ".method_resource_parameter",
     "MethodResponse": ".method_response",
     "MethodStatus": ".method_status",
     "Mode": ".mode",
     "NoResponseError": ".no_response_error",
     "OnboardingStatus": ".onboarding_status",
+    "OnboardingVatRegulation": ".onboarding_vat_regulation",
     "OrganizationVatRegulation": ".organization_vat_regulation",
     "PaymentAddress": ".payment_address",
     "PaymentAddressTypedDict": ".payment_address",
@@ -2834,6 +2816,12 @@ _dynamic_imports: dict[str, str] = {
     "Receipt": ".payment_response",
     "ReceiptTypedDict": ".payment_response",
     "PaymentStatus": ".payment_status",
+    "ProfileResponse": ".profile_response",
+    "ProfileResponseLinks": ".profile_response",
+    "ProfileResponseLinksTypedDict": ".profile_response",
+    "ProfileResponseTypedDict": ".profile_response",
+    "Review": ".profile_response",
+    "ReviewTypedDict": ".profile_response",
     "ProfileReviewStatusResponse": ".profile_review_status_response",
     "ProfileStatus": ".profile_status",
     "RecurringLineItem": ".recurring_line_item",
@@ -2855,10 +2843,6 @@ _dynamic_imports: dict[str, str] = {
     "RevokeMandateRequestBody": ".revoke_mandateop",
     "RevokeMandateRequestBodyTypedDict": ".revoke_mandateop",
     "RevokeMandateRequestTypedDict": ".revoke_mandateop",
-    "RouteCreateRequest": ".route_create_request",
-    "RouteCreateRequestDestination": ".route_create_request",
-    "RouteCreateRequestDestinationTypedDict": ".route_create_request",
-    "RouteCreateRequestTypedDict": ".route_create_request",
     "RouteCreateResponse": ".route_create_response",
     "RouteCreateResponseDestination": ".route_create_response",
     "RouteCreateResponseDestinationTypedDict": ".route_create_response",
@@ -2933,7 +2917,6 @@ _dynamic_imports: dict[str, str] = {
     "SubmitOnboardingDataRequestBody": ".submit_onboarding_dataop",
     "SubmitOnboardingDataRequestBodyTypedDict": ".submit_onboarding_dataop",
     "SubmitOnboardingDataRequestTypedDict": ".submit_onboarding_dataop",
-    "VatRegulation": ".submit_onboarding_dataop",
     "SubscriptionMethod": ".subscription_method",
     "SubscriptionMethodResponse": ".subscription_method_response",
     "SubscriptionRequest": ".subscription_request",
@@ -2964,7 +2947,6 @@ _dynamic_imports: dict[str, str] = {
     "UpdatePaymentRequestBody": ".update_paymentop",
     "UpdatePaymentRequestBodyTypedDict": ".update_paymentop",
     "UpdatePaymentRequestTypedDict": ".update_paymentop",
-    "UpdateProfileMode": ".update_profileop",
     "UpdateProfileRequest": ".update_profileop",
     "UpdateProfileRequestBody": ".update_profileop",
     "UpdateProfileRequestBodyTypedDict": ".update_profileop",

@@ -121,34 +121,34 @@ class ListSettlementChargebacksRequest(BaseModel):
 
 
 class ListSettlementChargebacksEmbeddedTypedDict(TypedDict):
-    chargebacks: NotRequired[List[EntityChargebackTypedDict]]
+    chargebacks: List[EntityChargebackTypedDict]
     r"""A list of chargeback objects."""
 
 
 class ListSettlementChargebacksEmbedded(BaseModel):
-    chargebacks: Optional[List[EntityChargeback]] = None
+    chargebacks: List[EntityChargeback]
     r"""A list of chargeback objects."""
 
 
 class ListSettlementChargebacksResponseTypedDict(TypedDict):
     r"""A list of chargeback objects."""
 
-    count: NotRequired[int]
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
     The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
     limit is 50 items.
     """
-    embedded: NotRequired[ListSettlementChargebacksEmbeddedTypedDict]
-    links: NotRequired[ListLinksTypedDict]
+    embedded: ListSettlementChargebacksEmbeddedTypedDict
+    links: ListLinksTypedDict
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
 
 class ListSettlementChargebacksResponse(BaseModel):
     r"""A list of chargeback objects."""
 
-    count: Optional[int] = None
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
@@ -157,8 +157,8 @@ class ListSettlementChargebacksResponse(BaseModel):
     """
 
     embedded: Annotated[
-        Optional[ListSettlementChargebacksEmbedded], pydantic.Field(alias="_embedded")
-    ] = None
+        ListSettlementChargebacksEmbedded, pydantic.Field(alias="_embedded")
+    ]
 
-    links: Annotated[Optional[ListLinks], pydantic.Field(alias="_links")] = None
+    links: Annotated[ListLinks, pydantic.Field(alias="_links")]
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""

@@ -76,18 +76,24 @@ class EntityBalanceLinks(BaseModel):
 
 
 class EntityBalanceTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a balance object. Will always contain the string `balance` for this endpoint."""
-    id: NotRequired[str]
-    mode: NotRequired[Mode]
+    id: str
+    mode: Mode
     r"""Whether this entity was created in live mode or in test mode."""
-    created_at: NotRequired[str]
+    created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    currency: NotRequired[Currencies]
-    description: NotRequired[str]
+    currency: Currencies
+    description: str
     r"""The description or name of the balance. Can be used to denote the purpose of the balance."""
-    status: NotRequired[BalanceStatus]
+    status: BalanceStatus
     r"""The status of the balance."""
+    available_amount: AmountTypedDict
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    pending_amount: AmountTypedDict
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    links: EntityBalanceLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     transfer_frequency: NotRequired[BalanceTransferFrequency]
     r"""The frequency with which the available amount on the balance will be settled to the configured transfer
     destination.
@@ -102,37 +108,36 @@ class EntityBalanceTypedDict(TypedDict):
     r"""The destination where the available amount will be automatically transferred to according to the configured
     transfer frequency.
     """
-    available_amount: NotRequired[AmountTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    pending_amount: NotRequired[AmountTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    links: NotRequired[EntityBalanceLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class EntityBalance(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a balance object. Will always contain the string `balance` for this endpoint."""
 
-    id: Optional[str] = None
+    id: str
 
-    mode: Annotated[Optional[Mode], PlainValidator(validate_open_enum(False))] = None
+    mode: Annotated[Mode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
 
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    currency: Annotated[
-        Optional[Currencies], PlainValidator(validate_open_enum(False))
-    ] = None
+    currency: Annotated[Currencies, PlainValidator(validate_open_enum(False))]
 
-    description: Optional[str] = None
+    description: str
     r"""The description or name of the balance. Can be used to denote the purpose of the balance."""
 
-    status: Annotated[
-        Optional[BalanceStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Annotated[BalanceStatus, PlainValidator(validate_open_enum(False))]
     r"""The status of the balance."""
+
+    available_amount: Annotated[Amount, pydantic.Field(alias="availableAmount")]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    pending_amount: Annotated[Amount, pydantic.Field(alias="pendingAmount")]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    links: Annotated[EntityBalanceLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     transfer_frequency: Annotated[
         Annotated[
@@ -165,38 +170,13 @@ class EntityBalance(BaseModel):
     transfer frequency.
     """
 
-    available_amount: Annotated[
-        Optional[Amount], pydantic.Field(alias="availableAmount")
-    ] = None
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-    pending_amount: Annotated[
-        Optional[Amount], pydantic.Field(alias="pendingAmount")
-    ] = None
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-    links: Annotated[Optional[EntityBalanceLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "resource",
-            "id",
-            "mode",
-            "createdAt",
-            "currency",
-            "description",
-            "status",
             "transferFrequency",
             "transferThreshold",
             "transferReference",
             "transferDestination",
-            "availableAmount",
-            "pendingAmount",
-            "_links",
         ]
         nullable_fields = ["transferReference", "transferDestination"]
         null_default_fields = []

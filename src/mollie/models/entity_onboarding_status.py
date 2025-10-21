@@ -41,52 +41,46 @@ class EntityOnboardingStatusLinks(BaseModel):
 
 
 class EntityOnboardingStatusTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains an onboarding status object. Will always contain the string `onboarding` for this
     resource type.
     """
-    name: NotRequired[str]
+    name: str
     r"""The name of the organization."""
-    status: NotRequired[OnboardingStatus]
+    status: OnboardingStatus
     r"""The current status of the organization's onboarding process."""
-    can_receive_payments: NotRequired[bool]
+    can_receive_payments: bool
     r"""Whether the organization can receive payments."""
-    can_receive_settlements: NotRequired[bool]
+    can_receive_settlements: bool
     r"""Whether the organization can receive settlements to their external bank account."""
-    signed_up_at: NotRequired[str]
+    signed_up_at: str
     r"""The sign up date time of the organization in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: NotRequired[EntityOnboardingStatusLinksTypedDict]
+    links: EntityOnboardingStatusLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class EntityOnboardingStatus(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains an onboarding status object. Will always contain the string `onboarding` for this
     resource type.
     """
 
-    name: Optional[str] = None
+    name: str
     r"""The name of the organization."""
 
-    status: Annotated[
-        Optional[OnboardingStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Annotated[OnboardingStatus, PlainValidator(validate_open_enum(False))]
     r"""The current status of the organization's onboarding process."""
 
-    can_receive_payments: Annotated[
-        Optional[bool], pydantic.Field(alias="canReceivePayments")
-    ] = None
+    can_receive_payments: Annotated[bool, pydantic.Field(alias="canReceivePayments")]
     r"""Whether the organization can receive payments."""
 
     can_receive_settlements: Annotated[
-        Optional[bool], pydantic.Field(alias="canReceiveSettlements")
-    ] = None
+        bool, pydantic.Field(alias="canReceiveSettlements")
+    ]
     r"""Whether the organization can receive settlements to their external bank account."""
 
-    signed_up_at: Annotated[Optional[str], pydantic.Field(alias="signedUpAt")] = None
+    signed_up_at: Annotated[str, pydantic.Field(alias="signedUpAt")]
     r"""The sign up date time of the organization in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    links: Annotated[
-        Optional[EntityOnboardingStatusLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[EntityOnboardingStatusLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""

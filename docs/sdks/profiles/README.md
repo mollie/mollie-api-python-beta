@@ -63,7 +63,7 @@ with ClientSDK(
 
 ### Response
 
-**[models.EntityProfileResponse](../../models/entityprofileresponse.md)**
+**[models.ProfileResponse](../../models/profileresponse.md)**
 
 ### Errors
 
@@ -157,7 +157,7 @@ with ClientSDK(
 
 ### Response
 
-**[models.EntityProfileResponse](../../models/entityprofileresponse.md)**
+**[models.ProfileResponse](../../models/profileresponse.md)**
 
 ### Errors
 
@@ -199,7 +199,6 @@ with ClientSDK(
             "GB",
         ],
         "business_category": "OTHER_MERCHANDISE",
-        "mode": mollie.UpdateProfileMode.LIVE,
     }, idempotency_key="123e4567-e89b-12d3-a456-426")
 
     # Handle response
@@ -218,7 +217,7 @@ with ClientSDK(
 
 ### Response
 
-**[models.EntityProfileResponse](../../models/entityprofileresponse.md)**
+**[models.ProfileResponse](../../models/profileresponse.md)**
 
 ### Errors
 
@@ -311,7 +310,7 @@ with ClientSDK(
 
 ### Response
 
-**[models.EntityProfileResponse](../../models/entityprofileresponse.md)**
+**[models.ProfileResponse](../../models/profileresponse.md)**
 
 ### Errors
 

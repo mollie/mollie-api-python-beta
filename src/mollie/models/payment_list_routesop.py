@@ -88,12 +88,12 @@ class PaymentListRoutesRequest(BaseModel):
 
 
 class PaymentListRoutesEmbeddedTypedDict(TypedDict):
-    routes: NotRequired[List[RouteGetResponseTypedDict]]
+    routes: List[RouteGetResponseTypedDict]
     r"""An array of route objects."""
 
 
 class PaymentListRoutesEmbedded(BaseModel):
-    routes: Optional[List[RouteGetResponse]] = None
+    routes: List[RouteGetResponse]
     r"""An array of route objects."""
 
 
@@ -119,22 +119,22 @@ class PaymentListRoutesLinks(BaseModel):
 class PaymentListRoutesResponseTypedDict(TypedDict):
     r"""A list of route objects."""
 
-    count: NotRequired[int]
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
     The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
     limit is 50 items.
     """
-    embedded: NotRequired[PaymentListRoutesEmbeddedTypedDict]
-    links: NotRequired[PaymentListRoutesLinksTypedDict]
+    embedded: PaymentListRoutesEmbeddedTypedDict
+    links: PaymentListRoutesLinksTypedDict
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
 
 class PaymentListRoutesResponse(BaseModel):
     r"""A list of route objects."""
 
-    count: Optional[int] = None
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
@@ -142,11 +142,7 @@ class PaymentListRoutesResponse(BaseModel):
     limit is 50 items.
     """
 
-    embedded: Annotated[
-        Optional[PaymentListRoutesEmbedded], pydantic.Field(alias="_embedded")
-    ] = None
+    embedded: Annotated[PaymentListRoutesEmbedded, pydantic.Field(alias="_embedded")]
 
-    links: Annotated[
-        Optional[PaymentListRoutesLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[PaymentListRoutesLinks, pydantic.Field(alias="_links")]
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""

@@ -133,14 +133,14 @@ class Invoice(BaseModel):
 
 
 class ListInvoicesEmbeddedTypedDict(TypedDict):
-    invoices: NotRequired[List[InvoiceTypedDict]]
+    invoices: List[InvoiceTypedDict]
     r"""An array of invoice objects. For a complete reference of
     the invoice object, refer to the [Get invoice endpoint](get-invoice) documentation.
     """
 
 
 class ListInvoicesEmbedded(BaseModel):
-    invoices: Optional[List[Invoice]] = None
+    invoices: List[Invoice]
     r"""An array of invoice objects. For a complete reference of
     the invoice object, refer to the [Get invoice endpoint](get-invoice) documentation.
     """
@@ -151,15 +151,15 @@ class ListInvoicesResponseTypedDict(TypedDict):
     object, refer to the [Get invoice endpoint](get-invoice) documentation.
     """
 
-    count: NotRequired[int]
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
     The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
     limit is 50 items.
     """
-    embedded: NotRequired[ListInvoicesEmbeddedTypedDict]
-    links: NotRequired[ListLinksTypedDict]
+    embedded: ListInvoicesEmbeddedTypedDict
+    links: ListLinksTypedDict
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
 
@@ -168,7 +168,7 @@ class ListInvoicesResponse(BaseModel):
     object, refer to the [Get invoice endpoint](get-invoice) documentation.
     """
 
-    count: Optional[int] = None
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
@@ -176,9 +176,7 @@ class ListInvoicesResponse(BaseModel):
     limit is 50 items.
     """
 
-    embedded: Annotated[
-        Optional[ListInvoicesEmbedded], pydantic.Field(alias="_embedded")
-    ] = None
+    embedded: Annotated[ListInvoicesEmbedded, pydantic.Field(alias="_embedded")]
 
-    links: Annotated[Optional[ListLinks], pydantic.Field(alias="_links")] = None
+    links: Annotated[ListLinks, pydantic.Field(alias="_links")]
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""

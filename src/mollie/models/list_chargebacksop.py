@@ -121,34 +121,34 @@ class ListChargebacksRequest(BaseModel):
 
 
 class ListChargebacksEmbeddedTypedDict(TypedDict):
-    chargebacks: NotRequired[List[EntityChargebackTypedDict]]
+    chargebacks: List[EntityChargebackTypedDict]
     r"""A list of chargeback objects."""
 
 
 class ListChargebacksEmbedded(BaseModel):
-    chargebacks: Optional[List[EntityChargeback]] = None
+    chargebacks: List[EntityChargeback]
     r"""A list of chargeback objects."""
 
 
 class ListChargebacksResponseTypedDict(TypedDict):
     r"""A list of chargeback objects."""
 
-    count: NotRequired[int]
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
     The maximum number of items per result set is controlled by the `limit` property provided in the request. The default
     limit is 50 items.
     """
-    embedded: NotRequired[ListChargebacksEmbeddedTypedDict]
-    links: NotRequired[ListLinksTypedDict]
+    embedded: ListChargebacksEmbeddedTypedDict
+    links: ListLinksTypedDict
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""
 
 
 class ListChargebacksResponse(BaseModel):
     r"""A list of chargeback objects."""
 
-    count: Optional[int] = None
+    count: int
     r"""The number of items in this result set. If more items are available, a `_links.next` URL will be present in the result
     as well.
 
@@ -156,9 +156,7 @@ class ListChargebacksResponse(BaseModel):
     limit is 50 items.
     """
 
-    embedded: Annotated[
-        Optional[ListChargebacksEmbedded], pydantic.Field(alias="_embedded")
-    ] = None
+    embedded: Annotated[ListChargebacksEmbedded, pydantic.Field(alias="_embedded")]
 
-    links: Annotated[Optional[ListLinks], pydantic.Field(alias="_links")] = None
+    links: Annotated[ListLinks, pydantic.Field(alias="_links")]
     r"""Links to help navigate through the lists of items. Every URL object will contain an `href` and a `type` field."""

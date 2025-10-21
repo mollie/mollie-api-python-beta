@@ -15,8 +15,8 @@ class DelayedRouting(BaseSDK):
         *,
         payment_id: str,
         idempotency_key: Optional[str] = None,
-        route_create_request: Optional[
-            Union[models.RouteCreateRequest, models.RouteCreateRequestTypedDict]
+        entity_route: Optional[
+            Union[models.EntityRoute, models.EntityRouteTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -30,7 +30,7 @@ class DelayedRouting(BaseSDK):
 
         :param payment_id: Provide the ID of the related payment.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
-        :param route_create_request:
+        :param entity_route:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -49,8 +49,8 @@ class DelayedRouting(BaseSDK):
         request = models.PaymentCreateRouteRequest(
             payment_id=payment_id,
             idempotency_key=idempotency_key,
-            route_create_request=utils.get_pydantic_model(
-                route_create_request, Optional[models.RouteCreateRequest]
+            entity_route=utils.get_pydantic_model(
+                entity_route, Optional[models.EntityRoute]
             ),
         )
 
@@ -68,11 +68,7 @@ class DelayedRouting(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.route_create_request,
-                False,
-                True,
-                "json",
-                Optional[models.RouteCreateRequest],
+                request.entity_route, False, True, "json", Optional[models.EntityRoute]
             ),
             timeout_ms=timeout_ms,
         )
@@ -124,8 +120,8 @@ class DelayedRouting(BaseSDK):
         *,
         payment_id: str,
         idempotency_key: Optional[str] = None,
-        route_create_request: Optional[
-            Union[models.RouteCreateRequest, models.RouteCreateRequestTypedDict]
+        entity_route: Optional[
+            Union[models.EntityRoute, models.EntityRouteTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -139,7 +135,7 @@ class DelayedRouting(BaseSDK):
 
         :param payment_id: Provide the ID of the related payment.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
-        :param route_create_request:
+        :param entity_route:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -158,8 +154,8 @@ class DelayedRouting(BaseSDK):
         request = models.PaymentCreateRouteRequest(
             payment_id=payment_id,
             idempotency_key=idempotency_key,
-            route_create_request=utils.get_pydantic_model(
-                route_create_request, Optional[models.RouteCreateRequest]
+            entity_route=utils.get_pydantic_model(
+                entity_route, Optional[models.EntityRoute]
             ),
         )
 
@@ -177,11 +173,7 @@ class DelayedRouting(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.route_create_request,
-                False,
-                True,
-                "json",
-                Optional[models.RouteCreateRequest],
+                request.entity_route, False, True, "json", Optional[models.EntityRoute]
             ),
             timeout_ms=timeout_ms,
         )

@@ -3,30 +3,27 @@
 from __future__ import annotations
 from mollie.types import BaseModel
 import pydantic
-from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import Annotated, TypedDict
 
 
 class AddressTypedDict(TypedDict):
-    street_and_number: NotRequired[str]
+    street_and_number: str
     r"""A street and street number."""
-    postal_code: NotRequired[str]
+    postal_code: str
     r"""A postal code. This field may be required if the provided country has a postal code system."""
-    city: NotRequired[str]
-    country: NotRequired[str]
+    city: str
+    country: str
     r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""
 
 
 class Address(BaseModel):
-    street_and_number: Annotated[
-        Optional[str], pydantic.Field(alias="streetAndNumber")
-    ] = None
+    street_and_number: Annotated[str, pydantic.Field(alias="streetAndNumber")]
     r"""A street and street number."""
 
-    postal_code: Annotated[Optional[str], pydantic.Field(alias="postalCode")] = None
+    postal_code: Annotated[str, pydantic.Field(alias="postalCode")]
     r"""A postal code. This field may be required if the provided country has a postal code system."""
 
-    city: Optional[str] = None
+    city: str
 
-    country: Optional[str] = None
+    country: str
     r"""A country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format."""

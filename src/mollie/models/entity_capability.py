@@ -7,40 +7,69 @@ from .entity_capability_requirement import (
     EntityCapabilityRequirement,
     EntityCapabilityRequirementTypedDict,
 )
-from mollie.types import BaseModel
+from mollie.types import BaseModel, Nullable, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
+from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List
+from typing_extensions import Annotated, TypedDict
 
 
 class EntityCapabilityTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Always the word `capability` for this resource type."""
-    name: NotRequired[str]
+    name: str
     r"""A unique name for this capability like `payments` / `settlements`."""
-    status: NotRequired[CapabilityStatus]
-    status_reason: NotRequired[CapabilityStatusReason]
-    requirements: NotRequired[List[EntityCapabilityRequirementTypedDict]]
+    status: CapabilityStatus
+    status_reason: Nullable[CapabilityStatusReason]
+    requirements: List[EntityCapabilityRequirementTypedDict]
 
 
 class EntityCapability(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Always the word `capability` for this resource type."""
 
-    name: Optional[str] = None
+    name: str
     r"""A unique name for this capability like `payments` / `settlements`."""
 
-    status: Annotated[
-        Optional[CapabilityStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Annotated[CapabilityStatus, PlainValidator(validate_open_enum(False))]
 
     status_reason: Annotated[
         Annotated[
-            Optional[CapabilityStatusReason], PlainValidator(validate_open_enum(False))
+            Nullable[CapabilityStatusReason], PlainValidator(validate_open_enum(False))
         ],
         pydantic.Field(alias="statusReason"),
-    ] = None
+    ]
 
-    requirements: Optional[List[EntityCapabilityRequirement]] = None
+    requirements: List[EntityCapabilityRequirement]
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = []
+        nullable_fields = ["statusReason"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m

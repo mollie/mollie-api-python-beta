@@ -21,7 +21,7 @@ class ClientLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.EntityClientLinkResponse:
+    ) -> models.ClientLinkResponse:
         r"""Create client link
 
         Link a new or existing organization to your OAuth application, in effect creating a new client. The response
@@ -154,7 +154,7 @@ class ClientLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.EntityClientLinkResponse, http_res)
+            return unmarshal_json_response(models.ClientLinkResponse, http_res)
         if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)
@@ -178,7 +178,7 @@ class ClientLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.EntityClientLinkResponse:
+    ) -> models.ClientLinkResponse:
         r"""Create client link
 
         Link a new or existing organization to your OAuth application, in effect creating a new client. The response
@@ -311,7 +311,7 @@ class ClientLinks(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.EntityClientLinkResponse, http_res)
+            return unmarshal_json_response(models.ClientLinkResponse, http_res)
         if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)
