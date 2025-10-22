@@ -3,7 +3,7 @@
 from __future__ import annotations
 from .entity_chargeback import EntityChargeback, EntityChargebackTypedDict
 from .list_links import ListLinks, ListLinksTypedDict
-from .list_sort import ListSort
+from .sorting import Sorting
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, HeaderMetadata, QueryParamMetadata
 import pydantic
@@ -23,7 +23,7 @@ class ListAllChargebacksRequestTypedDict(TypedDict):
     r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string
     parameter.
     """
-    sort: NotRequired[Nullable[ListSort]]
+    sort: NotRequired[Sorting]
     r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
     newest to oldest.
     """
@@ -73,9 +73,9 @@ class ListAllChargebacksRequest(BaseModel):
     """
 
     sort: Annotated[
-        OptionalNullable[ListSort],
+        Optional[Sorting],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = UNSET
+    ] = None
     r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
     newest to oldest.
     """
@@ -124,7 +124,7 @@ class ListAllChargebacksRequest(BaseModel):
             "testmode",
             "idempotency-key",
         ]
-        nullable_fields = ["limit", "embed", "sort", "testmode"]
+        nullable_fields = ["limit", "embed", "testmode"]
         null_default_fields = []
 
         serialized = handler(self)

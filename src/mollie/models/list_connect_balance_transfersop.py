@@ -6,7 +6,7 @@ from .entity_balance_transfer_response import (
     EntityBalanceTransferResponseTypedDict,
 )
 from .list_links import ListLinks, ListLinksTypedDict
-from .list_sort import ListSort
+from .sorting import Sorting
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, HeaderMetadata, QueryParamMetadata
 import pydantic
@@ -22,7 +22,7 @@ class ListConnectBalanceTransfersRequestTypedDict(TypedDict):
     """
     limit: NotRequired[Nullable[int]]
     r"""The maximum number of items to return. Defaults to 50 items."""
-    sort: NotRequired[Nullable[ListSort]]
+    sort: NotRequired[Sorting]
     r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
     newest to oldest.
     """
@@ -54,9 +54,9 @@ class ListConnectBalanceTransfersRequest(BaseModel):
     r"""The maximum number of items to return. Defaults to 50 items."""
 
     sort: Annotated[
-        OptionalNullable[ListSort],
+        Optional[Sorting],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = UNSET
+    ] = None
     r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
     newest to oldest.
     """
@@ -82,7 +82,7 @@ class ListConnectBalanceTransfersRequest(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = ["from", "limit", "sort", "testmode", "idempotency-key"]
-        nullable_fields = ["from", "limit", "sort", "testmode"]
+        nullable_fields = ["from", "limit", "testmode"]
         null_default_fields = []
 
         serialized = handler(self)

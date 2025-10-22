@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: a5dccf14f1e5388d77df2bf0465de0c1
+  docChecksum: 3326eaca21c1637f3b75a6c4f0058439
   docVersion: 1.0.0
-  speakeasyVersion: 1.637.3
-  generationVersion: 2.727.9
-  releaseVersion: 0.15.1
-  configChecksum: 4494a62d360af17227a40ea295b1a74d
+  speakeasyVersion: 1.638.0
+  generationVersion: 2.728.0
+  releaseVersion: 0.15.2
+  configChecksum: cd6a11dfd605d61451772e36dc74a1b2
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -339,7 +339,6 @@ generatedFiles:
   - docs/models/listsettlementsembedded.md
   - docs/models/listsettlementsrequest.md
   - docs/models/listsettlementsresponse.md
-  - docs/models/listsort.md
   - docs/models/listsubscriptionpaymentsembedded.md
   - docs/models/listsubscriptionpaymentsrequest.md
   - docs/models/listsubscriptionpaymentsresponse.md
@@ -353,7 +352,6 @@ generatedFiles:
   - docs/models/listwebhooksrequest.md
   - docs/models/listwebhooksresponse.md
   - docs/models/locale.md
-  - docs/models/localeparameter.md
   - docs/models/localeresponse.md
   - docs/models/managedfee.md
   - docs/models/mandatedetailscardlabelresponse.md
@@ -495,6 +493,7 @@ generatedFiles:
   - docs/models/sequencetype.md
   - docs/models/sequencetyperesponse.md
   - docs/models/settlementstatus.md
+  - docs/models/sorting.md
   - docs/models/splitpayment.md
   - docs/models/statusreason.md
   - docs/models/subgroup.md
@@ -741,13 +740,11 @@ generatedFiles:
   - src/mollie/models/list_settlement_paymentsop.py
   - src/mollie/models/list_settlement_refundsop.py
   - src/mollie/models/list_settlementsop.py
-  - src/mollie/models/list_sort.py
   - src/mollie/models/list_subscription_paymentsop.py
   - src/mollie/models/list_subscriptionsop.py
   - src/mollie/models/list_terminalsop.py
   - src/mollie/models/list_webhooksop.py
   - src/mollie/models/locale.py
-  - src/mollie/models/locale_parameter.py
   - src/mollie/models/locale_response.py
   - src/mollie/models/mandate_details_card_label_response.py
   - src/mollie/models/mandate_method.py
@@ -834,6 +831,7 @@ generatedFiles:
   - src/mollie/models/sequence_type.py
   - src/mollie/models/sequence_type_response.py
   - src/mollie/models/settlement_status.py
+  - src/mollie/models/sorting.py
   - src/mollie/models/status_reason.py
   - src/mollie/models/sub_group.py
   - src/mollie/models/sub_totals.py
@@ -3662,7 +3660,7 @@ examples:
           idempotency-key: "123e4567-e89b-12d3-a456-426"
       responses:
         "200":
-          application/hal+json: {"resource": "organization", "id": "org_1234567", "name": "My Online Store", "email": "example@mail.com", "locale": "en_US", "address": {"streetAndNumber": "<value>", "postalCode": "18293", "city": "South Kaelyn", "country": "Tajikistan"}, "registrationNumber": "12345678", "vatNumber": "NL123456789B01", "vatRegulation": "dutch", "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "dashboard": {"href": "https://...", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "application/hal+json"}}}
+          application/hal+json: {"resource": "organization", "id": "org_1234567", "name": "My Online Store", "email": "example@mail.com", "locale": "en_US", "address": {"streetAndNumber": "Keizersgracht 126", "postalCode": "1015 CW", "city": "Amsterdam", "country": "NL"}, "registrationNumber": "12345678", "vatNumber": "NL123456789B01", "vatRegulation": "dutch", "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "dashboard": {"href": "https://...", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "application/hal+json"}}}
         "404":
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "The resource does not exist", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
   get-current-organization:
@@ -3892,7 +3890,7 @@ examples:
         header:
           idempotency-key: "123e4567-e89b-12d3-a456-426"
       requestBody:
-        application/json: {"organization": {"name": "Mollie B.V.", "registrationNumber": "30204462", "vatNumber": "NL815839091B01", "vatRegulation": "dutch"}, "profile": {"name": "Mollie", "url": "https://www.mollie.com", "email": "info@mollie.com", "phone": "+31208202070", "description": "Payment service provider", "businessCategory": "MONEY_SERVICES"}}
+        application/json: {"organization": {"name": "Mollie B.V.", "address": {"streetAndNumber": "Keizersgracht 126", "postalCode": "1015 CW", "city": "Amsterdam", "country": "NL"}, "registrationNumber": "30204462", "vatNumber": "NL815839091B01", "vatRegulation": "dutch"}, "profile": {"name": "Mollie", "url": "https://www.mollie.com", "email": "info@mollie.com", "phone": "+31208202070", "description": "Payment service provider", "businessCategory": "MONEY_SERVICES"}}
       responses:
         "204":
           application/hal+json: "<value>"
@@ -4006,7 +4004,7 @@ examples:
           idempotency-key: "123e4567-e89b-12d3-a456-426"
       responses:
         "200":
-          application/hal+json: {"resource": "client", "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "organization": {"href": "https://...", "type": "application/hal+json"}, "onboarding": {"href": "https://...", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "application/hal+json"}}, "_embedded": {"organization": {"resource": "organization", "id": "org_1234567", "name": "My Online Store", "email": "example@mail.com", "locale": "en_US", "address": {"streetAndNumber": "<value>", "postalCode": "72737", "city": "Fort Reece", "country": "Svalbard & Jan Mayen Islands"}, "registrationNumber": "12345678", "vatNumber": "NL123456789B01", "vatRegulation": "dutch", "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "dashboard": {"href": "https://...", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "application/hal+json"}}}, "onboarding": {"resource": "onboarding", "name": "My webshop", "status": "completed", "canReceivePayments": true, "canReceiveSettlements": true, "signedUpAt": "2023-01-15T13:45:30Z", "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "dashboard": {"href": "https://...", "type": "application/hal+json"}, "organization": {"href": "https://...", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "application/hal+json"}}}, "capabilities": {"resource": "capability", "name": "payments", "status": "pending", "statusReason": "requirement-past-due", "requirements": [{"id": "legal-representatives", "status": "past-due", "dueDate": "2024-01-01T12:00:00+00:00", "_links": {"dashboard": {"href": "https://my.mollie.com/dashboard/...", "type": "text/html"}}}]}}}
+          application/hal+json: {"resource": "client", "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "organization": {"href": "https://...", "type": "application/hal+json"}, "onboarding": {"href": "https://...", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "application/hal+json"}}, "_embedded": {"organization": {"resource": "organization", "id": "org_1234567", "name": "My Online Store", "email": "example@mail.com", "locale": "en_US", "address": {"streetAndNumber": "Keizersgracht 126", "postalCode": "1015 CW", "city": "Amsterdam", "country": "NL"}, "registrationNumber": "12345678", "vatNumber": "NL123456789B01", "vatRegulation": "dutch", "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "dashboard": {"href": "https://...", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "application/hal+json"}}}, "onboarding": {"resource": "onboarding", "name": "My webshop", "status": "completed", "canReceivePayments": true, "canReceiveSettlements": true, "signedUpAt": "2023-01-15T13:45:30Z", "_links": {"self": {"href": "https://...", "type": "application/hal+json"}, "dashboard": {"href": "https://...", "type": "application/hal+json"}, "organization": {"href": "https://...", "type": "application/hal+json"}, "documentation": {"href": "https://...", "type": "application/hal+json"}}}, "capabilities": {"resource": "capability", "name": "payments", "status": "pending", "statusReason": "requirement-past-due", "requirements": [{"id": "legal-representatives", "status": "past-due", "dueDate": "2024-01-01T12:00:00+00:00", "_links": {"dashboard": {"href": "https://my.mollie.com/dashboard/...", "type": "text/html"}}}]}}}
         "404":
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "The resource does not exist", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
   create-client-link:
@@ -5345,4 +5343,22 @@ examples:
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "The resource does not exist", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
 examplesVersion: 1.0.2
 generatedTests: {}
-releaseNotes: "## Python SDK Changes Detected:\n* `client.profiles.update()`: \n  *  `request_body.mode` **Removed** **Breaking** :warning:\n* `client.delayed-routing.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response` **Changed**\n* `client.clients.get()`:  `response._embedded` **Changed** **Breaking** :warning:\n* `client.balances.get-report()`: \n  *  `request.grouping` **Changed** **Breaking** :warning:\n  *  `response` **Changed**\n* `client.clients.list()`:  `response._embedded.clients.[]._embedded` **Changed** **Breaking** :warning:\n* `client.capabilities.list()`:  `response` **Changed** **Breaking** :warning:\n* `client.onboarding.submit()`: \n  *  `request_body.organization.address` **Changed** **Breaking** :warning:\n* `client.invoices.list()`:  `response` **Changed**\n* `client.settlements.list-chargebacks()`:  `response` **Changed**\n* `client.permissions.get()`:  `response` **Changed**\n* `client.organizations.get()`:  `response` **Changed**\n* `client.organizations.get-current()`:  `response` **Changed**\n* `client.profiles.list()`:  `response` **Changed**\n* `client.invoices.get()`:  `response` **Changed**\n* `client.onboarding.get()`:  `response` **Changed**\n* `client.balances.list()`:  `response` **Changed**\n* `client.permissions.list()`:  `response` **Changed**\n* `client.balances.list-transactions()`:  `response` **Changed**\n* `client.balances.get-primary()`:  `response` **Changed**\n* `client.webhook-events.get()`:  `response._embedded.entity` **Changed**\n* `client.methods.list()`:  `request` **Changed**\n* `client.chargebacks.list()`:  `response` **Changed**\n* `client.chargebacks.all()`:  `response` **Changed**\n* `client.balances.get()`:  `response` **Changed**\n* `client.delayed-routing.list()`:  `response` **Changed**\n"
+releaseNotes: |
+  ## Python SDK Changes Detected:
+  * `client.refunds.all()`:  `request.sort` **Changed** **Breaking** :warning:
+  * `client.customers.list-payments()`:  `request.sort` **Changed** **Breaking** :warning:
+  * `client.webhooks.list()`:  `request.sort` **Changed** **Breaking** :warning:
+  * `client.balance-transfers.list()`:  `request.sort` **Changed** **Breaking** :warning:
+  * `client.payments.list()`:  `request.sort` **Changed** **Breaking** :warning:
+  * `client.subscriptions.list-payments()`:  `request.sort` **Changed** **Breaking** :warning:
+  * `client.subscriptions.list()`:  `request.sort` **Changed** **Breaking** :warning:
+  * `client.mandates.list()`:  `request.sort` **Changed** **Breaking** :warning:
+  * `client.invoices.list()`:  `request.sort` **Changed** **Breaking** :warning:
+  * `client.chargebacks.all()`:  `request.sort` **Changed** **Breaking** :warning:
+  * `client.settlements.list-payments()`:  `request.sort` **Changed** **Breaking** :warning:
+  * `client.terminals.list()`:  `request.sort` **Changed** **Breaking** :warning:
+  * `client.customers.list()`:  `request.sort` **Changed** **Breaking** :warning:
+  * `client.payment-links.list-payments()`:  `request.sort` **Changed** **Breaking** :warning:
+  * `client.methods.get()`:  `request.locale` **Changed**
+  * `client.methods.all()`:  `request.locale` **Changed**
+  * `client.methods.list()`:  `request.locale` **Changed**

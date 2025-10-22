@@ -30,3 +30,4 @@ class LocaleResponse(str, Enum, metaclass=utils.OpenEnumMeta):
     PL_PL = "pl_PL"
     LV_LV = "lv_LV"
     LT_LT = "lt_LT"
+    NULL = "null"

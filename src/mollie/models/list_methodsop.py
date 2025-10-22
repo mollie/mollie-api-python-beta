@@ -4,7 +4,7 @@ from __future__ import annotations
 from .amount import Amount, AmountTypedDict
 from .entity_method import EntityMethod, EntityMethodTypedDict
 from .line_categories import LineCategories
-from .locale_parameter import LocaleParameter
+from .locale import Locale
 from .method_include_wallets_parameter import MethodIncludeWalletsParameter
 from .method_resource_parameter import MethodResourceParameter
 from .sequence_type import SequenceType
@@ -24,7 +24,7 @@ class ListMethodsRequestTypedDict(TypedDict):
 
     Set it to `recurring` to only return enabled methods that can be used for recurring payments or subscriptions.
     """
-    locale: NotRequired[LocaleParameter]
+    locale: NotRequired[Nullable[Locale]]
     r"""Response language"""
     amount: NotRequired[AmountTypedDict]
     r"""If supplied, only payment methods that support the amount and currency
@@ -89,9 +89,9 @@ class ListMethodsRequest(BaseModel):
     """
 
     locale: Annotated[
-        Optional[LocaleParameter],
+        OptionalNullable[Locale],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
+    ] = UNSET
     r"""Response language"""
 
     amount: Annotated[
@@ -201,7 +201,7 @@ class ListMethodsRequest(BaseModel):
             "testmode",
             "idempotency-key",
         ]
-        nullable_fields = ["include", "testmode"]
+        nullable_fields = ["locale", "include", "testmode"]
         null_default_fields = []
 
         serialized = handler(self)

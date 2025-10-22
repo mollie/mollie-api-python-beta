@@ -3,7 +3,7 @@
 from __future__ import annotations
 from .entity_webhook import EntityWebhook, EntityWebhookTypedDict
 from .list_links import ListLinks, ListLinksTypedDict
-from .list_sort import ListSort
+from .sorting import Sorting
 from .webhook_event_types import WebhookEventTypes
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, HeaderMetadata, QueryParamMetadata
@@ -20,7 +20,7 @@ class ListWebhooksRequestTypedDict(TypedDict):
     """
     limit: NotRequired[Nullable[int]]
     r"""The maximum number of items to return. Defaults to 50 items."""
-    sort: NotRequired[Nullable[ListSort]]
+    sort: NotRequired[Sorting]
     r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
     newest to oldest.
     """
@@ -54,9 +54,9 @@ class ListWebhooksRequest(BaseModel):
     r"""The maximum number of items to return. Defaults to 50 items."""
 
     sort: Annotated[
-        OptionalNullable[ListSort],
+        Optional[Sorting],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = UNSET
+    ] = None
     r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
     newest to oldest.
     """
@@ -96,7 +96,7 @@ class ListWebhooksRequest(BaseModel):
             "testmode",
             "idempotency-key",
         ]
-        nullable_fields = ["from", "limit", "sort", "testmode"]
+        nullable_fields = ["from", "limit", "testmode"]
         null_default_fields = []
 
         serialized = handler(self)

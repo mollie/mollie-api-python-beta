@@ -29,3 +29,4 @@ Allows you to preset the language to be used.
 | `PL_PL` | pl_PL   |
 | `LV_LV` | lv_LV   |
 | `LT_LT` | lt_LT   |
+| `NULL`  | null    |

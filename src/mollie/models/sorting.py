@@ -4,6 +4,6 @@ from __future__ import annotations
 from enum import Enum
 
 
-class ListSort(str, Enum):
+class Sorting(str, Enum):
     ASC = "asc"
     DESC = "desc"

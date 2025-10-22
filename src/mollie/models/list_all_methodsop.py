@@ -3,7 +3,7 @@
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
 from .entity_method_all import EntityMethodAll, EntityMethodAllTypedDict
-from .locale_parameter import LocaleParameter
+from .locale import Locale
 from .sequence_type import SequenceType
 from .url import URL, URLTypedDict
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
@@ -15,7 +15,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class ListAllMethodsRequestTypedDict(TypedDict):
-    locale: NotRequired[LocaleParameter]
+    locale: NotRequired[Nullable[Locale]]
     r"""Response language"""
     amount: NotRequired[AmountTypedDict]
     r"""If supplied, only payment methods that support the amount and currency
@@ -51,9 +51,9 @@ class ListAllMethodsRequestTypedDict(TypedDict):
 
 class ListAllMethodsRequest(BaseModel):
     locale: Annotated[
-        Optional[LocaleParameter],
+        OptionalNullable[Locale],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
+    ] = UNSET
     r"""Response language"""
 
     amount: Annotated[
@@ -124,7 +124,7 @@ class ListAllMethodsRequest(BaseModel):
             "testmode",
             "idempotency-key",
         ]
-        nullable_fields = ["include", "testmode"]
+        nullable_fields = ["locale", "include", "testmode"]
         null_default_fields = []
 
         serialized = handler(self)
