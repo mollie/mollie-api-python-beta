@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: 3326eaca21c1637f3b75a6c4f0058439
+  docChecksum: 2dec71b80177f9595e3514414246ba59
   docVersion: 1.0.0
-  speakeasyVersion: 1.638.0
-  generationVersion: 2.728.0
-  releaseVersion: 0.15.2
-  configChecksum: cd6a11dfd605d61451772e36dc74a1b2
+  speakeasyVersion: 1.638.1
+  generationVersion: 2.729.2
+  releaseVersion: 0.15.3
+  configChecksum: 78821d3259a53ed628e4e78d3dd44ad6
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -5343,22 +5343,3 @@ examples:
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "The resource does not exist", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
 examplesVersion: 1.0.2
 generatedTests: {}
-releaseNotes: |
-  ## Python SDK Changes Detected:
-  * `client.refunds.all()`:  `request.sort` **Changed** **Breaking** :warning:
-  * `client.customers.list-payments()`:  `request.sort` **Changed** **Breaking** :warning:
-  * `client.webhooks.list()`:  `request.sort` **Changed** **Breaking** :warning:
-  * `client.balance-transfers.list()`:  `request.sort` **Changed** **Breaking** :warning:
-  * `client.payments.list()`:  `request.sort` **Changed** **Breaking** :warning:
-  * `client.subscriptions.list-payments()`:  `request.sort` **Changed** **Breaking** :warning:
-  * `client.subscriptions.list()`:  `request.sort` **Changed** **Breaking** :warning:
-  * `client.mandates.list()`:  `request.sort` **Changed** **Breaking** :warning:
-  * `client.invoices.list()`:  `request.sort` **Changed** **Breaking** :warning:
-  * `client.chargebacks.all()`:  `request.sort` **Changed** **Breaking** :warning:
-  * `client.settlements.list-payments()`:  `request.sort` **Changed** **Breaking** :warning:
-  * `client.terminals.list()`:  `request.sort` **Changed** **Breaking** :warning:
-  * `client.customers.list()`:  `request.sort` **Changed** **Breaking** :warning:
-  * `client.payment-links.list-payments()`:  `request.sort` **Changed** **Breaking** :warning:
-  * `client.methods.get()`:  `request.locale` **Changed**
-  * `client.methods.all()`:  `request.locale` **Changed**
-  * `client.methods.list()`:  `request.locale` **Changed**
