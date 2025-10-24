@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: 2dec71b80177f9595e3514414246ba59
+  docChecksum: 0598dfa4879965fe4af6bb050f7b9d65
   docVersion: 1.0.0
-  speakeasyVersion: 1.638.1
-  generationVersion: 2.729.2
-  releaseVersion: 0.15.3
-  configChecksum: 78821d3259a53ed628e4e78d3dd44ad6
+  speakeasyVersion: 1.639.1
+  generationVersion: 2.730.0
+  releaseVersion: 0.15.4
+  configChecksum: e840d3fd292204d696075df9c2e0ce8d
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -395,6 +395,8 @@ generatedFiles:
   - docs/models/paymentlineitemresponse.md
   - docs/models/paymentlinetype.md
   - docs/models/paymentlinetyperesponse.md
+  - docs/models/paymentlinkmethod.md
+  - docs/models/paymentlinkmethodresponse.md
   - docs/models/paymentlinkresponse.md
   - docs/models/paymentlinkresponseapplicationfee.md
   - docs/models/paymentlinkresponselinks.md
@@ -778,6 +780,8 @@ generatedFiles:
   - src/mollie/models/payment_line_item_response.py
   - src/mollie/models/payment_line_type.py
   - src/mollie/models/payment_line_type_response.py
+  - src/mollie/models/payment_link_method.py
+  - src/mollie/models/payment_link_method_response.py
   - src/mollie/models/payment_link_response.py
   - src/mollie/models/payment_link_sequence_type.py
   - src/mollie/models/payment_link_sequence_type_response.py
@@ -5343,3 +5347,4 @@ examples:
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "The resource does not exist", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
 examplesVersion: 1.0.2
 generatedTests: {}
+releaseNotes: "## Python SDK Changes Detected:\n* `client.webhook-events.get()`:  `response._embedded.entity.[payment-link-response].allowed_methods.[]` **Changed** **Breaking** :warning:\n* `client.payment-links.create()`: \n  *  `request_body.allowed_methods.[]` **Changed** **Breaking** :warning:\n  *  `response.allowed_methods.[]` **Changed** **Breaking** :warning:\n* `client.payment-links.list()`:  `response._embedded.payment_links.[].allowed_methods.[]` **Changed** **Breaking** :warning:\n* `client.payment-links.get()`:  `response.allowed_methods.[]` **Changed** **Breaking** :warning:\n* `client.payment-links.update()`: \n  *  `request_body.allowed_methods.[]` **Changed** **Breaking** :warning:\n  *  `response.allowed_methods.[]` **Changed** **Breaking** :warning:\n"

@@ -5,6 +5,7 @@ from .amount import Amount, AmountTypedDict
 from .amount_nullable import AmountNullable, AmountNullableTypedDict
 from .payment_address import PaymentAddress, PaymentAddressTypedDict
 from .payment_line_item import PaymentLineItem, PaymentLineItemTypedDict
+from .payment_link_method import PaymentLinkMethod
 from .payment_link_sequence_type import PaymentLinkSequenceType
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, HeaderMetadata, RequestMetadata
@@ -100,13 +101,9 @@ class CreatePaymentLinkRequestBodyTypedDict(TypedDict):
     r"""The date and time the payment link is set to expire, in ISO 8601 format. If no expiry date was provided up front,
     the payment link will not expire automatically.
     """
-    allowed_methods: NotRequired[Nullable[List[str]]]
+    allowed_methods: NotRequired[Nullable[List[PaymentLinkMethod]]]
     r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is
     not provided or is an empty array, all enabled payment methods will be available.
-
-    Enum: 'applepay', 'bacs', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'billie', 'blik', 'creditcard', 'eps',
-    'giftcard', 'ideal', 'in3', 'kbc', 'klarna', 'mbway', 'multibanco', 'mybank', 'paybybank', 'paypal', 'paysafecard',
-    'pointofsale', 'przelewy24', 'riverty', 'satispay', 'swish', 'trustly', 'twint', 'voucher'.
     """
     application_fee: NotRequired[CreatePaymentLinkApplicationFeeTypedDict]
     r"""With Mollie Connect you can charge fees on payment links that your app is processing on behalf of other Mollie
@@ -211,14 +208,11 @@ class CreatePaymentLinkRequestBody(BaseModel):
     """
 
     allowed_methods: Annotated[
-        OptionalNullable[List[str]], pydantic.Field(alias="allowedMethods")
+        OptionalNullable[List[PaymentLinkMethod]],
+        pydantic.Field(alias="allowedMethods"),
     ] = UNSET
     r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is
     not provided or is an empty array, all enabled payment methods will be available.
-
-    Enum: 'applepay', 'bacs', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'billie', 'blik', 'creditcard', 'eps',
-    'giftcard', 'ideal', 'in3', 'kbc', 'klarna', 'mbway', 'multibanco', 'mybank', 'paybybank', 'paypal', 'paysafecard',
-    'pointofsale', 'przelewy24', 'riverty', 'satispay', 'swish', 'trustly', 'twint', 'voucher'.
     """
 
     application_fee: Annotated[

@@ -892,6 +892,8 @@ if TYPE_CHECKING:
     )
     from .payment_line_type import PaymentLineType
     from .payment_line_type_response import PaymentLineTypeResponse
+    from .payment_link_method import PaymentLinkMethod
+    from .payment_link_method_response import PaymentLinkMethodResponse
     from .payment_link_response import (
         PaymentLinkResponse,
         PaymentLinkResponseApplicationFee,
@@ -1808,6 +1810,8 @@ __all__ = [
     "PaymentLineItemTypedDict",
     "PaymentLineType",
     "PaymentLineTypeResponse",
+    "PaymentLinkMethod",
+    "PaymentLinkMethodResponse",
     "PaymentLinkResponse",
     "PaymentLinkResponseApplicationFee",
     "PaymentLinkResponseApplicationFeeTypedDict",
@@ -2768,6 +2772,8 @@ _dynamic_imports: dict[str, str] = {
     "PaymentLineItemResponseTypedDict": ".payment_line_item_response",
     "PaymentLineType": ".payment_line_type",
     "PaymentLineTypeResponse": ".payment_line_type_response",
+    "PaymentLinkMethod": ".payment_link_method",
+    "PaymentLinkMethodResponse": ".payment_link_method_response",
     "PaymentLinkResponse": ".payment_link_response",
     "PaymentLinkResponseApplicationFee": ".payment_link_response",
     "PaymentLinkResponseApplicationFeeTypedDict": ".payment_link_response",

@@ -4,6 +4,7 @@ from __future__ import annotations
 from .amount import Amount, AmountTypedDict
 from .payment_address import PaymentAddress, PaymentAddressTypedDict
 from .payment_line_item import PaymentLineItem, PaymentLineItemTypedDict
+from .payment_link_method import PaymentLinkMethod
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import (
     FieldMetadata,
@@ -30,13 +31,9 @@ class UpdatePaymentLinkRequestBodyTypedDict(TypedDict):
     r"""Whether the payment link is archived. Customers will not be able to complete payments on archived
     payment links.
     """
-    allowed_methods: NotRequired[Nullable[List[str]]]
+    allowed_methods: NotRequired[Nullable[List[PaymentLinkMethod]]]
     r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is
     not provided or is an empty array, all enabled payment methods will be available.
-
-    Enum: 'applepay', 'bacs', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'billie', 'blik', 'creditcard', 'eps',
-    'giftcard', 'ideal', 'in3', 'kbc', 'klarna', 'mbway', 'multibanco', 'mybank', 'paybybank', 'paypal', 'paysafecard',
-    'pointofsale', 'przelewy24', 'riverty', 'satispay', 'swish', 'trustly', 'twint', 'voucher'.
     """
     lines: NotRequired[Nullable[List[PaymentLineItemTypedDict]]]
     r"""Optionally provide the order lines for the payment. Each line contains details such as a description of the item
@@ -75,14 +72,11 @@ class UpdatePaymentLinkRequestBody(BaseModel):
     """
 
     allowed_methods: Annotated[
-        OptionalNullable[List[str]], pydantic.Field(alias="allowedMethods")
+        OptionalNullable[List[PaymentLinkMethod]],
+        pydantic.Field(alias="allowedMethods"),
     ] = UNSET
     r"""An array of payment methods that are allowed to be used for this payment link. When this parameter is
     not provided or is an empty array, all enabled payment methods will be available.
-
-    Enum: 'applepay', 'bacs', 'bancomatpay', 'bancontact', 'banktransfer', 'belfius', 'billie', 'blik', 'creditcard', 'eps',
-    'giftcard', 'ideal', 'in3', 'kbc', 'klarna', 'mbway', 'multibanco', 'mybank', 'paybybank', 'paypal', 'paysafecard',
-    'pointofsale', 'przelewy24', 'riverty', 'satispay', 'swish', 'trustly', 'twint', 'voucher'.
     """
 
     lines: OptionalNullable[List[PaymentLineItem]] = UNSET

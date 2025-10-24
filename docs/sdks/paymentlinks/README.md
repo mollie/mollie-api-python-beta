@@ -110,7 +110,7 @@ with ClientSDK(
         reusable=False,
         expires_at="2025-12-24T11:00:16+00:00",
         allowed_methods=[
-            "ideal",
+            mollie.PaymentLinkMethod.IDEAL,
         ],
         application_fee=mollie.CreatePaymentLinkApplicationFee(
             amount=mollie.Amount(
@@ -270,7 +270,7 @@ with ClientSDK(
         ),
         archived=False,
         allowed_methods=[
-            "ideal",
+            mollie.PaymentLinkMethod.IDEAL,
         ],
         lines=[
             mollie.PaymentLineItem(
