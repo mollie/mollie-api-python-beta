@@ -54,17 +54,12 @@ class MollieHooks(BeforeRequestHook):
     def _customize_user_agent(self, headers: dict, hook_ctx: BeforeRequestContext) -> dict:
         user_agent_key = "user-agent"
 
-        current_user_agent = headers.get(user_agent_key, None)
-
-        if not current_user_agent:
-            return headers
-
-        # Get version information from the SDK configuration instead of parsing user agent
-        sdk_version = hook_ctx.config.sdk_version
         gen_version = hook_ctx.config.gen_version
+        sdk_version = hook_ctx.config.sdk_version
         python_version = sys.version.split(" ", maxsplit=1)[0]
+        package_name = "mollie-api-python-beta"
 
-        new_user_agent = f"Speakeasy/{gen_version} Python/{python_version} mollie-api-python-beta/{sdk_version}"
+        new_user_agent = f"Speakeasy/{gen_version} Python/{python_version} {package_name}/{sdk_version}"
         if hook_ctx.config.globals.custom_user_agent:
             new_user_agent = f"{new_user_agent} {hook_ctx.config.globals.custom_user_agent}"
 
