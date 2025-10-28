@@ -689,3 +689,13 @@ Based on:
 - [python v0.15.5] .
 ### Releases
 - [PyPI v0.15.5] https://pypi.org/project/mollie/0.15.5 - .
+
+## 2025-10-28 00:24:45
+### Changes
+Based on:
+- OpenAPI Doc  
+- Speakeasy CLI 1.640.0 (2.730.5) https://github.com/speakeasy-api/speakeasy
+### Generated
+- [python v0.15.6] .
+### Releases
+- [PyPI v0.15.6] https://pypi.org/project/mollie/0.15.6 - .
