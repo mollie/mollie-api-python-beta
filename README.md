@@ -28,6 +28,7 @@ This documentation is for the new Mollie's SDK. You can find more details on how
   * [SDK Example Usage](#sdk-example-usage)
   * [Authentication](#authentication)
   * [Idempotency Key](#idempotency-key)
+  * [Add Custom User-Agent Header](#add-custom-user-agent-header)
   * [Available Resources and Operations](#available-resources-and-operations)
   * [Retries](#retries)
   * [Error Handling](#error-handling)
@@ -241,6 +242,12 @@ print(f"Payment created with ID: {payment2.id}")
 print("Payments are the same" if payment1.id == payment2.id else "Payments are different")
 ```
 <!-- End Idempotency Key -->
+
+<!-- Start Add Custom User-Agent Header -->
+
+## Add Custom User-Agent Header
+
+<!-- End Add Custom User-Agent Header -->
 
 <!-- Start Available Resources and Operations [operations] -->
 ## Available Resources and Operations
