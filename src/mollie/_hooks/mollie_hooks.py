@@ -19,7 +19,7 @@ def generate_idempotency_key() -> str:
     return str(uuid.uuid4())
 
 
-class MollieHooks(BeforeRequestHook):    
+class MollieHooks(BeforeRequestHook):
     def before_request(self, hook_ctx: BeforeRequestContext, request: Request) -> Union[Request, Exception]:
         """
         Modify the request before sending.
