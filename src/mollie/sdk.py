@@ -9,6 +9,7 @@ import httpx
 import importlib
 from mollie import models, utils
 from mollie._hooks import SDKHooks
+from mollie.models import internal
 from mollie.types import OptionalNullable, UNSET
 import sys
 from typing import Callable, Dict, Optional, TYPE_CHECKING, Union, cast
@@ -104,6 +105,9 @@ class ClientSDK(BaseSDK):
         security: Optional[
             Union[models.Security, Callable[[], models.Security]]
         ] = None,
+        profile_id: Optional[str] = None,
+        testmode: Optional[bool] = None,
+        custom_user_agent: Optional[str] = None,
         server_idx: Optional[int] = None,
         server_url: Optional[str] = None,
         url_params: Optional[Dict[str, str]] = None,
@@ -116,6 +120,9 @@ class ClientSDK(BaseSDK):
         r"""Instantiates the SDK configuring it with the provided parameters.
 
         :param security: The security details required for authentication
+        :param profile_id: Configures the profile_id parameter for all supported operations
+        :param testmode: Configures the testmode parameter for all supported operations
+        :param custom_user_agent: Configures the custom_user_agent parameter for all supported operations
         :param server_idx: The index of the server to use for all methods
         :param server_url: The server URL to use for all methods
         :param url_params: Parameters to optionally template the server URL with
@@ -149,6 +156,14 @@ class ClientSDK(BaseSDK):
             if url_params is not None:
                 server_url = utils.template_url(server_url, url_params)
 
+        _globals = internal.Globals(
+            profile_id=utils.get_global_from_env(profile_id, "CLIENT_PROFILE_ID", str),
+            testmode=utils.get_global_from_env(testmode, "CLIENT_TESTMODE", bool),
+            custom_user_agent=utils.get_global_from_env(
+                custom_user_agent, "CLIENT_CUSTOM_USER_AGENT", str
+            ),
+        )
+
         BaseSDK.__init__(
             self,
             SDKConfiguration(
@@ -156,6 +171,7 @@ class ClientSDK(BaseSDK):
                 client_supplied=client_supplied,
                 async_client=async_client,
                 async_client_supplied=async_client_supplied,
+                globals=_globals,
                 security=security,
                 server_url=server_url,
                 server_idx=server_idx,

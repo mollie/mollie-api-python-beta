@@ -16,6 +16,29 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
+class ListSettlementChargebacksGlobalsTypedDict(TypedDict):
+    testmode: NotRequired[bool]
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
+
+    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    """
+
+
+class ListSettlementChargebacksGlobals(BaseModel):
+    testmode: Annotated[
+        Optional[bool],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
+
+    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    """
+
+
 class ListSettlementChargebacksRequestTypedDict(TypedDict):
     settlement_id: str
     r"""Provide the ID of the related settlement."""
@@ -28,13 +51,6 @@ class ListSettlementChargebacksRequestTypedDict(TypedDict):
     embed: NotRequired[Nullable[str]]
     r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string
     parameter.
-    """
-    testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
-    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
-    setting the `testmode` query parameter to `true`.
-
-    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
     idempotency_key: NotRequired[str]
     r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
@@ -71,17 +87,6 @@ class ListSettlementChargebacksRequest(BaseModel):
     parameter.
     """
 
-    testmode: Annotated[
-        OptionalNullable[bool],
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
-    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
-    setting the `testmode` query parameter to `true`.
-
-    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
-    """
-
     idempotency_key: Annotated[
         Optional[str],
         pydantic.Field(alias="idempotency-key"),
@@ -91,8 +96,8 @@ class ListSettlementChargebacksRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["from", "limit", "embed", "testmode", "idempotency-key"]
-        nullable_fields = ["limit", "embed", "testmode"]
+        optional_fields = ["from", "limit", "embed", "idempotency-key"]
+        nullable_fields = ["limit", "embed"]
         null_default_fields = []
 
         serialized = handler(self)

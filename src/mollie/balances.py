@@ -16,7 +16,6 @@ class Balances(BaseSDK):
         currency: OptionalNullable[str] = UNSET,
         from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
-        testmode: OptionalNullable[bool] = UNSET,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -32,7 +31,6 @@ class Balances(BaseSDK):
         :param currency: Optionally only return balances with the given currency. For example: `EUR`.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -53,7 +51,6 @@ class Balances(BaseSDK):
             currency=currency,
             from_=from_,
             limit=limit,
-            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -69,6 +66,9 @@ class Balances(BaseSDK):
             user_agent_header="user-agent",
             accept_header_value="application/hal+json",
             http_headers=http_headers,
+            _globals=models.ListBalancesGlobals(
+                testmode=self.sdk_configuration.globals.testmode,
+            ),
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -121,7 +121,6 @@ class Balances(BaseSDK):
         currency: OptionalNullable[str] = UNSET,
         from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
-        testmode: OptionalNullable[bool] = UNSET,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -137,7 +136,6 @@ class Balances(BaseSDK):
         :param currency: Optionally only return balances with the given currency. For example: `EUR`.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -158,7 +156,6 @@ class Balances(BaseSDK):
             currency=currency,
             from_=from_,
             limit=limit,
-            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -174,6 +171,9 @@ class Balances(BaseSDK):
             user_agent_header="user-agent",
             accept_header_value="application/hal+json",
             http_headers=http_headers,
+            _globals=models.ListBalancesGlobals(
+                testmode=self.sdk_configuration.globals.testmode,
+            ),
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -224,7 +224,6 @@ class Balances(BaseSDK):
         self,
         *,
         id: str,
-        testmode: OptionalNullable[bool] = UNSET,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -250,7 +249,6 @@ class Balances(BaseSDK):
         funds are available on your balance. These funds will be shown under the *pending amount* in the meanwhile.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -269,7 +267,6 @@ class Balances(BaseSDK):
 
         request = models.GetBalanceRequest(
             id=id,
-            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -285,6 +282,9 @@ class Balances(BaseSDK):
             user_agent_header="user-agent",
             accept_header_value="application/hal+json",
             http_headers=http_headers,
+            _globals=models.GetBalanceGlobals(
+                testmode=self.sdk_configuration.globals.testmode,
+            ),
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -335,7 +335,6 @@ class Balances(BaseSDK):
         self,
         *,
         id: str,
-        testmode: OptionalNullable[bool] = UNSET,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -361,7 +360,6 @@ class Balances(BaseSDK):
         funds are available on your balance. These funds will be shown under the *pending amount* in the meanwhile.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -380,7 +378,6 @@ class Balances(BaseSDK):
 
         request = models.GetBalanceRequest(
             id=id,
-            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -396,6 +393,9 @@ class Balances(BaseSDK):
             user_agent_header="user-agent",
             accept_header_value="application/hal+json",
             http_headers=http_headers,
+            _globals=models.GetBalanceGlobals(
+                testmode=self.sdk_configuration.globals.testmode,
+            ),
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -631,7 +631,6 @@ class Balances(BaseSDK):
         from_: str,
         until: str,
         grouping: Optional[models.BalanceReportGrouping] = None,
-        testmode: OptionalNullable[bool] = UNSET,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -652,7 +651,6 @@ class Balances(BaseSDK):
         :param from_: The start date of the report, in `YYYY-MM-DD` format. The from date is 'inclusive', and in Central European Time. This means a report with for example `from=2024-01-01` will include transactions from 2024-01-01 0:00:00 CET and onwards.
         :param until: The end date of the report, in `YYYY-MM-DD` format. The until date is 'exclusive', and in Central European Time. This means a report with for example `until=2024-02-01` will include transactions up until 2024-01-31 23:59:59 CET.
         :param grouping: You can retrieve reports in two different formats. With the `status-balances` format, transactions are grouped by status (e.g. `pending`, `available`), then by transaction type, and then by other sub-groupings where available (e.g. payment method).  With the `transaction-categories` format, transactions are grouped by transaction type, then by status, and then again by other sub-groupings where available.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -674,7 +672,6 @@ class Balances(BaseSDK):
             from_=from_,
             until=until,
             grouping=grouping,
-            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -690,6 +687,9 @@ class Balances(BaseSDK):
             user_agent_header="user-agent",
             accept_header_value="application/hal+json",
             http_headers=http_headers,
+            _globals=models.GetBalanceReportGlobals(
+                testmode=self.sdk_configuration.globals.testmode,
+            ),
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -743,7 +743,6 @@ class Balances(BaseSDK):
         from_: str,
         until: str,
         grouping: Optional[models.BalanceReportGrouping] = None,
-        testmode: OptionalNullable[bool] = UNSET,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -764,7 +763,6 @@ class Balances(BaseSDK):
         :param from_: The start date of the report, in `YYYY-MM-DD` format. The from date is 'inclusive', and in Central European Time. This means a report with for example `from=2024-01-01` will include transactions from 2024-01-01 0:00:00 CET and onwards.
         :param until: The end date of the report, in `YYYY-MM-DD` format. The until date is 'exclusive', and in Central European Time. This means a report with for example `until=2024-02-01` will include transactions up until 2024-01-31 23:59:59 CET.
         :param grouping: You can retrieve reports in two different formats. With the `status-balances` format, transactions are grouped by status (e.g. `pending`, `available`), then by transaction type, and then by other sub-groupings where available (e.g. payment method).  With the `transaction-categories` format, transactions are grouped by transaction type, then by status, and then again by other sub-groupings where available.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -786,7 +784,6 @@ class Balances(BaseSDK):
             from_=from_,
             until=until,
             grouping=grouping,
-            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -802,6 +799,9 @@ class Balances(BaseSDK):
             user_agent_header="user-agent",
             accept_header_value="application/hal+json",
             http_headers=http_headers,
+            _globals=models.GetBalanceReportGlobals(
+                testmode=self.sdk_configuration.globals.testmode,
+            ),
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -854,7 +854,6 @@ class Balances(BaseSDK):
         balance_id: str,
         from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
-        testmode: OptionalNullable[bool] = UNSET,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -877,7 +876,6 @@ class Balances(BaseSDK):
         :param balance_id: Provide the ID of the related balance.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -898,7 +896,6 @@ class Balances(BaseSDK):
             balance_id=balance_id,
             from_=from_,
             limit=limit,
-            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -914,6 +911,9 @@ class Balances(BaseSDK):
             user_agent_header="user-agent",
             accept_header_value="application/hal+json",
             http_headers=http_headers,
+            _globals=models.ListBalanceTransactionsGlobals(
+                testmode=self.sdk_configuration.globals.testmode,
+            ),
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -970,7 +970,6 @@ class Balances(BaseSDK):
         balance_id: str,
         from_: OptionalNullable[str] = UNSET,
         limit: OptionalNullable[int] = UNSET,
-        testmode: OptionalNullable[bool] = UNSET,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -993,7 +992,6 @@ class Balances(BaseSDK):
         :param balance_id: Provide the ID of the related balance.
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1014,7 +1012,6 @@ class Balances(BaseSDK):
             balance_id=balance_id,
             from_=from_,
             limit=limit,
-            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -1030,6 +1027,9 @@ class Balances(BaseSDK):
             user_agent_header="user-agent",
             accept_header_value="application/hal+json",
             http_headers=http_headers,
+            _globals=models.ListBalanceTransactionsGlobals(
+                testmode=self.sdk_configuration.globals.testmode,
+            ),
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )

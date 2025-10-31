@@ -22,18 +22,34 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class GetCustomerRequestTypedDict(TypedDict):
-    customer_id: str
-    r"""Provide the ID of the related customer."""
-    include: NotRequired[Nullable[str]]
-    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
-    testmode: NotRequired[Nullable[bool]]
+class GetCustomerGlobalsTypedDict(TypedDict):
+    testmode: NotRequired[bool]
     r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
     parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
     setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
+
+
+class GetCustomerGlobals(BaseModel):
+    testmode: Annotated[
+        Optional[bool],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
+
+    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    """
+
+
+class GetCustomerRequestTypedDict(TypedDict):
+    customer_id: str
+    r"""Provide the ID of the related customer."""
+    include: NotRequired[Nullable[str]]
+    r"""This endpoint allows you to include additional information via the `include` query string parameter."""
     idempotency_key: NotRequired[str]
     r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
@@ -52,17 +68,6 @@ class GetCustomerRequest(BaseModel):
     ] = UNSET
     r"""This endpoint allows you to include additional information via the `include` query string parameter."""
 
-    testmode: Annotated[
-        OptionalNullable[bool],
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
-    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
-    setting the `testmode` query parameter to `true`.
-
-    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
-    """
-
     idempotency_key: Annotated[
         Optional[str],
         pydantic.Field(alias="idempotency-key"),
@@ -72,8 +77,8 @@ class GetCustomerRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["include", "testmode", "idempotency-key"]
-        nullable_fields = ["include", "testmode"]
+        optional_fields = ["include", "idempotency-key"]
+        nullable_fields = ["include"]
         null_default_fields = []
 
         serialized = handler(self)

@@ -16,7 +16,6 @@ class Terminals(BaseSDK):
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
         sort: Optional[models.Sorting] = None,
-        testmode: OptionalNullable[bool] = UNSET,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -32,7 +31,6 @@ class Terminals(BaseSDK):
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -53,7 +51,6 @@ class Terminals(BaseSDK):
             from_=from_,
             limit=limit,
             sort=sort,
-            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -69,6 +66,9 @@ class Terminals(BaseSDK):
             user_agent_header="user-agent",
             accept_header_value="application/hal+json",
             http_headers=http_headers,
+            _globals=models.ListTerminalsGlobals(
+                testmode=self.sdk_configuration.globals.testmode,
+            ),
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -121,7 +121,6 @@ class Terminals(BaseSDK):
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
         sort: Optional[models.Sorting] = None,
-        testmode: OptionalNullable[bool] = UNSET,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -137,7 +136,6 @@ class Terminals(BaseSDK):
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -158,7 +156,6 @@ class Terminals(BaseSDK):
             from_=from_,
             limit=limit,
             sort=sort,
-            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -174,6 +171,9 @@ class Terminals(BaseSDK):
             user_agent_header="user-agent",
             accept_header_value="application/hal+json",
             http_headers=http_headers,
+            _globals=models.ListTerminalsGlobals(
+                testmode=self.sdk_configuration.globals.testmode,
+            ),
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -224,7 +224,6 @@ class Terminals(BaseSDK):
         self,
         *,
         terminal_id: str,
-        testmode: OptionalNullable[bool] = UNSET,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -236,7 +235,6 @@ class Terminals(BaseSDK):
         Retrieve a single terminal by its ID.
 
         :param terminal_id: Provide the ID of the related terminal.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -255,7 +253,6 @@ class Terminals(BaseSDK):
 
         request = models.GetTerminalRequest(
             terminal_id=terminal_id,
-            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -271,6 +268,9 @@ class Terminals(BaseSDK):
             user_agent_header="user-agent",
             accept_header_value="application/hal+json",
             http_headers=http_headers,
+            _globals=models.GetTerminalGlobals(
+                testmode=self.sdk_configuration.globals.testmode,
+            ),
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -321,7 +321,6 @@ class Terminals(BaseSDK):
         self,
         *,
         terminal_id: str,
-        testmode: OptionalNullable[bool] = UNSET,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -333,7 +332,6 @@ class Terminals(BaseSDK):
         Retrieve a single terminal by its ID.
 
         :param terminal_id: Provide the ID of the related terminal.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -352,7 +350,6 @@ class Terminals(BaseSDK):
 
         request = models.GetTerminalRequest(
             terminal_id=terminal_id,
-            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -368,6 +365,9 @@ class Terminals(BaseSDK):
             user_agent_header="user-agent",
             accept_header_value="application/hal+json",
             http_headers=http_headers,
+            _globals=models.GetTerminalGlobals(
+                testmode=self.sdk_configuration.globals.testmode,
+            ),
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )

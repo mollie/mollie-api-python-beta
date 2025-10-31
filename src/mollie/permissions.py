@@ -200,7 +200,6 @@ class Permissions(BaseSDK):
         self,
         *,
         permission_id: str,
-        testmode: OptionalNullable[bool] = UNSET,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -212,7 +211,6 @@ class Permissions(BaseSDK):
         Retrieve a single permission by its ID, and see if the permission is granted to the current access token.
 
         :param permission_id: Provide the ID of the related permission.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -231,7 +229,6 @@ class Permissions(BaseSDK):
 
         request = models.GetPermissionRequest(
             permission_id=permission_id,
-            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -247,6 +244,9 @@ class Permissions(BaseSDK):
             user_agent_header="user-agent",
             accept_header_value="application/hal+json",
             http_headers=http_headers,
+            _globals=models.GetPermissionGlobals(
+                testmode=self.sdk_configuration.globals.testmode,
+            ),
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -297,7 +297,6 @@ class Permissions(BaseSDK):
         self,
         *,
         permission_id: str,
-        testmode: OptionalNullable[bool] = UNSET,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -309,7 +308,6 @@ class Permissions(BaseSDK):
         Retrieve a single permission by its ID, and see if the permission is granted to the current access token.
 
         :param permission_id: Provide the ID of the related permission.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -328,7 +326,6 @@ class Permissions(BaseSDK):
 
         request = models.GetPermissionRequest(
             permission_id=permission_id,
-            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -344,6 +341,9 @@ class Permissions(BaseSDK):
             user_agent_header="user-agent",
             accept_header_value="application/hal+json",
             http_headers=http_headers,
+            _globals=models.GetPermissionGlobals(
+                testmode=self.sdk_configuration.globals.testmode,
+            ),
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )

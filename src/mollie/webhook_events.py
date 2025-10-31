@@ -14,7 +14,6 @@ class WebhookEvents(BaseSDK):
         self,
         *,
         id: str,
-        testmode: OptionalNullable[bool] = UNSET,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -26,7 +25,6 @@ class WebhookEvents(BaseSDK):
         Retrieve a single webhook event object by its event ID.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -45,7 +43,6 @@ class WebhookEvents(BaseSDK):
 
         request = models.GetWebhookEventRequest(
             id=id,
-            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -61,6 +58,9 @@ class WebhookEvents(BaseSDK):
             user_agent_header="user-agent",
             accept_header_value="application/hal+json",
             http_headers=http_headers,
+            _globals=models.GetWebhookEventGlobals(
+                testmode=self.sdk_configuration.globals.testmode,
+            ),
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
@@ -111,7 +111,6 @@ class WebhookEvents(BaseSDK):
         self,
         *,
         id: str,
-        testmode: OptionalNullable[bool] = UNSET,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -123,7 +122,6 @@ class WebhookEvents(BaseSDK):
         Retrieve a single webhook event object by its event ID.
 
         :param id: Provide the ID of the item you want to perform this operation on.
-        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -142,7 +140,6 @@ class WebhookEvents(BaseSDK):
 
         request = models.GetWebhookEventRequest(
             id=id,
-            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -158,6 +155,9 @@ class WebhookEvents(BaseSDK):
             user_agent_header="user-agent",
             accept_header_value="application/hal+json",
             http_headers=http_headers,
+            _globals=models.GetWebhookEventGlobals(
+                testmode=self.sdk_configuration.globals.testmode,
+            ),
             security=self.sdk_configuration.security,
             timeout_ms=timeout_ms,
         )
