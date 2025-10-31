@@ -4,7 +4,6 @@ import json
 
 from httpx import Request
 from typing import Union
-from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 
 from .types import (
     BeforeRequestHook,
@@ -48,9 +47,11 @@ class MollieHooks(BeforeRequestHook):
             extensions=request.extensions
         )
 
-        # Then populate profile ID and testmode if OAuth (this may update headers again)
+        # Populate profile ID and testmode if OAuth (this may update headers again)
         if self._is_oauth_request(headers, hook_ctx):
             request = self._populate_profile_id_and_testmode(request, hook_ctx)
+
+        print(request.url)
 
         return request
 
@@ -97,40 +98,12 @@ class MollieHooks(BeforeRequestHook):
 
         # Get the HTTP method
         method = request.method
-        
-        if method == "GET":
-            # Update the query parameters. If testmode or profileId are not present, add them.
-            parsed_url = urlparse(str(request.url))
-            query_params = parse_qs(parsed_url.query, keep_blank_values=True)
-            
-            # Add profileId if not already present
-            if client_profile_id is not None and 'profileId' not in query_params:
-                query_params['profileId'] = [client_profile_id]
-            
-            # Add testmode if not already present
-            if client_testmode is not None and 'testmode' not in query_params:
-                query_params['testmode'] = [str(client_testmode).lower()]
-            
-            # Rebuild the URL with updated query parameters
-            new_query = urlencode(query_params, doseq=True)
-            new_url = urlunparse((
-                parsed_url.scheme,
-                parsed_url.netloc,
-                parsed_url.path,
-                parsed_url.params,
-                new_query,
-                parsed_url.fragment
-            ))
-            
-            return Request(
-                method=request.method,
-                url=new_url,
-                headers=request.headers,
-                content=request.content,
-                extensions=request.extensions
-            )
 
-        # It's POST, DELETE, PATCH
+        if method == "GET":
+            # SDK already handles Query Parameters automatically
+            return request
+
+        # It's POST, DELETE, PATCH, etc.
         # Update the JSON body. If testmode or profileId are not present, add them.
         if request.content:
             try:
