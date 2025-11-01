@@ -41,6 +41,13 @@ class PaymentListRoutesGlobals(BaseModel):
 class PaymentListRoutesRequestTypedDict(TypedDict):
     payment_id: str
     r"""Provide the ID of the related payment."""
+    testmode: NotRequired[bool]
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
+
+    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    """
     idempotency_key: NotRequired[str]
     r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
@@ -52,6 +59,17 @@ class PaymentListRoutesRequest(BaseModel):
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
     r"""Provide the ID of the related payment."""
+
+    testmode: Annotated[
+        Optional[bool],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
+
+    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    """
 
     idempotency_key: Annotated[
         Optional[str],

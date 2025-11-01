@@ -98,8 +98,22 @@ class ListMethodsRequestTypedDict(TypedDict):
 
     Example: `/v2/methods?orderLineCategories=eco,meal`
     """
+    profile_id: NotRequired[str]
+    r"""The identifier referring to the [profile](get-profile) you wish to
+    retrieve the resources for.
+
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For
+    organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    """
     include: NotRequired[Nullable[str]]
     r"""This endpoint allows you to include additional information via the `include` query string parameter."""
+    testmode: NotRequired[bool]
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
+
+    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    """
     idempotency_key: NotRequired[str]
     r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
@@ -178,11 +192,34 @@ class ListMethodsRequest(BaseModel):
     Example: `/v2/methods?orderLineCategories=eco,meal`
     """
 
+    profile_id: Annotated[
+        Optional[str],
+        pydantic.Field(alias="profileId"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""The identifier referring to the [profile](get-profile) you wish to
+    retrieve the resources for.
+
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For
+    organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    """
+
     include: Annotated[
         OptionalNullable[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = UNSET
     r"""This endpoint allows you to include additional information via the `include` query string parameter."""
+
+    testmode: Annotated[
+        Optional[bool],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
+
+    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    """
 
     idempotency_key: Annotated[
         Optional[str],
@@ -201,7 +238,9 @@ class ListMethodsRequest(BaseModel):
             "billingCountry",
             "includeWallets",
             "orderLineCategories",
+            "profileId",
             "include",
+            "testmode",
             "idempotency-key",
         ]
         nullable_fields = ["locale", "include"]

@@ -49,6 +49,13 @@ class ListConnectBalanceTransfersRequestTypedDict(TypedDict):
     r"""Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from
     newest to oldest.
     """
+    testmode: NotRequired[bool]
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
+
+    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    """
     idempotency_key: NotRequired[str]
     r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
@@ -77,6 +84,17 @@ class ListConnectBalanceTransfersRequest(BaseModel):
     newest to oldest.
     """
 
+    testmode: Annotated[
+        Optional[bool],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
+
+    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    """
+
     idempotency_key: Annotated[
         Optional[str],
         pydantic.Field(alias="idempotency-key"),
@@ -86,7 +104,7 @@ class ListConnectBalanceTransfersRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["from", "limit", "sort", "idempotency-key"]
+        optional_fields = ["from", "limit", "sort", "testmode", "idempotency-key"]
         nullable_fields = ["from", "limit"]
         null_default_fields = []
 

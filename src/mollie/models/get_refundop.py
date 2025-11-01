@@ -46,6 +46,13 @@ class GetRefundRequestTypedDict(TypedDict):
     r"""This endpoint allows embedding related API items by appending the following values via the `embed` query string
     parameter.
     """
+    testmode: NotRequired[bool]
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
+
+    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    """
     idempotency_key: NotRequired[str]
     r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
@@ -73,6 +80,17 @@ class GetRefundRequest(BaseModel):
     parameter.
     """
 
+    testmode: Annotated[
+        Optional[bool],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
+
+    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    """
+
     idempotency_key: Annotated[
         Optional[str],
         pydantic.Field(alias="idempotency-key"),
@@ -82,7 +100,7 @@ class GetRefundRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["embed", "idempotency-key"]
+        optional_fields = ["embed", "testmode", "idempotency-key"]
         nullable_fields = ["embed"]
         null_default_fields = []
 

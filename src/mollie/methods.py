@@ -20,7 +20,9 @@ class Methods(BaseSDK):
         billing_country: Optional[str] = None,
         include_wallets: Optional[models.MethodIncludeWalletsParameter] = None,
         order_line_categories: Optional[models.LineCategories] = None,
+        profile_id: Optional[str] = None,
         include: OptionalNullable[str] = UNSET,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -53,7 +55,9 @@ class Methods(BaseSDK):
         :param billing_country: The country taken from your customer's billing address in ISO 3166-1 alpha-2 format. This parameter can be used to check whether your customer is eligible for certain payment methods, for example for Klarna.  Example: `/v2/methods?resource=orders&billingCountry=DE`
         :param include_wallets: A comma-separated list of the wallets you support in your checkout. Wallets often require wallet specific code to check if they are available on the shoppers device, hence the need to indicate your support.
         :param order_line_categories: A comma-separated list of the line categories you support in your checkout.  Example: `/v2/methods?orderLineCategories=eco,meal`
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -78,7 +82,9 @@ class Methods(BaseSDK):
             billing_country=billing_country,
             include_wallets=include_wallets,
             order_line_categories=order_line_categories,
+            profile_id=profile_id,
             include=include,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -154,7 +160,9 @@ class Methods(BaseSDK):
         billing_country: Optional[str] = None,
         include_wallets: Optional[models.MethodIncludeWalletsParameter] = None,
         order_line_categories: Optional[models.LineCategories] = None,
+        profile_id: Optional[str] = None,
         include: OptionalNullable[str] = UNSET,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -187,7 +195,9 @@ class Methods(BaseSDK):
         :param billing_country: The country taken from your customer's billing address in ISO 3166-1 alpha-2 format. This parameter can be used to check whether your customer is eligible for certain payment methods, for example for Klarna.  Example: `/v2/methods?resource=orders&billingCountry=DE`
         :param include_wallets: A comma-separated list of the wallets you support in your checkout. Wallets often require wallet specific code to check if they are available on the shoppers device, hence the need to indicate your support.
         :param order_line_categories: A comma-separated list of the line categories you support in your checkout.  Example: `/v2/methods?orderLineCategories=eco,meal`
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -212,7 +222,9 @@ class Methods(BaseSDK):
             billing_country=billing_country,
             include_wallets=include_wallets,
             order_line_categories=order_line_categories,
+            profile_id=profile_id,
             include=include,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -285,6 +297,8 @@ class Methods(BaseSDK):
         amount: Optional[Union[models.Amount, models.AmountTypedDict]] = None,
         include: OptionalNullable[str] = UNSET,
         sequence_type: Optional[models.SequenceType] = None,
+        profile_id: Optional[str] = None,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -302,6 +316,8 @@ class Methods(BaseSDK):
         :param amount: If supplied, only payment methods that support the amount and currency are returned.  Example: `/v2/methods/all?amount[value]=100.00&amount[currency]=USD`
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param sequence_type: Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -323,6 +339,8 @@ class Methods(BaseSDK):
             amount=utils.get_pydantic_model(amount, Optional[models.Amount]),
             include=include,
             sequence_type=sequence_type,
+            profile_id=profile_id,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -395,6 +413,8 @@ class Methods(BaseSDK):
         amount: Optional[Union[models.Amount, models.AmountTypedDict]] = None,
         include: OptionalNullable[str] = UNSET,
         sequence_type: Optional[models.SequenceType] = None,
+        profile_id: Optional[str] = None,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -412,6 +432,8 @@ class Methods(BaseSDK):
         :param amount: If supplied, only payment methods that support the amount and currency are returned.  Example: `/v2/methods/all?amount[value]=100.00&amount[currency]=USD`
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param sequence_type: Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -433,6 +455,8 @@ class Methods(BaseSDK):
             amount=utils.get_pydantic_model(amount, Optional[models.Amount]),
             include=include,
             sequence_type=sequence_type,
+            profile_id=profile_id,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -504,8 +528,10 @@ class Methods(BaseSDK):
         id: str,
         locale: OptionalNullable[models.Locale] = UNSET,
         currency: Optional[str] = None,
+        profile_id: Optional[str] = None,
         include: OptionalNullable[str] = UNSET,
         sequence_type: Optional[models.SequenceType] = None,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -530,8 +556,10 @@ class Methods(BaseSDK):
         :param id: Provide the ID of the item you want to perform this operation on.
         :param locale: Response language
         :param currency: If provided, the `minimumAmount` and `maximumAmount` will be converted to the given currency. An error is returned if the currency is not supported by the payment method.
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param sequence_type: Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -552,8 +580,10 @@ class Methods(BaseSDK):
             id=id,
             locale=locale,
             currency=currency,
+            profile_id=profile_id,
             include=include,
             sequence_type=sequence_type,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -625,8 +655,10 @@ class Methods(BaseSDK):
         id: str,
         locale: OptionalNullable[models.Locale] = UNSET,
         currency: Optional[str] = None,
+        profile_id: Optional[str] = None,
         include: OptionalNullable[str] = UNSET,
         sequence_type: Optional[models.SequenceType] = None,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -651,8 +683,10 @@ class Methods(BaseSDK):
         :param id: Provide the ID of the item you want to perform this operation on.
         :param locale: Response language
         :param currency: If provided, the `minimumAmount` and `maximumAmount` will be converted to the given currency. An error is returned if the currency is not supported by the payment method.
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
         :param sequence_type: Set this parameter to `first` to only return the methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -673,8 +707,10 @@ class Methods(BaseSDK):
             id=id,
             locale=locale,
             currency=currency,
+            profile_id=profile_id,
             include=include,
             sequence_type=sequence_type,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 

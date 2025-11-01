@@ -247,6 +247,7 @@ class Captures(BaseSDK):
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
         embed: OptionalNullable[str] = UNSET,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -263,6 +264,7 @@ class Captures(BaseSDK):
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -284,6 +286,7 @@ class Captures(BaseSDK):
             from_=from_,
             limit=limit,
             embed=embed,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -355,6 +358,7 @@ class Captures(BaseSDK):
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
         embed: OptionalNullable[str] = UNSET,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -371,6 +375,7 @@ class Captures(BaseSDK):
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -392,6 +397,7 @@ class Captures(BaseSDK):
             from_=from_,
             limit=limit,
             embed=embed,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -462,6 +468,7 @@ class Captures(BaseSDK):
         payment_id: str,
         capture_id: str,
         embed: OptionalNullable[str] = UNSET,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -476,6 +483,7 @@ class Captures(BaseSDK):
         :param payment_id: Provide the ID of the related payment.
         :param capture_id: Provide the ID of the related capture.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -496,6 +504,7 @@ class Captures(BaseSDK):
             payment_id=payment_id,
             capture_id=capture_id,
             embed=embed,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -566,6 +575,7 @@ class Captures(BaseSDK):
         payment_id: str,
         capture_id: str,
         embed: OptionalNullable[str] = UNSET,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -580,6 +590,7 @@ class Captures(BaseSDK):
         :param payment_id: Provide the ID of the related payment.
         :param capture_id: Provide the ID of the related capture.
         :param embed: This endpoint allows embedding related API items by appending the following values via the `embed` query string parameter.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -600,6 +611,7 @@ class Captures(BaseSDK):
             payment_id=payment_id,
             capture_id=capture_id,
             embed=embed,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 

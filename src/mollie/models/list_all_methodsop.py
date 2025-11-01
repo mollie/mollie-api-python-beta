@@ -73,6 +73,20 @@ class ListAllMethodsRequestTypedDict(TypedDict):
 
     Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.
     """
+    profile_id: NotRequired[str]
+    r"""The identifier referring to the [profile](get-profile) you wish to
+    retrieve the resources for.
+
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For
+    organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    """
+    testmode: NotRequired[bool]
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
+
+    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    """
     idempotency_key: NotRequired[str]
     r"""A unique key to ensure idempotent requests. This key should be a UUID v4 string."""
 
@@ -111,6 +125,29 @@ class ListAllMethodsRequest(BaseModel):
     Set it to `recurring` to only return methods that can be used for recurring payments or subscriptions.
     """
 
+    profile_id: Annotated[
+        Optional[str],
+        pydantic.Field(alias="profileId"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""The identifier referring to the [profile](get-profile) you wish to
+    retrieve the resources for.
+
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For
+    organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+    """
+
+    testmode: Annotated[
+        Optional[bool],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
+    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
+    setting the `testmode` query parameter to `true`.
+
+    Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
+    """
+
     idempotency_key: Annotated[
         Optional[str],
         pydantic.Field(alias="idempotency-key"),
@@ -125,6 +162,8 @@ class ListAllMethodsRequest(BaseModel):
             "amount",
             "include",
             "sequenceType",
+            "profileId",
+            "testmode",
             "idempotency-key",
         ]
         nullable_fields = ["locale", "include"]

@@ -232,6 +232,7 @@ class Customers(BaseSDK):
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
         sort: Optional[models.Sorting] = None,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -247,6 +248,7 @@ class Customers(BaseSDK):
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -267,6 +269,7 @@ class Customers(BaseSDK):
             from_=from_,
             limit=limit,
             sort=sort,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -337,6 +340,7 @@ class Customers(BaseSDK):
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
         sort: Optional[models.Sorting] = None,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -352,6 +356,7 @@ class Customers(BaseSDK):
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -372,6 +377,7 @@ class Customers(BaseSDK):
             from_=from_,
             limit=limit,
             sort=sort,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -441,6 +447,7 @@ class Customers(BaseSDK):
         *,
         customer_id: str,
         include: OptionalNullable[str] = UNSET,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -453,6 +460,7 @@ class Customers(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -472,6 +480,7 @@ class Customers(BaseSDK):
         request = models.GetCustomerRequest(
             customer_id=customer_id,
             include=include,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -541,6 +550,7 @@ class Customers(BaseSDK):
         *,
         customer_id: str,
         include: OptionalNullable[str] = UNSET,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -553,6 +563,7 @@ class Customers(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -572,6 +583,7 @@ class Customers(BaseSDK):
         request = models.GetCustomerRequest(
             customer_id=customer_id,
             include=include,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -1327,6 +1339,8 @@ class Customers(BaseSDK):
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
         sort: Optional[models.Sorting] = None,
+        profile_id: Optional[str] = None,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1341,6 +1355,8 @@ class Customers(BaseSDK):
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1362,6 +1378,8 @@ class Customers(BaseSDK):
             from_=from_,
             limit=limit,
             sort=sort,
+            profile_id=profile_id,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -1436,6 +1454,8 @@ class Customers(BaseSDK):
         from_: Optional[str] = None,
         limit: OptionalNullable[int] = UNSET,
         sort: Optional[models.Sorting] = None,
+        profile_id: Optional[str] = None,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1450,6 +1470,8 @@ class Customers(BaseSDK):
         :param from_: Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.
         :param limit: The maximum number of items to return. Defaults to 50 items.
         :param sort: Used for setting the direction of the result set. Defaults to descending order, meaning the results are ordered from newest to oldest.
+        :param profile_id: The identifier referring to the [profile](get-profile) you wish to retrieve the resources for.  Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1471,6 +1493,8 @@ class Customers(BaseSDK):
             from_=from_,
             limit=limit,
             sort=sort,
+            profile_id=profile_id,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 

@@ -224,6 +224,7 @@ class DelayedRouting(BaseSDK):
         self,
         *,
         payment_id: str,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -235,6 +236,7 @@ class DelayedRouting(BaseSDK):
         Retrieve a list of all routes created for a specific payment.
 
         :param payment_id: Provide the ID of the related payment.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -253,6 +255,7 @@ class DelayedRouting(BaseSDK):
 
         request = models.PaymentListRoutesRequest(
             payment_id=payment_id,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 
@@ -321,6 +324,7 @@ class DelayedRouting(BaseSDK):
         self,
         *,
         payment_id: str,
+        testmode: Optional[bool] = None,
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -332,6 +336,7 @@ class DelayedRouting(BaseSDK):
         Retrieve a list of all routes created for a specific payment.
 
         :param payment_id: Provide the ID of the related payment.
+        :param testmode: Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting the `testmode` query parameter to `true`.  Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -350,6 +355,7 @@ class DelayedRouting(BaseSDK):
 
         request = models.PaymentListRoutesRequest(
             payment_id=payment_id,
+            testmode=testmode,
             idempotency_key=idempotency_key,
         )
 

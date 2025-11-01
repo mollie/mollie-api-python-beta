@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: b6661eb9b40ffcab33c17e11212e8bab
+  docChecksum: 04af8e2301bc33abd357c925d77cd2d6
   docVersion: 1.0.0
   speakeasyVersion: 1.640.0
   generationVersion: 2.730.5
-  releaseVersion: 0.16.1
-  configChecksum: b8e3a734251488f49b0887698e39682c
+  releaseVersion: 0.17.1
+  configChecksum: 31bc5aba85264cd0857198e77eb9dc12
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -25,7 +25,6 @@ features:
     globalServerURLs: 3.1.1
     globals: 3.0.0
     groups: 3.0.1
-    hiddenGlobals: 1.0.0
     inputOutputModels: 3.0.0
     methodArguments: 1.0.2
     nameOverrides: 3.0.1
@@ -5401,50 +5400,50 @@ examplesVersion: 1.0.2
 generatedTests: {}
 releaseNotes: |
   ## Python SDK Changes Detected:
-  * `client.balances.list()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.balances.get()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.balances.get-report()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.balances.list-transactions()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.settlements.list-payments()`:  `request` **Changed** **Breaking** :warning:
-  * `client.settlements.list-captures()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.settlements.list-refunds()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.settlements.list-chargebacks()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.permissions.get()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.organizations.get()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.profiles.get()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.webhooks.list()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.webhooks.get()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.webhook-events.get()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.balance-transfers.list()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.balance-transfers.get()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.payments.list()`:  `request` **Changed** **Breaking** :warning:
-  * `client.payments.get()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.methods.list()`:  `request` **Changed** **Breaking** :warning:
-  * `client.methods.all()`:  `request` **Changed** **Breaking** :warning:
-  * `client.methods.get()`:  `request` **Changed** **Breaking** :warning:
-  * `client.refunds.list()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.refunds.get()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.refunds.cancel()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.refunds.all()`:  `request` **Changed** **Breaking** :warning:
-  * `client.chargebacks.list()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.chargebacks.get()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.chargebacks.all()`:  `request` **Changed** **Breaking** :warning:
-  * `client.captures.list()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.captures.get()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.payment-links.list()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.payment-links.get()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.payment-links.list-payments()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.terminals.list()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.terminals.get()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.delayed-routing.list()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.customers.list()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.customers.get()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.customers.list-payments()`:  `request` **Changed** **Breaking** :warning:
-  * `client.mandates.list()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.mandates.get()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.subscriptions.list()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.subscriptions.get()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.subscriptions.all()`:  `request` **Changed** **Breaking** :warning:
-  * `client.subscriptions.list-payments()`:  `request` **Changed** **Breaking** :warning:
-  * `client.sales-invoices.list()`:  `request.testmode` **Removed** **Breaking** :warning:
-  * `client.sales-invoices.get()`:  `request.testmode` **Removed** **Breaking** :warning:
+  * `client.balances.list()`:  `request.testmode` **Added**
+  * `client.balances.get()`:  `request.testmode` **Added**
+  * `client.balances.get-report()`:  `request.testmode` **Added**
+  * `client.balances.list-transactions()`:  `request.testmode` **Added**
+  * `client.settlements.list-payments()`:  `request` **Changed**
+  * `client.settlements.list-captures()`:  `request.testmode` **Added**
+  * `client.settlements.list-refunds()`:  `request.testmode` **Added**
+  * `client.settlements.list-chargebacks()`:  `request.testmode` **Added**
+  * `client.permissions.get()`:  `request.testmode` **Added**
+  * `client.organizations.get()`:  `request.testmode` **Added**
+  * `client.profiles.get()`:  `request.testmode` **Added**
+  * `client.webhooks.list()`:  `request.testmode` **Added**
+  * `client.webhooks.get()`:  `request.testmode` **Added**
+  * `client.webhook-events.get()`:  `request.testmode` **Added**
+  * `client.balance-transfers.list()`:  `request.testmode` **Added**
+  * `client.balance-transfers.get()`:  `request.testmode` **Added**
+  * `client.payments.list()`:  `request` **Changed**
+  * `client.payments.get()`:  `request.testmode` **Added**
+  * `client.methods.list()`:  `request` **Changed**
+  * `client.methods.all()`:  `request` **Changed**
+  * `client.methods.get()`:  `request` **Changed**
+  * `client.refunds.list()`:  `request.testmode` **Added**
+  * `client.refunds.get()`:  `request.testmode` **Added**
+  * `client.refunds.cancel()`:  `request.testmode` **Added**
+  * `client.refunds.all()`:  `request` **Changed**
+  * `client.chargebacks.list()`:  `request.testmode` **Added**
+  * `client.chargebacks.get()`:  `request.testmode` **Added**
+  * `client.chargebacks.all()`:  `request` **Changed**
+  * `client.captures.list()`:  `request.testmode` **Added**
+  * `client.captures.get()`:  `request.testmode` **Added**
+  * `client.payment-links.list()`:  `request.testmode` **Added**
+  * `client.payment-links.get()`:  `request.testmode` **Added**
+  * `client.payment-links.list-payments()`:  `request.testmode` **Added**
+  * `client.terminals.list()`:  `request.testmode` **Added**
+  * `client.terminals.get()`:  `request.testmode` **Added**
+  * `client.delayed-routing.list()`:  `request.testmode` **Added**
+  * `client.customers.list()`:  `request.testmode` **Added**
+  * `client.customers.get()`:  `request.testmode` **Added**
+  * `client.customers.list-payments()`:  `request` **Changed**
+  * `client.mandates.list()`:  `request.testmode` **Added**
+  * `client.mandates.get()`:  `request.testmode` **Added**
+  * `client.subscriptions.list()`:  `request.testmode` **Added**
+  * `client.subscriptions.get()`:  `request.testmode` **Added**
+  * `client.subscriptions.all()`:  `request` **Changed**
+  * `client.subscriptions.list-payments()`:  `request` **Changed**
+  * `client.sales-invoices.list()`:  `request.testmode` **Added**
+  * `client.sales-invoices.get()`:  `request.testmode` **Added**
