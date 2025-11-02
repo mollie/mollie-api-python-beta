@@ -5,8 +5,8 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.640.0
   generationVersion: 2.730.5
-  releaseVersion: 0.17.1
-  configChecksum: 31bc5aba85264cd0857198e77eb9dc12
+  releaseVersion: 0.18.1
+  configChecksum: eda305e8699fa4a0544d6c4e2fc3ffe9
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -5398,52 +5398,3 @@ examples:
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "The resource does not exist", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
 examplesVersion: 1.0.2
 generatedTests: {}
-releaseNotes: |
-  ## Python SDK Changes Detected:
-  * `client.balances.list()`:  `request.testmode` **Added**
-  * `client.balances.get()`:  `request.testmode` **Added**
-  * `client.balances.get-report()`:  `request.testmode` **Added**
-  * `client.balances.list-transactions()`:  `request.testmode` **Added**
-  * `client.settlements.list-payments()`:  `request` **Changed**
-  * `client.settlements.list-captures()`:  `request.testmode` **Added**
-  * `client.settlements.list-refunds()`:  `request.testmode` **Added**
-  * `client.settlements.list-chargebacks()`:  `request.testmode` **Added**
-  * `client.permissions.get()`:  `request.testmode` **Added**
-  * `client.organizations.get()`:  `request.testmode` **Added**
-  * `client.profiles.get()`:  `request.testmode` **Added**
-  * `client.webhooks.list()`:  `request.testmode` **Added**
-  * `client.webhooks.get()`:  `request.testmode` **Added**
-  * `client.webhook-events.get()`:  `request.testmode` **Added**
-  * `client.balance-transfers.list()`:  `request.testmode` **Added**
-  * `client.balance-transfers.get()`:  `request.testmode` **Added**
-  * `client.payments.list()`:  `request` **Changed**
-  * `client.payments.get()`:  `request.testmode` **Added**
-  * `client.methods.list()`:  `request` **Changed**
-  * `client.methods.all()`:  `request` **Changed**
-  * `client.methods.get()`:  `request` **Changed**
-  * `client.refunds.list()`:  `request.testmode` **Added**
-  * `client.refunds.get()`:  `request.testmode` **Added**
-  * `client.refunds.cancel()`:  `request.testmode` **Added**
-  * `client.refunds.all()`:  `request` **Changed**
-  * `client.chargebacks.list()`:  `request.testmode` **Added**
-  * `client.chargebacks.get()`:  `request.testmode` **Added**
-  * `client.chargebacks.all()`:  `request` **Changed**
-  * `client.captures.list()`:  `request.testmode` **Added**
-  * `client.captures.get()`:  `request.testmode` **Added**
-  * `client.payment-links.list()`:  `request.testmode` **Added**
-  * `client.payment-links.get()`:  `request.testmode` **Added**
-  * `client.payment-links.list-payments()`:  `request.testmode` **Added**
-  * `client.terminals.list()`:  `request.testmode` **Added**
-  * `client.terminals.get()`:  `request.testmode` **Added**
-  * `client.delayed-routing.list()`:  `request.testmode` **Added**
-  * `client.customers.list()`:  `request.testmode` **Added**
-  * `client.customers.get()`:  `request.testmode` **Added**
-  * `client.customers.list-payments()`:  `request` **Changed**
-  * `client.mandates.list()`:  `request.testmode` **Added**
-  * `client.mandates.get()`:  `request.testmode` **Added**
-  * `client.subscriptions.list()`:  `request.testmode` **Added**
-  * `client.subscriptions.get()`:  `request.testmode` **Added**
-  * `client.subscriptions.all()`:  `request` **Changed**
-  * `client.subscriptions.list-payments()`:  `request` **Changed**
-  * `client.sales-invoices.list()`:  `request.testmode` **Added**
-  * `client.sales-invoices.get()`:  `request.testmode` **Added**
