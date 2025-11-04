@@ -594,6 +594,10 @@ class PaymentResponseDetailsTypedDict(TypedDict):
     r"""The payment method used to pay the remainder amount, after all gift cards or vouchers were applied."""
     remainder_details: NotRequired[Dict[str, Any]]
     r"""Optional include. The full payment method details of the remainder payment."""
+    multibanco_reference: NotRequired[Nullable[str]]
+    r"""Multibanco payment reference of the transaction"""
+    multibanco_entity: NotRequired[Nullable[str]]
+    r"""Multibanco entity reference of the transaction"""
 
 
 class PaymentResponseDetails(BaseModel):
@@ -893,6 +897,16 @@ class PaymentResponseDetails(BaseModel):
     ] = None
     r"""Optional include. The full payment method details of the remainder payment."""
 
+    multibanco_reference: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="multibancoReference")
+    ] = UNSET
+    r"""Multibanco payment reference of the transaction"""
+
+    multibanco_entity: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="multibancoEntity")
+    ] = UNSET
+    r"""Multibanco entity reference of the transaction"""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
@@ -946,6 +960,8 @@ class PaymentResponseDetails(BaseModel):
             "remainderAmount",
             "remainderMethod",
             "remainderDetails",
+            "multibancoReference",
+            "multibancoEntity",
         ]
         nullable_fields = [
             "consumerName",
@@ -984,6 +1000,8 @@ class PaymentResponseDetails(BaseModel):
             "mandateReference",
             "batchReference",
             "fileReference",
+            "multibancoReference",
+            "multibancoEntity",
         ]
         null_default_fields = []
 
