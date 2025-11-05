@@ -5,8 +5,8 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.640.0
   generationVersion: 2.730.5
-  releaseVersion: 0.20.1
-  configChecksum: fe6a52c22ef5f4d6de76bd1784ab5d17
+  releaseVersion: 0.21.1
+  configChecksum: 7136ab0a6d115ee0365fef74f54adc3e
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -5398,15 +5398,3 @@ examples:
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "The resource does not exist", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
 examplesVersion: 1.0.2
 generatedTests: {}
-releaseNotes: |
-  ## Python SDK Changes Detected:
-  * `client.settlements.list-payments()`:  `response._embedded.payments.[].details` **Changed**
-  * `client.payments.create()`:  `response.details` **Changed**
-  * `client.payments.list()`:  `response._embedded.payments.[].details` **Changed**
-  * `client.payments.get()`:  `response.details` **Changed**
-  * `client.payments.update()`:  `response.details` **Changed**
-  * `client.payments.cancel()`:  `response.details` **Changed**
-  * `client.payment-links.list-payments()`:  `response._embedded.payments.[].details` **Changed**
-  * `client.customers.create-payment()`:  `response.details` **Changed**
-  * `client.customers.list-payments()`:  `response._embedded.payments.[].details` **Changed**
-  * `client.subscriptions.list-payments()`:  `response._embedded.payments.[].details` **Changed**
