@@ -196,24 +196,24 @@ class GetCustomerLinks(BaseModel):
 class GetCustomerResponseTypedDict(TypedDict):
     r"""The customer object."""
 
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
-    id: NotRequired[str]
-    mode: NotRequired[Mode]
+    id: str
+    mode: Mode
     r"""Whether this entity was created in live mode or in test mode."""
-    name: NotRequired[Nullable[str]]
+    name: Nullable[str]
     r"""The full name of the customer."""
-    email: NotRequired[Nullable[str]]
+    email: Nullable[str]
     r"""The email address of the customer."""
-    locale: NotRequired[Nullable[LocaleResponse]]
+    locale: Nullable[LocaleResponse]
     r"""Allows you to preset the language to be used."""
-    metadata: NotRequired[Nullable[MetadataTypedDict]]
+    metadata: Nullable[MetadataTypedDict]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-    created_at: NotRequired[str]
+    created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: NotRequired[GetCustomerLinksTypedDict]
+    links: GetCustomerLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     events: NotRequired[List[EntityEventTypedDict]]
 
@@ -221,52 +221,41 @@ class GetCustomerResponseTypedDict(TypedDict):
 class GetCustomerResponse(BaseModel):
     r"""The customer object."""
 
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
 
-    id: Optional[str] = None
+    id: str
 
-    mode: Annotated[Optional[Mode], PlainValidator(validate_open_enum(False))] = None
+    mode: Annotated[Mode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
 
-    name: OptionalNullable[str] = UNSET
+    name: Nullable[str]
     r"""The full name of the customer."""
 
-    email: OptionalNullable[str] = UNSET
+    email: Nullable[str]
     r"""The email address of the customer."""
 
     locale: Annotated[
-        OptionalNullable[LocaleResponse], PlainValidator(validate_open_enum(False))
-    ] = UNSET
+        Nullable[LocaleResponse], PlainValidator(validate_open_enum(False))
+    ]
     r"""Allows you to preset the language to be used."""
 
-    metadata: OptionalNullable[Metadata] = UNSET
+    metadata: Nullable[Metadata]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
 
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    links: Annotated[Optional[GetCustomerLinks], pydantic.Field(alias="_links")] = None
+    links: Annotated[GetCustomerLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     events: Optional[List[EntityEvent]] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "resource",
-            "id",
-            "mode",
-            "name",
-            "email",
-            "locale",
-            "metadata",
-            "createdAt",
-            "_links",
-            "events",
-        ]
+        optional_fields = ["events"]
         nullable_fields = ["name", "email", "locale", "metadata"]
         null_default_fields = []
 

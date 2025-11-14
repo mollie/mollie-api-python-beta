@@ -16,14 +16,14 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class EntityRefundExternalReferenceTypedDict(TypedDict):
+class RefundRequestExternalReferenceTypedDict(TypedDict):
     type: NotRequired[RefundExternalReferenceType]
     r"""Specifies the reference type"""
     id: NotRequired[str]
     r"""Unique reference from the payment provider"""
 
 
-class EntityRefundExternalReference(BaseModel):
+class RefundRequestExternalReference(BaseModel):
     type: Optional[RefundExternalReferenceType] = None
     r"""Specifies the reference type"""
 
@@ -31,7 +31,7 @@ class EntityRefundExternalReference(BaseModel):
     r"""Unique reference from the payment provider"""
 
 
-class EntityRefundSourceTypedDict(TypedDict):
+class RefundRequestSourceTypedDict(TypedDict):
     r"""Where the funds will be pulled back from."""
 
     type: NotRequired[RefundRoutingReversalsSourceType]
@@ -39,7 +39,7 @@ class EntityRefundSourceTypedDict(TypedDict):
     organization_id: NotRequired[str]
 
 
-class EntityRefundSource(BaseModel):
+class RefundRequestSource(BaseModel):
     r"""Where the funds will be pulled back from."""
 
     type: Optional[RefundRoutingReversalsSourceType] = None
@@ -50,22 +50,22 @@ class EntityRefundSource(BaseModel):
     ] = None
 
 
-class EntityRefundRoutingReversalTypedDict(TypedDict):
+class RefundRequestRoutingReversalTypedDict(TypedDict):
     amount: NotRequired[AmountTypedDict]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    source: NotRequired[EntityRefundSourceTypedDict]
+    source: NotRequired[RefundRequestSourceTypedDict]
     r"""Where the funds will be pulled back from."""
 
 
-class EntityRefundRoutingReversal(BaseModel):
+class RefundRequestRoutingReversal(BaseModel):
     amount: Optional[Amount] = None
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    source: Optional[EntityRefundSource] = None
+    source: Optional[RefundRequestSource] = None
     r"""Where the funds will be pulled back from."""
 
 
-class EntityRefundTypedDict(TypedDict):
+class RefundRequestTypedDict(TypedDict):
     id: str
     description: str
     r"""The description of the refund that may be shown to your customer, depending on the payment method used."""
@@ -80,7 +80,7 @@ class EntityRefundTypedDict(TypedDict):
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     payment_id: NotRequired[str]
     settlement_id: NotRequired[str]
-    external_reference: NotRequired[EntityRefundExternalReferenceTypedDict]
+    external_reference: NotRequired[RefundRequestExternalReferenceTypedDict]
     reverse_routing: NotRequired[Nullable[bool]]
     r"""*This feature is only available to marketplace operators.*
 
@@ -94,7 +94,9 @@ class EntityRefundTypedDict(TypedDict):
 
     For more fine-grained control and for partial refunds, use the `routingReversals` parameter instead.
     """
-    routing_reversals: NotRequired[Nullable[List[EntityRefundRoutingReversalTypedDict]]]
+    routing_reversals: NotRequired[
+        Nullable[List[RefundRequestRoutingReversalTypedDict]]
+    ]
     r"""*This feature is only available to marketplace operators.*
 
     When creating refunds for *routed* payments, by default the full amount is deducted from your balance.
@@ -113,7 +115,7 @@ class EntityRefundTypedDict(TypedDict):
     """
 
 
-class EntityRefund(BaseModel):
+class RefundRequest(BaseModel):
     id: str
 
     description: str
@@ -139,7 +141,7 @@ class EntityRefund(BaseModel):
     settlement_id: Annotated[Optional[str], pydantic.Field(alias="settlementId")] = None
 
     external_reference: Annotated[
-        Optional[EntityRefundExternalReference],
+        Optional[RefundRequestExternalReference],
         pydantic.Field(alias="externalReference"),
     ] = None
 
@@ -160,7 +162,7 @@ class EntityRefund(BaseModel):
     """
 
     routing_reversals: Annotated[
-        OptionalNullable[List[EntityRefundRoutingReversal]],
+        OptionalNullable[List[RefundRequestRoutingReversal]],
         pydantic.Field(alias="routingReversals"),
     ] = UNSET
     r"""*This feature is only available to marketplace operators.*

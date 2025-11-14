@@ -87,77 +87,96 @@ class ProfileResponseLinks(BaseModel):
 
 
 class ProfileResponseTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a profile object. Will always contain the string `profile` for this endpoint."""
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this profile. Example: `pfl_v9hTwCvYqw`."""
-    mode: NotRequired[Mode]
+    mode: Mode
     r"""Whether this entity was created in live mode or in test mode."""
-    name: NotRequired[str]
+    name: str
     r"""The profile's name, this will usually reflect the trade name or brand name of the profile's website or
     application.
     """
-    website: NotRequired[str]
+    website: str
     r"""The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are
     allowed.
     """
-    email: NotRequired[str]
+    email: str
     r"""The email address associated with the profile's trade name or brand."""
-    phone: NotRequired[str]
+    phone: str
     r"""The phone number associated with the profile's trade name or brand."""
-    description: NotRequired[str]
-    r"""The products or services offered by the profile's website or application."""
-    countries_of_activity: NotRequired[List[str]]
-    r"""A list of countries where you expect that the majority of the profile's customers reside,
-    in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
-    """
-    business_category: NotRequired[str]
+    business_category: str
     r"""The industry associated with the profile's trade name or brand. Please refer to the
     [business category list](common-data-types#business-category) for all possible options.
     """
-    status: NotRequired[ProfileStatus]
+    status: ProfileStatus
     r"""The profile status determines whether the profile is able to receive live payments.
 
     * `unverified`: The profile has not been verified yet and can only be used to create test payments.
     * `verified`: The profile has been verified and can be used to create live payments and test payments.
     * `blocked`: The profile is blocked and can no longer be used or changed.
     """
+    created_at: str
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    links: ProfileResponseLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+    description: NotRequired[str]
+    r"""The products or services offered by the profile's website or application."""
+    countries_of_activity: NotRequired[List[str]]
+    r"""A list of countries where you expect that the majority of the profile's customers reside,
+    in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+    """
     review: NotRequired[ReviewTypedDict]
     r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved
     automatically, unless a switch to a live profile has been requested. The review object will therefore usually be
     `null` in test mode.
     """
-    created_at: NotRequired[str]
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: NotRequired[ProfileResponseLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class ProfileResponse(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a profile object. Will always contain the string `profile` for this endpoint."""
 
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this profile. Example: `pfl_v9hTwCvYqw`."""
 
-    mode: Annotated[Optional[Mode], PlainValidator(validate_open_enum(False))] = None
+    mode: Annotated[Mode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
 
-    name: Optional[str] = None
+    name: str
     r"""The profile's name, this will usually reflect the trade name or brand name of the profile's website or
     application.
     """
 
-    website: Optional[str] = None
+    website: str
     r"""The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are
     allowed.
     """
 
-    email: Optional[str] = None
+    email: str
     r"""The email address associated with the profile's trade name or brand."""
 
-    phone: Optional[str] = None
+    phone: str
     r"""The phone number associated with the profile's trade name or brand."""
+
+    business_category: Annotated[str, pydantic.Field(alias="businessCategory")]
+    r"""The industry associated with the profile's trade name or brand. Please refer to the
+    [business category list](common-data-types#business-category) for all possible options.
+    """
+
+    status: Annotated[ProfileStatus, PlainValidator(validate_open_enum(False))]
+    r"""The profile status determines whether the profile is able to receive live payments.
+
+    * `unverified`: The profile has not been verified yet and can only be used to create test payments.
+    * `verified`: The profile has been verified and can be used to create live payments and test payments.
+    * `blocked`: The profile is blocked and can no longer be used or changed.
+    """
+
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
+    links: Annotated[ProfileResponseLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     description: Optional[str] = None
     r"""The products or services offered by the profile's website or application."""
@@ -169,33 +188,8 @@ class ProfileResponse(BaseModel):
     in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
     """
 
-    business_category: Annotated[
-        Optional[str], pydantic.Field(alias="businessCategory")
-    ] = None
-    r"""The industry associated with the profile's trade name or brand. Please refer to the
-    [business category list](common-data-types#business-category) for all possible options.
-    """
-
-    status: Annotated[
-        Optional[ProfileStatus], PlainValidator(validate_open_enum(False))
-    ] = None
-    r"""The profile status determines whether the profile is able to receive live payments.
-
-    * `unverified`: The profile has not been verified yet and can only be used to create test payments.
-    * `verified`: The profile has been verified and can be used to create live payments and test payments.
-    * `blocked`: The profile is blocked and can no longer be used or changed.
-    """
-
     review: Optional[Review] = None
     r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved
     automatically, unless a switch to a live profile has been requested. The review object will therefore usually be
     `null` in test mode.
     """
-
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-
-    links: Annotated[Optional[ProfileResponseLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""

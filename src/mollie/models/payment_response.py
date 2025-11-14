@@ -1129,12 +1129,12 @@ class PaymentResponseLinks(BaseModel):
 
 
 class PaymentResponseTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a payment object. Will always contain the string `payment` for this endpoint."""
-    id: NotRequired[str]
-    mode: NotRequired[Mode]
+    id: str
+    mode: Mode
     r"""Whether this entity was created in live mode or in test mode."""
-    description: NotRequired[str]
+    description: str
     r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible.
     We truncate the description automatically according to the limits of the used payment method. The description is
     also visible in any exports you generate.
@@ -1145,8 +1145,24 @@ class PaymentResponseTypedDict(TypedDict):
     The maximum length of the description field differs per payment method, with the absolute maximum being 255
     characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
     """
-    amount: NotRequired[AmountTypedDict]
+    amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    sequence_type: SequenceTypeResponse
+    profile_id: str
+    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
+
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation
+    request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
+    required.
+    """
+    status: PaymentStatus
+    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
+    statuses occur at what point.
+    """
+    created_at: str
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    links: PaymentResponseLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     amount_refunded: NotRequired[AmountTypedDict]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     amount_remaining: NotRequired[AmountTypedDict]
@@ -1285,23 +1301,11 @@ class PaymentResponseTypedDict(TypedDict):
     If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee`
     parameter.
     """
-    sequence_type: NotRequired[SequenceTypeResponse]
     subscription_id: NotRequired[str]
     mandate_id: NotRequired[str]
     customer_id: NotRequired[str]
-    profile_id: NotRequired[str]
-    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
-
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation
-    request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
-    required.
-    """
     settlement_id: NotRequired[str]
     order_id: NotRequired[str]
-    status: NotRequired[PaymentStatus]
-    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
-    statuses occur at what point.
-    """
     status_reason: NotRequired[Nullable[StatusReasonTypedDict]]
     r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale
     payments.
@@ -1316,8 +1320,6 @@ class PaymentResponseTypedDict(TypedDict):
     customer's card or bank details and a payment reference. For the full list of details, please refer to the
     [method-specific parameters](extra-payment-parameters) guide.
     """
-    created_at: NotRequired[str]
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     authorized_at: NotRequired[Nullable[str]]
     r"""The date and time the payment became authorized, in ISO 8601 format. This parameter is omitted if the payment is
     not authorized (yet).
@@ -1342,20 +1344,18 @@ class PaymentResponseTypedDict(TypedDict):
     r"""The date and time the payment failed, in ISO 8601 format. This parameter is omitted if the payment did not fail
     (yet).
     """
-    links: NotRequired[PaymentResponseLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class PaymentResponse(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a payment object. Will always contain the string `payment` for this endpoint."""
 
-    id: Optional[str] = None
+    id: str
 
-    mode: Annotated[Optional[Mode], PlainValidator(validate_open_enum(False))] = None
+    mode: Annotated[Mode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
 
-    description: Optional[str] = None
+    description: str
     r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible.
     We truncate the description automatically according to the limits of the used payment method. The description is
     also visible in any exports you generate.
@@ -1367,8 +1367,32 @@ class PaymentResponse(BaseModel):
     characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
     """
 
-    amount: Optional[Amount] = None
+    amount: Amount
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    sequence_type: Annotated[
+        Annotated[SequenceTypeResponse, PlainValidator(validate_open_enum(False))],
+        pydantic.Field(alias="sequenceType"),
+    ]
+
+    profile_id: Annotated[str, pydantic.Field(alias="profileId")]
+    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
+
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation
+    request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
+    required.
+    """
+
+    status: Annotated[PaymentStatus, PlainValidator(validate_open_enum(False))]
+    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
+    statuses occur at what point.
+    """
+
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
+    links: Annotated[PaymentResponseLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     amount_refunded: Annotated[
         Optional[Amount], pydantic.Field(alias="amountRefunded")
@@ -1570,13 +1594,6 @@ class PaymentResponse(BaseModel):
     parameter.
     """
 
-    sequence_type: Annotated[
-        Annotated[
-            Optional[SequenceTypeResponse], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="sequenceType"),
-    ] = None
-
     subscription_id: Annotated[
         Optional[str], pydantic.Field(alias="subscriptionId")
     ] = None
@@ -1585,24 +1602,9 @@ class PaymentResponse(BaseModel):
 
     customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
 
-    profile_id: Annotated[Optional[str], pydantic.Field(alias="profileId")] = None
-    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
-
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation
-    request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
-    required.
-    """
-
     settlement_id: Annotated[Optional[str], pydantic.Field(alias="settlementId")] = None
 
     order_id: Annotated[Optional[str], pydantic.Field(alias="orderId")] = None
-
-    status: Annotated[
-        Optional[PaymentStatus], PlainValidator(validate_open_enum(False))
-    ] = None
-    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
-    statuses occur at what point.
-    """
 
     status_reason: Annotated[
         OptionalNullable[StatusReason], pydantic.Field(alias="statusReason")
@@ -1624,9 +1626,6 @@ class PaymentResponse(BaseModel):
     customer's card or bank details and a payment reference. For the full list of details, please refer to the
     [method-specific parameters](extra-payment-parameters) guide.
     """
-
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
     authorized_at: Annotated[
         OptionalNullable[str], pydantic.Field(alias="authorizedAt")
@@ -1668,19 +1667,9 @@ class PaymentResponse(BaseModel):
     (yet).
     """
 
-    links: Annotated[Optional[PaymentResponseLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "resource",
-            "id",
-            "mode",
-            "description",
-            "amount",
             "amountRefunded",
             "amountRemaining",
             "amountCaptured",
@@ -1702,25 +1691,20 @@ class PaymentResponse(BaseModel):
             "captureBefore",
             "applicationFee",
             "routing",
-            "sequenceType",
             "subscriptionId",
             "mandateId",
             "customerId",
-            "profileId",
             "settlementId",
             "orderId",
-            "status",
             "statusReason",
             "isCancelable",
             "details",
-            "createdAt",
             "authorizedAt",
             "paidAt",
             "canceledAt",
             "expiresAt",
             "expiredAt",
             "failedAt",
-            "_links",
         ]
         nullable_fields = [
             "redirectUrl",

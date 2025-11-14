@@ -8,8 +8,7 @@ from mollie.types import BaseModel
 from mollie.utils import validate_open_enum
 import pydantic
 from pydantic.functional_validators import PlainValidator
-from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import Annotated, TypedDict
 
 
 class RouteCreateResponseDestinationTypedDict(TypedDict):
@@ -51,38 +50,36 @@ class RouteCreateResponseLinks(BaseModel):
 
 
 class RouteCreateResponseTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
-    id: NotRequired[str]
-    payment_id: NotRequired[str]
-    amount: NotRequired[AmountTypedDict]
+    id: str
+    payment_id: str
+    amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    description: NotRequired[str]
+    description: str
     r"""The description of the route. This description is shown in the reports."""
-    destination: NotRequired[RouteCreateResponseDestinationTypedDict]
+    destination: RouteCreateResponseDestinationTypedDict
     r"""The destination of the route."""
-    links: NotRequired[RouteCreateResponseLinksTypedDict]
+    links: RouteCreateResponseLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class RouteCreateResponse(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
 
-    id: Optional[str] = None
+    id: str
 
-    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+    payment_id: Annotated[str, pydantic.Field(alias="paymentId")]
 
-    amount: Optional[Amount] = None
+    amount: Amount
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    description: Optional[str] = None
+    description: str
     r"""The description of the route. This description is shown in the reports."""
 
-    destination: Optional[RouteCreateResponseDestination] = None
+    destination: RouteCreateResponseDestination
     r"""The destination of the route."""
 
-    links: Annotated[
-        Optional[RouteCreateResponseLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[RouteCreateResponseLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""

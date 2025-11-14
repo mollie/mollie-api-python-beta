@@ -33,26 +33,24 @@ class ClientLinkResponseLinks(BaseModel):
 
 
 class ClientLinkResponseTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a client link object. Will always contain the string `client-link` for this
     endpoint.
     """
-    id: NotRequired[str]
+    id: str
     r"""The identifier uniquely referring to this client link. Example: `cl_vZCnNQsV2UtfXxYifWKWH`."""
-    links: NotRequired[ClientLinkResponseLinksTypedDict]
+    links: ClientLinkResponseLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class ClientLinkResponse(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a client link object. Will always contain the string `client-link` for this
     endpoint.
     """
 
-    id: Optional[str] = None
+    id: str
     r"""The identifier uniquely referring to this client link. Example: `cl_vZCnNQsV2UtfXxYifWKWH`."""
 
-    links: Annotated[
-        Optional[ClientLinkResponseLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[ClientLinkResponseLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""

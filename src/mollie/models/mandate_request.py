@@ -12,15 +12,15 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class EntityMandateTypedDict(TypedDict):
-    id: NotRequired[str]
-    method: NotRequired[MandateMethod]
+class MandateRequestTypedDict(TypedDict):
+    method: MandateMethod
     r"""Payment method of the mandate.
 
     SEPA Direct Debit and PayPal mandates can be created directly.
     """
-    consumer_name: NotRequired[str]
+    consumer_name: str
     r"""The customer's name."""
+    id: NotRequired[str]
     consumer_account: NotRequired[Nullable[str]]
     r"""The customer's IBAN. Required for SEPA Direct Debit mandates."""
     consumer_bic: NotRequired[Nullable[str]]
@@ -55,17 +55,17 @@ class EntityMandateTypedDict(TypedDict):
     """
 
 
-class EntityMandate(BaseModel):
-    id: Optional[str] = None
-
-    method: Optional[MandateMethod] = None
+class MandateRequest(BaseModel):
+    method: MandateMethod
     r"""Payment method of the mandate.
 
     SEPA Direct Debit and PayPal mandates can be created directly.
     """
 
-    consumer_name: Annotated[Optional[str], pydantic.Field(alias="consumerName")] = None
+    consumer_name: Annotated[str, pydantic.Field(alias="consumerName")]
     r"""The customer's name."""
+
+    id: Optional[str] = None
 
     consumer_account: Annotated[
         OptionalNullable[str], pydantic.Field(alias="consumerAccount")
@@ -129,8 +129,6 @@ class EntityMandate(BaseModel):
     def serialize_model(self, handler):
         optional_fields = [
             "id",
-            "method",
-            "consumerName",
             "consumerAccount",
             "consumerBic",
             "consumerEmail",

@@ -15,8 +15,8 @@ class RefundsSDK(BaseSDK):
         *,
         payment_id: str,
         idempotency_key: Optional[str] = None,
-        entity_refund: Optional[
-            Union[models.EntityRefund, models.EntityRefundTypedDict]
+        refund_request: Optional[
+            Union[models.RefundRequest, models.RefundRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -30,7 +30,7 @@ class RefundsSDK(BaseSDK):
 
         :param payment_id: Provide the ID of the related payment.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
-        :param entity_refund:
+        :param refund_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -49,8 +49,8 @@ class RefundsSDK(BaseSDK):
         request = models.CreateRefundRequest(
             payment_id=payment_id,
             idempotency_key=idempotency_key,
-            entity_refund=utils.get_pydantic_model(
-                entity_refund, Optional[models.EntityRefund]
+            refund_request=utils.get_pydantic_model(
+                refund_request, Optional[models.RefundRequest]
             ),
         )
 
@@ -68,11 +68,11 @@ class RefundsSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.entity_refund,
+                request.refund_request,
                 False,
                 True,
                 "json",
-                Optional[models.EntityRefund],
+                Optional[models.RefundRequest],
             ),
             timeout_ms=timeout_ms,
         )
@@ -126,8 +126,8 @@ class RefundsSDK(BaseSDK):
         *,
         payment_id: str,
         idempotency_key: Optional[str] = None,
-        entity_refund: Optional[
-            Union[models.EntityRefund, models.EntityRefundTypedDict]
+        refund_request: Optional[
+            Union[models.RefundRequest, models.RefundRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -141,7 +141,7 @@ class RefundsSDK(BaseSDK):
 
         :param payment_id: Provide the ID of the related payment.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
-        :param entity_refund:
+        :param refund_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -160,8 +160,8 @@ class RefundsSDK(BaseSDK):
         request = models.CreateRefundRequest(
             payment_id=payment_id,
             idempotency_key=idempotency_key,
-            entity_refund=utils.get_pydantic_model(
-                entity_refund, Optional[models.EntityRefund]
+            refund_request=utils.get_pydantic_model(
+                refund_request, Optional[models.RefundRequest]
             ),
         )
 
@@ -179,11 +179,11 @@ class RefundsSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.entity_refund,
+                request.refund_request,
                 False,
                 True,
                 "json",
-                Optional[models.EntityRefund],
+                Optional[models.RefundRequest],
             ),
             timeout_ms=timeout_ms,
         )
@@ -677,7 +677,7 @@ class RefundsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ):
         r"""Cancel payment refund
 
         Refunds will be executed with a delay of two hours. Until that time, refunds may be canceled manually via the
@@ -759,8 +759,8 @@ class RefundsSDK(BaseSDK):
         )
 
         response_data: Any = None
-        if utils.match_response(http_res, "204", "application/hal+json"):
-            return unmarshal_json_response(Any, http_res)
+        if utils.match_response(http_res, "204", "*"):
+            return
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)
@@ -784,7 +784,7 @@ class RefundsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ):
         r"""Cancel payment refund
 
         Refunds will be executed with a delay of two hours. Until that time, refunds may be canceled manually via the
@@ -866,8 +866,8 @@ class RefundsSDK(BaseSDK):
         )
 
         response_data: Any = None
-        if utils.match_response(http_res, "204", "application/hal+json"):
-            return unmarshal_json_response(Any, http_res)
+        if utils.match_response(http_res, "204", "*"):
+            return
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)

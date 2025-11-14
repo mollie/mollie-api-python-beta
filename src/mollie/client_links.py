@@ -14,8 +14,8 @@ class ClientLinks(BaseSDK):
         self,
         *,
         idempotency_key: Optional[str] = None,
-        entity_client_link: Optional[
-            Union[models.EntityClientLink, models.EntityClientLinkTypedDict]
+        client_link_request: Optional[
+            Union[models.ClientLinkRequest, models.ClientLinkRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -79,7 +79,7 @@ class ClientLinks(BaseSDK):
         > A client link must be used within 30 days of creation. After that period, it will expire and you will need to create a new client link.
 
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
-        :param entity_client_link:
+        :param client_link_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -97,8 +97,8 @@ class ClientLinks(BaseSDK):
 
         request = models.CreateClientLinkRequest(
             idempotency_key=idempotency_key,
-            entity_client_link=utils.get_pydantic_model(
-                entity_client_link, Optional[models.EntityClientLink]
+            client_link_request=utils.get_pydantic_model(
+                client_link_request, Optional[models.ClientLinkRequest]
             ),
         )
 
@@ -116,11 +116,11 @@ class ClientLinks(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.entity_client_link,
+                request.client_link_request,
                 False,
                 True,
                 "json",
-                Optional[models.EntityClientLink],
+                Optional[models.ClientLinkRequest],
             ),
             timeout_ms=timeout_ms,
         )
@@ -171,8 +171,8 @@ class ClientLinks(BaseSDK):
         self,
         *,
         idempotency_key: Optional[str] = None,
-        entity_client_link: Optional[
-            Union[models.EntityClientLink, models.EntityClientLinkTypedDict]
+        client_link_request: Optional[
+            Union[models.ClientLinkRequest, models.ClientLinkRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -236,7 +236,7 @@ class ClientLinks(BaseSDK):
         > A client link must be used within 30 days of creation. After that period, it will expire and you will need to create a new client link.
 
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
-        :param entity_client_link:
+        :param client_link_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -254,8 +254,8 @@ class ClientLinks(BaseSDK):
 
         request = models.CreateClientLinkRequest(
             idempotency_key=idempotency_key,
-            entity_client_link=utils.get_pydantic_model(
-                entity_client_link, Optional[models.EntityClientLink]
+            client_link_request=utils.get_pydantic_model(
+                client_link_request, Optional[models.ClientLinkRequest]
             ),
         )
 
@@ -273,11 +273,11 @@ class ClientLinks(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.entity_client_link,
+                request.client_link_request,
                 False,
                 True,
                 "json",
-                Optional[models.EntityClientLink],
+                Optional[models.ClientLinkRequest],
             ),
             timeout_ms=timeout_ms,
         )

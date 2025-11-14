@@ -118,48 +118,63 @@ class SubscriptionResponseLinks(BaseModel):
 
 
 class SubscriptionResponseTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a subscription object. Will always contain the string `subscription` for this
     endpoint.
     """
-    id: NotRequired[str]
-    mode: NotRequired[Mode]
+    id: str
+    mode: Mode
     r"""Whether this entity was created in live mode or in test mode."""
-    status: NotRequired[SubscriptionStatus]
+    status: SubscriptionStatus
     r"""The subscription's current status is directly related to the status of the underlying customer or mandate that is
     enabling the subscription.
     """
-    amount: NotRequired[AmountTypedDict]
+    amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    times: NotRequired[Nullable[int]]
+    times: Nullable[int]
     r"""Total number of payments for the subscription. Once this number of payments is reached, the subscription is
     considered completed.
 
     Test mode subscriptions will get canceled automatically after 10 payments.
     """
-    times_remaining: NotRequired[Nullable[int]]
+    times_remaining: Nullable[int]
     r"""Number of payments left for the subscription."""
-    interval: NotRequired[str]
+    interval: str
     r"""Interval to wait between payments, for example `1 month` or `14 days`.
 
     The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
 
     Possible values: `... days`, `... weeks`, `... months`.
     """
-    start_date: NotRequired[str]
+    start_date: str
     r"""The start date of the subscription in `YYYY-MM-DD` format."""
-    next_payment_date: NotRequired[Nullable[str]]
-    r"""The date of the next scheduled payment in `YYYY-MM-DD` format. If the subscription has been completed or canceled,
-    this parameter will not be returned.
-    """
-    description: NotRequired[str]
+    description: str
     r"""The subscription's description will be used as the description of the resulting individual payments and so showing
     up on the bank statement of the consumer.
 
     **Please note:** the description needs to be unique for the Customer in case it has multiple active subscriptions.
     """
-    method: NotRequired[Nullable[SubscriptionMethodResponse]]
+    method: Nullable[SubscriptionMethodResponse]
     r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
+    metadata: Nullable[MetadataTypedDict]
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+    you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+    """
+    webhook_url: str
+    r"""We will call this URL for any payment status changes of payments resulting from this subscription.
+
+    This webhook will receive **all** events for the subscription's payments. This may include payment failures as
+    well. Be sure to verify the payment's subscription ID and its status.
+    """
+    customer_id: str
+    created_at: str
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    links: SubscriptionResponseLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+    next_payment_date: NotRequired[Nullable[str]]
+    r"""The date of the next scheduled payment in `YYYY-MM-DD` format. If the subscription has been completed or canceled,
+    this parameter will not be returned.
+    """
     application_fee: NotRequired[SubscriptionResponseApplicationFeeTypedDict]
     r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
     merchants.
@@ -169,62 +184,43 @@ class SubscriptionResponseTypedDict(TypedDict):
     Refer to the `applicationFee` parameter on the [Get payment endpoint](get-payment) documentation for more
     information.
     """
-    metadata: NotRequired[Nullable[MetadataTypedDict]]
-    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
-    you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
-    """
-    webhook_url: NotRequired[str]
-    r"""We will call this URL for any payment status changes of payments resulting from this subscription.
-
-    This webhook will receive **all** events for the subscription's payments. This may include payment failures as
-    well. Be sure to verify the payment's subscription ID and its status.
-    """
-    customer_id: NotRequired[str]
     mandate_id: NotRequired[str]
-    created_at: NotRequired[str]
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     canceled_at: NotRequired[Nullable[str]]
     r"""The subscription's date and time of cancellation, in ISO 8601 format. This parameter is omitted if the
     subscription is not canceled (yet).
     """
-    links: NotRequired[SubscriptionResponseLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class SubscriptionResponse(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a subscription object. Will always contain the string `subscription` for this
     endpoint.
     """
 
-    id: Optional[str] = None
+    id: str
 
-    mode: Annotated[Optional[Mode], PlainValidator(validate_open_enum(False))] = None
+    mode: Annotated[Mode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
 
-    status: Annotated[
-        Optional[SubscriptionStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Annotated[SubscriptionStatus, PlainValidator(validate_open_enum(False))]
     r"""The subscription's current status is directly related to the status of the underlying customer or mandate that is
     enabling the subscription.
     """
 
-    amount: Optional[Amount] = None
+    amount: Amount
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    times: OptionalNullable[int] = UNSET
+    times: Nullable[int]
     r"""Total number of payments for the subscription. Once this number of payments is reached, the subscription is
     considered completed.
 
     Test mode subscriptions will get canceled automatically after 10 payments.
     """
 
-    times_remaining: Annotated[
-        OptionalNullable[int], pydantic.Field(alias="timesRemaining")
-    ] = UNSET
+    times_remaining: Annotated[Nullable[int], pydantic.Field(alias="timesRemaining")]
     r"""Number of payments left for the subscription."""
 
-    interval: Optional[str] = None
+    interval: str
     r"""Interval to wait between payments, for example `1 month` or `14 days`.
 
     The maximum interval is one year (`12 months`, `52 weeks`, or `365 days`).
@@ -232,17 +228,10 @@ class SubscriptionResponse(BaseModel):
     Possible values: `... days`, `... weeks`, `... months`.
     """
 
-    start_date: Annotated[Optional[str], pydantic.Field(alias="startDate")] = None
+    start_date: Annotated[str, pydantic.Field(alias="startDate")]
     r"""The start date of the subscription in `YYYY-MM-DD` format."""
 
-    next_payment_date: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="nextPaymentDate")
-    ] = UNSET
-    r"""The date of the next scheduled payment in `YYYY-MM-DD` format. If the subscription has been completed or canceled,
-    this parameter will not be returned.
-    """
-
-    description: Optional[str] = None
+    description: str
     r"""The subscription's description will be used as the description of the resulting individual payments and so showing
     up on the bank statement of the consumer.
 
@@ -250,10 +239,36 @@ class SubscriptionResponse(BaseModel):
     """
 
     method: Annotated[
-        OptionalNullable[SubscriptionMethodResponse],
-        PlainValidator(validate_open_enum(False)),
-    ] = UNSET
+        Nullable[SubscriptionMethodResponse], PlainValidator(validate_open_enum(False))
+    ]
     r"""The payment method used for this subscription. If omitted, any of the customer's valid mandates may be used."""
+
+    metadata: Nullable[Metadata]
+    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
+    you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
+    """
+
+    webhook_url: Annotated[str, pydantic.Field(alias="webhookUrl")]
+    r"""We will call this URL for any payment status changes of payments resulting from this subscription.
+
+    This webhook will receive **all** events for the subscription's payments. This may include payment failures as
+    well. Be sure to verify the payment's subscription ID and its status.
+    """
+
+    customer_id: Annotated[str, pydantic.Field(alias="customerId")]
+
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
+    links: Annotated[SubscriptionResponseLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    next_payment_date: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="nextPaymentDate")
+    ] = UNSET
+    r"""The date of the next scheduled payment in `YYYY-MM-DD` format. If the subscription has been completed or canceled,
+    this parameter will not be returned.
+    """
 
     application_fee: Annotated[
         Optional[SubscriptionResponseApplicationFee],
@@ -268,24 +283,7 @@ class SubscriptionResponse(BaseModel):
     information.
     """
 
-    metadata: OptionalNullable[Metadata] = UNSET
-    r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
-    you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
-    """
-
-    webhook_url: Annotated[Optional[str], pydantic.Field(alias="webhookUrl")] = None
-    r"""We will call this URL for any payment status changes of payments resulting from this subscription.
-
-    This webhook will receive **all** events for the subscription's payments. This may include payment failures as
-    well. Be sure to verify the payment's subscription ID and its status.
-    """
-
-    customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
-
     mandate_id: Annotated[Optional[str], pydantic.Field(alias="mandateId")] = None
-
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
     canceled_at: Annotated[
         OptionalNullable[str], pydantic.Field(alias="canceledAt")
@@ -294,34 +292,13 @@ class SubscriptionResponse(BaseModel):
     subscription is not canceled (yet).
     """
 
-    links: Annotated[
-        Optional[SubscriptionResponseLinks], pydantic.Field(alias="_links")
-    ] = None
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "resource",
-            "id",
-            "mode",
-            "status",
-            "amount",
-            "times",
-            "timesRemaining",
-            "interval",
-            "startDate",
             "nextPaymentDate",
-            "description",
-            "method",
             "applicationFee",
-            "metadata",
-            "webhookUrl",
-            "customerId",
             "mandateId",
-            "createdAt",
             "canceledAt",
-            "_links",
         ]
         nullable_fields = [
             "times",

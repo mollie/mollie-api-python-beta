@@ -229,12 +229,11 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.webhooks.delete(id="hook_B2EyhTH5N4KWUnoYPcgiH", idempotency_key="123e4567-e89b-12d3-a456-426", request_body={
+    client_sdk.webhooks.delete(id="hook_B2EyhTH5N4KWUnoYPcgiH", idempotency_key="123e4567-e89b-12d3-a456-426", request_body={
         "testmode": False,
     })
 
-    # Handle response
-    print(res)
+    # Use the SDK ...
 
 ```
 
@@ -246,10 +245,6 @@ with ClientSDK(
 | `idempotency_key`                                                                     | *Optional[str]*                                                                       | :heavy_minus_sign:                                                                    | A unique key to ensure idempotent requests. This key should be a UUID v4 string.      | 123e4567-e89b-12d3-a456-426                                                           |
 | `request_body`                                                                        | [Optional[models.DeleteWebhookRequestBody]](../../models/deletewebhookrequestbody.md) | :heavy_minus_sign:                                                                    | N/A                                                                                   |                                                                                       |
 | `retries`                                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                      | :heavy_minus_sign:                                                                    | Configuration to override the default retry behavior of the client.                   |                                                                                       |
-
-### Response
-
-**[Any](../../models/.md)**
 
 ### Errors
 
@@ -277,12 +272,11 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.webhooks.test(id="hook_B2EyhTH5N4KWUnoYPcgiH", idempotency_key="123e4567-e89b-12d3-a456-426", request_body={
+    client_sdk.webhooks.test(id="hook_B2EyhTH5N4KWUnoYPcgiH", idempotency_key="123e4567-e89b-12d3-a456-426", request_body={
         "testmode": False,
     })
 
-    # Handle response
-    print(res)
+    # Use the SDK ...
 
 ```
 
@@ -294,10 +288,6 @@ with ClientSDK(
 | `idempotency_key`                                                                 | *Optional[str]*                                                                   | :heavy_minus_sign:                                                                | A unique key to ensure idempotent requests. This key should be a UUID v4 string.  | 123e4567-e89b-12d3-a456-426                                                       |
 | `request_body`                                                                    | [Optional[models.TestWebhookRequestBody]](../../models/testwebhookrequestbody.md) | :heavy_minus_sign:                                                                | N/A                                                                               |                                                                                   |
 | `retries`                                                                         | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                  | :heavy_minus_sign:                                                                | Configuration to override the default retry behavior of the client.               |                                                                                   |
-
-### Response
-
-**[Any](../../models/.md)**
 
 ### Errors
 

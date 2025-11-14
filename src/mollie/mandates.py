@@ -15,8 +15,8 @@ class Mandates(BaseSDK):
         *,
         customer_id: str,
         idempotency_key: Optional[str] = None,
-        entity_mandate: Optional[
-            Union[models.EntityMandate, models.EntityMandateTypedDict]
+        mandate_request: Optional[
+            Union[models.MandateRequest, models.MandateRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -33,7 +33,7 @@ class Mandates(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
-        :param entity_mandate:
+        :param mandate_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -52,8 +52,8 @@ class Mandates(BaseSDK):
         request = models.CreateMandateRequest(
             customer_id=customer_id,
             idempotency_key=idempotency_key,
-            entity_mandate=utils.get_pydantic_model(
-                entity_mandate, Optional[models.EntityMandate]
+            mandate_request=utils.get_pydantic_model(
+                mandate_request, Optional[models.MandateRequest]
             ),
         )
 
@@ -71,11 +71,11 @@ class Mandates(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.entity_mandate,
+                request.mandate_request,
                 False,
                 True,
                 "json",
-                Optional[models.EntityMandate],
+                Optional[models.MandateRequest],
             ),
             timeout_ms=timeout_ms,
         )
@@ -127,8 +127,8 @@ class Mandates(BaseSDK):
         *,
         customer_id: str,
         idempotency_key: Optional[str] = None,
-        entity_mandate: Optional[
-            Union[models.EntityMandate, models.EntityMandateTypedDict]
+        mandate_request: Optional[
+            Union[models.MandateRequest, models.MandateRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -145,7 +145,7 @@ class Mandates(BaseSDK):
 
         :param customer_id: Provide the ID of the related customer.
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
-        :param entity_mandate:
+        :param mandate_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -164,8 +164,8 @@ class Mandates(BaseSDK):
         request = models.CreateMandateRequest(
             customer_id=customer_id,
             idempotency_key=idempotency_key,
-            entity_mandate=utils.get_pydantic_model(
-                entity_mandate, Optional[models.EntityMandate]
+            mandate_request=utils.get_pydantic_model(
+                mandate_request, Optional[models.MandateRequest]
             ),
         )
 
@@ -183,11 +183,11 @@ class Mandates(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.entity_mandate,
+                request.mandate_request,
                 False,
                 True,
                 "json",
-                Optional[models.EntityMandate],
+                Optional[models.MandateRequest],
             ),
             timeout_ms=timeout_ms,
         )
@@ -680,7 +680,7 @@ class Mandates(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ):
         r"""Revoke mandate
 
         Revoke a customer's mandate. You will no longer be able to charge the customer's bank account or card with this
@@ -765,8 +765,8 @@ class Mandates(BaseSDK):
         )
 
         response_data: Any = None
-        if utils.match_response(http_res, "204", "application/hal+json"):
-            return unmarshal_json_response(Any, http_res)
+        if utils.match_response(http_res, "204", "*"):
+            return
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)
@@ -795,7 +795,7 @@ class Mandates(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ):
         r"""Revoke mandate
 
         Revoke a customer's mandate. You will no longer be able to charge the customer's bank account or card with this
@@ -880,8 +880,8 @@ class Mandates(BaseSDK):
         )
 
         response_data: Any = None
-        if utils.match_response(http_res, "204", "application/hal+json"):
-            return unmarshal_json_response(Any, http_res)
+        if utils.match_response(http_res, "204", "*"):
+            return
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)

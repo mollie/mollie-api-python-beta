@@ -33,7 +33,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.mandates.create(customer_id="cst_5B8cwPMGnU", idempotency_key="123e4567-e89b-12d3-a456-426", entity_mandate={
+    res = client_sdk.mandates.create(customer_id="cst_5B8cwPMGnU", idempotency_key="123e4567-e89b-12d3-a456-426", mandate_request={
         "id": "mdt_5B8cwPMGnU",
         "method": mollie.MandateMethod.DIRECTDEBIT,
         "consumer_name": "John Doe",
@@ -60,7 +60,7 @@ with ClientSDK(
 | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | `customer_id`                                                                    | *str*                                                                            | :heavy_check_mark:                                                               | Provide the ID of the related customer.                                          | cst_5B8cwPMGnU                                                                   |
 | `idempotency_key`                                                                | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | A unique key to ensure idempotent requests. This key should be a UUID v4 string. | 123e4567-e89b-12d3-a456-426                                                      |
-| `entity_mandate`                                                                 | [Optional[models.EntityMandate]](../../models/entitymandate.md)                  | :heavy_minus_sign:                                                               | N/A                                                                              |                                                                                  |
+| `mandate_request`                                                                | [Optional[models.MandateRequest]](../../models/mandaterequest.md)                | :heavy_minus_sign:                                                               | N/A                                                                              |                                                                                  |
 | `retries`                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                 | :heavy_minus_sign:                                                               | Configuration to override the default retry behavior of the client.              |                                                                                  |
 
 ### Response
@@ -195,12 +195,11 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.mandates.revoke(customer_id="cst_5B8cwPMGnU", mandate_id="mdt_5B8cwPMGnU", idempotency_key="123e4567-e89b-12d3-a456-426", request_body={
+    client_sdk.mandates.revoke(customer_id="cst_5B8cwPMGnU", mandate_id="mdt_5B8cwPMGnU", idempotency_key="123e4567-e89b-12d3-a456-426", request_body={
         "testmode": False,
     })
 
-    # Handle response
-    print(res)
+    # Use the SDK ...
 
 ```
 
@@ -213,10 +212,6 @@ with ClientSDK(
 | `idempotency_key`                                                                     | *Optional[str]*                                                                       | :heavy_minus_sign:                                                                    | A unique key to ensure idempotent requests. This key should be a UUID v4 string.      | 123e4567-e89b-12d3-a456-426                                                           |
 | `request_body`                                                                        | [Optional[models.RevokeMandateRequestBody]](../../models/revokemandaterequestbody.md) | :heavy_minus_sign:                                                                    | N/A                                                                                   |                                                                                       |
 | `retries`                                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                      | :heavy_minus_sign:                                                                    | Configuration to override the default retry behavior of the client.                   |                                                                                       |
-
-### Response
-
-**[Any](../../models/.md)**
 
 ### Errors
 

@@ -330,8 +330,7 @@ class Company(BaseModel):
 
 
 class PaymentRequestTypedDict(TypedDict):
-    id: NotRequired[str]
-    description: NotRequired[str]
+    description: str
     r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible.
     We truncate the description automatically according to the limits of the used payment method. The description is
     also visible in any exports you generate.
@@ -342,8 +341,18 @@ class PaymentRequestTypedDict(TypedDict):
     The maximum length of the description field differs per payment method, with the absolute maximum being 255
     characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
     """
-    amount: NotRequired[AmountTypedDict]
+    amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    redirect_url: Nullable[str]
+    r"""The URL your customer will be redirected to after the payment process.
+
+    It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the
+    right page referencing the order when your customer returns.
+
+    The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for
+    Apple Pay payments with an `applePayPaymentToken`.
+    """
+    id: NotRequired[str]
     amount_refunded: NotRequired[AmountTypedDict]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     amount_remaining: NotRequired[AmountTypedDict]
@@ -354,15 +363,6 @@ class PaymentRequestTypedDict(TypedDict):
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     settlement_amount: NotRequired[AmountTypedDict]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    redirect_url: NotRequired[Nullable[str]]
-    r"""The URL your customer will be redirected to after the payment process.
-
-    It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the
-    right page referencing the order when your customer returns.
-
-    The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for
-    Apple Pay payments with an `applePayPaymentToken`.
-    """
     cancel_url: NotRequired[Nullable[str]]
     r"""The URL your customer will be redirected to when the customer explicitly cancels the payment. If this URL is not
     provided, the customer will be redirected to the `redirectUrl` instead — see above.
@@ -562,9 +562,7 @@ class PaymentRequestTypedDict(TypedDict):
 
 
 class PaymentRequest(BaseModel):
-    id: Optional[str] = None
-
-    description: Optional[str] = None
+    description: str
     r"""The description of the payment. This will be shown to your customer on their card or bank statement when possible.
     We truncate the description automatically according to the limits of the used payment method. The description is
     also visible in any exports you generate.
@@ -576,8 +574,20 @@ class PaymentRequest(BaseModel):
     characters. The API will not reject strings longer than the maximum length but it will truncate them to fit.
     """
 
-    amount: Optional[Amount] = None
+    amount: Amount
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    redirect_url: Annotated[Nullable[str], pydantic.Field(alias="redirectUrl")]
+    r"""The URL your customer will be redirected to after the payment process.
+
+    It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the
+    right page referencing the order when your customer returns.
+
+    The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for
+    Apple Pay payments with an `applePayPaymentToken`.
+    """
+
+    id: Optional[str] = None
 
     amount_refunded: Annotated[
         Optional[Amount], pydantic.Field(alias="amountRefunded")
@@ -603,18 +613,6 @@ class PaymentRequest(BaseModel):
         Optional[Amount], pydantic.Field(alias="settlementAmount")
     ] = None
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-    redirect_url: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="redirectUrl")
-    ] = UNSET
-    r"""The URL your customer will be redirected to after the payment process.
-
-    It could make sense for the redirectUrl to contain a unique identifier – like your order ID – so you can show the
-    right page referencing the order when your customer returns.
-
-    The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for
-    Apple Pay payments with an `applePayPaymentToken`.
-    """
 
     cancel_url: Annotated[OptionalNullable[str], pydantic.Field(alias="cancelUrl")] = (
         UNSET
@@ -883,14 +881,11 @@ class PaymentRequest(BaseModel):
     def serialize_model(self, handler):
         optional_fields = [
             "id",
-            "description",
-            "amount",
             "amountRefunded",
             "amountRemaining",
             "amountCaptured",
             "amountChargedBack",
             "settlementAmount",
-            "redirectUrl",
             "cancelUrl",
             "webhookUrl",
             "lines",

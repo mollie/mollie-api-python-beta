@@ -8,8 +8,7 @@ from mollie.types import BaseModel
 from mollie.utils import validate_open_enum
 import pydantic
 from pydantic.functional_validators import PlainValidator
-from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import Annotated, TypedDict
 
 
 class RouteGetResponseDestinationTypedDict(TypedDict):
@@ -51,43 +50,41 @@ class RouteGetResponseLinks(BaseModel):
 
 
 class RouteGetResponseTypedDict(TypedDict):
+    resource: str
+    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
+    id: str
+    payment_id: str
+    amount: AmountTypedDict
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    description: str
+    r"""The description of the route. This description is shown in the reports."""
+    destination: RouteGetResponseDestinationTypedDict
+    r"""The destination of the route."""
+    links: RouteGetResponseLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    resource: NotRequired[str]
-    r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
-    id: NotRequired[str]
-    payment_id: NotRequired[str]
-    amount: NotRequired[AmountTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    description: NotRequired[str]
-    r"""The description of the route. This description is shown in the reports."""
-    destination: NotRequired[RouteGetResponseDestinationTypedDict]
-    r"""The destination of the route."""
-    links: NotRequired[RouteGetResponseLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class RouteGetResponse(BaseModel):
-    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
 
-    id: Optional[str] = None
+    id: str
 
-    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+    payment_id: Annotated[str, pydantic.Field(alias="paymentId")]
 
-    amount: Optional[Amount] = None
+    amount: Amount
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    description: Optional[str] = None
+    description: str
     r"""The description of the route. This description is shown in the reports."""
 
-    destination: Optional[RouteGetResponseDestination] = None
+    destination: RouteGetResponseDestination
     r"""The destination of the route."""
 
-    links: Annotated[
-        Optional[RouteGetResponseLinks], pydantic.Field(alias="_links")
-    ] = None
+    links: Annotated[RouteGetResponseLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
+
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""

@@ -81,92 +81,80 @@ class CaptureResponseLinks(BaseModel):
 
 
 class CaptureResponseTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a capture object. Will always contain the string `capture` for this endpoint."""
-    id: NotRequired[str]
-    mode: NotRequired[Mode]
+    id: str
+    mode: Mode
     r"""Whether this entity was created in live mode or in test mode."""
+    amount: Nullable[AmountNullableTypedDict]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    status: CaptureStatus
+    r"""The capture's status."""
+    payment_id: str
+    created_at: str
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+    links: CaptureResponseLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     description: NotRequired[str]
     r"""The description of the capture."""
-    amount: NotRequired[Nullable[AmountNullableTypedDict]]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     settlement_amount: NotRequired[Nullable[AmountNullableTypedDict]]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    status: NotRequired[CaptureStatus]
-    r"""The capture's status."""
     metadata: NotRequired[Nullable[MetadataTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-    payment_id: NotRequired[str]
     shipment_id: NotRequired[str]
     settlement_id: NotRequired[str]
-    created_at: NotRequired[str]
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: NotRequired[CaptureResponseLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class CaptureResponse(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a capture object. Will always contain the string `capture` for this endpoint."""
 
-    id: Optional[str] = None
+    id: str
 
-    mode: Annotated[Optional[Mode], PlainValidator(validate_open_enum(False))] = None
+    mode: Annotated[Mode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
+
+    amount: Nullable[AmountNullable]
+    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+
+    status: Annotated[CaptureStatus, PlainValidator(validate_open_enum(False))]
+    r"""The capture's status."""
+
+    payment_id: Annotated[str, pydantic.Field(alias="paymentId")]
+
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
+    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
+
+    links: Annotated[CaptureResponseLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     description: Optional[str] = None
     r"""The description of the capture."""
-
-    amount: OptionalNullable[AmountNullable] = UNSET
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
     settlement_amount: Annotated[
         OptionalNullable[AmountNullable], pydantic.Field(alias="settlementAmount")
     ] = UNSET
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    status: Annotated[
-        Optional[CaptureStatus], PlainValidator(validate_open_enum(False))
-    ] = None
-    r"""The capture's status."""
-
     metadata: OptionalNullable[Metadata] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
 
-    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
-
     shipment_id: Annotated[Optional[str], pydantic.Field(alias="shipmentId")] = None
 
     settlement_id: Annotated[Optional[str], pydantic.Field(alias="settlementId")] = None
 
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
-    r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-
-    links: Annotated[Optional[CaptureResponseLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "resource",
-            "id",
-            "mode",
             "description",
-            "amount",
             "settlementAmount",
-            "status",
             "metadata",
-            "paymentId",
             "shipmentId",
             "settlementId",
-            "createdAt",
-            "_links",
         ]
         nullable_fields = ["amount", "settlementAmount", "metadata"]
         null_default_fields = []

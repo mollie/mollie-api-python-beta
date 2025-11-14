@@ -55,6 +55,14 @@ if TYPE_CHECKING:
         CaptureResponseTypedDict,
     )
     from .capture_status import CaptureStatus
+    from .client_link_request import (
+        ClientLinkRequest,
+        ClientLinkRequestAddress,
+        ClientLinkRequestAddressTypedDict,
+        ClientLinkRequestTypedDict,
+        Owner,
+        OwnerTypedDict,
+    )
     from .client_link_response import (
         ClientLinkResponse,
         ClientLinkResponseLinks,
@@ -293,14 +301,6 @@ if TYPE_CHECKING:
         Reason,
         ReasonTypedDict,
     )
-    from .entity_client_link import (
-        EntityClientLink,
-        EntityClientLinkAddress,
-        EntityClientLinkAddressTypedDict,
-        EntityClientLinkTypedDict,
-        Owner,
-        OwnerTypedDict,
-    )
     from .entity_customer import EntityCustomer, EntityCustomerTypedDict
     from .entity_event import (
         EntityEvent,
@@ -316,7 +316,6 @@ if TYPE_CHECKING:
         EntityInvoiceLinksTypedDict,
         EntityInvoiceTypedDict,
     )
-    from .entity_mandate import EntityMandate, EntityMandateTypedDict
     from .entity_method import (
         EntityMethod,
         EntityMethodImage,
@@ -376,17 +375,6 @@ if TYPE_CHECKING:
         EntityPermissionLinks,
         EntityPermissionLinksTypedDict,
         EntityPermissionTypedDict,
-    )
-    from .entity_profile import EntityProfile, EntityProfileTypedDict
-    from .entity_refund import (
-        EntityRefund,
-        EntityRefundExternalReference,
-        EntityRefundExternalReferenceTypedDict,
-        EntityRefundRoutingReversal,
-        EntityRefundRoutingReversalTypedDict,
-        EntityRefundSource,
-        EntityRefundSourceTypedDict,
-        EntityRefundTypedDict,
     )
     from .entity_refund_response import (
         EntityRefundResponse,
@@ -966,6 +954,7 @@ if TYPE_CHECKING:
     from .mandate_details_card_label_response import MandateDetailsCardLabelResponse
     from .mandate_method import MandateMethod
     from .mandate_method_response import MandateMethodResponse
+    from .mandate_request import MandateRequest, MandateRequestTypedDict
     from .mandate_response import (
         MandateResponse,
         MandateResponseDetails,
@@ -1076,6 +1065,7 @@ if TYPE_CHECKING:
         ReceiptTypedDict,
     )
     from .payment_status import PaymentStatus
+    from .profile_request import ProfileRequest, ProfileRequestTypedDict
     from .profile_response import (
         ProfileResponse,
         ProfileResponseLinks,
@@ -1090,6 +1080,16 @@ if TYPE_CHECKING:
     from .refund_external_reference_type import RefundExternalReferenceType
     from .refund_external_reference_type_response import (
         RefundExternalReferenceTypeResponse,
+    )
+    from .refund_request import (
+        RefundRequest,
+        RefundRequestExternalReference,
+        RefundRequestExternalReferenceTypedDict,
+        RefundRequestRoutingReversal,
+        RefundRequestRoutingReversalTypedDict,
+        RefundRequestSource,
+        RefundRequestSourceTypedDict,
+        RefundRequestTypedDict,
     )
     from .refund_routing_reversals_source_type import RefundRoutingReversalsSourceType
     from .refund_status import RefundStatus
@@ -1349,6 +1349,10 @@ __all__ = [
     "ClientEmbedded",
     "ClientEmbeddedTypedDict",
     "ClientError",
+    "ClientLinkRequest",
+    "ClientLinkRequestAddress",
+    "ClientLinkRequestAddressTypedDict",
+    "ClientLinkRequestTypedDict",
     "ClientLinkResponse",
     "ClientLinkResponseLinks",
     "ClientLinkResponseLinksTypedDict",
@@ -1470,10 +1474,6 @@ __all__ = [
     "EntityChargebackLinks",
     "EntityChargebackLinksTypedDict",
     "EntityChargebackTypedDict",
-    "EntityClientLink",
-    "EntityClientLinkAddress",
-    "EntityClientLinkAddressTypedDict",
-    "EntityClientLinkTypedDict",
     "EntityCustomer",
     "EntityCustomerTypedDict",
     "EntityEvent",
@@ -1486,8 +1486,6 @@ __all__ = [
     "EntityInvoiceLinks",
     "EntityInvoiceLinksTypedDict",
     "EntityInvoiceTypedDict",
-    "EntityMandate",
-    "EntityMandateTypedDict",
     "EntityMethod",
     "EntityMethodAll",
     "EntityMethodAllImage",
@@ -1532,11 +1530,6 @@ __all__ = [
     "EntityPermissionLinks",
     "EntityPermissionLinksTypedDict",
     "EntityPermissionTypedDict",
-    "EntityProfile",
-    "EntityProfileTypedDict",
-    "EntityRefund",
-    "EntityRefundExternalReference",
-    "EntityRefundExternalReferenceTypedDict",
     "EntityRefundResponse",
     "EntityRefundResponseExternalReference",
     "EntityRefundResponseExternalReferenceTypedDict",
@@ -1547,11 +1540,6 @@ __all__ = [
     "EntityRefundResponseSource",
     "EntityRefundResponseSourceTypedDict",
     "EntityRefundResponseTypedDict",
-    "EntityRefundRoutingReversal",
-    "EntityRefundRoutingReversalTypedDict",
-    "EntityRefundSource",
-    "EntityRefundSourceTypedDict",
-    "EntityRefundTypedDict",
     "EntityRoute",
     "EntityRouteDestination",
     "EntityRouteDestinationTypedDict",
@@ -1979,6 +1967,8 @@ __all__ = [
     "MandateDetailsCardLabelResponse",
     "MandateMethod",
     "MandateMethodResponse",
+    "MandateRequest",
+    "MandateRequestTypedDict",
     "MandateResponse",
     "MandateResponseDetails",
     "MandateResponseDetailsTypedDict",
@@ -2090,6 +2080,8 @@ __all__ = [
     "Pricing",
     "PricingTypedDict",
     "Profile",
+    "ProfileRequest",
+    "ProfileRequestTypedDict",
     "ProfileResponse",
     "ProfileResponseLinks",
     "ProfileResponseLinksTypedDict",
@@ -2112,6 +2104,14 @@ __all__ = [
     "RefundCompensationTypedDict",
     "RefundExternalReferenceType",
     "RefundExternalReferenceTypeResponse",
+    "RefundRequest",
+    "RefundRequestExternalReference",
+    "RefundRequestExternalReferenceTypedDict",
+    "RefundRequestRoutingReversal",
+    "RefundRequestRoutingReversalTypedDict",
+    "RefundRequestSource",
+    "RefundRequestSourceTypedDict",
+    "RefundRequestTypedDict",
     "RefundRoutingReversalsSourceType",
     "RefundStatus",
     "RefundTypedDict",
@@ -2331,6 +2331,12 @@ _dynamic_imports: dict[str, str] = {
     "CaptureResponseLinksTypedDict": ".capture_response",
     "CaptureResponseTypedDict": ".capture_response",
     "CaptureStatus": ".capture_status",
+    "ClientLinkRequest": ".client_link_request",
+    "ClientLinkRequestAddress": ".client_link_request",
+    "ClientLinkRequestAddressTypedDict": ".client_link_request",
+    "ClientLinkRequestTypedDict": ".client_link_request",
+    "Owner": ".client_link_request",
+    "OwnerTypedDict": ".client_link_request",
     "ClientLinkResponse": ".client_link_response",
     "ClientLinkResponseLinks": ".client_link_response",
     "ClientLinkResponseLinksTypedDict": ".client_link_response",
@@ -2528,12 +2534,6 @@ _dynamic_imports: dict[str, str] = {
     "EntityChargebackTypedDict": ".entity_chargeback",
     "Reason": ".entity_chargeback",
     "ReasonTypedDict": ".entity_chargeback",
-    "EntityClientLink": ".entity_client_link",
-    "EntityClientLinkAddress": ".entity_client_link",
-    "EntityClientLinkAddressTypedDict": ".entity_client_link",
-    "EntityClientLinkTypedDict": ".entity_client_link",
-    "Owner": ".entity_client_link",
-    "OwnerTypedDict": ".entity_client_link",
     "EntityCustomer": ".entity_customer",
     "EntityCustomerTypedDict": ".entity_customer",
     "EntityEvent": ".entity_event",
@@ -2546,8 +2546,6 @@ _dynamic_imports: dict[str, str] = {
     "EntityInvoiceLinks": ".entity_invoice",
     "EntityInvoiceLinksTypedDict": ".entity_invoice",
     "EntityInvoiceTypedDict": ".entity_invoice",
-    "EntityMandate": ".entity_mandate",
-    "EntityMandateTypedDict": ".entity_mandate",
     "EntityMethod": ".entity_method",
     "EntityMethodImage": ".entity_method",
     "EntityMethodImageTypedDict": ".entity_method",
@@ -2594,16 +2592,6 @@ _dynamic_imports: dict[str, str] = {
     "EntityPermissionLinks": ".entity_permission",
     "EntityPermissionLinksTypedDict": ".entity_permission",
     "EntityPermissionTypedDict": ".entity_permission",
-    "EntityProfile": ".entity_profile",
-    "EntityProfileTypedDict": ".entity_profile",
-    "EntityRefund": ".entity_refund",
-    "EntityRefundExternalReference": ".entity_refund",
-    "EntityRefundExternalReferenceTypedDict": ".entity_refund",
-    "EntityRefundRoutingReversal": ".entity_refund",
-    "EntityRefundRoutingReversalTypedDict": ".entity_refund",
-    "EntityRefundSource": ".entity_refund",
-    "EntityRefundSourceTypedDict": ".entity_refund",
-    "EntityRefundTypedDict": ".entity_refund",
     "EntityRefundResponse": ".entity_refund_response",
     "EntityRefundResponseExternalReference": ".entity_refund_response",
     "EntityRefundResponseExternalReferenceTypedDict": ".entity_refund_response",
@@ -3049,6 +3037,8 @@ _dynamic_imports: dict[str, str] = {
     "MandateDetailsCardLabelResponse": ".mandate_details_card_label_response",
     "MandateMethod": ".mandate_method",
     "MandateMethodResponse": ".mandate_method_response",
+    "MandateRequest": ".mandate_request",
+    "MandateRequestTypedDict": ".mandate_request",
     "MandateResponse": ".mandate_response",
     "MandateResponseDetails": ".mandate_response",
     "MandateResponseDetailsTypedDict": ".mandate_response",
@@ -3136,6 +3126,8 @@ _dynamic_imports: dict[str, str] = {
     "Receipt": ".payment_response",
     "ReceiptTypedDict": ".payment_response",
     "PaymentStatus": ".payment_status",
+    "ProfileRequest": ".profile_request",
+    "ProfileRequestTypedDict": ".profile_request",
     "ProfileResponse": ".profile_response",
     "ProfileResponseLinks": ".profile_response",
     "ProfileResponseLinksTypedDict": ".profile_response",
@@ -3148,6 +3140,14 @@ _dynamic_imports: dict[str, str] = {
     "RecurringLineItemTypedDict": ".recurring_line_item",
     "RefundExternalReferenceType": ".refund_external_reference_type",
     "RefundExternalReferenceTypeResponse": ".refund_external_reference_type_response",
+    "RefundRequest": ".refund_request",
+    "RefundRequestExternalReference": ".refund_request",
+    "RefundRequestExternalReferenceTypedDict": ".refund_request",
+    "RefundRequestRoutingReversal": ".refund_request",
+    "RefundRequestRoutingReversalTypedDict": ".refund_request",
+    "RefundRequestSource": ".refund_request",
+    "RefundRequestSourceTypedDict": ".refund_request",
+    "RefundRequestTypedDict": ".refund_request",
     "RefundRoutingReversalsSourceType": ".refund_routing_reversals_source_type",
     "RefundStatus": ".refund_status",
     "ReleaseAuthorizationRequest": ".release_authorizationop",

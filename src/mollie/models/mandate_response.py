@@ -11,7 +11,6 @@ from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
-from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -157,97 +156,77 @@ class MandateResponseLinks(BaseModel):
 
 
 class MandateResponseTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
-    id: NotRequired[str]
-    mode: NotRequired[Mode]
+    id: str
+    mode: Mode
     r"""Whether this entity was created in live mode or in test mode."""
-    method: NotRequired[MandateMethodResponse]
+    method: MandateMethodResponse
     r"""Payment method of the mandate.
 
     SEPA Direct Debit and PayPal mandates can be created directly.
     """
-    details: NotRequired[MandateResponseDetailsTypedDict]
-    signature_date: NotRequired[Nullable[str]]
+    details: MandateResponseDetailsTypedDict
+    signature_date: Nullable[str]
     r"""The date when the mandate was signed in `YYYY-MM-DD` format."""
-    mandate_reference: NotRequired[Nullable[str]]
+    mandate_reference: Nullable[str]
     r"""A custom mandate reference. For SEPA Direct Debit, it is vital to provide a unique reference. Some banks will
     decline Direct Debit payments if the mandate reference is not unique.
     """
-    status: NotRequired[MandateStatus]
+    status: MandateStatus
     r"""The status of the mandate. A status can be `pending` for mandates when the first payment is not yet finalized, or
     when we did not received the IBAN yet from the first payment.
     """
-    customer_id: NotRequired[str]
-    created_at: NotRequired[str]
+    customer_id: str
+    created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    links: NotRequired[MandateResponseLinksTypedDict]
+    links: MandateResponseLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
 
 class MandateResponse(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
 
-    id: Optional[str] = None
+    id: str
 
-    mode: Annotated[Optional[Mode], PlainValidator(validate_open_enum(False))] = None
+    mode: Annotated[Mode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
 
-    method: Annotated[
-        Optional[MandateMethodResponse], PlainValidator(validate_open_enum(False))
-    ] = None
+    method: Annotated[MandateMethodResponse, PlainValidator(validate_open_enum(False))]
     r"""Payment method of the mandate.
 
     SEPA Direct Debit and PayPal mandates can be created directly.
     """
 
-    details: Optional[MandateResponseDetails] = None
+    details: MandateResponseDetails
 
-    signature_date: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="signatureDate")
-    ] = UNSET
+    signature_date: Annotated[Nullable[str], pydantic.Field(alias="signatureDate")]
     r"""The date when the mandate was signed in `YYYY-MM-DD` format."""
 
     mandate_reference: Annotated[
-        OptionalNullable[str], pydantic.Field(alias="mandateReference")
-    ] = UNSET
+        Nullable[str], pydantic.Field(alias="mandateReference")
+    ]
     r"""A custom mandate reference. For SEPA Direct Debit, it is vital to provide a unique reference. Some banks will
     decline Direct Debit payments if the mandate reference is not unique.
     """
 
-    status: Annotated[
-        Optional[MandateStatus], PlainValidator(validate_open_enum(False))
-    ] = None
+    status: Annotated[MandateStatus, PlainValidator(validate_open_enum(False))]
     r"""The status of the mandate. A status can be `pending` for mandates when the first payment is not yet finalized, or
     when we did not received the IBAN yet from the first payment.
     """
 
-    customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
+    customer_id: Annotated[str, pydantic.Field(alias="customerId")]
 
-    created_at: Annotated[Optional[str], pydantic.Field(alias="createdAt")] = None
+    created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    links: Annotated[Optional[MandateResponseLinks], pydantic.Field(alias="_links")] = (
-        None
-    )
+    links: Annotated[MandateResponseLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "resource",
-            "id",
-            "mode",
-            "method",
-            "details",
-            "signatureDate",
-            "mandateReference",
-            "status",
-            "customerId",
-            "createdAt",
-            "_links",
-        ]
+        optional_fields = []
         nullable_fields = ["signatureDate", "mandateReference"]
         null_default_fields = []
 

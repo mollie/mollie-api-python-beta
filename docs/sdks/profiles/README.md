@@ -34,7 +34,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.profiles.create(entity_profile={
+    res = client_sdk.profiles.create(profile_request={
         "name": "My website name",
         "website": "https://example.com",
         "email": "test@mollie.com",
@@ -57,7 +57,7 @@ with ClientSDK(
 
 | Parameter                                                                        | Type                                                                             | Required                                                                         | Description                                                                      | Example                                                                          |
 | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `entity_profile`                                                                 | [models.EntityProfile](../../models/entityprofile.md)                            | :heavy_check_mark:                                                               | N/A                                                                              |                                                                                  |
+| `profile_request`                                                                | [models.ProfileRequest](../../models/profilerequest.md)                          | :heavy_check_mark:                                                               | N/A                                                                              |                                                                                  |
 | `idempotency_key`                                                                | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | A unique key to ensure idempotent requests. This key should be a UUID v4 string. | 123e4567-e89b-12d3-a456-426                                                      |
 | `retries`                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                 | :heavy_minus_sign:                                                               | Configuration to override the default retry behavior of the client.              |                                                                                  |
 
@@ -246,10 +246,9 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.profiles.delete(id="pfl_QkEhN94Ba", idempotency_key="123e4567-e89b-12d3-a456-426")
+    client_sdk.profiles.delete(id="pfl_QkEhN94Ba", idempotency_key="123e4567-e89b-12d3-a456-426")
 
-    # Handle response
-    print(res)
+    # Use the SDK ...
 
 ```
 
@@ -260,10 +259,6 @@ with ClientSDK(
 | `id`                                                                             | *str*                                                                            | :heavy_check_mark:                                                               | Provide the ID of the item you want to perform this operation on.                |                                                                                  |
 | `idempotency_key`                                                                | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | A unique key to ensure idempotent requests. This key should be a UUID v4 string. | 123e4567-e89b-12d3-a456-426                                                      |
 | `retries`                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                 | :heavy_minus_sign:                                                               | Configuration to override the default retry behavior of the client.              |                                                                                  |
-
-### Response
-
-**[Any](../../models/.md)**
 
 ### Errors
 

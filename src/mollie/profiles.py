@@ -13,7 +13,7 @@ class Profiles(BaseSDK):
     def create(
         self,
         *,
-        entity_profile: Union[models.EntityProfile, models.EntityProfileTypedDict],
+        profile_request: Union[models.ProfileRequest, models.ProfileRequestTypedDict],
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -27,7 +27,7 @@ class Profiles(BaseSDK):
         Profiles are required for payment processing. Normally they are created via the Mollie dashboard. Alternatively, you
         can use this endpoint to automate profile creation.
 
-        :param entity_profile:
+        :param profile_request:
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -46,8 +46,8 @@ class Profiles(BaseSDK):
 
         request = models.CreateProfileRequest(
             idempotency_key=idempotency_key,
-            entity_profile=utils.get_pydantic_model(
-                entity_profile, models.EntityProfile
+            profile_request=utils.get_pydantic_model(
+                profile_request, models.ProfileRequest
             ),
         )
 
@@ -65,7 +65,7 @@ class Profiles(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.entity_profile, False, False, "json", models.EntityProfile
+                request.profile_request, False, False, "json", models.ProfileRequest
             ),
             timeout_ms=timeout_ms,
         )
@@ -115,7 +115,7 @@ class Profiles(BaseSDK):
     async def create_async(
         self,
         *,
-        entity_profile: Union[models.EntityProfile, models.EntityProfileTypedDict],
+        profile_request: Union[models.ProfileRequest, models.ProfileRequestTypedDict],
         idempotency_key: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -129,7 +129,7 @@ class Profiles(BaseSDK):
         Profiles are required for payment processing. Normally they are created via the Mollie dashboard. Alternatively, you
         can use this endpoint to automate profile creation.
 
-        :param entity_profile:
+        :param profile_request:
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -148,8 +148,8 @@ class Profiles(BaseSDK):
 
         request = models.CreateProfileRequest(
             idempotency_key=idempotency_key,
-            entity_profile=utils.get_pydantic_model(
-                entity_profile, models.EntityProfile
+            profile_request=utils.get_pydantic_model(
+                profile_request, models.ProfileRequest
             ),
         )
 
@@ -167,7 +167,7 @@ class Profiles(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.entity_profile, False, False, "json", models.EntityProfile
+                request.profile_request, False, False, "json", models.ProfileRequest
             ),
             timeout_ms=timeout_ms,
         )
@@ -847,7 +847,7 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ):
         r"""Delete profile
 
         Delete a profile. A deleted profile and its related credentials can no longer be used for accepting payments.
@@ -918,8 +918,8 @@ class Profiles(BaseSDK):
         )
 
         response_data: Any = None
-        if utils.match_response(http_res, "204", "application/hal+json"):
-            return unmarshal_json_response(Any, http_res)
+        if utils.match_response(http_res, "204", "*"):
+            return
         if utils.match_response(http_res, ["404", "410"], "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)
@@ -941,7 +941,7 @@ class Profiles(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ):
         r"""Delete profile
 
         Delete a profile. A deleted profile and its related credentials can no longer be used for accepting payments.
@@ -1012,8 +1012,8 @@ class Profiles(BaseSDK):
         )
 
         response_data: Any = None
-        if utils.match_response(http_res, "204", "application/hal+json"):
-            return unmarshal_json_response(Any, http_res)
+        if utils.match_response(http_res, "204", "*"):
+            return
         if utils.match_response(http_res, ["404", "410"], "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)

@@ -10,18 +10,18 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class EntityProfileTypedDict(TypedDict):
-    name: NotRequired[str]
+class ProfileRequestTypedDict(TypedDict):
+    name: str
     r"""The profile's name, this will usually reflect the trade name or brand name of the profile's website or
     application.
     """
-    website: NotRequired[str]
+    website: str
     r"""The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are
     allowed.
     """
-    email: NotRequired[str]
+    email: str
     r"""The email address associated with the profile's trade name or brand."""
-    phone: NotRequired[str]
+    phone: str
     r"""The phone number associated with the profile's trade name or brand."""
     description: NotRequired[str]
     r"""The products or services offered by the profile's website or application."""
@@ -42,21 +42,21 @@ class EntityProfileTypedDict(TypedDict):
     """
 
 
-class EntityProfile(BaseModel):
-    name: Optional[str] = None
+class ProfileRequest(BaseModel):
+    name: str
     r"""The profile's name, this will usually reflect the trade name or brand name of the profile's website or
     application.
     """
 
-    website: Optional[str] = None
+    website: str
     r"""The URL to the profile's website or application. Only `https` or `http` URLs are allowed. No `@` signs are
     allowed.
     """
 
-    email: Optional[str] = None
+    email: str
     r"""The email address associated with the profile's trade name or brand."""
 
-    phone: Optional[str] = None
+    phone: str
     r"""The phone number associated with the profile's trade name or brand."""
 
     description: Optional[str] = None

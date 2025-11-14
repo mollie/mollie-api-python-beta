@@ -877,7 +877,7 @@ class PaymentLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ):
         r"""Delete payment link
 
         Payment links which have not been opened and no payments have been made yet can be deleted entirely.
@@ -965,8 +965,8 @@ class PaymentLinks(BaseSDK):
         )
 
         response_data: Any = None
-        if utils.match_response(http_res, "204", "application/hal+json"):
-            return unmarshal_json_response(Any, http_res)
+        if utils.match_response(http_res, "204", "*"):
+            return
         if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)
@@ -994,7 +994,7 @@ class PaymentLinks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ):
         r"""Delete payment link
 
         Payment links which have not been opened and no payments have been made yet can be deleted entirely.
@@ -1082,8 +1082,8 @@ class PaymentLinks(BaseSDK):
         )
 
         response_data: Any = None
-        if utils.match_response(http_res, "204", "application/hal+json"):
-            return unmarshal_json_response(Any, http_res)
+        if utils.match_response(http_res, "204", "*"):
+            return
         if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)

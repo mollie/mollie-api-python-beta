@@ -7,7 +7,6 @@ from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
-from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -72,7 +71,7 @@ class Owner(BaseModel):
         return m
 
 
-class EntityClientLinkAddressTypedDict(TypedDict):
+class ClientLinkRequestAddressTypedDict(TypedDict):
     r"""Address of the organization."""
 
     country: str
@@ -89,7 +88,7 @@ class EntityClientLinkAddressTypedDict(TypedDict):
     r"""The city of the organization. Required if a street address is provided."""
 
 
-class EntityClientLinkAddress(BaseModel):
+class ClientLinkRequestAddress(BaseModel):
     r"""Address of the organization."""
 
     country: str
@@ -143,12 +142,12 @@ class EntityClientLinkAddress(BaseModel):
         return m
 
 
-class EntityClientLinkTypedDict(TypedDict):
-    owner: NotRequired[OwnerTypedDict]
+class ClientLinkRequestTypedDict(TypedDict):
+    owner: OwnerTypedDict
     r"""Personal data of your customer."""
-    name: NotRequired[str]
+    name: str
     r"""Name of the organization."""
-    address: NotRequired[EntityClientLinkAddressTypedDict]
+    address: ClientLinkRequestAddressTypedDict
     r"""Address of the organization."""
     registration_number: NotRequired[Nullable[str]]
     r"""The registration number of the organization at their local chamber of commerce."""
@@ -158,14 +157,14 @@ class EntityClientLinkTypedDict(TypedDict):
     """
 
 
-class EntityClientLink(BaseModel):
-    owner: Optional[Owner] = None
+class ClientLinkRequest(BaseModel):
+    owner: Owner
     r"""Personal data of your customer."""
 
-    name: Optional[str] = None
+    name: str
     r"""Name of the organization."""
 
-    address: Optional[EntityClientLinkAddress] = None
+    address: ClientLinkRequestAddress
     r"""Address of the organization."""
 
     registration_number: Annotated[
@@ -182,13 +181,7 @@ class EntityClientLink(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "owner",
-            "name",
-            "address",
-            "registrationNumber",
-            "vatNumber",
-        ]
+        optional_fields = ["registrationNumber", "vatNumber"]
         nullable_fields = ["registrationNumber", "vatNumber"]
         null_default_fields = []
 

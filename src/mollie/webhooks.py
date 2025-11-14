@@ -881,7 +881,7 @@ class Webhooks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ):
         r"""Delete a webhook
 
         Delete a single webhook object by its webhook ID.
@@ -963,8 +963,8 @@ class Webhooks(BaseSDK):
         )
 
         response_data: Any = None
-        if utils.match_response(http_res, "204", "application/hal+json"):
-            return unmarshal_json_response(Any, http_res)
+        if utils.match_response(http_res, "204", "*"):
+            return
         if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)
@@ -992,7 +992,7 @@ class Webhooks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ):
         r"""Delete a webhook
 
         Delete a single webhook object by its webhook ID.
@@ -1074,8 +1074,8 @@ class Webhooks(BaseSDK):
         )
 
         response_data: Any = None
-        if utils.match_response(http_res, "204", "application/hal+json"):
-            return unmarshal_json_response(Any, http_res)
+        if utils.match_response(http_res, "204", "*"):
+            return
         if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)
@@ -1100,7 +1100,7 @@ class Webhooks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ):
         r"""Test a webhook
 
         Sends a test event to the webhook to verify the endpoint is working as expected.
@@ -1182,8 +1182,8 @@ class Webhooks(BaseSDK):
         )
 
         response_data: Any = None
-        if utils.match_response(http_res, "202", "application/hal+json"):
-            return unmarshal_json_response(Any, http_res)
+        if utils.match_response(http_res, "202", "*"):
+            return
         if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)
@@ -1208,7 +1208,7 @@ class Webhooks(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> Any:
+    ):
         r"""Test a webhook
 
         Sends a test event to the webhook to verify the endpoint is working as expected.
@@ -1290,8 +1290,8 @@ class Webhooks(BaseSDK):
         )
 
         response_data: Any = None
-        if utils.match_response(http_res, "202", "application/hal+json"):
-            return unmarshal_json_response(Any, http_res)
+        if utils.match_response(http_res, "202", "*"):
+            return
         if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)
