@@ -5,8 +5,8 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.640.0
   generationVersion: 2.730.5
-  releaseVersion: 0.33.1
-  configChecksum: 5b83fc1c4303a67521900286e215925c
+  releaseVersion: 0.34.1
+  configChecksum: 4b7ad071443bb27580292defcacec4f5
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
