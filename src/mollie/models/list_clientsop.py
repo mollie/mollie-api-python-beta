@@ -111,7 +111,7 @@ class ListClientsCommission(BaseModel):
 class ListClientsLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: NotRequired[URLTypedDict]
+    self_: URLTypedDict
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     organization: NotRequired[URLTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
@@ -124,7 +124,7 @@ class ListClientsLinksTypedDict(TypedDict):
 class ListClientsLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    self_: Annotated[Optional[URL], pydantic.Field(alias="self")] = None
+    self_: Annotated[URL, pydantic.Field(alias="self")]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     organization: Optional[URL] = None
@@ -152,27 +152,28 @@ class ClientEmbedded(BaseModel):
 
 
 class ListClientsClientTypedDict(TypedDict):
-    resource: NotRequired[str]
+    resource: str
     r"""Indicates the response contains a client object. Will always contain the string `client` for this resource type."""
-    id: NotRequired[str]
-    r"""The identifier uniquely referring to this client. Example: `org_12345678`."""
+    id: str
+    links: ListClientsLinksTypedDict
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     commission: NotRequired[Nullable[ListClientsCommissionTypedDict]]
     r"""The commission object."""
     organization_created_at: NotRequired[str]
     r"""The date and time the client organization was created, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
     format.
     """
-    links: NotRequired[ListClientsLinksTypedDict]
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     embedded: NotRequired[ClientEmbeddedTypedDict]
 
 
 class ListClientsClient(BaseModel):
-    resource: Optional[str] = None
+    resource: str
     r"""Indicates the response contains a client object. Will always contain the string `client` for this resource type."""
 
-    id: Optional[str] = None
-    r"""The identifier uniquely referring to this client. Example: `org_12345678`."""
+    id: str
+
+    links: Annotated[ListClientsLinks, pydantic.Field(alias="_links")]
+    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     commission: OptionalNullable[ListClientsCommission] = UNSET
     r"""The commission object."""
@@ -184,23 +185,13 @@ class ListClientsClient(BaseModel):
     format.
     """
 
-    links: Annotated[Optional[ListClientsLinks], pydantic.Field(alias="_links")] = None
-    r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-
     embedded: Annotated[Optional[ClientEmbedded], pydantic.Field(alias="_embedded")] = (
         None
     )
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "resource",
-            "id",
-            "commission",
-            "organizationCreatedAt",
-            "_links",
-            "_embedded",
-        ]
+        optional_fields = ["commission", "organizationCreatedAt", "_embedded"]
         nullable_fields = ["commission"]
         null_default_fields = []
 
