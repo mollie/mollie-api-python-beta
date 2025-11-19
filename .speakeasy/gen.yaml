@@ -28,7 +28,7 @@ generation:
     skipResponseBodyAssertions: false
   requestBodyFieldName: ""
 python:
-  version: 0.34.1
+  version: 0.35.1
   additionalDependencies:
     dev: {}
     main: {}
