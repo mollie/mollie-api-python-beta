@@ -5,8 +5,8 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.640.0
   generationVersion: 2.730.5
-  releaseVersion: 0.36.1
-  configChecksum: 4d84c65093b2707b7ae2020ab55137e8
+  releaseVersion: 0.37.1
+  configChecksum: 283c16b2d2fb8475ee6a10b73b054e08
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -5398,7 +5398,3 @@ examples:
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "The resource does not exist", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
 examplesVersion: 1.0.2
 generatedTests: {}
-releaseNotes: |
-  ## Python SDK Changes Detected:
-  * `client.clients.list()`:  `response._embedded.clients.[]` **Changed**
-  * `client.clients.get()`:  `response` **Changed**
