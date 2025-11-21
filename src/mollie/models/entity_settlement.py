@@ -4,9 +4,10 @@ from __future__ import annotations
 from .amount import Amount, AmountTypedDict
 from .amount_nullable import AmountNullable, AmountNullableTypedDict
 from .payment_method import PaymentMethod
-from .settlement_status import SettlementStatus
 from .url import URL, URLTypedDict
 from .url_nullable import URLNullable, URLNullableTypedDict
+from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -14,6 +15,34 @@ from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
+
+
+class EntitySettlementStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The status of the settlement."""
+
+    OPEN = "open"
+    PENDING = "pending"
+    PAIDOUT = "paidout"
+    FAILED = "failed"
+
+
+class EntitySettlementAmountTypedDict(TypedDict):
+    r"""The total amount of the settlement."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class EntitySettlementAmount(BaseModel):
+    r"""The total amount of the settlement."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
 
 
 class RateTypedDict(TypedDict):
@@ -314,11 +343,12 @@ class EntitySettlementTypedDict(TypedDict):
     endpoint.
     """
     id: str
-    status: SettlementStatus
-    r"""The status of the settlement."""
-    amount: AmountTypedDict
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    r"""The identifier uniquely referring to this settlement."""
+    status: EntitySettlementStatus
+    amount: EntitySettlementAmountTypedDict
+    r"""The total amount of the settlement."""
     balance_id: str
+    r"""The balance token that the settlement was settled to."""
     links: EntitySettlementLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     created_at: NotRequired[str]
@@ -331,7 +361,8 @@ class EntitySettlementTypedDict(TypedDict):
     For an [open settlement](get-open-settlement) or for the [next settlement](get-next-settlement), no settlement
     date is available.
     """
-    invoice_id: NotRequired[str]
+    invoice_id: NotRequired[Nullable[str]]
+    r"""The ID of the oldest invoice created for all the periods, if the invoice has been created yet."""
     periods: NotRequired[Dict[str, Dict[str, PeriodsTypedDict]]]
     r"""For bookkeeping purposes, the settlement includes an overview of transactions included in the settlement. These
     transactions are grouped into 'period' objects — one for each calendar month.
@@ -353,14 +384,15 @@ class EntitySettlement(BaseModel):
     """
 
     id: str
+    r"""The identifier uniquely referring to this settlement."""
 
-    status: Annotated[SettlementStatus, PlainValidator(validate_open_enum(False))]
-    r"""The status of the settlement."""
+    status: Annotated[EntitySettlementStatus, PlainValidator(validate_open_enum(False))]
 
-    amount: Amount
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    amount: EntitySettlementAmount
+    r"""The total amount of the settlement."""
 
     balance_id: Annotated[str, pydantic.Field(alias="balanceId")]
+    r"""The balance token that the settlement was settled to."""
 
     links: Annotated[EntitySettlementLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
@@ -380,7 +412,10 @@ class EntitySettlement(BaseModel):
     date is available.
     """
 
-    invoice_id: Annotated[Optional[str], pydantic.Field(alias="invoiceId")] = None
+    invoice_id: Annotated[OptionalNullable[str], pydantic.Field(alias="invoiceId")] = (
+        UNSET
+    )
+    r"""The ID of the oldest invoice created for all the periods, if the invoice has been created yet."""
 
     periods: Optional[Dict[str, Dict[str, Periods]]] = None
     r"""For bookkeeping purposes, the settlement includes an overview of transactions included in the settlement. These
@@ -404,7 +439,7 @@ class EntitySettlement(BaseModel):
             "invoiceId",
             "periods",
         ]
-        nullable_fields = ["reference", "settledAt"]
+        nullable_fields = ["reference", "settledAt", "invoiceId"]
         null_default_fields = []
 
         serialized = handler(self)

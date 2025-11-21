@@ -31,12 +31,13 @@ from .payment_details_seller_protection_response import (
 )
 from .payment_details_wallet_response import PaymentDetailsWalletResponse
 from .payment_line_type_response import PaymentLineTypeResponse
-from .payment_status import PaymentStatus
 from .recurring_line_item import RecurringLineItem, RecurringLineItemTypedDict
 from .sequence_type_response import SequenceTypeResponse
 from .status_reason import StatusReason, StatusReasonTypedDict
 from .url import URL, URLTypedDict
 from datetime import date
+from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -44,6 +45,127 @@ from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
+
+
+class AmountRefundedTypedDict(TypedDict):
+    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some
+    payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the
+    costs for a return shipment to the customer.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class AmountRefunded(BaseModel):
+    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some
+    payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the
+    costs for a return shipment to the customer.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class AmountRemainingTypedDict(TypedDict):
+    r"""The remaining amount that can be refunded. Only available when refunds are available for this payment."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class AmountRemaining(BaseModel):
+    r"""The remaining amount that can be refunded. Only available when refunds are available for this payment."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class AmountCapturedTypedDict(TypedDict):
+    r"""The total amount that is already captured for this payment. Only available when this payment supports captures."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class AmountCaptured(BaseModel):
+    r"""The total amount that is already captured for this payment. Only available when this payment supports captures."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class AmountChargedBackTypedDict(TypedDict):
+    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not
+    zero.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class AmountChargedBack(BaseModel):
+    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not
+    zero.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class PaymentResponseSettlementAmountTypedDict(TypedDict):
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
+
+    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is
+    settled by Mollie the `settlementAmount` is omitted from the response.
+
+    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest
+    using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class PaymentResponseSettlementAmount(BaseModel):
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
+
+    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is
+    settled by Mollie the `settlementAmount` is omitted from the response.
+
+    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest
+    using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
 
 
 class PaymentResponseLineTypedDict(TypedDict):
@@ -327,6 +449,20 @@ class PaymentResponseApplicationFee(BaseModel):
     r"""The description of the application fee. This will appear on settlement reports towards both you and the
     connected merchant.
     """
+
+
+class PaymentResponseStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
+    statuses occur at what point.
+    """
+
+    OPEN = "open"
+    PENDING = "pending"
+    AUTHORIZED = "authorized"
+    PAID = "paid"
+    CANCELED = "canceled"
+    EXPIRED = "expired"
+    FAILED = "failed"
 
 
 class ReceiptTypedDict(TypedDict):
@@ -1132,6 +1268,9 @@ class PaymentResponseTypedDict(TypedDict):
     resource: str
     r"""Indicates the response contains a payment object. Will always contain the string `payment` for this endpoint."""
     id: str
+    r"""The identifier uniquely referring to this payment. Mollie assigns this identifier at payment creation time. Mollie
+    will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
+    """
     mode: Mode
     r"""Whether this entity was created in live mode or in test mode."""
     description: str
@@ -1155,24 +1294,34 @@ class PaymentResponseTypedDict(TypedDict):
     request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
     required.
     """
-    status: PaymentStatus
-    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
-    statuses occur at what point.
-    """
+    status: PaymentResponseStatus
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: PaymentResponseLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    amount_refunded: NotRequired[AmountTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    amount_remaining: NotRequired[AmountTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    amount_captured: NotRequired[AmountTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    amount_charged_back: NotRequired[AmountTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    settlement_amount: NotRequired[AmountTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    amount_refunded: NotRequired[AmountRefundedTypedDict]
+    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some
+    payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the
+    costs for a return shipment to the customer.
+    """
+    amount_remaining: NotRequired[AmountRemainingTypedDict]
+    r"""The remaining amount that can be refunded. Only available when refunds are available for this payment."""
+    amount_captured: NotRequired[AmountCapturedTypedDict]
+    r"""The total amount that is already captured for this payment. Only available when this payment supports captures."""
+    amount_charged_back: NotRequired[AmountChargedBackTypedDict]
+    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not
+    zero.
+    """
+    settlement_amount: NotRequired[PaymentResponseSettlementAmountTypedDict]
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
+
+    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is
+    settled by Mollie the `settlementAmount` is omitted from the response.
+
+    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest
+    using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
+    """
     redirect_url: NotRequired[Nullable[str]]
     r"""The URL your customer will be redirected to after the payment process.
 
@@ -1301,11 +1450,21 @@ class PaymentResponseTypedDict(TypedDict):
     If instead you use OAuth to create payments on a connected merchant's account, refer to the `applicationFee`
     parameter.
     """
-    subscription_id: NotRequired[str]
-    mandate_id: NotRequired[str]
+    subscription_id: NotRequired[Nullable[str]]
+    r"""If the payment was automatically created via a subscription, the ID of the [subscription](get-subscription) will
+    be added to the response.
+    """
+    mandate_id: NotRequired[Nullable[str]]
+    r"""**Only relevant for recurring payments.**
+
+    When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of
+    the customer's accounts should be credited.
+    """
     customer_id: NotRequired[str]
-    settlement_id: NotRequired[str]
-    order_id: NotRequired[str]
+    settlement_id: NotRequired[Nullable[str]]
+    r"""The identifier referring to the [settlement](get-settlement) this payment was settled with."""
+    order_id: NotRequired[Nullable[str]]
+    r"""If the payment was created for an [order](get-order), the ID of that order will be part of the response."""
     status_reason: NotRequired[Nullable[StatusReasonTypedDict]]
     r"""This object offers details about the status of a payment. Currently it is only available for point-of-sale
     payments.
@@ -1351,6 +1510,9 @@ class PaymentResponse(BaseModel):
     r"""Indicates the response contains a payment object. Will always contain the string `payment` for this endpoint."""
 
     id: str
+    r"""The identifier uniquely referring to this payment. Mollie assigns this identifier at payment creation time. Mollie
+    will always refer to the payment by this ID. Example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
+    """
 
     mode: Annotated[Mode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
@@ -1383,10 +1545,7 @@ class PaymentResponse(BaseModel):
     required.
     """
 
-    status: Annotated[PaymentStatus, PlainValidator(validate_open_enum(False))]
-    r"""The payment's status. Refer to the [documentation regarding statuses](https://docs.mollie.com/docs/status-change#/) for more info about which
-    statuses occur at what point.
-    """
+    status: Annotated[PaymentResponseStatus, PlainValidator(validate_open_enum(False))]
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
@@ -1395,29 +1554,43 @@ class PaymentResponse(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     amount_refunded: Annotated[
-        Optional[Amount], pydantic.Field(alias="amountRefunded")
+        Optional[AmountRefunded], pydantic.Field(alias="amountRefunded")
     ] = None
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some
+    payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the
+    costs for a return shipment to the customer.
+    """
 
     amount_remaining: Annotated[
-        Optional[Amount], pydantic.Field(alias="amountRemaining")
+        Optional[AmountRemaining], pydantic.Field(alias="amountRemaining")
     ] = None
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    r"""The remaining amount that can be refunded. Only available when refunds are available for this payment."""
 
     amount_captured: Annotated[
-        Optional[Amount], pydantic.Field(alias="amountCaptured")
+        Optional[AmountCaptured], pydantic.Field(alias="amountCaptured")
     ] = None
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    r"""The total amount that is already captured for this payment. Only available when this payment supports captures."""
 
     amount_charged_back: Annotated[
-        Optional[Amount], pydantic.Field(alias="amountChargedBack")
+        Optional[AmountChargedBack], pydantic.Field(alias="amountChargedBack")
     ] = None
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not
+    zero.
+    """
 
     settlement_amount: Annotated[
-        Optional[Amount], pydantic.Field(alias="settlementAmount")
+        Optional[PaymentResponseSettlementAmount],
+        pydantic.Field(alias="settlementAmount"),
     ] = None
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
+
+    Any amounts not settled by Mollie will not be reflected in this amount, e.g. PayPal or gift cards. If no amount is
+    settled by Mollie the `settlementAmount` is omitted from the response.
+
+    Please note that this amount might be recalculated and changed when the status of the payment changes. We suggest
+    using the List balance transactions endpoint instead to get more accurate settlement amounts for your payments.
+    """
 
     redirect_url: Annotated[
         OptionalNullable[str], pydantic.Field(alias="redirectUrl")
@@ -1595,16 +1768,30 @@ class PaymentResponse(BaseModel):
     """
 
     subscription_id: Annotated[
-        Optional[str], pydantic.Field(alias="subscriptionId")
-    ] = None
+        OptionalNullable[str], pydantic.Field(alias="subscriptionId")
+    ] = UNSET
+    r"""If the payment was automatically created via a subscription, the ID of the [subscription](get-subscription) will
+    be added to the response.
+    """
 
-    mandate_id: Annotated[Optional[str], pydantic.Field(alias="mandateId")] = None
+    mandate_id: Annotated[OptionalNullable[str], pydantic.Field(alias="mandateId")] = (
+        UNSET
+    )
+    r"""**Only relevant for recurring payments.**
+
+    When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of
+    the customer's accounts should be credited.
+    """
 
     customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
 
-    settlement_id: Annotated[Optional[str], pydantic.Field(alias="settlementId")] = None
+    settlement_id: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="settlementId")
+    ] = UNSET
+    r"""The identifier referring to the [settlement](get-settlement) this payment was settled with."""
 
-    order_id: Annotated[Optional[str], pydantic.Field(alias="orderId")] = None
+    order_id: Annotated[OptionalNullable[str], pydantic.Field(alias="orderId")] = UNSET
+    r"""If the payment was created for an [order](get-order), the ID of that order will be part of the response."""
 
     status_reason: Annotated[
         OptionalNullable[StatusReason], pydantic.Field(alias="statusReason")
@@ -1721,6 +1908,10 @@ class PaymentResponse(BaseModel):
             "captureBefore",
             "applicationFee",
             "routing",
+            "subscriptionId",
+            "mandateId",
+            "settlementId",
+            "orderId",
             "statusReason",
             "isCancelable",
             "details",

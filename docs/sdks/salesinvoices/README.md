@@ -34,70 +34,49 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.sales_invoices.create(idempotency_key="123e4567-e89b-12d3-a456-426", entity_sales_invoice=mollie.EntitySalesInvoice(
-        id="invoice_4Y0eZitmBnQ6IDoMqZQKh",
-        testmode=False,
-        profile_id="pfl_QkEhN94Ba",
-        status=mollie.SalesInvoiceStatus.DRAFT,
-        vat_scheme=mollie.SalesInvoiceVatScheme.STANDARD,
-        vat_mode=mollie.SalesInvoiceVatMode.EXCLUSIVE,
-        memo="This is a memo!",
-        payment_term=mollie.SalesInvoicePaymentTerm.THIRTYDAYS,
-        payment_details=mollie.SalesInvoicePaymentDetails(
-            source=mollie.SalesInvoicePaymentDetailsSource.PAYMENT_LINK,
-            source_reference="pl_d9fQur83kFdhH8hIhaZfq",
-        ),
-        email_details=mollie.SalesInvoiceEmailDetails(
-            subject="Your invoice is available",
-            body="Please find your invoice enclosed.",
-        ),
-        customer_id="cst_8wmqcHMN4U",
-        mandate_id="mdt_pWUnw6pkBN",
-        recipient_identifier="customer-xyz-0123",
-        recipient=mollie.SalesInvoiceRecipient(
-            type=mollie.SalesInvoiceRecipientType.CONSUMER,
-            title="Mrs.",
-            given_name="Jane",
-            family_name="Doe",
-            organization_name="Organization Corp.",
-            organization_number="12345678",
-            vat_number="NL123456789B01",
-            email="example@email.com",
-            phone="+0123456789",
-            street_and_number="Keizersgracht 126",
-            street_additional="4th floor",
-            postal_code="5678AB",
-            city="Amsterdam",
-            region="Noord-Holland",
-            country="NL",
-            locale=mollie.SalesInvoiceRecipientLocale.NL_NL,
-        ),
-        lines=[],
-        discount=mollie.SalesInvoiceDiscount(
-            type=mollie.SalesInvoiceDiscountType.AMOUNT,
-            value="10.00",
-        ),
-        amount_due=mollie.Amount(
-            currency="EUR",
-            value="10.00",
-        ),
-        subtotal_amount=mollie.Amount(
-            currency="EUR",
-            value="10.00",
-        ),
-        total_amount=mollie.Amount(
-            currency="EUR",
-            value="10.00",
-        ),
-        total_vat_amount=mollie.Amount(
-            currency="EUR",
-            value="10.00",
-        ),
-        discounted_subtotal_amount=mollie.Amount(
-            currency="EUR",
-            value="10.00",
-        ),
-    ))
+    res = client_sdk.sales_invoices.create(idempotency_key="123e4567-e89b-12d3-a456-426", entity_sales_invoice={
+        "testmode": False,
+        "profile_id": "pfl_QkEhN94Ba",
+        "status": mollie.SalesInvoiceStatus.DRAFT,
+        "vat_scheme": mollie.SalesInvoiceVatScheme.STANDARD,
+        "vat_mode": mollie.SalesInvoiceVatMode.EXCLUSIVE,
+        "memo": "This is a memo!",
+        "payment_term": mollie.SalesInvoicePaymentTerm.THIRTYDAYS,
+        "payment_details": {
+            "source": mollie.SalesInvoicePaymentDetailsSource.PAYMENT_LINK,
+            "source_reference": "pl_d9fQur83kFdhH8hIhaZfq",
+        },
+        "email_details": {
+            "subject": "Your invoice is available",
+            "body": "Please find your invoice enclosed.",
+        },
+        "customer_id": "cst_8wmqcHMN4U",
+        "mandate_id": "mdt_pWUnw6pkBN",
+        "recipient_identifier": "customer-xyz-0123",
+        "recipient": {
+            "type": mollie.SalesInvoiceRecipientType.CONSUMER,
+            "title": "Mrs.",
+            "given_name": "Jane",
+            "family_name": "Doe",
+            "organization_name": "Organization Corp.",
+            "organization_number": "12345678",
+            "vat_number": "NL123456789B01",
+            "email": "example@email.com",
+            "phone": "+0123456789",
+            "street_and_number": "Keizersgracht 126",
+            "street_additional": "4th floor",
+            "postal_code": "5678AB",
+            "city": "Amsterdam",
+            "region": "Noord-Holland",
+            "country": "NL",
+            "locale": mollie.SalesInvoiceRecipientLocale.NL_NL,
+        },
+        "lines": [],
+        "discount": {
+            "type": mollie.SalesInvoiceDiscountType.AMOUNT,
+            "value": "10.00",
+        },
+    })
 
     # Handle response
     print(res)

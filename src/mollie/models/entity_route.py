@@ -32,8 +32,6 @@ class EntityRouteDestination(BaseModel):
 
 
 class EntityRouteTypedDict(TypedDict):
-    id: NotRequired[str]
-    payment_id: NotRequired[str]
     amount: NotRequired[AmountTypedDict]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     description: NotRequired[str]
@@ -50,10 +48,6 @@ class EntityRouteTypedDict(TypedDict):
 
 
 class EntityRoute(BaseModel):
-    id: Optional[str] = None
-
-    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
-
     amount: Optional[Amount] = None
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
@@ -73,14 +67,7 @@ class EntityRoute(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "id",
-            "paymentId",
-            "amount",
-            "description",
-            "destination",
-            "testmode",
-        ]
+        optional_fields = ["amount", "description", "destination", "testmode"]
         nullable_fields = ["testmode"]
         null_default_fields = []
 

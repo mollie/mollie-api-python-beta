@@ -2,14 +2,47 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
-from .amount_nullable import AmountNullable, AmountNullableTypedDict
 from .url import URL, URLTypedDict
 from .url_nullable import URLNullable, URLNullableTypedDict
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
-from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
+
+
+class EntityChargebackSettlementAmountTypedDict(TypedDict):
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
+
+    The amount is a **negative** amount.
+
+    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class EntityChargebackSettlementAmount(BaseModel):
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
+
+    The amount is a **negative** amount.
+
+    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
 
 
 class ReasonTypedDict(TypedDict):
@@ -96,18 +129,33 @@ class EntityChargebackTypedDict(TypedDict):
     endpoint.
     """
     id: str
+    r"""The identifier uniquely referring to this chargeback. Example: `chb_n9z0tp`."""
     amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     payment_id: str
+    r"""The unique identifier of the payment this chargeback was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
+    The full payment object can be retrieved via the payment URL in the `_links` object.
+    """
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: EntityChargebackLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    settlement_amount: NotRequired[Nullable[AmountNullableTypedDict]]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    settlement_amount: NotRequired[Nullable[EntityChargebackSettlementAmountTypedDict]]
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
+
+    The amount is a **negative** amount.
+
+    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
+    """
     reason: NotRequired[Nullable[ReasonTypedDict]]
     r"""Reason for the chargeback as given by the bank. Only available for chargebacks of SEPA Direct Debit payments."""
-    settlement_id: NotRequired[str]
+    settlement_id: NotRequired[Nullable[str]]
+    r"""The identifier referring to the settlement this payment was settled with. For example, `stl_BkEjN2eBb`. This field
+    is omitted if the refund is not settled (yet).
+    """
     reversed_at: NotRequired[Nullable[str]]
     r"""The date and time the chargeback was reversed if applicable, in
     [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.
@@ -121,11 +169,15 @@ class EntityChargeback(BaseModel):
     """
 
     id: str
+    r"""The identifier uniquely referring to this chargeback. Example: `chb_n9z0tp`."""
 
     amount: Amount
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
     payment_id: Annotated[str, pydantic.Field(alias="paymentId")]
+    r"""The unique identifier of the payment this chargeback was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
+    The full payment object can be retrieved via the payment URL in the `_links` object.
+    """
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
@@ -134,14 +186,28 @@ class EntityChargeback(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     settlement_amount: Annotated[
-        OptionalNullable[AmountNullable], pydantic.Field(alias="settlementAmount")
+        OptionalNullable[EntityChargebackSettlementAmount],
+        pydantic.Field(alias="settlementAmount"),
     ] = UNSET
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
+
+    The amount is a **negative** amount.
+
+    Since the field contains an estimated amount during chargeback processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
+    """
 
     reason: OptionalNullable[Reason] = UNSET
     r"""Reason for the chargeback as given by the bank. Only available for chargebacks of SEPA Direct Debit payments."""
 
-    settlement_id: Annotated[Optional[str], pydantic.Field(alias="settlementId")] = None
+    settlement_id: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="settlementId")
+    ] = UNSET
+    r"""The identifier referring to the settlement this payment was settled with. For example, `stl_BkEjN2eBb`. This field
+    is omitted if the refund is not settled (yet).
+    """
 
     reversed_at: Annotated[
         OptionalNullable[str], pydantic.Field(alias="reversedAt")
@@ -153,7 +219,7 @@ class EntityChargeback(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = ["settlementAmount", "reason", "settlementId", "reversedAt"]
-        nullable_fields = ["settlementAmount", "reason", "reversedAt"]
+        nullable_fields = ["settlementAmount", "reason", "settlementId", "reversedAt"]
         null_default_fields = []
 
         serialized = handler(self)

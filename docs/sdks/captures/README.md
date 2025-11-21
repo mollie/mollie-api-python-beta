@@ -35,22 +35,13 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.captures.create(payment_id="tr_5B8cwPMGnU", idempotency_key="123e4567-e89b-12d3-a456-426", entity_capture=mollie.EntityCapture(
-        id="cpt_vytxeTZskVKR7C7WgdSP3d",
-        description="Capture for cart #12345",
-        amount=mollie.AmountNullable(
-            currency="EUR",
-            value="10.00",
-        ),
-        settlement_amount=mollie.AmountNullable(
-            currency="EUR",
-            value="10.00",
-        ),
-        status=mollie.CaptureStatus.SUCCEEDED,
-        payment_id="tr_5B8cwPMGnU",
-        shipment_id="shp_5x4xQJDWGNcY3tKGL7X5J",
-        settlement_id="stl_5B8cwPMGnU",
-    ))
+    res = client_sdk.captures.create(payment_id="tr_5B8cwPMGnU", idempotency_key="123e4567-e89b-12d3-a456-426", entity_capture={
+        "description": "Capture for cart #12345",
+        "amount": {
+            "currency": "EUR",
+            "value": "10.00",
+        },
+    })
 
     # Handle response
     print(res)

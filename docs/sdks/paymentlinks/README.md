@@ -34,7 +34,6 @@ with ClientSDK(
 ) as client_sdk:
 
     res = client_sdk.payment_links.create(idempotency_key="123e4567-e89b-12d3-a456-426", request_body=mollie.CreatePaymentLinkRequestBody(
-        id="pl_d9fQur83kFdhH8hIhaZfq",
         description="Chess Board",
         amount=mollie.AmountNullable(
             currency="EUR",

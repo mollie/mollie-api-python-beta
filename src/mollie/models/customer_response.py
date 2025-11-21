@@ -87,6 +87,7 @@ class CustomerResponseTypedDict(TypedDict):
     resource: str
     r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
     id: str
+    r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
     mode: Mode
     r"""Whether this entity was created in live mode or in test mode."""
     name: Nullable[str]
@@ -110,6 +111,7 @@ class CustomerResponse(BaseModel):
     r"""Indicates the response contains a customer object. Will always contain the string `customer` for this endpoint."""
 
     id: str
+    r"""The identifier uniquely referring to this customer. Example: `cst_vsKJpSsabw`."""
 
     mode: Annotated[Mode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""

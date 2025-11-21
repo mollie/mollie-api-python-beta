@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 from .address import Address, AddressTypedDict
-from .locale_response import LocaleResponse
 from .organization_vat_regulation import OrganizationVatRegulation
 from .url import URL, URLTypedDict
+from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -12,6 +13,34 @@ from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
+
+
+class EntityOrganizationLocale(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The preferred locale of the merchant, as set in their Mollie dashboard."""
+
+    EN_US = "en_US"
+    EN_GB = "en_GB"
+    NL_NL = "nl_NL"
+    NL_BE = "nl_BE"
+    DE_DE = "de_DE"
+    DE_AT = "de_AT"
+    DE_CH = "de_CH"
+    FR_FR = "fr_FR"
+    FR_BE = "fr_BE"
+    ES_ES = "es_ES"
+    CA_ES = "ca_ES"
+    PT_PT = "pt_PT"
+    IT_IT = "it_IT"
+    NB_NO = "nb_NO"
+    SV_SE = "sv_SE"
+    FI_FI = "fi_FI"
+    DA_DK = "da_DK"
+    IS_IS = "is_IS"
+    HU_HU = "hu_HU"
+    PL_PL = "pl_PL"
+    LV_LV = "lv_LV"
+    LT_LT = "lt_LT"
+    NULL = "null"
 
 
 class EntityOrganizationLinksTypedDict(TypedDict):
@@ -48,8 +77,8 @@ class EntityOrganizationTypedDict(TypedDict):
     r"""The name of the organization."""
     email: str
     r"""The email address associated with the organization."""
-    locale: Nullable[LocaleResponse]
-    r"""Allows you to preset the language to be used."""
+    locale: Nullable[EntityOrganizationLocale]
+    r"""The preferred locale of the merchant, as set in their Mollie dashboard."""
     address: AddressTypedDict
     registration_number: str
     r"""The registration number of the organization at their local chamber of commerce."""
@@ -84,9 +113,9 @@ class EntityOrganization(BaseModel):
     r"""The email address associated with the organization."""
 
     locale: Annotated[
-        Nullable[LocaleResponse], PlainValidator(validate_open_enum(False))
+        Nullable[EntityOrganizationLocale], PlainValidator(validate_open_enum(False))
     ]
-    r"""Allows you to preset the language to be used."""
+    r"""The preferred locale of the merchant, as set in their Mollie dashboard."""
 
     address: Address
 

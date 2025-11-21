@@ -55,6 +55,9 @@ class EntityPaymentRouteResponseTypedDict(TypedDict):
     resource: str
     r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
     id: str
+    r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID.
+    Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`.
+    """
     mode: Mode
     r"""Whether this entity was created in live mode or in test mode."""
     amount: AmountTypedDict
@@ -78,6 +81,9 @@ class EntityPaymentRouteResponse(BaseModel):
     r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
 
     id: str
+    r"""The identifier uniquely referring to this route. Mollie will always refer to the route by this ID.
+    Example: `rt_5B8cwPMGnU6qLbRvo7qEZo`.
+    """
 
     mode: Annotated[Mode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""

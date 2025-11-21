@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 from .amount_nullable import AmountNullable, AmountNullableTypedDict
-from .capture_status import CaptureStatus
 from .metadata import Metadata, MetadataTypedDict
 from .mode import Mode
 from .url import URL, URLTypedDict
 from .url_nullable import URLNullable, URLNullableTypedDict
+from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -14,6 +15,45 @@ from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
+
+
+class CaptureResponseSettlementAmountTypedDict(TypedDict):
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
+
+    Since the field contains an estimated amount during capture processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class CaptureResponseSettlementAmount(BaseModel):
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
+
+    Since the field contains an estimated amount during capture processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class CaptureResponseStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The capture's status."""
+
+    PENDING = "pending"
+    SUCCEEDED = "succeeded"
+    FAILED = "failed"
 
 
 class CaptureResponseLinksTypedDict(TypedDict):
@@ -84,27 +124,42 @@ class CaptureResponseTypedDict(TypedDict):
     resource: str
     r"""Indicates the response contains a capture object. Will always contain the string `capture` for this endpoint."""
     id: str
+    r"""The identifier uniquely referring to this capture. Example: `cpt_mNepDkEtco6ah3QNPUGYH`."""
     mode: Mode
     r"""Whether this entity was created in live mode or in test mode."""
     amount: Nullable[AmountNullableTypedDict]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    status: CaptureStatus
-    r"""The capture's status."""
+    status: CaptureResponseStatus
     payment_id: str
+    r"""The unique identifier of the payment this capture was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
+    The full payment object can be retrieved via the payment URL in the `_links` object.
+    """
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: CaptureResponseLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     description: NotRequired[str]
     r"""The description of the capture."""
-    settlement_amount: NotRequired[Nullable[AmountNullableTypedDict]]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    settlement_amount: NotRequired[Nullable[CaptureResponseSettlementAmountTypedDict]]
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
+
+    Since the field contains an estimated amount during capture processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
+    """
     metadata: NotRequired[Nullable[MetadataTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-    shipment_id: NotRequired[str]
-    settlement_id: NotRequired[str]
+    shipment_id: NotRequired[Nullable[str]]
+    r"""The unique identifier of the shipment that triggered the creation of this capture, if applicable. For example:
+    `shp_gNapNy9qQTUFZYnCrCF7J`.
+    """
+    settlement_id: NotRequired[Nullable[str]]
+    r"""The identifier referring to the settlement this capture was settled with. For example, `stl_BkEjN2eBb`. This field
+    is omitted if the capture is not settled (yet).
+    """
 
 
 class CaptureResponse(BaseModel):
@@ -112,6 +167,7 @@ class CaptureResponse(BaseModel):
     r"""Indicates the response contains a capture object. Will always contain the string `capture` for this endpoint."""
 
     id: str
+    r"""The identifier uniquely referring to this capture. Example: `cpt_mNepDkEtco6ah3QNPUGYH`."""
 
     mode: Annotated[Mode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
@@ -119,10 +175,12 @@ class CaptureResponse(BaseModel):
     amount: Nullable[AmountNullable]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    status: Annotated[CaptureStatus, PlainValidator(validate_open_enum(False))]
-    r"""The capture's status."""
+    status: Annotated[CaptureResponseStatus, PlainValidator(validate_open_enum(False))]
 
     payment_id: Annotated[str, pydantic.Field(alias="paymentId")]
+    r"""The unique identifier of the payment this capture was created for. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
+    The full payment object can be retrieved via the payment URL in the `_links` object.
+    """
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
@@ -134,18 +192,35 @@ class CaptureResponse(BaseModel):
     r"""The description of the capture."""
 
     settlement_amount: Annotated[
-        OptionalNullable[AmountNullable], pydantic.Field(alias="settlementAmount")
+        OptionalNullable[CaptureResponseSettlementAmount],
+        pydantic.Field(alias="settlementAmount"),
     ] = UNSET
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    r"""This optional field will contain the approximate amount that will be settled to your account, converted to the
+    currency your account is settled in.
+
+    Since the field contains an estimated amount during capture processing, it may change over time. To retrieve
+    accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
+    instead.
+    """
 
     metadata: OptionalNullable[Metadata] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
 
-    shipment_id: Annotated[Optional[str], pydantic.Field(alias="shipmentId")] = None
+    shipment_id: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="shipmentId")
+    ] = UNSET
+    r"""The unique identifier of the shipment that triggered the creation of this capture, if applicable. For example:
+    `shp_gNapNy9qQTUFZYnCrCF7J`.
+    """
 
-    settlement_id: Annotated[Optional[str], pydantic.Field(alias="settlementId")] = None
+    settlement_id: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="settlementId")
+    ] = UNSET
+    r"""The identifier referring to the settlement this capture was settled with. For example, `stl_BkEjN2eBb`. This field
+    is omitted if the capture is not settled (yet).
+    """
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -156,7 +231,13 @@ class CaptureResponse(BaseModel):
             "shipmentId",
             "settlementId",
         ]
-        nullable_fields = ["amount", "settlementAmount", "metadata"]
+        nullable_fields = [
+            "amount",
+            "settlementAmount",
+            "metadata",
+            "shipmentId",
+            "settlementId",
+        ]
         null_default_fields = []
 
         serialized = handler(self)

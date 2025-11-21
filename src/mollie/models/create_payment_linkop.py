@@ -55,7 +55,6 @@ class CreatePaymentLinkRequestBodyTypedDict(TypedDict):
     r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the
     customer's bank or card statement when possible.
     """
-    id: NotRequired[str]
     amount: NotRequired[Nullable[AmountNullableTypedDict]]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     minimum_amount: NotRequired[Nullable[AmountNullableTypedDict]]
@@ -135,8 +134,6 @@ class CreatePaymentLinkRequestBody(BaseModel):
     r"""A short description of the payment link. The description is visible in the Dashboard and will be shown on the
     customer's bank or card statement when possible.
     """
-
-    id: Optional[str] = None
 
     amount: OptionalNullable[AmountNullable] = UNSET
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
@@ -252,7 +249,6 @@ class CreatePaymentLinkRequestBody(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "id",
             "amount",
             "minimumAmount",
             "redirectUrl",

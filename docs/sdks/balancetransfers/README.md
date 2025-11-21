@@ -32,7 +32,6 @@ with ClientSDK(
 ) as client_sdk:
 
     res = client_sdk.balance_transfers.create(idempotency_key="123e4567-e89b-12d3-a456-426", entity_balance_transfer=mollie.EntityBalanceTransfer(
-        id="cbtr_j8NvRAM2WNZtsykpLEX8J",
         amount=mollie.Amount(
             currency="EUR",
             value="10.00",

@@ -81,6 +81,7 @@ class PaymentLinkResponseTypedDict(TypedDict):
     endpoint.
     """
     id: str
+    r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
     mode: Mode
     r"""Whether this entity was created in live mode or in test mode."""
     description: str
@@ -169,6 +170,7 @@ class PaymentLinkResponse(BaseModel):
     """
 
     id: str
+    r"""The identifier uniquely referring to this payment link. Example: `pl_4Y0eZitmBnQ6IDoMqZQKh`."""
 
     mode: Annotated[Mode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""

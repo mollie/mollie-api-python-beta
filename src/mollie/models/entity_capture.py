@@ -2,80 +2,40 @@
 
 from __future__ import annotations
 from .amount_nullable import AmountNullable, AmountNullableTypedDict
-from .capture_status import CaptureStatus
 from .metadata import Metadata, MetadataTypedDict
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import validate_open_enum
-import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import NotRequired, TypedDict
 
 
 class EntityCaptureTypedDict(TypedDict):
-    id: NotRequired[str]
     description: NotRequired[str]
     r"""The description of the capture."""
     amount: NotRequired[Nullable[AmountNullableTypedDict]]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    settlement_amount: NotRequired[Nullable[AmountNullableTypedDict]]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    status: NotRequired[CaptureStatus]
-    r"""The capture's status."""
     metadata: NotRequired[Nullable[MetadataTypedDict]]
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-    payment_id: NotRequired[str]
-    shipment_id: NotRequired[str]
-    settlement_id: NotRequired[str]
 
 
 class EntityCapture(BaseModel):
-    id: Optional[str] = None
-
     description: Optional[str] = None
     r"""The description of the capture."""
 
     amount: OptionalNullable[AmountNullable] = UNSET
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    settlement_amount: Annotated[
-        OptionalNullable[AmountNullable], pydantic.Field(alias="settlementAmount")
-    ] = UNSET
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-    status: Annotated[
-        Optional[CaptureStatus], PlainValidator(validate_open_enum(False))
-    ] = None
-    r"""The capture's status."""
-
     metadata: OptionalNullable[Metadata] = UNSET
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
 
-    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
-
-    shipment_id: Annotated[Optional[str], pydantic.Field(alias="shipmentId")] = None
-
-    settlement_id: Annotated[Optional[str], pydantic.Field(alias="settlementId")] = None
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = [
-            "id",
-            "description",
-            "amount",
-            "settlementAmount",
-            "status",
-            "metadata",
-            "paymentId",
-            "shipmentId",
-            "settlementId",
-        ]
-        nullable_fields = ["amount", "settlementAmount", "metadata"]
+        optional_fields = ["description", "amount", "metadata"]
+        nullable_fields = ["amount", "metadata"]
         null_default_fields = []
 
         serialized = handler(self)

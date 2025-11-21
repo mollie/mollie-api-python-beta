@@ -53,7 +53,13 @@ class RouteCreateResponseTypedDict(TypedDict):
     resource: str
     r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
     id: str
+    r"""The identifier uniquely referring to this route. Mollie assigns this identifier at route creation time. Mollie
+    will always refer to the route by this ID. Example: `crt_dyARQ3JzCgtPDhU2Pbq3J`.
+    """
     payment_id: str
+    r"""The unique identifier of the payment. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
+    The full payment object can be retrieved via the payment URL in the `_links` object.
+    """
     amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     description: str
@@ -69,8 +75,14 @@ class RouteCreateResponse(BaseModel):
     r"""Indicates the response contains a route object. Will always contain the string `route` for this endpoint."""
 
     id: str
+    r"""The identifier uniquely referring to this route. Mollie assigns this identifier at route creation time. Mollie
+    will always refer to the route by this ID. Example: `crt_dyARQ3JzCgtPDhU2Pbq3J`.
+    """
 
     payment_id: Annotated[str, pydantic.Field(alias="paymentId")]
+    r"""The unique identifier of the payment. For example: `tr_5B8cwPMGnU6qLbRvo7qEZo`.
+    The full payment object can be retrieved via the payment URL in the `_links` object.
+    """
 
     amount: Amount
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""

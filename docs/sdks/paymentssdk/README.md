@@ -44,29 +44,8 @@ with ClientSDK(
 ) as client_sdk:
 
     res = client_sdk.payments.create(include="details.qrCode", idempotency_key="123e4567-e89b-12d3-a456-426", payment_request=mollie.PaymentRequest(
-        id="tr_5B8cwPMGnU",
         description="Chess Board",
         amount=mollie.Amount(
-            currency="EUR",
-            value="10.00",
-        ),
-        amount_refunded=mollie.Amount(
-            currency="EUR",
-            value="10.00",
-        ),
-        amount_remaining=mollie.Amount(
-            currency="EUR",
-            value="10.00",
-        ),
-        amount_captured=mollie.Amount(
-            currency="EUR",
-            value="10.00",
-        ),
-        amount_charged_back=mollie.Amount(
-            currency="EUR",
-            value="10.00",
-        ),
-        settlement_amount=mollie.Amount(
             currency="EUR",
             value="10.00",
         ),
@@ -237,7 +216,6 @@ with ClientSDK(
         ),
         routing=[
             mollie.EntityPaymentRoute(
-                id="rt_5B8cwPMGnU",
                 amount=mollie.Amount(
                     currency="EUR",
                     value="10.00",
@@ -259,7 +237,6 @@ with ClientSDK(
                 ),
             ),
             mollie.EntityPaymentRoute(
-                id="rt_5B8cwPMGnU",
                 amount=mollie.Amount(
                     currency="EUR",
                     value="10.00",
@@ -282,12 +259,9 @@ with ClientSDK(
             ),
         ],
         sequence_type=mollie.SequenceType.ONEOFF,
-        subscription_id="sub_5B8cwPMGnU",
         mandate_id="mdt_5B8cwPMGnU",
         customer_id="cst_5B8cwPMGnU",
         profile_id="pfl_5B8cwPMGnU",
-        settlement_id="stl_5B8cwPMGnU",
-        order_id="ord_5B8cwPMGnU",
         due_date="2025-01-01",
         testmode=False,
         apple_pay_payment_token="{\"paymentData\": {\"version\": \"EC_v1\", \"data\": \"vK3BbrCbI/....\"}}",

@@ -2,12 +2,9 @@
 
 from __future__ import annotations
 from .mandate_method import MandateMethod
-from .mandate_status import MandateStatus
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -21,6 +18,7 @@ class MandateRequestTypedDict(TypedDict):
     consumer_name: str
     r"""The customer's name."""
     id: NotRequired[str]
+    r"""The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`."""
     consumer_account: NotRequired[Nullable[str]]
     r"""The customer's IBAN. Required for SEPA Direct Debit mandates."""
     consumer_bic: NotRequired[Nullable[str]]
@@ -41,11 +39,6 @@ class MandateRequestTypedDict(TypedDict):
     r"""The Vault ID given by PayPal. For example: `8kk8451t`. Required for PayPal mandates.
     Must provide either this field or `paypalBillingAgreementId`, but not both.
     """
-    status: NotRequired[MandateStatus]
-    r"""The status of the mandate. A status can be `pending` for mandates when the first payment is not yet finalized, or
-    when we did not received the IBAN yet from the first payment.
-    """
-    customer_id: NotRequired[str]
     testmode: NotRequired[Nullable[bool]]
     r"""Whether to create the entity in test mode or live mode.
 
@@ -66,6 +59,7 @@ class MandateRequest(BaseModel):
     r"""The customer's name."""
 
     id: Optional[str] = None
+    r"""The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`."""
 
     consumer_account: Annotated[
         OptionalNullable[str], pydantic.Field(alias="consumerAccount")
@@ -108,15 +102,6 @@ class MandateRequest(BaseModel):
     Must provide either this field or `paypalBillingAgreementId`, but not both.
     """
 
-    status: Annotated[
-        Optional[MandateStatus], PlainValidator(validate_open_enum(False))
-    ] = None
-    r"""The status of the mandate. A status can be `pending` for mandates when the first payment is not yet finalized, or
-    when we did not received the IBAN yet from the first payment.
-    """
-
-    customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
-
     testmode: OptionalNullable[bool] = UNSET
     r"""Whether to create the entity in test mode or live mode.
 
@@ -136,8 +121,6 @@ class MandateRequest(BaseModel):
             "mandateReference",
             "paypalBillingAgreementId",
             "payPalVaultId",
-            "status",
-            "customerId",
             "testmode",
         ]
         nullable_fields = [

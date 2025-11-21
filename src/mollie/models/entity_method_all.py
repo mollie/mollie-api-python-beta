@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
-from .amount_nullable import AmountNullable, AmountNullableTypedDict
-from .method_response import MethodResponse
 from .method_status import MethodStatus
 from .url import URL, URLTypedDict
+from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -13,6 +13,96 @@ from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
+
+
+class EntityMethodAllID(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment
+    method selection screen will be skipped.
+    """
+
+    ALMA = "alma"
+    APPLEPAY = "applepay"
+    BACS = "bacs"
+    BANCOMATPAY = "bancomatpay"
+    BANCONTACT = "bancontact"
+    BANKTRANSFER = "banktransfer"
+    BELFIUS = "belfius"
+    BILLIE = "billie"
+    BIZUM = "bizum"
+    BLIK = "blik"
+    CREDITCARD = "creditcard"
+    DIRECTDEBIT = "directdebit"
+    EPS = "eps"
+    GIFTCARD = "giftcard"
+    IDEAL = "ideal"
+    IN3 = "in3"
+    KBC = "kbc"
+    KLARNA = "klarna"
+    MBWAY = "mbway"
+    MOBILEPAY = "mobilepay"
+    MULTIBANCO = "multibanco"
+    MYBANK = "mybank"
+    PAYBYBANK = "paybybank"
+    PAYCONIQ = "payconiq"
+    PAYPAL = "paypal"
+    PAYSAFECARD = "paysafecard"
+    POINTOFSALE = "pointofsale"
+    PRZELEWY24 = "przelewy24"
+    RIVERTY = "riverty"
+    SATISPAY = "satispay"
+    SWISH = "swish"
+    TRUSTLY = "trustly"
+    TWINT = "twint"
+    VIPPS = "vipps"
+    VOUCHER = "voucher"
+    # Deprecated, use 'klarna' instead
+    KLARNAPAYLATER = "klarnapaylater"
+    # Deprecated, use 'klarna' instead
+    KLARNAPAYNOW = "klarnapaynow"
+    # Deprecated, use 'klarna' instead
+    KLARNASLICEIT = "klarnasliceit"
+
+
+class EntityMethodAllMinimumAmountTypedDict(TypedDict):
+    r"""The minimum payment amount required to use this payment method."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class EntityMethodAllMinimumAmount(BaseModel):
+    r"""The minimum payment amount required to use this payment method."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class EntityMethodAllMaximumAmountTypedDict(TypedDict):
+    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null`
+    is returned instead.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class EntityMethodAllMaximumAmount(BaseModel):
+    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null`
+    is returned instead.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
 
 
 class EntityMethodAllImageTypedDict(TypedDict):
@@ -201,24 +291,21 @@ class EntityMethodAllTypedDict(TypedDict):
     r"""Indicates the response contains a payment method object. Will always contain the string `method` for this
     endpoint.
     """
-    id: Nullable[MethodResponse]
-    r"""Normally, a payment method screen is shown. However, when using this parameter, you can choose a specific payment
-    method and your customer will skip the selection screen and is sent directly to the chosen payment method. The
-    parameter enables you to fully integrate the payment method selection into your website.
-
-    You can also specify the methods in an array. By doing so we will still show the payment method selection screen
-    but will only show the methods specified in the array. For example, you can use this functionality to only show
-    payment methods from a specific country to your customer `['bancontact', 'belfius']`.
+    id: Nullable[EntityMethodAllID]
+    r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment
+    method selection screen will be skipped.
     """
     description: str
     r"""The full name of the payment method.
 
     If a `locale` parameter is provided, the name is translated to the given locale if possible.
     """
-    minimum_amount: AmountTypedDict
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    maximum_amount: Nullable[AmountNullableTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    minimum_amount: EntityMethodAllMinimumAmountTypedDict
+    r"""The minimum payment amount required to use this payment method."""
+    maximum_amount: Nullable[EntityMethodAllMaximumAmountTypedDict]
+    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null`
+    is returned instead.
+    """
     image: EntityMethodAllImageTypedDict
     r"""URLs of images representing the payment method."""
     status: MethodStatus
@@ -241,14 +328,11 @@ class EntityMethodAll(BaseModel):
     endpoint.
     """
 
-    id: Annotated[Nullable[MethodResponse], PlainValidator(validate_open_enum(False))]
-    r"""Normally, a payment method screen is shown. However, when using this parameter, you can choose a specific payment
-    method and your customer will skip the selection screen and is sent directly to the chosen payment method. The
-    parameter enables you to fully integrate the payment method selection into your website.
-
-    You can also specify the methods in an array. By doing so we will still show the payment method selection screen
-    but will only show the methods specified in the array. For example, you can use this functionality to only show
-    payment methods from a specific country to your customer `['bancontact', 'belfius']`.
+    id: Annotated[
+        Nullable[EntityMethodAllID], PlainValidator(validate_open_enum(False))
+    ]
+    r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment
+    method selection screen will be skipped.
     """
 
     description: str
@@ -257,13 +341,17 @@ class EntityMethodAll(BaseModel):
     If a `locale` parameter is provided, the name is translated to the given locale if possible.
     """
 
-    minimum_amount: Annotated[Amount, pydantic.Field(alias="minimumAmount")]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    minimum_amount: Annotated[
+        EntityMethodAllMinimumAmount, pydantic.Field(alias="minimumAmount")
+    ]
+    r"""The minimum payment amount required to use this payment method."""
 
     maximum_amount: Annotated[
-        Nullable[AmountNullable], pydantic.Field(alias="maximumAmount")
+        Nullable[EntityMethodAllMaximumAmount], pydantic.Field(alias="maximumAmount")
     ]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null`
+    is returned instead.
+    """
 
     image: EntityMethodAllImage
     r"""URLs of images representing the payment method."""

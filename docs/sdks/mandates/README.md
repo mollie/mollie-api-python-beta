@@ -44,8 +44,6 @@ with ClientSDK(
         "mandate_reference": "ID-1023892",
         "paypal_billing_agreement_id": "B-12A34567B8901234CD",
         "pay_pal_vault_id": "8kk8451t",
-        "status": mollie.MandateStatus.VALID,
-        "customer_id": "cst_5B8cwPMGnU",
         "testmode": False,
     })
 

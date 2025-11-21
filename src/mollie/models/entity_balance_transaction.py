@@ -905,6 +905,7 @@ class EntityBalanceTransactionTypedDict(TypedDict):
     for this endpoint.
     """
     id: str
+    r"""The identifier uniquely referring to this balance transaction."""
     type: BalanceTransactionType
     result_amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
@@ -971,6 +972,7 @@ class EntityBalanceTransaction(BaseModel):
     """
 
     id: str
+    r"""The identifier uniquely referring to this balance transaction."""
 
     type: Annotated[BalanceTransactionType, PlainValidator(validate_open_enum(False))]
 

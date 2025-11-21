@@ -7,12 +7,10 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import validate_open_enum
 from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
-from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class EntityCustomerTypedDict(TypedDict):
-    id: NotRequired[str]
     name: NotRequired[Nullable[str]]
     r"""The full name of the customer."""
     email: NotRequired[Nullable[str]]
@@ -33,8 +31,6 @@ class EntityCustomerTypedDict(TypedDict):
 
 
 class EntityCustomer(BaseModel):
-    id: Optional[str] = None
-
     name: OptionalNullable[str] = UNSET
     r"""The full name of the customer."""
 
@@ -61,7 +57,7 @@ class EntityCustomer(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["id", "name", "email", "locale", "metadata", "testmode"]
+        optional_fields = ["name", "email", "locale", "metadata", "testmode"]
         nullable_fields = ["name", "email", "locale", "metadata", "testmode"]
         null_default_fields = []
 

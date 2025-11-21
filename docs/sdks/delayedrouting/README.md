@@ -29,8 +29,6 @@ with ClientSDK(
 ) as client_sdk:
 
     res = client_sdk.delayed_routing.create(payment_id="tr_5B8cwPMGnU", idempotency_key="123e4567-e89b-12d3-a456-426", entity_route={
-        "id": "crt_dyARQ3JzCgtPDhU2Pbq3J",
-        "payment_id": "tr_5B8cwPMGnU",
         "amount": {
             "currency": "EUR",
             "value": "10.00",

@@ -2,16 +2,12 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
-from .amount_nullable import AmountNullable, AmountNullableTypedDict
 from .metadata import Metadata, MetadataTypedDict
 from .refund_external_reference_type import RefundExternalReferenceType
-from .refund_routing_reversals_source_type import RefundRoutingReversalsSourceType
-from .refund_status import RefundStatus
+from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -31,19 +27,23 @@ class RefundRequestExternalReference(BaseModel):
     r"""Unique reference from the payment provider"""
 
 
+class Type(str, Enum):
+    r"""The type of source. Currently only the source type `organization` is supported."""
+
+    ORGANIZATION = "organization"
+
+
 class RefundRequestSourceTypedDict(TypedDict):
     r"""Where the funds will be pulled back from."""
 
-    type: NotRequired[RefundRoutingReversalsSourceType]
-    r"""The type of source. Currently only the source type `organization` is supported."""
+    type: NotRequired[Type]
     organization_id: NotRequired[str]
 
 
 class RefundRequestSource(BaseModel):
     r"""Where the funds will be pulled back from."""
 
-    type: Optional[RefundRoutingReversalsSourceType] = None
-    r"""The type of source. Currently only the source type `organization` is supported."""
+    type: Optional[Type] = None
 
     organization_id: Annotated[
         Optional[str], pydantic.Field(alias="organizationId")
@@ -66,7 +66,6 @@ class RefundRequestRoutingReversal(BaseModel):
 
 
 class RefundRequestTypedDict(TypedDict):
-    id: str
     description: str
     r"""The description of the refund that may be shown to your customer, depending on the payment method used."""
     amount: AmountTypedDict
@@ -75,11 +74,6 @@ class RefundRequestTypedDict(TypedDict):
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-    status: RefundStatus
-    settlement_amount: NotRequired[Nullable[AmountNullableTypedDict]]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    payment_id: NotRequired[str]
-    settlement_id: NotRequired[str]
     external_reference: NotRequired[RefundRequestExternalReferenceTypedDict]
     reverse_routing: NotRequired[Nullable[bool]]
     r"""*This feature is only available to marketplace operators.*
@@ -116,8 +110,6 @@ class RefundRequestTypedDict(TypedDict):
 
 
 class RefundRequest(BaseModel):
-    id: str
-
     description: str
     r"""The description of the refund that may be shown to your customer, depending on the payment method used."""
 
@@ -128,17 +120,6 @@ class RefundRequest(BaseModel):
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-
-    status: Annotated[RefundStatus, PlainValidator(validate_open_enum(False))]
-
-    settlement_amount: Annotated[
-        OptionalNullable[AmountNullable], pydantic.Field(alias="settlementAmount")
-    ] = UNSET
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-    payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
-
-    settlement_id: Annotated[Optional[str], pydantic.Field(alias="settlementId")] = None
 
     external_reference: Annotated[
         Optional[RefundRequestExternalReference],
@@ -186,21 +167,12 @@ class RefundRequest(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "settlementAmount",
-            "paymentId",
-            "settlementId",
             "externalReference",
             "reverseRouting",
             "routingReversals",
             "testmode",
         ]
-        nullable_fields = [
-            "settlementAmount",
-            "metadata",
-            "reverseRouting",
-            "routingReversals",
-            "testmode",
-        ]
+        nullable_fields = ["metadata", "reverseRouting", "routingReversals", "testmode"]
         null_default_fields = []
 
         serialized = handler(self)

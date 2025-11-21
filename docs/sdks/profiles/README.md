@@ -45,7 +45,6 @@ with ClientSDK(
             "GB",
         ],
         "business_category": "OTHER_MERCHANDISE",
-        "status": mollie.ProfileStatus.UNVERIFIED,
     }, idempotency_key="123e4567-e89b-12d3-a456-426")
 
     # Handle response

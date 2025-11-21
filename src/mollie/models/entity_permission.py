@@ -33,6 +33,7 @@ class EntityPermissionTypedDict(TypedDict):
     endpoint.
     """
     id: str
+    r"""The identifier uniquely referring to this permission. Example: `payments.read`."""
     description: str
     r"""A short description of what kind of access the permission enables."""
     granted: bool
@@ -48,6 +49,7 @@ class EntityPermission(BaseModel):
     """
 
     id: str
+    r"""The identifier uniquely referring to this permission. Example: `payments.read`."""
 
     description: str
     r"""A short description of what kind of access the permission enables."""

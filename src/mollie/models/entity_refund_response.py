@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
-from .amount_nullable import AmountNullable, AmountNullableTypedDict
 from .metadata import Metadata, MetadataTypedDict
 from .mode import Mode
 from .refund_external_reference_type_response import RefundExternalReferenceTypeResponse
-from .refund_routing_reversals_source_type import RefundRoutingReversalsSourceType
-from .refund_status import RefundStatus
 from .url import URL, URLTypedDict
 from .url_nullable import URLNullable, URLNullableTypedDict
+from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -17,6 +16,60 @@ from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
+
+
+class EntityRefundResponseSettlementAmountTypedDict(TypedDict):
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
+
+    The amount is a **negative** amount.
+
+    If the refund is not directly processed by Mollie, for example for PayPal refunds, the settlement amount will be
+    zero.
+
+    Since the field contains an estimated amount during refund processing, it may change over time. For example, while
+    the refund is queued the settlement amount is likely not yet available.
+
+    To retrieve accurate settlement amounts we recommend using the
+    [List balance transactions endpoint](list-balance-transactions) instead.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class EntityRefundResponseSettlementAmount(BaseModel):
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
+
+    The amount is a **negative** amount.
+
+    If the refund is not directly processed by Mollie, for example for PayPal refunds, the settlement amount will be
+    zero.
+
+    Since the field contains an estimated amount during refund processing, it may change over time. For example, while
+    the refund is queued the settlement amount is likely not yet available.
+
+    To retrieve accurate settlement amounts we recommend using the
+    [List balance transactions endpoint](list-balance-transactions) instead.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class EntityRefundResponseStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+    QUEUED = "queued"
+    PENDING = "pending"
+    PROCESSING = "processing"
+    REFUNDED = "refunded"
+    FAILED = "failed"
+    CANCELED = "canceled"
 
 
 class EntityRefundResponseExternalReferenceTypedDict(TypedDict):
@@ -40,16 +93,11 @@ class EntityRefundResponseExternalReference(BaseModel):
 class EntityRefundResponseSourceTypedDict(TypedDict):
     r"""Where the funds will be pulled back from."""
 
-    type: NotRequired[RefundRoutingReversalsSourceType]
-    r"""The type of source. Currently only the source type `organization` is supported."""
     organization_id: NotRequired[str]
 
 
 class EntityRefundResponseSource(BaseModel):
     r"""Where the funds will be pulled back from."""
-
-    type: Optional[RefundRoutingReversalsSourceType] = None
-    r"""The type of source. Currently only the source type `organization` is supported."""
 
     organization_id: Annotated[
         Optional[str], pydantic.Field(alias="organizationId")
@@ -134,6 +182,9 @@ class EntityRefundResponseTypedDict(TypedDict):
     resource: str
     r"""Indicates the response contains a refund object. Will always contain the string `refund` for this endpoint."""
     id: str
+    r"""The identifier uniquely referring to this refund. Mollie assigns this identifier at refund creation time. Mollie
+    will always refer to the refund by this ID. Example: `re_4qqhO89gsT`.
+    """
     mode: Mode
     r"""Whether this entity was created in live mode or in test mode."""
     description: str
@@ -144,15 +195,34 @@ class EntityRefundResponseTypedDict(TypedDict):
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-    status: RefundStatus
+    status: EntityRefundResponseStatus
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: EntityRefundResponseLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    settlement_amount: NotRequired[Nullable[AmountNullableTypedDict]]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    settlement_amount: NotRequired[
+        Nullable[EntityRefundResponseSettlementAmountTypedDict]
+    ]
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
+
+    The amount is a **negative** amount.
+
+    If the refund is not directly processed by Mollie, for example for PayPal refunds, the settlement amount will be
+    zero.
+
+    Since the field contains an estimated amount during refund processing, it may change over time. For example, while
+    the refund is queued the settlement amount is likely not yet available.
+
+    To retrieve accurate settlement amounts we recommend using the
+    [List balance transactions endpoint](list-balance-transactions) instead.
+    """
     payment_id: NotRequired[str]
-    settlement_id: NotRequired[str]
+    r"""The unique identifier of the payment this refund was created for.
+    The full payment object can be retrieved via the payment URL in the `_links` object.
+    """
+    settlement_id: NotRequired[Nullable[str]]
+    r"""The identifier referring to the settlement this refund was settled with. This field is omitted if the refund is not settled (yet)."""
     external_reference: NotRequired[EntityRefundResponseExternalReferenceTypedDict]
     routing_reversals: NotRequired[
         Nullable[List[EntityRefundResponseRoutingReversalTypedDict]]
@@ -173,6 +243,9 @@ class EntityRefundResponse(BaseModel):
     r"""Indicates the response contains a refund object. Will always contain the string `refund` for this endpoint."""
 
     id: str
+    r"""The identifier uniquely referring to this refund. Mollie assigns this identifier at refund creation time. Mollie
+    will always refer to the refund by this ID. Example: `re_4qqhO89gsT`.
+    """
 
     mode: Annotated[Mode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
@@ -188,7 +261,9 @@ class EntityRefundResponse(BaseModel):
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
 
-    status: Annotated[RefundStatus, PlainValidator(validate_open_enum(False))]
+    status: Annotated[
+        EntityRefundResponseStatus, PlainValidator(validate_open_enum(False))
+    ]
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
@@ -197,13 +272,33 @@ class EntityRefundResponse(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     settlement_amount: Annotated[
-        OptionalNullable[AmountNullable], pydantic.Field(alias="settlementAmount")
+        OptionalNullable[EntityRefundResponseSettlementAmount],
+        pydantic.Field(alias="settlementAmount"),
     ] = UNSET
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    r"""This optional field will contain the approximate amount that will be deducted from your account balance, converted
+    to the currency your account is settled in.
+
+    The amount is a **negative** amount.
+
+    If the refund is not directly processed by Mollie, for example for PayPal refunds, the settlement amount will be
+    zero.
+
+    Since the field contains an estimated amount during refund processing, it may change over time. For example, while
+    the refund is queued the settlement amount is likely not yet available.
+
+    To retrieve accurate settlement amounts we recommend using the
+    [List balance transactions endpoint](list-balance-transactions) instead.
+    """
 
     payment_id: Annotated[Optional[str], pydantic.Field(alias="paymentId")] = None
+    r"""The unique identifier of the payment this refund was created for.
+    The full payment object can be retrieved via the payment URL in the `_links` object.
+    """
 
-    settlement_id: Annotated[Optional[str], pydantic.Field(alias="settlementId")] = None
+    settlement_id: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="settlementId")
+    ] = UNSET
+    r"""The identifier referring to the settlement this refund was settled with. This field is omitted if the refund is not settled (yet)."""
 
     external_reference: Annotated[
         Optional[EntityRefundResponseExternalReference],
@@ -233,7 +328,12 @@ class EntityRefundResponse(BaseModel):
             "externalReference",
             "routingReversals",
         ]
-        nullable_fields = ["settlementAmount", "metadata", "routingReversals"]
+        nullable_fields = [
+            "settlementAmount",
+            "metadata",
+            "settlementId",
+            "routingReversals",
+        ]
         null_default_fields = []
 
         serialized = handler(self)

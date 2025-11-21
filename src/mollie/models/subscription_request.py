@@ -4,12 +4,9 @@ from __future__ import annotations
 from .amount import Amount, AmountTypedDict
 from .metadata import Metadata, MetadataTypedDict
 from .subscription_method import SubscriptionMethod
-from .subscription_status import SubscriptionStatus
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
-from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -46,11 +43,6 @@ class SubscriptionRequestApplicationFee(BaseModel):
 
 
 class SubscriptionRequestTypedDict(TypedDict):
-    id: NotRequired[str]
-    status: NotRequired[SubscriptionStatus]
-    r"""The subscription's current status is directly related to the status of the underlying customer or mandate that is
-    enabling the subscription.
-    """
     amount: NotRequired[AmountTypedDict]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     times: NotRequired[Nullable[int]]
@@ -95,7 +87,6 @@ class SubscriptionRequestTypedDict(TypedDict):
     This webhook will receive **all** events for the subscription's payments. This may include payment failures as
     well. Be sure to verify the payment's subscription ID and its status.
     """
-    customer_id: NotRequired[str]
     mandate_id: NotRequired[str]
     testmode: NotRequired[Nullable[bool]]
     r"""Whether to create the entity in test mode or live mode.
@@ -107,15 +98,6 @@ class SubscriptionRequestTypedDict(TypedDict):
 
 
 class SubscriptionRequest(BaseModel):
-    id: Optional[str] = None
-
-    status: Annotated[
-        Optional[SubscriptionStatus], PlainValidator(validate_open_enum(False))
-    ] = None
-    r"""The subscription's current status is directly related to the status of the underlying customer or mandate that is
-    enabling the subscription.
-    """
-
     amount: Optional[Amount] = None
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
@@ -172,8 +154,6 @@ class SubscriptionRequest(BaseModel):
     well. Be sure to verify the payment's subscription ID and its status.
     """
 
-    customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
-
     mandate_id: Annotated[Optional[str], pydantic.Field(alias="mandateId")] = None
 
     testmode: OptionalNullable[bool] = UNSET
@@ -187,8 +167,6 @@ class SubscriptionRequest(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "id",
-            "status",
             "amount",
             "times",
             "interval",
@@ -198,7 +176,6 @@ class SubscriptionRequest(BaseModel):
             "applicationFee",
             "metadata",
             "webhookUrl",
-            "customerId",
             "mandateId",
             "testmode",
         ]

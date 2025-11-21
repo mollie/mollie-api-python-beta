@@ -352,17 +352,6 @@ class PaymentRequestTypedDict(TypedDict):
     The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for
     Apple Pay payments with an `applePayPaymentToken`.
     """
-    id: NotRequired[str]
-    amount_refunded: NotRequired[AmountTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    amount_remaining: NotRequired[AmountTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    amount_captured: NotRequired[AmountTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    amount_charged_back: NotRequired[AmountTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    settlement_amount: NotRequired[AmountTypedDict]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     cancel_url: NotRequired[Nullable[str]]
     r"""The URL your customer will be redirected to when the customer explicitly cancels the payment. If this URL is not
     provided, the customer will be redirected to the `redirectUrl` instead — see above.
@@ -492,8 +481,12 @@ class PaymentRequestTypedDict(TypedDict):
     parameter.
     """
     sequence_type: NotRequired[SequenceType]
-    subscription_id: NotRequired[str]
-    mandate_id: NotRequired[str]
+    mandate_id: NotRequired[Nullable[str]]
+    r"""**Only relevant for recurring payments.**
+
+    When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of
+    the customer's accounts should be credited.
+    """
     customer_id: NotRequired[str]
     profile_id: NotRequired[str]
     r"""The identifier referring to the [profile](get-profile) this entity belongs to.
@@ -502,8 +495,6 @@ class PaymentRequestTypedDict(TypedDict):
     request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
     required.
     """
-    settlement_id: NotRequired[str]
-    order_id: NotRequired[str]
     due_date: NotRequired[str]
     r"""The date by which the payment should be completed in `YYYY-MM-DD` format"""
     testmode: NotRequired[Nullable[bool]]
@@ -586,33 +577,6 @@ class PaymentRequest(BaseModel):
     The parameter is normally required, but can be omitted for recurring payments (`sequenceType: recurring`) and for
     Apple Pay payments with an `applePayPaymentToken`.
     """
-
-    id: Optional[str] = None
-
-    amount_refunded: Annotated[
-        Optional[Amount], pydantic.Field(alias="amountRefunded")
-    ] = None
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-    amount_remaining: Annotated[
-        Optional[Amount], pydantic.Field(alias="amountRemaining")
-    ] = None
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-    amount_captured: Annotated[
-        Optional[Amount], pydantic.Field(alias="amountCaptured")
-    ] = None
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-    amount_charged_back: Annotated[
-        Optional[Amount], pydantic.Field(alias="amountChargedBack")
-    ] = None
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-
-    settlement_amount: Annotated[
-        Optional[Amount], pydantic.Field(alias="settlementAmount")
-    ] = None
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
     cancel_url: Annotated[OptionalNullable[str], pydantic.Field(alias="cancelUrl")] = (
         UNSET
@@ -777,11 +741,14 @@ class PaymentRequest(BaseModel):
         Optional[SequenceType], pydantic.Field(alias="sequenceType")
     ] = None
 
-    subscription_id: Annotated[
-        Optional[str], pydantic.Field(alias="subscriptionId")
-    ] = None
+    mandate_id: Annotated[OptionalNullable[str], pydantic.Field(alias="mandateId")] = (
+        UNSET
+    )
+    r"""**Only relevant for recurring payments.**
 
-    mandate_id: Annotated[Optional[str], pydantic.Field(alias="mandateId")] = None
+    When creating recurring payments, the ID of a specific [mandate](get-mandate) can be supplied to indicate which of
+    the customer's accounts should be credited.
+    """
 
     customer_id: Annotated[Optional[str], pydantic.Field(alias="customerId")] = None
 
@@ -792,10 +759,6 @@ class PaymentRequest(BaseModel):
     request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
     required.
     """
-
-    settlement_id: Annotated[Optional[str], pydantic.Field(alias="settlementId")] = None
-
-    order_id: Annotated[Optional[str], pydantic.Field(alias="orderId")] = None
 
     due_date: Annotated[Optional[str], pydantic.Field(alias="dueDate")] = None
     r"""The date by which the payment should be completed in `YYYY-MM-DD` format"""
@@ -880,12 +843,6 @@ class PaymentRequest(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = [
-            "id",
-            "amountRefunded",
-            "amountRemaining",
-            "amountCaptured",
-            "amountChargedBack",
-            "settlementAmount",
             "cancelUrl",
             "webhookUrl",
             "lines",
@@ -901,12 +858,9 @@ class PaymentRequest(BaseModel):
             "applicationFee",
             "routing",
             "sequenceType",
-            "subscriptionId",
             "mandateId",
             "customerId",
             "profileId",
-            "settlementId",
-            "orderId",
             "dueDate",
             "testmode",
             "applePayPaymentToken",
@@ -935,6 +889,7 @@ class PaymentRequest(BaseModel):
             "captureDelay",
             "applicationFee",
             "routing",
+            "mandateId",
             "testmode",
         ]
         null_default_fields = []

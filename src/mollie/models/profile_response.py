@@ -3,14 +3,28 @@
 from __future__ import annotations
 from .mode import Mode
 from .profile_review_status_response import ProfileReviewStatusResponse
-from .profile_status import ProfileStatus
 from .url import URL, URLTypedDict
+from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel
 from mollie.utils import validate_open_enum
 import pydantic
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
+
+
+class ProfileResponseStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The profile status determines whether the profile is able to receive live payments.
+
+    * `unverified`: The profile has not been verified yet and can only be used to create test payments.
+    * `verified`: The profile has been verified and can be used to create live payments and test payments.
+    * `blocked`: The profile is blocked and can no longer be used or changed.
+    """
+
+    UNVERIFIED = "unverified"
+    VERIFIED = "verified"
+    BLOCKED = "blocked"
 
 
 class ReviewTypedDict(TypedDict):
@@ -109,13 +123,7 @@ class ProfileResponseTypedDict(TypedDict):
     r"""The industry associated with the profile's trade name or brand. Please refer to the
     [business category list](common-data-types#business-category) for all possible options.
     """
-    status: ProfileStatus
-    r"""The profile status determines whether the profile is able to receive live payments.
-
-    * `unverified`: The profile has not been verified yet and can only be used to create test payments.
-    * `verified`: The profile has been verified and can be used to create live payments and test payments.
-    * `blocked`: The profile is blocked and can no longer be used or changed.
-    """
+    status: ProfileResponseStatus
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: ProfileResponseLinksTypedDict
@@ -164,13 +172,7 @@ class ProfileResponse(BaseModel):
     [business category list](common-data-types#business-category) for all possible options.
     """
 
-    status: Annotated[ProfileStatus, PlainValidator(validate_open_enum(False))]
-    r"""The profile status determines whether the profile is able to receive live payments.
-
-    * `unverified`: The profile has not been verified yet and can only be used to create test payments.
-    * `verified`: The profile has been verified and can be used to create live payments and test payments.
-    * `blocked`: The profile is blocked and can no longer be used or changed.
-    """
+    status: Annotated[ProfileResponseStatus, PlainValidator(validate_open_enum(False))]
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""

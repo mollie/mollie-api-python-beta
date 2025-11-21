@@ -51,8 +51,6 @@ with ClientSDK(
 ) as client_sdk:
 
     res = client_sdk.subscriptions.create(customer_id="cst_5B8cwPMGnU", idempotency_key="123e4567-e89b-12d3-a456-426", subscription_request=mollie.SubscriptionRequest(
-        id="sub_5B8cwPMGnU",
-        status=mollie.SubscriptionStatus.ACTIVE,
         amount=mollie.Amount(
             currency="EUR",
             value="10.00",
@@ -70,7 +68,6 @@ with ClientSDK(
             description="Platform fee",
         ),
         webhook_url="https://example.com/webhook",
-        customer_id="cst_5B8cwPMGnU",
         mandate_id="mdt_5B8cwPMGnU",
         testmode=False,
     ))

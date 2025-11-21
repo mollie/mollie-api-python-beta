@@ -147,6 +147,7 @@ class GetClientResponseTypedDict(TypedDict):
     resource: str
     r"""Indicates the response contains a client object. Will always contain the string `client` for this resource type."""
     id: str
+    r"""The identifier uniquely referring to this client. Example: `org_12345678`."""
     links: GetClientLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
     commission: NotRequired[Nullable[GetClientCommissionTypedDict]]
@@ -165,6 +166,7 @@ class GetClientResponse(BaseModel):
     r"""Indicates the response contains a client object. Will always contain the string `client` for this resource type."""
 
     id: str
+    r"""The identifier uniquely referring to this client. Example: `org_12345678`."""
 
     links: Annotated[GetClientLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""

@@ -32,22 +32,14 @@ with ClientSDK(
 ) as client_sdk:
 
     res = client_sdk.refunds.create(payment_id="tr_5B8cwPMGnU", idempotency_key="123e4567-e89b-12d3-a456-426", refund_request={
-        "id": "re_5B8cwPMGnU",
         "description": "Refunding a Chess Board",
         "amount": {
-            "currency": "EUR",
-            "value": "10.00",
-        },
-        "settlement_amount": {
             "currency": "EUR",
             "value": "10.00",
         },
         "metadata": {
 
         },
-        "payment_id": "tr_5B8cwPMGnU",
-        "settlement_id": "stl_5B8cwPMGnU",
-        "status": mollie.RefundStatus.QUEUED,
         "external_reference": {
             "type": mollie.RefundExternalReferenceType.ACQUIRER_REFERENCE,
             "id": "123456789012345",
@@ -60,7 +52,7 @@ with ClientSDK(
                     "value": "10.00",
                 },
                 "source": {
-                    "type": mollie.RefundRoutingReversalsSourceType.ORGANIZATION,
+                    "type": mollie.Type.ORGANIZATION,
                     "organization_id": "org_1234567",
                 },
             },

@@ -14,7 +14,6 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class EntityBalanceTransferTypedDict(TypedDict):
-    id: str
     amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     source: EntityBalanceTransferPartyTypedDict
@@ -35,8 +34,6 @@ class EntityBalanceTransferTypedDict(TypedDict):
 
 
 class EntityBalanceTransfer(BaseModel):
-    id: str
-
     amount: Amount
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 

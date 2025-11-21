@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
-from .invoice_status import InvoiceStatus
 from .url import URL, URLTypedDict
+from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -11,6 +12,77 @@ from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
+
+
+class EntityInvoiceStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Status of the invoice."""
+
+    OPEN = "open"
+    PAID = "paid"
+    OVERDUE = "overdue"
+
+
+class NetAmountTypedDict(TypedDict):
+    r"""Total amount of the invoice, excluding VAT."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class NetAmount(BaseModel):
+    r"""Total amount of the invoice, excluding VAT."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class VatAmountTypedDict(TypedDict):
+    r"""VAT amount of the invoice. Only applicable to merchants registered in the Netherlands. For EU merchants, VAT will
+    be shifted to the recipient (as per article 44 and 196 in the EU VAT Directive 2006/112). For merchants outside
+    the EU, no VAT will be charged.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class VatAmount(BaseModel):
+    r"""VAT amount of the invoice. Only applicable to merchants registered in the Netherlands. For EU merchants, VAT will
+    be shifted to the recipient (as per article 44 and 196 in the EU VAT Directive 2006/112). For merchants outside
+    the EU, no VAT will be charged.
+    """
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GrossAmountTypedDict(TypedDict):
+    r"""Total amount of the invoice, including VAT."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
+
+
+class GrossAmount(BaseModel):
+    r"""Total amount of the invoice, including VAT."""
+
+    currency: str
+    r"""A three-character ISO 4217 currency code."""
+
+    value: str
+    r"""A string containing an exact monetary amount in the given currency."""
 
 
 class EntityInvoiceLineTypedDict(TypedDict):
@@ -77,14 +149,16 @@ class EntityInvoiceTypedDict(TypedDict):
     r"""The reference number of the invoice. An example value would be: `2024.10000`."""
     vat_number: Nullable[str]
     r"""The VAT number to which the invoice was issued to, if applicable."""
-    status: InvoiceStatus
-    r"""Status of the invoice."""
-    net_amount: AmountTypedDict
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    vat_amount: AmountTypedDict
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    gross_amount: AmountTypedDict
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    status: EntityInvoiceStatus
+    net_amount: NetAmountTypedDict
+    r"""Total amount of the invoice, excluding VAT."""
+    vat_amount: VatAmountTypedDict
+    r"""VAT amount of the invoice. Only applicable to merchants registered in the Netherlands. For EU merchants, VAT will
+    be shifted to the recipient (as per article 44 and 196 in the EU VAT Directive 2006/112). For merchants outside
+    the EU, no VAT will be charged.
+    """
+    gross_amount: GrossAmountTypedDict
+    r"""Total amount of the invoice, including VAT."""
     lines: List[EntityInvoiceLineTypedDict]
     r"""The collection of products which make up the invoice."""
     issued_at: str
@@ -111,17 +185,19 @@ class EntityInvoice(BaseModel):
     vat_number: Annotated[Nullable[str], pydantic.Field(alias="vatNumber")]
     r"""The VAT number to which the invoice was issued to, if applicable."""
 
-    status: Annotated[InvoiceStatus, PlainValidator(validate_open_enum(False))]
-    r"""Status of the invoice."""
+    status: Annotated[EntityInvoiceStatus, PlainValidator(validate_open_enum(False))]
 
-    net_amount: Annotated[Amount, pydantic.Field(alias="netAmount")]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    net_amount: Annotated[NetAmount, pydantic.Field(alias="netAmount")]
+    r"""Total amount of the invoice, excluding VAT."""
 
-    vat_amount: Annotated[Amount, pydantic.Field(alias="vatAmount")]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    vat_amount: Annotated[VatAmount, pydantic.Field(alias="vatAmount")]
+    r"""VAT amount of the invoice. Only applicable to merchants registered in the Netherlands. For EU merchants, VAT will
+    be shifted to the recipient (as per article 44 and 196 in the EU VAT Directive 2006/112). For merchants outside
+    the EU, no VAT will be charged.
+    """
 
-    gross_amount: Annotated[Amount, pydantic.Field(alias="grossAmount")]
-    r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
+    gross_amount: Annotated[GrossAmount, pydantic.Field(alias="grossAmount")]
+    r"""Total amount of the invoice, including VAT."""
 
     lines: List[EntityInvoiceLine]
     r"""The collection of products which make up the invoice."""

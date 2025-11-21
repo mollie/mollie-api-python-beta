@@ -4,12 +4,27 @@ from __future__ import annotations
 from .payment_link_response import PaymentLinkResponse, PaymentLinkResponseTypedDict
 from .profile_response import ProfileResponse, ProfileResponseTypedDict
 from .url import URL, URLTypedDict
-from .webhook_event_types import WebhookEventTypes
+from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
+from pydantic.functional_validators import PlainValidator
 from typing import Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class EntityWebhookEventWebhookEventTypes(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The event's type"""
+
+    PAYMENT_LINK_PAID = "payment-link.paid"
+    BALANCE_TRANSACTION_CREATED = "balance-transaction.created"
+    SALES_INVOICE_CREATED = "sales-invoice.created"
+    SALES_INVOICE_ISSUED = "sales-invoice.issued"
+    SALES_INVOICE_CANCELED = "sales-invoice.canceled"
+    SALES_INVOICE_PAID = "sales-invoice.paid"
+    WILDCARD_ = "*"
 
 
 EntityTypedDict = TypeAliasType(
@@ -61,8 +76,7 @@ class EntityWebhookEventTypedDict(TypedDict):
     r"""Indicates the response contains a webhook event object. Will always contain the string `event` for this endpoint."""
     id: str
     r"""The identifier uniquely referring to this event."""
-    webhook_event_types: WebhookEventTypes
-    r"""The event's type"""
+    webhook_event_types: EntityWebhookEventWebhookEventTypes
     entity_id: str
     r"""The entity token that triggered the event"""
     created_at: str
@@ -80,8 +94,13 @@ class EntityWebhookEvent(BaseModel):
     id: str
     r"""The identifier uniquely referring to this event."""
 
-    webhook_event_types: Annotated[WebhookEventTypes, pydantic.Field(alias="type")]
-    r"""The event's type"""
+    webhook_event_types: Annotated[
+        Annotated[
+            EntityWebhookEventWebhookEventTypes,
+            PlainValidator(validate_open_enum(False)),
+        ],
+        pydantic.Field(alias="type"),
+    ]
 
     entity_id: Annotated[str, pydantic.Field(alias="entityId")]
     r"""The entity token that triggered the event"""

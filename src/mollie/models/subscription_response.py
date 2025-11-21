@@ -5,9 +5,10 @@ from .amount import Amount, AmountTypedDict
 from .metadata import Metadata, MetadataTypedDict
 from .mode import Mode
 from .subscription_method_response import SubscriptionMethodResponse
-from .subscription_status import SubscriptionStatus
 from .url import URL, URLTypedDict
 from .url_nullable import URLNullable, URLNullableTypedDict
+from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -15,6 +16,18 @@ from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
+
+
+class SubscriptionResponseStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The subscription's current status is directly related to the status of the underlying customer or mandate that is
+    enabling the subscription.
+    """
+
+    PENDING = "pending"
+    ACTIVE = "active"
+    CANCELED = "canceled"
+    SUSPENDED = "suspended"
+    COMPLETED = "completed"
 
 
 class SubscriptionResponseApplicationFeeTypedDict(TypedDict):
@@ -123,12 +136,10 @@ class SubscriptionResponseTypedDict(TypedDict):
     endpoint.
     """
     id: str
+    r"""The identifier uniquely referring to this subscription. Example: `sub_rVKGtNd6s3`."""
     mode: Mode
     r"""Whether this entity was created in live mode or in test mode."""
-    status: SubscriptionStatus
-    r"""The subscription's current status is directly related to the status of the underlying customer or mandate that is
-    enabling the subscription.
-    """
+    status: SubscriptionResponseStatus
     amount: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
     times: Nullable[int]
@@ -167,6 +178,7 @@ class SubscriptionResponseTypedDict(TypedDict):
     well. Be sure to verify the payment's subscription ID and its status.
     """
     customer_id: str
+    r"""The customer this subscription belongs to."""
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: SubscriptionResponseLinksTypedDict
@@ -198,14 +210,14 @@ class SubscriptionResponse(BaseModel):
     """
 
     id: str
+    r"""The identifier uniquely referring to this subscription. Example: `sub_rVKGtNd6s3`."""
 
     mode: Annotated[Mode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
 
-    status: Annotated[SubscriptionStatus, PlainValidator(validate_open_enum(False))]
-    r"""The subscription's current status is directly related to the status of the underlying customer or mandate that is
-    enabling the subscription.
-    """
+    status: Annotated[
+        SubscriptionResponseStatus, PlainValidator(validate_open_enum(False))
+    ]
 
     amount: Amount
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
@@ -256,6 +268,7 @@ class SubscriptionResponse(BaseModel):
     """
 
     customer_id: Annotated[str, pydantic.Field(alias="customerId")]
+    r"""The customer this subscription belongs to."""
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""

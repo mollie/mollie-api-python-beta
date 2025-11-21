@@ -3,9 +3,10 @@
 from __future__ import annotations
 from .mandate_details_card_label_response import MandateDetailsCardLabelResponse
 from .mandate_method_response import MandateMethodResponse
-from .mandate_status import MandateStatus
 from .mode import Mode
 from .url import URL, URLTypedDict
+from enum import Enum
+from mollie import utils
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import validate_open_enum
 import pydantic
@@ -131,6 +132,16 @@ class MandateResponseDetails(BaseModel):
         return m
 
 
+class MandateResponseStatus(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The status of the mandate. A status can be `pending` for mandates when the first payment is not yet finalized, or
+    when we did not received the IBAN yet from the first payment.
+    """
+
+    VALID = "valid"
+    PENDING = "pending"
+    INVALID = "invalid"
+
+
 class MandateResponseLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
@@ -159,6 +170,7 @@ class MandateResponseTypedDict(TypedDict):
     resource: str
     r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
     id: str
+    r"""The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`."""
     mode: Mode
     r"""Whether this entity was created in live mode or in test mode."""
     method: MandateMethodResponse
@@ -173,11 +185,9 @@ class MandateResponseTypedDict(TypedDict):
     r"""A custom mandate reference. For SEPA Direct Debit, it is vital to provide a unique reference. Some banks will
     decline Direct Debit payments if the mandate reference is not unique.
     """
-    status: MandateStatus
-    r"""The status of the mandate. A status can be `pending` for mandates when the first payment is not yet finalized, or
-    when we did not received the IBAN yet from the first payment.
-    """
+    status: MandateResponseStatus
     customer_id: str
+    r"""The identifier referring to the [customer](get-customer) this mandate was linked to."""
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: MandateResponseLinksTypedDict
@@ -189,6 +199,7 @@ class MandateResponse(BaseModel):
     r"""Indicates the response contains a mandate object. Will always contain the string `mandate` for this endpoint."""
 
     id: str
+    r"""The identifier uniquely referring to this mandate. Example: `mdt_pWUnw6pkBN`."""
 
     mode: Annotated[Mode, PlainValidator(validate_open_enum(False))]
     r"""Whether this entity was created in live mode or in test mode."""
@@ -211,12 +222,10 @@ class MandateResponse(BaseModel):
     decline Direct Debit payments if the mandate reference is not unique.
     """
 
-    status: Annotated[MandateStatus, PlainValidator(validate_open_enum(False))]
-    r"""The status of the mandate. A status can be `pending` for mandates when the first payment is not yet finalized, or
-    when we did not received the IBAN yet from the first payment.
-    """
+    status: Annotated[MandateResponseStatus, PlainValidator(validate_open_enum(False))]
 
     customer_id: Annotated[str, pydantic.Field(alias="customerId")]
+    r"""The identifier referring to the [customer](get-customer) this mandate was linked to."""
 
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
