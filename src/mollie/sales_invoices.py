@@ -14,14 +14,14 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         idempotency_key: Optional[str] = None,
-        entity_sales_invoice: Optional[
-            Union[models.EntitySalesInvoice, models.EntitySalesInvoiceTypedDict]
+        sales_invoice_request: Optional[
+            Union[models.SalesInvoiceRequest, models.SalesInvoiceRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.EntitySalesInvoiceResponse:
+    ) -> models.SalesInvoiceResponse:
         r"""Create sales invoice
 
         > 🚧 Beta feature
@@ -31,7 +31,7 @@ class SalesInvoices(BaseSDK):
         With the Sales Invoice API you can generate sales invoices to send to your customers.
 
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
-        :param entity_sales_invoice:
+        :param sales_invoice_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -49,8 +49,8 @@ class SalesInvoices(BaseSDK):
 
         request = models.CreateSalesInvoiceRequest(
             idempotency_key=idempotency_key,
-            entity_sales_invoice=utils.get_pydantic_model(
-                entity_sales_invoice, Optional[models.EntitySalesInvoice]
+            sales_invoice_request=utils.get_pydantic_model(
+                sales_invoice_request, Optional[models.SalesInvoiceRequest]
             ),
         )
 
@@ -68,11 +68,11 @@ class SalesInvoices(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.entity_sales_invoice,
+                request.sales_invoice_request,
                 False,
                 True,
                 "json",
-                Optional[models.EntitySalesInvoice],
+                Optional[models.SalesInvoiceRequest],
             ),
             timeout_ms=timeout_ms,
         )
@@ -106,7 +106,7 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.EntitySalesInvoiceResponse, http_res)
+            return unmarshal_json_response(models.SalesInvoiceResponse, http_res)
         if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)
@@ -123,14 +123,14 @@ class SalesInvoices(BaseSDK):
         self,
         *,
         idempotency_key: Optional[str] = None,
-        entity_sales_invoice: Optional[
-            Union[models.EntitySalesInvoice, models.EntitySalesInvoiceTypedDict]
+        sales_invoice_request: Optional[
+            Union[models.SalesInvoiceRequest, models.SalesInvoiceRequestTypedDict]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.EntitySalesInvoiceResponse:
+    ) -> models.SalesInvoiceResponse:
         r"""Create sales invoice
 
         > 🚧 Beta feature
@@ -140,7 +140,7 @@ class SalesInvoices(BaseSDK):
         With the Sales Invoice API you can generate sales invoices to send to your customers.
 
         :param idempotency_key: A unique key to ensure idempotent requests. This key should be a UUID v4 string.
-        :param entity_sales_invoice:
+        :param sales_invoice_request:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -158,8 +158,8 @@ class SalesInvoices(BaseSDK):
 
         request = models.CreateSalesInvoiceRequest(
             idempotency_key=idempotency_key,
-            entity_sales_invoice=utils.get_pydantic_model(
-                entity_sales_invoice, Optional[models.EntitySalesInvoice]
+            sales_invoice_request=utils.get_pydantic_model(
+                sales_invoice_request, Optional[models.SalesInvoiceRequest]
             ),
         )
 
@@ -177,11 +177,11 @@ class SalesInvoices(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.entity_sales_invoice,
+                request.sales_invoice_request,
                 False,
                 True,
                 "json",
-                Optional[models.EntitySalesInvoice],
+                Optional[models.SalesInvoiceRequest],
             ),
             timeout_ms=timeout_ms,
         )
@@ -215,7 +215,7 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "201", "application/hal+json"):
-            return unmarshal_json_response(models.EntitySalesInvoiceResponse, http_res)
+            return unmarshal_json_response(models.SalesInvoiceResponse, http_res)
         if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)
@@ -456,7 +456,7 @@ class SalesInvoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.EntitySalesInvoiceResponse:
+    ) -> models.SalesInvoiceResponse:
         r"""Get sales invoice
 
         > 🚧 Beta feature
@@ -537,7 +537,7 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.EntitySalesInvoiceResponse, http_res)
+            return unmarshal_json_response(models.SalesInvoiceResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)
@@ -560,7 +560,7 @@ class SalesInvoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.EntitySalesInvoiceResponse:
+    ) -> models.SalesInvoiceResponse:
         r"""Get sales invoice
 
         > 🚧 Beta feature
@@ -641,7 +641,7 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.EntitySalesInvoiceResponse, http_res)
+            return unmarshal_json_response(models.SalesInvoiceResponse, http_res)
         if utils.match_response(http_res, "404", "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)
@@ -669,7 +669,7 @@ class SalesInvoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.EntitySalesInvoiceResponse:
+    ) -> models.SalesInvoiceResponse:
         r"""Update sales invoice
 
         > 🚧 Beta feature
@@ -758,7 +758,7 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.EntitySalesInvoiceResponse, http_res)
+            return unmarshal_json_response(models.SalesInvoiceResponse, http_res)
         if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)
@@ -786,7 +786,7 @@ class SalesInvoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.EntitySalesInvoiceResponse:
+    ) -> models.SalesInvoiceResponse:
         r"""Update sales invoice
 
         > 🚧 Beta feature
@@ -875,7 +875,7 @@ class SalesInvoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.EntitySalesInvoiceResponse, http_res)
+            return unmarshal_json_response(models.SalesInvoiceResponse, http_res)
         if utils.match_response(http_res, ["404", "422"], "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)

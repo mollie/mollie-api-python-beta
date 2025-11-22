@@ -34,7 +34,7 @@ with ClientSDK(
     ),
 ) as client_sdk:
 
-    res = client_sdk.sales_invoices.create(idempotency_key="123e4567-e89b-12d3-a456-426", entity_sales_invoice={
+    res = client_sdk.sales_invoices.create(idempotency_key="123e4567-e89b-12d3-a456-426", sales_invoice_request={
         "testmode": False,
         "profile_id": "pfl_QkEhN94Ba",
         "status": mollie.SalesInvoiceStatus.DRAFT,
@@ -88,12 +88,12 @@ with ClientSDK(
 | Parameter                                                                        | Type                                                                             | Required                                                                         | Description                                                                      | Example                                                                          |
 | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | `idempotency_key`                                                                | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | A unique key to ensure idempotent requests. This key should be a UUID v4 string. | 123e4567-e89b-12d3-a456-426                                                      |
-| `entity_sales_invoice`                                                           | [Optional[models.EntitySalesInvoice]](../../models/entitysalesinvoice.md)        | :heavy_minus_sign:                                                               | N/A                                                                              |                                                                                  |
+| `sales_invoice_request`                                                          | [Optional[models.SalesInvoiceRequest]](../../models/salesinvoicerequest.md)      | :heavy_minus_sign:                                                               | N/A                                                                              |                                                                                  |
 | `retries`                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                 | :heavy_minus_sign:                                                               | Configuration to override the default retry behavior of the client.              |                                                                                  |
 
 ### Response
 
-**[models.EntitySalesInvoiceResponse](../../models/entitysalesinvoiceresponse.md)**
+**[models.SalesInvoiceResponse](../../models/salesinvoiceresponse.md)**
 
 ### Errors
 
@@ -198,7 +198,7 @@ with ClientSDK(
 
 ### Response
 
-**[models.EntitySalesInvoiceResponse](../../models/entitysalesinvoiceresponse.md)**
+**[models.SalesInvoiceResponse](../../models/salesinvoiceresponse.md)**
 
 ### Errors
 
@@ -301,7 +301,7 @@ with ClientSDK(
 
 ### Response
 
-**[models.EntitySalesInvoiceResponse](../../models/entitysalesinvoiceresponse.md)**
+**[models.SalesInvoiceResponse](../../models/salesinvoiceresponse.md)**
 
 ### Errors
 

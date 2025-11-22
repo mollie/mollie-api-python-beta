@@ -50,7 +50,7 @@ class UpdateValuesSalesInvoiceTypedDict(TypedDict):
     r"""A free-form memo you can set on the invoice, and will be shown on the invoice PDF."""
     payment_term: NotRequired[Nullable[SalesInvoicePaymentTerm]]
     r"""The payment term to be set on the invoice."""
-    payment_details: NotRequired[Nullable[SalesInvoicePaymentDetailsTypedDict]]
+    payment_details: NotRequired[SalesInvoicePaymentDetailsTypedDict]
     email_details: NotRequired[Nullable[SalesInvoiceEmailDetailsTypedDict]]
     recipient_identifier: NotRequired[str]
     r"""An identifier tied to the recipient data. This should be a unique value based on data your system contains,
@@ -100,9 +100,8 @@ class UpdateValuesSalesInvoice(BaseModel):
     r"""The payment term to be set on the invoice."""
 
     payment_details: Annotated[
-        OptionalNullable[SalesInvoicePaymentDetails],
-        pydantic.Field(alias="paymentDetails"),
-    ] = UNSET
+        Optional[SalesInvoicePaymentDetails], pydantic.Field(alias="paymentDetails")
+    ] = None
 
     email_details: Annotated[
         OptionalNullable[SalesInvoiceEmailDetails], pydantic.Field(alias="emailDetails")
@@ -145,7 +144,6 @@ class UpdateValuesSalesInvoice(BaseModel):
             "testmode",
             "memo",
             "paymentTerm",
-            "paymentDetails",
             "emailDetails",
             "recipient",
             "lines",

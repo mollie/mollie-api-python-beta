@@ -26,34 +26,20 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class EntitySalesInvoiceMetadataTypedDict(TypedDict):
+class SalesInvoiceRequestMetadataTypedDict(TypedDict):
     r"""Provide any data you like as a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
 
 
-class EntitySalesInvoiceMetadata(BaseModel):
+class SalesInvoiceRequestMetadata(BaseModel):
     r"""Provide any data you like as a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
 
 
-class EntitySalesInvoiceTypedDict(TypedDict):
-    testmode: NotRequired[Nullable[bool]]
-    r"""Whether to create the entity in test mode or live mode.
-
-    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be
-    omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting
-    `testmode` to `true`.
-    """
-    profile_id: NotRequired[Nullable[str]]
-    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
-
-    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation
-    request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
-    required.
-    """
-    status: NotRequired[SalesInvoiceStatus]
+class SalesInvoiceRequestTypedDict(TypedDict):
+    status: SalesInvoiceStatus
     r"""The status for the invoice to end up in.
 
     A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
@@ -68,6 +54,32 @@ class EntitySalesInvoiceTypedDict(TypedDict):
     - `customerId` and `mandateId` are required if a recurring payment should be used to set the invoice to `paid`
     - `emailDetails` optional for `issued` and `paid` to send the invoice by email
     """
+    recipient_identifier: str
+    r"""An identifier tied to the recipient data. This should be a unique value based on data your system contains,
+    so that both you and us know who we're referring to. It is a value you provide to us so that recipient management
+    is not required to send a first invoice to a recipient.
+    """
+    recipient: Nullable[SalesInvoiceRecipientTypedDict]
+    lines: Nullable[List[SalesInvoiceLineItemTypedDict]]
+    r"""Provide the line items for the invoice. Each line contains details such as a description of the item
+    ordered and its price.
+
+    All lines must have the same currency as the invoice.
+    """
+    testmode: NotRequired[Nullable[bool]]
+    r"""Whether to create the entity in test mode or live mode.
+
+    Most API credentials are specifically created for either live mode or test mode, in which case this parameter can be
+    omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by setting
+    `testmode` to `true`.
+    """
+    profile_id: NotRequired[Nullable[str]]
+    r"""The identifier referring to the [profile](get-profile) this entity belongs to.
+
+    Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted in the creation
+    request. For organization-level credentials such as OAuth access tokens however, the `profileId` parameter is
+    required.
+    """
     vat_scheme: NotRequired[SalesInvoiceVatScheme]
     r"""The VAT scheme to create the invoice for. You must be enrolled with One Stop Shop enabled to use it."""
     vat_mode: NotRequired[SalesInvoiceVatMode]
@@ -76,13 +88,13 @@ class EntitySalesInvoiceTypedDict(TypedDict):
     """
     memo: NotRequired[Nullable[str]]
     r"""A free-form memo you can set on the invoice, and will be shown on the invoice PDF."""
-    metadata: NotRequired[Nullable[EntitySalesInvoiceMetadataTypedDict]]
+    metadata: NotRequired[Nullable[SalesInvoiceRequestMetadataTypedDict]]
     r"""Provide any data you like as a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
     payment_term: NotRequired[Nullable[SalesInvoicePaymentTerm]]
     r"""The payment term to be set on the invoice."""
-    payment_details: NotRequired[Nullable[SalesInvoicePaymentDetailsTypedDict]]
+    payment_details: NotRequired[SalesInvoicePaymentDetailsTypedDict]
     email_details: NotRequired[Nullable[SalesInvoiceEmailDetailsTypedDict]]
     customer_id: NotRequired[str]
     r"""The identifier referring to the [customer](get-customer) you want to attempt an automated payment for. If
@@ -92,22 +104,41 @@ class EntitySalesInvoiceTypedDict(TypedDict):
     r"""The identifier referring to the [mandate](get-mandate) you want to use for the automated payment. If provided,
     `customerId` becomes required as well. Only allowed for invoices with status `paid`.
     """
-    recipient_identifier: NotRequired[str]
+    discount: NotRequired[Nullable[SalesInvoiceDiscountTypedDict]]
+
+
+class SalesInvoiceRequest(BaseModel):
+    status: SalesInvoiceStatus
+    r"""The status for the invoice to end up in.
+
+    A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
+    the recipient so they may then pay through our payment system. To skip our payment process, set this to `paid` to
+    mark it as paid. It can then subsequently be sent as well, same as with `issued`.
+
+    A status value that cannot be set but can be returned is `canceled`, for invoices which were
+    issued, but then canceled. Currently this can only be done for invoices created in the dashboard.
+
+    Dependent parameters:
+    - `paymentDetails` is required if invoice should be set directly to `paid`
+    - `customerId` and `mandateId` are required if a recurring payment should be used to set the invoice to `paid`
+    - `emailDetails` optional for `issued` and `paid` to send the invoice by email
+    """
+
+    recipient_identifier: Annotated[str, pydantic.Field(alias="recipientIdentifier")]
     r"""An identifier tied to the recipient data. This should be a unique value based on data your system contains,
     so that both you and us know who we're referring to. It is a value you provide to us so that recipient management
     is not required to send a first invoice to a recipient.
     """
-    recipient: NotRequired[Nullable[SalesInvoiceRecipientTypedDict]]
-    lines: NotRequired[Nullable[List[SalesInvoiceLineItemTypedDict]]]
+
+    recipient: Nullable[SalesInvoiceRecipient]
+
+    lines: Nullable[List[SalesInvoiceLineItem]]
     r"""Provide the line items for the invoice. Each line contains details such as a description of the item
     ordered and its price.
 
     All lines must have the same currency as the invoice.
     """
-    discount: NotRequired[Nullable[SalesInvoiceDiscountTypedDict]]
 
-
-class EntitySalesInvoice(BaseModel):
     testmode: OptionalNullable[bool] = UNSET
     r"""Whether to create the entity in test mode or live mode.
 
@@ -126,22 +157,6 @@ class EntitySalesInvoice(BaseModel):
     required.
     """
 
-    status: Optional[SalesInvoiceStatus] = None
-    r"""The status for the invoice to end up in.
-
-    A `draft` invoice is not paid or not sent and can be updated after creation. Setting it to `issued` sends it to
-    the recipient so they may then pay through our payment system. To skip our payment process, set this to `paid` to
-    mark it as paid. It can then subsequently be sent as well, same as with `issued`.
-
-    A status value that cannot be set but can be returned is `canceled`, for invoices which were
-    issued, but then canceled. Currently this can only be done for invoices created in the dashboard.
-
-    Dependent parameters:
-    - `paymentDetails` is required if invoice should be set directly to `paid`
-    - `customerId` and `mandateId` are required if a recurring payment should be used to set the invoice to `paid`
-    - `emailDetails` optional for `issued` and `paid` to send the invoice by email
-    """
-
     vat_scheme: Annotated[
         Optional[SalesInvoiceVatScheme], pydantic.Field(alias="vatScheme")
     ] = None
@@ -157,7 +172,7 @@ class EntitySalesInvoice(BaseModel):
     memo: OptionalNullable[str] = UNSET
     r"""A free-form memo you can set on the invoice, and will be shown on the invoice PDF."""
 
-    metadata: OptionalNullable[EntitySalesInvoiceMetadata] = UNSET
+    metadata: OptionalNullable[SalesInvoiceRequestMetadata] = UNSET
     r"""Provide any data you like as a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
@@ -168,9 +183,8 @@ class EntitySalesInvoice(BaseModel):
     r"""The payment term to be set on the invoice."""
 
     payment_details: Annotated[
-        OptionalNullable[SalesInvoicePaymentDetails],
-        pydantic.Field(alias="paymentDetails"),
-    ] = UNSET
+        Optional[SalesInvoicePaymentDetails], pydantic.Field(alias="paymentDetails")
+    ] = None
 
     email_details: Annotated[
         OptionalNullable[SalesInvoiceEmailDetails], pydantic.Field(alias="emailDetails")
@@ -186,23 +200,6 @@ class EntitySalesInvoice(BaseModel):
     `customerId` becomes required as well. Only allowed for invoices with status `paid`.
     """
 
-    recipient_identifier: Annotated[
-        Optional[str], pydantic.Field(alias="recipientIdentifier")
-    ] = None
-    r"""An identifier tied to the recipient data. This should be a unique value based on data your system contains,
-    so that both you and us know who we're referring to. It is a value you provide to us so that recipient management
-    is not required to send a first invoice to a recipient.
-    """
-
-    recipient: OptionalNullable[SalesInvoiceRecipient] = UNSET
-
-    lines: OptionalNullable[List[SalesInvoiceLineItem]] = UNSET
-    r"""Provide the line items for the invoice. Each line contains details such as a description of the item
-    ordered and its price.
-
-    All lines must have the same currency as the invoice.
-    """
-
     discount: OptionalNullable[SalesInvoiceDiscount] = UNSET
 
     @model_serializer(mode="wrap")
@@ -210,7 +207,6 @@ class EntitySalesInvoice(BaseModel):
         optional_fields = [
             "testmode",
             "profileId",
-            "status",
             "vatScheme",
             "vatMode",
             "memo",
@@ -220,9 +216,6 @@ class EntitySalesInvoice(BaseModel):
             "emailDetails",
             "customerId",
             "mandateId",
-            "recipientIdentifier",
-            "recipient",
-            "lines",
             "discount",
         ]
         nullable_fields = [
@@ -231,7 +224,6 @@ class EntitySalesInvoice(BaseModel):
             "memo",
             "metadata",
             "paymentTerm",
-            "paymentDetails",
             "emailDetails",
             "recipient",
             "lines",
