@@ -5,8 +5,8 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.640.0
   generationVersion: 2.730.5
-  releaseVersion: 0.39.1
-  configChecksum: e0bd7aeaeb8372fe8a912f551ca2f50e
+  releaseVersion: 0.40.1
+  configChecksum: 7cf1fa599bf59bb83d47b264a33fcc1a
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -5412,4 +5412,3 @@ examples:
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "The resource does not exist", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
 examplesVersion: 1.0.2
 generatedTests: {}
-releaseNotes: "## Python SDK Changes Detected:\n* `client.sales-invoices.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `client.sales-invoices.list()`:  `response._embedded.sales_invoices.[]` **Changed** **Breaking** :warning:\n* `client.sales-invoices.get()`:  `response` **Changed** **Breaking** :warning:\n* `client.sales-invoices.update()`: \n  *  `request.update-values-sales-invoice.payment_details` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n"
