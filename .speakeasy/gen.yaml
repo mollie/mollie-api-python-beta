@@ -28,7 +28,7 @@ generation:
     skipResponseBodyAssertions: false
   requestBodyFieldName: ""
 python:
-  version: 0.45.1
+  version: 0.46.1
   additionalDependencies:
     dev: {}
     main: {}
@@ -65,6 +65,7 @@ python:
   maxMethodParams: 999
   methodArguments: infer-optional-args
   moduleName: ""
+  multipartArrayFormat: legacy
   outputModelSuffix: output
   packageManager: poetry
   packageName: mollie
