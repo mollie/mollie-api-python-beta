@@ -45,7 +45,7 @@ class EntityChargebackSettlementAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class ReasonTypedDict(TypedDict):
+class EntityChargebackReasonTypedDict(TypedDict):
     r"""Reason for the chargeback as given by the bank. Only available for chargebacks of SEPA Direct Debit payments."""
 
     code: str
@@ -54,7 +54,7 @@ class ReasonTypedDict(TypedDict):
     r"""A more detailed human-friendly description."""
 
 
-class Reason(BaseModel):
+class EntityChargebackReason(BaseModel):
     r"""Reason for the chargeback as given by the bank. Only available for chargebacks of SEPA Direct Debit payments."""
 
     code: str
@@ -150,7 +150,7 @@ class EntityChargebackTypedDict(TypedDict):
     accurate settlement amounts we recommend using the [List balance transactions endpoint](list-balance-transactions)
     instead.
     """
-    reason: NotRequired[Nullable[ReasonTypedDict]]
+    reason: NotRequired[Nullable[EntityChargebackReasonTypedDict]]
     r"""Reason for the chargeback as given by the bank. Only available for chargebacks of SEPA Direct Debit payments."""
     settlement_id: NotRequired[Nullable[str]]
     r"""The identifier referring to the settlement this payment was settled with. For example, `stl_BkEjN2eBb`. This field
@@ -199,7 +199,7 @@ class EntityChargeback(BaseModel):
     instead.
     """
 
-    reason: OptionalNullable[Reason] = UNSET
+    reason: OptionalNullable[EntityChargebackReason] = UNSET
     r"""Reason for the chargeback as given by the bank. Only available for chargebacks of SEPA Direct Debit payments."""
 
     settlement_id: Annotated[

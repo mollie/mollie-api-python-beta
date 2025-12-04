@@ -15,7 +15,7 @@ from mollie.utils import validate_open_enum
 import pydantic
 from pydantic import model_serializer
 from pydantic.functional_validators import PlainValidator
-from typing import Optional
+from typing import Any, Dict, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -65,6 +65,10 @@ class EntityBalanceTransferResponseTypedDict(TypedDict):
     r"""Whether this entity was created in live mode or in test mode."""
     category: NotRequired[BalanceTransferCategoryResponse]
     r"""The type of the transfer. Different fees may apply to different types of transfers."""
+    metadata: NotRequired[Dict[str, Any]]
+    r"""A JSON object that you can attach to a balance transfer.
+    This can be useful for storing additional information about the transfer in a structured format. Maximum size is approximately 1KB.
+    """
     executed_at: NotRequired[Nullable[str]]
     r"""The date and time when the transfer was completed, in ISO 8601 format. This parameter is omitted if the transfer is
     not executed (yet).
@@ -112,6 +116,11 @@ class EntityBalanceTransferResponse(BaseModel):
     ] = None
     r"""The type of the transfer. Different fees may apply to different types of transfers."""
 
+    metadata: Optional[Dict[str, Any]] = None
+    r"""A JSON object that you can attach to a balance transfer.
+    This can be useful for storing additional information about the transfer in a structured format. Maximum size is approximately 1KB.
+    """
+
     executed_at: Annotated[
         OptionalNullable[str], pydantic.Field(alias="executedAt")
     ] = UNSET
@@ -121,7 +130,7 @@ class EntityBalanceTransferResponse(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["category", "executedAt"]
+        optional_fields = ["category", "metadata", "executedAt"]
         nullable_fields = ["executedAt"]
         null_default_fields = []
 

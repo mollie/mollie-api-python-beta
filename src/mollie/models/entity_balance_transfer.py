@@ -9,7 +9,7 @@ from .entity_balance_transfer_party import (
 )
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from pydantic import model_serializer
-from typing import Optional
+from typing import Any, Dict, Optional
 from typing_extensions import NotRequired, TypedDict
 
 
@@ -24,6 +24,10 @@ class EntityBalanceTransferTypedDict(TypedDict):
     r"""The transfer description for initiating party."""
     category: NotRequired[BalanceTransferCategory]
     r"""The type of the transfer. Different fees may apply to different types of transfers."""
+    metadata: NotRequired[Dict[str, Any]]
+    r"""A JSON object that you can attach to a balance transfer.
+    This can be useful for storing additional information about the transfer in a structured format. Maximum size is approximately 1KB.
+    """
     testmode: NotRequired[Nullable[bool]]
     r"""Whether to create the entity in test mode or live mode.
 
@@ -49,6 +53,11 @@ class EntityBalanceTransfer(BaseModel):
     category: Optional[BalanceTransferCategory] = None
     r"""The type of the transfer. Different fees may apply to different types of transfers."""
 
+    metadata: Optional[Dict[str, Any]] = None
+    r"""A JSON object that you can attach to a balance transfer.
+    This can be useful for storing additional information about the transfer in a structured format. Maximum size is approximately 1KB.
+    """
+
     testmode: OptionalNullable[bool] = UNSET
     r"""Whether to create the entity in test mode or live mode.
 
@@ -59,7 +68,7 @@ class EntityBalanceTransfer(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["category", "testmode"]
+        optional_fields = ["category", "metadata", "testmode"]
         nullable_fields = ["testmode"]
         null_default_fields = []
 

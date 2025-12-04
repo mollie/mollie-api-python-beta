@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 from .list_links import ListLinks, ListLinksTypedDict
+from .list_subscription_response import (
+    ListSubscriptionResponse,
+    ListSubscriptionResponseTypedDict,
+)
 from .sorting import Sorting
-from .subscription_response import SubscriptionResponse, SubscriptionResponseTypedDict
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import (
     FieldMetadata,
@@ -145,12 +148,12 @@ class ListSubscriptionsRequest(BaseModel):
 
 
 class ListSubscriptionsEmbeddedTypedDict(TypedDict):
-    subscriptions: NotRequired[List[SubscriptionResponseTypedDict]]
+    subscriptions: NotRequired[List[ListSubscriptionResponseTypedDict]]
     r"""An array of subscription objects."""
 
 
 class ListSubscriptionsEmbedded(BaseModel):
-    subscriptions: Optional[List[SubscriptionResponse]] = None
+    subscriptions: Optional[List[ListSubscriptionResponse]] = None
     r"""An array of subscription objects."""
 
 

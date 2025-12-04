@@ -48,6 +48,10 @@ with ClientSDK(
         ),
         description="Invoice fee",
         category=mollie.BalanceTransferCategory.INVOICE_COLLECTION,
+        metadata={
+            "order_id": 12345,
+            "customer_id": 9876,
+        },
         testmode=False,
     ))
 

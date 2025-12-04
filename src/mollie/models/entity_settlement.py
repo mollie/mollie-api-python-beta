@@ -45,7 +45,7 @@ class EntitySettlementAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class RateTypedDict(TypedDict):
+class EntitySettlementRateTypedDict(TypedDict):
     r"""The service rates, further divided into `fixed` and `percentage` costs."""
 
     fixed: NotRequired[AmountTypedDict]
@@ -53,7 +53,7 @@ class RateTypedDict(TypedDict):
     percentage: NotRequired[str]
 
 
-class Rate(BaseModel):
+class EntitySettlementRate(BaseModel):
     r"""The service rates, further divided into `fixed` and `percentage` costs."""
 
     fixed: Optional[Amount] = None
@@ -62,14 +62,14 @@ class Rate(BaseModel):
     percentage: Optional[str] = None
 
 
-class CostTypedDict(TypedDict):
+class EntitySettlementCostTypedDict(TypedDict):
     description: str
     r"""A description of the cost subtotal"""
     method: Nullable[PaymentMethod]
     r"""The payment method, if applicable"""
     count: int
     r"""The number of fees"""
-    rate: RateTypedDict
+    rate: EntitySettlementRateTypedDict
     r"""The service rates, further divided into `fixed` and `percentage` costs."""
     amount_net: AmountTypedDict
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
@@ -79,7 +79,7 @@ class CostTypedDict(TypedDict):
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
 
-class Cost(BaseModel):
+class EntitySettlementCost(BaseModel):
     description: str
     r"""A description of the cost subtotal"""
 
@@ -91,7 +91,7 @@ class Cost(BaseModel):
     count: int
     r"""The number of fees"""
 
-    rate: Rate
+    rate: EntitySettlementRate
     r"""The service rates, further divided into `fixed` and `percentage` costs."""
 
     amount_net: Annotated[Amount, pydantic.Field(alias="amountNet")]
@@ -134,7 +134,7 @@ class Cost(BaseModel):
         return m
 
 
-class RevenueTypedDict(TypedDict):
+class EntitySettlementRevenueTypedDict(TypedDict):
     description: str
     r"""A description of the revenue subtotal"""
     method: Nullable[PaymentMethod]
@@ -149,7 +149,7 @@ class RevenueTypedDict(TypedDict):
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
 
-class Revenue(BaseModel):
+class EntitySettlementRevenue(BaseModel):
     description: str
     r"""A description of the revenue subtotal"""
 
@@ -201,21 +201,21 @@ class Revenue(BaseModel):
         return m
 
 
-class PeriodsTypedDict(TypedDict):
-    costs: NotRequired[List[CostTypedDict]]
+class EntitySettlementPeriodsTypedDict(TypedDict):
+    costs: NotRequired[List[EntitySettlementCostTypedDict]]
     r"""An array of cost objects, describing the fees withheld for each payment method during this period."""
-    revenue: NotRequired[List[RevenueTypedDict]]
+    revenue: NotRequired[List[EntitySettlementRevenueTypedDict]]
     r"""An array of revenue objects containing the total revenue for each payment method during this period."""
     invoice_id: NotRequired[str]
     invoice_reference: NotRequired[Nullable[str]]
     r"""The invoice reference, if the invoice has been created already."""
 
 
-class Periods(BaseModel):
-    costs: Optional[List[Cost]] = None
+class EntitySettlementPeriods(BaseModel):
+    costs: Optional[List[EntitySettlementCost]] = None
     r"""An array of cost objects, describing the fees withheld for each payment method during this period."""
 
-    revenue: Optional[List[Revenue]] = None
+    revenue: Optional[List[EntitySettlementRevenue]] = None
     r"""An array of revenue objects containing the total revenue for each payment method during this period."""
 
     invoice_id: Annotated[Optional[str], pydantic.Field(alias="invoiceId")] = None
@@ -363,7 +363,7 @@ class EntitySettlementTypedDict(TypedDict):
     """
     invoice_id: NotRequired[Nullable[str]]
     r"""The ID of the oldest invoice created for all the periods, if the invoice has been created yet."""
-    periods: NotRequired[Dict[str, Dict[str, PeriodsTypedDict]]]
+    periods: NotRequired[Dict[str, Dict[str, EntitySettlementPeriodsTypedDict]]]
     r"""For bookkeeping purposes, the settlement includes an overview of transactions included in the settlement. These
     transactions are grouped into 'period' objects — one for each calendar month.
 
@@ -417,7 +417,7 @@ class EntitySettlement(BaseModel):
     )
     r"""The ID of the oldest invoice created for all the periods, if the invoice has been created yet."""
 
-    periods: Optional[Dict[str, Dict[str, Periods]]] = None
+    periods: Optional[Dict[str, Dict[str, EntitySettlementPeriods]]] = None
     r"""For bookkeeping purposes, the settlement includes an overview of transactions included in the settlement. These
     transactions are grouped into 'period' objects — one for each calendar month.
 

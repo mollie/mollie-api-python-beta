@@ -48,7 +48,7 @@ class SalesInvoiceResponseMetadata(BaseModel):
     """
 
 
-class AmountDueTypedDict(TypedDict):
+class SalesInvoiceResponseAmountDueTypedDict(TypedDict):
     r"""The amount that is left to be paid."""
 
     currency: str
@@ -57,7 +57,7 @@ class AmountDueTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class AmountDue(BaseModel):
+class SalesInvoiceResponseAmountDue(BaseModel):
     r"""The amount that is left to be paid."""
 
     currency: str
@@ -67,7 +67,7 @@ class AmountDue(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class SubtotalAmountTypedDict(TypedDict):
+class SalesInvoiceResponseSubtotalAmountTypedDict(TypedDict):
     r"""The total amount without VAT before discounts."""
 
     currency: str
@@ -76,7 +76,7 @@ class SubtotalAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class SubtotalAmount(BaseModel):
+class SalesInvoiceResponseSubtotalAmount(BaseModel):
     r"""The total amount without VAT before discounts."""
 
     currency: str
@@ -86,7 +86,7 @@ class SubtotalAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class TotalAmountTypedDict(TypedDict):
+class SalesInvoiceResponseTotalAmountTypedDict(TypedDict):
     r"""The total amount with VAT."""
 
     currency: str
@@ -95,7 +95,7 @@ class TotalAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class TotalAmount(BaseModel):
+class SalesInvoiceResponseTotalAmount(BaseModel):
     r"""The total amount with VAT."""
 
     currency: str
@@ -105,7 +105,7 @@ class TotalAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class TotalVatAmountTypedDict(TypedDict):
+class SalesInvoiceResponseTotalVatAmountTypedDict(TypedDict):
     r"""The total VAT amount."""
 
     currency: str
@@ -114,7 +114,7 @@ class TotalVatAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class TotalVatAmount(BaseModel):
+class SalesInvoiceResponseTotalVatAmount(BaseModel):
     r"""The total VAT amount."""
 
     currency: str
@@ -124,7 +124,7 @@ class TotalVatAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class DiscountedSubtotalAmountTypedDict(TypedDict):
+class SalesInvoiceResponseDiscountedSubtotalAmountTypedDict(TypedDict):
     r"""The total amount without VAT after discounts."""
 
     currency: str
@@ -133,7 +133,7 @@ class DiscountedSubtotalAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class DiscountedSubtotalAmount(BaseModel):
+class SalesInvoiceResponseDiscountedSubtotalAmount(BaseModel):
     r"""The total amount without VAT after discounts."""
 
     currency: str
@@ -247,15 +247,17 @@ class SalesInvoiceResponseTypedDict(TypedDict):
     All lines must have the same currency as the invoice.
     """
     discount: NotRequired[Nullable[SalesInvoiceDiscountResponseTypedDict]]
-    amount_due: NotRequired[AmountDueTypedDict]
+    amount_due: NotRequired[SalesInvoiceResponseAmountDueTypedDict]
     r"""The amount that is left to be paid."""
-    subtotal_amount: NotRequired[SubtotalAmountTypedDict]
+    subtotal_amount: NotRequired[SalesInvoiceResponseSubtotalAmountTypedDict]
     r"""The total amount without VAT before discounts."""
-    total_amount: NotRequired[TotalAmountTypedDict]
+    total_amount: NotRequired[SalesInvoiceResponseTotalAmountTypedDict]
     r"""The total amount with VAT."""
-    total_vat_amount: NotRequired[TotalVatAmountTypedDict]
+    total_vat_amount: NotRequired[SalesInvoiceResponseTotalVatAmountTypedDict]
     r"""The total VAT amount."""
-    discounted_subtotal_amount: NotRequired[DiscountedSubtotalAmountTypedDict]
+    discounted_subtotal_amount: NotRequired[
+        SalesInvoiceResponseDiscountedSubtotalAmountTypedDict
+    ]
     r"""The total amount without VAT after discounts."""
     created_at: NotRequired[str]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
@@ -385,26 +387,30 @@ class SalesInvoiceResponse(BaseModel):
 
     discount: OptionalNullable[SalesInvoiceDiscountResponse] = UNSET
 
-    amount_due: Annotated[Optional[AmountDue], pydantic.Field(alias="amountDue")] = None
+    amount_due: Annotated[
+        Optional[SalesInvoiceResponseAmountDue], pydantic.Field(alias="amountDue")
+    ] = None
     r"""The amount that is left to be paid."""
 
     subtotal_amount: Annotated[
-        Optional[SubtotalAmount], pydantic.Field(alias="subtotalAmount")
+        Optional[SalesInvoiceResponseSubtotalAmount],
+        pydantic.Field(alias="subtotalAmount"),
     ] = None
     r"""The total amount without VAT before discounts."""
 
     total_amount: Annotated[
-        Optional[TotalAmount], pydantic.Field(alias="totalAmount")
+        Optional[SalesInvoiceResponseTotalAmount], pydantic.Field(alias="totalAmount")
     ] = None
     r"""The total amount with VAT."""
 
     total_vat_amount: Annotated[
-        Optional[TotalVatAmount], pydantic.Field(alias="totalVatAmount")
+        Optional[SalesInvoiceResponseTotalVatAmount],
+        pydantic.Field(alias="totalVatAmount"),
     ] = None
     r"""The total VAT amount."""
 
     discounted_subtotal_amount: Annotated[
-        Optional[DiscountedSubtotalAmount],
+        Optional[SalesInvoiceResponseDiscountedSubtotalAmount],
         pydantic.Field(alias="discountedSubtotalAmount"),
     ] = None
     r"""The total amount without VAT after discounts."""

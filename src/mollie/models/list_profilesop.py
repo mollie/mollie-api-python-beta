@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from .list_links import ListLinks, ListLinksTypedDict
-from .profile_response import ProfileResponse, ProfileResponseTypedDict
+from .list_profile_response import ListProfileResponse, ListProfileResponseTypedDict
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, HeaderMetadata, QueryParamMetadata
 import pydantic
@@ -77,12 +77,12 @@ class ListProfilesRequest(BaseModel):
 
 
 class ListProfilesEmbeddedTypedDict(TypedDict):
-    profiles: List[ProfileResponseTypedDict]
+    profiles: List[ListProfileResponseTypedDict]
     r"""An array of profile objects."""
 
 
 class ListProfilesEmbedded(BaseModel):
-    profiles: List[ProfileResponse]
+    profiles: List[ListProfileResponse]
     r"""An array of profile objects."""
 
 
