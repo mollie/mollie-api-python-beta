@@ -11,8 +11,19 @@ from mollie.utils import (
 )
 import pydantic
 from pydantic import model_serializer
-from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+UpdateWebhookEventTypesTypedDict = TypeAliasType(
+    "UpdateWebhookEventTypesTypedDict",
+    Union[List[WebhookEventTypes], WebhookEventTypes],
+)
+
+
+UpdateWebhookEventTypes = TypeAliasType(
+    "UpdateWebhookEventTypes", Union[List[WebhookEventTypes], WebhookEventTypes]
+)
 
 
 class UpdateWebhookRequestBodyTypedDict(TypedDict):
@@ -20,8 +31,7 @@ class UpdateWebhookRequestBodyTypedDict(TypedDict):
     r"""A name that identifies the webhook."""
     url: NotRequired[str]
     r"""The URL Mollie will send the events to. This URL must be publicly accessible."""
-    webhook_event_types: NotRequired[WebhookEventTypes]
-    r"""The event's type"""
+    event_types: NotRequired[UpdateWebhookEventTypesTypedDict]
     testmode: NotRequired[Nullable[bool]]
     r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
     such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
@@ -37,10 +47,9 @@ class UpdateWebhookRequestBody(BaseModel):
     url: Optional[str] = None
     r"""The URL Mollie will send the events to. This URL must be publicly accessible."""
 
-    webhook_event_types: Annotated[
-        Optional[WebhookEventTypes], pydantic.Field(alias="eventTypes")
+    event_types: Annotated[
+        Optional[UpdateWebhookEventTypes], pydantic.Field(alias="eventTypes")
     ] = None
-    r"""The event's type"""
 
     testmode: OptionalNullable[bool] = UNSET
     r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
@@ -51,7 +60,7 @@ class UpdateWebhookRequestBody(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = ["name", "url", "webhook-event-types", "testmode"]
+        optional_fields = ["name", "url", "eventTypes", "testmode"]
         nullable_fields = ["testmode"]
         null_default_fields = []
 

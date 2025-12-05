@@ -34,7 +34,7 @@ with ClientSDK(
     res = client_sdk.webhooks.create(idempotency_key="123e4567-e89b-12d3-a456-426", request_body={
         "name": "Webhook #1",
         "url": "https://mollie.com/",
-        "webhook_event_types": mollie.WebhookEventTypes.PAYMENT_LINK_PAID,
+        "event_types": mollie.WebhookEventTypes.PAYMENT_LINK_PAID,
         "testmode": False,
     })
 
@@ -134,7 +134,7 @@ with ClientSDK(
     res = client_sdk.webhooks.update(id="hook_B2EyhTH5N4KWUnoYPcgiH", idempotency_key="123e4567-e89b-12d3-a456-426", request_body={
         "name": "Webhook #1",
         "url": "https://mollie.com/",
-        "webhook_event_types": mollie.WebhookEventTypes.PAYMENT_LINK_PAID,
+        "event_types": mollie.WebhookEventTypes.PAYMENT_LINK_PAID,
         "testmode": False,
     })
 

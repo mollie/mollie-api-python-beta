@@ -38,7 +38,6 @@ class PaymentMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     MULTIBANCO = "multibanco"
     MYBANK = "mybank"
     PAYBYBANK = "paybybank"
-    PAYCONIQ = "payconiq"
     PAYPAL = "paypal"
     PAYSAFECARD = "paysafecard"
     PRZELEWY24 = "przelewy24"

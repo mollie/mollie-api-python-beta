@@ -116,6 +116,8 @@ if TYPE_CHECKING:
         CreateWebhookTypedDict,
     )
     from .create_webhookop import (
+        CreateWebhookEventTypes,
+        CreateWebhookEventTypesTypedDict,
         CreateWebhookRequest,
         CreateWebhookRequestBody,
         CreateWebhookRequestBodyTypedDict,
@@ -1510,6 +1512,8 @@ if TYPE_CHECKING:
         UpdateValuesSalesInvoiceTypedDict,
     )
     from .update_webhookop import (
+        UpdateWebhookEventTypes,
+        UpdateWebhookEventTypesTypedDict,
         UpdateWebhookRequest,
         UpdateWebhookRequestBody,
         UpdateWebhookRequestBodyTypedDict,
@@ -1639,6 +1643,8 @@ __all__ = [
     "CreateSubscriptionRequest",
     "CreateSubscriptionRequestTypedDict",
     "CreateWebhook",
+    "CreateWebhookEventTypes",
+    "CreateWebhookEventTypesTypedDict",
     "CreateWebhookLinks",
     "CreateWebhookLinksTypedDict",
     "CreateWebhookRequest",
@@ -2726,6 +2732,8 @@ __all__ = [
     "UpdateSubscriptionRequestTypedDict",
     "UpdateValuesSalesInvoice",
     "UpdateValuesSalesInvoiceTypedDict",
+    "UpdateWebhookEventTypes",
+    "UpdateWebhookEventTypesTypedDict",
     "UpdateWebhookRequest",
     "UpdateWebhookRequestBody",
     "UpdateWebhookRequestBodyTypedDict",
@@ -2828,6 +2836,8 @@ _dynamic_imports: dict[str, str] = {
     "CreateWebhookLinks": ".create_webhook",
     "CreateWebhookLinksTypedDict": ".create_webhook",
     "CreateWebhookTypedDict": ".create_webhook",
+    "CreateWebhookEventTypes": ".create_webhookop",
+    "CreateWebhookEventTypesTypedDict": ".create_webhookop",
     "CreateWebhookRequest": ".create_webhookop",
     "CreateWebhookRequestBody": ".create_webhookop",
     "CreateWebhookRequestBodyTypedDict": ".create_webhookop",
@@ -3939,6 +3949,8 @@ _dynamic_imports: dict[str, str] = {
     "UpdateSubscriptionRequestTypedDict": ".update_subscriptionop",
     "UpdateValuesSalesInvoice": ".update_values_sales_invoice",
     "UpdateValuesSalesInvoiceTypedDict": ".update_values_sales_invoice",
+    "UpdateWebhookEventTypes": ".update_webhookop",
+    "UpdateWebhookEventTypesTypedDict": ".update_webhookop",
     "UpdateWebhookRequest": ".update_webhookop",
     "UpdateWebhookRequestBody": ".update_webhookop",
     "UpdateWebhookRequestBodyTypedDict": ".update_webhookop",

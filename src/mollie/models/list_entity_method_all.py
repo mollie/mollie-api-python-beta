@@ -43,7 +43,6 @@ class ListEntityMethodAllID(str, Enum, metaclass=utils.OpenEnumMeta):
     MULTIBANCO = "multibanco"
     MYBANK = "mybank"
     PAYBYBANK = "paybybank"
-    PAYCONIQ = "payconiq"
     PAYPAL = "paypal"
     PAYSAFECARD = "paysafecard"
     POINTOFSALE = "pointofsale"
@@ -61,6 +60,8 @@ class ListEntityMethodAllID(str, Enum, metaclass=utils.OpenEnumMeta):
     KLARNAPAYNOW = "klarnapaynow"
     # Deprecated, use 'klarna' instead
     KLARNASLICEIT = "klarnasliceit"
+    # No longer available
+    PAYCONIQ = "payconiq"
 
 
 class ListEntityMethodAllMinimumAmountTypedDict(TypedDict):

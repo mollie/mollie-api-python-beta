@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: adc1359a5f53bfc67f09961b0725e6f9
+  docChecksum: 1d2641433a69902c38d579ef00824956
   docVersion: 1.0.0
   speakeasyVersion: 1.640.0
   generationVersion: 2.730.5
-  releaseVersion: 0.53.1
-  configChecksum: 69747eb9703e2781a16d078bc5e085ae
+  releaseVersion: 0.54.1
+  configChecksum: e874b17135abf767cb431e517876a7a9
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -110,6 +110,7 @@ generatedFiles:
   - docs/models/createsalesinvoicerequest.md
   - docs/models/createsubscriptionrequest.md
   - docs/models/createwebhook.md
+  - docs/models/createwebhookeventtypes.md
   - docs/models/createwebhooklinks.md
   - docs/models/createwebhookrequest.md
   - docs/models/createwebhookrequestbody.md
@@ -697,6 +698,7 @@ generatedFiles:
   - docs/models/updatesubscriptionrequest.md
   - docs/models/updatesubscriptionrequestbody.md
   - docs/models/updatevaluessalesinvoice.md
+  - docs/models/updatewebhookeventtypes.md
   - docs/models/updatewebhookrequest.md
   - docs/models/updatewebhookrequestbody.md
   - docs/models/url.md
@@ -5517,3 +5519,7 @@ examples:
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "The resource does not exist", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
 examplesVersion: 1.0.2
 generatedTests: {}
+releaseNotes: |
+  ## Python SDK Changes Detected:
+  * `client.webhooks.create()`:  `request_body` **Changed** **Breaking** :warning:
+  * `client.webhooks.update()`:  `request_body` **Changed** **Breaking** :warning:

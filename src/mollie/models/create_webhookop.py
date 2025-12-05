@@ -6,8 +6,19 @@ from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SEN
 from mollie.utils import FieldMetadata, HeaderMetadata, RequestMetadata
 import pydantic
 from pydantic import model_serializer
-from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+CreateWebhookEventTypesTypedDict = TypeAliasType(
+    "CreateWebhookEventTypesTypedDict",
+    Union[List[WebhookEventTypes], WebhookEventTypes],
+)
+
+
+CreateWebhookEventTypes = TypeAliasType(
+    "CreateWebhookEventTypes", Union[List[WebhookEventTypes], WebhookEventTypes]
+)
 
 
 class CreateWebhookRequestBodyTypedDict(TypedDict):
@@ -15,8 +26,7 @@ class CreateWebhookRequestBodyTypedDict(TypedDict):
     r"""A name that identifies the webhook."""
     url: str
     r"""The URL Mollie will send the events to. This URL must be publicly accessible."""
-    webhook_event_types: WebhookEventTypes
-    r"""The event's type"""
+    event_types: CreateWebhookEventTypesTypedDict
     testmode: NotRequired[Nullable[bool]]
     r"""Whether to create the entity in test mode or live mode.
 
@@ -33,10 +43,7 @@ class CreateWebhookRequestBody(BaseModel):
     url: str
     r"""The URL Mollie will send the events to. This URL must be publicly accessible."""
 
-    webhook_event_types: Annotated[
-        WebhookEventTypes, pydantic.Field(alias="eventTypes")
-    ]
-    r"""The event's type"""
+    event_types: Annotated[CreateWebhookEventTypes, pydantic.Field(alias="eventTypes")]
 
     testmode: OptionalNullable[bool] = UNSET
     r"""Whether to create the entity in test mode or live mode.

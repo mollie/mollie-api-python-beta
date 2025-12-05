@@ -16,7 +16,9 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class EntityWebhookEventWebhookEventTypes(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""The event's type"""
+    r"""The list of events to enable for this webhook. You may specify `'*'` to add all events, except those
+    that require explicit selection.
+    """
 
     PAYMENT_LINK_PAID = "payment-link.paid"
     BALANCE_TRANSACTION_CREATED = "balance-transaction.created"
