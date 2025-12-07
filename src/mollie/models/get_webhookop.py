@@ -40,9 +40,7 @@ class GetWebhookRequestTypedDict(TypedDict):
     id: str
     r"""Provide the ID of the item you want to perform this operation on."""
     testmode: NotRequired[bool]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
-    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
-    setting the `testmode` query parameter to `true`.
+    r"""You can enable test mode by setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -60,9 +58,7 @@ class GetWebhookRequest(BaseModel):
         Optional[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
-    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
-    setting the `testmode` query parameter to `true`.
+    r"""You can enable test mode by setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """

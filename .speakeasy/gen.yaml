@@ -26,9 +26,10 @@ generation:
     generateTests: true
     generateNewTests: false
     skipResponseBodyAssertions: false
+  persistentEdits: {}
   requestBodyFieldName: ""
 python:
-  version: 0.54.1
+  version: 0.55.1
   additionalDependencies:
     dev: {}
     main: {}

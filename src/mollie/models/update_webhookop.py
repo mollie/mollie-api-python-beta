@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from .webhook_event_types import WebhookEventTypes
-from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from mollie.types import BaseModel
 from mollie.utils import (
     FieldMetadata,
     HeaderMetadata,
@@ -10,7 +10,6 @@ from mollie.utils import (
     RequestMetadata,
 )
 import pydantic
-from pydantic import model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -32,9 +31,8 @@ class UpdateWebhookRequestBodyTypedDict(TypedDict):
     url: NotRequired[str]
     r"""The URL Mollie will send the events to. This URL must be publicly accessible."""
     event_types: NotRequired[UpdateWebhookEventTypesTypedDict]
-    testmode: NotRequired[Nullable[bool]]
-    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
-    such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    testmode: NotRequired[bool]
+    r"""You can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -51,42 +49,11 @@ class UpdateWebhookRequestBody(BaseModel):
         Optional[UpdateWebhookEventTypes], pydantic.Field(alias="eventTypes")
     ] = None
 
-    testmode: OptionalNullable[bool] = UNSET
-    r"""Most API credentials are specifically created for either live mode or test mode. For organization-level credentials
-    such as OAuth access tokens, you can enable test mode by setting `testmode` to `true`.
+    testmode: Optional[bool] = None
+    r"""You can enable test mode by setting `testmode` to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = ["name", "url", "eventTypes", "testmode"]
-        nullable_fields = ["testmode"]
-        null_default_fields = []
-
-        serialized = handler(self)
-
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            optional_nullable = k in optional_fields and k in nullable_fields
-            is_set = (
-                self.__pydantic_fields_set__.intersection({n})
-                or k in null_default_fields
-            )  # pylint: disable=no-member
-
-            if val is not None and val != UNSET_SENTINEL:
-                m[k] = val
-            elif val != UNSET_SENTINEL and (
-                not k in optional_fields or (optional_nullable and is_set)
-            ):
-                m[k] = val
-
-        return m
 
 
 class UpdateWebhookRequestTypedDict(TypedDict):

@@ -44,9 +44,7 @@ class ListBalancesRequestTypedDict(TypedDict):
     limit: NotRequired[Nullable[int]]
     r"""The maximum number of items to return. Defaults to 50 items."""
     testmode: NotRequired[bool]
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
-    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
-    setting the `testmode` query parameter to `true`.
+    r"""You can enable test mode by setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
@@ -80,9 +78,7 @@ class ListBalancesRequest(BaseModel):
         Optional[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query
-    parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by
-    setting the `testmode` query parameter to `true`.
+    r"""You can enable test mode by setting the `testmode` query parameter to `true`.
 
     Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa.
     """
