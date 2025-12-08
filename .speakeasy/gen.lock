@@ -5,8 +5,8 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.640.0
   generationVersion: 2.730.5
-  releaseVersion: 0.55.1
-  configChecksum: 2ee1c5e2dab9a7b87c37191225215d45
+  releaseVersion: 0.56.1
+  configChecksum: 619d02d553b42cc2da1bece744f46b00
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -5519,11 +5519,10 @@ examples:
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "The resource does not exist", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
 examplesVersion: 1.0.2
 generatedTests: {}
-releaseNotes: "## Python SDK Changes Detected:\n* `client.webhooks.create()`: \n  *  `request_body.testmode` **Changed** **Breaking** :warning:\n* `client.webhooks.update()`: \n  *  `request_body.testmode` **Changed** **Breaking** :warning:\n* `client.webhooks.delete()`: \n  *  `request_body.testmode` **Changed** **Breaking** :warning:\n* `client.webhooks.test()`: \n  *  `request_body.testmode` **Changed** **Breaking** :warning:\n* `client.balance-transfers.create()`: \n  *  `request.entity-balance-transfer.testmode` **Changed** **Breaking** :warning:\n"
 persistentEdits:
-  generation_id: 683f3a98-36f8-4c94-a845-6cd73a06272a
-  pristine_commit_hash: e992e7844e405aabdec873690083c317c66839a0
-  pristine_tree_hash: d8f32946678c516b7f8ec829b2004bf8d4ecc6da
+  generation_id: 90050d70-d532-4f43-96d6-9ac99bb5e848
+  pristine_commit_hash: 5623fd396fc5c6253ce306c0b6972ede043ce085
+  pristine_tree_hash: 81faf43dbc9f8978a51473085f3ca4a4dcd9421c
 trackedFiles:
   .devcontainer/README.md:
     id: b170c0f184ac
@@ -8355,8 +8354,8 @@ trackedFiles:
     pristine_git_object: 54946924a17396c0c6f33d47591a254bc5a8003c
   src/mollie/_version.py:
     id: 04555310b049
-    last_write_checksum: sha1:51fccd0890f4cafcc8f8c7d8fe2325e05f3a06a0
-    pristine_git_object: 03e3f124d530b525e56899a5e8e450a9a892a53e
+    last_write_checksum: sha1:6ebf976e5dd027fc97b8171608c34f08eefd7c0a
+    pristine_git_object: a2471fe9227116253abeabba6db50c83d7a1e919
   src/mollie/balance_transfers.py:
     id: fd621abe5fb7
     last_write_checksum: sha1:03f6c59705a789ca41c78a41cbbf868985ca82fb
