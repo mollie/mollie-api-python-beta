@@ -29,7 +29,7 @@ generation:
   persistentEdits: {}
   requestBodyFieldName: ""
 python:
-  version: 0.57.1
+  version: 0.58.1
   additionalDependencies:
     dev: {}
     main: {}
@@ -70,6 +70,7 @@ python:
   outputModelSuffix: output
   packageManager: poetry
   packageName: mollie
+  preApplyUnionDiscriminators: false
   pytestFilterWarnings: []
   pytestTimeout: 0
   responseFormat: flat
