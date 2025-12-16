@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: 153d82e86ba8e45ae7cf02038e7e096c
+  docChecksum: 476471c5239de2e0b4b88bc7eea59836
   docVersion: 1.0.0
   speakeasyVersion: 1.640.0
   generationVersion: 2.730.5
-  releaseVersion: 0.58.1
-  configChecksum: 72d8ab61dd3eab907d03dd019dc8e3c1
+  releaseVersion: 0.58.2
+  configChecksum: 8dbbdd09bfc5cff24eb8d559e96b6f77
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -5519,6 +5519,11 @@ examples:
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "The resource does not exist", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
 examplesVersion: 1.0.2
 generatedTests: {}
+releaseNotes: |
+  ## Python SDK Changes Detected:
+  * `client.methods.list()`:  `response._embedded.methods.[].status` **Changed** **Breaking** :warning:
+  * `client.methods.all()`:  `response._embedded.methods.[].status` **Changed** **Breaking** :warning:
+  * `client.methods.get()`:  `response.status` **Changed** **Breaking** :warning:
 persistentEdits:
   generation_id: b447ae8a-9f05-460c-a7cd-f421087b632c
   pristine_commit_hash: 353ee42295bde549cfa3a77070e603993577e347
@@ -6046,7 +6051,7 @@ trackedFiles:
     pristine_git_object: ecbc01ca3225efd9cab8bf0214e532dcd362508a
   docs/models/entitymethod.md:
     id: 41209c48731d
-    last_write_checksum: sha1:3c7f7593ec18fcc33136b5446751fdc2d2d74d21
+    last_write_checksum: sha1:614292dafbfd20339b92da72ee415f67f6b09f21
     pristine_git_object: df1529c310074a280cee6a8add72dfff4e6dd1fe
   docs/models/entitymethodid.md:
     id: e64164f92d08
@@ -6834,11 +6839,11 @@ trackedFiles:
     pristine_git_object: 836835706677bfafdaf9eb202065a130ee92e1f2
   docs/models/listentitymethod.md:
     id: bb7efd972ca5
-    last_write_checksum: sha1:796a908a9b3c485e295ff3e7e1a72d755c0004ef
+    last_write_checksum: sha1:1f27823584b9d312aa1c445968920574d1b50221
     pristine_git_object: 634067f470de4345b395cfea0ed0ccd09298315a
   docs/models/listentitymethodall.md:
     id: 8c4888cd3bb2
-    last_write_checksum: sha1:2348fa5a480b4f0f62a7658b5e6c5b54e50a39fc
+    last_write_checksum: sha1:22b47b108d1f600997e20c515d03c2006d86f4b0
     pristine_git_object: 329dc51b071d2e785a2b6103f33601355a4e077d
   docs/models/listentitymethodallid.md:
     id: 785b3c8471b7
@@ -8354,7 +8359,7 @@ trackedFiles:
     pristine_git_object: 54946924a17396c0c6f33d47591a254bc5a8003c
   src/mollie/_version.py:
     id: 04555310b049
-    last_write_checksum: sha1:07ef46b976c6e1e68124f5fcf935c9b4bc895aee
+    last_write_checksum: sha1:98872721f233eff764cc251392772041ceae7828
     pristine_git_object: ad80f23cffa436174a05b75b8bb9ed47c10df7ca
   src/mollie/balance_transfers.py:
     id: fd621abe5fb7
@@ -8690,7 +8695,7 @@ trackedFiles:
     pristine_git_object: c8454d60789661234f7b38298e288445e83bf975
   src/mollie/models/entity_method.py:
     id: "012392070e93"
-    last_write_checksum: sha1:1205f36824f1631d3ce88675227dae8b034e5d0d
+    last_write_checksum: sha1:1a24c25b9196ba7554b1a03db43430de58bbd0ba
     pristine_git_object: 118198b0f29156c55dd7e60657644704ff9b6373
   src/mollie/models/entity_onboarding_status.py:
     id: 1cdf8d127622
@@ -8950,11 +8955,11 @@ trackedFiles:
     pristine_git_object: 51fb1eb2c039e5927f34949e901943d3c16ef0d8
   src/mollie/models/list_entity_method.py:
     id: 59fe6d2598ff
-    last_write_checksum: sha1:0c41d3aaa8d659c7a392b9d5f227326744e21638
+    last_write_checksum: sha1:b4b1c97157a84dd547a401d201e3a10b3f93af60
     pristine_git_object: e27efc0092a175ffc93cde85509917c60d4d3393
   src/mollie/models/list_entity_method_all.py:
     id: 28109001c08a
-    last_write_checksum: sha1:d9dc380b6b8230219a726837a84c25129a81b741
+    last_write_checksum: sha1:a62d1780d020eeae1a8e08d5c0fc5f02d6df7713
     pristine_git_object: 1a228e6e555333da2e5717f003573049367d9c41
   src/mollie/models/list_entity_permission.py:
     id: d0a366e4eef7

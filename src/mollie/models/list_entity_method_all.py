@@ -309,7 +309,7 @@ class ListEntityMethodAllTypedDict(TypedDict):
     """
     image: ListEntityMethodAllImageTypedDict
     r"""URLs of images representing the payment method."""
-    status: MethodStatus
+    status: Nullable[MethodStatus]
     r"""The payment method's activation status for this profile."""
     links: ListEntityMethodAllLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
@@ -358,7 +358,7 @@ class ListEntityMethodAll(BaseModel):
     image: ListEntityMethodAllImage
     r"""URLs of images representing the payment method."""
 
-    status: Annotated[MethodStatus, PlainValidator(validate_open_enum(False))]
+    status: Annotated[Nullable[MethodStatus], PlainValidator(validate_open_enum(False))]
     r"""The payment method's activation status for this profile."""
 
     links: Annotated[ListEntityMethodAllLinks, pydantic.Field(alias="_links")]
@@ -377,7 +377,7 @@ class ListEntityMethodAll(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = ["issuers", "pricing"]
-        nullable_fields = ["id", "maximumAmount"]
+        nullable_fields = ["id", "maximumAmount", "status"]
         null_default_fields = []
 
         serialized = handler(self)
