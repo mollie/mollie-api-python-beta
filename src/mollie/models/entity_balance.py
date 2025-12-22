@@ -15,7 +15,7 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class Currency(str, Enum, metaclass=utils.OpenEnumMeta):
+class EntityBalanceCurrency(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The balance's ISO 4217 currency code."""
 
     EUR = "EUR"
@@ -39,7 +39,7 @@ class EntityBalanceStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     INACTIVE = "inactive"
 
 
-class TransferFrequency(str, Enum, metaclass=utils.OpenEnumMeta):
+class EntityBalanceTransferFrequency(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The frequency with which the available amount on the balance will be settled to the configured transfer
     destination.
 
@@ -58,7 +58,7 @@ class TransferFrequency(str, Enum, metaclass=utils.OpenEnumMeta):
     NEVER = "never"
 
 
-class TransferThresholdTypedDict(TypedDict):
+class EntityBalanceTransferThresholdTypedDict(TypedDict):
     r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds
     this threshold, the complete balance will be paid out to the transfer destination according to the configured
     frequency.
@@ -70,7 +70,7 @@ class TransferThresholdTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class TransferThreshold(BaseModel):
+class EntityBalanceTransferThreshold(BaseModel):
     r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds
     this threshold, the complete balance will be paid out to the transfer destination according to the configured
     frequency.
@@ -83,7 +83,7 @@ class TransferThreshold(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class TransferDestinationTypedDict(TypedDict):
+class EntityBalanceTransferDestinationTypedDict(TypedDict):
     r"""The destination where the available amount will be automatically transferred to according to the configured
     transfer frequency.
     """
@@ -99,7 +99,7 @@ class TransferDestinationTypedDict(TypedDict):
     r"""The full name of the beneficiary the balance amount is to be transferred to."""
 
 
-class TransferDestination(BaseModel):
+class EntityBalanceTransferDestination(BaseModel):
     r"""The destination where the available amount will be automatically transferred to according to the configured
     transfer frequency.
     """
@@ -122,7 +122,7 @@ class TransferDestination(BaseModel):
     r"""The full name of the beneficiary the balance amount is to be transferred to."""
 
 
-class AvailableAmountTypedDict(TypedDict):
+class EntityBalanceAvailableAmountTypedDict(TypedDict):
     r"""The amount directly available on the balance, e.g. `{\"currency\":\"EUR\", \"value\":\"100.00\"}`."""
 
     currency: str
@@ -131,7 +131,7 @@ class AvailableAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class AvailableAmount(BaseModel):
+class EntityBalanceAvailableAmount(BaseModel):
     r"""The amount directly available on the balance, e.g. `{\"currency\":\"EUR\", \"value\":\"100.00\"}`."""
 
     currency: str
@@ -141,7 +141,7 @@ class AvailableAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class PendingAmountTypedDict(TypedDict):
+class EntityBalancePendingAmountTypedDict(TypedDict):
     r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a
     few days to clear.
     """
@@ -152,7 +152,7 @@ class PendingAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class PendingAmount(BaseModel):
+class EntityBalancePendingAmount(BaseModel):
     r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a
     few days to clear.
     """
@@ -192,28 +192,30 @@ class EntityBalanceTypedDict(TypedDict):
     r"""Whether this entity was created in live mode or in test mode."""
     created_at: str
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
-    currency: Currency
+    currency: EntityBalanceCurrency
     r"""The balance's ISO 4217 currency code."""
     description: str
     r"""The description or name of the balance. Can be used to denote the purpose of the balance."""
     status: EntityBalanceStatus
-    available_amount: AvailableAmountTypedDict
+    available_amount: EntityBalanceAvailableAmountTypedDict
     r"""The amount directly available on the balance, e.g. `{\"currency\":\"EUR\", \"value\":\"100.00\"}`."""
-    pending_amount: PendingAmountTypedDict
+    pending_amount: EntityBalancePendingAmountTypedDict
     r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a
     few days to clear.
     """
     links: EntityBalanceLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    transfer_frequency: NotRequired[TransferFrequency]
-    transfer_threshold: NotRequired[TransferThresholdTypedDict]
+    transfer_frequency: NotRequired[EntityBalanceTransferFrequency]
+    transfer_threshold: NotRequired[EntityBalanceTransferThresholdTypedDict]
     r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds
     this threshold, the complete balance will be paid out to the transfer destination according to the configured
     frequency.
     """
     transfer_reference: NotRequired[Nullable[str]]
     r"""The transfer reference set to be included in all the transfers for this balance."""
-    transfer_destination: NotRequired[Nullable[TransferDestinationTypedDict]]
+    transfer_destination: NotRequired[
+        Nullable[EntityBalanceTransferDestinationTypedDict]
+    ]
     r"""The destination where the available amount will be automatically transferred to according to the configured
     transfer frequency.
     """
@@ -232,7 +234,9 @@ class EntityBalance(BaseModel):
     created_at: Annotated[str, pydantic.Field(alias="createdAt")]
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
 
-    currency: Annotated[Currency, PlainValidator(validate_open_enum(False))]
+    currency: Annotated[
+        EntityBalanceCurrency, PlainValidator(validate_open_enum(False))
+    ]
     r"""The balance's ISO 4217 currency code."""
 
     description: str
@@ -241,11 +245,13 @@ class EntityBalance(BaseModel):
     status: Annotated[EntityBalanceStatus, PlainValidator(validate_open_enum(False))]
 
     available_amount: Annotated[
-        AvailableAmount, pydantic.Field(alias="availableAmount")
+        EntityBalanceAvailableAmount, pydantic.Field(alias="availableAmount")
     ]
     r"""The amount directly available on the balance, e.g. `{\"currency\":\"EUR\", \"value\":\"100.00\"}`."""
 
-    pending_amount: Annotated[PendingAmount, pydantic.Field(alias="pendingAmount")]
+    pending_amount: Annotated[
+        EntityBalancePendingAmount, pydantic.Field(alias="pendingAmount")
+    ]
     r"""The total amount that is queued to be transferred to your balance. For example, a credit card payment can take a
     few days to clear.
     """
@@ -255,13 +261,15 @@ class EntityBalance(BaseModel):
 
     transfer_frequency: Annotated[
         Annotated[
-            Optional[TransferFrequency], PlainValidator(validate_open_enum(False))
+            Optional[EntityBalanceTransferFrequency],
+            PlainValidator(validate_open_enum(False)),
         ],
         pydantic.Field(alias="transferFrequency"),
     ] = None
 
     transfer_threshold: Annotated[
-        Optional[TransferThreshold], pydantic.Field(alias="transferThreshold")
+        Optional[EntityBalanceTransferThreshold],
+        pydantic.Field(alias="transferThreshold"),
     ] = None
     r"""The minimum amount configured for scheduled automatic settlements. As soon as the amount on the balance exceeds
     this threshold, the complete balance will be paid out to the transfer destination according to the configured
@@ -274,7 +282,7 @@ class EntityBalance(BaseModel):
     r"""The transfer reference set to be included in all the transfers for this balance."""
 
     transfer_destination: Annotated[
-        OptionalNullable[TransferDestination],
+        OptionalNullable[EntityBalanceTransferDestination],
         pydantic.Field(alias="transferDestination"),
     ] = UNSET
     r"""The destination where the available amount will be automatically transferred to according to the configured

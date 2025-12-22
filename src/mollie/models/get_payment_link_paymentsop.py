@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from .list_links import ListLinks, ListLinksTypedDict
-from .payment_response import PaymentResponse, PaymentResponseTypedDict
+from .list_payment_response import ListPaymentResponse, ListPaymentResponseTypedDict
 from .sorting import Sorting
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import (
@@ -145,12 +145,12 @@ class GetPaymentLinkPaymentsRequest(BaseModel):
 
 
 class GetPaymentLinkPaymentsEmbeddedTypedDict(TypedDict):
-    payments: NotRequired[List[PaymentResponseTypedDict]]
+    payments: NotRequired[List[ListPaymentResponseTypedDict]]
     r"""An array of payment objects."""
 
 
 class GetPaymentLinkPaymentsEmbedded(BaseModel):
-    payments: Optional[List[PaymentResponse]] = None
+    payments: Optional[List[ListPaymentResponse]] = None
     r"""An array of payment objects."""
 
 

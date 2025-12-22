@@ -27,7 +27,7 @@ class ProfileResponseStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     BLOCKED = "blocked"
 
 
-class ReviewTypedDict(TypedDict):
+class ProfileResponseReviewTypedDict(TypedDict):
     r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved
     automatically, unless a switch to a live profile has been requested. The review object will therefore usually be
     `null` in test mode.
@@ -37,7 +37,7 @@ class ReviewTypedDict(TypedDict):
     r"""The status of the requested changes."""
 
 
-class Review(BaseModel):
+class ProfileResponseReview(BaseModel):
     r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved
     automatically, unless a switch to a live profile has been requested. The review object will therefore usually be
     `null` in test mode.
@@ -134,7 +134,7 @@ class ProfileResponseTypedDict(TypedDict):
     r"""A list of countries where you expect that the majority of the profile's customers reside,
     in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
     """
-    review: NotRequired[ReviewTypedDict]
+    review: NotRequired[ProfileResponseReviewTypedDict]
     r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved
     automatically, unless a switch to a live profile has been requested. The review object will therefore usually be
     `null` in test mode.
@@ -190,7 +190,7 @@ class ProfileResponse(BaseModel):
     in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
     """
 
-    review: Optional[Review] = None
+    review: Optional[ProfileResponseReview] = None
     r"""Present if changes have been made that have not yet been approved by Mollie. Changes to test profiles are approved
     automatically, unless a switch to a live profile has been requested. The review object will therefore usually be
     `null` in test mode.

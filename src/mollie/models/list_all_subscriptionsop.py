@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 from .list_links import ListLinks, ListLinksTypedDict
-from .subscription_response import SubscriptionResponse, SubscriptionResponseTypedDict
+from .list_subscription_response import (
+    ListSubscriptionResponse,
+    ListSubscriptionResponseTypedDict,
+)
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, HeaderMetadata, QueryParamMetadata
 import pydantic
@@ -158,12 +161,12 @@ class ListAllSubscriptionsRequest(BaseModel):
 
 
 class ListAllSubscriptionsEmbeddedTypedDict(TypedDict):
-    subscriptions: NotRequired[List[SubscriptionResponseTypedDict]]
+    subscriptions: NotRequired[List[ListSubscriptionResponseTypedDict]]
     r"""A list of subscription objects."""
 
 
 class ListAllSubscriptionsEmbedded(BaseModel):
-    subscriptions: Optional[List[SubscriptionResponse]] = None
+    subscriptions: Optional[List[ListSubscriptionResponse]] = None
     r"""A list of subscription objects."""
 
 

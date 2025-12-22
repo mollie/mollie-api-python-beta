@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 from .list_links import ListLinks, ListLinksTypedDict
-from .sales_invoice_response import SalesInvoiceResponse, SalesInvoiceResponseTypedDict
+from .list_sales_invoice_response import (
+    ListSalesInvoiceResponse,
+    ListSalesInvoiceResponseTypedDict,
+)
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import FieldMetadata, HeaderMetadata, QueryParamMetadata
 import pydantic
@@ -118,14 +121,14 @@ class ListSalesInvoicesRequest(BaseModel):
 
 
 class ListSalesInvoicesEmbeddedTypedDict(TypedDict):
-    sales_invoices: NotRequired[List[SalesInvoiceResponseTypedDict]]
+    sales_invoices: NotRequired[List[ListSalesInvoiceResponseTypedDict]]
     r"""An array of sales invoice objects. For a complete reference of the sales invoice object, refer to
     the [Get sales invoice endpoint](get-sales-invoice) documentation.
     """
 
 
 class ListSalesInvoicesEmbedded(BaseModel):
-    sales_invoices: Optional[List[SalesInvoiceResponse]] = None
+    sales_invoices: Optional[List[ListSalesInvoiceResponse]] = None
     r"""An array of sales invoice objects. For a complete reference of the sales invoice object, refer to
     the [Get sales invoice endpoint](get-sales-invoice) documentation.
     """

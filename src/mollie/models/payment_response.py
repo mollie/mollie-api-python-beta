@@ -47,7 +47,7 @@ from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class AmountRefundedTypedDict(TypedDict):
+class PaymentResponseAmountRefundedTypedDict(TypedDict):
     r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some
     payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the
     costs for a return shipment to the customer.
@@ -59,7 +59,7 @@ class AmountRefundedTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class AmountRefunded(BaseModel):
+class PaymentResponseAmountRefunded(BaseModel):
     r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some
     payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the
     costs for a return shipment to the customer.
@@ -72,7 +72,7 @@ class AmountRefunded(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class AmountRemainingTypedDict(TypedDict):
+class PaymentResponseAmountRemainingTypedDict(TypedDict):
     r"""The remaining amount that can be refunded. Only available when refunds are available for this payment."""
 
     currency: str
@@ -81,7 +81,7 @@ class AmountRemainingTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class AmountRemaining(BaseModel):
+class PaymentResponseAmountRemaining(BaseModel):
     r"""The remaining amount that can be refunded. Only available when refunds are available for this payment."""
 
     currency: str
@@ -91,7 +91,7 @@ class AmountRemaining(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class AmountCapturedTypedDict(TypedDict):
+class PaymentResponseAmountCapturedTypedDict(TypedDict):
     r"""The total amount that is already captured for this payment. Only available when this payment supports captures."""
 
     currency: str
@@ -100,7 +100,7 @@ class AmountCapturedTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class AmountCaptured(BaseModel):
+class PaymentResponseAmountCaptured(BaseModel):
     r"""The total amount that is already captured for this payment. Only available when this payment supports captures."""
 
     currency: str
@@ -110,7 +110,7 @@ class AmountCaptured(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class AmountChargedBackTypedDict(TypedDict):
+class PaymentResponseAmountChargedBackTypedDict(TypedDict):
     r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not
     zero.
     """
@@ -121,7 +121,7 @@ class AmountChargedBackTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class AmountChargedBack(BaseModel):
+class PaymentResponseAmountChargedBack(BaseModel):
     r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not
     zero.
     """
@@ -465,7 +465,7 @@ class PaymentResponseStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     FAILED = "failed"
 
 
-class ReceiptTypedDict(TypedDict):
+class PaymentResponseReceiptTypedDict(TypedDict):
     r"""The Point of sale receipt object."""
 
     authorization_code: NotRequired[Nullable[str]]
@@ -480,7 +480,7 @@ class ReceiptTypedDict(TypedDict):
     r"""The method used to verify the cardholder's identity."""
 
 
-class Receipt(BaseModel):
+class PaymentResponseReceipt(BaseModel):
     r"""The Point of sale receipt object."""
 
     authorization_code: Annotated[
@@ -552,7 +552,7 @@ class Receipt(BaseModel):
         return m
 
 
-class QrCodeTypedDict(TypedDict):
+class PaymentResponseQrCodeTypedDict(TypedDict):
     r"""Optional include. If a QR code was requested during payment creation for a QR-compatible payment method,
     the QR code details will be available in this object.
 
@@ -570,7 +570,7 @@ class QrCodeTypedDict(TypedDict):
     """
 
 
-class QrCode(BaseModel):
+class PaymentResponseQrCode(BaseModel):
     r"""Optional include. If a QR code was requested during payment creation for a QR-compatible payment method,
     the QR code details will be available in this object.
 
@@ -683,7 +683,7 @@ class PaymentResponseDetailsTypedDict(TypedDict):
     r"""The ID of the terminal device where the payment took place on."""
     masked_number: NotRequired[Nullable[str]]
     r"""The first 6 digits & last 4 digits of the customer's masked card number."""
-    receipt: NotRequired[ReceiptTypedDict]
+    receipt: NotRequired[PaymentResponseReceiptTypedDict]
     r"""The Point of sale receipt object."""
     creditor_identifier: NotRequired[Nullable[str]]
     r"""The creditor identifier indicates who is authorized to execute the payment. In this case, it is a
@@ -709,7 +709,7 @@ class PaymentResponseDetailsTypedDict(TypedDict):
     r"""The batch reference you provided in the batch file."""
     file_reference: NotRequired[Nullable[str]]
     r"""The file reference you provided in the batch file."""
-    qr_code: NotRequired[QrCodeTypedDict]
+    qr_code: NotRequired[PaymentResponseQrCodeTypedDict]
     r"""Optional include. If a QR code was requested during payment creation for a QR-compatible payment method,
     the QR code details will be available in this object.
 
@@ -944,7 +944,7 @@ class PaymentResponseDetails(BaseModel):
     ] = UNSET
     r"""The first 6 digits & last 4 digits of the customer's masked card number."""
 
-    receipt: Optional[Receipt] = None
+    receipt: Optional[PaymentResponseReceipt] = None
     r"""The Point of sale receipt object."""
 
     creditor_identifier: Annotated[
@@ -996,7 +996,9 @@ class PaymentResponseDetails(BaseModel):
     ] = UNSET
     r"""The file reference you provided in the batch file."""
 
-    qr_code: Annotated[Optional[QrCode], pydantic.Field(alias="qrCode")] = None
+    qr_code: Annotated[
+        Optional[PaymentResponseQrCode], pydantic.Field(alias="qrCode")
+    ] = None
     r"""Optional include. If a QR code was requested during payment creation for a QR-compatible payment method,
     the QR code details will be available in this object.
 
@@ -1299,16 +1301,16 @@ class PaymentResponseTypedDict(TypedDict):
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     links: PaymentResponseLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    amount_refunded: NotRequired[AmountRefundedTypedDict]
+    amount_refunded: NotRequired[PaymentResponseAmountRefundedTypedDict]
     r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some
     payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the
     costs for a return shipment to the customer.
     """
-    amount_remaining: NotRequired[AmountRemainingTypedDict]
+    amount_remaining: NotRequired[PaymentResponseAmountRemainingTypedDict]
     r"""The remaining amount that can be refunded. Only available when refunds are available for this payment."""
-    amount_captured: NotRequired[AmountCapturedTypedDict]
+    amount_captured: NotRequired[PaymentResponseAmountCapturedTypedDict]
     r"""The total amount that is already captured for this payment. Only available when this payment supports captures."""
-    amount_charged_back: NotRequired[AmountChargedBackTypedDict]
+    amount_charged_back: NotRequired[PaymentResponseAmountChargedBackTypedDict]
     r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not
     zero.
     """
@@ -1554,7 +1556,7 @@ class PaymentResponse(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     amount_refunded: Annotated[
-        Optional[AmountRefunded], pydantic.Field(alias="amountRefunded")
+        Optional[PaymentResponseAmountRefunded], pydantic.Field(alias="amountRefunded")
     ] = None
     r"""The total amount that is already refunded. Only available when refunds are available for this payment. For some
     payment methods, this amount may be higher than the payment amount, for example to allow reimbursement of the
@@ -1562,17 +1564,19 @@ class PaymentResponse(BaseModel):
     """
 
     amount_remaining: Annotated[
-        Optional[AmountRemaining], pydantic.Field(alias="amountRemaining")
+        Optional[PaymentResponseAmountRemaining],
+        pydantic.Field(alias="amountRemaining"),
     ] = None
     r"""The remaining amount that can be refunded. Only available when refunds are available for this payment."""
 
     amount_captured: Annotated[
-        Optional[AmountCaptured], pydantic.Field(alias="amountCaptured")
+        Optional[PaymentResponseAmountCaptured], pydantic.Field(alias="amountCaptured")
     ] = None
     r"""The total amount that is already captured for this payment. Only available when this payment supports captures."""
 
     amount_charged_back: Annotated[
-        Optional[AmountChargedBack], pydantic.Field(alias="amountChargedBack")
+        Optional[PaymentResponseAmountChargedBack],
+        pydantic.Field(alias="amountChargedBack"),
     ] = None
     r"""The total amount that was charged back for this payment. Only available when the total charged back amount is not
     zero.

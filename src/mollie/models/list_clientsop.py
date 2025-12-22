@@ -117,8 +117,6 @@ class ListClientsLinksTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
     onboarding: NotRequired[URLTypedDict]
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-    documentation: NotRequired[URLTypedDict]
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
 class ListClientsLinks(BaseModel):
@@ -131,9 +129,6 @@ class ListClientsLinks(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
     onboarding: Optional[URL] = None
-    r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
-
-    documentation: Optional[URL] = None
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
