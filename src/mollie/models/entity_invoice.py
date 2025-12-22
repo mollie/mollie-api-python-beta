@@ -22,7 +22,7 @@ class EntityInvoiceStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     OVERDUE = "overdue"
 
 
-class EntityInvoiceNetAmountTypedDict(TypedDict):
+class NetAmountTypedDict(TypedDict):
     r"""Total amount of the invoice, excluding VAT."""
 
     currency: str
@@ -31,7 +31,7 @@ class EntityInvoiceNetAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityInvoiceNetAmount(BaseModel):
+class NetAmount(BaseModel):
     r"""Total amount of the invoice, excluding VAT."""
 
     currency: str
@@ -41,7 +41,7 @@ class EntityInvoiceNetAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityInvoiceVatAmountTypedDict(TypedDict):
+class VatAmountTypedDict(TypedDict):
     r"""VAT amount of the invoice. Only applicable to merchants registered in the Netherlands. For EU merchants, VAT will
     be shifted to the recipient (as per article 44 and 196 in the EU VAT Directive 2006/112). For merchants outside
     the EU, no VAT will be charged.
@@ -53,7 +53,7 @@ class EntityInvoiceVatAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityInvoiceVatAmount(BaseModel):
+class VatAmount(BaseModel):
     r"""VAT amount of the invoice. Only applicable to merchants registered in the Netherlands. For EU merchants, VAT will
     be shifted to the recipient (as per article 44 and 196 in the EU VAT Directive 2006/112). For merchants outside
     the EU, no VAT will be charged.
@@ -66,7 +66,7 @@ class EntityInvoiceVatAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityInvoiceGrossAmountTypedDict(TypedDict):
+class GrossAmountTypedDict(TypedDict):
     r"""Total amount of the invoice, including VAT."""
 
     currency: str
@@ -75,7 +75,7 @@ class EntityInvoiceGrossAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityInvoiceGrossAmount(BaseModel):
+class GrossAmount(BaseModel):
     r"""Total amount of the invoice, including VAT."""
 
     currency: str
@@ -150,14 +150,14 @@ class EntityInvoiceTypedDict(TypedDict):
     vat_number: Nullable[str]
     r"""The VAT number to which the invoice was issued to, if applicable."""
     status: EntityInvoiceStatus
-    net_amount: EntityInvoiceNetAmountTypedDict
+    net_amount: NetAmountTypedDict
     r"""Total amount of the invoice, excluding VAT."""
-    vat_amount: EntityInvoiceVatAmountTypedDict
+    vat_amount: VatAmountTypedDict
     r"""VAT amount of the invoice. Only applicable to merchants registered in the Netherlands. For EU merchants, VAT will
     be shifted to the recipient (as per article 44 and 196 in the EU VAT Directive 2006/112). For merchants outside
     the EU, no VAT will be charged.
     """
-    gross_amount: EntityInvoiceGrossAmountTypedDict
+    gross_amount: GrossAmountTypedDict
     r"""Total amount of the invoice, including VAT."""
     lines: List[EntityInvoiceLineTypedDict]
     r"""The collection of products which make up the invoice."""
@@ -187,18 +187,16 @@ class EntityInvoice(BaseModel):
 
     status: Annotated[EntityInvoiceStatus, PlainValidator(validate_open_enum(False))]
 
-    net_amount: Annotated[EntityInvoiceNetAmount, pydantic.Field(alias="netAmount")]
+    net_amount: Annotated[NetAmount, pydantic.Field(alias="netAmount")]
     r"""Total amount of the invoice, excluding VAT."""
 
-    vat_amount: Annotated[EntityInvoiceVatAmount, pydantic.Field(alias="vatAmount")]
+    vat_amount: Annotated[VatAmount, pydantic.Field(alias="vatAmount")]
     r"""VAT amount of the invoice. Only applicable to merchants registered in the Netherlands. For EU merchants, VAT will
     be shifted to the recipient (as per article 44 and 196 in the EU VAT Directive 2006/112). For merchants outside
     the EU, no VAT will be charged.
     """
 
-    gross_amount: Annotated[
-        EntityInvoiceGrossAmount, pydantic.Field(alias="grossAmount")
-    ]
+    gross_amount: Annotated[GrossAmount, pydantic.Field(alias="grossAmount")]
     r"""Total amount of the invoice, including VAT."""
 
     lines: List[EntityInvoiceLine]

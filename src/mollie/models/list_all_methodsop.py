@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
-from .list_entity_method_all import ListEntityMethodAll, ListEntityMethodAllTypedDict
+from .entity_method_all import EntityMethodAll, EntityMethodAllTypedDict
 from .locale import Locale
 from .sequence_type import SequenceType
 from .url import URL, URLTypedDict
@@ -195,7 +195,7 @@ class ListAllMethodsRequest(BaseModel):
 
 
 class ListAllMethodsEmbeddedTypedDict(TypedDict):
-    methods: List[ListEntityMethodAllTypedDict]
+    methods: List[EntityMethodAllTypedDict]
     r"""An array of payment method objects. For a complete
     reference of the payment method object, refer to the [Get payment method endpoint](get-method)
     documentation.
@@ -203,7 +203,7 @@ class ListAllMethodsEmbeddedTypedDict(TypedDict):
 
 
 class ListAllMethodsEmbedded(BaseModel):
-    methods: List[ListEntityMethodAll]
+    methods: List[EntityMethodAll]
     r"""An array of payment method objects. For a complete
     reference of the payment method object, refer to the [Get payment method endpoint](get-method)
     documentation.

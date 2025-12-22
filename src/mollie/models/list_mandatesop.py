@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from .list_links import ListLinks, ListLinksTypedDict
-from .list_mandate_response import ListMandateResponse, ListMandateResponseTypedDict
+from .mandate_response import MandateResponse, MandateResponseTypedDict
 from .sorting import Sorting
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import (
@@ -145,12 +145,12 @@ class ListMandatesRequest(BaseModel):
 
 
 class ListMandatesEmbeddedTypedDict(TypedDict):
-    mandates: List[ListMandateResponseTypedDict]
+    mandates: List[MandateResponseTypedDict]
     r"""An array of mandate objects."""
 
 
 class ListMandatesEmbedded(BaseModel):
-    mandates: List[ListMandateResponse]
+    mandates: List[MandateResponse]
     r"""An array of mandate objects."""
 
 

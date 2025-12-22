@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from .currencies import Currencies
-from .list_entity_settlement import ListEntitySettlement, ListEntitySettlementTypedDict
+from .entity_settlement import EntitySettlement, EntitySettlementTypedDict
 from .list_links import ListLinks, ListLinksTypedDict
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import (
@@ -129,14 +129,14 @@ class ListSettlementsRequest(BaseModel):
 
 
 class ListSettlementsEmbeddedTypedDict(TypedDict):
-    settlements: List[ListEntitySettlementTypedDict]
+    settlements: List[EntitySettlementTypedDict]
     r"""An array of settlement objects. For a complete reference
     of the settlement object, refer to the [Get settlement endpoint](get-settlement) documentation.
     """
 
 
 class ListSettlementsEmbedded(BaseModel):
-    settlements: List[ListEntitySettlement]
+    settlements: List[EntitySettlement]
     r"""An array of settlement objects. For a complete reference
     of the settlement object, refer to the [Get settlement endpoint](get-settlement) documentation.
     """

@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 from .amount import Amount, AmountTypedDict
+from .entity_method import EntityMethod, EntityMethodTypedDict
 from .line_categories import LineCategories
-from .list_entity_method import ListEntityMethod, ListEntityMethodTypedDict
 from .locale import Locale
 from .method_include_wallets_parameter import MethodIncludeWalletsParameter
 from .method_resource_parameter import MethodResourceParameter
@@ -272,7 +272,7 @@ class ListMethodsRequest(BaseModel):
 
 
 class ListMethodsEmbeddedTypedDict(TypedDict):
-    methods: List[ListEntityMethodTypedDict]
+    methods: List[EntityMethodTypedDict]
     r"""An array of payment method objects. For a complete
     reference of the payment method object, refer
     to the [Get payment method endpoint](get-method)
@@ -281,7 +281,7 @@ class ListMethodsEmbeddedTypedDict(TypedDict):
 
 
 class ListMethodsEmbedded(BaseModel):
-    methods: List[ListEntityMethod]
+    methods: List[EntityMethod]
     r"""An array of payment method objects. For a complete
     reference of the payment method object, refer
     to the [Get payment method endpoint](get-method)
