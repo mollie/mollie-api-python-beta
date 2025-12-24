@@ -88,6 +88,7 @@ class SubscriptionRequestTypedDict(TypedDict):
     well. Be sure to verify the payment's subscription ID and its status.
     """
     mandate_id: NotRequired[str]
+    profile_id: NotRequired[str]
     testmode: NotRequired[Nullable[bool]]
     r"""Whether to create the entity in test mode or live mode.
 
@@ -156,6 +157,8 @@ class SubscriptionRequest(BaseModel):
 
     mandate_id: Annotated[Optional[str], pydantic.Field(alias="mandateId")] = None
 
+    profile_id: Annotated[Optional[str], pydantic.Field(alias="profileId")] = None
+
     testmode: OptionalNullable[bool] = UNSET
     r"""Whether to create the entity in test mode or live mode.
 
@@ -177,6 +180,7 @@ class SubscriptionRequest(BaseModel):
             "metadata",
             "webhookUrl",
             "mandateId",
+            "profileId",
             "testmode",
         ]
         nullable_fields = ["times", "method", "metadata", "testmode"]

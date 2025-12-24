@@ -69,6 +69,7 @@ with ClientSDK(
         ),
         webhook_url="https://example.com/webhook",
         mandate_id="mdt_5B8cwPMGnU",
+        profile_id="pfl_5B8cwPMGnU",
         testmode=False,
     ))
 
