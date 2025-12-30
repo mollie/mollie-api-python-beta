@@ -166,7 +166,7 @@ class ListSubscriptionResponseTypedDict(TypedDict):
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-    webhook_url: str
+    webhook_url: Nullable[str]
     r"""We will call this URL for any payment status changes of payments resulting from this subscription.
 
     This webhook will receive **all** events for the subscription's payments. This may include payment failures as
@@ -255,7 +255,7 @@ class ListSubscriptionResponse(BaseModel):
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
 
-    webhook_url: Annotated[str, pydantic.Field(alias="webhookUrl")]
+    webhook_url: Annotated[Nullable[str], pydantic.Field(alias="webhookUrl")]
     r"""We will call this URL for any payment status changes of payments resulting from this subscription.
 
     This webhook will receive **all** events for the subscription's payments. This may include payment failures as
@@ -314,6 +314,7 @@ class ListSubscriptionResponse(BaseModel):
             "nextPaymentDate",
             "method",
             "metadata",
+            "webhookUrl",
             "canceledAt",
         ]
         null_default_fields = []

@@ -81,7 +81,7 @@ class SubscriptionRequestTypedDict(TypedDict):
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-    webhook_url: NotRequired[str]
+    webhook_url: NotRequired[Nullable[str]]
     r"""We will call this URL for any payment status changes of payments resulting from this subscription.
 
     This webhook will receive **all** events for the subscription's payments. This may include payment failures as
@@ -148,7 +148,9 @@ class SubscriptionRequest(BaseModel):
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
 
-    webhook_url: Annotated[Optional[str], pydantic.Field(alias="webhookUrl")] = None
+    webhook_url: Annotated[
+        OptionalNullable[str], pydantic.Field(alias="webhookUrl")
+    ] = UNSET
     r"""We will call this URL for any payment status changes of payments resulting from this subscription.
 
     This webhook will receive **all** events for the subscription's payments. This may include payment failures as
@@ -183,7 +185,7 @@ class SubscriptionRequest(BaseModel):
             "profileId",
             "testmode",
         ]
-        nullable_fields = ["times", "method", "metadata", "testmode"]
+        nullable_fields = ["times", "method", "metadata", "webhookUrl", "testmode"]
         null_default_fields = []
 
         serialized = handler(self)
