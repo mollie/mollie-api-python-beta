@@ -48,6 +48,9 @@ class Methods(BaseSDK):
         wish to retrieve payment methods which exclusively support other currencies (e.g. Twint), you need to use the
         `amount` parameters.
 
+        ℹ️ **Note:** This endpoint only returns **online** payment methods. If you wish to retrieve the information about
+        a non-online payment method, you can use the [Get payment method endpoint](get-method).
+
         :param sequence_type: Set this parameter to `first` to only return the enabled methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return enabled methods that can be used for recurring payments or subscriptions.
         :param locale: Response language
         :param amount: If supplied, only payment methods that support the amount and currency are returned.  Example: `/v2/methods?amount[value]=100.00&amount[currency]=USD`
@@ -188,6 +191,9 @@ class Methods(BaseSDK):
         wish to retrieve payment methods which exclusively support other currencies (e.g. Twint), you need to use the
         `amount` parameters.
 
+        ℹ️ **Note:** This endpoint only returns **online** payment methods. If you wish to retrieve the information about
+        a non-online payment method, you can use the [Get payment method endpoint](get-method).
+
         :param sequence_type: Set this parameter to `first` to only return the enabled methods that can be used for the first payment of a recurring sequence.  Set it to `recurring` to only return enabled methods that can be used for recurring payments or subscriptions.
         :param locale: Response language
         :param amount: If supplied, only payment methods that support the amount and currency are returned.  Example: `/v2/methods?amount[value]=100.00&amount[currency]=USD`
@@ -312,6 +318,9 @@ class Methods(BaseSDK):
 
         The list can optionally be filtered using a number of parameters described below.
 
+        ℹ️ **Note:** This endpoint only returns **online** payment methods. If you wish to retrieve the information about
+        a non-online payment method, you can use the [Get payment method endpoint](get-method).
+
         :param locale: Response language
         :param amount: If supplied, only payment methods that support the amount and currency are returned.  Example: `/v2/methods/all?amount[value]=100.00&amount[currency]=USD`
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
@@ -428,6 +437,9 @@ class Methods(BaseSDK):
 
         The list can optionally be filtered using a number of parameters described below.
 
+        ℹ️ **Note:** This endpoint only returns **online** payment methods. If you wish to retrieve the information about
+        a non-online payment method, you can use the [Get payment method endpoint](get-method).
+
         :param locale: Response language
         :param amount: If supplied, only payment methods that support the amount and currency are returned.  Example: `/v2/methods/all?amount[value]=100.00&amount[currency]=USD`
         :param include: This endpoint allows you to include additional information via the `include` query string parameter.
@@ -537,7 +549,7 @@ class Methods(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.EntityMethod:
+    ) -> models.EntityMethodGet:
         r"""Get payment method
 
         Retrieve a single payment method by its ID.
@@ -636,7 +648,7 @@ class Methods(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.EntityMethod, http_res)
+            return unmarshal_json_response(models.EntityMethodGet, http_res)
         if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)
@@ -664,7 +676,7 @@ class Methods(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.EntityMethod:
+    ) -> models.EntityMethodGet:
         r"""Get payment method
 
         Retrieve a single payment method by its ID.
@@ -763,7 +775,7 @@ class Methods(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/hal+json"):
-            return unmarshal_json_response(models.EntityMethod, http_res)
+            return unmarshal_json_response(models.EntityMethodGet, http_res)
         if utils.match_response(http_res, ["400", "404"], "application/hal+json"):
             response_data = unmarshal_json_response(models.ErrorResponseData, http_res)
             raise models.ErrorResponse(response_data, http_res)

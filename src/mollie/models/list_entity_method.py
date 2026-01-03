@@ -44,7 +44,6 @@ class ListEntityMethodID(str, Enum, metaclass=utils.OpenEnumMeta):
     PAYBYBANK = "paybybank"
     PAYPAL = "paypal"
     PAYSAFECARD = "paysafecard"
-    POINTOFSALE = "pointofsale"
     PRZELEWY24 = "przelewy24"
     RIVERTY = "riverty"
     SATISPAY = "satispay"
@@ -53,14 +52,6 @@ class ListEntityMethodID(str, Enum, metaclass=utils.OpenEnumMeta):
     TWINT = "twint"
     VIPPS = "vipps"
     VOUCHER = "voucher"
-    # Deprecated, use 'klarna' instead
-    KLARNAPAYLATER = "klarnapaylater"
-    # Deprecated, use 'klarna' instead
-    KLARNAPAYNOW = "klarnapaynow"
-    # Deprecated, use 'klarna' instead
-    KLARNASLICEIT = "klarnasliceit"
-    # No longer available
-    PAYCONIQ = "payconiq"
 
 
 class ListEntityMethodMinimumAmountTypedDict(TypedDict):

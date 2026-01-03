@@ -14,7 +14,7 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class EntityMethodID(str, Enum, metaclass=utils.OpenEnumMeta):
+class EntityMethodGetID(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment
     method selection screen will be skipped.
     """
@@ -63,7 +63,7 @@ class EntityMethodID(str, Enum, metaclass=utils.OpenEnumMeta):
     PAYCONIQ = "payconiq"
 
 
-class EntityMethodMinimumAmountTypedDict(TypedDict):
+class EntityMethodGetMinimumAmountTypedDict(TypedDict):
     r"""The minimum payment amount required to use this payment method."""
 
     currency: str
@@ -72,7 +72,7 @@ class EntityMethodMinimumAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityMethodMinimumAmount(BaseModel):
+class EntityMethodGetMinimumAmount(BaseModel):
     r"""The minimum payment amount required to use this payment method."""
 
     currency: str
@@ -82,7 +82,7 @@ class EntityMethodMinimumAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityMethodMaximumAmountTypedDict(TypedDict):
+class EntityMethodGetMaximumAmountTypedDict(TypedDict):
     r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null`
     is returned instead.
     """
@@ -93,7 +93,7 @@ class EntityMethodMaximumAmountTypedDict(TypedDict):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityMethodMaximumAmount(BaseModel):
+class EntityMethodGetMaximumAmount(BaseModel):
     r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null`
     is returned instead.
     """
@@ -105,7 +105,7 @@ class EntityMethodMaximumAmount(BaseModel):
     r"""A string containing an exact monetary amount in the given currency."""
 
 
-class EntityMethodImageTypedDict(TypedDict):
+class EntityMethodGetImageTypedDict(TypedDict):
     r"""URLs of images representing the payment method."""
 
     size1x: str
@@ -118,7 +118,7 @@ class EntityMethodImageTypedDict(TypedDict):
     """
 
 
-class EntityMethodImage(BaseModel):
+class EntityMethodGetImage(BaseModel):
     r"""URLs of images representing the payment method."""
 
     size1x: str
@@ -133,7 +133,7 @@ class EntityMethodImage(BaseModel):
     """
 
 
-class EntityMethodIssuerImageTypedDict(TypedDict):
+class EntityMethodGetIssuerImageTypedDict(TypedDict):
     r"""URLs of images representing the issuer.
     required:
     - size1x
@@ -151,7 +151,7 @@ class EntityMethodIssuerImageTypedDict(TypedDict):
     """
 
 
-class EntityMethodIssuerImage(BaseModel):
+class EntityMethodGetIssuerImage(BaseModel):
     r"""URLs of images representing the issuer.
     required:
     - size1x
@@ -171,12 +171,12 @@ class EntityMethodIssuerImage(BaseModel):
     """
 
 
-class EntityMethodIssuerTypedDict(TypedDict):
+class EntityMethodGetIssuerTypedDict(TypedDict):
     resource: str
     id: str
     name: str
     r"""The full name of the issuer."""
-    image: EntityMethodIssuerImageTypedDict
+    image: EntityMethodGetIssuerImageTypedDict
     r"""URLs of images representing the issuer.
     required:
     - size1x
@@ -185,7 +185,7 @@ class EntityMethodIssuerTypedDict(TypedDict):
     """
 
 
-class EntityMethodIssuer(BaseModel):
+class EntityMethodGetIssuer(BaseModel):
     resource: str
 
     id: str
@@ -193,7 +193,7 @@ class EntityMethodIssuer(BaseModel):
     name: str
     r"""The full name of the issuer."""
 
-    image: EntityMethodIssuerImage
+    image: EntityMethodGetIssuerImage
     r"""URLs of images representing the issuer.
     required:
     - size1x
@@ -202,7 +202,7 @@ class EntityMethodIssuer(BaseModel):
     """
 
 
-class EntityMethodLinksTypedDict(TypedDict):
+class EntityMethodGetLinksTypedDict(TypedDict):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     self_: URLTypedDict
@@ -211,7 +211,7 @@ class EntityMethodLinksTypedDict(TypedDict):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class EntityMethodLinks(BaseModel):
+class EntityMethodGetLinks(BaseModel):
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
     self_: Annotated[URL, pydantic.Field(alias="self")]
@@ -221,12 +221,12 @@ class EntityMethodLinks(BaseModel):
     r"""In v2 endpoints, URLs are commonly represented as objects with an `href` and `type` field."""
 
 
-class EntityMethodTypedDict(TypedDict):
+class EntityMethodGetTypedDict(TypedDict):
     resource: str
     r"""Indicates the response contains a payment method object. Will always contain the string `method` for this
     endpoint.
     """
-    id: Nullable[EntityMethodID]
+    id: Nullable[EntityMethodGetID]
     r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment
     method selection screen will be skipped.
     """
@@ -235,31 +235,33 @@ class EntityMethodTypedDict(TypedDict):
 
     If a `locale` parameter is provided, the name is translated to the given locale if possible.
     """
-    minimum_amount: EntityMethodMinimumAmountTypedDict
+    minimum_amount: EntityMethodGetMinimumAmountTypedDict
     r"""The minimum payment amount required to use this payment method."""
-    maximum_amount: Nullable[EntityMethodMaximumAmountTypedDict]
+    maximum_amount: Nullable[EntityMethodGetMaximumAmountTypedDict]
     r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null`
     is returned instead.
     """
-    image: EntityMethodImageTypedDict
+    image: EntityMethodGetImageTypedDict
     r"""URLs of images representing the payment method."""
     status: Nullable[MethodStatus]
     r"""The payment method's activation status for this profile."""
-    links: EntityMethodLinksTypedDict
+    links: EntityMethodGetLinksTypedDict
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
-    issuers: NotRequired[List[EntityMethodIssuerTypedDict]]
+    issuers: NotRequired[List[EntityMethodGetIssuerTypedDict]]
     r"""**Optional include.** Array of objects for each 'issuer' that is available for this payment method. Only relevant
     for iDEAL, KBC/CBC, gift cards, and vouchers.
     """
 
 
-class EntityMethod(BaseModel):
+class EntityMethodGet(BaseModel):
     resource: str
     r"""Indicates the response contains a payment method object. Will always contain the string `method` for this
     endpoint.
     """
 
-    id: Annotated[Nullable[EntityMethodID], PlainValidator(validate_open_enum(False))]
+    id: Annotated[
+        Nullable[EntityMethodGetID], PlainValidator(validate_open_enum(False))
+    ]
     r"""The unique identifier of the payment method. When used during [payment creation](create-payment), the payment
     method selection screen will be skipped.
     """
@@ -271,27 +273,27 @@ class EntityMethod(BaseModel):
     """
 
     minimum_amount: Annotated[
-        EntityMethodMinimumAmount, pydantic.Field(alias="minimumAmount")
+        EntityMethodGetMinimumAmount, pydantic.Field(alias="minimumAmount")
     ]
     r"""The minimum payment amount required to use this payment method."""
 
     maximum_amount: Annotated[
-        Nullable[EntityMethodMaximumAmount], pydantic.Field(alias="maximumAmount")
+        Nullable[EntityMethodGetMaximumAmount], pydantic.Field(alias="maximumAmount")
     ]
     r"""The maximum payment amount allowed when using this payment method. If there is no method-specific maximum, `null`
     is returned instead.
     """
 
-    image: EntityMethodImage
+    image: EntityMethodGetImage
     r"""URLs of images representing the payment method."""
 
     status: Annotated[Nullable[MethodStatus], PlainValidator(validate_open_enum(False))]
     r"""The payment method's activation status for this profile."""
 
-    links: Annotated[EntityMethodLinks, pydantic.Field(alias="_links")]
+    links: Annotated[EntityMethodGetLinks, pydantic.Field(alias="_links")]
     r"""An object with several relevant URLs. Every URL object will contain an `href` and a `type` field."""
 
-    issuers: Optional[List[EntityMethodIssuer]] = None
+    issuers: Optional[List[EntityMethodGetIssuer]] = None
     r"""**Optional include.** Array of objects for each 'issuer' that is available for this payment method. Only relevant
     for iDEAL, KBC/CBC, gift cards, and vouchers.
     """

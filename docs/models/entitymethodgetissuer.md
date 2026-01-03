@@ -1,4 +1,4 @@
-# EntityMethodIssuer
+# EntityMethodGetIssuer
 
 
 ## Fields
@@ -8,4 +8,4 @@
 | `resource`                                                                      | *str*                                                                           | :heavy_check_mark:                                                              | N/A                                                                             | issuer                                                                          |
 | `id`                                                                            | *str*                                                                           | :heavy_check_mark:                                                              | N/A                                                                             | ideal_ABNANL2A                                                                  |
 | `name`                                                                          | *str*                                                                           | :heavy_check_mark:                                                              | The full name of the issuer.                                                    | ING Bank                                                                        |
-| `image`                                                                         | [models.EntityMethodIssuerImage](../models/entitymethodissuerimage.md)          | :heavy_check_mark:                                                              | URLs of images representing the issuer.<br/>required:<br/>  - size1x<br/>  - size2x<br/>  - svg |                                                                                 |
+| `image`                                                                         | [models.EntityMethodGetIssuerImage](../models/entitymethodgetissuerimage.md)    | :heavy_check_mark:                                                              | URLs of images representing the issuer.<br/>required:<br/>  - size1x<br/>  - size2x<br/>  - svg |                                                                                 |

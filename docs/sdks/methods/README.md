@@ -28,6 +28,9 @@ By default, only payment methods for the Euro currency are returned. If you
 wish to retrieve payment methods which exclusively support other currencies (e.g. Twint), you need to use the
 `amount` parameters.
 
+ℹ️ **Note:** This endpoint only returns **online** payment methods. If you wish to retrieve the information about
+a non-online payment method, you can use the [Get payment method endpoint](get-method).
+
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="list-methods" method="get" path="/methods" -->
@@ -89,6 +92,9 @@ Retrieve all payment methods that Mollie offers, regardless of the eligibility o
 method. The results of this endpoint are **not** paginated — unlike most other list endpoints in our API.
 
 The list can optionally be filtered using a number of parameters described below.
+
+ℹ️ **Note:** This endpoint only returns **online** payment methods. If you wish to retrieve the information about
+a non-online payment method, you can use the [Get payment method endpoint](get-method).
 
 ### Example Usage
 
@@ -196,7 +202,7 @@ with ClientSDK(
 
 ### Response
 
-**[models.EntityMethod](../../models/entitymethod.md)**
+**[models.EntityMethodGet](../../models/entitymethodget.md)**
 
 ### Errors
 

@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 3f63a12a-c4cd-4e2e-98dc-9d5c6f5180ec
 management:
-  docChecksum: d8adc5b190687e805fcf0458df28af7f
+  docChecksum: 7520bdcaa712c27ef1aeede01e77a556
   docVersion: 1.0.0
   speakeasyVersion: 1.640.0
   generationVersion: 2.730.5
-  releaseVersion: 0.58.6
-  configChecksum: 3156490664cd50e056e894a03196745b
+  releaseVersion: 0.58.7
+  configChecksum: bdb13f429509129c5c538d2000b39b91
   repoURL: https://github.com/mollie/mollie-api-python-beta.git
   installationURL: https://github.com/mollie/mollie-api-python-beta.git
   published: true
@@ -165,14 +165,14 @@ generatedFiles:
   - docs/models/entityinvoicenetamount.md
   - docs/models/entityinvoicestatus.md
   - docs/models/entityinvoicevatamount.md
-  - docs/models/entitymethod.md
-  - docs/models/entitymethodid.md
-  - docs/models/entitymethodimage.md
-  - docs/models/entitymethodissuer.md
-  - docs/models/entitymethodissuerimage.md
-  - docs/models/entitymethodlinks.md
-  - docs/models/entitymethodmaximumamount.md
-  - docs/models/entitymethodminimumamount.md
+  - docs/models/entitymethodget.md
+  - docs/models/entitymethodgetid.md
+  - docs/models/entitymethodgetimage.md
+  - docs/models/entitymethodgetissuer.md
+  - docs/models/entitymethodgetissuerimage.md
+  - docs/models/entitymethodgetlinks.md
+  - docs/models/entitymethodgetmaximumamount.md
+  - docs/models/entitymethodgetminimumamount.md
   - docs/models/entityonboardingstatus.md
   - docs/models/entityonboardingstatuslinks.md
   - docs/models/entityonboardingstatusstatus.md
@@ -826,7 +826,7 @@ generatedFiles:
   - src/mollie/models/entity_customer.py
   - src/mollie/models/entity_event.py
   - src/mollie/models/entity_invoice.py
-  - src/mollie/models/entity_method.py
+  - src/mollie/models/entity_method_get.py
   - src/mollie/models/entity_onboarding_status.py
   - src/mollie/models/entity_organization.py
   - src/mollie/models/entity_payment_route.py
@@ -5519,7 +5519,6 @@ examples:
           application/hal+json: {"status": 404, "title": "Not Found", "detail": "The resource does not exist", "field": "description", "_links": {"documentation": {"href": "https://docs.mollie.com/errors", "type": "text/html"}}}
 examplesVersion: 1.0.2
 generatedTests: {}
-releaseNotes: "## Python SDK Changes Detected:\n* `client.subscriptions.create()`: \n  *  `request.subscription-request.webhook_url` **Changed**\n  *  `response.webhook_url` **Changed** **Breaking** :warning:\n* `client.subscriptions.list()`:  `response._embedded.subscriptions.[].webhook_url` **Changed** **Breaking** :warning:\n* `client.subscriptions.get()`:  `response.webhook_url` **Changed** **Breaking** :warning:\n* `client.subscriptions.update()`:  `response.webhook_url` **Changed** **Breaking** :warning:\n* `client.subscriptions.cancel()`:  `response.webhook_url` **Changed** **Breaking** :warning:\n* `client.subscriptions.all()`:  `response._embedded.subscriptions.[].webhook_url` **Changed** **Breaking** :warning:\n"
 persistentEdits:
   generation_id: b447ae8a-9f05-460c-a7cd-f421087b632c
   pristine_commit_hash: 353ee42295bde549cfa3a77070e603993577e347
@@ -6025,38 +6024,22 @@ trackedFiles:
     pristine_git_object: 8cfe1791b491ed2c0df1d89aa9662cd4f2a8d590
   docs/models/entityinvoicevatamount.md:
     last_write_checksum: sha1:46ff4aa98efb34ff0930525e31bec51ad6f5aa40
-  docs/models/entitymethod.md:
-    id: 41209c48731d
-    last_write_checksum: sha1:614292dafbfd20339b92da72ee415f67f6b09f21
-    pristine_git_object: df1529c310074a280cee6a8add72dfff4e6dd1fe
-  docs/models/entitymethodid.md:
-    id: e64164f92d08
-    last_write_checksum: sha1:f77428ddc4e2168b85cecbf167bc9827e8443967
-    pristine_git_object: 54f59080dae8813066a2b62996cc6f7b9cfde62e
-  docs/models/entitymethodimage.md:
-    id: 0fe8f6c1b9db
-    last_write_checksum: sha1:c9c8a9a1bd2a90074fdd39ec7da4996fd8f5256c
-    pristine_git_object: 9cebda05023cf96159d3527d4672224f73b9c74a
-  docs/models/entitymethodissuer.md:
-    id: 3b0f5c5354b6
-    last_write_checksum: sha1:6626c4650e34f554c9040f8388870ab0edc092de
-    pristine_git_object: d8e66af267a36e3b93bc01a44a421b0f71a4c1a2
-  docs/models/entitymethodissuerimage.md:
-    id: f64aa2254d08
-    last_write_checksum: sha1:d524e5aa8f6f19186b8c4615fa3dfb0e34d9c72d
-    pristine_git_object: a868ee8e72af02d811fbf92c3b9c9dc87eed58b6
-  docs/models/entitymethodlinks.md:
-    id: 04c01d39c61f
-    last_write_checksum: sha1:426ec9889859749a99db672ba895ba7230ec4da7
-    pristine_git_object: 5104098f7f456a1078645851d0f18ed9e09dcaea
-  docs/models/entitymethodmaximumamount.md:
-    id: 7ca2898012b9
-    last_write_checksum: sha1:c3cd3c0e4cf8f5c3f873b23cbe4d3e707f4d3ade
-    pristine_git_object: 118b7cf3721cec4aa738bf498d73aaa07885de45
-  docs/models/entitymethodminimumamount.md:
-    id: d1d794bb68e7
-    last_write_checksum: sha1:7267708ff681275aa8d21605254d789787f47f0e
-    pristine_git_object: 55069a9d857e3c3e4cd6e9cb58b09f516a9cc4dc
+  docs/models/entitymethodget.md:
+    last_write_checksum: sha1:a7acb03623e634a6421510020bd01d185f62a95e
+  docs/models/entitymethodgetid.md:
+    last_write_checksum: sha1:a68ef2a9979bf1f5e4792df86de9535e823b78e9
+  docs/models/entitymethodgetimage.md:
+    last_write_checksum: sha1:7a1b39160dad9ba917e48973513cb288e188e8f7
+  docs/models/entitymethodgetissuer.md:
+    last_write_checksum: sha1:aebd379ca68462cdb17c7866da637808b5c3a978
+  docs/models/entitymethodgetissuerimage.md:
+    last_write_checksum: sha1:f6e8af734ae480639994c93137391f71962d91c7
+  docs/models/entitymethodgetlinks.md:
+    last_write_checksum: sha1:1b41a4e0b089af795ea1366f7ec6094558109456
+  docs/models/entitymethodgetmaximumamount.md:
+    last_write_checksum: sha1:6deea1af590ec52d8d382fe774c01333b3c6f2f1
+  docs/models/entitymethodgetminimumamount.md:
+    last_write_checksum: sha1:9ecfbb4a087bc63973a27bbac5f06e04d645b19f
   docs/models/entityonboardingstatus.md:
     id: 7b9b1df7e718
     last_write_checksum: sha1:436c6daec6091273692a113847a900c4f2516a4f
@@ -6766,7 +6749,7 @@ trackedFiles:
   docs/models/listentitymethodall.md:
     last_write_checksum: sha1:22b47b108d1f600997e20c515d03c2006d86f4b0
   docs/models/listentitymethodallid.md:
-    last_write_checksum: sha1:484b57267d0bab1b2c50d0d4689dc5a32608a8af
+    last_write_checksum: sha1:9d720f2b0fdfdefce33b785e8bdaf3e11df7de69
   docs/models/listentitymethodallimage.md:
     last_write_checksum: sha1:d769c22283290b5cecd1511e58124ac8343cd490
   docs/models/listentitymethodallissuer.md:
@@ -6780,7 +6763,7 @@ trackedFiles:
   docs/models/listentitymethodallminimumamount.md:
     last_write_checksum: sha1:7a4a9672998a8739485df6b6d00177891bce4a01
   docs/models/listentitymethodid.md:
-    last_write_checksum: sha1:ae4c5cf55c98c85394d4c77fec1fa91a0891a66b
+    last_write_checksum: sha1:89d66de2817a9654d8751feac4d920d3fa4cf200
   docs/models/listentitymethodimage.md:
     last_write_checksum: sha1:2d4e895a52f4b1f54730ed97069de7c27d7386b9
   docs/models/listentitymethodissuer.md:
@@ -8013,7 +7996,7 @@ trackedFiles:
     pristine_git_object: 1ad2b9addba6c7fc5faf86cfa5a1388503868763
   docs/sdks/methods/README.md:
     id: 430c1db41d45
-    last_write_checksum: sha1:c87a54572c5336d734e2bc489459e0c029e9411e
+    last_write_checksum: sha1:5434e1785ec435174678935ce55aafac16c19783
     pristine_git_object: 44124d9a15395066225672c493b9bced1a3f689e
   docs/sdks/onboarding/README.md:
     id: 395b30e93e5f
@@ -8109,7 +8092,7 @@ trackedFiles:
     pristine_git_object: 54946924a17396c0c6f33d47591a254bc5a8003c
   src/mollie/_version.py:
     id: 04555310b049
-    last_write_checksum: sha1:35208b9858e2c9809db2ddf0231982b715fea66c
+    last_write_checksum: sha1:89c5ef0ee290fa948dd55e69ec83bb23e9640fe3
     pristine_git_object: ad80f23cffa436174a05b75b8bb9ed47c10df7ca
   src/mollie/balance_transfers.py:
     id: fd621abe5fb7
@@ -8165,11 +8148,11 @@ trackedFiles:
     pristine_git_object: 56fcab763cb5f037e0ccbe435d20b1c709d86f32
   src/mollie/methods.py:
     id: 29a56c8fab24
-    last_write_checksum: sha1:06048601f2c5a6d7913aaf469218821e92223773
+    last_write_checksum: sha1:0884d69648dc4edde0c7e7a20f4bb44ab739a408
     pristine_git_object: 9b95232626207a4ca2982bcee56db1573f76eeac
   src/mollie/models/__init__.py:
     id: 6afa296e99ce
-    last_write_checksum: sha1:2a75b0c357f5105b25e38ed25768c729bbe20daf
+    last_write_checksum: sha1:69a3230c4a2d9a29b0582e3097f74cdc8d5d3fbe
     pristine_git_object: a5276373e296671bcac4281867422ebd33f8bef1
   src/mollie/models/address.py:
     id: 6f5ad4890326
@@ -8443,10 +8426,8 @@ trackedFiles:
     id: c841e9894418
     last_write_checksum: sha1:cab5609a48a4281e306ded72b65aa542ae76af5a
     pristine_git_object: c8454d60789661234f7b38298e288445e83bf975
-  src/mollie/models/entity_method.py:
-    id: "012392070e93"
-    last_write_checksum: sha1:1a24c25b9196ba7554b1a03db43430de58bbd0ba
-    pristine_git_object: 118198b0f29156c55dd7e60657644704ff9b6373
+  src/mollie/models/entity_method_get.py:
+    last_write_checksum: sha1:4c1302637b5768d0ed14d93367089ac4d8d149b6
   src/mollie/models/entity_onboarding_status.py:
     id: 1cdf8d127622
     last_write_checksum: sha1:fdf9d1f20fe4447626605a4c8aa48a7f7d4854bd
@@ -8696,9 +8677,9 @@ trackedFiles:
   src/mollie/models/list_entity_invoice.py:
     last_write_checksum: sha1:c2668e1dec85e507302ad2c066a7156e74830ab9
   src/mollie/models/list_entity_method.py:
-    last_write_checksum: sha1:b4b1c97157a84dd547a401d201e3a10b3f93af60
+    last_write_checksum: sha1:1596aaa36095d0faefc18719a521d0474efee5c1
   src/mollie/models/list_entity_method_all.py:
-    last_write_checksum: sha1:c2eadbf9682d830a733ba42f164c007ad7cde093
+    last_write_checksum: sha1:9cea6979a2756355921a91332aa15afd4d65b7c0
   src/mollie/models/list_entity_permission.py:
     last_write_checksum: sha1:39c937d15493016155e4b20da4dcfe468ce1e560
   src/mollie/models/list_entity_refund.py:
