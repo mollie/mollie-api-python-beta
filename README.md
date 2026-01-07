@@ -39,7 +39,6 @@ This documentation is for the new Mollie's SDK. You can find more details on how
   * [Resource Management](#resource-management)
   * [Debugging](#debugging)
 * [Development](#development)
-  * [Maturity](#maturity)
   * [Contributions](#contributions)
 
 <!-- End Table of Contents [toc] -->
@@ -804,12 +803,6 @@ You can also enable a default debug logger by setting an environment variable `C
 <!-- Placeholder for Future Speakeasy SDK Sections -->
 
 # Development
-
-## Maturity
-
-This SDK is in beta, and there may be breaking changes between versions without a major version update. Therefore, we recommend pinning usage
-to a specific package version. This way, you can install the same version each time without breaking changes unless you are intentionally
-looking for the latest version.
 
 ## Contributions
 
