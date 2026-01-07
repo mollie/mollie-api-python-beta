@@ -1,16 +1,16 @@
-# mollie-api-python-beta
+# mollie-api-py
 
-Developer-friendly & type-safe Python SDK specifically catered to leverage *mollie-api-python-beta* API.
+Developer-friendly & type-safe Python SDK specifically catered to leverage *mollie-api-py* API.
 
 <div align="left">
-    <a href="https://www.speakeasy.com/?utm_source=mollie-api-python-beta&utm_campaign=python"><img src="https://custom-icon-badges.demolab.com/badge/-Built%20By%20Speakeasy-212015?style=for-the-badge&logoColor=FBE331&logo=speakeasy&labelColor=545454" /></a>
+    <a href="https://www.speakeasy.com/?utm_source=mollie-api-py&utm_campaign=python"><img src="https://custom-icon-badges.demolab.com/badge/-Built%20By%20Speakeasy-212015?style=for-the-badge&logoColor=FBE331&logo=speakeasy&labelColor=545454" /></a>
     <a href="https://opensource.org/licenses/MIT">
         <img src="https://img.shields.io/badge/License-MIT-blue.svg" style="width: 100px; height: 28px;" />
     </a>
 </div>
 
 ## Migration
-This documentation is for the new Mollie's SDK. You can find more details on how to migrate from the old version to the new one [here](https://github.com/mollie/mollie-api-python-beta/blob/master//MIGRATION.md).
+This documentation is for the new Mollie's SDK. You can find more details on how to migrate from the old version to the new one [here](https://github.com/mollie/mollie-api-py/blob/master//MIGRATION.md).
 
 <!-- Start Summary [summary] -->
 ## Summary
@@ -21,26 +21,25 @@ This documentation is for the new Mollie's SDK. You can find more details on how
 <!-- Start Table of Contents [toc] -->
 ## Table of Contents
 <!-- $toc-max-depth=2 -->
-* [mollie-api-python-beta](https://github.com/mollie/mollie-api-python-beta/blob/master/#mollie-api-python-beta)
-  * [Migration](https://github.com/mollie/mollie-api-python-beta/blob/master/#migration)
-  * [SDK Installation](https://github.com/mollie/mollie-api-python-beta/blob/master/#sdk-installation)
-  * [IDE Support](https://github.com/mollie/mollie-api-python-beta/blob/master/#ide-support)
-  * [SDK Example Usage](https://github.com/mollie/mollie-api-python-beta/blob/master/#sdk-example-usage)
-  * [Authentication](https://github.com/mollie/mollie-api-python-beta/blob/master/#authentication)
-  * [Idempotency Key](https://github.com/mollie/mollie-api-python-beta/blob/master/#idempotency-key)
-  * [Add Custom User-Agent Header](https://github.com/mollie/mollie-api-python-beta/blob/master/#add-custom-user-agent-header)
-  * [Add Profile ID and Testmode to Client](https://github.com/mollie/mollie-api-python-beta/blob/master/#add-profile-id-and-testmode-to-client)
-  * [Available Resources and Operations](https://github.com/mollie/mollie-api-python-beta/blob/master/#available-resources-and-operations)
-  * [Global Parameters](https://github.com/mollie/mollie-api-python-beta/blob/master/#global-parameters)
-  * [Retries](https://github.com/mollie/mollie-api-python-beta/blob/master/#retries)
-  * [Error Handling](https://github.com/mollie/mollie-api-python-beta/blob/master/#error-handling)
-  * [Server Selection](https://github.com/mollie/mollie-api-python-beta/blob/master/#server-selection)
-  * [Custom HTTP Client](https://github.com/mollie/mollie-api-python-beta/blob/master/#custom-http-client)
-  * [Resource Management](https://github.com/mollie/mollie-api-python-beta/blob/master/#resource-management)
-  * [Debugging](https://github.com/mollie/mollie-api-python-beta/blob/master/#debugging)
-* [Development](https://github.com/mollie/mollie-api-python-beta/blob/master/#development)
-  * [Maturity](https://github.com/mollie/mollie-api-python-beta/blob/master/#maturity)
-  * [Contributions](https://github.com/mollie/mollie-api-python-beta/blob/master/#contributions)
+* [mollie-api-py](https://github.com/mollie/mollie-api-py/blob/master/#mollie-api-py)
+  * [Migration](https://github.com/mollie/mollie-api-py/blob/master/#migration)
+  * [SDK Installation](https://github.com/mollie/mollie-api-py/blob/master/#sdk-installation)
+  * [IDE Support](https://github.com/mollie/mollie-api-py/blob/master/#ide-support)
+  * [SDK Example Usage](https://github.com/mollie/mollie-api-py/blob/master/#sdk-example-usage)
+  * [Authentication](https://github.com/mollie/mollie-api-py/blob/master/#authentication)
+  * [Idempotency Key](https://github.com/mollie/mollie-api-py/blob/master/#idempotency-key)
+  * [Add Custom User-Agent Header](https://github.com/mollie/mollie-api-py/blob/master/#add-custom-user-agent-header)
+  * [Add Profile ID and Testmode to Client](https://github.com/mollie/mollie-api-py/blob/master/#add-profile-id-and-testmode-to-client)
+  * [Available Resources and Operations](https://github.com/mollie/mollie-api-py/blob/master/#available-resources-and-operations)
+  * [Global Parameters](https://github.com/mollie/mollie-api-py/blob/master/#global-parameters)
+  * [Retries](https://github.com/mollie/mollie-api-py/blob/master/#retries)
+  * [Error Handling](https://github.com/mollie/mollie-api-py/blob/master/#error-handling)
+  * [Server Selection](https://github.com/mollie/mollie-api-py/blob/master/#server-selection)
+  * [Custom HTTP Client](https://github.com/mollie/mollie-api-py/blob/master/#custom-http-client)
+  * [Resource Management](https://github.com/mollie/mollie-api-py/blob/master/#resource-management)
+  * [Debugging](https://github.com/mollie/mollie-api-py/blob/master/#debugging)
+* [Development](https://github.com/mollie/mollie-api-py/blob/master/#development)
+  * [Contributions](https://github.com/mollie/mollie-api-py/blob/master/#contributions)
 
 <!-- End Table of Contents [toc] -->
 
@@ -291,179 +290,179 @@ client = ClientSDK(
 <details open>
 <summary>Available methods</summary>
 
-### [balance_transfers](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/balancetransfers/README.md)
+### [balance_transfers](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/balancetransfers/README.md)
 
-* [create](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/balancetransfers/README.md#create) - Create a Connect balance transfer
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/balancetransfers/README.md#list) - List all Connect balance transfers
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/balancetransfers/README.md#get) - Get a Connect balance transfer
+* [create](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/balancetransfers/README.md#create) - Create a Connect balance transfer
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/balancetransfers/README.md#list) - List all Connect balance transfers
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/balancetransfers/README.md#get) - Get a Connect balance transfer
 
-### [balances](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/balances/README.md)
+### [balances](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/balances/README.md)
 
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/balances/README.md#list) - List balances
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/balances/README.md#get) - Get balance
-* [get_primary](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/balances/README.md#get_primary) - Get primary balance
-* [get_report](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/balances/README.md#get_report) - Get balance report
-* [list_transactions](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/balances/README.md#list_transactions) - List balance transactions
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/balances/README.md#list) - List balances
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/balances/README.md#get) - Get balance
+* [get_primary](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/balances/README.md#get_primary) - Get primary balance
+* [get_report](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/balances/README.md#get_report) - Get balance report
+* [list_transactions](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/balances/README.md#list_transactions) - List balance transactions
 
-### [capabilities](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/capabilities/README.md)
+### [capabilities](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/capabilities/README.md)
 
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/capabilities/README.md#list) - List capabilities
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/capabilities/README.md#list) - List capabilities
 
-### [captures](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/captures/README.md)
+### [captures](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/captures/README.md)
 
-* [create](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/captures/README.md#create) - Create capture
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/captures/README.md#list) - List captures
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/captures/README.md#get) - Get capture
+* [create](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/captures/README.md#create) - Create capture
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/captures/README.md#list) - List captures
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/captures/README.md#get) - Get capture
 
-### [chargebacks](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/chargebackssdk/README.md)
+### [chargebacks](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/chargebackssdk/README.md)
 
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/chargebackssdk/README.md#list) - List payment chargebacks
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/chargebackssdk/README.md#get) - Get payment chargeback
-* [all](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/chargebackssdk/README.md#all) - List all chargebacks
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/chargebackssdk/README.md#list) - List payment chargebacks
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/chargebackssdk/README.md#get) - Get payment chargeback
+* [all](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/chargebackssdk/README.md#all) - List all chargebacks
 
-### [client_links](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/clientlinks/README.md)
+### [client_links](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/clientlinks/README.md)
 
-* [create](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/clientlinks/README.md#create) - Create client link
+* [create](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/clientlinks/README.md#create) - Create client link
 
-### [clients](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/clients/README.md)
+### [clients](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/clients/README.md)
 
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/clients/README.md#list) - List clients
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/clients/README.md#get) - Get client
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/clients/README.md#list) - List clients
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/clients/README.md#get) - Get client
 
-### [customers](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/customers/README.md)
+### [customers](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/customers/README.md)
 
-* [create](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/customers/README.md#create) - Create customer
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/customers/README.md#list) - List customers
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/customers/README.md#get) - Get customer
-* [update](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/customers/README.md#update) - Update customer
-* [delete](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/customers/README.md#delete) - Delete customer
-* [create_payment](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/customers/README.md#create_payment) - Create customer payment
-* [list_payments](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/customers/README.md#list_payments) - List customer payments
+* [create](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/customers/README.md#create) - Create customer
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/customers/README.md#list) - List customers
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/customers/README.md#get) - Get customer
+* [update](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/customers/README.md#update) - Update customer
+* [delete](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/customers/README.md#delete) - Delete customer
+* [create_payment](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/customers/README.md#create_payment) - Create customer payment
+* [list_payments](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/customers/README.md#list_payments) - List customer payments
 
-### [delayed_routing](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/delayedrouting/README.md)
+### [delayed_routing](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/delayedrouting/README.md)
 
-* [create](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/delayedrouting/README.md#create) - Create a delayed route
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/delayedrouting/README.md#list) - List payment routes
+* [create](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/delayedrouting/README.md#create) - Create a delayed route
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/delayedrouting/README.md#list) - List payment routes
 
-### [invoices](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/invoices/README.md)
+### [invoices](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/invoices/README.md)
 
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/invoices/README.md#list) - List invoices
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/invoices/README.md#get) - Get invoice
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/invoices/README.md#list) - List invoices
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/invoices/README.md#get) - Get invoice
 
-### [mandates](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/mandates/README.md)
+### [mandates](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/mandates/README.md)
 
-* [create](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/mandates/README.md#create) - Create mandate
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/mandates/README.md#list) - List mandates
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/mandates/README.md#get) - Get mandate
-* [revoke](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/mandates/README.md#revoke) - Revoke mandate
+* [create](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/mandates/README.md#create) - Create mandate
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/mandates/README.md#list) - List mandates
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/mandates/README.md#get) - Get mandate
+* [revoke](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/mandates/README.md#revoke) - Revoke mandate
 
-### [methods](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/methods/README.md)
+### [methods](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/methods/README.md)
 
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/methods/README.md#list) - List payment methods
-* [all](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/methods/README.md#all) - List all payment methods
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/methods/README.md#get) - Get payment method
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/methods/README.md#list) - List payment methods
+* [all](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/methods/README.md#all) - List all payment methods
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/methods/README.md#get) - Get payment method
 
-### [onboarding](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/onboarding/README.md)
+### [onboarding](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/onboarding/README.md)
 
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/onboarding/README.md#get) - Get onboarding status
-* [submit](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/onboarding/README.md#submit) - Submit onboarding data
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/onboarding/README.md#get) - Get onboarding status
+* [submit](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/onboarding/README.md#submit) - Submit onboarding data
 
-### [organizations](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/organizations/README.md)
+### [organizations](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/organizations/README.md)
 
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/organizations/README.md#get) - Get organization
-* [get_current](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/organizations/README.md#get_current) - Get current organization
-* [get_partner](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/organizations/README.md#get_partner) - Get partner status
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/organizations/README.md#get) - Get organization
+* [get_current](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/organizations/README.md#get_current) - Get current organization
+* [get_partner](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/organizations/README.md#get_partner) - Get partner status
 
-### [payment_links](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/paymentlinks/README.md)
+### [payment_links](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/paymentlinks/README.md)
 
-* [create](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/paymentlinks/README.md#create) - Create payment link
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/paymentlinks/README.md#list) - List payment links
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/paymentlinks/README.md#get) - Get payment link
-* [update](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/paymentlinks/README.md#update) - Update payment link
-* [delete](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/paymentlinks/README.md#delete) - Delete payment link
-* [list_payments](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/paymentlinks/README.md#list_payments) - Get payment link payments
+* [create](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/paymentlinks/README.md#create) - Create payment link
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/paymentlinks/README.md#list) - List payment links
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/paymentlinks/README.md#get) - Get payment link
+* [update](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/paymentlinks/README.md#update) - Update payment link
+* [delete](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/paymentlinks/README.md#delete) - Delete payment link
+* [list_payments](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/paymentlinks/README.md#list_payments) - Get payment link payments
 
-### [payments](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/paymentssdk/README.md)
+### [payments](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/paymentssdk/README.md)
 
-* [create](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/paymentssdk/README.md#create) - Create payment
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/paymentssdk/README.md#list) - List payments
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/paymentssdk/README.md#get) - Get payment
-* [update](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/paymentssdk/README.md#update) - Update payment
-* [cancel](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/paymentssdk/README.md#cancel) - Cancel payment
-* [release_authorization](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/paymentssdk/README.md#release_authorization) - Release payment authorization
+* [create](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/paymentssdk/README.md#create) - Create payment
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/paymentssdk/README.md#list) - List payments
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/paymentssdk/README.md#get) - Get payment
+* [update](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/paymentssdk/README.md#update) - Update payment
+* [cancel](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/paymentssdk/README.md#cancel) - Cancel payment
+* [release_authorization](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/paymentssdk/README.md#release_authorization) - Release payment authorization
 
-### [permissions](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/permissions/README.md)
+### [permissions](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/permissions/README.md)
 
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/permissions/README.md#list) - List permissions
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/permissions/README.md#get) - Get permission
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/permissions/README.md#list) - List permissions
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/permissions/README.md#get) - Get permission
 
-### [profiles](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/profiles/README.md)
+### [profiles](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/profiles/README.md)
 
-* [create](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/profiles/README.md#create) - Create profile
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/profiles/README.md#list) - List profiles
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/profiles/README.md#get) - Get profile
-* [update](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/profiles/README.md#update) - Update profile
-* [delete](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/profiles/README.md#delete) - Delete profile
-* [get_current](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/profiles/README.md#get_current) - Get current profile
+* [create](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/profiles/README.md#create) - Create profile
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/profiles/README.md#list) - List profiles
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/profiles/README.md#get) - Get profile
+* [update](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/profiles/README.md#update) - Update profile
+* [delete](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/profiles/README.md#delete) - Delete profile
+* [get_current](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/profiles/README.md#get_current) - Get current profile
 
-### [refunds](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/refundssdk/README.md)
+### [refunds](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/refundssdk/README.md)
 
-* [create](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/refundssdk/README.md#create) - Create payment refund
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/refundssdk/README.md#list) - List payment refunds
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/refundssdk/README.md#get) - Get payment refund
-* [cancel](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/refundssdk/README.md#cancel) - Cancel payment refund
-* [all](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/refundssdk/README.md#all) - List all refunds
+* [create](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/refundssdk/README.md#create) - Create payment refund
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/refundssdk/README.md#list) - List payment refunds
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/refundssdk/README.md#get) - Get payment refund
+* [cancel](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/refundssdk/README.md#cancel) - Cancel payment refund
+* [all](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/refundssdk/README.md#all) - List all refunds
 
-### [sales_invoices](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/salesinvoices/README.md)
+### [sales_invoices](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/salesinvoices/README.md)
 
-* [create](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/salesinvoices/README.md#create) - Create sales invoice
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/salesinvoices/README.md#list) - List sales invoices
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/salesinvoices/README.md#get) - Get sales invoice
-* [update](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/salesinvoices/README.md#update) - Update sales invoice
-* [delete](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/salesinvoices/README.md#delete) - Delete sales invoice
+* [create](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/salesinvoices/README.md#create) - Create sales invoice
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/salesinvoices/README.md#list) - List sales invoices
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/salesinvoices/README.md#get) - Get sales invoice
+* [update](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/salesinvoices/README.md#update) - Update sales invoice
+* [delete](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/salesinvoices/README.md#delete) - Delete sales invoice
 
-### [settlements](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/settlements/README.md)
+### [settlements](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/settlements/README.md)
 
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/settlements/README.md#list) - List settlements
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/settlements/README.md#get) - Get settlement
-* [get_open](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/settlements/README.md#get_open) - Get open settlement
-* [get_next](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/settlements/README.md#get_next) - Get next settlement
-* [list_payments](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/settlements/README.md#list_payments) - List settlement payments
-* [list_captures](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/settlements/README.md#list_captures) - List settlement captures
-* [list_refunds](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/settlements/README.md#list_refunds) - List settlement refunds
-* [list_chargebacks](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/settlements/README.md#list_chargebacks) - List settlement chargebacks
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/settlements/README.md#list) - List settlements
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/settlements/README.md#get) - Get settlement
+* [get_open](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/settlements/README.md#get_open) - Get open settlement
+* [get_next](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/settlements/README.md#get_next) - Get next settlement
+* [list_payments](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/settlements/README.md#list_payments) - List settlement payments
+* [list_captures](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/settlements/README.md#list_captures) - List settlement captures
+* [list_refunds](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/settlements/README.md#list_refunds) - List settlement refunds
+* [list_chargebacks](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/settlements/README.md#list_chargebacks) - List settlement chargebacks
 
-### [subscriptions](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/subscriptions/README.md)
+### [subscriptions](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/subscriptions/README.md)
 
-* [create](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/subscriptions/README.md#create) - Create subscription
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/subscriptions/README.md#list) - List customer subscriptions
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/subscriptions/README.md#get) - Get subscription
-* [update](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/subscriptions/README.md#update) - Update subscription
-* [cancel](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/subscriptions/README.md#cancel) - Cancel subscription
-* [all](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/subscriptions/README.md#all) - List all subscriptions
-* [list_payments](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/subscriptions/README.md#list_payments) - List subscription payments
+* [create](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/subscriptions/README.md#create) - Create subscription
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/subscriptions/README.md#list) - List customer subscriptions
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/subscriptions/README.md#get) - Get subscription
+* [update](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/subscriptions/README.md#update) - Update subscription
+* [cancel](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/subscriptions/README.md#cancel) - Cancel subscription
+* [all](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/subscriptions/README.md#all) - List all subscriptions
+* [list_payments](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/subscriptions/README.md#list_payments) - List subscription payments
 
-### [terminals](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/terminals/README.md)
+### [terminals](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/terminals/README.md)
 
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/terminals/README.md#list) - List terminals
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/terminals/README.md#get) - Get terminal
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/terminals/README.md#list) - List terminals
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/terminals/README.md#get) - Get terminal
 
-### [wallets](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/wallets/README.md)
+### [wallets](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/wallets/README.md)
 
-* [request_apple_pay_session](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/wallets/README.md#request_apple_pay_session) - Request Apple Pay payment session
+* [request_apple_pay_session](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/wallets/README.md#request_apple_pay_session) - Request Apple Pay payment session
 
-### [webhook_events](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/webhookevents/README.md)
+### [webhook_events](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/webhookevents/README.md)
 
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/webhookevents/README.md#get) - Get a Webhook Event
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/webhookevents/README.md#get) - Get a Webhook Event
 
-### [webhooks](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/webhooks/README.md)
+### [webhooks](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/webhooks/README.md)
 
-* [create](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/webhooks/README.md#create) - Create a webhook
-* [list](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/webhooks/README.md#list) - List all webhooks
-* [update](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/webhooks/README.md#update) - Update a webhook
-* [get](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/webhooks/README.md#get) - Get a webhook
-* [delete](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/webhooks/README.md#delete) - Delete a webhook
-* [test](https://github.com/mollie/mollie-api-python-beta/blob/master/docs/sdks/webhooks/README.md#test) - Test a webhook
+* [create](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/webhooks/README.md#create) - Create a webhook
+* [list](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/webhooks/README.md#list) - List all webhooks
+* [update](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/webhooks/README.md#update) - Update a webhook
+* [get](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/webhooks/README.md#get) - Get a webhook
+* [delete](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/webhooks/README.md#delete) - Delete a webhook
+* [test](https://github.com/mollie/mollie-api-py/blob/master/docs/sdks/webhooks/README.md#test) - Test a webhook
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
@@ -483,7 +482,7 @@ Global parameters can also be set via environment variable.
 
 | Name              | Type | Description                                                                                                                                                                                                                                                                                                                                                                                            | Environment              |
 | ----------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------ |
-| profile_id        | str  | The identifier referring to the [profile](https://github.com/mollie/mollie-api-python-beta/blob/master/get-profile) you wish to<br/>retrieve the resources for.<br/><br/>Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For<br/>organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.                                                                     | CLIENT_PROFILE_ID        |
+| profile_id        | str  | The identifier referring to the [profile](https://github.com/mollie/mollie-api-py/blob/master/get-profile) you wish to<br/>retrieve the resources for.<br/><br/>Most API credentials are linked to a single profile. In these cases the `profileId` can be omitted. For<br/>organization-level credentials such as OAuth access tokens however, the `profileId` parameter is required.                                                                     | CLIENT_PROFILE_ID        |
 | testmode          | bool | Most API credentials are specifically created for either live mode or test mode. In those cases the `testmode` query<br/>parameter can be omitted. For organization-level credentials such as OAuth access tokens, you can enable test mode by<br/>setting the `testmode` query parameter to `true`.<br/><br/>Test entities cannot be retrieved when the endpoint is set to live mode, and vice versa. | CLIENT_TESTMODE          |
 | custom_user_agent | str  | Custom user agent string to be appended to the default Mollie SDK user agent.                                                                                                                                                                                                                                                                                                                          | CLIENT_CUSTOM_USER_AGENT |
 
@@ -567,7 +566,7 @@ with ClientSDK(
 <!-- Start Error Handling [errors] -->
 ## Error Handling
 
-[`ClientError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/clienterror.py) is the base class for all HTTP error responses. It has the following properties:
+[`ClientError`](https://github.com/mollie/mollie-api-py/blob/master/./src/mollie/models/clienterror.py) is the base class for all HTTP error responses. It has the following properties:
 
 | Property           | Type             | Description                                                                             |
 | ------------------ | ---------------- | --------------------------------------------------------------------------------------- |
@@ -576,7 +575,7 @@ with ClientSDK(
 | `err.headers`      | `httpx.Headers`  | HTTP response headers                                                                   |
 | `err.body`         | `str`            | HTTP body. Can be empty string if no body is returned.                                  |
 | `err.raw_response` | `httpx.Response` | Raw HTTP response                                                                       |
-| `err.data`         |                  | Optional. Some errors may contain structured data. [See Error Classes](https://github.com/mollie/mollie-api-python-beta/blob/master/#error-classes). |
+| `err.data`         |                  | Optional. Some errors may contain structured data. [See Error Classes](https://github.com/mollie/mollie-api-py/blob/master/#error-classes). |
 
 ### Example
 ```python
@@ -619,8 +618,8 @@ with ClientSDK(
 
 ### Error Classes
 **Primary errors:**
-* [`ClientError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/clienterror.py): The base class for HTTP error responses.
-  * [`ErrorResponse`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/errorresponse.py): An error response object. *
+* [`ClientError`](https://github.com/mollie/mollie-api-py/blob/master/./src/mollie/models/clienterror.py): The base class for HTTP error responses.
+  * [`ErrorResponse`](https://github.com/mollie/mollie-api-py/blob/master/./src/mollie/models/errorresponse.py): An error response object. *
 
 <details><summary>Less common errors (5)</summary>
 
@@ -632,12 +631,12 @@ with ClientSDK(
     * [`httpx.TimeoutException`](https://www.python-httpx.org/exceptions/#httpx.TimeoutException): HTTP request timed out.
 
 
-**Inherit from [`ClientError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/clienterror.py)**:
-* [`ResponseValidationError`](https://github.com/mollie/mollie-api-python-beta/blob/master/./src/mollie/models/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
+**Inherit from [`ClientError`](https://github.com/mollie/mollie-api-py/blob/master/./src/mollie/models/clienterror.py)**:
+* [`ResponseValidationError`](https://github.com/mollie/mollie-api-py/blob/master/./src/mollie/models/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>
 
-\* Check [the method documentation](https://github.com/mollie/mollie-api-python-beta/blob/master/#available-resources-and-operations) to see if the error is applicable.
+\* Check [the method documentation](https://github.com/mollie/mollie-api-py/blob/master/#available-resources-and-operations) to see if the error is applicable.
 <!-- End Error Handling [errors] -->
 
 <!-- Start Server Selection [server] -->
@@ -805,15 +804,9 @@ You can also enable a default debug logger by setting an environment variable `C
 
 # Development
 
-## Maturity
-
-This SDK is in beta, and there may be breaking changes between versions without a major version update. Therefore, we recommend pinning usage
-to a specific package version. This way, you can install the same version each time without breaking changes unless you are intentionally
-looking for the latest version.
-
 ## Contributions
 
 While we value open-source contributions to this SDK, this library is generated programmatically. Any manual changes added to internal files will be overwritten on the next generation. 
 We look forward to hearing your feedback. Feel free to open a PR or an issue with a proof of concept and we'll do our best to include it in a future release. 
 
-### SDK Created by [Speakeasy](https://www.speakeasy.com/?utm_source=mollie-api-python-beta&utm_campaign=python)
+### SDK Created by [Speakeasy](https://www.speakeasy.com/?utm_source=mollie-api-py&utm_campaign=python)

@@ -29,7 +29,7 @@ generation:
   persistentEdits: {}
   requestBodyFieldName: ""
 python:
-  version: 0.58.7
+  version: 1.0.0
   additionalDependencies:
     dev: {}
     main: {}
