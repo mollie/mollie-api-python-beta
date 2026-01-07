@@ -1,9 +1,9 @@
-# mollie-api-python-beta
+# mollie-api-py
 
-Developer-friendly & type-safe Python SDK specifically catered to leverage *mollie-api-python-beta* API.
+Developer-friendly & type-safe Python SDK specifically catered to leverage *mollie-api-py* API.
 
 <div align="left">
-    <a href="https://www.speakeasy.com/?utm_source=mollie-api-python-beta&utm_campaign=python"><img src="https://custom-icon-badges.demolab.com/badge/-Built%20By%20Speakeasy-212015?style=for-the-badge&logoColor=FBE331&logo=speakeasy&labelColor=545454" /></a>
+    <a href="https://www.speakeasy.com/?utm_source=mollie-api-py&utm_campaign=python"><img src="https://custom-icon-badges.demolab.com/badge/-Built%20By%20Speakeasy-212015?style=for-the-badge&logoColor=FBE331&logo=speakeasy&labelColor=545454" /></a>
     <a href="https://opensource.org/licenses/MIT">
         <img src="https://img.shields.io/badge/License-MIT-blue.svg" style="width: 100px; height: 28px;" />
     </a>
@@ -21,7 +21,7 @@ This documentation is for the new Mollie's SDK. You can find more details on how
 <!-- Start Table of Contents [toc] -->
 ## Table of Contents
 <!-- $toc-max-depth=2 -->
-* [mollie-api-python-beta](#mollie-api-python-beta)
+* [mollie-api-py](#mollie-api-py)
   * [Migration](#migration)
   * [SDK Installation](#sdk-installation)
   * [IDE Support](#ide-support)
@@ -816,4 +816,4 @@ looking for the latest version.
 While we value open-source contributions to this SDK, this library is generated programmatically. Any manual changes added to internal files will be overwritten on the next generation. 
 We look forward to hearing your feedback. Feel free to open a PR or an issue with a proof of concept and we'll do our best to include it in a future release. 
 
-### SDK Created by [Speakeasy](https://www.speakeasy.com/?utm_source=mollie-api-python-beta&utm_campaign=python)
+### SDK Created by [Speakeasy](https://www.speakeasy.com/?utm_source=mollie-api-py&utm_campaign=python)

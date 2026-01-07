@@ -81,7 +81,7 @@ class MollieHooks(BeforeRequestHook):
         gen_version = hook_ctx.config.gen_version
         sdk_version = hook_ctx.config.sdk_version
         python_version = sys.version.split(" ", maxsplit=1)[0]
-        package_name = "mollie-api-python-beta"
+        package_name = "mollie-api-py"
 
         new_user_agent = f"Speakeasy/{gen_version} Python/{python_version} {package_name}/{sdk_version}"
         if hook_ctx.config.globals.custom_user_agent:
