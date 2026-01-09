@@ -915,7 +915,7 @@ class EntityBalanceTransactionTypedDict(TypedDict):
     r"""The entity's date and time of creation, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format."""
     deductions: NotRequired[Nullable[AmountNullableTypedDict]]
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
-    context: NotRequired[ContextTypedDict]
+    context: NotRequired[Nullable[ContextTypedDict]]
     r"""Depending on the type of the balance transaction, we will try to give more context about the specific event that
     triggered it. For example, the context object for a payment transaction will look like
     `{\"paymentId\": \"tr_5B8cwPMGnU6qLbRvo7qEZo\", \"paymentDescription\": \"Description\"}`.
@@ -988,7 +988,7 @@ class EntityBalanceTransaction(BaseModel):
     deductions: OptionalNullable[AmountNullable] = UNSET
     r"""In v2 endpoints, monetary amounts are represented as objects with a `currency` and `value` field."""
 
-    context: Optional[Context] = None
+    context: OptionalNullable[Context] = UNSET
     r"""Depending on the type of the balance transaction, we will try to give more context about the specific event that
     triggered it. For example, the context object for a payment transaction will look like
     `{\"paymentId\": \"tr_5B8cwPMGnU6qLbRvo7qEZo\", \"paymentDescription\": \"Description\"}`.
@@ -1040,7 +1040,7 @@ class EntityBalanceTransaction(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = ["deductions", "context"]
-        nullable_fields = ["deductions"]
+        nullable_fields = ["deductions", "context"]
         null_default_fields = []
 
         serialized = handler(self)

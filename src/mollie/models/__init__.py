@@ -1191,7 +1191,7 @@ if TYPE_CHECKING:
         MandateResponseTypedDict,
     )
     from .metadata import Metadata, MetadataTypedDict
-    from .method import Method
+    from .method_enum import MethodEnum
     from .method_include_wallets_parameter import MethodIncludeWalletsParameter
     from .method_resource_parameter import MethodResourceParameter
     from .method_response import MethodResponse
@@ -1262,6 +1262,8 @@ if TYPE_CHECKING:
     from .payment_request import (
         Company,
         CompanyTypedDict,
+        Method,
+        MethodTypedDict,
         PaymentRequest,
         PaymentRequestApplicationFee,
         PaymentRequestApplicationFeeTypedDict,
@@ -1269,6 +1271,7 @@ if TYPE_CHECKING:
         PaymentRequestBillingAddressTypedDict,
         PaymentRequestLine,
         PaymentRequestLineTypedDict,
+        PaymentRequestMethodEnum,
         PaymentRequestTypedDict,
     )
     from .payment_response import (
@@ -2429,10 +2432,12 @@ __all__ = [
     "Metadata",
     "MetadataTypedDict",
     "Method",
+    "MethodEnum",
     "MethodIncludeWalletsParameter",
     "MethodResourceParameter",
     "MethodResponse",
     "MethodStatus",
+    "MethodTypedDict",
     "Mode",
     "NoResponseError",
     "OnboardingVatRegulation",
@@ -2499,6 +2504,7 @@ __all__ = [
     "PaymentRequestBillingAddressTypedDict",
     "PaymentRequestLine",
     "PaymentRequestLineTypedDict",
+    "PaymentRequestMethodEnum",
     "PaymentRequestTypedDict",
     "PaymentResponse",
     "PaymentResponseAmountCaptured",
@@ -3703,7 +3709,7 @@ _dynamic_imports: dict[str, str] = {
     "MandateResponseTypedDict": ".mandate_response",
     "Metadata": ".metadata",
     "MetadataTypedDict": ".metadata",
-    "Method": ".method",
+    "MethodEnum": ".method_enum",
     "MethodIncludeWalletsParameter": ".method_include_wallets_parameter",
     "MethodResourceParameter": ".method_resource_parameter",
     "MethodResponse": ".method_response",
@@ -3755,6 +3761,8 @@ _dynamic_imports: dict[str, str] = {
     "PaymentMethod": ".payment_method",
     "Company": ".payment_request",
     "CompanyTypedDict": ".payment_request",
+    "Method": ".payment_request",
+    "MethodTypedDict": ".payment_request",
     "PaymentRequest": ".payment_request",
     "PaymentRequestApplicationFee": ".payment_request",
     "PaymentRequestApplicationFeeTypedDict": ".payment_request",
@@ -3762,6 +3770,7 @@ _dynamic_imports: dict[str, str] = {
     "PaymentRequestBillingAddressTypedDict": ".payment_request",
     "PaymentRequestLine": ".payment_request",
     "PaymentRequestLineTypedDict": ".payment_request",
+    "PaymentRequestMethodEnum": ".payment_request",
     "PaymentRequestTypedDict": ".payment_request",
     "PaymentResponse": ".payment_response",
     "PaymentResponseAmountCaptured": ".payment_response",

@@ -7,17 +7,17 @@ from .entity_payment_route import EntityPaymentRoute, EntityPaymentRouteTypedDic
 from .line_categories import LineCategories
 from .locale import Locale
 from .metadata import Metadata, MetadataTypedDict
-from .method import Method
 from .payment_address import PaymentAddress, PaymentAddressTypedDict
 from .payment_line_type import PaymentLineType
 from .recurring_line_item import RecurringLineItem, RecurringLineItemTypedDict
 from .sequence_type import SequenceType
 from datetime import date
+from enum import Enum
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
-from typing import Any, Dict, List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import Any, Dict, List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class PaymentRequestLineTypedDict(TypedDict):
@@ -256,6 +256,51 @@ class PaymentRequestBillingAddress(BaseModel):
     """
 
 
+class PaymentRequestMethodEnum(str, Enum):
+    ALMA = "alma"
+    APPLEPAY = "applepay"
+    BACS = "bacs"
+    BANCOMATPAY = "bancomatpay"
+    BANCONTACT = "bancontact"
+    BANKTRANSFER = "banktransfer"
+    BELFIUS = "belfius"
+    BILLIE = "billie"
+    BIZUM = "bizum"
+    BLIK = "blik"
+    CREDITCARD = "creditcard"
+    DIRECTDEBIT = "directdebit"
+    EPS = "eps"
+    GIFTCARD = "giftcard"
+    IDEAL = "ideal"
+    IN3 = "in3"
+    KBC = "kbc"
+    KLARNA = "klarna"
+    MBWAY = "mbway"
+    MOBILEPAY = "mobilepay"
+    MULTIBANCO = "multibanco"
+    MYBANK = "mybank"
+    PAYBYBANK = "paybybank"
+    PAYPAL = "paypal"
+    PAYSAFECARD = "paysafecard"
+    POINTOFSALE = "pointofsale"
+    PRZELEWY24 = "przelewy24"
+    RIVERTY = "riverty"
+    SATISPAY = "satispay"
+    SWISH = "swish"
+    TRUSTLY = "trustly"
+    TWINT = "twint"
+    VIPPS = "vipps"
+    VOUCHER = "voucher"
+
+
+MethodTypedDict = TypeAliasType(
+    "MethodTypedDict", Union[PaymentRequestMethodEnum, List[Any]]
+)
+
+
+Method = TypeAliasType("Method", Union[PaymentRequestMethodEnum, List[Any]])
+
+
 class PaymentRequestApplicationFeeTypedDict(TypedDict):
     r"""With Mollie Connect you can charge fees on payments that your app is processing on behalf of other Mollie
     merchants.
@@ -389,15 +434,7 @@ class PaymentRequestTypedDict(TypedDict):
     shipping_address: NotRequired[PaymentAddressTypedDict]
     locale: NotRequired[Nullable[Locale]]
     r"""Allows you to preset the language to be used."""
-    method: NotRequired[Nullable[Method]]
-    r"""Normally, a payment method screen is shown. However, when using this parameter, you can choose a specific payment
-    method and your customer will skip the selection screen and is sent directly to the chosen payment method. The
-    parameter enables you to fully integrate the payment method selection into your website.
-
-    You can also specify the methods in an array. By doing so we will still show the payment method selection screen
-    but will only show the methods specified in the array. For example, you can use this functionality to only show
-    payment methods from a specific country to your customer `['bancontact', 'belfius']`.
-    """
+    method: NotRequired[Nullable[MethodTypedDict]]
     issuer: NotRequired[Nullable[str]]
     r"""**Only relevant for iDEAL, KBC/CBC, gift card, and voucher payments.**
 
@@ -630,14 +667,6 @@ class PaymentRequest(BaseModel):
     r"""Allows you to preset the language to be used."""
 
     method: OptionalNullable[Method] = UNSET
-    r"""Normally, a payment method screen is shown. However, when using this parameter, you can choose a specific payment
-    method and your customer will skip the selection screen and is sent directly to the chosen payment method. The
-    parameter enables you to fully integrate the payment method selection into your website.
-
-    You can also specify the methods in an array. By doing so we will still show the payment method selection screen
-    but will only show the methods specified in the array. For example, you can use this functionality to only show
-    payment methods from a specific country to your customer `['bancontact', 'belfius']`.
-    """
 
     issuer: OptionalNullable[str] = UNSET
     r"""**Only relevant for iDEAL, KBC/CBC, gift card, and voucher payments.**

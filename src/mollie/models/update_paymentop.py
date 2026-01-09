@@ -4,7 +4,7 @@ from __future__ import annotations
 from .billingaddress import BillingAddress, BillingAddressTypedDict
 from .locale import Locale
 from .metadata import Metadata, MetadataTypedDict
-from .method import Method
+from .method_enum import MethodEnum
 from .payment_address import PaymentAddress, PaymentAddressTypedDict
 from mollie.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from mollie.utils import (
@@ -61,7 +61,7 @@ class UpdatePaymentRequestBodyTypedDict(TypedDict):
     r"""Provide any data you like, for example a string or a JSON object. We will save the data alongside the entity. Whenever
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
-    method: NotRequired[Nullable[Method]]
+    method: NotRequired[Nullable[MethodEnum]]
     r"""Normally, a payment method screen is shown. However, when using this parameter, you can choose a specific payment
     method and your customer will skip the selection screen and is sent directly to the chosen payment method. The
     parameter enables you to fully integrate the payment method selection into your website.
@@ -174,7 +174,7 @@ class UpdatePaymentRequestBody(BaseModel):
     you fetch the entity with our API, we will also include the metadata. You can use up to approximately 1kB.
     """
 
-    method: OptionalNullable[Method] = UNSET
+    method: OptionalNullable[MethodEnum] = UNSET
     r"""Normally, a payment method screen is shown. However, when using this parameter, you can choose a specific payment
     method and your customer will skip the selection screen and is sent directly to the chosen payment method. The
     parameter enables you to fully integrate the payment method selection into your website.

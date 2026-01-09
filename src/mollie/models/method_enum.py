@@ -4,7 +4,7 @@ from __future__ import annotations
 from enum import Enum
 
 
-class Method(str, Enum):
+class MethodEnum(str, Enum):
     r"""Normally, a payment method screen is shown. However, when using this parameter, you can choose a specific payment
     method and your customer will skip the selection screen and is sent directly to the chosen payment method. The
     parameter enables you to fully integrate the payment method selection into your website.

@@ -370,7 +370,6 @@ with ClientSDK(
             country="NL",
         ),
         locale=mollie.Locale.EN_US,
-        method=mollie.Method.IDEAL,
         issuer="ideal_INGBNL2A",
         restrict_payment_methods_to_country="NL",
         capture_mode=mollie.CaptureMode.MANUAL,
